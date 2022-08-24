@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <alias name="defaultSpiProductDao" alias="spiProductDao"/>
+    <bean id="defaultSpiProductDao"
+          class="de.hybris.platform.subscribedproductservices.daos.impl.DefaultSpiProductDao">
+    </bean>
+
+    <alias name="defaultSpiGenericDao" alias="spiGenericDao"/>
+    <bean id="defaultSpiGenericDao"
+          class="de.hybris.platform.subscribedproductservices.daos.impl.DefaultSpiGenericDao">
+        <constructor-arg name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <alias name="defaultSpiProductService" alias="spiProductService"/>
+    <bean name="defaultSpiProductService"
+          class="de.hybris.platform.subscribedproductservices.services.impl.DefaultSpiProductService">
+        <constructor-arg name="spiProductDao" ref="spiProductDao"/>
+        <constructor-arg name="modelService" ref="modelService"/>
+    </bean>
+
+    <alias name="defaultSpiGenericService" alias="spiGenericService"/>
+    <bean name="defaultSpiGenericService"
+          class="de.hybris.platform.subscribedproductservices.services.impl.DefaultSpiGenericService">
+        <constructor-arg name="modelService" ref="modelService"/>
+        <constructor-arg name="spiGenericDao" ref="spiGenericDao"/>
+    </bean>
+
+    <alias name="defaultSpiPaginationService" alias="spiPaginationService"/>
+    <bean name="defaultSpiPaginationService"
+          class="de.hybris.platform.subscribedproductservices.services.impl.DefaultSpiPaginationService">
+    </bean>
+
+    <bean id="subscribedProductServicesSystemSetup"
+          class="de.hybris.platform.subscribedproductservices.setup.SubscribedProductServicesSystemSetup"
+          parent="abstractCoreSystemSetup"/>
+
+    <alias name="defaultSpiCharacteristicIdGenerator" alias="spiCharacteristicIdGenerator"/>
+    <bean id="defaultSpiCharacteristicIdGenerator"
+          class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.spiCharacteristic.id.name}"/>
+        <property name="digits" value="${keygen.spiCharacteristic.id.digits}"/>
+        <property name="start" value="${keygen.spiCharacteristic.id.start}"/>
+        <property name="type" value="${keygen.spiCharacteristic.id.type}"/>
+        <property name="template" value="${keygen.spiCharacteristic.id.template}"/>
+    </bean>
+
+    <alias name="defaultSpiProductTermIdGenerator" alias="spiProductTermIdGenerator"/>
+    <bean id="defaultSpiProductTermIdGenerator"
+          class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.spiProductTerm.id.name}"/>
+        <property name="digits" value="${keygen.spiProductTerm.id.digits}"/>
+        <property name="start" value="${keygen.spiProductTerm.id.start}"/>
+        <property name="type" value="${keygen.spiProductTerm.id.type}"/>
+        <property name="template" value="${keygen.spiProductTerm.id.template}"/>
+    </bean>
+
+    <alias name="defaultSpiProductPriceIdGenerator" alias="spiProductPriceIdGenerator"/>
+    <bean id="defaultSpiProductPriceIdGenerator"
+          class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.spiProductPrice.id.name}"/>
+        <property name="digits" value="${keygen.spiProductPrice.id.digits}"/>
+        <property name="start" value="${keygen.spiProductPrice.id.start}"/>
+        <property name="type" value="${keygen.spiProductPrice.id.type}"/>
+        <property name="template" value="${keygen.spiProductPrice.id.template}"/>
+    </bean>
+
+    <alias name="defaultSpiPartyRoleIdGenerator" alias="spiPartyRoleIdGenerator"/>
+    <bean id="defaultSpiPartyRoleIdGenerator"
+          class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.spiPartyRole.id.name}"/>
+        <property name="digits" value="${keygen.spiPartyRole.id.digits}"/>
+        <property name="start" value="${keygen.spiPartyRole.id.start}"/>
+        <property name="type" value="${keygen.spiPartyRole.id.type}"/>
+        <property name="template" value="${keygen.spiPartyRole.id.template}"/>
+    </bean>
+
+    <alias name="defaultSpiProductRelationshipIdGenerator" alias="spiProductRelationshipIdGenerator"/>
+    <bean id="defaultSpiProductRelationshipIdGenerator"
+          class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.spiProductRelationship.id.name}"/>
+        <property name="digits" value="${keygen.spiProductRelationship.id.digits}"/>
+        <property name="start" value="${keygen.spiProductRelationship.id.start}"/>
+        <property name="type" value="${keygen.spiProductRelationship.id.type}"/>
+        <property name="template" value="${keygen.spiProductRelationship.id.template}"/>
+    </bean>
+
+    <alias name="defaultSpiCharacteristicPrepareInterceptor" alias="spiCharacteristicPrepareInterceptor"/>
+    <bean id="defaultSpiCharacteristicPrepareInterceptor"
+          class="de.hybris.platform.subscribedproductservices.interceptors.SpiCharacteristicPrepareInterceptor">
+        <constructor-arg name="keyGenerator" ref="spiCharacteristicIdGenerator"/>
+    </bean>
+
+    <bean id="spiCharacteristicPrepareInterceptorMapping" class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="spiCharacteristicPrepareInterceptor"/>
+        <property name="typeCode" value="SpiCharacteristic"/>
+    </bean>
+
+    <alias name="defaultSpiProductTermPrepareInterceptor" alias="spiProductTermPrepareInterceptor"/>
+    <bean id="defaultSpiProductTermPrepareInterceptor"
+          class="de.hybris.platform.subscribedproductservices.interceptors.SpiProductTermPrepareInterceptor">
+        <constructor-arg name="keyGenerator" ref="spiProductTermIdGenerator"/>
+    </bean>
+
+    <bean id="spiProductTermPrepareInterceptorMapping" class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="spiProductTermPrepareInterceptor"/>
+        <property name="typeCode" value="SpiProductTerm"/>
+    </bean>
+
+    <alias name="defaultSpiProductPricePrepareInterceptor" alias="spiProductPricePrepareInterceptor"/>
+    <bean id="defaultSpiProductPricePrepareInterceptor"
+          class="de.hybris.platform.subscribedproductservices.interceptors.SpiProductPricePrepareInterceptor">
+        <constructor-arg name="keyGenerator" ref="spiProductPriceIdGenerator"/>
+    </bean>
+
+    <bean id="spiProductPricePrepareInterceptorMapping" class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="spiProductPricePrepareInterceptor"/>
+        <property name="typeCode" value="SpiProductPrice"/>
+    </bean>
+
+    <alias name="defaultSpiPartyRolePrepareInterceptor" alias="spiPartyRolePrepareInterceptor"/>
+    <bean id="defaultSpiPartyRolePrepareInterceptor"
+          class="de.hybris.platform.subscribedproductservices.interceptors.SpiPartyRolePrepareInterceptor">
+        <constructor-arg name="keyGenerator" ref="spiPartyRoleIdGenerator"/>
+    </bean>
+
+    <bean id="spiPartyRolePrepareInterceptorMapping" class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="spiPartyRolePrepareInterceptor"/>
+        <property name="typeCode" value="SpiPartyRole"/>
+    </bean>
+
+    <alias name="defaultSpiProductRelationshipPrepareInterceptor" alias="spiProductRelationshipPrepareInterceptor"/>
+    <bean id="defaultSpiProductRelationshipPrepareInterceptor"
+          class="de.hybris.platform.subscribedproductservices.interceptors.SpiProductRelationshipPrepareInterceptor">
+        <constructor-arg name="keyGenerator" ref="spiProductRelationshipIdGenerator"/>
+    </bean>
+
+    <bean id="spiProductRelationshipPrepareInterceptorMapping" class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="spiProductRelationshipPrepareInterceptor"/>
+        <property name="typeCode" value="SpiProductRelationship"/>
+    </bean>
+</beans>

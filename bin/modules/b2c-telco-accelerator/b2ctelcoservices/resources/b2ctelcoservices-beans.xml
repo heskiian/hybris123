@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="beans.xsd">
+
+    <bean class="de.hybris.platform.core.order.EntryGroup">
+        <property name="processType" type="java.lang.String"/>
+        <property name="errorMessages" type="java.util.List&lt;java.lang.String>" deprecated="Since version 1911"
+                  deprecatedSince="1911"/>
+        <property name="validationMessages"
+                  type="java.util.Set&lt;de.hybris.platform.b2ctelcoservices.model.TmaCartValidationModel>"/>
+    </bean>
+
+    <!--Compatibility data objects-->
+    <bean class="de.hybris.platform.b2ctelcoservices.compatibility.data.TmaPolicyContext">
+        <property name="productOffering" type="de.hybris.platform.b2ctelcoservices.model.TmaProductOfferingModel"
+                  deprecated="Use list of product Offering" deprecatedSince="2003"/>
+        <property name="subscribed" type="boolean"/>
+        <property name="group" type="de.hybris.platform.b2ctelcoservices.model.TmaProductOfferingGroupModel"/>
+        <property name="quantity" type="java.lang.Integer"/>
+        <property name="processType" type="de.hybris.platform.b2ctelcoservices.enums.TmaProcessType"/>
+        <property name="subscriptionEndDate" type="java.util.Date"/>
+        <property name="orderEntry" type="de.hybris.platform.core.model.order.AbstractOrderEntryModel"/>
+        <property name="entryGroup" type="de.hybris.platform.core.order.EntryGroup"/>
+        <property name="productOfferings"
+                  type="java.util.List&lt;de.hybris.platform.b2ctelcoservices.model.TmaProductOfferingModel>"/>
+        <property name="policyCatalogVersion" type="de.hybris.platform.catalog.model.CatalogVersionModel"/>
+        <property name="subscribedProduct" type="de.hybris.platform.b2ctelcoservices.model.TmaSubscribedProductModel"/>
+    </bean>
+
+    <bean class="de.hybris.platform.b2ctelcoservices.compatibility.data.RuleEvaluationResult">
+        <property name="action" type="de.hybris.platform.b2ctelcoservices.model.TmaPolicyActionModel"/>
+        <property name="contexts"
+                  type="java.util.List&lt;de.hybris.platform.b2ctelcoservices.compatibility.data.TmaPolicyContext>"/>
+        <property name="initialContexts"
+                  type="java.util.List&lt;de.hybris.platform.b2ctelcoservices.compatibility.data.TmaPolicyContext>"/>
+        <property name="policy" type="de.hybris.platform.b2ctelcoservices.model.TmaCompatibilityPolicyModel"/>
+    </bean>
+
+    <bean class="de.hybris.platform.b2ctelcoservices.order.data.TmaCartValidationResult">
+        <property name="commerceCartParameter" type="de.hybris.platform.commerceservices.service.data.CommerceCartParameter"/>
+        <property name="valid" type="boolean"/>
+        <property name="message" type="java.lang.String"/>
+    </bean>
+
+    <bean class="de.hybris.platform.b2ctelcoservices.eligibility.data.TmaEligibilityContext">
+        <property name="subscriptionBaseId" type="java.lang.String"/>
+        <property name="billingSystemId" type="java.lang.String"/>
+        <property name="processesCodes" type="java.util.List&lt;java.lang.String>"/>
+        <property name="termCodes" type="java.util.List&lt;java.lang.String>"/>
+        <property name="requiredPoCodes" type="java.util.List&lt;java.lang.String>"/>
+        <property name="baseSiteCodes" type="java.util.List&lt;java.lang.String>"/>
+    </bean>
+
+    <bean class="de.hybris.platform.b2ctelcoservices.pricing.context.TmaPriceContext">
+        <property name="product" type="de.hybris.platform.core.model.product.ProductModel"/>
+        <property name="affectedProduct" type="de.hybris.platform.core.model.product.ProductModel"/>
+        <property name="requiredProducts"
+                  type="java.util.Set&lt;de.hybris.platform.core.model.product.ProductModel>"/>
+        <property name="processTypes" type="java.util.Set&lt;de.hybris.platform.b2ctelcoservices.enums.TmaProcessType>"/>
+        <property name="subscriptionTerms"
+                  type="java.util.Set&lt;de.hybris.platform.subscriptionservices.model.SubscriptionTermModel>"/>
+        <property name="currency" type="de.hybris.platform.core.model.c2l.CurrencyModel"/>
+        <property name="user" type="de.hybris.platform.core.model.user.UserModel"/>
+        <property name="regions" type="java.util.Set&lt;de.hybris.platform.core.model.c2l.RegionModel>"/>
+    </bean>
+
+    <bean class="de.hybris.platform.b2ctelcoservices.checklist.context.TmaChecklistContext">
+        <property name="processType" type="de.hybris.platform.b2ctelcoservices.enums.TmaProcessType"/>
+        <property name="productOfferings" type="java.util.List&lt;de.hybris.platform.core.model.product.ProductModel>"/>
+    </bean>
+    <bean class="de.hybris.platform.b2ctelcoservices.data.TmaProductOfferingSearchContext">
+        <property name="currentPage" type="java.lang.Integer"/>
+        <property name="pageSize" type="java.lang.Integer"/>
+        <property name="catalog" type="java.lang.String"/>
+        <property name="version" type="java.lang.String"/>
+        <property name="timestamp" type="java.util.Date"/>
+    </bean>
+
+    <bean class="de.hybris.platform.commerceservices.service.data.CommerceCartParameter">
+        <property name="bpoCode" type="String"/>
+        <property name="processType" type="String"/>
+        <property name="automaticallyAdded" type="boolean"/>
+        <property name="subscriptionInfo" type="de.hybris.platform.b2ctelcoservices.model.TmaCartSubscriptionInfoModel"/>
+        <property name="productSpecCharacteristicConfigs"
+                  type="java.util.Set&lt;de.hybris.platform.b2ctelcoservices.data.TmaProductSpecCharacteristicConfigItem>"/>
+        <property name="appointmentId" type="String"/>
+        <property name="places" type="java.util.List&lt;de.hybris.platform.b2ctelcoservices.data.TmaPlace>"/>
+        <property name="paymentMethodId" type="String"/>
+        <property name="newQuantity" type="java.lang.Long"/>
+        <property name="deliveryMode" type="de.hybris.platform.core.model.order.delivery.DeliveryModeModel"/>
+        <property name="fromCartGUID" type="java.lang.String"/>
+        <property name="cloneCartID" type="java.lang.String"/>
+        <property name="cloneCartName" type="java.lang.String"/>
+        <property name="cloneCartDescription" type="java.lang.String"/>
+        <property name="subscribedProduct" type="de.hybris.platform.b2ctelcoservices.model.TmaSubscribedProductModel"/>
+        <property name="action" type="de.hybris.platform.b2ctelcoservices.enums.TmaSubscribedProductAction"/>
+        <property name="couponIds" type="java.util.List&lt;java.lang.String>"/>
+        <property name="serviceProvider" type="java.lang.String"/>
+        <property name="contractStartDate" type="java.util.Date"/>
+        <property name="status" type="de.hybris.platform.core.enums.OrderStatus"/>
+        <property name="children"
+                  type="java.util.List&lt;de.hybris.platform.commerceservices.service.data.CommerceCartParameter>"/>
+        <property name="parentEntry" type="de.hybris.platform.core.model.order.AbstractOrderEntryModel"/>
+    </bean>
+
+    <bean class="de.hybris.platform.b2ctelcoservices.data.TmaProductSpecCharacteristicConfigItem">
+        <property name="name" type="java.lang.String"/>
+        <property name="value" type="java.lang.String"/>
+    </bean>
+
+    <enum class="de.hybris.platform.b2ctelcoservices.enums.TmaPlaceRoleType">
+        <value>INSTALLATION_ADDRESS</value>
+        <value>SHIPPING_ADDRESS</value>
+        <value>DELIVERY_ADDRESS</value>
+        <value>BILLING_ADDRESS</value>
+        <value>PRODUCT_REGION</value>
+    </enum>
+
+    <bean class="de.hybris.platform.b2ctelcoservices.data.TmaPlace">
+        <property name="role" type="de.hybris.platform.b2ctelcoservices.enums.TmaPlaceRoleType"/>
+    </bean>
+
+    <bean class="de.hybris.platform.b2ctelcoservices.data.TmaAddressPlace"
+          extends="de.hybris.platform.b2ctelcoservices.data.TmaPlace">
+        <property name="address" type="de.hybris.platform.core.model.user.AddressModel"/>
+    </bean>
+
+    <bean class="de.hybris.platform.b2ctelcoservices.data.TmaRegionPlace"
+          extends="de.hybris.platform.b2ctelcoservices.data.TmaPlace">
+        <property name="region" type="de.hybris.platform.core.model.c2l.RegionModel"/>
+    </bean>
+
+    <bean class="de.hybris.platform.commerceservices.order.CommerceCartModification">
+        <property name="deliveryAddress" type="de.hybris.platform.core.model.user.AddressModel"/>
+        <property name="billingAddress" type="de.hybris.platform.core.model.user.AddressModel"/>
+        <property name="paymentMethod" type="de.hybris.platform.core.model.order.payment.PaymentInfoModel"/>
+        <property name="deliveryMode" type="de.hybris.platform.core.model.order.delivery.DeliveryModeModel"/>
+        <property name="appointmentId" type="java.lang.String"/>
+        <property name="subscribedProductAction" type="de.hybris.platform.b2ctelcoservices.enums.TmaSubscribedProductAction"/>
+        <property name="subscribedProductId" type="java.lang.String"/>
+        <property name="installationAddress" type="de.hybris.platform.core.model.user.AddressModel"/>
+        <property name="pscv" type="java.util.Set&lt;de.hybris.platform.b2ctelcoservices.model.TmaAbstractOrderEntryPscvModel>"/>
+        <property name="clonedCartId" type="java.lang.String"/>
+        <property name="validationMessages"
+                  type="java.util.Set&lt;de.hybris.platform.b2ctelcoservices.model.TmaCartValidationModel>"/>
+        <property name="couponIds" type="java.util.List&lt;java.lang.String>"/>
+        <property name="status" type="de.hybris.platform.core.enums.OrderStatus"/>
+        <property name="parentEntry" type="de.hybris.platform.core.model.order.AbstractOrderEntryModel"/>
+    </bean>
+
+    <enum class="de.hybris.platform.b2ctelcoservices.enums.TmaRelatedPartyRole">
+        <value>SERVICE_PROVIDER</value>
+    </enum>
+
+    <bean class="de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentBillingTime">
+        <property name="code" type="String"/>
+        <property name="name" type="String"/>
+        <property name="description" type="String"/>
+    </bean>
+
+    <bean class="de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentProductOfferingPrice" abstract="true">
+        <property name="id" type="java.lang.String"/>
+        <property name="name" type="java.lang.String"/>
+        <property name="type" type="java.lang.String"/>
+        <property name="description" type="java.lang.String"/>
+        <property name="priceEvent" type="de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentBillingTime"/>
+        <property name="productSpecCharacteristicValueUses"
+                  type="java.util.Set&lt;de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentPscvUse>"/>
+    </bean>
+
+    <bean class="de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentCurrency">
+        <property name="isocode" type="String"/>
+        <property name="name" type="String"/>
+        <property name="active" type="boolean"/>
+        <property name="symbol" type="String"/>
+    </bean>
+
+
+    <bean class="de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentComponentPop"
+          extends="de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentProductOfferingPrice" abstract="true">
+        <property name="value" type="java.lang.Double"/>
+        <property name="currency" type="de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentCurrency"/>
+        <property name="pla"
+                  type="de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentPricingLogicAlgorithm"/>
+    </bean>
+
+    <bean class="de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentPricingLogicAlgorithm">
+        <property name="id" type="java.lang.String"/>
+        <property name="name" type="java.lang.String"/>
+        <property name="description" type="java.lang.String"/>
+        <property name="onlineDate" type="java.util.Date"/>
+        <property name="offlineDate" type="java.util.Date"/>
+        <property name="pricingLogicAlgorithmSpec"
+                  type="de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentPricingLogicAlgorithmSpec"/>
+        <property name="externalIds"
+                  type="java.util.List&lt;de.hybris.platform.b2ctelcoservices.data.TmaSolrDocumentExternalIdentifier>"/>
+        <property name="type" type="java.lang.String"/>
+    </bean>
+
+    <bean class="de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentPricingLogicAlgorithmSpec">
+        <property name="id" type="java.lang.String"/>
+        <property name="name" type="java.lang.String"/>
+        <property name="description" type="java.lang.String"/>
+        <property name="approvalStatus" type="java.lang.String"/>
+        <property name="onlineDate" type="java.util.Date"/>
+        <property name="offlineDate" type="java.util.Date"/>
+        <property name="externalIds"
+                  type="java.util.List&lt;de.hybris.platform.b2ctelcoservices.data.TmaSolrDocumentExternalIdentifier>"/>
+    </bean>
+
+    <bean class="de.hybris.platform.b2ctelcoservices.pricing.TmaAbstractSolrDocumentPopCharge"
+          extends="de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentComponentPop" abstract="true">
+    </bean>
+
+    <bean class="de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentOneTimeChargeComponentPop"
+          extends="de.hybris.platform.b2ctelcoservices.pricing.TmaAbstractSolrDocumentPopCharge"/>
+
+    <bean class="de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentRecurringChargeComponentPop"
+          extends="de.hybris.platform.b2ctelcoservices.pricing.TmaAbstractSolrDocumentPopCharge">
+        <property name="cycleStart" type="java.lang.Integer"/>
+        <property name="cycleEnd" type="java.lang.Integer"/>
+    </bean>
+
+    <bean class="de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentAlterationComponentPop"
+          extends="de.hybris.platform.b2ctelcoservices.pricing.TmaAbstractSolrDocumentPopCharge">
+        <property name="cycleStart" type="java.lang.Integer"/>
+        <property name="cycleEnd" type="java.lang.Integer"/>
+        <property name="isPercentage" type="boolean"/>
+    </bean>
+
+    <bean class="de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentAlterationDiscountComponentPop"
+          extends="de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentAlterationComponentPop">
+    </bean>
+
+    <bean class="de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentAlterationAllowanceComponentPop"
+          extends="de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentAlterationComponentPop">
+        <property name="allowanceType" type="java.lang.String"/>
+    </bean>
+
+    <bean class="de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentUsageUnit">
+        <property name="id" type="String"/>
+        <property name="name" type="String"/>
+        <property name="namePlural" type="String"/>
+        <property name="accumulative" type="boolean"/>
+    </bean>
+
+    <bean class="de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentUsageChargeComponentPop"
+          extends="de.hybris.platform.b2ctelcoservices.pricing.TmaAbstractSolrDocumentPopCharge">
+        <property name="tierStart" type="java.lang.Integer"/>
+        <property name="tierEnd" type="java.lang.Integer"/>
+        <property name="usageUnit" type="de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentUsageUnit"/>
+        <property name="productUsageSpecification"
+                  type="de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentProdUsageSpecification"/>
+    </bean>
+
+    <bean class="de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentCompositePop"
+          extends="de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentProductOfferingPrice">
+        <property name="children"
+                  type="java.util.List&lt;de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentProductOfferingPrice>"/>
+    </bean>
+
+    <bean class="de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentUsageChargeType">
+        <property name="code" type="String"/>
+    </bean>
+
+    <bean class="de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentTierUsageCompositePop"
+          extends="de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentCompositePop">
+        <property name="usageChargeType" type="de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentUsageChargeType"/>
+    </bean>
+
+    <bean class="de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentPscv">
+        <property name="id" type="String"/>
+        <property name="value" type="String"/>
+        <property name="description" type="String"/>
+        <property name="unitOfMeasurment" type="String"/>
+        <property name="valueType" type="String"/>
+    </bean>
+
+    <bean class="de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentPscvUse">
+        <property name="name" type="String"/>
+        <property name="id" type="String"/>
+        <property name="description" type="String"/>
+        <property name="valueType" type="String"/>
+        <property name="minCardinality" type="java.lang.Integer"/>
+        <property name="maxCardinality" type="java.lang.Integer"/>
+        <property name="productSpecCharacteristicValues"
+                  type="java.util.List&lt;de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentPscv>"/>
+    </bean>
+
+    <bean class="de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentProdUsageSpecification">
+        <property name="id" type="String"/>
+        <property name="name" type="String"/>
+        <property name="externalIds"
+                  type="java.util.List&lt;de.hybris.platform.b2ctelcoservices.data.TmaSolrDocumentExternalIdentifier>"/>
+    </bean>
+
+    <bean class="de.hybris.platform.b2ctelcoservices.data.TmaSolrDocumentExternalIdentifier">
+        <property name="id" type="java.lang.String"/>
+        <property name="owner" type="java.lang.String"/>
+        <property name="resourceType" type="java.lang.String"/>
+    </bean>
+
+    <bean class="de.hybris.platform.b2ctelcoservices.data.TmaSolrDocumentBundledProdOfferOption">
+        <property name="lowerLimit" type="java.lang.Integer"/>
+        <property name="upperLimit" type="java.lang.Integer"/>
+        <property name="defaultValue" type="java.lang.Integer"/>
+    </bean>
+
+    <bean class="de.hybris.platform.b2ctelcoservices.data.TmaSolrDocumentBundledProductOffering">
+        <property name="code" type="java.lang.String"/>
+        <property name="name" type="java.lang.String"/>
+        <property name="approvalStatus" type="java.lang.String"/>
+        <property name="itemtype" type="java.lang.String"/>
+        <property name="bundledProdOfferOption"
+                  type="de.hybris.platform.b2ctelcoservices.data.TmaSolrDocumentBundledProdOfferOption"/>
+    </bean>
+
+    <bean class="de.hybris.platform.b2ctelcoservices.data.TmaBpoChildContext">
+        <property name="child" type="de.hybris.platform.core.model.product.ProductModel"/>
+        <property name="parent" type="de.hybris.platform.b2ctelcoservices.model.TmaBundledProductOfferingModel"/>
+    </bean>
+
+</beans>

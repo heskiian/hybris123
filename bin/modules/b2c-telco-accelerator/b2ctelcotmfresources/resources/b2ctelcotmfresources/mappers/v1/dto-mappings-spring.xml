@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <!-- Field mapping configuration -->
+    <alias alias="fieldSetBuilder" name="defaultFieldSetBuilder"/>
+    <bean id="defaultFieldSetBuilder"
+          class="de.hybris.platform.webservicescommons.mapping.impl.DefaultFieldSetBuilder">
+        <property name="defaultRecurrencyLevel" value="10"/>
+        <property name="defaultMaxFieldSetSize" value="500000"/>
+        <property name="fieldSetLevelHelper" ref="fieldSetLevelHelper"/>
+    </bean>
+
+    <alias alias="fieldSetLevelHelper" name="defaultFieldSetLevelHelper"/>
+    <bean id="defaultFieldSetLevelHelper"
+          class="de.hybris.platform.webservicescommons.mapping.impl.DefaultFieldSetLevelHelper">
+    </bean>
+
+    <alias alias="dataMapper" name="defaultDataMapper"/>
+    <bean id="defaultDataMapper"
+          class="de.hybris.platform.webservicescommons.mapping.impl.DefaultDataMapper">
+        <property name="fieldSetBuilder" ref="fieldSetBuilder"/>
+    </bean>
+
+    <!-- ######################### -->
+    <!-- ### Attribute Mappers ### -->
+    <!-- ######################### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper tmaPoRefEntityMapperV1 ### -->
+    <alias name="defaultTmaPoRefIdAttributeMapperV1" alias="tmaPoRefIdAttributeMapperV1"/>
+    <bean id="defaultTmaPoRefIdAttributeMapperV1"
+          class="de.hybris.platform.b2ctelcotmfresources.v1.mappers.productofferingref.PoRefIdAttributeMapper">
+        <property name="sourceAttributeName" value="code"/>
+        <property name="targetAttributeName" value="id"/>
+    </bean>
+
+    <alias name="defaultTmaPoRefHrefAttributeMapperV1" alias="tmaPoRefHrefAttributeMapperV1"/>
+    <bean id="defaultTmaPoRefHrefAttributeMapperV1"
+          class="de.hybris.platform.b2ctelcotmfresources.v1.mappers.productofferingref.PoRefHrefAttributeMapper">
+        <property name="sourceAttributeName" value="code"/>
+        <property name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultTmaPoRefReferredTypeAttributeMapperV1" alias="tmaPoRefReferredTypeAttributeMapperV1"/>
+    <bean id="defaultTmaPoRefReferredTypeAttributeMapperV1"
+          class="de.hybris.platform.b2ctelcotmfresources.v1.mappers.productofferingref.PoRefReferredTypeAttributeMapper">
+        <property name="sourceAttributeName" value="code"/>
+        <property name="targetAttributeName" value="atReferredType"/>
+    </bean>
+
+    <alias name="defaultTmaPoRefSchemaLocationAttributeMapperV1" alias="tmaPoRefSchemaLocationAttributeMapperV1"/>
+    <bean id="defaultTmaPoRefSchemaLocationAttributeMapperV1"
+          class="de.hybris.platform.b2ctelcotmfresources.v1.mappers.productofferingref.PoRefSchemaLocationAttributeMapper">
+        <property name="sourceAttributeName" value="code"/>
+        <property name="targetAttributeName" value="atSchemaLocation"/>
+    </bean>
+    <!-- ### END definition of attribute mappers for entity mapper tmaPoRefEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper tmaOfferingEntityRefEntityMapperV1 ### -->
+    <alias name="defaultTmaProductOfferingEntityRefIdAttributeMapperV1" alias="tmaProductOfferingEntityRefIdAttributeMapperV1"/>
+    <bean id="defaultTmaProductOfferingEntityRefIdAttributeMapperV1"
+          class="de.hybris.platform.b2ctelcotmfresources.v1.mappers.productofferingentityref.ProductOfferingEntityRefIdAttributeMapper">
+        <property name="sourceAttributeName" value="code"/>
+        <property name="targetAttributeName" value="id"/>
+    </bean>
+
+    <alias name="defaultTmaProductOfferingEntityRefHrefAttributeMapperV1"
+           alias="tmaProductOfferingEntityRefHrefAttributeMapperV1"/>
+    <bean id="defaultTmaProductOfferingEntityRefHrefAttributeMapperV1"
+          class="de.hybris.platform.b2ctelcotmfresources.v1.mappers.productofferingentityref.ProductOfferingEntityRefHrefAttributeMapper">
+        <property name="sourceAttributeName" value="code"/>
+        <property name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultTmaProductOfferingEntityRefReferredTypeAttributeMapperV1"
+           alias="tmaProductOfferingEntityRefReferredTypeAttributeMapperV1"/>
+    <bean id="defaultTmaProductOfferingEntityRefReferredTypeAttributeMapperV1"
+          class="de.hybris.platform.b2ctelcotmfresources.v1.mappers.productofferingentityref.ProductOfferingEntityRefReferredTypeAttributeMapper">
+        <property name="sourceAttributeName" value="code"/>
+        <property name="targetAttributeName" value="atReferredType"/>
+    </bean>
+
+    <alias name="defaultTmaProductOfferingEntityRefSchemaLocationAttributeMapperV1"
+           alias="tmaProductOfferingEntityRefSchemaLocationAttributeMapperV1"/>
+    <bean id="defaultTmaProductOfferingEntityRefSchemaLocationAttributeMapperV1"
+          class="de.hybris.platform.b2ctelcotmfresources.v1.mappers.productofferingentityref.ProductOfferingEntityRefSchemaLocationAttributeMapper">
+        <property name="sourceAttributeName" value="code"/>
+        <property name="targetAttributeName" value="atSchemaLocation"/>
+    </bean>
+    <!-- ### END definition of attribute mappers for entity mapper tmaOfferingEntityRefEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper tmaPopRefEntityMapperV1 ### -->
+    <alias name="defaultTmaPopRefHrefAttributeMapperV1" alias="tmaPopRefHrefAttributeMapperV1"/>
+    <bean id="defaultTmaPopRefHrefAttributeMapperV1"
+          class="de.hybris.platform.b2ctelcotmfresources.v1.mappers.productofferingpriceref.PopRefHrefAttributeMapper">
+        <property name="sourceAttributeName" value="id"/>
+        <property name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultTmaPopRefReferredTypeAttributeMapperV1" alias="tmaPopRefReferredTypeAttributeMapperV1"/>
+    <bean id="defaultTmaPopRefReferredTypeAttributeMapperV1"
+          class="de.hybris.platform.b2ctelcotmfresources.v1.mappers.productofferingpriceref.PopRefReferredTypeAttributeMapper">
+        <property name="sourceAttributeName" value="id"/>
+        <property name="targetAttributeName" value="atReferredType"/>
+    </bean>
+
+    <alias name="defaultTmaPopRefSchemaLocationAttributeMapperV1" alias="tmaPopRefSchemaLocationAttributeMapperV1"/>
+    <bean id="defaultTmaPopRefSchemaLocationAttributeMapperV1"
+          class="de.hybris.platform.b2ctelcotmfresources.v1.mappers.productofferingpriceref.PopRefSchemaLocationAttributeMapper">
+        <property name="sourceAttributeName" value="id"/>
+        <property name="targetAttributeName" value="atSchemaLocation"/>
+    </bean>
+    <!-- ### END definition of attribute mappers for entity mapper tmaPopRefEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper tmaPopEntityRefEntityMapperV1 ### -->
+    <alias name="defaultTmaPopEntityRefHrefAttributeMapperV1" alias="tmaPopEntityRefHrefAttributeMapperV1"/>
+    <bean id="defaultTmaPopEntityRefHrefAttributeMapperV1"
+          class="de.hybris.platform.b2ctelcotmfresources.v1.mappers.productofferingpriceentityref.PopEntityRefHrefAttributeMapper">
+        <property name="sourceAttributeName" value="id"/>
+        <property name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultTmaPopEntityRefReferredTypeAttributeMapperV1" alias="tmaPopEntityRefReferredTypeAttributeMapperV1"/>
+    <bean id="defaultTmaPopEntityRefReferredTypeAttributeMapperV1"
+          class="de.hybris.platform.b2ctelcotmfresources.v1.mappers.productofferingpriceentityref.PopEntityRefReferredTypeAttributeMapper">
+        <property name="sourceAttributeName" value="id"/>
+        <property name="targetAttributeName" value="atReferredType"/>
+    </bean>
+
+    <alias name="defaultTmaPopEntityRefSchemaLocationAttributeMapperV1" alias="tmaPopEntityRefSchemaLocationAttributeMapperV1"/>
+    <bean id="defaultTmaPopEntityRefSchemaLocationAttributeMapperV1"
+          class="de.hybris.platform.b2ctelcotmfresources.v1.mappers.productofferingpriceentityref.PopEntityRefSchemaLocationAttributeMapper">
+        <property name="sourceAttributeName" value="id"/>
+        <property name="targetAttributeName" value="atSchemaLocation"/>
+    </bean>
+    <!-- ### END definition of attribute mappers for entity mapper tmaPopEntityRefEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper tmaProductOrderRefEntityMapperV1 ### -->
+    <alias name="defaultTmaProductOrderRefIdAttributeMapperV1" alias="tmaProductOrderRefIdAttributeMapperV1"/>
+    <bean id="defaultTmaProductOrderRefIdAttributeMapperV1"
+          class="de.hybris.platform.b2ctelcotmfresources.v1.mappers.productorderref.ProductOrderRefIdAttributeMapper">
+        <property name="sourceAttributeName" value="code"/>
+        <property name="targetAttributeName" value="id"/>
+    </bean>
+
+    <alias name="defaultTmaProductOrderRefHrefAttributeMapperV1" alias="tmaProductOrderRefHrefAttributeMapperV1"/>
+    <bean id="defaultTmaProductOrderRefHrefAttributeMapperV1"
+          class="de.hybris.platform.b2ctelcotmfresources.v1.mappers.productorderref.ProductOrderRefHrefAttributeMapper">
+        <property name="sourceAttributeName" value="code"/>
+        <property name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultTmaProductOrderRefReferredTypeAttributeMapperV1" alias="tmaProductOrderRefReferredTypeAttributeMapperV1"/>
+    <bean id="defaultTmaProductOrderRefReferredTypeAttributeMapperV1"
+          class="de.hybris.platform.b2ctelcotmfresources.v1.mappers.productorderref.ProductOrderRefReferredTypeAttributeMapper">
+        <property name="sourceAttributeName" value="code"/>
+        <property name="targetAttributeName" value="atReferredType"/>
+    </bean>
+
+    <alias name="defaultTmaProductOrderRefSchemaLocationAttributeMapperV1"
+           alias="tmaProductOrderRefSchemaLocationAttributeMapperV1"/>
+    <bean id="defaultTmaProductOrderRefSchemaLocationAttributeMapperV1"
+          class="de.hybris.platform.b2ctelcotmfresources.v1.mappers.productorderref.ProductOrderRefSchemaLocationAttributeMapper">
+        <property name="sourceAttributeName" value="code"/>
+        <property name="targetAttributeName" value="atSchemaLocation"/>
+    </bean>
+    <!-- ### END definition of attribute mappers for entity mapper tmaProductOrderRefEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper tmaProductOrderEntityRefEntityMapperV1 ### -->
+    <alias name="defaultTmaProductOrderEntityRefIdAttributeMapperV1" alias="tmaProductOrderEntityRefIdAttributeMapperV1"/>
+    <bean id="defaultTmaProductOrderEntityRefIdAttributeMapperV1"
+          class="de.hybris.platform.b2ctelcotmfresources.v1.mappers.productorderentityref.ProductOrderEntityRefIdAttributeMapper">
+        <property name="sourceAttributeName" value="code"/>
+        <property name="targetAttributeName" value="id"/>
+    </bean>
+
+    <alias name="defaultTmaProductOrderEntityRefHrefAttributeMapperV1" alias="tmaProductOrderEntityRefHrefAttributeMapperV1"/>
+    <bean id="defaultTmaProductOrderEntityRefHrefAttributeMapperV1"
+          class="de.hybris.platform.b2ctelcotmfresources.v1.mappers.productorderentityref.ProductOrderEntityRefHrefAttributeMapper">
+        <property name="sourceAttributeName" value="code"/>
+        <property name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultTmaProductOrderEntityRefReferredTypeAttributeMapperV1"
+           alias="tmaProductOrderEntityRefReferredTypeAttributeMapperV1"/>
+    <bean id="defaultTmaProductOrderEntityRefReferredTypeAttributeMapperV1"
+          class="de.hybris.platform.b2ctelcotmfresources.v1.mappers.productorderentityref.ProductOrderEntityRefReferredTypeAttributeMapper">
+        <property name="sourceAttributeName" value="code"/>
+        <property name="targetAttributeName" value="atReferredType"/>
+    </bean>
+
+    <alias name="defaultTmaProductOrderEntityRefSchemaLocationAttributeMapperV1"
+           alias="tmaProductOrderEntityRefSchemaLocationAttributeMapperV1"/>
+    <bean id="defaultTmaProductOrderEntityRefSchemaLocationAttributeMapperV1"
+          class="de.hybris.platform.b2ctelcotmfresources.v1.mappers.productorderentityref.ProductOrderEntityRefSchemaLocationAttributeMapper">
+        <property name="sourceAttributeName" value="code"/>
+        <property name="targetAttributeName" value="atSchemaLocation"/>
+    </bean>
+    <!-- ### END definition of attribute mappers for entity mapper tmaProductOrderEntityRefEntityMapperV1 ### -->
+
+    <!-- ###################### -->
+    <!-- ### Entity Mappers ### -->
+    <!-- ###################### -->
+
+    <!--     Entity mapper for ProductOfferingRef (from TmaProductOfferingModel)-->
+    <alias name="defaultTmaPoRefEntityMapperV1" alias="tmaPoRefEntityMapperV1"/>
+    <bean id="defaultTmaPoRefEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.b2ctelcoservices.model.TmaProductOfferingModel"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcotmfresources.v1.dto.ProductOfferingRef"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaPoRefIdAttributeMapperV1"/>
+                <ref bean="tmaPoRefHrefAttributeMapperV1"/>
+                <ref bean="tmaPoRefReferredTypeAttributeMapperV1"/>
+                <ref bean="tmaPoRefSchemaLocationAttributeMapperV1"/>
+            </list>
+        </property>
+    </bean>
+
+    <!--     Entity mapper for ProductOfferingPriceRef (from TmaProductOfferingPriceModel)-->
+    <alias name="defaultTmaPopRefEntityMapperV1" alias="tmaPopRefEntityMapperV1"/>
+    <bean id="defaultTmaPopRefEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.b2ctelcoservices.model.TmaProductOfferingPriceModel"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcotmfresources.v1.dto.ProductOfferingPriceRef"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaPopRefHrefAttributeMapperV1"/>
+                <ref bean="tmaPopRefReferredTypeAttributeMapperV1"/>
+                <ref bean="tmaPopRefSchemaLocationAttributeMapperV1"/>
+            </list>
+        </property>
+    </bean>
+
+    <!--     Entity mapper for EntityRef (from TmaProductOfferingModel)-->
+    <alias name="defaultTmaOfferingEntityRefEntityMapperV1" alias="tmaOfferingEntityRefEntityMapperV1"/>
+    <bean id="defaultTmaOfferingEntityRefEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.b2ctelcoservices.model.TmaProductOfferingModel"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcotmfresources.v1.dto.EntityRef"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaProductOfferingEntityRefIdAttributeMapperV1"/>
+                <ref bean="tmaProductOfferingEntityRefHrefAttributeMapperV1"/>
+                <ref bean="tmaProductOfferingEntityRefReferredTypeAttributeMapperV1"/>
+                <ref bean="tmaProductOfferingEntityRefSchemaLocationAttributeMapperV1"/>
+            </list>
+        </property>
+    </bean>
+
+    <!--     Entity mapper for EntityRef (from TmaProductOfferingPriceModel)-->
+    <alias name="defaultTmaPopEntityRefEntityMapperV1" alias="tmaPopEntityRefEntityMapperV1"/>
+    <bean id="defaultTmaPopEntityRefEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.b2ctelcoservices.model.TmaProductOfferingPriceModel"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcotmfresources.v1.dto.EntityRef"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaPopEntityRefHrefAttributeMapperV1"/>
+                <ref bean="tmaPopEntityRefReferredTypeAttributeMapperV1"/>
+                <ref bean="tmaPopEntityRefSchemaLocationAttributeMapperV1"/>
+            </list>
+        </property>
+    </bean>
+
+    <!--     Entity mapper for ProductOrderRef (from OrderModel)-->
+    <alias name="defaultTmaProductOrderRefEntityMapperV1" alias="tmaProductOrderRefEntityMapperV1"/>
+    <bean id="defaultTmaProductOrderRefEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.core.model.order.OrderModel"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcotmfresources.v1.dto.ProductOrderRef"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaProductOrderRefIdAttributeMapperV1"/>
+                <ref bean="tmaProductOrderRefHrefAttributeMapperV1"/>
+                <ref bean="tmaProductOrderRefReferredTypeAttributeMapperV1"/>
+                <ref bean="tmaProductOrderRefSchemaLocationAttributeMapperV1"/>
+            </list>
+        </property>
+    </bean>
+
+    <!--     Entity mapper for EntityRef (from OrderModel)-->
+    <alias name="defaultTmaProductOrderEntityRefEntityMapperV1" alias="tmaProductOrderEntityRefEntityMapperV1"/>
+    <bean id="defaultTmaProductOrderEntityRefEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.core.model.order.OrderModel"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcotmfresources.v1.dto.EntityRef"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaProductOrderEntityRefIdAttributeMapperV1"/>
+                <ref bean="tmaProductOrderEntityRefHrefAttributeMapperV1"/>
+                <ref bean="tmaProductOrderEntityRefReferredTypeAttributeMapperV1"/>
+                <ref bean="tmaProductOrderEntityRefSchemaLocationAttributeMapperV1"/>
+            </list>
+        </property>
+    </bean>
+</beans>

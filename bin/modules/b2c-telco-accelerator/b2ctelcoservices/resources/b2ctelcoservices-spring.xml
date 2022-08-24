@@ -1,0 +1,3404 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	    http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <context:annotation-config/>
+
+    <!-- Spring Integration -->
+    <import resource="b2ctelcoservices-spring-integration-telco.xml"/>
+
+    <!-- SystemSetup for the b2ctelcoservices -->
+    <alias name="b2ctelcoAcceleratorCoreSystemSetup" alias="b2ctelcoCoreSystemSetup"/>
+    <bean id="b2ctelcoAcceleratorCoreSystemSetup" class="de.hybris.platform.b2ctelcoservices.setup.CoreSystemSetup"
+          parent="abstractCoreSystemSetup"/>
+
+    <!-- Solr identity provider -->
+    <!-- todo move to another context -->
+    <alias name="tmaSolrItemIdentityProvider" alias="itemIdentityProvider"/>
+    <bean name="tmaSolrItemIdentityProvider"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.provider.TmaItemIdentityProvider">
+        <property name="modelService" ref="modelService"/>
+        <property name="catalogTypeService" ref="catalogTypeService"/>
+    </bean>
+
+    <!-- Solr resolvers for eligibility index -->
+    <bean name="tmaSpoSource"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.TmaSpoSource"/>
+
+    <bean name="tmaCategorySourceWithRoot"
+          parent="defaultCategorySource"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.TmaSppCategorySource">
+        <property name="spoSource" ref="tmaSpoSource"/>
+        <property name="rootCategory" value="1"/> <!-- '1' is the root icecat category -->
+    </bean>
+
+    <bean name="tmaCategorySourceWoRoot"
+          parent="defaultCategorySource"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.TmaSppCategorySource">
+        <property name="spoSource" ref="tmaSpoSource"/>
+    </bean>
+
+    <bean name="tmaBrandCategorySource"
+          parent="defaultCategorySource"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.TmaSppCategorySource">
+        <property name="spoSource" ref="tmaSpoSource"/>
+        <property name="rootCategory" value="brands"/><!-- 'brands' is the root of the brands hierarchy -->
+    </bean>
+
+    <bean name="tmaAbstractTermInfoSource"
+          abstract="true"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.resolver.TmaAbstractTermStringInfoSource">
+        <property name="i18nService" ref="commonI18NService"/>
+    </bean>
+    <bean name="tmaTermNameSource"
+          parent="tmaAbstractTermInfoSource"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.resolver.TmaTermCodeNameSource"/>
+    <bean name="tmaTermCodeSource"
+          parent="tmaAbstractTermInfoSource"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.resolver.TmaTermCodeSource"/>
+    <bean name="tmaTermFreqSource"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.resolver.TmaTermFrequencyInfoSource">
+        <property name="i18nService" ref="commonI18NService"/>
+    </bean>
+
+    <!-- classification -->
+    <bean name="sppClassificationProvider"
+          parent="commerceClassificationPropertyValueProvider"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.provider.TmaSppClassificationProvider">
+        <property name="spoSource" ref="tmaSpoSource"/>
+    </bean>
+
+    <!-- pscvs -->
+    <bean name="sppPscvResolver"
+          parent="abstractValueResolver"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.resolver.TmaSppPscvResolver">
+        <property name="spoSource" ref="tmaSpoSource"/>
+        <property name="commonI18NService" ref="commonI18NService"/>
+    </bean>
+
+    <!-- sscvs -->
+    <bean name="serviceSpecCharacteristicValueResolver"
+          parent="abstractValueResolver"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.resolver.TmaServiceSpecCharacteristicValueResolver">
+        <constructor-arg name = "spoSource" ref="tmaSpoSource"/>
+        <constructor-arg name= "commonI18NService" ref="commonI18NService"/>
+    </bean>
+
+    <!-- product -->
+    <bean name="tmaPoPropertyResolver"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.resolver.TmaPoPropertyResolver">
+        <constructor-arg name="tmaSpoSource" ref="tmaSpoSource"/>
+    </bean>
+
+    <bean name="tmaPoItemTypeResolver"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.resolver.TmaPoItemTypeResolver">
+        <constructor-arg name="tmaSpoSource" ref="tmaSpoSource"/>
+    </bean>
+
+    <bean name="tmaPoCodeResolver"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.resolver.TmaPoCodeResolver">
+        <constructor-arg name="tmaSpoSource" ref="tmaSpoSource"/>
+    </bean>
+
+    <bean name="tmaBpoResolver"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.resolver.TmaBpoResolver">
+    </bean>
+
+    <bean name="tmaAbstractLocalizedResolver" abstract="true"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.resolver.TmaAbstractLocalizedResolver">
+        <constructor-arg name="commonI18NService" ref="commonI18NService"/>
+    </bean>
+
+    <bean name="tmaPoNameResolver"
+          parent="tmaAbstractLocalizedResolver"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.resolver.TmaPoNameResolver">
+        <constructor-arg name="tmaSpoSource" ref="tmaSpoSource"/>
+    </bean>
+
+    <bean name="tmaPoDescriptionResolver"
+          parent="tmaAbstractLocalizedResolver"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.resolver.TmaPoDescriptionResolver">
+        <constructor-arg name="tmaSpoSource" ref="tmaSpoSource"/>
+    </bean>
+
+    <bean name="tmaPoSummaryResolver"
+          parent="tmaAbstractLocalizedResolver"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.resolver.TmaPoSummaryResolver">
+        <constructor-arg name="tmaSpoSource" ref="tmaSpoSource"/>
+    </bean>
+
+    <!-- brand -->
+    <bean name="sppBrandNameProvider"
+          parent="sppCategoryCodeProvider"
+          class="de.hybris.platform.commerceservices.search.solrfacetsearch.provider.impl.CategoryNameValueProvider">
+        <property name="categorySource" ref="tmaBrandCategorySource"/>
+    </bean>
+    <bean name="sppBrandCodeProvider"
+          parent="sppCategoryCodeProvider"
+          class="de.hybris.platform.commerceservices.search.solrfacetsearch.provider.impl.CategoryCodeValueProvider">
+        <property name="categorySource" ref="tmaBrandCategorySource"/>
+    </bean>
+
+    <!-- price -->
+    <bean name="sppRecurrentChargeSource"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.resolver.TmaRecurrentChargeSource"/>
+    <bean name="sppRecurrentChargeResolver"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.resolver.TmaChargeResolver">
+        <property name="chargeSource" ref="sppRecurrentChargeSource"/>
+        <property name="rangeNameProvider" ref="rangeNameProvider"/>
+        <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+    </bean>
+    <bean name="sppOneTimeChargeSource"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.resolver.TmaOneTimeChargeSource"/>
+    <bean name="sppOneTimeChargeResolver"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.resolver.TmaChargeResolver">
+        <property name="chargeSource" ref="sppOneTimeChargeSource"/>
+        <property name="rangeNameProvider" ref="rangeNameProvider"/>
+        <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+    </bean>
+
+    <!-- category -->
+    <bean name="sppCategoryCodeProvider"
+          parent="abstractPropertyFieldValueProvider"
+          class="de.hybris.platform.commerceservices.search.solrfacetsearch.provider.impl.CategoryCodeValueProvider">
+        <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+        <property name="commonI18NService" ref="commonI18NService"/>
+        <property name="categorySource" ref="tmaCategorySourceWithRoot"/>
+    </bean>
+    <bean name="sppAllCategoryProvider"
+          parent="abstractPropertyFieldValueProvider"
+          class="de.hybris.platform.commerceservices.search.solrfacetsearch.provider.impl.CategoryCodeValueProvider">
+        <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+        <property name="commonI18NService" ref="commonI18NService"/>
+        <property name="categorySource" ref="tmaCategorySourceWoRoot"/>
+    </bean>
+    <bean name="sppCategoryPathProvider"
+          parent="categoryPathValueProvider"
+          class="de.hybris.platform.commerceservices.search.solrfacetsearch.provider.impl.CategoryPathValueProvider">
+        <property name="categorySource" ref="tmaCategorySourceWithRoot"/>
+    </bean>
+    <bean name="sppCategoryNameProvider"
+          parent="sppCategoryCodeProvider"
+          class="de.hybris.platform.commerceservices.search.solrfacetsearch.provider.impl.CategoryNameValueProvider">
+    </bean>
+
+    <bean name="tmaPriceTermCodeResolver"
+          parent="abstractValueResolver"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.resolver.TmaPriceTermResolver">
+        <property name="tmaTermInfoSource" ref="tmaTermCodeSource"/>
+    </bean>
+    <bean name="tmaPriceTermNameResolver"
+          parent="abstractValueResolver"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.resolver.TmaPriceTermResolver">
+        <property name="tmaTermInfoSource" ref="tmaTermNameSource"/>
+    </bean>
+    <bean name="tmaPriceFreqResolver"
+          parent="abstractValueResolver"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.resolver.TmaPriceTermResolver">
+        <property name="tmaTermInfoSource" ref="tmaTermFreqSource"/>
+    </bean>
+
+    <bean name="tmaPriceChannelResolver"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.resolver.TmaPriceChannelResolver"/>
+    <bean name="tmaPriceCodeResolver"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.resolver.TmaPriceCodeResolver"/>
+    <bean name="tmaPriceProcessResolver"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.resolver.TmaPriceProcessResolver"/>
+
+    <bean name="sppStoresProvider"
+          parent="productStoreStockValueProvider"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.provider.TmaSppStoreStockValueProvider">
+        <property name="spoSource" ref="tmaSpoSource"/>
+    </bean>
+
+    <bean name="sppKeywordsResolver"
+          parent="abstractValueResolver"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.resolver.TmaSppKeywordsResolver">
+        <property name="spoSource" ref="tmaSpoSource"/>
+    </bean>
+
+    <bean name="sppPoGroupProvider"
+          parent="tmaProductOfferingGroupValueProvider"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.provider.TmaSppPoGroupProvider">
+        <property name="spoSource" ref="tmaSpoSource"/>
+    </bean>
+    <bean name="sppBpoParentProvider"
+          parent="tmaSpoHasParentBposValueProvider"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.provider.TmaSppBpoParentProvider">
+        <property name="spoSource" ref="tmaSpoSource"/>
+    </bean>
+    <bean name="sppPscvDescProvider"
+          parent="tmaProductSpecDescriptionValueProvider"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.provider.TmaSppPscvDescProvider">
+        <property name="spoSource" ref="tmaSpoSource"/>
+    </bean>
+
+    <bean name="sppReviewAvgProvider"
+          parent="productReviewAverageRatingValueProvider"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.provider.TmaSppReviewAvgProvider">
+        <property name="spoSource" ref="tmaSpoSource"/>
+    </bean>
+    <bean name="sppReviewCntProvider"
+          parent="productReviewCountValueProvider"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.provider.TmaSppReviewCntProvider">
+        <property name="spoSource" ref="tmaSpoSource"/>
+    </bean>
+
+    <bean name="sppStockFlagProvider"
+          parent="productInStockFlagValueProvider"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.provider.TmaSppStockFlagProvider">
+        <property name="spoSource" ref="tmaSpoSource"/>
+    </bean>
+    <bean name="sppStockStatusProvider"
+          parent="defaultProductStockLevelStatusValueProvider"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.provider.TmaSppStockStatusProvider">
+        <property name="spoSource" ref="tmaSpoSource"/>
+    </bean>
+    <bean name="sppPickupFlagProvider"
+          parent="productPickupAvailabilityValueProvider"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.provider.TmaSppPickupFlagProvider">
+        <property name="spoSource" ref="tmaSpoSource"/>
+    </bean>
+
+    <bean id="productUrlValueProvider"
+          class="de.hybris.platform.commerceservices.search.solrfacetsearch.provider.impl.ProductUrlValueProvider"
+          parent="abstractPropertyFieldValueProvider">
+        <property name="urlResolver" ref="productModelUrlResolver"/>
+        <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+        <property name="i18nService" ref="i18nService"/>
+        <property name="commonI18NService" ref="commonI18NService"/>
+    </bean>
+
+    <bean name="sppUrlProvider"
+          parent="productUrlValueProvider"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.provider.TmaSppUrlProvider">
+        <property name="spoSource" ref="tmaSpoSource"/>
+    </bean>
+
+    <bean id="abstractSppImageValueProvider" abstract="true"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.provider.TmaSppImageProvider">
+        <property name="mediaService" ref="mediaService"/>
+        <property name="mediaContainerService" ref="mediaContainerService"/>
+        <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+        <property name="spoSource" ref="tmaSpoSource"/>
+    </bean>
+    <bean name="sppImage515ValueProvider" parent="abstractSppImageValueProvider">
+        <property name="mediaFormat" value="515Wx515H"/>
+    </bean>
+    <bean name="sppImage300ValueProvider" parent="abstractSppImageValueProvider">
+        <property name="mediaFormat" value="300Wx300H"/>
+    </bean>
+    <bean name="sppImage96ValueProvider" parent="abstractSppImageValueProvider">
+        <property name="mediaFormat" value="96Wx96H"/>
+    </bean>
+    <bean name="sppImage65ValueProvider" parent="abstractSppImageValueProvider">
+        <property name="mediaFormat" value="65Wx65H"/>
+    </bean>
+    <bean name="sppImage30ValueProvider" parent="abstractSppImageValueProvider">
+        <property name="mediaFormat" value="30Wx30H"/>
+    </bean>
+
+    <bean id="abstractSppProvider" abstract="true" parent="abstractPropertyFieldValueProvider"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.provider.TmaAbstractSppProvider">
+        <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+        <property name="spoSource" ref="tmaSpoSource"/>
+    </bean>
+
+    <bean id="sppIsBundledProvider"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.provider.TmaSppIsBundledProvider"
+          parent="abstractSppProvider">
+    </bean>
+
+    <bean id="sppParentBundlePoProvider"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.provider.TmaSppParentBundlePoProvider"
+          parent="abstractSppProvider">
+    </bean>
+
+    <bean id="sppProductSpecProvider"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.provider.TmaSppProductSpecificationProvider"
+          parent="abstractSppProvider">
+    </bean>
+
+    <bean id="sppApprovalStatusProvider"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.indexing.provider.TmaSppApprovalStatusProvider"
+          parent="abstractSppProvider">
+    </bean>
+
+    <!-- Solr field value providers -->
+    <bean id="b2ctelcoCategorySource" parent="abstractCategorySource">
+        <property name="rootCategory" value="1"/>
+        <!-- '1' is the root icecat category -->
+    </bean>
+    <bean id="b2ctelcoBrandCategorySource" parent="abstractCategorySource">
+        <property name="rootCategory" value="brands"/>
+        <!-- 'brands' is the root of the brands hierarchy -->
+    </bean>
+
+    <!-- Media Field Value Providers -->
+    <bean id="mediaCategorySource" parent="abstractCategorySource">
+        <property name="rootCategory" value="1"/>
+        <!-- '1' is the root icecat category -->
+    </bean>
+    <bean id="mediaBrandCategorySource" parent="abstractCategorySource">
+        <property name="rootCategory" value="brands"/>
+    </bean>
+
+    <!-- Utilities Field Value Providers -->
+    <bean id="utilitiesCategorySource" parent="abstractCategorySource">
+        <property name="rootCategory" value="1"/>
+        <!-- '1' is the root icecat category -->
+    </bean>
+    <bean id="utilitiesBrandCategorySource" parent="abstractCategorySource">
+        <property name="rootCategory" value="brands"/>
+        <!-- 'brands' is the root of the brands hierarchy -->
+    </bean>
+
+    <bean id="b2cabstractCategoryCodeValueProvider" abstract="true"
+          class="de.hybris.platform.commerceservices.search.solrfacetsearch.provider.impl.CategoryCodeValueProvider"
+          parent="abstractPropertyFieldValueProvider">
+        <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+        <property name="commonI18NService" ref="commonI18NService"/>
+    </bean>
+
+    <bean id="tmaProductOfferingGroupValueProvider"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.provider.impl.TmaProductOfferingGroupValueProvider"
+          parent="abstractPropertyFieldValueProvider">
+        <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+    </bean>
+
+    <bean id="tmaSpoHasParentBposValueProvider"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.provider.impl.TmaSpoHasParentBposValueProvider"
+          parent="tmaAbstractPropertyBeanValueProvider">
+        <property name="tmaPoService" ref="tmaPoService"/>
+    </bean>
+
+    <bean id="tmaAbstractPropertyBeanValueProvider"
+          abstract="true"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.provider.impl.TmaAbstractPropertyFieldValueProvider">
+        <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+    </bean>
+
+    <bean id="tmaAbstractLocalizedPropertyBeanValueProvider"
+          abstract="true"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.provider.impl.TmaAbstractLocalizedPropertyFieldValueProvider"
+          parent="tmaAbstractPropertyBeanValueProvider">
+        <property name="commonI18NService" ref="commonI18NService"/>
+    </bean>
+
+    <bean id="tmaSubscriptionTermDependentValueProvider" abstract="true"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.provider.impl.TmaSubscriptionTermDependentValueProvider"
+          parent="tmaAbstractLocalizedPropertyBeanValueProvider">
+        <property name="commercePriceService" ref="tmaCommercePriceService"/>
+    </bean>
+
+    <bean id="tmaBillingTimeValueProvider"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.provider.impl.TmaBillingTimeValueProvider"
+          parent="tmaSubscriptionTermDependentValueProvider"/>
+
+    <bean id="tmaTermLimitValueProvider"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.provider.impl.TmaTermLimitValueProvider"
+          parent="tmaSubscriptionTermDependentValueProvider">
+        <property name="enumerationService" ref="enumerationService"/>
+    </bean>
+
+    <bean id="tmaTermRenewalValueProvider"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.provider.impl.TmaTermRenewalValueProvider"
+          parent="tmaSubscriptionTermDependentValueProvider">
+        <property name="typeService" ref="typeService"/>
+    </bean>
+
+    <bean id="tmaPscValueProvider" abstract="true"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.provider.impl.TmaPscValueProvider"
+          parent="tmaAbstractLocalizedPropertyBeanValueProvider">
+    </bean>
+
+    <bean id="tmaProductSpecDescriptionValueProvider"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.provider.impl.TmaProductSpecDescriptionValueProvider"
+          parent="tmaAbstractLocalizedPropertyBeanValueProvider">
+    </bean>
+
+    <bean id="tmaPoPriceValueProvider"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.provider.impl.TmaPoPriceValueProvider"
+          parent="tmaAbstractPropertyBeanValueProvider">
+        <property name="commercePriceService" ref="tmaCommercePriceService"/>
+    </bean>
+
+    <!-- todo - PSCV value provider should be only one -->
+    <bean id="tmaSmsValueProvider" parent="tmaPscValueProvider">
+        <property name="pscId" value="sms"/>
+    </bean>
+
+    <bean id="tmaVoiceValueProvider" parent="tmaPscValueProvider">
+        <property name="pscId" value="voice"/>
+    </bean>
+
+    <bean id="tmaDataVolumeValueProvider" parent="tmaPscValueProvider">
+        <property name="pscId" value="data_volume"/>
+    </bean>
+
+    <bean id="tmaDataSpeedValueProvider" parent="tmaPscValueProvider">
+        <property name="pscId" value="data_speed"/>
+    </bean>
+
+    <bean id="tmaSdChannelsValueProvider" parent="tmaPscValueProvider">
+        <property name="pscId" value="sd_channels"/>
+    </bean>
+
+    <bean id="tmaHdChannelsValueProvider" parent="tmaPscValueProvider">
+        <property name="pscId" value="hd_channels"/>
+    </bean>
+
+    <bean id="tmaTvSessionsValueProvider" parent="tmaPscValueProvider">
+        <property name="pscId" value="tv_sessions"/>
+    </bean>
+
+    <bean id="b2cabstractCategoryNameValueProvider" abstract="true"
+          class="de.hybris.platform.commerceservices.search.solrfacetsearch.provider.impl.CategoryNameValueProvider"
+          parent="abstractPropertyFieldValueProvider">
+        <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+        <property name="commonI18NService" ref="commonI18NService"/>
+    </bean>
+
+    <!--Code Value Providers-->
+    <bean id="b2ctelcoCategoryCodeValueProvider" parent="b2cabstractCategoryCodeValueProvider">
+        <property name="categorySource" ref="b2ctelcoCategorySource"/>
+    </bean>
+    <bean id="b2ctelcoBrandCategoryCodeValueProvider" parent="b2cabstractCategoryCodeValueProvider">
+        <property name="categorySource" ref="b2ctelcoBrandCategorySource"/>
+    </bean>
+
+    <bean id="mediaCategoryCodeValueProvider" parent="b2cabstractCategoryCodeValueProvider">
+        <property name="categorySource" ref="mediaCategorySource"/>
+    </bean>
+    <bean id="mediaBrandCategoryCodeValueProvider" parent="b2cabstractCategoryCodeValueProvider">
+        <property name="categorySource" ref="mediaBrandCategorySource"/>
+    </bean>
+
+    <bean id="utilitiesCategoryCodeValueProvider" parent="b2cabstractCategoryCodeValueProvider">
+        <property name="categorySource" ref="utilitiesCategorySource"/>
+    </bean>
+    <bean id="utilitiesBrandCategoryCodeValueProvider" parent="b2cabstractCategoryCodeValueProvider">
+        <property name="categorySource" ref="utilitiesBrandCategorySource"/>
+    </bean>
+
+    <!--Name Value Providers-->
+    <bean id="b2ctelcoCategoryNameValueProvider" parent="b2cabstractCategoryNameValueProvider">
+        <property name="categorySource" ref="b2ctelcoCategorySource"/>
+    </bean>
+    <bean id="b2ctelcoBrandCategoryNameValueProvider" parent="b2cabstractCategoryNameValueProvider">
+        <property name="categorySource" ref="b2ctelcoBrandCategorySource"/>
+    </bean>
+
+    <bean id="mediaCategoryNameValueProvider" parent="b2cabstractCategoryNameValueProvider">
+        <property name="categorySource" ref="mediaCategorySource"/>
+    </bean>
+    <bean id="mediaBrandCategoryNameValueProvider" parent="b2cabstractCategoryNameValueProvider">
+        <property name="categorySource" ref="mediaBrandCategorySource"/>
+    </bean>
+
+    <bean id="utilitiesCategoryNameValueProvider" parent="b2cabstractCategoryNameValueProvider">
+        <property name="categorySource" ref="utilitiesCategorySource"/>
+    </bean>
+    <bean id="utilitiesBrandCategoryNameValueProvider" parent="b2cabstractCategoryNameValueProvider">
+        <property name="categorySource" ref="utilitiesBrandCategorySource"/>
+    </bean>
+
+    <alias name="defaultTmaAbstractPoVariantBaseProductDetailsResolver"
+           alias="tmaAbstractPoVariantBaseProductDetailsResolver"/>
+    <bean id="defaultTmaAbstractPoVariantBaseProductDetailsResolver"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.provider.impl.TmaAbstractPoVariantBaseProductDetailsResolver"
+          parent="abstractValueResolver" abstract="true">
+    </bean>
+
+    <alias name="defaultTmaPoVariantBaseProductCodeResolver" alias="tmaPoVariantBaseProductCodeResolver"/>
+    <bean id="defaultTmaPoVariantBaseProductCodeResolver"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.provider.impl.TmaPoVariantBaseProductCodeResolver"
+          parent="tmaAbstractPoVariantBaseProductDetailsResolver">
+    </bean>
+
+    <alias name="defaultTmaPoVariantBaseProductNameResolver" alias="tmaPoVariantBaseProductNameResolver"/>
+    <bean id="defaultTmaPoVariantBaseProductNameResolver"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.provider.impl.TmaPoVariantBaseProductNameResolver"
+          parent="tmaAbstractPoVariantBaseProductDetailsResolver">
+    </bean>
+
+    <alias name="defaultTmaAbstractPoVariantValueCategoryDetailsResolver"
+           alias="tmaAbstractPoVariantValueCategoryDetailsResolver"/>
+    <bean id="defaultTmaAbstractPoVariantValueCategoryDetailsResolver"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.provider.impl.TmaAbstractPoVariantValueCategoryDetailsResolver"
+          parent="abstractValueResolver" abstract="true">
+        <property name="tmaPoVariantService" ref="tmaPoVariantService"/>
+    </bean>
+
+    <alias name="defaultTmaPoVariantColorResolver" alias="tmaPoVariantColorResolver"/>
+    <bean id="defaultTmaPoVariantColorResolver"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.provider.impl.TmaPoVariantValueCategoryColorCodeResolver"
+          parent="tmaAbstractPoVariantValueCategoryDetailsResolver">
+        <property name="variantCategoryCode" value="color"/>
+    </bean>
+
+    <alias name="defaultTmaPoVariantStorageSizeResolver" alias="tmaPoVariantStorageSizeResolver"/>
+    <bean id="defaultTmaPoVariantStorageSizeResolver"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.provider.impl.TmaPoVariantValueCategoryNameResolver"
+          parent="tmaAbstractPoVariantValueCategoryDetailsResolver">
+        <property name="variantCategoryCode" value="storage_size"/>
+    </bean>
+
+
+    <alias name="tmaCommerceSolrProductSearchService" alias="commerceProductSearchService"/>
+    <alias name="tmaCommerceSolrProductSearchService" alias="defaultCommerceProductSearchService"/>
+    <bean id="tmaCommerceSolrProductSearchService"
+          parent="defaultCommerceSolrProductSearchService">
+        <property name="searchQueryPageableConverter" ref="tmaEligibilityConverter"/>
+    </bean>
+
+    <!-- converts SearchQueryPageable to SolrSearchRequest -->
+    <bean name="tmaEligibilityConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass"
+                  value="de.hybris.platform.commerceservices.search.solrfacetsearch.data.SolrSearchRequest"/>
+        <property name="populators">
+            <list>
+                <ref bean="commerceSearchSolrQueryPopulator"/>
+                <ref bean="commerceSearchPagePopulator"/>
+                <ref bean="commerceSearchSortPopulator"/>
+                <ref bean="commerceSearchTextPopulator"/>
+                <ref bean="tmaCurrencySearchSolrPopulator"/>
+                <ref bean="tmaPriceRegionSolrFilterPopulator"/>
+                <ref bean="commerceSearchFiltersPopulator"/>
+                <ref bean="tmaUserGroupSolrFilterPopulator"/>
+                <ref bean="tmaEligibilitySolrClausesPopulator"/>
+                <ref bean="tmaProcessTypeSolrClausesPopulator"/>
+                <ref bean="tmaGuidedSellingSolrPopulator"/>
+                <ref bean="tmaUserSolrFilterPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean parent="modifyPopulatorList">
+        <property name="list" ref="commerceSearchQueryPageableConverter"/>
+        <property name="add"  ref="tmaPriceRegionSolrFilterPopulator"/>
+    </bean>
+
+    <bean parent="modifyPopulatorList">
+        <property name="list" ref="commerceSearchQueryPageableConverter"/>
+        <property name="add"  ref="tmaCurrencySearchSolrPopulator"/>
+    </bean>
+
+    <bean parent="modifyPopulatorList">
+        <property name="list" ref="commerceSearchQueryPageableConverter"/>
+        <property name="add"  ref="tmaUserGroupSolrFilterPopulator"/>
+    </bean>
+
+    <bean parent="modifyPopulatorList">
+        <property name="list" ref="commerceSearchQueryPageableConverter"/>
+        <property name="add"  ref="tmaEligibilitySolrClausesPopulator"/>
+    </bean>
+
+    <bean parent="modifyPopulatorList">
+        <property name="list" ref="commerceSearchQueryPageableConverter"/>
+        <property name="add"  ref="tmaProcessTypeSolrClausesPopulator"/>
+    </bean>
+
+    <bean parent="modifyPopulatorList">
+        <property name="list" ref="commerceSearchQueryPageableConverter"/>
+        <property name="add"  ref="tmaGuidedSellingSolrPopulator"/>
+    </bean>
+
+    <bean parent="modifyPopulatorList">
+        <property name="list" ref="commerceSearchQueryPageableConverter"/>
+        <property name="add"  ref="tmaUserSolrFilterPopulator"/>
+    </bean>
+
+    <alias name="defaultTmaCurrencySearchSolrPopulator" alias="tmaCurrencySearchSolrPopulator"/>
+    <bean id="defaultTmaCurrencySearchSolrPopulator"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.populator.TmaCurrencySearchSolrQueryPopulator">
+        <property name="i18NService" ref="commonI18NService"/>
+    </bean>
+
+    <alias name="defaultTmaUserGroupSolrFilterPopulator" alias="tmaUserGroupSolrFilterPopulator"/>
+    <bean id="defaultTmaUserGroupSolrFilterPopulator"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.populator.TmaUserGroupSolrFilterPopulator">
+        <property name="userPriceGroupsStrategy" ref="tmaRetrieveUserPriceGroupStrategy"/>
+        <property name="userService" ref="userService"/>
+    </bean>
+
+    <alias name="defaultTmaGuidedSellingSolrPopulator" alias="tmaGuidedSellingSolrPopulator"/>
+    <bean id="defaultTmaGuidedSellingSolrPopulator"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.populator.GuidedSellingSearchSolrQueryPopulator"/>
+
+    <alias name="defaultTmaEligibilitySolrCollapseAndSortPopulator" alias="tmaEligibilitySolrCollapseAndSortPopulator"/>
+    <bean name="defaultTmaEligibilitySolrCollapseAndSortPopulator"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.search.TmaEligibilitySolrSortAndCollapsePopulator">
+        <property name="i18nService" ref="commerceCommonI18NService"/>
+    </bean>
+
+    <alias name="defaultTmaEligibilitySolrClausesPopulator" alias="tmaEligibilitySolrClausesPopulator"/>
+    <bean name="defaultTmaEligibilitySolrClausesPopulator"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.search.TmaEligibilitySolrClausesPopulator">
+        <property name="eligibilityQueryBuilder" ref="eligibilitySolrQueryBuilder"/>
+        <property name="tmaEligibilityContextService" ref="tmaEligibilityContextService"/>
+    </bean>
+
+    <alias name="defaultTmaProcessTypeSolrClausesPopulator" alias="tmaProcessTypeSolrClausesPopulator"/>
+    <bean name="defaultTmaProcessTypeSolrClausesPopulator"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.search.TmaProcessTypeSolrClausesPopulator">
+    </bean>
+
+    <alias name="defaultEligibilitySolrQueryBuilder" alias="eligibilitySolrQueryBuilder"/>
+    <bean id="defaultEligibilitySolrQueryBuilder"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.search.TmaSolrEligibilityQueryBuilder">
+        <property name="tmaEligibilityContextService" ref="tmaEligibilityContextService"/>
+    </bean>
+
+    <!-- Actions -->
+    <bean id="sendDeliveryMessageAction"
+          class="de.hybris.platform.b2ctelcoservices.actions.SendDeliveryMessageActionStub"
+          parent="abstractAction"/>
+
+    <alias name="defaultConsignmentService" alias="consignmentService"/>
+
+    <!-- Compatibility Service -->
+    <alias name="defaultCompatibilityService" alias="compatibilityService"/>
+    <bean id="defaultCompatibilityService"
+          class="de.hybris.platform.b2ctelcoservices.services.impl.DefaultCompatibilityService">
+        <property name="classificationService" ref="classificationService"/>
+        <property name="productService" ref="productService"/>
+        <property name="genericSearchService" ref="genericSearchService"/>
+        <property name="modelService" ref="modelService"/>
+        <property name="classificationClassCode" value="accessoryclassification"/>
+        <property name="classificationAttributeCode" value="vendorcompatibility"/>
+        <property name="productsFeaturesDao" ref="productsFeaturesDao"/>
+    </bean>
+
+    <bean id="productReviewCountValueProvider"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.provider.impl.ProductReviewCountValueProvider"
+          parent="abstractPropertyFieldValueProvider">
+        <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+        <property name="customerReviewService" ref="customerReviewService"/>
+    </bean>
+
+    <alias name="defaultProductsFeaturesDao" alias="productsFeaturesDao"/>
+    <bean id="defaultProductsFeaturesDao"
+          class="de.hybris.platform.b2ctelcoservices.daos.impl.DefaultProductsFeaturesDao"
+          parent="abstractItemDao">
+    </bean>
+
+    <bean id="tmaProductSpecCharacteristicAttribute"
+          class="de.hybris.platform.b2ctelcoservices.model.TmaProductSpecCharacteristicAttribute">
+        <property name="tmaProductSpecificationService" ref="tmaProductSpecificationService"/>
+    </bean>
+
+    <bean id="tmaBillingAgreementAttrHandler"
+          class="de.hybris.platform.b2ctelcoservices.model.TmaBillingAgreementAttrHandler"/>
+
+    <alias name="tmaBillingTimeChargeEntryAttribute" alias="billingTimeChargeEntryAttribute"/>
+    <bean id="tmaBillingTimeChargeEntryAttribute"
+          class="de.hybris.platform.b2ctelcoservices.model.TmaBillingTimeChargeEntryAttribute"/>
+
+    <alias name="tmaBillingTimeUsageChargeAttribute" alias="billingTimeUsageChargeAttribute"/>
+    <bean id="tmaBillingTimeUsageChargeAttribute"
+          class="de.hybris.platform.b2ctelcoservices.model.TmaBillingTimeUsageChargeAttribute"/>
+
+    <bean id="b2ctelcoBundleProductModelUrlResolver"
+          class="de.hybris.platform.commerceservices.url.impl.DefaultProductModelUrlResolver">
+        <property name="threadContextService" ref="threadContextService"/>
+        <property name="commerceCategoryService" ref="commerceCategoryService"/>
+        <property name="baseSiteService" ref="baseSiteService"/>
+        <property name="defaultPattern" value="/bundle/view-plans/{product-code}"/>
+    </bean>
+
+    <alias alias="geoServiceWrapper" name="b2ctelcoMockGeoWebServiceWrapper"/>
+    <bean id="b2ctelcoMockGeoWebServiceWrapper"
+          class="de.hybris.platform.b2ctelcoservices.services.impl.B2CTelcoMockGeoWebServiceWrapper"
+          parent="defaultCommerceMockGeoWebServiceWrapper"/>
+
+    <alias alias="countryIsoGPSLocationMap" name="b2ctelcoCountryIsoGPSLocationMap"/>
+    <bean id="b2ctelcoCountryIsoGPSLocationMap" class="org.springframework.beans.factory.config.MapFactoryBean">
+        <property name="sourceMap">
+            <map merge="true" key-type="java.lang.String" value-type="de.hybris.platform.storelocator.GPS">
+                <entry key="DEFAULT">
+                    <bean class="de.hybris.platform.storelocator.impl.DefaultGPS">
+                        <constructor-arg value="0D"/>
+                        <constructor-arg value="0D"/>
+                    </bean>
+                </entry>
+                <entry key="CN">
+                    <bean class="de.hybris.platform.storelocator.impl.DefaultGPS">
+                        <constructor-arg value="35.0000D"/>
+                        <constructor-arg value="103.0000D"/>
+                    </bean>
+                </entry>
+                <entry key="JP">
+                    <bean class="de.hybris.platform.storelocator.impl.DefaultGPS">
+                        <constructor-arg value="35.7091D"/>
+                        <constructor-arg value="139.6732D"/>
+                    </bean>
+                </entry>
+                <entry key="US">
+                    <bean class="de.hybris.platform.storelocator.impl.DefaultGPS">
+                        <constructor-arg value="40.112702D"/>
+                        <constructor-arg value="-96.097352D"/>
+                    </bean>
+                </entry>
+                <entry key="GB">
+                    <bean class="de.hybris.platform.storelocator.impl.DefaultGPS">
+                        <constructor-arg value="51.513779D"/>
+                        <constructor-arg value="-0.1167D"/>
+                    </bean>
+                </entry>
+                <entry key="GG">
+                    <bean class="de.hybris.platform.storelocator.impl.DefaultGPS">
+                        <constructor-arg value="55.8642D"/>
+                        <constructor-arg value="-4.258D"/>
+                    </bean>
+                </entry>
+                <entry key="IM">
+                    <bean class="de.hybris.platform.storelocator.impl.DefaultGPS">
+                        <constructor-arg value="54.181727D"/>
+                        <constructor-arg value="-4.551086D"/>
+                    </bean>
+                </entry>
+                <entry key="JE">
+                    <bean class="de.hybris.platform.storelocator.impl.DefaultGPS">
+                        <constructor-arg value="52.531917D"/>
+                        <constructor-arg value="-0.47238D"/>
+                    </bean>
+                </entry>
+                <entry key="DE">
+                    <bean class="de.hybris.platform.storelocator.impl.DefaultGPS">
+                        <constructor-arg value="52.514524D"/>
+                        <constructor-arg value="13.35029D"/>
+                    </bean>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="resetDeliveryMethodOnAddToCartMethodHook"
+          class="de.hybris.platform.b2ctelcoservices.hook.impl.ResetDeliveryMethodOnAddToCartMethodHook">
+        <property name="cartService" ref="cartService"/>
+    </bean>
+
+    <bean id="resetDeliveryMethodOnAddToCartMethodHookMergeDirective" depends-on="tmaMasterAddToCartEntryHooks"
+          parent="listMergeDirective">
+        <property name="add" ref="resetDeliveryMethodOnAddToCartMethodHook"/>
+    </bean>
+
+    <bean id="resetDeliveryMethodOnUpdateCartEntryHook"
+          class="de.hybris.platform.b2ctelcoservices.hook.impl.ResetDeliveryMethodOnUpdateCartEntryHook">
+        <property name="cartService" ref="cartService"/>
+    </bean>
+
+    <bean id="resetDeliveryMethodOnUpdateCartMethodHookMergeDirective" depends-on="commerceUpdateCartEntryMethodHooks"
+          parent="listMergeDirective">
+        <property name="add" ref="resetDeliveryMethodOnUpdateCartEntryHook"/>
+    </bean>
+
+    <alias name="defaultTmaMasterAddToCartEntryHooks" alias="tmaMasterAddToCartEntryHooks"/>
+    <util:list id="defaultTmaMasterAddToCartEntryHooks" value-type="de.hybris.platform.commerceservices.order.hook.CommerceAddToCartMethodHook"/>
+
+    <alias name="defaultTmaCommerceAddToCartStrategy" alias="commerceAddToCartStrategy"/>
+    <bean id="defaultTmaCommerceAddToCartStrategy"
+          class=" de.hybris.platform.b2ctelcoservices.order.impl.TmaCommerceAddToCartStrategy"
+          parent="defaultCommerceAddToCartStrategy">
+        <property name="tmaPoService" ref="tmaPoService"/>
+        <property name="enumerationService" ref="enumerationService"/>
+        <property name="commercePriceService" ref="tmaCommercePriceService"/>
+        <property name="subscriptionTermService" ref="tmaSubscriptionTermService"/>
+        <property name="customerInventoryService" ref="tmaCustomerInventoryService"/>
+        <constructor-arg name="tmaCommerceCartResourceService" ref="tmaCommerceCartResourceService"/>
+        <constructor-arg name="tmaPriceContextService" ref="tmaPriceContextService"/>
+        <constructor-arg name="abstractOrderEntryService" ref="abstractOrderEntryService"/>
+        <constructor-arg name="masterAddToCartEntryHooks" ref="tmaMasterAddToCartEntryHooks"/>
+    </bean>
+
+    <alias name="defaultTmaCommerceUpdateCartStrategy" alias="commerceUpdateCartEntryStrategy"/>
+    <bean id="defaultTmaCommerceUpdateCartStrategy" parent="defaultCommerceUpdateCartEntryStrategy"
+          class="de.hybris.platform.b2ctelcoservices.order.impl.TmaCommerceUpdateCartStrategy">
+        <property name="commerceCartResourceService" ref="tmaCommerceCartResourceService"/>
+    </bean>
+
+    <alias name="defaultTmaCommerceUpdateCartHooks" alias="tmaCommerceUpdateCartHooks"/>
+    <util:list id="defaultTmaCommerceUpdateCartHooks" value-type="de.hybris.platform.b2ctelcoservices.hook.TmaUpdateCartHook"/>
+
+    <alias name="defaultTmaUpdateCartStrategy" alias="tmaUpdateCartStrategy"/>
+    <bean id="defaultTmaUpdateCartStrategy"
+          class="de.hybris.platform.b2ctelcoservices.order.impl.TmaUpdateCartStrategy">
+        <constructor-arg name="commerceCartResourceService" ref="tmaCommerceCartResourceService"/>
+        <constructor-arg name="commerceUpdateCartEntryStrategy" ref="commerceUpdateCartEntryStrategy"/>
+        <constructor-arg name="commerceUpdateCartHooks" ref="tmaCommerceUpdateCartHooks"/>
+        <constructor-arg name="configurationService" ref="configurationService"/>
+        <constructor-arg name="cartService" ref="cartService"/>
+        <constructor-arg name="calculationStrategy" ref="commerceCartCalculationStrategy"/>
+        <constructor-arg name="commercePriceService" ref="tmaCommercePriceService"/>
+        <property name="tmaPriceContextService" ref="tmaPriceContextService"/>
+        <property name="enumerationService" ref="enumerationService"/>
+    </bean>
+
+    <bean id="resourceUpdateCartHookMergeDirective" depends-on="tmaCommerceUpdateCartHooks"
+          parent="listMergeDirective">
+        <property name="add" ref="tmaResourceUpdateCartHook"/>
+    </bean>
+
+    <alias name="defaultTmaCommerceDeleteFromCartStrategy" alias="removeEntryGroupStrategy"/>
+    <bean id="defaultTmaCommerceDeleteFromCartStrategy" parent="defaultCommerceRemoveEntryGroupStrategy"
+          class=" de.hybris.platform.b2ctelcoservices.order.impl.TmaCommerceDeleteFromCartStrategy">
+    </bean>
+
+    <alias name="defaultTmaDeleteFromCartStrategy" alias="tmaRemoveEntryStrategy"/>
+    <bean id="defaultTmaDeleteFromCartStrategy"
+          class=" de.hybris.platform.b2ctelcoservices.order.impl.TmaDeleteFromCartStrategy">
+        <constructor-arg name="updateCartEntryStrategy" ref="commerceUpdateCartEntryStrategy"/>
+    </bean>
+
+    <alias name="defaultTmaCommerceUpdateCartEntryStrategy" alias="commerceUpdateCartEntryStrategy"/>
+    <bean id="defaultTmaCommerceUpdateCartEntryStrategy" parent="defaultCommerceUpdateCartEntryStrategy"
+          class="de.hybris.platform.b2ctelcoservices.order.impl.DefaultTmaCommerceUpdateCartEntryStrategy">
+    </bean>
+
+    <alias name="defaultTmaEntryMergeConfigurablePscFilter" alias="tmaEntryMergeConfigurablePscFilter"/>
+    <bean id="defaultTmaEntryMergeConfigurablePscFilter"
+          class="de.hybris.platform.b2ctelcoservices.order.impl.TmaEntryMergeConfigurablePscFilter">
+        <constructor-arg name="poService" ref="defaultTmaPoService"/>
+    </bean>
+
+    <bean id="defaultTmaEntryMergeConfigurablePscDirective" depends-on="commerceCartEntryMergeFilters"
+          parent="listMergeDirective">
+        <property name="add" ref="tmaEntryMergeConfigurablePscFilter"/>
+    </bean>
+
+    <alias name="defaultTmaEntryMergeSubscriptionInfoFilter" alias="defaultTmaEntryMergeSubscriptionInfoFilter"/>
+    <bean id="defaultTmaEntryMergeSubscriptionInfoFilter"
+          class="de.hybris.platform.b2ctelcoservices.order.impl.TmaEntryMergeSubscriptionInfoFilter"/>
+
+    <bean id="defaultTmaEntryMergeFilterSubscribedProductDirective" depends-on="commerceCartEntryMergeFilters"
+          parent="listMergeDirective">
+        <property name="add" ref="defaultTmaEntryMergeSubscriptionInfoFilter"/>
+    </bean>
+
+    <alias name="defaultTmaEntryMergeProcessTypeFilter" alias="defaultTmaEntryMergeProcessTypeFilter"/>
+    <bean id="defaultTmaEntryMergeProcessTypeFilter"
+          class="de.hybris.platform.b2ctelcoservices.order.impl.TmaEntryMergeProcessTypeFilter"/>
+
+    <bean id="defaultTmaEntryMergeFilterProcessTypeDirective" depends-on="commerceCartEntryMergeFilters"
+          parent="listMergeDirective">
+        <property name="add" ref="defaultTmaEntryMergeProcessTypeFilter"/>
+    </bean>
+
+    <alias name="defaultTmaBundledEntryMergeFilter" alias="tmaBundledEntryMergeFilter"/>
+    <bean id="defaultTmaBundledEntryMergeFilter"
+          class="de.hybris.platform.b2ctelcoservices.order.impl.TmaBundledEntryMergeFilter"/>
+
+    <bean id="defaultTmaBundledEntryMergeFilterDirective" depends-on="commerceCartEntryMergeFilters" parent="listMergeDirective">
+        <property name="add" ref="tmaBundledEntryMergeFilter"/>
+    </bean>
+
+    <!-- Override Default Commerce Cart Merging Strategy -->
+    <alias name="b2ctelcoCommerceCartMergingStrategy" alias="commerceCartMergingStrategy"/>
+    <bean id="b2ctelcoCommerceCartMergingStrategy"
+          class="de.hybris.platform.b2ctelcoservices.order.impl.B2ctelcoCommerceCartMergingStrategy"
+          parent="defaultCommerceCartMergingStrategy">
+        <constructor-arg name="customerInventoryService" ref="tmaCustomerInventoryService"/>
+        <constructor-arg name="tmaCommerceAddToCartStrategy" ref="commerceAddToCartStrategy"/>
+        <constructor-arg name="tmaUpdateCartStrategy" ref="tmaUpdateCartStrategy"/>
+    </bean>
+
+    <!-- Override Default Commerce Save Cart Restoration Strategy -->
+    <alias name="tmaCommerceSaveCartRestorationStrategy" alias="commerceSaveCartRestorationStrategy"/>
+    <bean id="tmaCommerceSaveCartRestorationStrategy"
+          class="de.hybris.platform.b2ctelcoservices.order.impl.TmaCommerceSaveCartRestorationStrategy"
+          parent="defaultCommerceSaveCartRestorationStrategy">
+    </bean>
+    <!-- Comparators -->
+    <bean id="displayResolutionComparator"
+          class="de.hybris.platform.b2ctelcoservices.search.comparators.DisplayResolutionComparator">
+    </bean>
+
+    <bean id="displayResolutionFacetComparator"
+          class="de.hybris.platform.acceleratorservices.search.comparators.FacetValueNameComparator">
+        <property name="comparator" ref="displayResolutionComparator"/>
+    </bean>
+
+    <!-- Sort providers -->
+    <bean id="displayResolutionSortProvider"
+          class="de.hybris.platform.solrfacetsearch.config.impl.DefaultFacetSortProvider">
+        <property name="comparator" ref="displayResolutionFacetComparator"/>
+    </bean>
+
+    <!-- Customer inventory entities-->
+    <alias name="defaultTmaSubscriptionAccessDao" alias="tmaSubscriptionAccessDao"/>
+    <bean id="defaultTmaSubscriptionAccessDao"
+          class="de.hybris.platform.b2ctelcoservices.daos.impl.DefaultTmaSubscriptionAccessDao"/>
+
+    <alias name="defaultTmaSubscriptionBaseDao" alias="tmaSubscriptionBaseDao"/>
+    <bean id="defaultTmaSubscriptionBaseDao"
+          class="de.hybris.platform.b2ctelcoservices.daos.impl.DefaultTmaSubscriptionBaseDao"/>
+
+    <alias name="defaultTmaSubscriptionAccessService" alias="tmaSubscriptionAccessService"/>
+    <bean id="defaultTmaSubscriptionAccessService"
+          class="de.hybris.platform.b2ctelcoservices.services.impl.DefaultTmaSubscriptionAccessService">
+        <property name="tmaSubscriptionAccessDao" ref="tmaSubscriptionAccessDao"/>
+        <property name="principalService" ref="principalService"/>
+        <property name="modelService" ref="defaultModelService"/>
+    </bean>
+
+    <alias name="defaultPrincipalDao" alias="principalDao"/>
+    <bean id="defaultPrincipalDao" class="de.hybris.platform.b2ctelcoservices.daos.impl.DefaultPrincipalDao"/>
+
+    <alias name="defaultPrincipalService" alias="principalService"/>
+    <bean id="defaultPrincipalService"
+          class="de.hybris.platform.b2ctelcoservices.services.impl.DefaultPrincipalService">
+        <property name="principalDao" ref="principalDao"/>
+    </bean>
+
+    <alias name="defaultTmaSubscriptionBaseService" alias="tmaSubscriptionBaseService"/>
+    <bean id="defaultTmaSubscriptionBaseService"
+          class="de.hybris.platform.b2ctelcoservices.services.impl.DefaultTmaSubscriptionBaseService">
+        <property name="modelService" ref="modelService"/>
+        <property name="tmaBillingAccountService" ref="tmaBillingAccountService"/>
+        <property name="tmaSubscriptionBaseDao" ref="tmaSubscriptionBaseDao"/>
+        <property name="tmaSubscriberIdentityGenerator" ref="tmaSubscriberIdentityGenerator"/>
+        <property name="defaultBillingSystemId" value="${default.billing.system.id}"/>
+        <property name="tmaSubscriptionAccessService" ref="tmaSubscriptionAccessService"/>
+    </bean>
+
+    <alias name="defaultTmaCustomerInventoryService" alias="tmaCustomerInventoryService"/>
+    <bean id="defaultTmaCustomerInventoryService"
+          class="de.hybris.platform.b2ctelcoservices.services.impl.DefaultTmaCustomerInventoryService">
+        <property name="billingAccountService" ref="tmaBillingAccountService"/>
+        <property name="subscriptionBaseService" ref="tmaSubscriptionBaseService"/>
+        <property name="enumerationService" ref="enumerationService"/>
+        <property name="userService" ref="userService"/>
+        <property name="tmaEligibilityContextService" ref="tmaEligibilityContextService"/>
+        <property name="subscriptionTermService" ref="tmaSubscriptionTermService"/>
+        <property name="modelService" ref="modelService"/>
+    </bean>
+
+    <alias name="defaultTmaSubscribedProductIdGenerator" alias="tmaSubscribedProductIdGenerator"/>
+    <bean id="defaultTmaSubscribedProductIdGenerator"
+          class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.tmaSubscribedProduct.id.name}"/>
+        <property name="digits" value="${keygen.tmaSubscribedProduct.id.digits}"/>
+        <property name="start" value="${keygen.tmaSubscribedProduct.id.start}"/>
+        <property name="type" value="${keygen.tmaSubscribedProduct.id.type}"/>
+        <property name="template" value="${keygen.tmaSubscribedProduct.id.template}"/>
+    </bean>
+
+    <alias name="defaultTmaBillingSubscriptionIdGenerator" alias="tmaBillingSubscriptionIdGenerator"/>
+    <bean id="defaultTmaBillingSubscriptionIdGenerator"
+          class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.billingSubscriptionId.id.name}"/>
+        <property name="digits" value="${keygen.billingSubscriptionId.id.digits}"/>
+        <property name="start" value="${keygen.billingSubscriptionId.id.start}"/>
+        <property name="type" value="${keygen.billingSubscriptionId.id.type}"/>
+        <property name="template" value="${keygen.billingSubscriptionId.id.template}"/>
+    </bean>
+
+    <alias name="defaultTmaSubscribedProductDao" alias="tmaSubscribedProductDao"/>
+    <bean id="defaultTmaSubscribedProductDao"
+          class="de.hybris.platform.b2ctelcoservices.daos.impl.DefaultTmaSubscribedProductDao"/>
+
+    <alias name="defaultTmaSubscribedProductService" alias="tmaSubscribedProductService"/>
+    <bean id="defaultTmaSubscribedProductService"
+          class="de.hybris.platform.b2ctelcoservices.services.impl.DefaultTmaSubscribedProductService">
+        <property name="tmaSubscribedProductDao" ref="tmaSubscribedProductDao"/>
+        <property name="modelService" ref="modelService"/>
+        <property name="tmaSubscribedProductIdGenerator" ref="tmaSubscribedProductIdGenerator"/>
+        <property name="tmaBillingSubscriptionIdGenerator" ref="tmaBillingSubscriptionIdGenerator"/>
+        <property name="termsOfServiceDao" ref="tmaTermsOfServiceDao"/>
+    </bean>
+
+    <alias name="defaultTmaProductSpecificationService" alias="tmaProductSpecificationService"/>
+    <bean id="defaultTmaProductSpecificationService"
+          class="de.hybris.platform.b2ctelcoservices.services.impl.DefaultTmaProductSpecificationService">
+        <property name="tmaProductSpecCharactersticsValueDao" ref="tmaProductSpecCharactersticsValueDao"/>
+        <constructor-arg name="tmaProductSpecificationDao" ref="tmaProductSpecificationDao"/>
+    </bean>
+
+    <alias name="defaultTmaBillingAccountDao" alias="tmaBillingAccountDao"/>
+    <bean id="defaultTmaBillingAccountDao"
+          class="de.hybris.platform.b2ctelcoservices.daos.impl.DefaultTmaBillingAccountDao"/>
+
+    <alias name="defaultTmaBillingAccountService" alias="tmaBillingAccountService"/>
+    <bean id="defaultTmaBillingAccountService"
+          class="de.hybris.platform.b2ctelcoservices.services.impl.DefaultTmaBillingAccountService">
+        <property name="tmaBillingAccountDao" ref="tmaBillingAccountDao"/>
+        <property name="modelService" ref="modelService"/>
+        <property name="tmaSubscriptionBaseService" ref="tmaSubscriptionBaseService"/>
+        <property name="tmaBillingAccountIdGenerator" ref="tmaBillingAccountIdGenerator"/>
+        <property name="defaultBillingSystemId" value="${default.billing.system.id}"/>
+    </bean>
+
+    <alias name="defaultTmaBpoPreConfigDao" alias="tmaBpoPreConfigDao"/>
+    <bean id="defaultTmaBpoPreConfigDao"
+          class="de.hybris.platform.b2ctelcoservices.daos.impl.DefaultTmaBpoPreConfigDao"/>
+
+    <alias name="defaultTmaBpoPreConfigService" alias="tmaBpoPreConfigService"/>
+    <bean id="defaultTmaBpoPreConfigService"
+          class="de.hybris.platform.b2ctelcoservices.services.impl.DefaultTmaBpoPreConfigService">
+        <property name="tmaBpoPreConfigDao" ref="tmaBpoPreConfigDao"/>
+    </bean>
+
+    <alias name="defaultUniqueSubscribedProductItemValidator" alias="uniqueSubscribedProductItemValidator"/>
+    <bean id="defaultUniqueSubscribedProductItemValidator"
+          class="de.hybris.platform.b2ctelcoservices.interceptors.UniqueSubscribedProductItemInterceptor">
+        <property name="tmaSubscribedProductDao" ref="tmaSubscribedProductDao"/>
+    </bean>
+
+    <bean id="uniqueSubscribedProductItemValidatorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="uniqueSubscribedProductItemValidator"/>
+        <property name="typeCode" value="TmaSubscribedProduct"/>
+    </bean>
+
+    <alias name="defaulBpoCircularDependencyValidationInterceptor" alias="bpoCircularDependencyValidationInterceptor"/>
+    <bean id="defaulBpoCircularDependencyValidationInterceptor"
+          class="de.hybris.platform.b2ctelcoservices.interceptors.BpoCircularDependencyValidationInterceptor"/>
+
+    <bean id="bpoCircularDependencyValidatorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="bpoCircularDependencyValidationInterceptor"/>
+        <property name="typeCode" value="TmaBundledProductOffering"/>
+    </bean>
+
+    <alias name="defaultCpsCircularDependencyValidationInterceptor" alias="cpsCircularDependencyValidationInterceptor"/>
+    <bean id="defaultCpsCircularDependencyValidationInterceptor"
+          class="de.hybris.platform.b2ctelcoservices.interceptors.CpsCircularDependencyValidationInterceptor"/>
+
+    <bean id="cpsCircularDependencyValidatorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="cpsCircularDependencyValidationInterceptor"/>
+        <property name="typeCode" value="TmaCompositeProductSpecification"/>
+    </bean>
+
+    <alias name="defaultCompositePolicyConditionCircularDependencyValidationInterceptor"
+           alias="compositePolicyConditionCircularDependencyValidationInterceptor"/>
+    <bean id="defaultCompositePolicyConditionCircularDependencyValidationInterceptor"
+          class="de.hybris.platform.b2ctelcoservices.interceptors.CompositePolicyConditionCircularDependencyValidationInterceptor"/>
+
+    <bean id="compositePolicyConditionCircularDependencyValidatorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="compositePolicyConditionCircularDependencyValidationInterceptor"/>
+        <property name="typeCode" value="TmaCompositePolicyCondition"/>
+    </bean>
+
+    <alias name="defaultTmaPolicyStatementValidateInterceptor" alias="tmaPolicyStatementValidateInterceptor"/>
+    <bean id="defaultTmaPolicyStatementValidateInterceptor"
+          class="de.hybris.platform.b2ctelcoservices.interceptors.TmaPolicyStatementValidateInterceptor">
+        <property name="typeService" ref="typeService"/>
+    </bean>
+
+    <alias name="defaultTmaBundledProdOfferOptionValidateInterceptor" alias="tmaBundledProdOfferOptionValidateInterceptor"/>
+    <bean id="defaultTmaBundledProdOfferOptionValidateInterceptor"
+          class="de.hybris.platform.b2ctelcoservices.interceptors.TmaBundledProdOfferOptionValidateInterceptor">
+    </bean>
+
+    <bean id="tmaBundledProdOfferOptionValidatorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="tmaBundledProdOfferOptionValidateInterceptor"/>
+        <property name="typeCode" value="TmaBundledProdOfferOption"/>
+    </bean>
+
+    <bean id="tmaPolicyStatementValidatorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="tmaPolicyStatementValidateInterceptor"/>
+        <property name="typeCode" value="TmaPolicyStatement"/>
+    </bean>
+
+    <alias name="defaultTmaFixedBpoPrepareInterceptor" alias="tmaFixedBpoPrepareInterceptor"/>
+    <bean id="defaultTmaFixedBpoPrepareInterceptor"
+          class="de.hybris.platform.b2ctelcoservices.interceptors.TmaFixedBpoPrepareInterceptor">
+        <constructor-arg name="sessionService" ref="sessionService"/>
+    </bean>
+
+    <bean id="tmaFixedBpoPrepareInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="tmaFixedBpoPrepareInterceptor"/>
+        <property name="typeCode" value="TmaFixedBundledProductOffering"/>
+    </bean>
+
+    <alias name="defaultTmaFixedBpoValidateInterceptor" alias="tmaFixedBpoValidateInterceptor"/>
+    <bean id="defaultTmaFixedBpoValidateInterceptor"
+          class="de.hybris.platform.b2ctelcoservices.interceptors.TmaFixedBpoValidateInterceptor">
+        <constructor-arg name="poService" ref="tmaPoService"/>
+    </bean>
+
+    <bean id="tmaFixedBundledProductOfferingValidateInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="tmaFixedBpoValidateInterceptor"/>
+        <property name="typeCode" value="TmaFixedBundledProductOffering"/>
+    </bean>
+
+    <alias name="defaultTmaCompatibilityPolicyValidateInterceptor" alias="tmaCompatibilityPolicyValidateInterceptor"/>
+    <bean id="defaultTmaCompatibilityPolicyValidateInterceptor"
+          class="de.hybris.platform.b2ctelcoservices.interceptors.TmaCompatibilityPolicyValidateInterceptor"/>
+
+    <bean id="tmaCompatibilityPolicyValidatorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="tmaCompatibilityPolicyValidateInterceptor"/>
+        <property name="typeCode" value="TmaCompatibilityPolicy"/>
+    </bean>
+
+    <alias name="defaultTmaPolicyConditionValidateInterceptor" alias="tmaPolicyConditionValidateInterceptor"/>
+    <bean id="defaultTmaPolicyConditionValidateInterceptor"
+          class="de.hybris.platform.b2ctelcoservices.interceptors.TmaPolicyConditionValidateInterceptor"/>
+
+    <bean id="tmaPolicyConditionValidateInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="tmaPolicyConditionValidateInterceptor"/>
+        <property name="typeCode" value="TmaPolicyCondition"/>
+    </bean>
+
+    <alias name="defaultTmaChecklistPolicyStatementValidateInterceptor" alias="tmaChecklistPolicyStatementValidateInterceptor"/>
+    <bean id="defaultTmaChecklistPolicyStatementValidateInterceptor"
+          class="de.hybris.platform.b2ctelcoservices.interceptors.TmaChecklistPolicyStatementValidateInterceptor"/>
+
+    <bean id="tmaChecklistPolicyStatementValidateInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="tmaChecklistPolicyStatementValidateInterceptor"/>
+        <property name="typeCode" value="TmaChecklistPolicyStatement"/>
+    </bean>
+
+    <alias name="defaultTmaSubscriptionTermDao" alias="tmaSubscriptionTermDao"/>
+    <bean id="defaultTmaSubscriptionTermDao"
+          class="de.hybris.platform.b2ctelcoservices.daos.impl.DefaultTmaSubscriptionTermDao">
+        <property name="subscriptionTermProcessor" ref="tmaEligibleSubscriptionTermSearchProcessor"/>
+        <property name="genericSearchService" ref="genericSearchService"/>
+    </bean>
+
+    <alias name="defaultTmaTermsOfServiceDao" alias="tmaTermsOfServiceDao"/>
+    <bean id="defaultTmaTermsOfServiceDao" class="de.hybris.platform.servicelayer.internal.dao.DefaultGenericDao">
+        <constructor-arg value="TmaNormalizedTermOfServiceFrequency"/>
+    </bean>
+
+    <alias name="defaultTmaSubscriptionTermService" alias="tmaSubscriptionTermService"/>
+    <bean id="defaultTmaSubscriptionTermService"
+          class="de.hybris.platform.b2ctelcoservices.services.impl.DefaultTmaSubscriptionTermService">
+        <property name="tmaSubscriptionTermDao" ref="tmaSubscriptionTermDao"/>
+        <property name="configurationService" ref="configurationService"/>
+    </bean>
+
+    <!-- Customer cleanup -->
+    <bean id="b2ctelcoServicesCustomerCleanupHook"
+          class="de.hybris.platform.b2ctelcoservices.retention.impl.ServicesCustomerCleanupHook">
+        <property name="modelService" ref="modelService"/>
+        <property name="tmaSubscriptionAccessService" ref="tmaSubscriptionAccessService"/>
+        <property name="writeAuditRecordsDAO" ref="writeAuditRecordsDAO"/>
+    </bean>
+
+    <bean id="b2ctelcoeServicesCustomerCleanupHookMergeDirective"
+          depends-on="customerCleanupHooks" parent="listMergeDirective">
+        <property name="add" ref="b2ctelcoServicesCustomerCleanupHook"/>
+    </bean>
+
+    <!-- Product Offering -->
+    <alias name="defaultTmaPoService" alias="tmaPoService"/>
+    <bean id="defaultTmaPoService"
+          class="de.hybris.platform.b2ctelcoservices.services.impl.DefaultTmaPoService">
+        <property name="modelService" ref="modelService"/>
+        <property name="productService" ref="productService"/>
+        <property name="commercePriceService" ref="tmaCommercePriceService"/>
+        <property name="tmaProductOfferingDao" ref="tmaProductOfferingDao"/>
+        <property name="configurationService" ref="configurationService"/>
+        <constructor-arg name="tmaProductDao" ref="productDao"/>
+    </bean>
+
+    <alias name="defaultTmaPoVariantService" alias="tmaPoVariantService"/>
+    <bean id="defaultTmaPoVariantService"
+          class="de.hybris.platform.b2ctelcoservices.services.impl.DefaultTmaPoVariantService"/>
+
+    <!-- Bundled Product Offering Option -->
+    <alias name="defaultTmaBpoCardinalityService" alias="tmaBpoCardinalityService"/>
+    <bean id="defaultTmaBpoCardinalityService"
+          class="de.hybris.platform.b2ctelcoservices.cardinality.impl.DefaultTmaBpoCardinalityService">
+        <constructor-arg name="poService" ref="tmaPoService"/>
+        <constructor-arg name="entryGroupService" ref="entryGroupService">
+            <description>Deprecated since 2102</description>
+        </constructor-arg>
+        <constructor-arg name="abstractOrderEntryService" ref="abstractOrderEntryService"/>
+        <constructor-arg name="validationMessagesStrategy" ref="tmaCartCardinalityValidationMessagesStrategy"/>
+        <constructor-arg name="l10NService" ref="l10nService"/>
+    </bean>
+
+    <alias name="defaultTmaCartCardinalityValidationMessagesStrategy" alias="tmaCartCardinalityValidationMessagesStrategy"/>
+    <bean id="defaultTmaCartCardinalityValidationMessagesStrategy"
+          class="de.hybris.platform.b2ctelcoservices.cardinality.impl.DefaultCartCardinalityValidationMessagesStrategy">
+        <constructor-arg name="cartValidationBuilder" ref="tmaCartValidationBuilder"/>
+        <constructor-arg name="entryGroupService" ref="entryGroupService">
+            <description>deprecated since 2002</description>
+        </constructor-arg>
+        <constructor-arg name="modelService" ref="modelService"/>
+    </bean>
+
+    <alias name="defaultTmaBpoCardinalityAddToCartMethodHook" alias="tmaBpoCardinalityAddToCartMethodHook"/>
+    <bean name="defaultTmaBpoCardinalityAddToCartMethodHook"
+          class="de.hybris.platform.b2ctelcoservices.cardinality.hook.TmaBpoCardinalityAddToCartMethodHook">
+        <constructor-arg name="bpoCardinalityService" ref="tmaBpoCardinalityService"/>
+        <constructor-arg name="entryGroupService" ref="entryGroupService">
+            <description>deprecated since 2102</description>
+        </constructor-arg>
+        <constructor-arg name="abstractOrderEntryService" ref="abstractOrderEntryService"/>
+        <constructor-arg name="tmaPoService" ref="tmaPoService"/>
+    </bean>
+
+    <bean id="tmaBpoCardinalityAddToCartMethodHookMergeDirective" depends-on="tmaMasterAddToCartEntryHooks"
+          parent="listMergeDirective">
+        <property name="add" ref="tmaBpoCardinalityAddToCartMethodHook"/>
+    </bean>
+
+    <alias name="defaultTmaBpoCardinalityUpdateCartEntryHook" alias="tmaBpoCardinalityUpdateCartEntryHook"/>
+    <bean id="defaultTmaBpoCardinalityUpdateCartEntryHook"
+          class="de.hybris.platform.b2ctelcoservices.cardinality.hook.TmaBpoCardinalityUpdateCartEntryHook">
+        <constructor-arg name="bpoCardinalityService" ref="tmaBpoCardinalityService"/>
+        <constructor-arg name="entryGroupService" ref="entryGroupService">
+            <description>deprecated since 2102</description>
+        </constructor-arg>
+        <constructor-arg name="abstractOrderEntryService" ref="abstractOrderEntryService"/>
+    </bean>
+
+    <bean id="tmaBpoCardinalityUpdateCartEntryHookMergeDirective" depends-on="commerceUpdateCartEntryMethodHooks"
+          parent="listMergeDirective">
+        <property name="add" ref="tmaBpoCardinalityUpdateCartEntryHook"/>
+    </bean>
+
+    <alias name="defaultTmaBpoCardinalityCloneSavedCartMethodHook" alias="tmaBpoCardinalityCloneSavedCartMethodHook"/>
+    <bean name="defaultTmaBpoCardinalityCloneSavedCartMethodHook"
+          class="de.hybris.platform.b2ctelcoservices.cardinality.hook.TmaBpoCardinalityCloneSavedCartMethodHook">
+        <constructor-arg name="bpoCardinalityService" ref="tmaBpoCardinalityService"/>
+        <constructor-arg name="entryGroupService" ref="entryGroupService">
+            <description>deprecated since 2102</description>
+        </constructor-arg>
+    </bean>
+
+    <bean id="tmaBpoCardinalityCloneSavedCartMethodHookMergeDirective" depends-on="commerceCloneSavedCartMethodHooks"
+          parent="listMergeDirective">
+        <property name="add" ref="tmaBpoCardinalityCloneSavedCartMethodHook"/>
+    </bean>
+
+    <alias name="defaultTmaBpoCardinalityPlaceOrderMethodHook" alias="tmaBpoCardinalityPlaceOrderMethodHook"/>
+    <bean id="defaultTmaBpoCardinalityPlaceOrderMethodHook"
+          class="de.hybris.platform.b2ctelcoservices.cardinality.hook.TmaBpoCardinalityPlaceOrderMethodHook">
+        <constructor-arg name="bpoCardinalityService" ref="tmaBpoCardinalityService"/>
+    </bean>
+
+    <bean id="tmaBpoCardinalityPlaceOrderMethodDirective" depends-on="commercePlaceOrderMethodHooks" parent="listMergeDirective">
+        <property name="add" ref="tmaBpoCardinalityPlaceOrderMethodHook"/>
+    </bean>
+
+    <!-- Pricing -->
+
+    <!-- overriding the default ExtendedCatalogAwareEurope1PriceFactory to provide it a bean id  -->
+    <alias name="defaultExtendedEurope1PriceFactory" alias="extendedEurope1PriceFactory"/>
+    <bean id="defaultExtendedEurope1PriceFactory"
+          class="de.hybris.platform.subscriptionservices.jalo.ExtendedCatalogAwareEurope1PriceFactory"
+          init-method="init">
+        <property name="retrieveChannelStrategy" ref="retrieveChannelStrategy"/>
+    </bean>
+
+    <alias name="defaultTmaSubscriptionPricePlanDao" alias="tmaSubscriptionPricePlanDao"/>
+    <bean id="defaultTmaSubscriptionPricePlanDao"
+          class="de.hybris.platform.b2ctelcoservices.daos.impl.DefaultTmaSubscriptionPricePlanDao">
+        <property name="genericSearchService" ref="genericSearchService"/>
+        <property name="subscriptionPricePlanProcessor" ref="tmaSubscriptionPricePlanSearchProcessor"/>
+        <property name="priceRowProcessor" ref="tmaPriceRowSearchProcessor"/>
+        <property name="tmaSppFilterSearchProcessor" ref="tmaSppFilterSearchProcessor"/>
+        <property name="tmaPriceRowFilterSearchProcessor" ref="tmaPriceRowFilterSearchProcessor"/>
+    </bean>
+
+    <alias name="defaultTmaSubscriptionPricePlanComparator" alias="tmaSubscriptionPricePlanComparator"/>
+    <bean id="defaultTmaSubscriptionPricePlanComparator"
+          class="de.hybris.platform.b2ctelcoservices.pricing.comparator.SubscriptionPricePlanModelComparator"/>
+
+    <alias name="defaultTmaPriceRowModelComparator" alias="tmaPriceRowModelComparator"/>
+    <bean id="defaultTmaPriceRowModelComparator"
+          class="de.hybris.platform.b2ctelcoservices.pricing.comparator.PriceRowModelComparator">
+        <property name="subscriptionPricePlanComparator" ref="tmaSubscriptionPricePlanComparator"/>
+    </bean>
+
+    <alias name="defaultTmaPriceContextFactory" alias="tmaPriceContextFactory"/>
+    <bean name="defaultTmaPriceContextFactory"
+          class="de.hybris.platform.b2ctelcoservices.pricing.context.impl.DefaultTmaPriceContextFactory">
+    </bean>
+
+    <alias name="defaultTmaRetrieveUserPriceGroupStrategy" alias="tmaRetrieveUserPriceGroupStrategy"/>
+    <bean name="defaultTmaRetrieveUserPriceGroupStrategy"
+          class="de.hybris.platform.b2ctelcoservices.pricing.strategy.impl.DefaultTmaRetrieveUserPriceGroupsStrategy"/>
+
+    <bean id="tmaCurrentFactoryFindPricingStrategy"
+          class="de.hybris.platform.b2ctelcoservices.pricing.factory.impl.DefaultTmaFindPriceStrategy"
+          parent="currentFactoryFindSubscriptionPricingStrategy">
+        <description>deprecated since 2007.</description>
+        <property name="commercePriceService" ref="tmaCommercePriceService"/>
+        <property name="billingTimeService" ref="billingTimeService"/>
+        <property name="configurationService" ref="configurationService"/>
+    </bean>
+
+    <alias name="defaultTmaFindOrderEntryPriceStrategy" alias="currentFactoryFindPricingStrategy"/>
+    <bean name="defaultTmaFindOrderEntryPriceStrategy"
+          class="de.hybris.platform.b2ctelcoservices.pricing.strategy.impl.DefaultTmaFindOrderEntryPriceStrategy"
+          parent="abstractBusinessService">
+        <constructor-arg name="billingTimeService" ref="billingTimeService"/>
+        <constructor-arg name="commercePriceService" ref="tmaCommercePriceService"/>
+    </bean>
+
+    <alias name="defaultTmaAbstractOrderOneTimeChargeComponentPriceBuilder"
+           alias="tmaAbstractOrderOneTimeChargeComponentPriceBuilder"/>
+    <bean name="defaultTmaAbstractOrderOneTimeChargeComponentPriceBuilder" parent="tmaAbstractOrderEntryPopBuilder"
+          class="de.hybris.platform.b2ctelcoservices.pricing.strategy.builder.orderentry.impl.TmaAbstractOrderOneTimeChargeComponentPriceBuilder"/>
+
+    <alias name="defaultTmaAbstractOrderRecurringChargeComponentPriceBuilder"
+           alias="tmaAbstractOrderRecurringChargeComponentPriceBuilder"/>
+    <bean name="defaultTmaAbstractOrderRecurringChargeComponentPriceBuilder" parent="tmaAbstractOrderEntryPopBuilder"
+          class="de.hybris.platform.b2ctelcoservices.pricing.strategy.builder.orderentry.impl.TmaAbstractOrderRecurringChargeComponentPriceBuilder"/>
+
+    <alias name="defaultTmaAbstractOrderUsageChargeComponentPriceBuilder"
+           alias="tmaAbstractOrderUsageChargeComponentPriceBuilder"/>
+    <bean name="defaultTmaAbstractOrderUsageChargeComponentPriceBuilder" parent="tmaAbstractOrderEntryPopBuilder"
+          class="de.hybris.platform.b2ctelcoservices.pricing.strategy.builder.orderentry.impl.TmaAbstractOrderUsageChargeComponentPriceBuilder"/>
+
+    <alias name="defaultTmaAbstractOrderDiscountAlterationComponentPriceBuilder"
+           alias="tmaAbstractOrderDiscountAlterationComponentPriceBuilder"/>
+    <bean name="defaultTmaAbstractOrderDiscountAlterationComponentPriceBuilder" parent="tmaAbstractOrderEntryPopBuilder"
+          class="de.hybris.platform.b2ctelcoservices.pricing.strategy.builder.orderentry.impl.TmaAbstractOrderDiscountAlterationComponentPriceBuilder"/>
+
+    <alias name="defaultTmaAbstractOrderAllowanceAlterationPriceBuilder"
+           alias="tmaAbstractOrderAllowanceAlterationPriceBuilder"/>
+    <bean name="defaultTmaAbstractOrderAllowanceAlterationPriceBuilder" parent="tmaAbstractOrderEntryPopBuilder"
+          class="de.hybris.platform.b2ctelcoservices.pricing.strategy.builder.orderentry.impl.TmaAbstractOrderAllowanceAlterationPriceBuilder"/>
+
+    <alias name="defaultTmaAbstractOrderCompositePriceBuilder" alias="tmaAbstractOrderCompositePriceBuilder"/>
+    <bean name="defaultTmaAbstractOrderCompositePriceBuilder" parent="tmaAbstractOrderEntryPopBuilder"
+          class="de.hybris.platform.b2ctelcoservices.pricing.strategy.builder.orderentry.impl.TmaAbstractOrderCompositePriceBuilder">
+        <constructor-arg name="productOfferingPriceBuilderMap" ref="tmaPopBuildersMap"/>
+    </bean>
+
+    <alias name="defaultTmaAbstractOrderTierUsageChargeCompositePriceBuilder"
+           alias="tmaAbstractOrderTierUsageChargeCompositePriceBuilder"/>
+    <bean name="defaultTmaAbstractOrderTierUsageChargeCompositePriceBuilder" parent="tmaAbstractOrderCompositePriceBuilder"
+          class="de.hybris.platform.b2ctelcoservices.pricing.strategy.builder.orderentry.impl.TmaAbstractOrderTierUsageChargeCompositePriceBuilder"/>
+
+    <alias name="defaultTmaPopBuildersMap" alias="tmaPopBuildersMap"/>
+    <util:map id="defaultTmaPopBuildersMap">
+        <entry key="#{T(de.hybris.platform.b2ctelcoservices.model.TmaOneTimeProdOfferPriceChargeModel)._TYPECODE}"
+               value-ref="tmaAbstractOrderOneTimeChargeComponentPriceBuilder"/>
+        <entry key="#{T(de.hybris.platform.b2ctelcoservices.model.TmaRecurringProdOfferPriceChargeModel)._TYPECODE}"
+               value-ref="tmaAbstractOrderRecurringChargeComponentPriceBuilder"/>
+        <entry key="#{T(de.hybris.platform.b2ctelcoservices.model.TmaUsageProdOfferPriceChargeModel)._TYPECODE}"
+               value-ref="tmaAbstractOrderUsageChargeComponentPriceBuilder"/>
+        <entry key="#{T(de.hybris.platform.b2ctelcoservices.model.TmaCompositeProdOfferPriceModel)._TYPECODE}"
+               value-ref="tmaAbstractOrderCompositePriceBuilder"/>
+        <entry key="#{T(de.hybris.platform.b2ctelcoservices.model.TmaTierUsageChargeCompositePopModel)._TYPECODE}"
+               value-ref="tmaAbstractOrderTierUsageChargeCompositePriceBuilder"/>
+        <entry key="#{T(de.hybris.platform.b2ctelcoservices.model.TmaDiscountProdOfferPriceAlterationModel)._TYPECODE}"
+               value-ref="tmaAbstractOrderDiscountAlterationComponentPriceBuilder"/>
+        <entry key="#{T(de.hybris.platform.b2ctelcoservices.model.TmaAllowanceProdOfferPriceAlterationModel)._TYPECODE}"
+               value-ref="tmaAbstractOrderAllowanceAlterationPriceBuilder"/>
+    </util:map>
+
+    <alias name="defaultTmaAbstractOrderProductOfferingPriceBuilder" alias="tmaAbstractOrderProductOfferingPriceBuilder"/>
+    <bean name="defaultTmaAbstractOrderProductOfferingPriceBuilder" parent="defaultTmaAbstractOrderEntryPriceBuilder"
+          class="de.hybris.platform.b2ctelcoservices.pricing.strategy.builder.orderentry.impl.TmaAbstractOrderProductOfferingPriceBuilder">
+        <constructor-arg name="productOfferingPriceBuilderMap" ref="tmaPopBuildersMap"/>
+    </bean>
+
+    <alias name="defaultTmaAbstractOrderEntryPopBuilder" alias="tmaAbstractOrderEntryPopBuilder"/>
+    <bean name="defaultTmaAbstractOrderEntryPopBuilder" abstract="true"
+          class="de.hybris.platform.b2ctelcoservices.pricing.strategy.builder.orderentry.DefaultTmaAbstractOrderEntryPopBuilder">
+        <constructor-arg name="modelService" ref="modelService"/>
+        <constructor-arg name="tmaRetrieveTaxRateStrategy" ref="tmaRetrieveTaxRateStrategy"/>
+    </bean>
+
+    <alias name="defaultTmaAbstractOrderCartPriceBuilder" alias="tmaAbstractOrderCartPriceBuilder"/>
+    <bean name="defaultTmaAbstractOrderCartPriceBuilder"
+          class="de.hybris.platform.b2ctelcoservices.pricing.strategy.builder.order.DefaultTmaAbstractOrderCartPriceBuilder"
+          abstract="true">
+        <property name="billingTimeService" ref="billingTimeService"/>
+        <property name="tmaRetrieveTaxRateStrategy" ref="tmaRetrieveTaxRateStrategy"/>
+    </bean>
+
+    <alias name="defaultTmaAbstractOrderPriceBuilder" alias="tmaAbstractOrderPriceBuilder"/>
+    <bean name="defaultTmaAbstractOrderPriceBuilder" parent="tmaAbstractOrderCartPriceBuilder"
+          class="de.hybris.platform.b2ctelcoservices.pricing.strategy.builder.order.impl.DefaultTmaAbstractOrderPriceBuilder">
+        <property name="modelService" ref="modelService"/>
+        <property name="keyGenerator" ref="tmaOrderPriceIdGenerator">
+            <description>deprecated since 2007.</description>
+        </property>
+        <property name="configurationService" ref="configurationService">
+            <description>deprecated since 2007.</description>
+        </property>
+    </bean>
+
+    <alias name="defaultTmaAbstractOrderDiscountPriceBuilder" alias="tmaAbstractOrderDiscountPriceBuilder"/>
+    <bean name="defaultTmaAbstractOrderDiscountPriceBuilder" parent="tmaAbstractOrderCartPriceBuilder"
+          class="de.hybris.platform.b2ctelcoservices.pricing.strategy.builder.order.impl.DefaultTmaAbstractOrderDiscountPriceBuilder">
+        <constructor-arg name="modelService" ref="modelService"/>
+    </bean>
+
+    <bean name="defaultTmaAbstractOrderEntryPriceBuilder" abstract="true"
+          class="de.hybris.platform.b2ctelcoservices.pricing.strategy.builder.orderentry.TmaAbstractOrderEntryPriceBuilder">
+        <property name="modelService" ref="modelService"/>
+        <property name="keyGenerator" ref="tmaOrderPriceIdGenerator"/>
+        <property name="tmaRetrieveTaxRateStrategy" ref="tmaRetrieveTaxRateStrategy"/>
+        <property name="subscriptionTermService" ref="tmaSubscriptionTermService"/>
+    </bean>
+
+    <alias name="defaultTmaAbstractOrderDiscountValuePriceBuilder" alias="tmaAbstractOrderDiscountValuePriceBuilder"/>
+    <bean name="defaultTmaAbstractOrderDiscountValuePriceBuilder"
+          class="de.hybris.platform.b2ctelcoservices.pricing.strategy.builder.order.impl.DefaultTmaAbstractOrderDiscountValuePriceBuilder">
+        <constructor-arg name="orderPriceBuilder" ref="tmaAbstractOrderDiscountPriceBuilder"/>
+        <constructor-arg name="modelService" ref="modelService"/>
+    </bean>
+
+    <alias name="defaultTmaAbstractOrderOneTimeChargePriceBuilder" alias="tmaAbstractOrderOneTimeChargePriceBuilder"/>
+    <bean name="defaultTmaAbstractOrderOneTimeChargePriceBuilder" parent="defaultTmaAbstractOrderEntryPriceBuilder"
+          class="de.hybris.platform.b2ctelcoservices.pricing.strategy.builder.orderentry.impl.TmaAbstractOrderOneTimeChargePriceBuilder">
+        <property name="billingTimeService" ref="billingTimeService"/>
+        <property name="configurationService" ref="configurationService">
+            <description>deprecated since 2007.</description>
+        </property>
+    </bean>
+
+    <alias name="defaultTmaAbstractOrderPriceValueBuilder" alias="tmaAbstractOrderPriceValueBuilder"/>
+    <bean name="defaultTmaAbstractOrderPriceValueBuilder" parent="defaultTmaAbstractOrderEntryPriceBuilder"
+          class="de.hybris.platform.b2ctelcoservices.pricing.strategy.builder.orderentry.impl.TmaAbstractOrderPriceValueBuilder">
+        <constructor-arg name="billingTimeService" ref="billingTimeService"/>
+        <constructor-arg name="configurationService" ref="configurationService"/>
+    </bean>
+
+    <alias name="defaultTmaAbstractOrderRecurringChargePriceBuilder" alias="tmaAbstractOrderRecurringChargePriceBuilder"/>
+    <bean name="defaultTmaAbstractOrderRecurringChargePriceBuilder" parent="defaultTmaAbstractOrderEntryPriceBuilder"
+          class="de.hybris.platform.b2ctelcoservices.pricing.strategy.builder.orderentry.impl.TmaAbstractOrderRecurringChargePriceBuilder"/>
+
+    <alias name="defaultTmaAbstractOrderUsageChargePriceBuilder" alias="tmaAbstractOrderUsageChargePriceBuilder"/>
+    <bean name="defaultTmaAbstractOrderUsageChargePriceBuilder" parent="defaultTmaAbstractOrderEntryPriceBuilder"
+          class="de.hybris.platform.b2ctelcoservices.pricing.strategy.builder.orderentry.impl.TmaAbstractOrderUsageChargePriceBuilder"/>
+
+    <bean name="defaultTmaAbstractOrderUsageChargesPriceBuilder" parent="defaultTmaAbstractOrderEntryPriceBuilder"
+          class="de.hybris.platform.b2ctelcoservices.pricing.strategy.builder.orderentry.impl.TmaAbstractOrderUsageChargesPriceBuilder"/>
+
+    <alias name="defaultTmaFindAbstractOrderEntryPriceStrategy" alias="tmaFindAbstractOrderEntryPriceStrategy"/>
+    <bean name="defaultTmaFindAbstractOrderEntryPriceStrategy"
+          class="de.hybris.platform.b2ctelcoservices.pricing.strategy.impl.DefaultTmaFindAbstractOrderEntryPriceStrategy">
+        <property name="commercePriceService" ref="tmaCommercePriceService"/>
+        <property name="modelService" ref="modelService"/>
+        <property name="keyGenerator" ref="tmaOrderPriceIdGenerator"/>
+        <property name="priceBuilders">
+            <list>
+                <ref bean="tmaAbstractOrderOneTimeChargePriceBuilder"/>
+                <ref bean="tmaAbstractOrderRecurringChargePriceBuilder"/>
+                <ref bean="tmaAbstractOrderUsageChargePriceBuilder"/>
+                <ref bean="tmaAbstractOrderPriceValueBuilder"/>
+                <ref bean="tmaAbstractOrderProductOfferingPriceBuilder"/>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="defaultTmaRetrieveTaxRateStrategy" alias="tmaRetrieveTaxRateStrategy"/>
+    <bean name="defaultTmaRetrieveTaxRateStrategy"
+          class="de.hybris.platform.b2ctelcoservices.pricing.strategy.impl.DefaultTmaRetrieveTaxRateStrategy"/>
+
+    <alias name="defaultTmaCommercePriceService" alias="tmaCommercePriceService"/>
+    <bean id="defaultTmaCommercePriceService"
+          class="de.hybris.platform.b2ctelcoservices.pricing.services.impl.DefaultTmaCommercePriceService"
+          parent="defaultSubscriptionCommercePriceService">
+        <property name="subscriptionPricePlanDao" ref="tmaSubscriptionPricePlanDao"/>
+        <property name="priceRowComparator" ref="tmaPriceRowModelComparator"/>
+        <property name="tmaPriceContextService" ref="tmaPriceContextService"/>
+        <property name="tmaPriceSelector" ref="tmaPriceSelector"/>
+        <property name="minimumPriceSelector" ref="defaultTmaMinimumPriceSelector"/>
+        <constructor-arg name="abstractOrderEntryService" ref="abstractOrderEntryService"/>
+    </bean>
+
+    <bean id="defaultTmaMinimumPriceSelector"
+          class="de.hybris.platform.b2ctelcoservices.pricing.services.impl.DefaultTmaMinimumPriceSelector">
+        <constructor-arg name="priceRowComparator" ref="tmaPriceRowModelComparator"/>
+    </bean>
+
+    <alias name="defaultTmaHighestPriorityPriceSelector" alias="tmaPriceSelector"/>
+    <bean id="defaultTmaHighestPriorityPriceSelector"
+          class="de.hybris.platform.b2ctelcoservices.pricing.services.impl.DefaultTmaHighestPriorityPriceSelector"/>
+
+    <alias name="defaultTmaCalculationService" alias="calculationService"/>
+    <bean id="defaultTmaCalculationService"
+          class="de.hybris.platform.b2ctelcoservices.pricing.services.impl.DefaultTmaCalculationService"
+          parent="defaultCalculationService">
+        <property name="findAbstractOrderEntryPriceStrategy" ref="tmaFindAbstractOrderEntryPriceStrategy"/>
+        <property name="deliveryCostStrategy" ref="findDeliveryCostStrategy"/>
+        <property name="paymentCostStrategy" ref="findPaymentCostStrategy"/>
+        <property name="keyGenerator" ref="tmaOrderPriceIdGenerator"/>
+        <property name="orderPriceBuilder" ref="tmaAbstractOrderPriceBuilder"/>
+        <property name="defaultCommonI18NService" ref="commonI18NService"/>
+    </bean>
+
+    <alias name="defaultTmaOrderPriceIdGenerator" alias="tmaOrderPriceIdGenerator"/>
+    <bean id="defaultTmaOrderPriceIdGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.orderPrice.id.name}"/>
+        <property name="digits" value="${keygen.orderPrice.id.digits}"/>
+        <property name="start" value="${keygen.orderPrice.id.start}"/>
+        <property name="type" value="${keygen.orderPrice.id.type}"/>
+        <property name="template" value="${keygen.orderPrice.id.template}"/>
+    </bean>
+    <!-- Pricing END -->
+
+    <alias name="defaultTmaCartValidationIdGenerator" alias="tmaCartValidationIdGenerator"/>
+    <bean id="defaultTmaCartValidationIdGenerator"
+          class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.tmaCartValidation.id.name}"/>
+        <property name="digits" value="${keygen.tmaCartValidation.id.digits}"/>
+        <property name="start" value="${keygen.tmaCartValidation.id.start}"/>
+        <property name="type" value="${keygen.tmaCartValidation.id.type}"/>
+        <property name="template" value="${keygen.tmaCartValidation.id.template}"/>
+    </bean>
+
+    <alias name="defaultTmaAbstractOrderEntryPscvIdGenerator" alias="tmaAbstractOrderEntryPscvIdGenerator"/>
+    <bean id="defaultTmaAbstractOrderEntryPscvIdGenerator"
+          class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.orderEntryPscv.id.name}"/>
+        <property name="digits" value="${keygen.orderEntryPscv.id.digits}"/>
+        <property name="start" value="${keygen.orderEntryPscv.id.start}"/>
+        <property name="type" value="${keygen.orderEntryPscv.id.type}"/>
+        <property name="template" value="${keygen.orderEntryPscv.id.template}"/>
+    </bean>
+
+    <alias name="defaultTmaBillingAccountIdGenerator" alias="tmaBillingAccountIdGenerator"/>
+    <bean id="defaultTmaBillingAccountIdGenerator"
+          class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.billingAccount.id.name}"/>
+        <property name="digits" value="${keygen.billingAccount.id.digits}"/>
+        <property name="start" value="${keygen.billingAccount.id.start}"/>
+        <property name="type" value="${keygen.billingAccount.id.type}"/>
+        <property name="template" value="${keygen.billingAccount.id.template}"/>
+    </bean>
+
+    <alias name="defaultTmaSubscriberIdentityGenerator" alias="tmaSubscriberIdentityGenerator"/>
+    <bean id="defaultTmaSubscriberIdentityGenerator"
+          class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.subscribeIdentity.id.name}"/>
+        <property name="digits" value="${keygen.subscribeIdentity.id.digits}"/>
+        <property name="start" value="${keygen.subscribeIdentity.id.start}"/>
+        <property name="type" value="${keygen.subscribeIdentity.id.type}"/>
+        <property name="template" value="${keygen.subscribeIdentity.id.template}"/>
+    </bean>
+
+    <!--Compatibility-->
+    <alias name="defaultTmaPoConditionDao" alias="tmaPoConditionDao"/>
+    <bean id="defaultTmaPoConditionDao" class="de.hybris.platform.b2ctelcoservices.daos.impl.TmaPoConditionDao"/>
+
+    <alias name="defaultTmaPscvConditionDao" alias="tmaPscvConditionDao"/>
+    <bean id="defaultTmaPscvConditionDao" class="de.hybris.platform.b2ctelcoservices.daos.impl.TmaPscvConditionDao"/>
+
+    <alias name="defaultTmaPoGroupConditionDao" alias="tmaPoGroupConditionDao"/>
+    <bean id="defaultTmaPoGroupConditionDao"
+          class="de.hybris.platform.b2ctelcoservices.daos.impl.TmaPoGroupConditionDao"/>
+
+    <alias name="defaultTmaProductSpecCharactersticsValueDao" alias="tmaProductSpecCharactersticsValueDao"/>
+    <bean id="defaultTmaProductSpecCharactersticsValueDao"
+          class="de.hybris.platform.b2ctelcoservices.daos.impl.DefaultTmaProductSpecCharactersticsValueDao"/>
+
+    <alias name="defaultTmaPopSearchDao" alias="tmaPopSearchDao"/>
+    <bean id="defaultTmaPopSearchDao"
+          class="de.hybris.platform.b2ctelcoservices.daos.impl.DefaultGenericSearchDao">
+        <constructor-arg name="typeCode" value="#{T(de.hybris.platform.b2ctelcoservices.model.TmaProductOfferingPriceModel)._TYPECODE}"/>
+    </bean>
+
+    <alias name="defaultTmaProductSpecificationDao" alias="tmaProductSpecificationDao"/>
+    <bean id="defaultTmaProductSpecificationDao"
+          class="de.hybris.platform.b2ctelcoservices.daos.impl.DefaultGenericSearchDao">
+        <constructor-arg name="typeCode" value="#{T(de.hybris.platform.b2ctelcoservices.model.TmaProductSpecificationModel)._TYPECODE}"/>
+    </bean>
+
+    <alias name="defaultTmaPsConditionDao" alias="tmaPsConditionDao"/>
+    <bean id="defaultTmaPsConditionDao" class="de.hybris.platform.b2ctelcoservices.daos.impl.TmaPsConditionDao"/>
+
+    <alias name="defaultTmaProcessTypeConditionDao" alias="tmaProcessTypeConditionDao"/>
+    <bean id="defaultTmaProcessTypeConditionDao"
+          class="de.hybris.platform.b2ctelcoservices.daos.impl.TmaProcessTypeConditionDao"/>
+
+    <alias name="defaultTmaRemainingCommittedPeriodPolicyStatementDao" alias="tmaRemainingCommittedPeriodPolicyStatementDao"/>
+    <bean id="defaultTmaRemainingCommittedPeriodPolicyStatementDao"
+          class="de.hybris.platform.b2ctelcoservices.daos.impl.TmaRemainingCommittedPeriodPolicyStatementDao"/>
+
+    <alias name="defaultTmaPolicyDao" alias="tmaPolicyDao"/>
+    <bean id="defaultTmaPolicyDao" class="de.hybris.platform.b2ctelcoservices.daos.impl.DefaultTmaPolicyDao">
+        <property name="policyConditionDaos">
+            <list value-type="de.hybris.platform.b2ctelcoservices.daos.TmaPolicyConditionDao" merge="true">
+                <ref bean="tmaPoConditionDao"/>
+                <ref bean="tmaPoGroupConditionDao"/>
+                <ref bean="tmaPscvConditionDao"/>
+                <ref bean="tmaPsConditionDao"/>
+                <ref bean="tmaProcessTypeConditionDao"/>
+                <ref bean="tmaRemainingCommittedPeriodPolicyStatementDao"/>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="defaultTmaPolicyService" alias="tmaPolicyService"/>
+    <bean id="defaultTmaPolicyService"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.impl.DefaultTmaPolicyService">
+        <property name="tmaPolicyDao" ref="tmaPolicyDao"/>
+        <property name="modelService" ref="modelService"/>
+    </bean>
+
+    <alias name="defaultTmaPolicyEngine" alias="tmaPolicyEngine"/>
+    <bean id="defaultTmaPolicyEngine"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.impl.DefaultTmaPolicyEngine">
+        <property name="policyDao" ref="defaultTmaPolicyDao"/>
+        <property name="compatibilityPolicyEvaluationStrategy" ref="tmaCompatibilityPolicyEvaluationStrategy"/>
+        <property name="policyActionStrategyMap">
+            <map>
+                <entry key="#{T(de.hybris.platform.b2ctelcoservices.enums.TmaCompatibilityPolicyActionType).CHECKLIST}"
+                       value-ref="tmaChecklistPolicyActionStrategy"/>
+                <entry key="#{T(de.hybris.platform.b2ctelcoservices.enums.TmaCompatibilityPolicyActionType).SELECT}"
+                       value-ref="tmaSelectCompatibilityPolicyActionStrategy"/>
+                <entry key="#{T(de.hybris.platform.b2ctelcoservices.enums.TmaCompatibilityPolicyActionType).AUTOPICK}"
+                       value-ref="tmaAutoPickCompatibilityPolicyActionStrategy"/>
+            </map>
+        </property>
+    </bean>
+
+    <alias name="defaultAbstractTmaPolicyStatementValidator" alias="abstractTmaPolicyStatementValidator"/>
+    <bean id="defaultAbstractTmaPolicyStatementValidator"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.validators.AbstractTmaPolicyStatementValidator"
+          abstract="true">
+    </bean>
+
+    <alias name="defaultTmaPoGroupStatementValidator" alias="tmaPoGroupStatementValidator"/>
+    <bean id="defaultTmaPoGroupStatementValidator"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.validators.impl.TmaPoGroupStatementValidator"
+          parent="abstractTmaPolicyStatementValidator">
+    </bean>
+
+    <alias name="defaultTmaPoStatementValidator" alias="tmaPoStatementValidator"/>
+    <bean id="defaultTmaPoStatementValidator"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.validators.impl.TmaPoStatementValidator"
+          parent="abstractTmaPolicyStatementValidator">
+    </bean>
+
+    <alias name="defaultTmaProcessTypesStatementValidator" alias="tmaProcessTypesStatementValidator"/>
+    <bean id="defaultTmaProcessTypesStatementValidator"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.validators.impl.TmaProcessTypesStatementValidator"
+          parent="abstractTmaPolicyStatementValidator">
+    </bean>
+
+    <alias name="defaultTmaProductSpecificationStatementValidator" alias="tmaProductSpecificationStatementValidator"/>
+    <bean id="defaultTmaProductSpecificationStatementValidator"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.validators.impl.TmaProductSpecificationStatementValidator"
+          parent="abstractTmaPolicyStatementValidator">
+    </bean>
+
+    <alias name="defaultTmaConfigurablePscvPolicyStatementValidator" alias="tmaConfigurablePscvPolicyStatementValidator"/>
+    <bean id="defaultTmaConfigurablePscvPolicyStatementValidator"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.validators.impl.TmaConfigurablePscvPolicyStatementValidator"
+          parent="abstractTmaPolicyStatementValidator">
+    </bean>
+
+    <alias name="defaultTmaPoChecklistPolicyStatementValidator" alias="tmaPoChecklistPolicyStatementValidator"/>
+    <bean id="defaultTmaPoChecklistPolicyStatementValidator"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.validators.impl.TmaPoChecklistPolicyStatementValidator"
+          parent="abstractTmaPolicyStatementValidator">
+    </bean>
+
+    <alias name="defaultTmaPsChecklistPolicyStatementValidator" alias="tmaPsChecklistPolicyStatementValidator"/>
+    <bean id="defaultTmaPsChecklistPolicyStatementValidator"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.validators.impl.TmaPsChecklistPolicyStatementValidator"
+          parent="abstractTmaPolicyStatementValidator">
+    </bean>
+
+    <alias name="defaultTmaPolicyStatementValidationStrategy" alias="tmaPolicyStatementValidationStrategy"/>
+    <bean id="defaultTmaPolicyStatementValidationStrategy"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.impl.DefaultTmaPolicyStatementValidationStrategy">
+        <property name="statementValidatorsMap">
+            <map>
+                <entry key="TmaPoPolicyStatement" value-ref="tmaPoStatementValidator"/>
+                <entry key="TmaProcessTypesPolicyStatement" value-ref="tmaProcessTypesStatementValidator"/>
+                <entry key="TmaPsPolicyStatement" value-ref="tmaProductSpecificationStatementValidator"/>
+                <entry key="TmaPoGroupPolicyStatement" value-ref="tmaPoGroupStatementValidator"/>
+                <entry key="TmaPscvPolicyStatement" value-ref="tmaPscvStatementValidator"/>
+                <entry key="TmaRemainingCommittedPeriodPolicyStatement"
+                       value-ref="tmaRemainingCommittedPeriodStatementValidator"/>
+                <entry key="TmaSubscribedPoPolicyStatement" value-ref="tmaSubscribedPoStatementValidator"/>
+                <entry key="TmaConfigurablePscvPolicyStatement" value-ref="tmaConfigurablePscvPolicyStatementValidator"/>
+                <entry key="TmaPoChecklistPolicyStatement" value-ref="tmaPoChecklistPolicyStatementValidator"/>
+                <entry key="TmaPsChecklistPolicyStatement" value-ref="tmaPsChecklistPolicyStatementValidator"/>
+                <entry key="TmaProductStatusPolicyStatement" value-ref="tmaProductStatusPolicyStatementValidator"/>
+            </map>
+        </property>
+    </bean>
+
+    <alias name="defaultTmaPscvStatementValidator" alias="tmaPscvStatementValidator"/>
+    <bean id="defaultTmaPscvStatementValidator"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.validators.impl.TmaPscvStatementValidator">
+        <property name="comparators">
+            <map>
+                <entry key="NUMERIC" value-ref="tmaPscvNumericComparator"/>
+                <entry key="STRING" value-ref="tmaPscvBooleanComparator"/>
+                <entry key="BOOLEAN" value-ref="tmaPscvStringComparator"/>
+            </map>
+        </property>
+        <property name="configurationService" ref="configurationService"/>
+    </bean>
+
+    <alias name="defaultTmaPscvNumericComparator" alias="tmaPscvNumericComparator"/>
+    <bean id="defaultTmaPscvNumericComparator"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.validators.impl.TmaPolicyPscvNumericValueComaprator">
+        <property name="conversionStrategy" ref="tmaUnitConversionStrategy"/>
+    </bean>
+
+    <alias name="defaultTmaPscvBooleanComparator" alias="tmaPscvBooleanComparator"/>
+    <bean id="defaultTmaPscvBooleanComparator"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.validators.impl.TmaPolicyPscvBooleanComparator"/>
+
+    <alias name="defaultTmaPscvStringComparator" alias="tmaPscvStringComparator"/>
+    <bean id="defaultTmaPscvStringComparator"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.validators.impl.TmaPolicyPscvStringComparator"/>
+
+    <alias name="defaultTmaPolicyConditionValidator" alias="tmaPolicyConditionValidator"/>
+    <bean id="defaultTmaPolicyConditionValidator"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.validators.impl.DefaultTmaPolicyConditionValidator">
+        <property name="statementValidationStrategy" ref="tmaPolicyStatementValidationStrategy"/>
+    </bean>
+
+    <alias name="defaultTmaRemainingCommittedPeriodStatementValidator"
+           alias="tmaRemainingCommittedPeriodStatementValidator"/>
+    <bean id="defaultTmaRemainingCommittedPeriodStatementValidator"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.validators.impl.TmaRemainingCommittedPeriodStatementValidator">
+    </bean>
+
+    <alias name="defaultTmaProductStatusPolicyStatementValidator" alias="tmaProductStatusPolicyStatementValidator"/>
+    <bean id="defaultTmaProductStatusPolicyStatementValidator"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.validators.impl.TmaProductStatusPolicyStatementValidator">
+    </bean>
+
+    <alias name="defaultTmaSubscribedPoStatementValidator" alias="tmaSubscribedPoStatementValidator"/>
+    <bean id="defaultTmaSubscribedPoStatementValidator"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.validators.impl.TmaSubscribedPoStatementValidator">
+    </bean>
+
+    <alias name="defaultTmaPolicyActionValidator" alias="tmaPolicyActionValidator"/>
+    <bean id="defaultTmaPolicyActionValidator"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.validators.impl.DefaultTmaPolicyActionValidator">
+        <property name="statementValidationStrategy" ref="tmaPolicyStatementValidationStrategy"/>
+    </bean>
+
+    <alias name="defaultTmaCompatibilityPolicyEvaluationStrategy" alias="tmaCompatibilityPolicyEvaluationStrategy"/>
+    <bean id="defaultTmaCompatibilityPolicyEvaluationStrategy"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.impl.DefaultTmaCompatibilityPolicyEvaluationStrategy">
+        <property name="conditionValidator" ref="tmaPolicyConditionValidator"/>
+        <property name="actionValidator" ref="tmaPolicyActionValidator"/>
+    </bean>
+
+    <alias name="defaultTmaSelectPolicyActionResolver" alias="tmaSelectPolicyActionResolver"/>
+    <bean id="defaultTmaSelectPolicyActionResolver"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.impl.TmaSelectPolicyActionResolver">
+        <property name="entryGroupService" ref="entryGroupService"/>
+        <property name="l10NService" ref="l10nService"/>
+        <property name="modelService" ref="modelService">
+            <description>deprecated since 2011</description>
+        </property>
+        <property name="tmaValidationMessagesStrategy" ref="tmaCompatibilityValidationMessagesStrategy"/>
+        <property name="tmaEntryGroupService" ref="entryGroupService"/>
+    </bean>
+
+    <alias name="defaultTmaAutoPickPolicyActionResolver" alias="tmaAutoPickPolicyActionResolver"/>
+    <bean id="defaultTmaAutoPickPolicyActionResolver"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.impl.TmaAutoPickPolicyActionResolver">
+        <property name="commerceCartService" ref="commerceCartService"/>
+        <property name="entryGroupService" ref="entryGroupService">
+            <description>Deprecated since 2102</description>
+        </property>
+        <property name="l10NService" ref="l10nService"/>
+        <property name="tmaValidationMessagesStrategy" ref="tmaCompatibilityValidationMessagesStrategy"/>
+        <property name="tmaEntryGroupService" ref="entryGroupService">
+            <description>Deprecated since 2102</description>
+        </property>
+        <constructor-arg name="abstractOrderEntryService" ref="abstractOrderEntryService"/>
+        <constructor-arg name="poService" ref="tmaPoService"/>
+    </bean>
+
+    <alias name="defaultTmaCompatibilityPolicyEngine" alias="tmaCompatibilityPolicyEngine"/>
+    <bean id="defaultTmaCompatibilityPolicyEngine"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.impl.DefaultTmaCompatibilityPolicyEngine">
+        <property name="policyEvaluationStrategy" ref="tmaCompatibilityPolicyEvaluationStrategy"/>
+        <property name="policyActionResolversMap">
+            <map>
+                <entry key="AUTOPICK" value-ref="tmaAutoPickPolicyActionResolver"/>
+                <entry key="SELECT" value-ref="tmaSelectPolicyActionResolver"/>
+            </map>
+        </property>
+        <property name="poService" ref="tmaPoService"/>
+        <property name="entryGroupService" ref="entryGroupService">
+            <description>Deprecated since 2102</description>
+        </property>
+        <property name="modelService" ref="modelService"/>
+        <property name="userService" ref="userService"/>
+        <property name="customerInventoryService" ref="tmaCustomerInventoryService"/>
+        <property name="tmaPolicyEngine" ref="tmaPolicyEngine"/>
+        <property name="tmaPolicyStatementValidationStrategy" ref="tmaPolicyStatementValidationStrategy"/>
+        <property name="tmaEntryGroupService" ref="entryGroupService">
+            <description>Deprecated since 2102</description>
+        </property>
+        <constructor-arg name="entryService" ref="abstractOrderEntryService"/>
+        <constructor-arg name="tmaValidationMessagesStrategy" ref="tmaCompatibilityValidationMessagesStrategy"/>
+    </bean>
+
+    <alias name="defaultTmaEligibleForActionResolver" alias="tmaEligibleForActionResolver"/>
+    <bean id="defaultTmaEligibleForActionResolver"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.impl.TmaEligibleForActionResolver">
+    </bean>
+
+    <alias name="defaultTmaEligibilityPolicyService" alias="tmaEligibilityPolicyService"/>
+    <bean id="defaultTmaEligibilityPolicyService"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.impl.DefaultTmaEligibilityPolicyService"
+          parent="defaultTmaPolicyService">
+    </bean>
+
+    <alias name="defaultTmaEligibilityPolicyEngine" alias="tmaEligibilityPolicyEngine"/>
+    <bean id="defaultTmaEligibilityPolicyEngine"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.impl.DefaultTmaEligibilityPolicyEngine">
+        <property name="tmaEligibilityService" ref="tmaEligibilityPolicyService"/>
+        <property name="tmaSubscriptionBaseService" ref="tmaSubscriptionBaseService"/>
+        <property name="eligibleForActionResolver" ref="tmaEligibleForActionResolver"/>
+        <property name="policyEvaluationStrategy" ref="tmaCompatibilityPolicyEvaluationStrategy"/>
+        <property name="poService" ref="tmaPoService"/>
+        <property name="sessionService" ref="sessionService"/>
+        <property name="userService" ref="userService"/>
+        <constructor-arg name="tmaEligibilityContextComparator" ref="tmaEligibilityContextComparator"/>
+    </bean>
+
+    <alias name="defaultTmaCompatibilityValidationMessagesStrategy" alias="tmaCompatibilityValidationMessagesStrategy"/>
+    <bean id="defaultTmaCompatibilityValidationMessagesStrategy"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.impl.DefaultTmaCompatibilityValidationMessagesStrategy">
+        <constructor-arg name="cartValidationBuilder" ref="tmaCartValidationBuilder"/>
+        <constructor-arg name="entryGroupService" ref="entryGroupService">
+            <description>deprecated since 2002</description>
+        </constructor-arg>
+        <constructor-arg name="modelService" ref="modelService"/>
+    </bean>
+
+    <alias name="defaultTmaCartHookHelper" alias="tmaCartHookHelper"/>
+    <bean id="defaultTmaCartHookHelper"
+          class="de.hybris.platform.b2ctelcoservices.hook.impl.DefaultTmaCartHookHelper">
+        <property name="modelService" ref="modelService"/>
+        <property name="calculationStrategy" ref="commerceCartCalculationStrategy"/>
+        <constructor-arg name="abstractOrderEntryService" ref="abstractOrderEntryService"/>
+    </bean>
+
+    <alias name="defaultTmaResourceUpdateCartHook" alias="tmaResourceUpdateCartHook"/>
+    <bean id="defaultTmaResourceUpdateCartHook"
+          class="de.hybris.platform.b2ctelcoservices.hook.impl.DefaultTmaResourceUpdateCartHook">
+        <constructor-arg name="tmaCommerceCartResourceService" ref="tmaCommerceCartResourceService"/>
+    </bean>
+
+
+    <alias name="defaultTmaCompatibilityAddToCartMethodHook" alias="tmaCompatibilityAddToCartMethodHook"/>
+    <bean id="defaultTmaCompatibilityAddToCartMethodHook"
+          class="de.hybris.platform.b2ctelcoservices.hook.impl.TmaCompatibilityAddToCartMethodHook">
+        <constructor-arg name="compatibilityPolicyEngine" ref="tmaCompatibilityPolicyEngine"/>
+        <constructor-arg name="abstractOrderEntryService" ref="abstractOrderEntryService"/>
+    </bean>
+
+    <bean id="compatibilityCartHookMergeDirective" depends-on="tmaMasterAddToCartEntryHooks"
+          parent="listMergeDirective">
+        <property name="add" ref="tmaCompatibilityAddToCartMethodHook"/>
+    </bean>
+
+    <alias name="tmaPoAddToCartMethodHook" alias="subscriptionAddToCartMethodHook"/>
+    <alias name="defaultTmaPoAddToCartMethodHook" alias="tmaPoAddToCartMethodHook"/>
+    <bean id="defaultTmaPoAddToCartMethodHook"
+          class=" de.hybris.platform.b2ctelcoservices.hook.impl.TmaPoAddToCartMethodHook">
+        <property name="entryGroupService" ref="entryGroupService">
+            <description>Deprecated since 2102</description>
+        </property>
+        <property name="tmaPoService" ref="tmaPoService"/>
+        <property name="modelService" ref="modelService"/>
+        <property name="enumerationService" ref="enumerationService"/>
+        <property name="compatibilityPolicyEngine" ref="tmaCompatibilityPolicyEngine">
+            <description>Deprecated since 2105</description>
+        </property>
+        <property name="billingTimeService" ref="billingTimeService">
+            <description>Deprecated since 2105</description>
+        </property>
+        <property name="subscriptionCommerceCartService" ref="subscriptionCommerceCartService">
+            <description>Deprecated since 2102</description>
+        </property>
+        <property name="cartService" ref="cartService"/>
+        <property name="commerceCartCalculationStrategy" ref="commerceCartCalculationStrategy">
+            <description>Deprecated since 2105</description>
+        </property>
+        <property name="tmaCartHookHelper" ref="tmaCartHookHelper">
+            <description>Deprecated since 2105</description>
+        </property>
+        <property name="defaultProcessType" value="${default.process.type}"/>
+        <property name="commercePriceService" ref="tmaCommercePriceService"/>
+        <constructor-arg name="abstractOrderEntryService" ref="abstractOrderEntryService"/>
+    </bean>
+
+    <alias name="defaultTmaPoCartValidationHook" alias="tmaPoCartValidationHook"/>
+    <bean id="defaultTmaPoCartValidationHook"
+          class="de.hybris.platform.b2ctelcoservices.hook.impl.TmaPoCartValidationHook">
+        <property name="entryGroupService" ref="entryGroupService"/>
+        <property name="tmaCartService" ref="cartService"/>
+    </bean>
+
+    <bean id="tmaPoCartValidationHookListMergeDirective" depends-on="cartValidationHooks" parent="listMergeDirective">
+        <property name="add" ref="tmaPoCartValidationHook"/>
+    </bean>
+
+    <alias name="defaultTmaServiceRequestAddToCartMethodHook"
+           alias="tmaServiceRequestAddToCartMethodHook"/>
+    <bean id="defaultTmaServiceRequestAddToCartMethodHook"
+          class="de.hybris.platform.b2ctelcoservices.hook.impl.TmaServiceRequestAddToCartMethodHook">
+        <constructor-arg name="tmaPoService" ref="tmaPoService"/>
+    </bean>
+
+    <bean id="tmaServiceRequestAddToCartMethodHookListMergeDirective" depends-on="commerceAddToCartMethodHooks"
+          parent="listMergeDirective">
+        <property name="add" ref="tmaServiceRequestAddToCartMethodHook"/>
+        <property name="beforeBeanNames">
+            <list value-type="java.lang.String">
+                <value>subscriptionAddToCartMethodHook</value>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="defaultTmaPoUpdateCartEntryHook" alias="tmaPoUpdateCartEntryHook"/>
+    <bean id="defaultTmaPoUpdateCartEntryHook"
+          class=" de.hybris.platform.b2ctelcoservices.hook.impl.TmaPoUpdateCartEntryHook">
+        <property name="entryGroupService" ref="entryGroupService"/>
+        <property name="compatibilityPoliciesEngine" ref="tmaCompatibilityPolicyEngine"/>
+        <property name="modelService" ref="modelService"/>
+        <property name="tmaCartHookHelper" ref="tmaCartHookHelper"/>
+        <constructor-arg name="abstractOrderEntryService" ref="abstractOrderEntryService"/>
+    </bean>
+
+    <bean id="tmaPoUpdateCartEntryHookMergeDirective" depends-on="commerceUpdateCartEntryMethodHooks"
+          parent="listMergeDirective">
+        <property name="add" ref="tmaPoUpdateCartEntryHook"/>
+    </bean>
+
+    <alias name="defaultTmaEntryGroupService" alias="entryGroupService"/>
+    <bean id="defaultTmaEntryGroupService" class="de.hybris.platform.b2ctelcoservices.order.impl.DefaultTmaEntryGroupService"
+          parent="defaultEntryGroupService"/>
+
+    <!-- Unit conversion Strategy -->
+    <alias alias="tmaUnitConversionStrategy" name="defaultTmaUnitConversionStrategy"/>
+    <bean id="defaultTmaUnitConversionStrategy"
+          class="de.hybris.platform.b2ctelcoservices.unitconversion.strategies.impl.DefaultTmaUnitConversionStrategy"/>
+    <!-- Unit conversion Strategy End -->
+
+    <alias name="defaultTmaPoVariantValidateInterceptor" alias="tmaPoVariantValidateInterceptor"/>
+    <bean id="defaultTmaPoVariantValidateInterceptor"
+          class="de.hybris.platform.b2ctelcoservices.interceptors.TmaPoVariantValidateInterceptor">
+        <property name="l10NService" ref="l10nService"/>
+        <property name="sessionService" ref="sessionService"/>
+    </bean>
+
+    <bean id="tmaPoVariantValidateInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="tmaPoVariantValidateInterceptor"/>
+        <property name="typeCode" value="TmaPoVariant"/>
+    </bean>
+
+    <alias name="defaultProductOfferingModelUrlResolver" alias="productModelUrlResolver"/>
+    <bean id="defaultProductOfferingModelUrlResolver"
+          class="de.hybris.platform.b2ctelcoservices.url.TmaProductOfferingModelUrlResolver"
+          parent="defaultProductModelUrlResolver"/>
+
+    <alias name="defaultTmaEligibilityContextDao" alias="tmaEligibilityContextDao"/>
+    <bean id="defaultTmaEligibilityContextDao"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.dao.impl.TmaEligibilityContextDaoImpl"/>
+
+    <alias name="contextService" alias="tmaEligibilityContextService"/>
+    <bean id="contextService"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.impl.DefaultTmaEligibilityContextUpdateService">
+        <property name="userService" ref="userService"/>
+        <property name="tmaEligibilityContextDao" ref="tmaEligibilityContextDao"/>
+        <property name="tmaEligibilityPolicyEngine" ref="tmaEligibilityPolicyEngine"/>
+        <property name="modelService" ref="defaultModelService"/>
+        <property name="sessionService" ref="sessionService"/>
+    </bean>
+
+    <alias name="defaultTmaEligibleSubscriptionTermSearchProcessor" alias="tmaEligibleSubscriptionTermSearchProcessor"/>
+    <bean id="defaultTmaEligibleSubscriptionTermSearchProcessor"
+          class="de.hybris.platform.b2ctelcoservices.daos.impl.DefaultTmaSearchProcessor">
+        <property name="conditionBuilders">
+            <list>
+                <ref bean="tmaSubscriptionTermCodeConditionBuilder"/>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="defaultTmaSubscriptionTermCodeConditionBuilder" alias="tmaSubscriptionTermCodeConditionBuilder"/>
+    <bean id="defaultTmaSubscriptionTermCodeConditionBuilder"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.dao.impl.TmaSubscriptionTermCodeConditionBuilder">
+        <property name="tmaEligibilityContextService" ref="tmaEligibilityContextService"/>
+    </bean>
+
+    <alias name="defaultTmaSubscriptionPricePlanSearchProcessor" alias="tmaSubscriptionPricePlanSearchProcessor"/>
+    <bean id="defaultTmaSubscriptionPricePlanSearchProcessor"
+          class="de.hybris.platform.b2ctelcoservices.daos.impl.DefaultTmaSearchProcessor">
+        <property name="conditionBuilders">
+            <list>
+                <ref bean="tmaSppProductConditionBuilder"/>
+                <ref bean="tmaSppAffectedProductConditionBuilder"/>
+                <ref bean="tmaSppChannelConditionBuilder"/>
+                <ref bean="tmaSppCurrencyConditionBuilder"/>
+                <ref bean="tmaSppEligibleProcessesAndTermsConditionBuilder"/>
+                <ref bean="tmaSppUserPriceGroupConditionBuilder"/>
+                <ref bean="tmaPriceRegionConditionBuilder"/>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="defaultTmaPriceRowSearchProcessor" alias="tmaPriceRowSearchProcessor"/>
+    <bean id="defaultTmaPriceRowSearchProcessor"
+          class="de.hybris.platform.b2ctelcoservices.daos.impl.DefaultTmaSearchProcessor">
+        <property name="conditionBuilders">
+            <list>
+                <ref bean="tmaSppProductConditionBuilder"/>
+                <ref bean="tmaSppAffectedProductConditionBuilder"/>
+                <ref bean="tmaSppChannelConditionBuilder"/>
+                <ref bean="tmaSppCurrencyConditionBuilder"/>
+                <ref bean="tmaSppEligibleProcessesAndTermsConditionBuilder"/>
+                <ref bean="tmaSppUserPriceGroupConditionBuilder"/>
+                <ref bean="tmaPriceRegionConditionBuilder"/>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="defaultTmaSppProductConditionBuilder" alias="tmaSppProductConditionBuilder"/>
+    <bean id="defaultTmaSppProductConditionBuilder"
+          class="de.hybris.platform.b2ctelcoservices.pricing.dao.TmaSppProductConditionBuilder"/>
+
+    <alias name="defaultTmaSppAffectedProductConditionBuilder" alias="tmaSppAffectedProductConditionBuilder"/>
+    <bean id="defaultTmaSppAffectedProductConditionBuilder"
+          class="de.hybris.platform.b2ctelcoservices.pricing.dao.TmaSppAffectedProductConditionBuilder"/>
+
+    <alias name="defaultTmaSppChannelConditionBuilder" alias="tmaSppChannelConditionBuilder"/>
+    <bean id="defaultTmaSppChannelConditionBuilder"
+          class="de.hybris.platform.b2ctelcoservices.pricing.dao.TmaSppChannelConditionBuilder">
+        <property name="retrieveChannelStrategy" ref="defaultRetrieveChannelStrategy"/>
+    </bean>
+
+    <alias name="defaultTmaPriceRowChannelConditionBuilder" alias="tmaPriceRowChannelConditionBuilder"/>
+    <bean id="defaultTmaPriceRowChannelConditionBuilder"
+          class="de.hybris.platform.b2ctelcoservices.pricing.dao.TmaPriceRowChannelConditionBuilder">
+        <property name="retrieveChannelStrategy" ref="defaultRetrieveChannelStrategy"/>
+    </bean>
+
+    <alias name="defaultTmaSppCurrencyConditionBuilder" alias="tmaSppCurrencyConditionBuilder"/>
+    <bean id="defaultTmaSppCurrencyConditionBuilder"
+          class="de.hybris.platform.b2ctelcoservices.pricing.dao.TmaSppCurrencyConditionBuilder">
+        <property name="i18NService" ref="commonI18NService"/>
+    </bean>
+
+    <alias name="defaultTmaSppUserPriceGroupConditionBuilder" alias="tmaSppUserPriceGroupConditionBuilder"/>
+    <bean id="defaultTmaSppUserPriceGroupConditionBuilder"
+          class="de.hybris.platform.b2ctelcoservices.pricing.dao.TmaSppUserPriceGroupConditionBuilder">
+        <property name="userService" ref="userService"/>
+        <property name="userPriceGroupsStrategy" ref="tmaRetrieveUserPriceGroupStrategy"/>
+    </bean>
+
+    <alias name="defaultTmaSppEligibleProcessesAndTermsConditionBuilder"
+           alias="tmaSppEligibleProcessesAndTermsConditionBuilder"/>
+    <bean id="defaultTmaSppEligibleProcessesAndTermsConditionBuilder"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.dao.impl.TmaSppEligibleProcessesAndTermsConditionBuilder">
+        <property name="customerInventoryService" ref="tmaCustomerInventoryService"/>
+        <property name="tmaEligibilityContextService" ref="tmaEligibilityContextService"/>
+        <property name="enumerationService" ref="enumerationService"/>
+        <property name="userService" ref="userService"/>
+    </bean>
+
+    <!-- Tma categories-->
+    <alias name="defaultTmaCategoryDao" alias="tmaCategoryDao"/>
+    <bean id="defaultTmaCategoryDao" class="de.hybris.platform.b2ctelcoservices.daos.impl.DefaultTmaCategoryDao">
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+        <property name="modelService" ref="modelService"/>
+    </bean>
+
+    <alias name="defaultTmaCategoryService" alias="categoryService"/>
+    <bean id="defaultTmaCategoryService" class="de.hybris.platform.b2ctelcoservices.services.impl.DefaultTmaCategoryService"
+          parent="defaultCategoryService">
+        <property name="tmaCategoryDao" ref="tmaCategoryDao"/>
+    </bean>
+
+    <alias name="defaultRemoveEligibilityContextJob" alias="removeEligibilityContextJob"/>
+    <bean id="defaultRemoveEligibilityContextJob" class="de.hybris.platform.b2ctelcoservices.jobs.RemoveEligibilityContextJob"
+          parent="abstractJobPerformable">
+        <property name="eligibilityContextDao" ref="tmaEligibilityContextDao"/>
+    </bean>
+
+    <!-- PDTRow Id Generator-->
+    <alias name="defaultTmaPDTRowIdGenerator" alias="tmaPDTRowIdGenerator"/>
+    <bean id="defaultTmaPDTRowIdGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.price_id.code.name}"/>
+        <property name="digits" value="${keygen.price_id.code.digits}"/>
+        <property name="start" value="${keygen.price_id.code.start}"/>
+        <property name="type" value="${keygen.price_id.code.type}"/>
+        <property name="template" value="${keygen.price_id.code.template}"/>
+    </bean>
+
+    <alias name="defaultTmaPDTRowIdPrepareInterceptor" alias="tmaPDTRowIdPrepareInterceptor"/>
+    <bean id="defaultTmaPDTRowIdPrepareInterceptor"
+          class="de.hybris.platform.b2ctelcoservices.interceptors.TmaPDTRowIdPrepareInterceptor">
+        <property name="tmaPDTRowIdGenerator" ref="tmaPDTRowIdGenerator"/>
+    </bean>
+
+    <bean id="tmaPDTRowIdPrepareInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="tmaPDTRowIdPrepareInterceptor"/>
+        <property name="typeCode" value="PDTRow"/>
+    </bean>
+
+    <alias name="defaultTmaPriceRowImportAdapter" alias="tmaPriceRowImportAdapter"/>
+    <bean id="defaultTmaPriceRowImportAdapter"
+          class="de.hybris.platform.b2ctelcoservices.dataimport.batch.price.impl.DefaultTmaPriceRowImportAdapter">
+        <property name="modelService" ref="modelService"/>
+        <property name="userService" ref="userService"/>
+        <property name="unitService" ref="unitService"/>
+        <property name="enumerationService" ref="enumerationService"/>
+        <property name="currencyDao" ref="currencyDao"/>
+    </bean>
+
+    <alias name="defaultTmaPriceRowExportAdapter" alias="tmaPriceRowExportAdapter"/>
+    <bean id="defaultTmaPriceRowExportAdapter"
+          class="de.hybris.platform.b2ctelcoservices.dataimport.batch.price.impl.DefaultTmaPriceRowExportAdapter">
+    </bean>
+
+    <alias name="defaultTmaRegionDao" alias="tmaRegionDao"/>
+    <bean id="defaultTmaRegionDao"
+          class="de.hybris.platform.b2ctelcoservices.daos.impl.DefaultTmaRegionDao" parent="regionDao"/>
+
+    <alias name="defaultTmaRegionService" alias="tmaRegionService"/>
+    <bean id="defaultTmaRegionService"
+          class="de.hybris.platform.b2ctelcoservices.services.impl.DefaultTmaRegionService">
+        <property name="tmaRegionDao" ref="tmaRegionDao"/>
+    </bean>
+
+    <!--  tmaProcessTypeConditionBuilder -->
+    <alias name="defaultTmaProcessTypeConditionBuilder" alias="tmaProcessTypeConditionBuilder"/>
+    <bean id="defaultTmaProcessTypeConditionBuilder"
+          class="de.hybris.platform.b2ctelcoservices.pricing.dao.TmaProcessTypeConditionBuilder">
+    </bean>
+
+    <!--  tmaUserIdConditionBuilder -->
+    <alias name="defaultTmaUserIdConditionBuilder" alias="tmaUserIdConditionBuilder"/>
+    <bean id="defaultTmaUserIdConditionBuilder"
+          class="de.hybris.platform.b2ctelcoservices.pricing.dao.TmaUserIdConditionBuilder">
+        <description>deprecated since 2003</description>
+        <property name="userService" ref="userService"/>
+        <property name="userPriceGroupsStrategy" ref="tmaRetrieveUserPriceGroupStrategy"/>
+    </bean>
+
+    <alias name="defaultTmaSppFilterSearchProcessor" alias="tmaSppFilterSearchProcessor"/>
+    <bean id="defaultTmaSppFilterSearchProcessor"
+          class="de.hybris.platform.b2ctelcoservices.daos.impl.DefaultTmaSearchProcessor">
+        <description>deprecated since 2003</description>
+        <property name="conditionBuilders">
+            <list>
+                <ref bean="tmaSppProductConditionBuilder"/>
+                <ref bean="tmaPriceRegionConditionBuilder"/>
+                <ref bean="tmaSppEligibleProcessesAndTermsConditionBuilder"/>
+                <ref bean="tmaUserIdConditionBuilder"/>
+                <ref bean="tmaSppAffectedProductConditionBuilder"/>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="defaultTmaPriceRowFilterSearchProcessor" alias="tmaPriceRowFilterSearchProcessor"/>
+    <bean id="defaultTmaPriceRowFilterSearchProcessor"
+          class="de.hybris.platform.b2ctelcoservices.daos.impl.DefaultTmaSearchProcessor">
+        <description>deprecated since 2003</description>
+        <property name="conditionBuilders">
+            <list>
+                <ref bean="tmaSppProductConditionBuilder"/>
+                <ref bean="tmaPriceRegionConditionBuilder"/>
+                <ref bean="tmaSppEligibleProcessesAndTermsConditionBuilder"/>
+                <ref bean="tmaUserIdConditionBuilder"/>
+            </list>
+        </property>
+    </bean>
+
+    <!--  tmaSppRegionConditionBuilder -->
+    <alias name="defaultTmaPriceRegionConditionBuilder" alias="tmaPriceRegionConditionBuilder"/>
+    <bean id="defaultTmaPriceRegionConditionBuilder"
+          class="de.hybris.platform.b2ctelcoservices.pricing.dao.TmaPriceRegionConditionBuilder">
+    </bean>
+
+    <!-- region solr value resolver-->
+    <bean name="priceRegionResolver"
+          parent="abstractValueResolver"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.provider.impl.TmaPriceRegionResolver">
+    </bean>
+
+    <bean id="customerFacingServiceSpecResolver" parent="abstractValueResolver"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.provider.impl.TmaCustomerFacingServiceSpecResolver">
+           <constructor-arg  name="spoSource" ref="tmaSpoSource"/>
+    </bean>
+
+    <alias name="defaultTmaPriceRegionSolrFilterPopulator" alias="tmaPriceRegionSolrFilterPopulator"/>
+    <bean id="defaultTmaPriceRegionSolrFilterPopulator"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.populator.TmaPriceRegionSolrFilterPopulator">
+        <property name="tmaRegionService" ref="tmaRegionService"/>
+    </bean>
+
+    <alias name="defaultTmaUserSolrFilterPopulator" alias="tmaUserSolrFilterPopulator"/>
+    <bean id="defaultTmaUserSolrFilterPopulator"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.populator.TmaUserSolrFilterPopulator">
+          <constructor-arg name="userService" ref="userService"/>
+          <constructor-arg name="sessionService" ref="sessionService"/>
+    </bean>
+
+    <!--Populator for Collapsing Product Offering based on the highest priority price-->
+    <alias name="defaultTmaSolrProductOfferingCollapsePopulator" alias="tmaSolrProductOfferingCollapsePopulator"/>
+    <bean name="defaultTmaSolrProductOfferingCollapsePopulator"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.populator.TmaSolrProductOfferingCollapsePopulator"/>
+
+    <!-- Solr Document Pscv Populator-->
+    <alias name="defaultTmaSolrDocumentPscvPopulator" alias="tmaSolrDocumentPscvPopulator"/>
+    <bean id="defaultTmaSolrDocumentPscvPopulator"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.populator.TmaSolrDocumentPscvPopulator"/>
+
+    <alias name="defaultTmaSolrDocumentPscvUsePopulator" alias="tmaSolrDocumentPscvUsePopulator"/>
+    <bean id="defaultTmaSolrDocumentPscvUsePopulator"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.populator.TmaSolrDocumentPscvUsePopulator">
+    <constructor-arg name="pscvConverter" ref="tmaSolrDocumentPscvConverter"/>
+    </bean>
+    
+    <alias name="defaultTmaSolrDocumentPscvuPopulator" alias="tmaSolrDocumentPscvuPopulator"/>
+    <bean id="defaultTmaSolrDocumentPscvuPopulator"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.populator.TmaSolrDocumentPscvuPopulator">
+    <constructor-arg name="pscvConverter" ref="tmaSolrDocumentPscvConverter"/>
+    </bean>
+    <!--Solr Document Pscv Converter-->
+    <alias name="defaultTmaSolrDocumentPscvConverter" alias="tmaSolrDocumentPscvConverter"/>
+    <bean name="defaultTmaSolrDocumentPscvConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass"
+                  value="de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentPscv"/>
+        <property name="populators">
+            <list>
+                <ref bean="tmaSolrDocumentPscvPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="defaultTmaSolrDocumentPscvUseConverter" alias="tmaSolrDocumentPscvUseConverter"/>
+    <bean name="defaultTmaSolrDocumentPscvUseConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass"
+                  value="de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentPscvUse"/>
+        <property name="populators">
+            <list>
+                <ref bean="tmaSolrDocumentPscvUsePopulator"/>
+            </list>
+        </property>
+    </bean>
+    
+    <alias name="defaultTmaSolrDocumentPscvuConverter" alias="tmaSolrDocumentPscvuConverter"/>
+    <bean name="defaultTmaSolrDocumentPscvuConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass"
+                  value="de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentPscvUse"/>
+        <property name="populators">
+            <list>
+                <ref bean="tmaSolrDocumentPscvuPopulator"/>
+            </list>
+        </property>
+    </bean>
+    <!--Solr Document ProductUsageSpec Populator-->
+    <alias name="defaultTmaSolrDocumentProdUsageSpecPopulator" alias="tmaSolrDocumentProdUsageSpecPopulator"/>
+    <bean id="defaultTmaSolrDocumentProdUsageSpecPopulator"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.populator.TmaSolrDocumentProdUsageSpecPopulator">
+          <constructor-arg name="externalIdentifierConverter" ref="tmaSolrDocumentExternalIdentifierConverter"/>
+    </bean>
+
+    <!--Solr Document ProductUsageSpec Converter-->
+    <alias name="defaultTmaSolrDocumentProdUsageSpecConverter" alias="tmaSolrDocumentProdUsageSpecConverter"/>
+    <bean name="defaultTmaSolrDocumentProdUsageSpecConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass"
+                  value="de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentProdUsageSpecification"/>
+        <property name="populators">
+            <list>
+                <ref bean="tmaSolrDocumentProdUsageSpecPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Solr Document Product Offering Price Populator -->
+    <alias name="defaultTmaSolrDocumentProductOfferingPricePopulator" alias="tmaSolrDocumentProductOfferingPricePopulator"/>
+    <bean id="defaultTmaSolrDocumentProductOfferingPricePopulator"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.populator.pricing.TmaSolrDocumentProductOfferingPricePopulator"
+          abstract="true">
+        <constructor-arg name="pscvUseConverter" ref="tmaSolrDocumentPscvUseConverter"/>
+    </bean>
+
+    <!-- Solr Document Component Product Offering Price Populator-->
+    <alias name="defaultTmaSolrDocumentComponentPopPopulator" alias="tmaSolrDocumentComponentPopPopulator"/>
+    <bean id="defaultTmaSolrDocumentComponentPopPopulator"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.populator.pricing.TmaSolrDocumentComponentPopPopulator"
+          parent="tmaSolrDocumentProductOfferingPricePopulator">
+        <constructor-arg name="pricingLogicAlgorithmConverter" ref="tmaSolrDocumentPlaConverter"/>
+    </bean>
+
+    <!--Recurring Charge Component Converter-->
+    <alias name="defaultTmaSolrDocumentRecurringChargeComponentConverter"
+           alias="tmaSolrDocumentRecurringChargeComponentConverter"/>
+    <bean name="defaultTmaSolrDocumentRecurringChargeComponentConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass"
+                  value="de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentRecurringChargeComponentPop"/>
+        <property name="populators">
+            <list>
+                <ref bean="tmaSolrDocumentRecurringChargeComponentPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="defaultTmaSolrDocumentRecurringChargeComponentPopulator"
+           alias="tmaSolrDocumentRecurringChargeComponentPopulator"/>
+    <bean id="defaultTmaSolrDocumentRecurringChargeComponentPopulator"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.populator.pricing.TmaSolrDocumentRecurringChargeComponentPopulator"
+          parent="tmaSolrDocumentComponentPopPopulator"/>
+
+    <!-- Solr Document Pricing Logic Algorithm Populator -->
+    <alias name="defaultTmaSolrDocumentPlaPopulator" alias="tmaSolrDocumentPlaPopulator"/>
+    <bean id="defaultTmaSolrDocumentPlaPopulator"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.populator.pricing.TmaSolrDocumentPricingLogicAlgorithmPopulator">
+        <constructor-arg name="pricingLogicAlgorithmSpecConverter" ref="tmaSolrDocumentPlaSpecConverter"/>
+        <constructor-arg name="externalIdentifierConverter" ref="tmaSolrDocumentExternalIdentifierConverter"/>
+    </bean>
+
+    <!-- Solr Document Pricing Logic Algorithm Converter -->
+    <alias name="defaultTmaSolrDocumentPlaConverter" alias="tmaSolrDocumentPlaConverter"/>
+    <bean name="defaultTmaSolrDocumentPlaConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass"
+                  value="de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentPricingLogicAlgorithm"/>
+        <property name="populators">
+            <list>
+                <ref bean="tmaSolrDocumentPlaPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Solr Document Pricing Logic Algorithm Spec Populator -->
+    <alias name="defaultTmaSolrDocumentPlaSpecPopulator" alias="tmaSolrDocumentPlaSpecPopulator"/>
+    <bean id="defaultTmaSolrDocumentPlaSpecPopulator"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.populator.pricing.TmaSolrDocumentPricingLogicAlgorithmSpecPopulator">
+        <constructor-arg name="externalIdentifierConverter" ref="tmaSolrDocumentExternalIdentifierConverter"/>
+    </bean>
+
+    <!-- Solr Document Pricing Logic Algorithm Spec Converter -->
+    <alias name="defaultTmaSolrDocumentPlaSpecConverter" alias="tmaSolrDocumentPlaSpecConverter"/>
+    <bean name="defaultTmaSolrDocumentPlaSpecConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass"
+                  value="de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentPricingLogicAlgorithmSpec"/>
+        <property name="populators">
+            <list>
+                <ref bean="tmaSolrDocumentPlaSpecPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Solr Document External Identifier Populator -->
+    <alias name="defaultTmaSolrDocumentExternalIdentifierPopulator" alias="tmaSolrDocumentExternalIdentifierPopulator"/>
+    <bean id="defaultTmaSolrDocumentExternalIdentifierPopulator"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.populator.TmaSolrDocumentExternalIdentifierPopulator">
+    </bean>
+
+    <!-- Solr Document External Identifier Converter -->
+    <alias name="defaultTmaSolrDocumentExternalIdentifierConverter" alias="tmaSolrDocumentExternalIdentifierConverter"/>
+    <bean name="defaultTmaSolrDocumentExternalIdentifierConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass"
+                  value="de.hybris.platform.b2ctelcoservices.data.TmaSolrDocumentExternalIdentifier"/>
+        <property name="populators">
+            <list>
+                <ref bean="tmaSolrDocumentExternalIdentifierPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Solr Document BPO Options Populator -->
+    <alias name="defaultTmaSolrDocumentBpoOptionPopulator" alias="tmaSolrDocumentBpoOptionPopulator"/>
+    <bean id="defaultTmaSolrDocumentBpoOptionPopulator"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.populator.TmaSolrDocumentBpoOptionPopulator">
+    </bean>
+
+    <!-- Solr Document BPO Options Converter -->
+    <alias name="defaultTmaSolrDocumentBpoOptionConverter" alias="tmaSolrDocumentBpoOptionConverter"/>
+    <bean name="defaultTmaSolrDocumentBpoOptionConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass"
+                  value="de.hybris.platform.b2ctelcoservices.data.TmaSolrDocumentBundledProdOfferOption"/>
+        <property name="populators">
+            <list>
+                <ref bean="tmaSolrDocumentBpoOptionPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Solr Document BPO Populator -->
+    <alias name="defaultTmaSolrDocumentBpoPopulator" alias="tmaSolrDocumentBpoPopulator"/>
+    <bean id="defaultTmaSolrDocumentBpoPopulator"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.populator.TmaSolrDocumentBpoPopulator">
+        <constructor-arg name="bpoOptionSolrConverter" ref="tmaSolrDocumentBpoOptionConverter"/>
+        <constructor-arg name="poService" ref="tmaPoService"/>
+    </bean>
+
+    <!-- Solr Document BPO Converter -->
+    <alias name="defaultTmaSolrDocumentBundledProdOfferingConverter" alias="tmaSolrDocumentBundledProdOfferingConverter"/>
+    <bean name="defaultTmaSolrDocumentBundledProdOfferingConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass"
+                  value="de.hybris.platform.b2ctelcoservices.data.TmaSolrDocumentBundledProductOffering"/>
+        <property name="populators">
+            <list>
+                <ref bean="tmaSolrDocumentBpoPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <!--Price Alterations Discount Converter-->
+
+    <alias name="defaultTmaSolrDocumentDiscountPriceAlterationConverter"
+           alias="tmaSolrDocumentDiscountPriceAlterationConverter"/>
+    <bean name="defaultTmaSolrDocumentDiscountPriceAlterationConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass"
+                  value="de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentAlterationDiscountComponentPop"/>
+        <property name="populators">
+            <list>
+                <ref bean="tmaSolrDocumentDiscountPriceAlterationPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="defaultTmaSolrDocumentAllowancePriceAlterationConverter"
+           alias="tmaSolrDocumentAllowancePriceAlterationConverter"/>
+    <bean name="defaultTmaSolrDocumentAllowancePriceAlterationConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass"
+                  value="de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentAlterationAllowanceComponentPop"/>
+        <property name="populators">
+            <list>
+                <ref bean="tmaSolrDocumentComponentPopPopulator"/>
+                <ref bean="tmaSolrDocumentAllowancePriceAlterationPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="defaultTmaSolrDocumentDiscountPriceAlterationPopulator" alias="tmaSolrDocumentDiscountPriceAlterationPopulator"/>
+    <bean id="defaultTmaSolrDocumentDiscountPriceAlterationPopulator"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.populator.pricing.TmaSolrDocumentDiscountPriceAlterationPopulator"
+          parent="tmaSolrDocumentComponentPopPopulator"/>
+
+    <alias name="defaultTmaSolrDocumentAllowancePriceAlterationPopulator"
+           alias="tmaSolrDocumentAllowancePriceAlterationPopulator"/>
+    <bean id="defaultTmaSolrDocumentAllowancePriceAlterationPopulator"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.populator.pricing.TmaSolrDocumentAllowancePriceAlterationPopulator"/>
+
+    <!--Usage Charge Component Converter-->
+      <alias name="defaultTmaSolrDocumentUsageChargeComponentConverter" alias="tmaSolrDocumentUsageChargeComponentConverter"/>
+    <bean name="defaultTmaSolrDocumentUsageChargeComponentConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentUsageChargeComponentPop"/>
+        <property name="populators">
+            <list>
+                <ref bean="tmaSolrDocumentUsageChargeComponentPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="defaultTmaSolrDocumentUsageChargeComponentPopulator" alias="tmaSolrDocumentUsageChargeComponentPopulator"/>
+    <bean id="defaultTmaSolrDocumentUsageChargeComponentPopulator"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.populator.pricing.TmaSolrDocumentUsageChargeComponentPopulator"
+          parent="tmaSolrDocumentComponentPopPopulator">
+        <constructor-arg name="prodUsageSpecificationConverter" ref="tmaSolrDocumentProdUsageSpecConverter"/>
+    </bean>
+
+    <!--One-Time Charge Component Converter-->
+    <alias name="defaultTmaSolrDocumentOneTimeChargeComponentConverter" alias="tmaSolrDocumentOneTimeChargeComponentConverter"/>
+    <bean name="defaultTmaSolrDocumentOneTimeChargeComponentConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass"
+                  value="de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentOneTimeChargeComponentPop"/>
+        <property name="populators">
+            <list>
+                <ref bean="tmaSolrDocumentComponentPopPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Composite Product Offering Price Converter-->
+    <alias name="defaultTmaSolrDocumentCompositePopPopulator" alias="tmaSolrDocumentCompositePopPopulator"/>
+    <bean id="defaultTmaSolrDocumentCompositePopPopulator"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.populator.pricing.TmaSolrDocumentCompositePopPopulator"
+          parent="tmaSolrDocumentProductOfferingPricePopulator">
+        <constructor-arg name="productOfferingPriceConvertersMap" ref="tmaSolrDocumentPopConvertersMap"/>
+    </bean>
+
+    <alias name="defaultTmaSolrDocumentCompositePopConverter" alias="tmaSolrDocumentCompositePopConverter"/>
+    <bean name="defaultTmaSolrDocumentCompositePopConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentCompositePop"/>
+        <property name="populators">
+            <list>
+                <ref bean="tmaSolrDocumentCompositePopPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <!--Tier Usage Composite Product Offering Price Converter-->
+    <alias name="defaultTmaSolrDocumentTierUsageCompositePopPopulator" alias="tmaSolrDocumentTierUsageCompositePopPopulator"/>
+    <bean id="defaultTmaSolrDocumentTierUsageCompositePopPopulator"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.populator.pricing.TmaSolrDocumentTierUsageCompositePopPopulator"
+          parent="tmaSolrDocumentCompositePopPopulator">
+    </bean>
+
+    <alias name="defaultTmaSolrDocumentTierUsageCompositePopConverter" alias="tmaSolrDocumentTierUsageCompositePopConverter"/>
+    <bean name="defaultTmaSolrDocumentTierUsageCompositePopConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="de.hybris.platform.b2ctelcoservices.pricing.TmaSolrDocumentTierUsageCompositePop"/>
+        <property name="populators">
+            <list>
+                <ref bean="tmaSolrDocumentTierUsageCompositePopPopulator"/>
+            </list>
+        </property>
+    </bean>
+    
+    <alias name="defaultProductSpecCharValueUseResolver" alias="productSpecCharValueUseResolver"/>
+    <bean name="defaultProductSpecCharValueUseResolver" parent="abstractValueResolver"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.provider.impl.pricing.TmaProdSpecCharValueUseResolver">
+        <constructor-arg name="spoSource" ref="tmaSpoSource"/>
+        <constructor-arg name="tmaSolrDocumentPscvuConverter" ref="tmaSolrDocumentPscvuConverter"/>
+    </bean>
+    <alias name="defaultProductOfferingPriceValueResolver" alias="productOfferingPriceValueResolver"/>
+    <bean name="defaultProductOfferingPriceValueResolver" parent="abstractValueResolver"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.provider.impl.pricing.TmaProductOfferingPriceValueResolver">
+        <constructor-arg name="popConvertersMap" ref="tmaSolrDocumentPopConvertersMap"/>
+    </bean>
+
+    <alias name="defaultTmaSolrDocumentPopConvertersMap" alias="tmaSolrDocumentPopConvertersMap"/>
+    <util:map id="defaultTmaSolrDocumentPopConvertersMap">
+        <entry key="#{T(de.hybris.platform.b2ctelcoservices.model.TmaOneTimeProdOfferPriceChargeModel)._TYPECODE}"
+               value-ref="tmaSolrDocumentOneTimeChargeComponentConverter"/>
+        <entry key="#{T(de.hybris.platform.b2ctelcoservices.model.TmaRecurringProdOfferPriceChargeModel)._TYPECODE}"
+               value-ref="tmaSolrDocumentRecurringChargeComponentConverter"/>
+        <entry key="#{T(de.hybris.platform.b2ctelcoservices.model.TmaUsageProdOfferPriceChargeModel)._TYPECODE}"
+               value-ref="tmaSolrDocumentUsageChargeComponentConverter"/>
+        <entry key="#{T(de.hybris.platform.b2ctelcoservices.model.TmaCompositeProdOfferPriceModel)._TYPECODE}"
+               value-ref="tmaSolrDocumentCompositePopConverter"/>
+        <entry key="#{T(de.hybris.platform.b2ctelcoservices.model.TmaTierUsageChargeCompositePopModel)._TYPECODE}"
+               value-ref="tmaSolrDocumentTierUsageCompositePopConverter"/>
+        <entry key="#{T(de.hybris.platform.b2ctelcoservices.model.TmaDiscountProdOfferPriceAlterationModel)._TYPECODE}"
+               value-ref="tmaSolrDocumentDiscountPriceAlterationConverter"/>
+        <entry key="#{T(de.hybris.platform.b2ctelcoservices.model.TmaAllowanceProdOfferPriceAlterationModel)._TYPECODE}"
+               value-ref="tmaSolrDocumentAllowancePriceAlterationConverter"/>
+    </util:map>
+
+    <alias name="defaultPricePriorityValueResolver" alias="pricePriorityValueResolver"/>
+    <bean name="defaultPricePriorityValueResolver" parent="abstractValueResolver"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.provider.impl.pricing.TmaPricePriorityValueResolver"/>
+
+    <alias name="defaultTmaBpoChildrenValueResolver" alias="tmaBpoChildrenValueResolver"/>
+    <bean name="defaultTmaBpoChildrenValueResolver" parent="abstractValueResolver"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.provider.impl.TmaBpoChildrenValueResolver">
+        <constructor-arg name="bpoSolrConverter" ref="tmaSolrDocumentBundledProdOfferingConverter"/>
+    </bean>
+
+    <alias name="defaultTmaChecklistService" alias="tmaChecklistService"/>
+    <bean id="defaultTmaChecklistService"
+          class="de.hybris.platform.b2ctelcoservices.checklist.impl.DefaultTmaChecklistService">
+        <property name="policyEngine" ref="tmaPolicyEngine"/>
+        <property name="modelService" ref="modelService"/>
+    </bean>
+
+    <alias name="defaultTmaChecklistPolicyActionStrategy" alias="tmaChecklistPolicyActionStrategy"/>
+    <bean id="defaultTmaChecklistPolicyActionStrategy"
+          class="de.hybris.platform.b2ctelcoservices.checklist.impl.TmaChecklistPolicyActionStrategy">
+        <constructor-arg>
+            <map>
+                <entry key="#{T(de.hybris.platform.b2ctelcoservices.enums.TmaChecklistActionType).APPOINTMENT}"
+                       value-ref="tmaAppointmentActionResolver"/>
+                <entry key="#{T(de.hybris.platform.b2ctelcoservices.enums.TmaChecklistActionType).MSISDN}"
+                       value-ref="tmaMsisdnActionResolver"/>
+                <entry key="#{T(de.hybris.platform.b2ctelcoservices.enums.TmaChecklistActionType).INSTALLATION_ADDRESS}"
+                       value-ref="tmaInstallationAddressActionResolver"/>
+                <entry key="#{T(de.hybris.platform.b2ctelcoservices.enums.TmaChecklistActionType).SERVICE_PROVIDER}"
+                       value-ref="tmaServiceProviderActionResolver"/>
+                <entry key="#{T(de.hybris.platform.b2ctelcoservices.enums.TmaChecklistActionType).CONTRACT_START_DATE}"
+                       value-ref="tmaContractStartDateActionResolver"/>
+            </map>
+        </constructor-arg>
+    </bean>
+
+    <bean id="defaultTmaAbstractChecklistActionResolver" abstract="true"
+          class="de.hybris.platform.b2ctelcoservices.checklist.impl.DefaultTmaAbstractChecklistActionResolver">
+        <constructor-arg name="modelService" ref="modelService"/>
+        <constructor-arg name="cartValidationBuilder" ref="tmaCartValidationBuilder"/>
+    </bean>
+
+    <alias name="defaultTmaAppointmentActionResolver" alias="tmaAppointmentActionResolver"/>
+    <bean id="defaultTmaAppointmentActionResolver"
+          class="de.hybris.platform.b2ctelcoservices.checklist.impl.TmaAppointmentActionResolver"
+          parent="defaultTmaAbstractChecklistActionResolver">
+    </bean>
+
+    <alias name="defaultTmaMsisdnActionResolver" alias="tmaMsisdnActionResolver"/>
+    <bean id="defaultTmaMsisdnActionResolver"
+          class="de.hybris.platform.b2ctelcoservices.checklist.impl.TmaMsisdnActionResolver"
+          parent="defaultTmaAbstractChecklistActionResolver">
+    </bean>
+
+    <alias name="defaultTmaInstallationAddressActionResolver" alias="tmaInstallationAddressActionResolver"/>
+    <bean id="defaultTmaInstallationAddressActionResolver"
+          class="de.hybris.platform.b2ctelcoservices.checklist.impl.TmaInstallationAddressActionResolver"
+          parent="defaultTmaAbstractChecklistActionResolver">
+        <constructor-arg name="configurationService" ref="configurationService"/>
+        <constructor-arg name="serviceabilityCheckService" ref="tmaServiceabilityCheckService"/>
+        <constructor-arg name="addressService" ref="addressService"/>
+
+    </bean>
+
+    <alias name="defaultTmaContractStartDateActionResolver" alias="tmaContractStartDateActionResolver"/>
+    <bean id="defaultTmaContractStartDateActionResolver"
+          class="de.hybris.platform.b2ctelcoservices.checklist.impl.TmaContractStartDateActionResolver"
+          parent="defaultTmaAbstractChecklistActionResolver">
+    </bean>
+
+    <alias name="defaultTmaSelectCompatibilityPolicyActionStrategy" alias="tmaSelectCompatibilityPolicyActionStrategy"/>
+    <bean id="defaultTmaSelectCompatibilityPolicyActionStrategy"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.impl.TmaCompatibilityPolicyActionStrategy">
+        <constructor-arg name="policyActionResolver" ref="tmaSelectPolicyActionResolver"/>
+        <constructor-arg name="modelService" ref="modelService">
+            <description>deprecated since 2011</description>
+        </constructor-arg>
+        <constructor-arg name="entryGroupService" ref="entryGroupService">
+            <description>deprecated since 2102</description>
+        </constructor-arg>
+        <constructor-arg name="validationMessagesStrategy" ref="tmaCompatibilityValidationMessagesStrategy"/>
+    </bean>
+
+    <alias name="defaultTmaAutoPickCompatibilityPolicyActionStrategy" alias="tmaAutoPickCompatibilityPolicyActionStrategy"/>
+    <bean id="defaultTmaAutoPickCompatibilityPolicyActionStrategy"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.impl.TmaAutopickPolicyActionStrategy">
+        <constructor-arg name="policyActionResolver" ref="tmaAutoPickPolicyActionResolver"/>
+        <constructor-arg name="modelService" ref="modelService">
+            <description>deprecated since 2011</description>
+        </constructor-arg>
+        <constructor-arg name="entryGroupService" ref="entryGroupService">
+            <description>deprecated since 2102</description>
+        </constructor-arg>
+        <constructor-arg name="validationMessagesStrategy" ref="tmaCompatibilityValidationMessagesStrategy"/>
+        <constructor-arg name="abstractOrderEntryService" ref="abstractOrderEntryService"/>
+    </bean>
+
+    <alias name="defaultTmaCartValidationBuilder" alias="tmaCartValidationBuilder"/>
+    <bean id="defaultTmaCartValidationBuilder"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.impl.TmaCartValidationBuilder">
+        <constructor-arg name="modelService" ref="modelService"/>
+        <constructor-arg name="keyGenerator" ref="tmaCartValidationIdGenerator"/>
+    </bean>
+
+    <!-- the TmaAbstractOrderEntryPscv prepare interceptor -->
+    <alias name="defaultTmaAbstractOrderEntryPscvPrepareInterceptor" alias="tmaAbstractOrderEntryPscvPrepareInterceptor"/>
+    <bean id="defaultTmaAbstractOrderEntryPscvPrepareInterceptor"
+          class="de.hybris.platform.b2ctelcoservices.interceptors.TmaAbstractOrderEntryPscvPrepareInterceptor">
+        <property name="keyGenerator" ref="tmaAbstractOrderEntryPscvIdGenerator"/>
+    </bean>
+
+    <bean id="tmaAbstractOrderEntryPscvPrepareInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="tmaAbstractOrderEntryPscvPrepareInterceptor"/>
+        <property name="typeCode" value="TmaAbstractOrderEntryPscv"/>
+    </bean>
+
+    <alias name="defaultTmaProductOfferingDao" alias="tmaProductOfferingDao"/>
+    <bean id="defaultTmaProductOfferingDao"
+          class="de.hybris.platform.b2ctelcoservices.daos.impl.DefaultTmaProductOfferingDao">
+        <property name="paginatedFlexibleSearchService" ref="paginatedFlexibleSearchService"/>
+    </bean>
+
+    <!-- Tma review Dao-->
+    <alias name="defaultTmaCustomerReviewDao" alias="customerReviewDao"/>
+    <bean id="defaultTmaCustomerReviewDao" class="de.hybris.platform.b2ctelcoservices.daos.impl.DefaultTmaCustomerReviewDao"
+          parent="defaultCustomerReviewDao">
+    </bean>
+
+    <!-- Tma review service-->
+    <alias name="defaultTmaCustomerReviewService" alias="customerReviewService"/>
+    <bean id="defaultTmaCustomerReviewService"
+          class="de.hybris.platform.b2ctelcoservices.services.impl.DefaultTmaCustomerReviewService"
+          parent="defaultCustomerReviewService">
+    </bean>
+
+    <alias name="tmaCartService" alias="cartService"/>
+    <alias name="defaultTmaCartService" alias="tmaCartService"/>
+    <bean id="defaultTmaCartService" class="de.hybris.platform.b2ctelcoservices.order.impl.DefaultTmaCartService"
+          parent="defaultCartService">
+        <property name="keyGenerator" ref="orderCodeGenerator"/>
+        <property name="commonI18NService" ref="commonI18NService"/>
+        <property name="userNetCheckingStrategy" ref="userNetCheckingStrategy"/>
+        <constructor-arg name="baseStoreService" ref="baseStoreService"/>
+        <property name="customerInventoryService" ref="tmaCustomerInventoryService"/>
+    </bean>
+
+    <alias name="defaultTmaAbstractOrderEntryService" alias="abstractOrderEntryService"/>
+    <bean id="defaultTmaAbstractOrderEntryService" class="de.hybris.platform.b2ctelcoservices.order.impl.DefaultTmaAbstractOrderEntryService"
+          parent="defaultAbstractOrderEntryService">
+    </bean>
+
+
+    <!-- Abstract Order Resources -->
+    <alias name="defaultTmaPlaceValidator" alias="tmaPlaceValidator"/>
+    <bean id="defaultTmaPlaceValidator" class="de.hybris.platform.b2ctelcoservices.order.validators.TmaPlaceValidator">
+        <constructor-arg name="addressService" ref="addressService">
+            <description>deprecated since 2011</description>
+        </constructor-arg>
+    </bean>
+
+    <alias name="defaultTmaConfigProductSpecCharResourceStrategy"
+           alias="tmaConfigProductSpecCharResourceStrategy"/>
+    <bean id="defaultTmaConfigProductSpecCharResourceStrategy"
+          class="de.hybris.platform.b2ctelcoservices.order.resourcestrategies.impl.TmaConfigProductSpecCharResourceStrategy">
+        <constructor-arg name="tmaPoService" ref="tmaPoService"/>
+        <constructor-arg name="modelService" ref="modelService"/>
+        <constructor-arg name="configurationService" ref="configurationService"/>
+    </bean>
+
+    <alias name="defaultTmaAppointmentResourceStrategy" alias="tmaAppointmentResourceStrategy"/>
+    <bean id="defaultTmaAppointmentResourceStrategy"
+          class="de.hybris.platform.b2ctelcoservices.order.resourcestrategies.impl.TmaAppointmentResourceStrategy">
+        <constructor-arg name="modelService" ref="modelService"/>
+    </bean>
+
+    <alias name="defaultTmaInstallationAddressResourceStrategy" alias="tmaInstallationAddressResourceStrategy"/>
+    <bean id="defaultTmaInstallationAddressResourceStrategy"
+          class="de.hybris.platform.b2ctelcoservices.order.resourcestrategies.impl.TmaInstallationAddressResourceStrategy">
+        <constructor-arg name="placeValidator" ref="tmaPlaceValidator"/>
+        <constructor-arg name="modelService" ref="modelService"/>
+    </bean>
+
+    <alias name="defaultTmaPaymentMethodResourceStrategy" alias="tmaPaymentMethodResourceStrategy"/>
+    <bean id="defaultTmaPaymentMethodResourceStrategy"
+          class="de.hybris.platform.b2ctelcoservices.order.resourcestrategies.impl.TmaPaymentMethodResourceStrategy">
+        <constructor-arg name="customerAccountService" ref="tmaCustomerAccountService"/>
+        <constructor-arg name="modelService" ref="modelService"/>
+    </bean>
+
+    <alias name="defaultTmaCouponResourceStrategy" alias="tmaCouponResourceStrategy"/>
+    <bean id="defaultTmaCouponResourceStrategy"
+          class="de.hybris.platform.b2ctelcoservices.order.resourcestrategies.impl.TmaCouponResourceStrategy">
+        <constructor-arg name="couponService" ref="couponService"/>
+    </bean>
+
+    <alias name="defaultTmaDeliveryAddressResourceStrategy" alias="tmaDeliveryAddressResourceStrategy"/>
+    <bean id="defaultTmaDeliveryAddressResourceStrategy"
+          class="de.hybris.platform.b2ctelcoservices.order.resourcestrategies.impl.TmaDeliveryAddressResourceStrategy">
+        <constructor-arg name="placeValidator" ref="tmaPlaceValidator"/>
+        <constructor-arg name="modelService" ref="modelService"/>
+    </bean>
+
+    <alias name="defaultTmaDeliveryModeResourceStrategy" alias="tmaDeliveryModeResourceStrategy"/>
+    <bean id="defaultTmaDeliveryModeResourceStrategy"
+          class="de.hybris.platform.b2ctelcoservices.order.resourcestrategies.impl.TmaDeliveryModeResourceStrategy">
+        <constructor-arg name="deliveryService" ref="deliveryService"/>
+        <constructor-arg name="commerceDeliveryModeStrategy" ref="commerceDeliveryModeStrategy"/>
+    </bean>
+
+    <alias name="defaultTmaBillingAddressResourceStrategy" alias="tmaBillingAddressResourceStrategy"/>
+    <bean id="defaultTmaBillingAddressResourceStrategy"
+          class="de.hybris.platform.b2ctelcoservices.order.resourcestrategies.impl.TmaBillingAddressResourceStrategy">
+        <constructor-arg name="placeValidator" ref="tmaPlaceValidator"/>
+        <constructor-arg name="modelService" ref="modelService"/>
+    </bean>
+
+    <alias name="defaultTmaQuantityResourceStrategy" alias="tmaQuantityResourceStrategy"/>
+    <bean id="defaultTmaQuantityResourceStrategy"
+          class="de.hybris.platform.b2ctelcoservices.order.resourcestrategies.impl.TmaQuantityResourceStrategy">
+        <constructor-arg name="cartService" ref="cartService"/>
+        <constructor-arg name="modelService" ref="modelService"/>
+        <constructor-arg name="baseStoreService" ref="baseStoreService"/>
+        <constructor-arg name="commerceStockService" ref="commerceStockService"/>
+        <constructor-arg name="entryOrderChecker" ref="commerceOrderEntryModifiableChecker"/>
+        <constructor-arg name="cartEntryDao" ref="cartEntryDao"/>
+        <constructor-arg name="commerceCartCalculationStrategy" ref="commerceCartCalculationStrategy"/>
+        <constructor-arg name="poService" ref="defaultTmaPoService"/>
+    </bean>
+
+    <alias name="defaultTmaProcessTypeResourceStrategy" alias="tmaProcessTypeResourceStrategy"/>
+    <bean id="defaultTmaProcessTypeResourceStrategy"
+          class="de.hybris.platform.b2ctelcoservices.order.resourcestrategies.impl.TmaProcessTypeResourceStrategy">
+        <constructor-arg name="enumerationService" ref="enumerationService"/>
+        <constructor-arg name="modelService" ref="modelService"/>
+        <constructor-arg name="tmaCustomerInventoryService" ref="tmaCustomerInventoryService"/>
+    </bean>
+
+    <alias name="defaultTmaContractStartDateResourceStrategy" alias="tmaContractStartDateResourceStrategy"/>
+    <bean id="defaultTmaContractStartDateResourceStrategy"
+          class="de.hybris.platform.b2ctelcoservices.order.resourcestrategies.impl.TmaContractStartDateResourceStrategy">
+        <constructor-arg name="cartService" ref="cartService"/>
+        <constructor-arg name="modelService" ref="modelService"/>
+        <constructor-arg name="subscriptionTermService" ref="tmaSubscriptionTermService"/>
+    </bean>
+
+    <alias name="defaultTmaSubscribedProductResourceStrategy" alias="tmaSubscribedProductResourceStrategy"/>
+    <bean id="defaultTmaSubscribedProductResourceStrategy"
+          class="de.hybris.platform.b2ctelcoservices.order.resourcestrategies.impl.TmaSubscribedProductResourceStrategy">
+        <constructor-arg name="customerInventoryService" ref="tmaCustomerInventoryService"/>
+        <constructor-arg name="modelService" ref="modelService"/>
+    </bean>
+
+    <alias name="defaultTmaCommerceCartResourceService" alias="tmaCommerceCartResourceService"/>
+    <bean id="defaultTmaCommerceCartResourceService"
+          class="de.hybris.platform.b2ctelcoservices.order.impl.DefaultTmaCommerceCartResourceService">
+        <constructor-arg name="modelService" ref="modelService"/>
+        <constructor-arg name="tmaAbstractOrderResourceStrategies">
+            <list>
+                <ref bean="tmaPaymentMethodResourceStrategy"/>
+                <ref bean="tmaCouponResourceStrategy"/>
+                <ref bean="tmaDeliveryAddressResourceStrategy"/>
+                <ref bean="tmaBillingAddressResourceStrategy"/>
+                <ref bean="tmaConfigProductSpecCharResourceStrategy"/>
+                <ref bean="tmaAppointmentResourceStrategy"/>
+                <ref bean="tmaInstallationAddressResourceStrategy"/>
+                <ref bean="tmaQuantityResourceStrategy"/>
+                <ref bean="tmaDeliveryModeResourceStrategy"/>
+                <ref bean="tmaSubscribedProductResourceStrategy"/>
+                <ref bean="tmaRegionResourceStrategy"/>
+                <ref bean="tmaServiceProviderResourceStrategy"/>
+                <ref bean="tmaContractStartDateResourceStrategy"/>
+                <ref bean="tmaProcessTypeResourceStrategy"/>
+                <ref bean="tmaCartStatusResourceStrategy"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <alias name="defaultTmaResourcesCommerceAddToCartMethodHook" alias="tmaResourcesCommerceAddToCartMethodHook"/>
+    <bean id="defaultTmaResourcesCommerceAddToCartMethodHook"
+          class="de.hybris.platform.b2ctelcoservices.hook.impl.TmaResourcesCommerceAddToCartMethodHook">
+        <constructor-arg name="tmaCommerceCartResourceService" ref="tmaCommerceCartResourceService"/>
+    </bean>
+
+    <bean id="tmaAddToCartResourcesMergeDirective" depends-on="commerceAddToCartMethodHooks" parent="listMergeDirective">
+        <property name="add" ref="tmaResourcesCommerceAddToCartMethodHook"/>
+    </bean>
+
+    <alias name="defaultTmaResourcesCommerceUpdateCartEntryHook" alias="tmaResourcesCommerceUpdateCartEntryHook"/>
+    <bean id="defaultTmaResourcesCommerceUpdateCartEntryHook"
+          class="de.hybris.platform.b2ctelcoservices.hook.impl.TmaResourcesUpdateCartEntryHook">
+        <constructor-arg name="tmaCommerceCartResourceService" ref="tmaCommerceCartResourceService"/>
+    </bean>
+
+    <bean id="tmaUpdateCartEntryResourcesDirective" depends-on="commerceUpdateCartEntryMethodHooks" parent="listMergeDirective">
+        <property name="add" ref="tmaResourcesCommerceUpdateCartEntryHook"/>
+    </bean>
+
+    <alias name="defaultTmaChecklistActionsPlaceOrderMethodHook" alias="defaultTmaChecklistActionsPlaceOrderMethodHook"/>
+    <bean id="defaultTmaChecklistActionsPlaceOrderMethodHook"
+          class="de.hybris.platform.b2ctelcoservices.checklist.hook.TmaChecklistActionsPlaceOrderMethodHook">
+        <constructor-arg name="checklistService" ref="tmaChecklistService"/>
+    </bean>
+
+    <bean id="tmaValidatePlaceOrderMethodDirective" depends-on="commercePlaceOrderMethodHooks" parent="listMergeDirective">
+        <property name="add" ref="defaultTmaChecklistActionsPlaceOrderMethodHook"/>
+    </bean>
+
+    <alias name="defaultTmaPaymentMethodPlaceOrderMethodHook" alias="tmaPaymentMethodPlaceOrderMethodHook"/>
+    <bean id="defaultTmaPaymentMethodPlaceOrderMethodHook"
+          class="de.hybris.platform.b2ctelcoservices.order.hook.TmaPaymentMethodPlaceOrderMethodHook">
+        <constructor-arg name="billingTimeService" ref="billingTimeService"/>
+        <constructor-arg name="configurationService" ref="configurationService">
+            <description>deprecated since 2007</description>
+        </constructor-arg>
+    </bean>
+
+    <bean id="tmaPaymentMethodPlaceOrderMethodDirective" depends-on="commercePlaceOrderMethodHooks" parent="listMergeDirective">
+        <property name="add" ref="tmaPaymentMethodPlaceOrderMethodHook"/>
+    </bean>
+
+    <alias name="defaultTmaDeliveryModePlaceOrderMethodHook" alias="tmaDeliveryModePlaceOrderMethodHook"/>
+    <bean id="defaultTmaDeliveryModePlaceOrderMethodHook"
+          class="de.hybris.platform.b2ctelcoservices.order.hook.TmaDeliveryModePlaceOrderMethodHook">
+    </bean>
+
+    <bean id="tmaDeliveryModePlaceOrderMethodDirective" depends-on="commercePlaceOrderMethodHooks" parent="listMergeDirective">
+        <property name="add" ref="tmaDeliveryModePlaceOrderMethodHook"/>
+    </bean>
+
+    <alias name="defaultTmaEligibilityPlaceOrderMethodHook" alias="tmaEligibilityPlaceOrderMethodHook"/>
+    <bean id="defaultTmaEligibilityPlaceOrderMethodHook"
+          class="de.hybris.platform.b2ctelcoservices.order.hook.TmaEligibilityPlaceOrderMethodHook">
+        <constructor-arg name="tmaCartService" ref="cartService"/>
+    </bean>
+
+    <bean id="tmaEligibilityPlaceOrderMethodDirective" depends-on="commercePlaceOrderMethodHooks" parent="listMergeDirective">
+        <property name="add" ref="tmaEligibilityPlaceOrderMethodHook"/>
+    </bean>
+
+    <alias name="defaultTmaCouponPlaceOrderMethodHook" alias="tmaCouponPlaceOrderMethodHook"/>
+    <bean id="defaultTmaCouponPlaceOrderMethodHook"
+          class="de.hybris.platform.b2ctelcoservices.order.hook.TmaCouponPlaceOrderMethodHook">
+    </bean>
+
+    <bean id="tmaCouponPlaceOrderMethodDirective" depends-on="commercePlaceOrderMethodHooks" parent="listMergeDirective">
+        <property name="add" ref="tmaCouponPlaceOrderMethodHook"/>
+    </bean>
+
+    <alias name="defaultTmaCompatibilityPlaceOrderMethodHook" alias="tmaCompatibilityPlaceOrderMethodHook"/>
+    <bean id="defaultTmaCompatibilityPlaceOrderMethodHook"
+          class="de.hybris.platform.b2ctelcoservices.order.hook.TmaCompatibilityPlaceOrderMethodHook">
+        <constructor-arg name="tmaCompatibilityPolicyEngine" ref="tmaCompatibilityPolicyEngine"/>
+    </bean>
+
+    <bean id="tmaCompatibilityPlaceOrderMethodDirective" depends-on="commercePlaceOrderMethodHooks" parent="listMergeDirective">
+        <property name="add" ref="tmaCompatibilityPlaceOrderMethodHook"/>
+    </bean>
+    <!-- Abstract Order Resources END -->
+
+
+    <alias name="defaultTmaAddressIdGenerator" alias="tmaAddressIdGenerator"/>
+    <bean id="defaultTmaAddressIdGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.address.id.name}"/>
+        <property name="digits" value="${keygen.address.id.digits}"/>
+        <property name="start" value="${keygen.address.id.start}"/>
+        <property name="type" value="${keygen.address.id.type}"/>
+        <property name="template" value="${keygen.address.id.template}"/>
+    </bean>
+
+    <alias name="defaultTmaAddressPrepareInterceptor" alias="tmaAddressPrepareInterceptor"/>
+    <bean id="defaultTmaAddressPrepareInterceptor"
+          class="de.hybris.platform.b2ctelcoservices.interceptors.TmaAddressPrepareInterceptor">
+        <constructor-arg name="keyGenerator" ref="tmaAddressIdGenerator"/>
+        <constructor-arg name="addressService" ref="addressService"/>
+    </bean>
+
+    <bean id="tmaAddressPrepareInterceptorMapping" class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="tmaAddressPrepareInterceptor"/>
+        <property name="typeCode" value="Address"/>
+    </bean>
+
+    <!-- Tma address Dao-->
+    <alias name="defaultTmaAdressDao" alias="tmaAddressDao"/>
+    <bean id="defaultTmaAdressDao" class="de.hybris.platform.b2ctelcoservices.daos.impl.DefaultTmaAddressDao"
+          parent="addressDao">
+    </bean>
+
+    <!-- Tma address service-->
+    <alias name="defaultTmaAddressService" alias="addressService"/>
+    <bean id="defaultTmaAddressService"
+          class="de.hybris.platform.b2ctelcoservices.address.impl.DefaultTmaAddressService"
+          parent="defaultAddressService">
+        <constructor-arg name="tmaAddressDao" ref="tmaAddressDao"/>
+    </bean>
+
+    <alias name="defaultTmaRegionResourceStrategy" alias="tmaRegionResourceStrategy"/>
+    <bean id="defaultTmaRegionResourceStrategy" class="de.hybris.platform.b2ctelcoservices.order.impl.TmaRegionResourceStrategy">
+        <constructor-arg name="tmaRegionService" ref="tmaRegionService"/>
+        <constructor-arg name="modelService" ref="modelService"/>
+    </bean>
+
+    <!-- TmaProductSpecCharValueUse -->
+    <alias name="defaultTmaPscvuIdGenerator" alias="tmaPscvuIdGenerator"/>
+    <bean id="defaultTmaPscvuIdGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.pscvu.id.name}"/>
+        <property name="digits" value="${keygen.pscvu.id.digits}"/>
+        <property name="start" value="${keygen.pscvu.id.start}"/>
+        <property name="type" value="${keygen.pscvu.id.type}"/>
+        <property name="template" value="${keygen.pscvu.id.template}"/>
+    </bean>
+
+    <alias name="defaultTmaPscvuPrepareInterceptor" alias="tmaPscvuPrepareInterceptor"/>
+    <bean id="defaultTmaPscvuPrepareInterceptor"
+          class="de.hybris.platform.b2ctelcoservices.interceptors.TmaProductSpecCharValueUsePrepareInterceptor">
+        <constructor-arg name="tmaPscvuIdGenerator" ref="tmaPscvuIdGenerator"/>
+    </bean>
+
+    <alias name="defaultTmaPscvuPrepareInterceptorMapping" alias="tmaPscvuPrepareInterceptorMapping"/>
+    <bean id="defaultTmaPscvuPrepareInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="tmaPscvuPrepareInterceptor"/>
+        <property name="typeCode" value="TmaProductSpecCharValueUse"/>
+    </bean>
+
+    <alias name="defaultTmaPscvuValidateInterceptor" alias="tmaPscvuValidateInterceptor"/>
+    <bean id="defaultTmaPscvuValidateInterceptor"
+          class="de.hybris.platform.b2ctelcoservices.interceptors.TmaProductSpecCharValueUseValidateInterceptor">
+    </bean>
+
+    <alias name="defaultTmaPscvuValidateInterceptorMapping" alias="tmaPscvuValidateInterceptorMapping"/>
+    <bean id="defaultTmaPscvuValidateInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="tmaPscvuValidateInterceptor"/>
+        <property name="typeCode" value="TmaProductSpecCharValueUse"/>
+    </bean>
+
+    <!-- B2ctelcoCommerceCloneSavedCartStrategy -->
+    <alias name="b2ctelcoCommerceCloneSavedCartStrategy"
+           alias="b2ctelcoCommerceCloneSavedCartStrategy"/>
+    <bean id="b2ctelcoCommerceCloneSavedCartStrategy"
+          class="de.hybris.platform.b2ctelcoservices.order.impl.B2ctelcoCommerceCloneSavedCartStrategy"
+          parent="commerceCloneSavedCartStrategy">
+        <constructor-arg name="commerceSaveCartStrategy" ref="commerceSaveCartStrategy"/>
+        <constructor-arg name="commerceCartService" ref="commerceCartService"/>
+        <constructor-arg name="keyGenerator" ref="tmaCartValidationIdGenerator"/>
+    </bean>
+
+    <!-- the TmaSubscriptionInfo prepare interceptor -->
+    <alias name="defaultTmaSubscriptionInfoIdGenerator" alias="tmaSubscriptionInfoIdGenerator"/>
+    <bean id="defaultTmaSubscriptionInfoIdGenerator"
+          class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.tmaCartSubscriptionInfo.id.name}"/>
+        <property name="digits" value="${keygen.tmaCartSubscriptionInfo.id.digits}"/>
+        <property name="start" value="${keygen.tmaCartSubscriptionInfo.id.start}"/>
+        <property name="type" value="${keygen.tmaCartSubscriptionInfo.id.type}"/>
+        <property name="template" value="${keygen.tmaCartSubscriptionInfo.id.template}"/>
+    </bean>
+
+    <alias name="defaultTmaSubscriptionInfoPrepareInterceptor" alias="tmaSubscriptionInfoPrepareInterceptor"/>
+    <bean id="defaultTmaSubscriptionInfoPrepareInterceptor"
+          class="de.hybris.platform.b2ctelcoservices.interceptors.TmaSubscriptionInfoPrepareInterceptor">
+        <constructor-arg name="keyGenerator" ref="tmaSubscriptionInfoIdGenerator"/>
+    </bean>
+
+    <bean id="tmaSubscriptionInfoPrepareInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="tmaSubscriptionInfoPrepareInterceptor"/>
+        <property name="typeCode" value="TmaCartSubscriptionInfo"/>
+    </bean>
+
+    <alias name="defaultTmaOrderEntryPrepareInterceptor" alias="tmaOrderEntryPrepareInterceptor"/>
+    <bean id="defaultTmaOrderEntryPrepareInterceptor"
+          class="de.hybris.platform.b2ctelcoservices.interceptors.TmaOrderEntryPrepareInterceptor">
+        <constructor-arg name="addressService" ref="addressService"/>
+    </bean>
+
+    <bean id="tmaOrderEntryPrepareInterceptorMapping" class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="tmaOrderEntryPrepareInterceptor"/>
+        <property name="typeCode" value="OrderEntry"/>
+    </bean>
+
+    <alias name="defaultTmaOrderEntryRemoveInterceptor" alias="tmaOrderEntryRemoveInterceptor"/>
+    <bean id="defaultTmaOrderEntryRemoveInterceptor"
+          class="de.hybris.platform.b2ctelcoservices.interceptors.TmaOrderEntryRemoveInterceptor"/>
+
+    <bean id="tmaOrderEntryRemoveInterceptorMapping" class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="tmaOrderEntryRemoveInterceptor"/>
+        <property name="typeCode" value="OrderEntry"/>
+    </bean>
+
+    <alias name="defaultTmaBpoPrepareInterceptor" alias="tmaBpoPrepareInterceptor"/>
+    <bean id="defaultTmaBpoPrepareInterceptor"
+          class="de.hybris.platform.b2ctelcoservices.interceptors.TmaBpoPrepareInterceptor">
+        <constructor-arg name="modelService" ref="modelService"/>
+    </bean>
+
+    <bean id="tmaBpoPrepareInterceptorMapping" class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="defaultTmaBpoPrepareInterceptor"/>
+        <property name="typeCode" value="TmaBundledProductOffering"/>
+    </bean>
+
+    <alias name="defaultTmaBpoRemoveInterceptor" alias="tmaBpoRemoveInterceptor"/>
+    <bean id="defaultTmaBpoRemoveInterceptor"
+          class="de.hybris.platform.b2ctelcoservices.interceptors.TmaBpoRemoveInterceptor">
+        <constructor-arg name="sessionService" ref="sessionService"/>
+    </bean>
+
+    <bean id="tmaBpoRemoveInterceptorMapping" class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="tmaBpoRemoveInterceptor"/>
+        <property name="typeCode" value="TmaBundledProductOffering"/>
+    </bean>
+
+    <!-- tmaIdentification service-->
+    <alias name="defaultTmaIdentificationService" alias="tmaIdentificationService"/>
+    <bean id="defaultTmaIdentificationService"
+          class="de.hybris.platform.b2ctelcoservices.services.impl.DefaultTmaIdentificationService">
+        <constructor-arg name="tmaIdentificationDao" ref="tmaIdentificationDao"/>
+    </bean>
+
+    <!-- tmaIdentification Dao-->
+    <alias name="defaultTmaIdentificationDao" alias="tmaIdentificationDao"/>
+    <bean id="defaultTmaIdentificationDao"
+          class="de.hybris.platform.b2ctelcoservices.daos.impl.DefaultTmaIdentificationDao"/>
+
+    <!-- Tma Business Partner Interceptor -->
+    <alias name="defaultTmaBusinessPartnerIdGenerator" alias="tmaBusinessPartnerIdGenerator"/>
+    <bean id="defaultTmaBusinessPartnerIdGenerator"
+          class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.tmaBusinessPartner.code.name}"/>
+        <property name="digits" value="${keygen.tmaBusinessPartner.code.digits}"/>
+        <property name="start" value="${keygen.tmaBusinessPartner.code.start}"/>
+        <property name="type" value="${keygen.tmaBusinessPartner.code.type}"/>
+        <property name="template" value="${keygen.tmaBusinessPartner.code.template}"/>
+    </bean>
+
+    <alias name="defaultTmaBusinessPartnerPrepareInterceptor" alias="tmaBusinessPartnerPrepareInterceptor"/>
+    <bean id="defaultTmaBusinessPartnerPrepareInterceptor"
+          class="de.hybris.platform.b2ctelcoservices.interceptors.TmaBusinessPartnerPrepareInterceptor">
+        <constructor-arg name="tmaBusinessPartnerIdGenerator" ref="tmaBusinessPartnerIdGenerator"/>
+    </bean>
+
+    <!-- Tma Price Context Service-->
+    <alias name="defaultTmaPriceContextService" alias="tmaPriceContextService"/>
+    <bean id="defaultTmaPriceContextService"
+          class="de.hybris.platform.b2ctelcoservices.pricing.services.impl.DefaultTmaPriceContextService">
+        <constructor-arg name="enumerationService" ref="enumerationService"/>
+        <constructor-arg name="tmaPoService" ref="tmaPoService"/>
+        <constructor-arg name="cartService" ref="cartService"/>
+    </bean>
+
+    <bean id="tmaBusinessPartnerPrepareInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="tmaBusinessPartnerPrepareInterceptor"/>
+        <property name="typeCode" value="TmaBusinessPartner"/>
+    </bean>
+
+    <alias name="defaultTmaIdentificationValidateInterceptor" alias="tmaIdentificationValidateInterceptor"/>
+    <bean id="defaultTmaIdentificationValidateInterceptor"
+          class="de.hybris.platform.b2ctelcoservices.interceptors.TmaIdentificationValidateInterceptor">
+    </bean>
+
+    <bean id="tmaIdentificationValidateInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="tmaIdentificationValidateInterceptor"/>
+        <property name="typeCode" value="TmaIdentification"/>
+    </bean>
+
+    <alias name="defaultTmaEntryMergeRegionFilter" alias="tmaEntryMergeRegionFilter"/>
+    <bean id="defaultTmaEntryMergeRegionFilter"
+          class="de.hybris.platform.b2ctelcoservices.order.impl.TmaEntryMergeRegionFilter">
+    </bean>
+
+    <bean id="defaultTmaEntryMergeRegionDirective" depends-on="commerceCartEntryMergeFilters"
+          parent="listMergeDirective">
+        <property name="add" ref="tmaEntryMergeRegionFilter"/>
+    </bean>
+
+    <alias name="defaultTmaAddProductToCartActionStrategy" alias="addProductToCartActionStrategy"/>
+    <bean id="defaultTmaAddProductToCartActionStrategy"
+          class="de.hybris.platform.b2ctelcoservices.promotion.action.impl.DefaultTmaPromotionAddProductToCartActionStrategy"
+          parent="defaultAddProductToCartActionStrategy">
+        <constructor-arg name="orderPriceBuilder" ref="tmaAbstractOrderPriceBuilder"/>
+    </bean>
+
+    <alias alias="actionStrategies" name="defaultTmaActionStrategies"/>
+    <util:list id="defaultTmaActionStrategies">
+        <ref bean="orderTotalAdjustActionStrategy"/>
+        <ref bean="orderEntryAdjustActionStrategy"/>
+        <ref bean="shippingActionStrategy"/>
+        <ref bean="addProductToCartActionStrategy"/>
+        <ref bean="potentialPromotionMessageActionStrategy"/>
+    </util:list>
+
+
+    <!-- tmaProduct Dao-->
+    <alias name="defaultTmaProductDao" alias="productDao"/>
+    <bean id="defaultTmaProductDao"
+          class="de.hybris.platform.b2ctelcoservices.daos.impl.DefaultTmaProductDao">
+        <constructor-arg name="typecode" value="Product"/>
+    </bean>
+
+    <alias name="defaultTmaServiceProviderActionResolver" alias="tmaServiceProviderActionResolver"/>
+    <bean id="defaultTmaServiceProviderActionResolver"
+          class="de.hybris.platform.b2ctelcoservices.checklist.impl.TmaServiceProviderActionResolver"
+          parent="defaultTmaAbstractChecklistActionResolver">
+    </bean>
+
+    <alias name="defaultTmaServiceProviderResourceStrategy" alias="tmaServiceProviderResourceStrategy"/>
+    <bean id="defaultTmaServiceProviderResourceStrategy"
+          class="de.hybris.platform.b2ctelcoservices.order.resourcestrategies.impl.TmaServiceProviderResourceStrategy">
+        <constructor-arg name="modelService" ref="modelService"/>
+    </bean>
+
+    <alias name="defaultTmaSubscriptionPricePlanValidateInterceptor" alias="tmaSubscriptionPricePlanValidateInterceptor"/>
+    <bean id="defaultTmaSubscriptionPricePlanValidateInterceptor"
+          class="de.hybris.platform.b2ctelcoservices.interceptors.TmaSubscriptionPricePlanValidateInterceptor"/>
+
+    <bean id="tmaSubscriptionPricePlanValidateInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="tmaSubscriptionPricePlanValidateInterceptor"/>
+        <property name="typeCode" value="SubscriptionPricePlan"/>
+        <property name="replacedInterceptors" ref="subscriptionPricePlanValidateInterceptor"/>
+    </bean>
+
+    <alias name="defaultTmaEligibilityContextComparator" alias="tmaEligibilityContextComparator"/>
+    <bean id="defaultTmaEligibilityContextComparator"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.comparator.TmaEligibilityContextComparator">
+    </bean>
+
+    <alias name="defaultTmaBaseStoreForSiteSelectorStrategy" alias="tmaBaseStoreForSiteSelectorStrategy"/>
+    <bean id="defaultTmaBaseStoreForSiteSelectorStrategy"
+          class="de.hybris.platform.b2ctelcoservices.basestore.strategies.impl.DefaultTmaBaseStoreForSiteSelectorStrategy"/>
+
+    <!-- Tma Customer Account Service-->
+    <alias name="defaultTmaCustomerAccountService" alias="tmaCustomerAccountService"/>
+    <bean id="defaultTmaCustomerAccountService"
+          class="de.hybris.platform.b2ctelcoservices.customer.DefaultTmaCustomerAccountService"
+          parent="defaultCustomerAccountService">
+    </bean>
+
+    <alias name="defaultTmaCartStatusResourceStrategy" alias="tmaCartStatusResourceStrategy"/>
+    <bean id="defaultTmaCartStatusResourceStrategy"
+          class="de.hybris.platform.b2ctelcoservices.order.resourcestrategies.impl.TmaCartStatusResourceStrategy">
+        <constructor-arg name="modelService" ref="modelService"/>
+        <constructor-arg name="enumerationService" ref="enumerationService"/>
+    </bean>
+
+    <!-- ProductOfferingPrice Id Generator-->
+    <alias name="defaultTmaProductOfferingPriceIdGenerator" alias="tmaProductOfferingPriceIdGenerator"/>
+    <bean id="defaultTmaProductOfferingPriceIdGenerator"
+          class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.tmaProductOfferingPrice.id.name}"/>
+        <property name="digits" value="${keygen.tmaProductOfferingPrice.id.digits}"/>
+        <property name="start" value="${keygen.tmaProductOfferingPrice.id.start}"/>
+        <property name="type" value="${keygen.tmaProductOfferingPrice.id.type}"/>
+        <property name="template" value="${keygen.tmaProductOfferingPrice.id.template}"/>
+    </bean>
+
+    <alias name="defaultTmaProductOfferingPriceIdPrepareInterceptor" alias="tmaProductOfferingPriceIdPrepareInterceptor"/>
+    <bean id="defaultTmaProductOfferingPriceIdPrepareInterceptor"
+          class="de.hybris.platform.b2ctelcoservices.interceptors.TmaProductOfferingPriceIdPrepareInterceptor">
+        <constructor-arg name="tmaProductOfferingPriceIdGenerator" ref="tmaProductOfferingPriceIdGenerator"/>
+    </bean>
+
+    <bean id="tmaProductOfferingPriceIdPrepareInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="tmaProductOfferingPriceIdPrepareInterceptor"/>
+        <property name="typeCode" value="TmaProductOfferingPrice"/>
+    </bean>
+
+    <alias name="defaultTmaAbstractOrderPriceIdPrepareInterceptor" alias="tmaAbstractOrderPriceIdPrepareInterceptor"/>
+    <bean id="defaultTmaAbstractOrderPriceIdPrepareInterceptor"
+          class="de.hybris.platform.b2ctelcoservices.interceptors.TmaAbstractOrderPriceIdPrepareInterceptor">
+        <constructor-arg name="keyGenerator" ref="tmaOrderPriceIdGenerator"/>
+    </bean>
+
+    <bean id="tmaAbstractOrderPriceIdPrepareInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="tmaAbstractOrderPriceIdPrepareInterceptor"/>
+        <property name="typeCode" value="TmaAbstractOrderPrice"/>
+    </bean>
+
+    <alias name="defaultTmaPriceValuePrepareInterceptor" alias="tmaPriceValuePrepareInterceptor"/>
+    <bean id="defaultTmaPriceValuePrepareInterceptor"
+          class="de.hybris.platform.b2ctelcoservices.interceptors.TmaPriceValuePrepareInterceptor">
+    </bean>
+
+    <bean id="tmaPriceValuePrepareInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="tmaPriceValuePrepareInterceptor"/>
+        <property name="typeCode" value="PriceRow"/>
+    </bean>
+
+    <alias name="defaultTmaBillingTimeService" alias="billingTimeService"/>
+    <bean id="defaultTmaBillingTimeService"
+          class="de.hybris.platform.b2ctelcoservices.services.impl.DefaultTmaBillingTimeService" parent="defaultBillingTimeService">
+        <constructor-arg name="configurationService" ref="configurationService"/>
+    </bean>
+
+    <alias name="defaultTmaPromotionActionService" alias="promotionActionService"/>
+    <bean name="defaultTmaPromotionActionService" parent="defaultPromotionActionService"
+          class="de.hybris.platform.b2ctelcoservices.pricing.services.impl.DefaultTmaPromotionActionService">
+        <constructor-arg name="orderDiscountValuePriceBuilder" ref="tmaAbstractOrderDiscountValuePriceBuilder"/>
+    </bean>
+
+    <alias name="tmaSolrAsSearchProfileCalculationListener" alias="solrAsSearchProfileCalculationListener"/>
+    <alias name="defaultTmaSolrAsSearchProfileCalculationListener" alias="tmaSolrAsSearchProfileCalculationListener"/>
+    <bean id="defaultTmaSolrAsSearchProfileCalculationListener" parent="defaultSolrAsSearchProfileCalculationListener"
+          class="de.hybris.platform.b2ctelcoservices.compatibility.eligibility.solr.listeners.TmaSolrAsSearchProfileCalculationListener">
+        <constructor-arg name="i18nService" ref="commerceCommonI18NService"/>
+    </bean>
+    <alias name="defaultTmaPopService" alias="tmaPopService"/>
+    <bean name="defaultTmaPopService"
+          class="de.hybris.platform.b2ctelcoservices.pricing.services.impl.DefaultTmaPopService">
+        <constructor-arg name="popQualifiers">
+            <list>
+                <ref bean="tmaPopUsageSpecQualifier"/>
+                <ref bean="tmaPopPscvQualifier"/>
+            </list>
+        </constructor-arg>
+        <constructor-arg name="tmaPopSearchDao" ref="tmaPopSearchDao"/>
+    </bean>
+
+    <alias name="defaultTmaProductUsageSpecService" alias="tmaProductUsageSpecService"/>
+    <bean name="defaultTmaProductUsageSpecService"
+          class="de.hybris.platform.b2ctelcoservices.services.impl.DefaultTmaProductUsageSpecService">
+    </bean>
+
+    <alias name="defaultTmaPscvService" alias="tmaPscvService"/>
+    <bean name="defaultTmaPscvService"
+          class="de.hybris.platform.b2ctelcoservices.services.impl.DefaultTmaPscvService">
+    </bean>
+
+    <alias name="defaultTmaPopUsageSpecQualifier" alias="tmaPopUsageSpecQualifier"/>
+    <bean name="defaultTmaPopUsageSpecQualifier"
+          class="de.hybris.platform.b2ctelcoservices.pricing.services.impl.TmaPopUsageSpecQualifier">
+        <constructor-arg name="productUsageSpecService" ref="tmaProductUsageSpecService"/>
+    </bean>
+
+    <alias name="defaultTmaPopPscvQualifier" alias="tmaPopPscvQualifier"/>
+    <bean name="defaultTmaPopPscvQualifier"
+          class="de.hybris.platform.b2ctelcoservices.pricing.services.impl.TmaPopPscvQualifier">
+        <constructor-arg name="pscvService" ref="tmaPscvService"/>
+    </bean>
+
+    <alias name="defaultTmaPriceRowPopValidateInterceptor" alias="tmaPriceRowPopValidateInterceptor"/>
+    <bean name="defaultTmaPriceRowPopValidateInterceptor"
+          class="de.hybris.platform.b2ctelcoservices.interceptors.TmaPriceRowPopValidateInterceptor">
+        <constructor-arg name="tmaPopService" ref="tmaPopService"/>
+        <constructor-arg name="sessionService" ref="sessionService"/>
+    </bean>
+
+    <bean id="tmaPriceRowPopValidateInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="tmaPriceRowPopValidateInterceptor"/>
+        <property name="typeCode" value="PriceRow"/>
+    </bean>
+
+    <alias name="defaultTmaPopValidateInterceptor" alias="tmaPopValidateInterceptor"/>
+    <bean id="defaultTmaPopValidateInterceptor"
+          class="de.hybris.platform.b2ctelcoservices.interceptors.TmaPopValidateInterceptor">
+        <constructor-arg name="tmaPopService" ref="tmaPopService"/>
+        <constructor-arg name="sessionService" ref="sessionService"/>
+    </bean>
+
+    <bean id="tmaPopValidateInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="tmaPopValidateInterceptor"/>
+        <property name="typeCode" value="TmaProductOfferingPrice"/>
+    </bean>
+
+	<alias name="defaultTmaServiceabilityCheckServiceList"
+		alias="tmaServiceabilityCheckServiceList" />
+	<util:list id="defaultTmaServiceabilityCheckServiceList">
+	</util:list>
+
+	<alias name="defaultTmaServiceabilityService"
+		alias="tmaServiceabilityService" />
+	<bean name="defaultTmaServiceabilityService"
+		class="de.hybris.platform.b2ctelcoservices.serviceability.impl.DefaultTmaServiceabilityService">
+		<constructor-arg name="tmaServiceabilityCheckServices"
+			ref="tmaServiceabilityCheckServiceList" />
+	</bean>
+
+	<!-- Allowed Principal for Product Offerings Solr Populator- -->
+
+	 <bean id="productOfferingAllowedPrincipalsFieldValueProvider" parent="abstractValueResolver"
+          class="de.hybris.platform.b2ctelcoservices.search.solrfacetsearch.provider.impl.TmaProductOfferingAllowedPrincipalsFieldValueProvider">
+           <constructor-arg  name="spoSource" ref="tmaSpoSource"/>
+    </bean>
+
+    <!-- Order dao and service definitions -->
+    <alias name="defaultTmaOrderDao" alias="orderDao" />
+    <bean name="defaultTmaOrderDao"
+          class="de.hybris.platform.b2ctelcoservices.daos.impl.DefaultTmaOrderDao" parent="defaultOrderDao">
+    </bean>
+
+    <alias name="defaultTmaOrderService" alias="orderService" />
+    <bean name="defaultTmaOrderService"
+          class="de.hybris.platform.b2ctelcoservices.order.impl.DefaultTmaOrderService" parent="acceleratorDefaultOrderService">
+    </bean>
+
+</beans>

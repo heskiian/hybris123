@@ -1,0 +1,29 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+$defaultPassword = 1234
+
+INSERT_UPDATE UserGroup ; uid[unique = true] ;  
+                        ; customergroup      ;  
+                        
+INSERT_UPDATE Customer ; originalUid[unique = true] ; uid[unique = true]     ; customerID             ; name        ; groups(uid)   ; password[default = $defaultPassword] ; Europe1PriceFactory_UPG(code) 
+                       ; etta.berg@hybris.com       ; etta.berg@hybris.com   ; etta.berg@hybris.com   ; etta.berg   ; customergroup ;                                      
+                       ; gretta.berg@hybris.com     ; gretta.berg@hybris.com ; gretta.berg@hybris.com ; gretta.berg ; customergroup ;                                      
+                       
+INSERT_UPDATE BaParty                        ; id[unique = true] ; name[lang = en] ; type(code) ; principals(uid)        
+                                             ; party_10823       ; etta berg       ; INDIVIDUAL ; etta.berg@hybris.com   
+                                             ; party_10824       ; gretta berg     ; INDIVIDUAL ; gretta.berg@hybris.com 
+                                             
+#Create SubscribedProductInventory PartyRole 
+INSERT_UPDATE BaPartyRole ; id[unique = true] ; role     ; party(id)   
+                          ; etta.berg         ; customer ; party_10823 
+                          ; gretta.berg       ; customer ; party_10824 
+                          
+INSERT_UPDATE BaBillingAccount ; id[unique=true]   ; partyRoles(id) 
+                               ; 000001            ; etta.berg     
+                               ; 000002            ; etta.berg      
+                               ; 000003            ; gretta.berg    
+  
+                               
+                               

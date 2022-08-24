@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<action-definition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   id="de.hybris.platform.b2ctelcobackoffice.action.removepolicycondition"
+                   xsi:noNamespaceSchemaLocation="http://www.hybris.com/schema/cockpitng/action-definition.xsd">
+
+    <name>Remove policy condition</name>
+    <description>Removes a child condition from the parent condition or from the current policy</description>
+    <author>hybris</author>
+    <version>1.0</version>
+
+    <iconUri>icons/icon_remove_treeitem.png</iconUri>
+
+    <actionClassName>de.hybris.platform.b2ctelcobackoffice.actions.RemoveTmaPolicyConditionAction</actionClassName>
+    <sockets>
+        <input id="selectedReferences" type="java.lang.Object"/>
+    </sockets>
+
+</action-definition>

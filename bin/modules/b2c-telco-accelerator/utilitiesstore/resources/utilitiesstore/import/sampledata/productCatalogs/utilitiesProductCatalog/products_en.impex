@@ -1,0 +1,53 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+#******************************This file is generated - please do not edit it. It will be regenerated after every build.********************************#
+# ImpEx template for Importing all Localisations for Products in the Utilities Store
+
+# Macros / Replacement Parameter definitions
+$productCatalog = utilitiesProductCatalog
+$productCatalogName = Utilities Product Catalog
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Staged'])[unique = true, default = $productCatalog:Staged]
+
+$lang = en
+
+
+# ImpEx for Importing Product Localisations
+UPDATE TmaSimpleProductOffering; code[unique = true]                    ; name[lang = en]             ; description[lang = $lang]; $catalogVersion; summary[lang = $lang]
+# Devices
+                               ; lightbulb_energy_efficient             ; Energy Efficient Lightbulb  ; <strong class=description-headline>Energy Efficient Lightbulb</strong>Make yourself at home with the latest Philips LED technology. Philips LED light makes sure you feel at home as soon as the lights are switched on. LED light bulbs combine a beautiful warm white light with an exceptionally long lifetime. LED bulbs provide immediate, significant energy savings while enhancing your home atmosphere.
+                               ; lightbulb_led                          ; LED Lightbulb               ; <strong class=description-headline>Get a LED one</strong>LED Lightbulb letting you connect it and configure it via web using your mobile phone.
+                               ; lightbulb_led_multipack                ; LED Multipack               ; <strong class=description-headline>Why You’ll Love LED Multipack</strong> Is an ideal light source for pendants and chandeliers, widely used for living room, hall, office, shopping mall, hotel, etc, 80% energy saving to replace traditional incandescent lamp. Standard E14 lamp base, easy and safe installation, eco-friendly.
+
+                               ; electrical_cord_general                ; General Electrical Cord     ; General Electrical Cord
+                               ; electrical_cord_double_ended_extension ; Double Ended Extension Cord ; Double Ended Extension Cord
+                               ; electrical_cord_slim                   ; Slim Electrical Cord        ; Slim Electrical Cord
+
+                               ; solar_panel                            ; Solar Panel                 ; Solar Panel
+                               ; solar_panel_plus                       ; Solar Panel Plus            ; Solar Panel Plus
+                               ; solar_panel_premium                    ; Solar Panel Premium         ; Solar Panel Premium
+
+                               ; thermostat_basic                       ; Thermostat Basic            ; Thermostat Basic
+                               ; thermostat_plus                        ; Thermostat Plus             ; Thermostat Plus
+                               ; thermostat_premium                     ; Thermostat Premium          ; Thermostat Premium
+
+                               ; installation_electricity               ; Electricity Installation    ; Electricity Installation
+                               ; installation_gas                       ; Gas Installation            ; Gas Installation
+                               ; installation_solar_panel               ; Solar Panel Installation    ; Solar Panel Installation
+
+UPDATE TmaSimpleProductOffering; code[unique = true]         ; name[lang = en]             ; description[lang = $lang]                            ; $catalogVersion; summary[lang = $lang]
+#Service Plans
+                               ; electric_plan_basic         ; Basic Electric Plan         ; Basic electric plan ideal for a small apartment.     ;                ; Basic electric plan ideal for a small apartment.
+                               ; electric_plan_plus          ; Plus Electric Plan          ; Plus electric plan ideal for a small house.          ;                ; Basic electric plan ideal for a small house.
+                               ; electric_plan_best          ; Best Electric Plan          ; Best electric plan ideal for a big house/ apartment. ;                ; Best electric plan ideal for a big house.
+                               ; electric_plan_total_comfort ; Total Home Comfort          ; Total Home Confort ensures you have no limit         ;                ; Total Home Confort ensures you have no limit
+
+; gas_plan_basic              ; Basic Gas Plan              ; Basic Gas Plan
+; gas_plan_plus               ; Plus Gas Plan               ; Plus Gas Plan
+; gas_plan_best               ; Best Gas Plan               ; Best Gas Plan
+; gas_plan_total_comfort      ; Total Home Comfort Gas Plan ; Total Home Comfort Gas Plan
+
+; home_warranty               ; Home Warranty               ; Home Warranty
+; home_warranty_plus          ; Home Warranty Plus          ; Home Warranty Plus
+; home_warranty_total_comfort ; Home Warranty Total Comfort ; Home Warranty Total Comfort

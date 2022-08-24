@@ -1,0 +1,23 @@
+{
+  "files": {
+    "apps/smartedit-scripts/README.md": "e3f5eacbcdb5e6feb3d49c85315a287a0839dff3",
+    "apps/smartedit-scripts/package.json": "208d32d1a95cbda6ad8681bd6636f0852ecbabb5",
+    "apps/smartedit-scripts/scripts/index.js": "954543afaeeef29eac31826724eb31b1037d30c9",
+    "apps/smartedit-scripts/scripts/link-smartedit-project.js": "d947ebde68e84689098c0c7a5877bfda3b69b224",
+    "apps/smartedit-scripts/scripts/lint-staged.js": "551429e255464790ae7d7e8bdcdefa85ae2b0b36",
+    "apps/smartedit-scripts/scripts/migrate-smartedit.js": "caef7d834a0558fd4ff28225a9879d8ba8eca96a",
+    "apps/smartedit-scripts/scripts/migration/migrate-unit-tests.js": "dd467ca8dfa96994b97f7fb5bc6dc332a231d9de",
+    "apps/smartedit-scripts/scripts/migration/update-buildcallbacks.js": "1171c4a7cb0378f12b2cae99d067b1729753203c",
+    "apps/smartedit-scripts/scripts/templates/karma.conf.js": "350cff6eeb08cfcc2c8b5e39aa4d2183a2a96ad8",
+    "apps/smartedit-scripts/scripts/templates/package.json": "20bc8b2ee9d417624d32c20d0ab5422a598eb1c1",
+    "apps/smartedit-scripts/scripts/templates/smartedit.json": "807fec2e2d6c9542ec559aaef925dba57a7a93da",
+    "apps/smartedit-scripts/scripts/templates/tsconfig.build.json": "f8ea19efeebb3f1c5c73b1d115068f434656a1d7",
+    "apps/smartedit-scripts/scripts/templates/tsconfig.json": "9396129eb09d5e9b140450638b12108a74b02838",
+    "apps/smartedit-scripts/scripts/templates/tsconfig.spec.json": "3e8912690996c6d4286cb2e824774addea24cee4",
+    "apps/smartedit-scripts/scripts/templates/webpack.config.spec": "a55a1a5821f8da8189ada7283ded96bb647acdcb",
+    "apps/smartedit-scripts/scripts/unlink-smartedit-project.js": "eacc62026c7e83ab94a518d571a01971b20cff08",
+    "apps/smartedit-scripts/scripts/utils.js": "4760cb9d2d3ab5f45a9c2fe10620ba304b02b0a3",
+    "apps/smartedit-scripts/.rush/temp/shrinkwrap-deps.json": "11980e8fe92a8ec9e1a5b62a93eaced079f13546"
+  },
+  "arguments": ""
+}

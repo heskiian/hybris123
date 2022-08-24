@@ -1,0 +1,30 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for Importing Sample Catalog Data
+
+#% impex.enableCodeExecution(true);
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE Catalog; id[unique = true]       ; name[lang = en]            ; name[lang = de]                    ; baseStores(uid)
+                     ; allProductCatalog       ; All Product Catalog        ;                                    ; allStore
+                     ; noContentProductCatalog ; No Content Product Catalog ; Deutsch No Content Product Catalog ; noContentStore
+                     ; b2ctelcoPoExportCatalog ; Export Product Catalog     ;                                    ; b2ctelcoPoExportStore
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE CatalogVersion; catalog(id)[unique = true]; version[unique = true]; active;
+                            ; b2ctelcoPoExportCatalog   ; Staged                ; false ;
+                            ; b2ctelcoPoExportCatalog   ; Online                ; true  ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE ContentCatalog; id[unique = true]       ; name                       ; baseStores(uid)
+                            ; allContentCatalog       ; All Content Catalog        ; allStore
+                            ; noProductContentCatalog ; No Product Content Catalog ; noProductStore
+
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE ClassificationSystem; id[unique = true]              ; name[lang = en]                   ; name[lang = de]                           ; baseStores(uid)
+                                  ; allClassificationCatalog       ; All Classification Catalog        ;                                           ; allStore
+                                  ; noProductClassificationCatalog ; No Product Classification Catalog ;                                           ; noProductStore
+                                  ; noContentClassificationCatalog ; No Content Classification Catalog ; Deutsch No Content Classification Catalog ; noContentStore

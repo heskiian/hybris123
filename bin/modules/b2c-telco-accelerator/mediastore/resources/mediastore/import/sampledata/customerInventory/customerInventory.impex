@@ -1,0 +1,54 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for importing the customer product inventory.
+
+$productCatalog = mediaProductCatalog
+$defaultApprovalStatus = approvalstatus(code)[default = 'approved']
+$catalog-version = Staged
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = $catalog-version])[unique = true, default = $productCatalog:$catalog-version]
+
+
+# Catalog version
+INSERT_UPDATE Catalog; id[unique = true]
+; $productCatalog
+
+INSERT_UPDATE CatalogVersion; catalog(id)[unique = true]; version[unique = true]
+; $productCatalog ; $catalog-version
+
+# Create Customer Group
+INSERT_UPDATE Usergroup; uid[unique = true]; groups(uid)[mode = append]
+; customergroup ;
+
+INSERT_UPDATE TmaSubscribedProduct; id[unique = true]; name; serviceType(code); startDate[dateformat = dd.MM.yyyy]; billingFrequency; productCode; bundledProductCode; subscriptionStatus; contractDuration; billingsystemId[unique = true]; billingSubscriptionId; contractFrequency; paymentMethodId; productSpecification(id, $catalogVersion)
+; 0100_tv_entertainment      ; TV Entertainment      ; TARIFF_PLAN ; 13.07.2018 ; monthly ; tvEntertainment        ; tricast_shows_pack ; ACTIVE ; 12 ; tco ; bsid1100 ; years  ; 9874687087554 ; tv_starter_plan
+; 0101_all_on_demand         ; All on Demand         ; ADD_ON      ; 19.03.2018 ; monthly ; allOnDemand            ; tricast_shows_pack ; ACTIVE ; 12 ; tco ; bsid1101 ; months ; 9874687087554 ;
+; 0102_foreign_language_pack ; Foreign Language Pack ; ADD_ON      ; 19.03.2018 ; monthly ; foreignLanguagePackage ; tricast_shows_pack ; ACTIVE ; 12 ; tco ; bsid1102 ; months ; 9874687087554 ;
+; 1101_tco_tv_channels       ; TV Channels           ; TARIFF_PLAN ; 01.01.2018 ; monthly ; TCO                    ;                    ; ACTIVE ; 12 ; tco ; bsid1110 ; months ; 9874687087554 ; tv_starter_plan
+
+INSERT_UPDATE TmaSubscriptionBase; subscriberIdentity[unique = true]; billingSystemId[unique = true]; subscribedProducts(id)
+; tricast_channels_subscription ; tco ; 0100_tv_entertainment,0101_all_on_demand,0102_foreign_language_pack
+; tricast_tv_show_subscription  ; tco ; 1101_tco_tv_channels
+
+INSERT_UPDATE TmaSubscriptionAccess; principal(uid)[unique = true]; subscriptionBase(billingSystemId, subscriberIdentity)[unique = true]; accessType(code)
+; etta.berg@hybris.com ; tco:tricast_channels_subscription ; OWNER
+; etta.berg@hybris.com ; tco:tricast_tv_show_subscription  ; BENEFICIARY
+
+INSERT_UPDATE TmaBillingAccount; billingAccountId[unique = true]; billingSystemId[unique = true]; subscriptionBases(subscriberIdentity); parent(billingAccountId, billingSystemId)
+; BA-324564 ; tco ; tricast_tv_show_subscription,tricast_channels_subscription
+
+# Import sample billing agreement and billing agreement item
+INSERT_UPDATE TmaBillingAgreementItem; id[unique = true]; subscribedProducts(id)
+; 0100_tv_entertainment_baItem      ; 0100_tv_entertainment
+; 0101_all_on_demand_baItem         ; 0101_all_on_demand
+; 0102_foreign_language_pack_baItem ; 0102_foreign_language_pack
+; 1101_tco_tv_channels_baItem       ; 1101_tco_tv_channels
+
+INSERT_UPDATE TmaBillingAgreementTerm; id[unique = true]; billingSystemId; start[dateformat = dd.MM.yyyy]; end[dateformat = dd.MM.yyyy]; length; frequency(code); offerTermRef
+; media_monthly_term ; IN ; 13.10.2017 ; 12.10.2019 ; 12 ; monthly ; monthly_12
+
+
+INSERT_UPDATE TmaBillingAgreement; id[unique = true]; billingSystemId; term(id); agreementItems(id)
+; mediacontract-2018-02-14 ; IN ; media_monthly_term ; 0100_tv_entertainment_baItem,0101_all_on_demand_baItem,0102_foreign_language_pack_baItem
+; mediacontract-2018-01-21 ; IN ; media_monthly_term ; 1101_tco_tv_channels_baItem

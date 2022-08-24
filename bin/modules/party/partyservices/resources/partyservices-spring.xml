@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <alias name="defaultPartyServicesSystemSetup" alias="partyServicesSystemSetup"/>
+    <bean id="defaultPartyServicesSystemSetup" class="de.hybris.platform.partyservices.setup.PartyServicesSystemSetup"
+          parent="abstractCoreSystemSetup"/>
+
+    <alias name="defaultPmIndividualDao" alias="pmIndividualDao"/>
+    <bean id="defaultPmIndividualDao"
+          class="de.hybris.platform.partyservices.daos.impl.DefaultPmIndividualDao">
+    </bean>
+
+    <alias name="defaultPmIndividualService" alias="pmIndividualService"/>
+    <bean name="defaultPmIndividualService"
+          class="de.hybris.platform.partyservices.services.impl.DefaultPmIndividualService">
+        <constructor-arg name="pmIndividualDao" ref="pmIndividualDao"/>
+    </bean>
+
+    <alias name="defaultPmOrganizationDao" alias="pmOrganizationDao"/>
+    <bean id="defaultPmOrganizationDao"
+          class="de.hybris.platform.partyservices.daos.impl.DefaultPmOrganizationDao">
+    </bean>
+
+    <alias name="defaultPmOrganizationService" alias="pmOrganizationService"/>
+    <bean name="defaultPmOrganizationService"
+          class="de.hybris.platform.partyservices.services.impl.DefaultPmOrganizationService">
+        <constructor-arg name="organizationDao" ref="pmOrganizationDao"/>
+    </bean>
+
+</beans>

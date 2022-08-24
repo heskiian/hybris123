@@ -1,0 +1,45 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for Importing Sample Catalog Data
+
+#% impex.enableCodeExecution(true);
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PromotionGroup; Identifier[unique = true]
+                            ; b2ctelcoPfpPromoGrp
+                            ; b2ctelcoPpdPromoGrp
+                            ; b2ctelcoPfdPromoGrp
+                            ; b2ctelcoOtpdPromoGrp
+                            ; b2ctelcoOtfdPromoGrp
+                            ; b2ctelcoOtpdpPromoGrp
+                            ; b2ctelcoPpfpPromoGrp
+                            ; b2ctelcoPppdPromoGrp
+                            ; b2ctelcoBxgyfPromoGrp
+                            ; b2ctelcoMultibuyPromoGrp
+                            ; b2ctelcoPbfpPromoGrp
+                            ; b2ctelcoPptfdPromoGrp
+                            ; b2ctelcoTcpdcPromoGrp
+                            ; b2ctelcoOtfpdPromoGrp
+                            ; b2ctelcoCsfdotPromoGrp
+                            ; b2ctelcoFreeGiftPromoGrp
+                            ; b2ctelcoFreeGift2PromoGrp
+                            ; b2ctelcoFreeGift3PromoGrp
+                            ; b2ctelcoCcpdPromoGrp
+                            ; b2ctelcoOrder5538PromoGrp
+                            ; b2ctelcoProductOrderPromoGrp
+                            ; b2ctelcoCcfdPromoGrp
+                            ; b2ctelcoCcpdpPromoGrp
+
+# composite pricing for price alteration and promotion tests
+                            ; b2ctelcoFixedPrice7968PromoGrp
+                            ; b2ctelcoFixedDiscount7968PromoGrp
+                            ; b2ctelcoPercentageDiscount7968PromoGrp
+
+# Hierarchical Cart - Promotion
+                            ; b2ctelcoFixedDiscount9261PromoGrp
+                            ; b2ctelcoPercentageDiscount9261PromoGrp
+
+# Hierarchical Cart - E2E
+                            ; b2ctelcoFixedDiscount9610PromoGrp

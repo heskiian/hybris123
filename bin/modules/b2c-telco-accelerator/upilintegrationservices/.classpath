@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="eclipsebin/notused"/>
+
+	<classpathentry exported="true" kind="src" path="/b2ctelcoservices" />
+	<classpathentry exported="true" kind="src" path="/deltadetection" />
+	<classpathentry exported="true" kind="src" path="/utilitiesstore" />
+	<classpathentry exported="true" kind="lib" path="lib/freemarker-2.3.30.jar" />
+	<classpathentry exported="true" kind="lib" path="lib/gson-2.8.8.jar" />
+	<classpathentry exported="true" kind="lib" path="lib/olingo-odata2-api-2.0.11.jar" />
+	<classpathentry exported="true" kind="lib" path="lib/olingo-odata2-core-2.0.11.jar" />
+	<classpathentry exported="true" kind="lib" path="lib/slf4j-simple-1.7.32.jar" />
+	<classpathentry exported="true" kind="lib" path="lib/upiledmx-custom-pojogen.jar" />
+	<classpathentry exported="true" kind="lib" path="resources" />
+	<classpathentry exported="true" output="eclipsebin/classes" kind="src" path="src" />
+	<classpathentry exported="true" output="eclipsebin/classes" kind="src" path="testsrc" />
+	<classpathentry exported="true" output="eclipsebin/classes" kind="src" path="gensrc" />
+	<classpathentry exported="false" kind="src" path="/platform" />
+				
+</classpath>
+				

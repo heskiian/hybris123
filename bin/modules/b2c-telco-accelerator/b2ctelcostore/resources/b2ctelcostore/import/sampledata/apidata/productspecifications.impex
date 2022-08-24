@@ -1,0 +1,101 @@
+#
+# Copyright (c) 2020 SAP SE or an SAP affiliate company.  All rights reserved.
+#
+
+#
+##
+
+$productCatalog = b2ctelcoProductCatalog
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Online'])[unique = true, default = $productCatalog:Online]
+$defaultApprovalStatus = approvalstatus(code)[default = 'check']
+
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaCustomerFacingServiceSpec; id[unique = true]; $catalogVersion; $defaultApprovalStatus
+                                          ; voice_svc
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaServiceSpecCharacteristic; id[unique = true]; serviceSpecifications(id, $catalogVersion); $catalogVersion
+                                          ; minutes          ; voice_svc
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaServiceSpecCharacteristicValue; id[unique = true]; serviceSpecCharacteristic(id, $catalogVersion); value; unitOfMeasure(id); $catalogVersion
+                                               ; 100_minutes      ; minutes                                       ; 100  ; phone_minutes
+
+##########################
+# Product Specifications #
+##########################
+# Product Spec Characteristics
+INSERT_UPDATE TmaProductSpecCharacteristic; id[unique = true]; $catalogVersion; name[lang = en]; description[lang = en]                                 ; configurable[default = false];
+                                          ; sms              ;                ; SMS            ; Included sms
+                                          ; voice            ;                ; Phone Minutes  ; Included national minutes
+                                          ; data_volume      ;                ; Data           ; Included Data
+                                          ; data_speed       ;                ; Data Speed     ; Included Upload/Download speeds
+                                          ; sd_channels      ;                ; SD Channels    ; Included SD Channels
+                                          ; hd_channels      ;                ; HD Channels    ; Included HD Channels
+                                          ; tv_sessions      ;                ; TV Sessions    ; You can watch it on <> devices
+
+
+# fttx
+                                          ; upload_speed     ;                ; Upload Speed   ; Included Upload speeds
+                                          ; download_speed   ;                ; Download Speed ; Included download speeds
+                                          ; msisdn           ;                ; MSISDN         ; MSISDN is a number uniquely identifying a subscription ; true
+										  ; msisdn_PS        ;                ; MSISDN ProdSpec; Included MSISDN product specification char             ; true
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaProductSpecCharacteristicValue; id[unique = true]; value; unitOfMeasure(id); productSpecCharacteristic(id, $catalogVersion); $catalogVersion;
+# GSM PSCVs
+                                               ; 100_min          ; 100  ; phone_minutes    ; voice
+                                               ; 200_min          ; 200  ; phone_minutes    ; voice
+                                               ; 500_sms          ; 500  ; sms              ; sms
+                                               ; 1000_mb          ; 1000 ; mb               ; data_volume
+                                               ; 500_mb           ; 500  ; mb               ; data_volume
+                                               ; 100_mb           ; 100  ; mb               ; data_volume
+                                               ; 300_mb           ; 300  ; mb               ; data_volume
+                                               ; 1000_sms         ; 1000 ; sms              ; sms
+                                               ; 40_sd_channels   ; 40   ; channels         ; sd_channels
+                                               ; 10_hd_channels   ; 10   ; channels         ; hd_channels
+                                               ; 300_min          ; 300  ; phone_minutes    ; voice
+                                               ; 1500_mb          ; 1500 ; mb               ; data_volume
+
+# TMF GET PS by ID test data
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaProductSpecCharacteristicValue; id[unique = true]; value; unitOfMeasure(id); productSpecCharacteristic(id, $catalogVersion); $catalogVersion; serviceSpecCharacteristicValues(id, $catalogVersion)
+#MSISDN PS
+                                               ; msisdn_PS        ; 100  ; gb               ; msisdn_PS
+
+# Product Category
+INSERT_UPDATE TmaProductCategory; code[unique = true]; description
+                                ; service_plan       ; Service_plan ProdSpec Type
+                                ; data_addon         ; data_addon ProdSpec Type
+                                ; sms_addon          ; sms_addon ProdSpec Type
+                                ; voice_addon        ; voice_addon ProdSpec Type
+
+# Product Line
+INSERT_UPDATE TmaProductLine; code[unique = true]; description
+                            ; gsm                ; gsm ProdSpec Type
+                            ; tv                 ; tv ProdSpec Type
+                            ; internet           ; internet ProdSpec Type
+                            ; landline           ; landline ProdSpec Type
+
+# Product Specifications
+INSERT_UPDATE TmaAtomicProductSpecification; id[unique = true]     ; name[lang = en]         ; productSpecificationTypes(code); onlineDate[dateformat = dd.MM.yyyy]; offlineDate[dateformat = dd.MM.yyyy]; brand; approvalStatus(code)[default = 'approved']; productSpecCharacteristics(id, $catalogVersion); cfsSpecs(id, $catalogVersion); $catalogVersion; productUsageSpecification(id, $catalogVersion)
+                                           ; unlimitedPlans_9770   ; UnlimitedPlans 9770     ; gsm, service_plan              ; 04.05.2017                         ; 22.06.2020                          ;      ;                                           ;                                                ;                              ;                ;
+                                           ; tv_9770               ; Tv 9770                 ; tv, service_plan               ; 10.10.2017                         ; 10.10.2020                          ;      ;                                           ;                                                ;                              ;                ;
+                                           ; internet_9770         ; Internet 9770           ; internet, service_plan         ; 10.10.2017                         ; 10.10.2020                          ;      ;                                           ; upload_speed, download_speed                   ;                              ;                ;
+                                           ; landline_pots_9770    ; Landline_pots 9770      ; landline, service_plan         ; 10.10.2017                         ; 10.10.2020                          ;      ;                                           ; voice, sms                                     ;                              ;                ;
+                                           ; data_add_ons_9770     ; Data_add_ons 9770       ; gsm, data_addon                ; 10.10.2017                         ; 10.10.2020                          ;      ;                                           ;                                                ; data_svc                     ;                ; udr_data_spec
+                                           ; unlimited4GPlans_9770 ; Unlimited4GPlans 9770   ; internet, service_plan         ; 10.10.2017                         ; 10.10.2020                          ;      ;                                           ;                                                ; voice_svc                    ;                ; ipdr_voip_spec
+                                           ; unlimited5GPlans      ; Unlimited 5G Plans      ; gsm, service_plan              ; 12.08.2017                         ; 30.12.2020                          ;      ;                                           ; voice, sms, msisdn                             ; voice_svc                    ;                ; gsm_usage_spec
+                                           ; landline_voip_9770    ; Landline_voip 9770      ;                                ; 10.10.2017                         ; 10.10.2020                          ;      ;                                           ;                                                ;                              ;                ;
+
+INSERT_UPDATE TmaCompositeProductSpecification; id[unique = true]                   ; name[lang = en]                     ; description[lang = en]             ; $catalogVersion; children(id, $catalogVersion)      ; productSpecCharacteristics(id, $catalogVersion)
+                                              ; internet_compositeProductSpec_9770  ; internet_compositeProductSpec_9770  ; ComposedInternet_9770 ProductSpec  ;                ; internet_9770, landline_pots_9770  ; sms
+                                              ; unlimited_compositeProductSpec_9770 ; unlimited_compositeProductSpec_9770 ; ComposedUnlimited_9770 ProductSpec ;                ; unlimited5GPlans                   ; msisdn_PS
+                                              ; data_compositeProductSpec_9770      ; data_compositeProductSpec_9770      ; ComposedData_9770 ProductSpec      ;                ; landline_voip_9770
+
+# Product Specifications
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaAtomicProductSpecification; id[unique = true]; productSpecificationTypes(code); onlineDate[dateformat = dd.MM.yyyy]; offlineDate[dateformat = dd.MM.yyyy]; brand; approvalStatus(code)[default = 'approved']; productSpecCharacteristics(id, $catalogVersion); cfsSpecs(id, $catalogVersion); $catalogVersion;
+                                           ; phone5358        ; service_plan                   ; 12.08.2017                         ; 30.12.2030                          ;      ;                                           ; voice                                          ; voice_svc

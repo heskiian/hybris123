@@ -1,0 +1,26 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# Import essential data for the tests
+#
+# Includes:
+# * Customer
+# * SubscriptionBase
+# * SubscriptionAccess
+
+# Users
+$defaultPassword = 1234
+
+INSERT_UPDATE OAuthClientDetails; clientId[unique = true]; resourceIds; scope    ; authorizedGrantTypes                                         ; authorities         ; clientSecret; registeredRedirectUri
+                                ; trusted_client         ; hybris     ; extended ; authorization_code,refresh_token,password,client_credentials ; ROLE_TRUSTED_CLIENT ; secret      ; ;
+                                ; spa_client             ; hybris     ; basic    ; password,client_credentials                                  ; ROLE_CLIENT         ; secret      ; ;
+
+# Create Customer Group
+INSERT_UPDATE Usergroup; uid[unique = true]; groups(uid)[mode = append]
+; customergroup ;
+
+# Create test customer
+INSERT_UPDATE Customer; originalUid[unique = true]; uid[unique = true]; name; groups(uid); password[default = $defaultPassword]
+; customer001 ; customer001 ; customer001 ; customergroup ;
+; customer002 ; customer002 ; customer002 ; customergroup ;

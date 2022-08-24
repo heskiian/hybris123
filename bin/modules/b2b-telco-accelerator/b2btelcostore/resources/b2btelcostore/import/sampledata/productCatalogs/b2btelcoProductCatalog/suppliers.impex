@@ -1,0 +1,16 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for Importing Suppliers into B2B Telco Store
+
+# Macros / Replacement Parameter definitions
+$productCatalog = b2btelcoProductCatalog
+$catalogVersion = catalogversion(catalog(id[default=$productCatalog]), version[default='Staged'])[unique=true, default=$productCatalog:Staged]
+$supercategories = source(code, $catalogVersion)[unique=true]
+$categories = target(code, $catalogVersion)[unique=true]
+
+
+INSERT_UPDATE Category; code[unique = true]; $catalogVersion
+
+INSERT_UPDATE CategoryCategoryRelation; $categories; $supercategories

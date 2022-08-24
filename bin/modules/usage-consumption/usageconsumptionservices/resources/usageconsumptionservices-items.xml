@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+
+<items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="items.xsd">
+
+    <enumtypes>
+        <enumtype code="UcPartyType" autocreate="true" generate="true" dynamic="true">
+            <description>Type of a party</description>
+            <value code="INDIVIDUAL"/>
+            <value code="ORGANIZATION"/>
+        </enumtype>
+
+        <enumtype code="UcConsumptionSummaryLevel" autocreate="true" generate="true" dynamic="true">
+            <description>Type of a party</description>
+            <value code="GLOBAL"/>
+            <value code="DETAIL_BY_USER"/>
+            <value code="DETAIL_BY_PRODUCT"/>
+        </enumtype>
+    </enumtypes>
+
+    <relations>
+        <relation code="UcUsageVolumeProduct2UcUsageVolumeBalanceRelation" localized="false">
+            <description>Relation defining the Usage Volume Balances of a Usage Volume Product</description>
+            <sourceElement type="UcUsageVolumeProduct" qualifier="usageVolumeProduct" cardinality="one">
+                <description>The Uc Usage Volume Product for which those Usage Volume Balances are valid.</description>
+            </sourceElement>
+            <targetElement type="UcUsageVolumeBalance" qualifier="usageVolumeBalances" cardinality="many" collectiontype="set">
+                <description>Usage Volume Balances representing the volume balances of the Usage Volume Product.</description>
+            </targetElement>
+        </relation>
+
+        <relation code="UcUsageVolumeProduct2UcUsageVolumeProductSpecRelation" localized="false">
+            <description>Relation defining the Uc Usage Volume Product Spec of those Uc Usage Volume Products</description>
+            <sourceElement type="UcUsageVolumeProduct" qualifier="usageVolumeProducts" cardinality="many" collectiontype="set">
+                <description>The Usage Volume Products for which that Usage Volume Product Spec is valid.</description>
+            </sourceElement>
+            <targetElement type="UcUsageVolumeProductSpec" qualifier="usageVolumeProductSpec" cardinality="one">
+                <description>Usage Volume Product Spec representing the specification of those Usage Volume Products.
+                </description>
+            </targetElement>
+        </relation>
+
+        <relation code="UcConsumptionSummary2UcUsageVolumeProductRelation" localized="false">
+            <description>Relation defining the Uc Usage Volume Products of those Uc Consumption Summaries</description>
+            <deployment table="ConsSum2UsgVolProd" typecode="7407"/>
+            <sourceElement type="UcConsumptionSummary" qualifier="consumptionSummaries" cardinality="many" collectiontype="set">
+                <description>The Uc Consumption Summaries for which those Usage Volume Products are valid.</description>
+            </sourceElement>
+            <targetElement type="UcUsageVolumeProduct" qualifier="usageVolumeProducts" cardinality="many" collectiontype="set">
+                <description>The Uc Usage Volume Products for which those Uc Consumption Summaries are valid.</description>
+            </targetElement>
+        </relation>
+
+        <relation code="UcConsumptionSummary2UcNetworkProductRelation" localized="false">
+            <description>Relation defining the Uc Network Products of those Uc Consumption Summaries</description>
+            <deployment table="ConsSum2NetProd" typecode="7408"/>
+            <sourceElement type="UcConsumptionSummary" qualifier="consumptionSummaries" cardinality="many" collectiontype="set">
+                <description>The Uc Consumption Summaries for which those Network Products are valid.</description>
+            </sourceElement>
+            <targetElement type="UcNetworkProduct" qualifier="networkProducts" cardinality="many" collectiontype="set">
+                <description>The Network Products for which those Uc Consumption Summaries are valid.</description>
+            </targetElement>
+        </relation>
+
+        <relation code="UcConsumptionSummary2UcPartyRoleRelation" localized="false">
+            <description>Relation defining the Uc Party Roles of those Uc Consumption Summaries</description>
+            <deployment table="ConsSum2PtyRole" typecode="7409"/>
+            <sourceElement type="UcConsumptionSummary" qualifier="consumptionSummaries" cardinality="many" collectiontype="set">
+                <description>The Uc Consumption Summaries for which those Party Roles are valid.</description>
+            </sourceElement>
+            <targetElement type="UcPartyRole" qualifier="partyRoles" cardinality="many" collectiontype="set">
+                <description>The Party Roles for which those Uc Consumption Summaries are valid.</description>
+            </targetElement>
+        </relation>
+
+        <relation code="UcProduct2UcPartyRoleRelation" localized="false">
+            <description>Relation defining the Party Roles of Product</description>
+            <deployment table="UcProd2UcPartyRoleRel" typecode="7411"/>
+            <sourceElement type="UcProduct" qualifier="product" cardinality="many">
+                <description>The Product for which those Party Roles are valid.</description>
+            </sourceElement>
+            <targetElement type="UcPartyRole" qualifier="usedBy" cardinality="many" collectiontype="set">
+                <description>Uc party roles representing the party roles of this product</description>
+            </targetElement>
+        </relation>
+
+        <relation code="UcNetworkProduct2UcUsageVolumeProductRelation" localized="false">
+            <description>Relation defining the Usage Volume Products of Network Product</description>
+            <deployment table="NetProd2UsgVolProd" typecode="7410"/>
+            <sourceElement type="UcNetworkProduct" qualifier="networkProducts" cardinality="many" collectiontype="set">
+                <description>The Network Product for which those Usage Volume Products are valid.</description>
+            </sourceElement>
+            <targetElement type="UcUsageVolumeProduct" qualifier="usageVolumeProducts" cardinality="many" collectiontype="set">
+                <description>Usage Volume Products representing the usage volumes of this network product</description>
+            </targetElement>
+        </relation>
+
+        <relation code="UcParty2UcPartyRoleRelation" localized="false">
+            <description>Relation defining the Uc Party Role of a Uc Party</description>
+            <sourceElement type="UcParty" qualifier="party" cardinality="one">
+                <description>The party for which that party role is valid.</description>
+            </sourceElement>
+            <targetElement type="UcPartyRole" qualifier="partyRoles" cardinality="many" collectiontype="set">
+                <description>Uc party roles representing the party roles of the party.</description>
+            </targetElement>
+        </relation>
+
+        <relation code="UcParty2PrincipalRelation" localized="false">
+            <description>Relation defining the Principal of a Uc Party</description>
+            <sourceElement type="UcParty" qualifier="ucParty" cardinality="one">
+                <description>The party for which that principal is valid.</description>
+            </sourceElement>
+            <targetElement type="Principal" qualifier="principals" cardinality="many" collectiontype="set">
+                <description>The party principals of the party.</description>
+            </targetElement>
+        </relation>
+
+    </relations>
+
+    <itemtypes>
+        <itemtype code="UcProduct" abstract="true">
+            <deployment table="UcProducts" typecode="7401"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers unique="true"/>
+                </attribute>
+                <attribute qualifier="name" type="localized:java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="productIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="UcProductComponent" extends="UcProduct">
+            <description>A Product Component is an instantiation of the SimpleProductOffering that was used when the customer
+                purchased a product.
+            </description>
+        </itemtype>
+
+        <itemtype code="UcUsageVolumeProduct" extends="UcProductComponent">
+            <description>A UsageVolumeProduct represents a quantity of usage (50 SMS for example).</description>
+        </itemtype>
+
+        <itemtype code="UcNetworkProduct" extends="UcProductComponent">
+            <description>An instantiated network product (specialization of a product) subscribed by a customer.</description>
+            <attributes>
+                <attribute qualifier="publicIdentifier" type="java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+        </itemtype>
+
+        <itemtype code="UcUsageVolumeBalance">
+            <description>A UsageVolumeBalance defines the remaining allowed product usage quantity in terms of volume, time,
+                currency or events.
+            </description>
+            <deployment table="UcUsageVolumeBalances" typecode="7402"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers unique="true"/>
+                </attribute>
+                <attribute qualifier="remainingValue" type="java.lang.Float">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="units" type="java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="startDate" type="java.util.Date">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="endDate" type="java.util.Date">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="usageVolumeBalanceIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="UcUsageVolumeProductSpec">
+            <description>A UsageVolumeProductSpec defines buckets of usage, such as 2 hours national calls.</description>
+            <deployment table="UcUsgVolProdSpecs" typecode="7403"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers unique="true"/>
+                </attribute>
+                <attribute qualifier="name" type="localized:java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="isShared" type="java.lang.Boolean">
+                    <persistence type="property"/>
+                    <modifiers optional="true"/>
+                    <defaultvalue>Boolean.valueOf(false)</defaultvalue>
+                </attribute>
+                <attribute qualifier="usageType" type="java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="usageVolumeProductSpecsIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="UcConsumptionSummary">
+            <description>A ConsumptionSummary give measures about the usage quantity consumed.</description>
+            <deployment table="UcConsumptionSummaries" typecode="7404"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers unique="true"/>
+                </attribute>
+                <attribute qualifier="level" type="UcConsumptionSummaryLevel">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="value" type="java.lang.Float">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="units" type="java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="consumptionStartDate" type="java.util.Date">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="consumptionEndDate" type="java.util.Date">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="effectiveDate" type="java.util.Date">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="consumptionSummariesIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="UcPartyRole">
+            <deployment table="UcPartyRoles" typecode="7405"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers unique="true"/>
+                </attribute>
+                <attribute qualifier="role" type="java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="partyRolesIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="UcParty">
+            <deployment table="UcParties" typecode="7406"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers unique="true"/>
+                </attribute>
+                <attribute qualifier="name" type="localized:java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="type" type="UcPartyType">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="partiesIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+    </itemtypes>
+</items>

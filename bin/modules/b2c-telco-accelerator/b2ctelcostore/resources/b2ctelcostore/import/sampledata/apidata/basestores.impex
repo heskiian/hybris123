@@ -1,0 +1,52 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for Importing Sample Catalog Data
+
+#% impex.enableCodeExecution(true);
+
+$languages = en, de
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE BaseStore; uid[unique = true]             ; name[lang = en]                                                  ; name[lang = de]          ; languages(isocode); cmsSites(uid)                  ; catalogs(id)            ; defaultCurrency(isocode); deliveryModes(code); paymentProvider
+                       ; allStore                       ; All Store
+                       ; emptyStore                     ; Empty Store
+                       ; noProductStore                 ; No Product Store
+                       ; noContentStore                 ; No Content Store                                                 ; Deutsch No content Store ; $languages
+                       ; b2ctelcoPfp                    ; B2C Telco Store Product Fixed Price                              ;                          ; en                ; b2ctelcoPfp                    ; b2ctelcoProductCatalog  ; USD                     ;                    ; Mockup
+                       ; b2ctelcoPpd                    ; B2C Telco Store Product Percentage Discount                      ;                          ; en                ; b2ctelcoPpd                    ; b2ctelcoProductCatalog  ; USD                     ;                    ; Mockup
+                       ; b2ctelcoPfd                    ; B2C Telco Store Product Fixed Discount                           ;                          ; en                ; b2ctelcoPfd                    ; b2ctelcoProductCatalog  ; USD                     ;                    ; Mockup
+                       ; b2ctelcoOtpd                   ; B2C Telco Store Order Threshold Percentage Discount              ;                          ; en                ; b2ctelcoOtpd                   ; b2ctelcoProductCatalog  ; USD                     ;                    ; Mockup
+                       ; b2ctelcoOtfd                   ; B2C Telco Store Order Threshold Fixed Discount                   ;                          ; en                ; b2ctelcoOtfd                   ; b2ctelcoProductCatalog  ; USD                     ;                    ; Mockup
+                       ; b2ctelcoOtpdp                  ; B2C Telco Store Order Threshold Percentage Discount Products     ;                          ; en                ; b2ctelcoOtpdp                  ; b2ctelcoProductCatalog  ; USD                     ;                    ; Mockup
+                       ; b2ctelcoPpfp                   ; B2C Telco Store Perfect Partner Fixed Discount                   ;                          ; en                ; b2ctelcoPpfp                   ; b2ctelcoProductCatalog  ; USD                     ;                    ; Mockup
+                       ; b2ctelcoPppd                   ; B2C Telco Store Perfect Partner Percentage Discount              ;                          ; en                ; b2ctelcoPppd                   ; b2ctelcoProductCatalog  ; USD                     ;                    ; Mockup
+                       ; b2ctelcoBxgyf                  ; B2C Telco Store Buy X Get Y Free                                 ;                          ; en                ; b2ctelcoBxgyf                  ; b2ctelcoProductCatalog  ; USD                     ;                    ; Mockup
+                       ; b2ctelcoMultibuy               ; B2C Telco Store Multibuy                                         ;                          ; en                ; b2ctelcoMultibuy               ; b2ctelcoProductCatalog  ; USD                     ;                    ; Mockup
+                       ; b2ctelcoPbfp                   ; B2C Telco Store Product Bundle Fixed Price                       ;                          ; en                ; b2ctelcoPbfp                   ; b2ctelcoProductCatalog  ; USD                     ;                    ; Mockup
+                       ; b2ctelcoPptfd                  ; B2C Telco Store Product Price Threshold Fixed Discount           ;                          ; en                ; b2ctelcoPptfd                  ; b2ctelcoProductCatalog  ; USD                     ;                    ; Mockup
+                       ; b2ctelcoOtfpd                  ; B2C Telco Store Product Price Threshold Fixed Discount           ;                          ; en                ; b2ctelcoOtfpd                  ; b2ctelcoProductCatalog  ; USD                     ;                    ; Mockup
+                       ; b2ctelcoTcpdc                  ; B2C Telco Store Customer specific percentage discount            ;                          ; en                ; b2ctelcoTcpdc                  ; b2ctelcoProductCatalog  ; USD                     ;                    ; Mockup
+                       ; b2ctelcoCsfdot                 ; B2C Telco Store Customer Specific Fixed Discount Order Threshold ;                          ; en                ; b2ctelcoCsfdot                 ; b2ctelcoProductCatalog  ; USD                     ;                    ; Mockup
+                       ; b2ctelcoFreeGift               ; B2C Telco Store Free Gift                                        ;                          ; en                ; b2ctelcoFreeGift               ; b2ctelcoProductCatalog  ; USD                     ;                    ; Mockup
+                       ; b2ctelcoFreeGift2              ; B2C Telco Store Free Gift 2                                      ;                          ; en                ; b2ctelcoFreeGift2              ; b2ctelcoProductCatalog  ; USD                     ;                    ; Mockup
+                       ; b2ctelcoFreeGift3              ; B2C Telco Store Free Gift 3                                      ;                          ; en                ; b2ctelcoFreeGift3              ; b2ctelcoProductCatalog  ; USD                     ;                    ; Mockup
+                       ; b2ctelcoCcpd                   ; B2C Telco Store Coupon Code Percentage Discount                  ;                          ; en                ; b2ctelcoCcpd                   ; b2ctelcoProductCatalog  ; USD                     ;                    ; Mockup
+                       ; b2ctelcoOrder5538              ; B2C Telco Store Order Coupon Discount                            ;                          ; en                ; b2ctelcoOrder5538              ; b2ctelcoProductCatalog  ; USD                     ;                    ; Mockup
+                       ; b2ctelcoProductOrder           ; B2C Telco Store Product Order                                    ;                          ; en                ; b2ctelcoProductOrder           ; b2ctelcoProductCatalog  ; USD                     ;                    ; Mockup
+                       ; b2ctelcoCcfd                   ; B2C Telco Store Coupon Code Fixed Discount                       ;                          ; en                ; b2ctelcoCcfd                   ; b2ctelcoProductCatalog  ; USD                     ;                    ; Mockup
+                       ; b2ctelcoCcpdp                  ; B2C Telco Store Coupon Code Percentage Discount Product          ;                          ; en                ; b2ctelcoCcpdp                  ; b2ctelcoProductCatalog  ; USD                     ;                    ; Mockup
+                       ; b2ctelcoPoExportStore          ; B2C Telco Store Product Export                                   ;                          ; en                ; b2ctelcoPoExportSite           ; b2ctelcoPoExportCatalog ; USD                     ;                    ; Mockup
+
+# composite pricing for price alteration and promotion tests
+                       ; b2ctelcoFixedPrice7968         ; B2C Telco Store Fixed Price 7968                                 ;                          ; en                ; b2ctelcoFixedPrice7968         ; b2ctelcoProductCatalog  ; USD                     ;                    ; Mockup
+                       ; b2ctelcoFixedDiscount7968      ; B2C Telco Store Fixed Discount 7968                              ;                          ; en                ; b2ctelcoFixedDiscount7968      ; b2ctelcoProductCatalog  ; USD                     ;                    ; Mockup
+                       ; b2ctelcoPercentageDiscount7968 ; B2C Telco Store Percentage Discount 7968                         ;                          ; en                ; b2ctelcoPercentageDiscount7968 ; b2ctelcoProductCatalog  ; USD                     ;                    ; Mockup
+
+# Hierarchical Cart - Promotion
+                       ; b2ctelcoFixedDiscount9261      ; B2C Telco Store Fixed Discount 9261                              ;                          ; en                ; b2ctelcoFixedDiscount9261      ; b2ctelcoProductCatalog  ; USD                     ;                    ; Mockup
+                       ; b2ctelcoPercentageDiscount9261 ; B2C Telco Store Percentage Discount 9261                         ;                          ; en                ; b2ctelcoPercentageDiscount9261 ; b2ctelcoProductCatalog  ; USD                     ;                    ; Mockup
+
+# Hierarchical Cart - E2E
+                       ; b2ctelcoFixedDiscount9610      ; B2C Telco Store Fixed Discount 9610                              ;                          ; en                ; b2ctelcoFixedDiscount9610      ; b2ctelcoProductCatalog  ; USD                     ; standard-gross     ; Mockup

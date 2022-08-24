@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+
+    <alias name="defaultAgrCharacteristicIdGenerator" alias="agrCharacteristicIdGenerator"/>
+    <bean id="defaultAgrCharacteristicIdGenerator"
+          class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.agrCharacteristic.id.name}"/>
+        <property name="digits" value="${keygen.agrCharacteristic.id.digits}"/>
+        <property name="start" value="${keygen.agrCharacteristic.id.start}"/>
+        <property name="type" value="${keygen.agrCharacteristic.id.type}"/>
+        <property name="template" value="${keygen.agrCharacteristic.id.template}"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementAuthorizationIdGenerator" alias="agrAgreementAuthorizationIdGenerator"/>
+    <bean id="defaultAgrAgreementAuthorizationIdGenerator"
+          class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.agrAgreementAuthorization.id.name}"/>
+        <property name="digits" value="${keygen.agrAgreementAuthorization.id.digits}"/>
+        <property name="start" value="${keygen.agrAgreementAuthorization.id.start}"/>
+        <property name="type" value="${keygen.agrAgreementAuthorization.id.type}"/>
+        <property name="template" value="${keygen.agrAgreementAuthorization.id.template}"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementItemIdGenerator" alias="agrAgreementItemIdGenerator"/>
+    <bean id="defaultAgrAgreementItemIdGenerator"
+          class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.agrAgreementItem.id.name}"/>
+        <property name="digits" value="${keygen.agrAgreementItem.id.digits}"/>
+        <property name="start" value="${keygen.agrAgreementItem.id.start}"/>
+        <property name="type" value="${keygen.agrAgreementItem.id.type}"/>
+        <property name="template" value="${keygen.agrAgreementItem.id.template}"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementSpecCharacteristicValueIdGenerator" alias="agrAgreementSpecCharacteristicValueIdGenerator"/>
+    <bean id="defaultAgrAgreementSpecCharacteristicValueIdGenerator"
+          class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.agrAgreementSpecCharacteristicValue.id.name}"/>
+        <property name="digits" value="${keygen.agrAgreementSpecCharacteristicValue.id.digits}"/>
+        <property name="start" value="${keygen.agrAgreementSpecCharacteristicValue.id.start}"/>
+        <property name="type" value="${keygen.agrAgreementSpecCharacteristicValue.id.type}"/>
+        <property name="template" value="${keygen.agrAgreementSpecCharacteristicValue.id.template}"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementSpecCharacteristicIdGenerator" alias="agrAgreementSpecCharacteristicIdGenerator"/>
+    <bean id="defaultAgrAgreementSpecCharacteristicIdGenerator"
+          class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.agrAgreementSpecCharacteristic.id.name}"/>
+        <property name="digits" value="${keygen.agrAgreementSpecCharacteristic.id.digits}"/>
+        <property name="start" value="${keygen.agrAgreementSpecCharacteristic.id.start}"/>
+        <property name="type" value="${keygen.agrAgreementSpecCharacteristic.id.type}"/>
+        <property name="template" value="${keygen.agrAgreementSpecCharacteristic.id.template}"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementSpecCharValueUseIdGenerator" alias="agrAgreementSpecCharValueUseIdGenerator"/>
+    <bean id="defaultAgrAgreementSpecCharValueUseIdGenerator"
+          class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.agrAgreementSpecCharValueUse.id.name}"/>
+        <property name="digits" value="${keygen.agrAgreementSpecCharValueUse.id.digits}"/>
+        <property name="start" value="${keygen.agrAgreementSpecCharValueUse.id.start}"/>
+        <property name="type" value="${keygen.agrAgreementSpecCharValueUse.id.type}"/>
+        <property name="template" value="${keygen.agrAgreementSpecCharValueUse.id.template}"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementPartyRoleIdGenerator" alias="agrAgreementPartyRoleIdGenerator"/>
+    <bean id="defaultAgrAgreementPartyRoleIdGenerator"
+          class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.agrAgreementPartyRole.id.name}"/>
+        <property name="digits" value="${keygen.agrAgreementPartyRole.id.digits}"/>
+        <property name="start" value="${keygen.agrAgreementPartyRole.id.start}"/>
+        <property name="type" value="${keygen.agrAgreementPartyRole.id.type}"/>
+        <property name="template" value="${keygen.agrAgreementPartyRole.id.template}"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementSpecificationIdGenerator" alias="agrAgreementSpecificationIdGenerator"/>
+    <bean id="defaultAgrAgreementSpecificationIdGenerator"
+          class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.agrAgreementSpecification.id.name}"/>
+        <property name="digits" value="${keygen.agrAgreementSpecification.id.digits}"/>
+        <property name="start" value="${keygen.agrAgreementSpecification.id.start}"/>
+        <property name="type" value="${keygen.agrAgreementSpecification.id.type}"/>
+        <property name="template" value="${keygen.agrAgreementSpecification.id.template}"/>
+    </bean>
+
+
+    <alias name="defaultAgrCharacteristicPrepareInterceptor" alias="agrCharacteristicPrepareInterceptor"/>
+    <bean id="defaultAgrCharacteristicPrepareInterceptor"
+          class="de.hybris.platform.agreementservices.interceptors.AgrCharacteristicPrepareInterceptor">
+        <constructor-arg name="keyGenerator" ref="agrCharacteristicIdGenerator"/>
+    </bean>
+
+    <bean id="agrCharacteristicPrepareInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="agrCharacteristicPrepareInterceptor"/>
+        <property name="typeCode" value="AgrAgreementSpecCharacteristicValue"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementAuthorizationPrepareInterceptor" alias="agrAgreementAuthorizationPrepareInterceptor"/>
+    <bean id="defaultAgrAgreementAuthorizationPrepareInterceptor"
+          class="de.hybris.platform.agreementservices.interceptors.AgrAgreementAuthorizationPrepareInterceptor">
+        <constructor-arg name="keyGenerator" ref="agrAgreementAuthorizationIdGenerator"/>
+    </bean>
+
+    <bean id="agrAgreementAuthorizationPrepareInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="agrAgreementAuthorizationPrepareInterceptor"/>
+        <property name="typeCode" value="AgrAgreementAuthorization"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementItemPrepareInterceptor" alias="agrAgreementItemPrepareInterceptor"/>
+    <bean id="defaultAgrAgreementItemPrepareInterceptor"
+          class="de.hybris.platform.agreementservices.interceptors.AgrAgreementItemPrepareInterceptor">
+        <constructor-arg name="keyGenerator" ref="agrAgreementItemIdGenerator"/>
+    </bean>
+
+    <bean id="agrAgreementItemPrepareInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="agrAgreementItemPrepareInterceptor"/>
+        <property name="typeCode" value="AgrAgreementItem"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementSpecCharacteristicValuePrepareInterceptor"
+           alias="agrAgreementSpecCharacteristicValuePrepareInterceptor"/>
+    <bean id="defaultAgrAgreementSpecCharacteristicValuePrepareInterceptor"
+          class="de.hybris.platform.agreementservices.interceptors.AgrAgreementSpecCharacteristicValuePrepareInterceptor">
+        <constructor-arg name="keyGenerator" ref="agrAgreementSpecCharacteristicValueIdGenerator"/>
+    </bean>
+
+    <bean id="agrAgreementSpecCharacteristicValuePrepareInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="agrAgreementSpecCharacteristicValuePrepareInterceptor"/>
+        <property name="typeCode" value="AgrAgreementSpecCharacteristicValue"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementSpecCharacteristicPrepareInterceptor"
+           alias="agrAgreementSpecCharacteristicPrepareInterceptor"/>
+    <bean id="defaultAgrAgreementSpecCharacteristicPrepareInterceptor"
+          class="de.hybris.platform.agreementservices.interceptors.AgrAgreementSpecCharacteristicPrepareInterceptor">
+        <constructor-arg name="keyGenerator" ref="agrAgreementSpecCharacteristicIdGenerator"/>
+    </bean>
+
+    <bean id="agrAgreementSpecCharacteristicPrepareInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="agrAgreementSpecCharacteristicPrepareInterceptor"/>
+        <property name="typeCode" value="AgrAgreementSpecCharacteristic"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementSpecCharValueUsePrepareInterceptor" alias="agrAgreementSpecCharValueUsePrepareInterceptor"/>
+    <bean id="defaultAgrAgreementSpecCharValueUsePrepareInterceptor"
+          class="de.hybris.platform.agreementservices.interceptors.AgrAgreementSpecCharValueUsePrepareInterceptor">
+        <constructor-arg name="keyGenerator" ref="agrAgreementSpecCharValueUseIdGenerator"/>
+    </bean>
+
+    <bean id="agrAgreementSpecCharValueUsePrepareInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="agrAgreementSpecCharValueUsePrepareInterceptor"/>
+        <property name="typeCode" value="AgrAgreementSpecCharValueUse"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementPartyRolePrepareInterceptor" alias="agrAgreementPartyRolePrepareInterceptor"/>
+    <bean id="defaultAgrAgreementPartyRolePrepareInterceptor"
+          class="de.hybris.platform.agreementservices.interceptors.AgrAgreementPartyRolePrepareInterceptor">
+        <constructor-arg name="keyGenerator" ref="agrAgreementPartyRoleIdGenerator"/>
+    </bean>
+
+    <bean id="agrAgreementPartyRolePrepareInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="agrAgreementPartyRolePrepareInterceptor"/>
+        <property name="typeCode" value="AgrPartyRole"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementSpecificationPrepareInterceptor" alias="agrAgreementSpecificationPrepareInterceptor"/>
+    <bean id="defaultAgrAgreementSpecificationPrepareInterceptor"
+          class="de.hybris.platform.agreementservices.interceptors.AgrAgreementSpecificationPrepareInterceptor">
+        <constructor-arg name="keyGenerator" ref="agrAgreementSpecificationIdGenerator"/>
+    </bean>
+
+    <bean id="agrAgreementSpecificationPrepareInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="agrAgreementSpecificationPrepareInterceptor"/>
+        <property name="typeCode" value="AgrAgreementSpecification"/>
+    </bean>
+
+    <!-- ********** END of Interceptors ********** !-->
+
+
+    <alias name="defaultAgrAgreementDao" alias="agrAgreementDao"/>
+    <bean id="defaultAgrAgreementDao"
+          class="de.hybris.platform.agreementservices.daos.impl.DefaultAgrAgreementDao">
+    </bean>
+
+    <alias name="defaultAgrAgreementSpecificationDao" alias="agrAgreementSpecificationDao"/>
+    <bean id="defaultAgrAgreementSpecificationDao"
+          class="de.hybris.platform.agreementservices.daos.impl.DefaultAgrAgreementSpecificationDao">
+    </bean>
+
+    <alias name="defaultAgrAgreementsService" alias="agrAgreementsService"/>
+    <bean name="defaultAgrAgreementsService"
+          class="de.hybris.platform.agreementservices.services.impl.DefaultAgrAgreementsService">
+        <constructor-arg name="agreementDao" ref="agrAgreementDao"/>
+    </bean>
+
+    <alias name="defaultAgrGenericDao" alias="agrGenericDao"/>
+    <bean id="defaultAgrGenericDao"
+          class="de.hybris.platform.agreementservices.daos.impl.DefaultAgrGenericDao">
+        <constructor-arg name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <alias name="defaultAgrGenericService" alias="agrGenericService"/>
+    <bean name="defaultAgrGenericService"
+          class="de.hybris.platform.agreementservices.services.impl.DefaultAgrGenericService">
+        <constructor-arg name="modelService" ref="modelService"/>
+        <constructor-arg name="agrGenericDao" ref="agrGenericDao"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementSpecificationService" alias="agrAgreementSpecificationService"/>
+    <bean name="defaultAgrAgreementSpecificationService"
+          class="de.hybris.platform.agreementservices.services.impl.DefaultAgrAgreementSpecificationService">
+        <constructor-arg name="agreementSpecificationDao" ref="agrAgreementSpecificationDao"/>
+        <constructor-arg name="modelService" ref="modelService"/>
+    </bean>
+
+    <alias name="defaultAgrPaginationService" alias="agrPaginationService"/>
+    <bean name="defaultAgrPaginationService"
+          class="de.hybris.platform.agreementservices.services.impl.DefaultAgrPaginationService">
+    </bean>
+
+    <bean id="agreementServicesSystemSetup"
+          class="de.hybris.platform.agreementservices.setup.AgreementServicesSystemSetup"
+          parent="abstractCoreSystemSetup">
+    </bean>
+</beans>

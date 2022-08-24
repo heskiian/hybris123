@@ -1,0 +1,42 @@
+/*
+ * Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+ */
+
+package de.hybris.platform.agreementtmfwebservices.v1.mappers.agreementspeccharacteristic;
+
+
+import de.hybris.platform.agreementservices.model.AgrAgreementSpecCharacteristicModel;
+import de.hybris.platform.agreementtmfwebservices.constants.AgreementtmfwebservicesConstants;
+import de.hybris.platform.agreementtmfwebservices.v1.dto.AgreementSpecCharacteristic;
+import de.hybris.platform.agreementtmfwebservices.v1.mappers.AgrAttributeMapper;
+
+import org.apache.commons.lang.StringUtils;
+
+import ma.glasnost.orika.MappingContext;
+
+
+/**
+ * This attribute Mapper class maps data for schemaLocation attribute between {@link AgrAgreementSpecCharacteristicModel} and
+ * {@link AgreementSpecCharacteristic}
+ *
+ * @since 2108
+ */
+public class AgreementSpecCharacteristicSchemaLocationAttributeMapper
+		extends AgrAttributeMapper<AgrAgreementSpecCharacteristicModel, AgreementSpecCharacteristic>
+{
+	public AgreementSpecCharacteristicSchemaLocationAttributeMapper(final String sourceAttributeName,
+			final String targetAttributeName)
+	{
+		super(sourceAttributeName, targetAttributeName);
+	}
+
+	@Override
+	public void populateTargetAttributeFromSource(final AgrAgreementSpecCharacteristicModel source,
+			final AgreementSpecCharacteristic target, final MappingContext context)
+	{
+		if (StringUtils.isNotEmpty(source.getId()))
+		{
+			target.setAtschemaLocation(AgreementtmfwebservicesConstants.AGR_API_SCHEMA);
+		}
+	}
+}

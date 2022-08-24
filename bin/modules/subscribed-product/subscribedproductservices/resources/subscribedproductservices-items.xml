@@ -1,0 +1,660 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+
+<items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="items.xsd">
+
+    <enumtypes>
+        <enumtype code="SpiProductStatusType">
+            <description>Status type of a subscribed product</description>
+            <value code="CREATED"/>
+            <value code="CANCELLED"/>
+            <value code="PENDING_ACTIVE">
+                <description>Deprecated since 2111</description>
+            </value>
+            <value code="PENDINGACTIVE"/>
+            <value code="ACTIVE"/>
+            <value code="PENDINGTERMINATE"/>
+            <value code="TERMINATED"/>
+            <value code="SUSPENDED"/>
+            <value code="ABORTED"/>
+        </enumtype>
+
+        <enumtype code="SpiPartyType" dynamic="true">
+            <description>Type of a party</description>
+            <value code="Individual"/>
+            <value code="Organization"/>
+        </enumtype>
+
+        <enumtype code="SpiPriceType" dynamic="true">
+            <description>Product price type</description>
+            <value code="recurring"/>
+            <value code="oneTime"/>
+            <value code="usage"/>
+        </enumtype>
+
+        <enumtype code="SpiAlterationPriceType" dynamic="true">
+            <description>Product price alteration type</description>
+            <value code="recurring"/>
+            <value code="oneTime"/>
+            <value code="usage"/>
+            <value code="discount"/>
+            <value code="allowance"/>
+        </enumtype>
+
+        <enumtype code="SpiOrderItemActionType" dynamic="true">
+            <description>Type of an order item action</description>
+            <value code="add"/>
+            <value code="modify"/>
+            <value code="delete"/>
+            <value code="noChange"/>
+        </enumtype>
+    </enumtypes>
+
+    <relations>
+        <relation code="SpiProduct2SpiAgreementItemRelation" localized="false">
+            <description>Relation defining the Spi Agreement Item of a Spi Product</description>
+            <sourceElement type="SpiProduct" qualifier="product" cardinality="one">
+                <description>The Spi Product for which that Spi Agreement Item is valid.</description>
+            </sourceElement>
+            <targetElement type="SpiAgreementItem" qualifier="agreementItems" cardinality="many" collectiontype="set">
+                <description>Spi Agreement Item representing the agreement item attached on the Spi Product.</description>
+            </targetElement>
+        </relation>
+
+        <relation code="SpiProduct2SpiRelatedPlaceRelation" localized="false">
+            <description>Relation defining the Spi Related Place of a Spi Product</description>
+            <sourceElement type="SpiProduct" qualifier="product" cardinality="one">
+                <description>The Spi Product for which that Spi Related Place is valid.</description>
+            </sourceElement>
+            <targetElement type="SpiRelatedPlace" qualifier="relatedPlaces" cardinality="many" collectiontype="set">
+                <description>Spi Related Place representing the related place attached on the Spi Product.</description>
+            </targetElement>
+        </relation>
+
+        <relation code="SpiProduct2SpiProductTermRelation" localized="false">
+            <description>Relation defining the Spi Product Terms of Spi Products</description>
+            <deployment table="SpiProd2SpiProdTermRel" typecode="7318"/>
+            <sourceElement type="SpiProduct" qualifier="products" cardinality="many" collectiontype="set">
+                <description>The Spi Products for which those Spi Product Terms are valid.</description>
+            </sourceElement>
+            <targetElement type="SpiProductTerm" qualifier="productTerms" cardinality="many" collectiontype="set">
+                <description>Spi Product Term representing the product terms attached on the Spi Products.</description>
+            </targetElement>
+        </relation>
+
+        <relation code="SpiProduct2SpiRelatedProductOrderItemRelation" localized="false">
+            <description>Relation defining the Spi Related Product Order Item of a Spi Product</description>
+            <sourceElement type="SpiProduct" qualifier="product" cardinality="one">
+                <description>The Product for which that Related Product Order Item is valid.</description>
+            </sourceElement>
+            <targetElement type="SpiRelatedProductOrderItem" qualifier="relatedProductOrderItems" cardinality="many"
+                           collectiontype="set">
+                <description>Spi Related Product Order Item Term representing the related product order item term attached on the
+                    Product.
+                </description>
+            </targetElement>
+        </relation>
+
+        <relation code="SpiProduct2SpiServiceRelation" localized="false">
+            <description>Relation defining the Spi Service of a Spi Product</description>
+            <sourceElement type="SpiProduct" qualifier="product" cardinality="one">
+                <description>The Product for which that service is valid.</description>
+            </sourceElement>
+            <targetElement type="SpiService" qualifier="services" cardinality="many" collectiontype="set">
+                <description>Spi Service representing the service of the Spi Product.</description>
+            </targetElement>
+        </relation>
+
+        <relation code="SpiProduct2SpiResourceRelation" localized="false">
+            <description>Relation defining the Spi Resource of a Spi Product</description>
+            <sourceElement type="SpiProduct" qualifier="product" cardinality="one">
+                <description>The product for which that resource is valid.</description>
+            </sourceElement>
+            <targetElement type="SpiResource" qualifier="resources" cardinality="many" collectiontype="set">
+                <description>Spi Resource representing the resource of the product.</description>
+            </targetElement>
+        </relation>
+
+        <relation code="SpiProduct2SpiCharacteristicRelation" localized="false">
+            <description>Relation defining the Spi Characteristic of a Spi Product</description>
+            <sourceElement type="SpiProduct" qualifier="product" cardinality="one">
+                <description>The product for which that characteristic is valid.</description>
+            </sourceElement>
+            <targetElement type="SpiCharacteristic" qualifier="characteristics" cardinality="many" collectiontype="set">
+                <description>Spi Characteristic representing the characteristic of the product.</description>
+            </targetElement>
+        </relation>
+
+        <relation code="SpiProduct2SpiProductPriceRelation" localized="false">
+            <description>Relation defining the Spi Product Price of a Spi Product</description>
+            <sourceElement type="SpiProduct" qualifier="product" cardinality="one">
+                <description>The product for which that product price is valid.</description>
+            </sourceElement>
+            <targetElement type="SpiProductPrice" qualifier="productPrices" cardinality="many" collectiontype="set">
+                <description>Spi Product Price representing the price of the product.</description>
+            </targetElement>
+        </relation>
+
+        <relation code="SpiProduct2SpiPartyRoleRelation" localized="false">
+            <description>Relation defining the Spi Party Roles of those Spi Products</description>
+            <deployment table="SpiProd2SpiPtyRoleRel" typecode="7317"/>
+            <sourceElement type="SpiProduct" qualifier="products" cardinality="many" collectiontype="set">
+                <description>The products for which those party roles are valid.</description>
+            </sourceElement>
+            <targetElement type="SpiPartyRole" qualifier="partyRoles" cardinality="many" collectiontype="set">
+                <description>Spi party roles representing the party roles of those products.</description>
+            </targetElement>
+        </relation>
+
+        <relation code="SpiProduct2SpiProductRelationshipRelation" localized="false">
+            <description>Relation defining the Spi Product Relationship of a Spi Product</description>
+            <sourceElement type="SpiProduct" qualifier="product" cardinality="one">
+                <description>The Product for which that relationships are valid.</description>
+            </sourceElement>
+            <targetElement type="SpiProductRelationship" qualifier="productReferences" cardinality="many" collectiontype="set">
+                <description>Spi Product Relationship representing the relationship of the Spi Product.</description>
+            </targetElement>
+        </relation>
+
+        <relation code="SpiProductRelationship2SpiProductRelation" localized="false">
+            <description>Relation defining the Spi Product of a Spi Product Relationship</description>
+            <sourceElement type="SpiProductRelationship" qualifier="productReferencedBy" cardinality="many" collectiontype="set">
+                <description>The Product Relationship for which that product is valid.</description>
+            </sourceElement>
+            <targetElement type="SpiProduct" qualifier="target" cardinality="one">
+                <description>Spi Product representing the product of the Spi Product Relationship.</description>
+            </targetElement>
+        </relation>
+
+        <relation code="SpiParty2SpiPartyRoleRelation" localized="false">
+            <description>Relation defining the Spi Party Role of a Spi Party</description>
+            <sourceElement type="SpiParty" qualifier="party" cardinality="one">
+                <description>The party for which that party role is valid.</description>
+            </sourceElement>
+            <targetElement type="SpiPartyRole" qualifier="partyRoles" cardinality="many" collectiontype="set">
+                <description>Spi party roles representing the party roles of the party.</description>
+            </targetElement>
+        </relation>
+
+        <relation code="SpiParty2PrincipalRelation" localized="false">
+            <description>Relation defining the Principal of a Spi Party</description>
+            <sourceElement type="SpiParty" qualifier="spiParty" cardinality="one">
+                <description>The party for which that principal is valid.</description>
+            </sourceElement>
+            <targetElement type="Principal" qualifier="principals" cardinality="many" collectiontype="set">
+                <description>The party principals of the party.</description>
+            </targetElement>
+        </relation>
+
+        <relation code="SpiProductBundle2SpiProductRelation" localized="false">
+            <description>Relation defining the Spi Product of a Spi Product Bundle</description>
+            <sourceElement type="SpiProductBundle" qualifier="productBundle" cardinality="one">
+                <description>The product bundle composed of that product.</description>
+            </sourceElement>
+            <targetElement type="SpiProduct" qualifier="products" cardinality="many" collectiontype="set">
+                <description>The product representing the child of the product bundle.</description>
+            </targetElement>
+        </relation>
+
+        <relation code="SpiCompositeProdPrice2SpiProductPriceRelation" localized="false">
+            <description>Relation defining the Spi Product Price of a Spi Composite Prod Price</description>
+            <sourceElement type="SpiCompositeProdPrice" qualifier="compositeProdPrice" cardinality="one">
+                <description>The composite product price representing the parent of that product price.</description>
+            </sourceElement>
+            <targetElement type="SpiProductPrice" qualifier="childPrices" cardinality="many" collectiontype="set">
+                <description>The product price representing the child of the composite product price.</description>
+            </targetElement>
+        </relation>
+
+    </relations>
+
+    <itemtypes>
+        <itemtype code="SpiProduct" abstract="true">
+            <deployment table="SpiProducts" typecode="7301"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers unique="true"/>
+                </attribute>
+                <attribute qualifier="name" type="localized:java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="description" type="localized:java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="isCustomerVisible" type="java.lang.Boolean">
+                    <persistence type="property"/>
+                    <modifiers optional="true"/>
+                    <defaultvalue>Boolean.valueOf(false)</defaultvalue>
+                </attribute>
+                <attribute qualifier="orderDate" type="java.util.Date">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="productSerialNumber" type="java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="startDate" type="java.util.Date">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="terminationDate" type="java.util.Date">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="status" type="SpiProductStatusType">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="billingAccount" type="SpiBillingAccount">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="productOffering" type="SpiProductOffering">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="productSpecification" type="SpiProductSpecification">
+                    <persistence type="property"/>
+                </attribute>
+
+            </attributes>
+            <indexes>
+                <index name="subscribedProductIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="SpiProductComponent" extends="SpiProduct">
+            <description>A Product Component is an instantiation of the SimpleProductOffering that was used when the customer
+                purchased a product.
+            </description>
+        </itemtype>
+
+        <itemtype code="SpiProductBundle" extends="SpiProduct">
+            <description>A Product Bundle is an instantiation of the BundledProductOffering that was used when the customer
+                purchased a product.
+            </description>
+        </itemtype>
+
+        <itemtype code="SpiProductOffering">
+            <deployment table="SpiProductOfferings" typecode="7302"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers unique="true"/>
+                </attribute>
+                <attribute qualifier="name" type="localized:java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="productOfferingIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="SpiAgreementItem">
+            <deployment table="SpiAgreementItems" typecode="7303"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers unique="true"/>
+                </attribute>
+                <attribute qualifier="name" type="localized:java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="agreementId" type="java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="agreementIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="SpiBillingAccount">
+            <deployment table="SpiBillingAccounts" typecode="7304"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers unique="true"/>
+                </attribute>
+                <attribute qualifier="name" type="localized:java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="billingAccountIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="SpiRelatedPlace">
+            <deployment table="SpiRelatedPlaces" typecode="7305"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers unique="true"/>
+                </attribute>
+                <attribute qualifier="name" type="localized:java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="role" type="java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="relatedPlaceIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="SpiCharacteristic">
+            <deployment table="SpiCharacteristics" typecode="7306"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers unique="true"/>
+                </attribute>
+                <attribute qualifier="name" type="localized:java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="valueType" type="java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="value" type="java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="characteristicIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="SpiRelatedProductOrderItem">
+            <deployment table="SpiRelatedProdOrderItems" typecode="7307"/>
+            <attributes>
+                <attribute qualifier="orderItemId" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers unique="true"/>
+                </attribute>
+                <attribute qualifier="orderItemAction" type="SpiOrderItemActionType">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="productOrderId" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers unique="true"/>
+                </attribute>
+                <attribute qualifier="role" type="java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="relatedProductOrderItemIdx" unique="true">
+                    <key attribute="orderItemId"/>
+                    <key attribute="productOrderId"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="SpiProductSpecification">
+            <deployment table="SpiProductSpecifications" typecode="7308"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers unique="true"/>
+                </attribute>
+                <attribute qualifier="name" type="localized:java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="version" type="java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="productSpecificationIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="SpiService">
+            <deployment table="SpiServices" typecode="7309"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers unique="true"/>
+                </attribute>
+                <attribute qualifier="name" type="localized:java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="serviceIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="SpiResource">
+            <deployment table="SpiResources" typecode="7310"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers unique="true"/>
+                </attribute>
+                <attribute qualifier="name" type="localized:java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="value" type="java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="resourceIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="SpiPartyRole">
+            <deployment table="SpiPartyRoles" typecode="7311"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers unique="true"/>
+                </attribute>
+                <attribute qualifier="role" type="java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="partyRolesIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="SpiParty">
+            <deployment table="SpiParties" typecode="7312"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers unique="true"/>
+                </attribute>
+                <attribute qualifier="name" type="localized:java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="type" type="SpiPartyType">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="partiesIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="SpiProductTerm">
+            <deployment table="SpiProductTerms" typecode="7313"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers unique="true"/>
+                </attribute>
+                <attribute qualifier="name" type="localized:java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="description" type="localized:java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="amount" type="java.lang.Double">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="units" type="java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="startDate" type="java.util.Date">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="endDate" type="java.util.Date">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="productTermsIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="SpiProductOfferingPrice">
+            <deployment table="SpiProductOfferingPrices" typecode="7314"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers unique="true"/>
+                </attribute>
+                <attribute qualifier="name" type="localized:java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="productOfferingPricesIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="SpiProductPrice" abstract="true">
+            <deployment table="SpiProductPrices" typecode="7315"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers unique="true"/>
+                </attribute>
+                <attribute qualifier="name" type="localized:java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="description" type="localized:java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="billingAccount" type="SpiBillingAccount">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="productOfferingPrice" type="SpiProductOfferingPrice">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="startDate" type="java.util.Date">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="endDate" type="java.util.Date">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="spiProductPricesIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="SpiCompositeProdPrice" extends="SpiProductPrice"/>
+
+        <itemtype code="SpiComponentProdPrice" extends="SpiProductPrice" abstract="true">
+            <attributes>
+                <attribute qualifier="unitOfMeasure" type="java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="recurringChargePeriod" type="java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="taxRate" type="java.lang.Double">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="dutyFreeAmount" type="java.lang.Double">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="taxIncludedAmount" type="java.lang.Double">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="currency" type="Currency">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+        </itemtype>
+
+        <itemtype code="SpiPriceAlteration" extends="SpiComponentProdPrice">
+            <attributes>
+                <attribute qualifier="percentage" type="java.lang.Double">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="priceType" type="SpiAlterationPriceType">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="priority" type="java.lang.Integer">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="applicationDuration" type="java.lang.Integer">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+        </itemtype>
+
+        <itemtype code="SpiProdPriceCharge" extends="SpiComponentProdPrice">
+            <attributes>
+                <attribute qualifier="priceType" type="SpiPriceType">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+        </itemtype>
+
+        <itemtype code="SpiProductRelationship">
+            <deployment table="SpiProductRelationships" typecode="7316"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers unique="true"/>
+                </attribute>
+                <attribute qualifier="type" type="java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="productRelationshipsIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+    </itemtypes>
+
+
+</items>

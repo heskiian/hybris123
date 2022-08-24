@@ -1,0 +1,1043 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for Importing Sample Product Offering Prices
+
+#% impex.enableCodeExecution(true);
+
+$productCatalog = b2ctelcoProductCatalog
+$catalog-version = Online
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Online'])[unique = true, default = '$productCatalog:Online']
+$b2ctelcoPoExportCatalog = b2ctelcoPoExportCatalog
+$b2ctelcoPoExportCatalogVersion = catalogversion(catalog(id[default = $b2ctelcoPoExportCatalog]), version[default = $catalog-version])[unique =true, default = $b2ctelcoPoExportCatalog:$catalog-version]
+$currency = currency(isocode)[default = USD]
+$priceEvent = priceEvent(code)[default='paynow']
+$priceEventRcUc = priceEvent(code)[default='monthly']
+$lang = en
+
+################################################
+###            One time charges              ###
+################################################
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaOneTimeProdOfferPriceCharge; id[unique = true]                                                       ; name                                                                         ; description                                                                         ; $catalogVersion; value  ; $priceEvent ; $currency; productSpecCharacteristicValues(id, $catalogVersion)
+                                            ; OTC_4_USD_Test_v3                                                       ; OTC_4_USD_Name                                                               ; OTC_4_USD_Description                                                               ;                ; 4.0    ;
+                                            ; OTC_6943_Test_v3                                                        ; OTC_6943_USD_Name                                                            ; OTC_6943_USD_Description                                                            ;                ; 8.0    ;
+                                            ; otce_SPO26_paynow                                                       ; otce_SPO26_paynow_Name                                                       ; otce_SPO26_paynow_Description                                                       ;                ; 20.0   ;
+                                            ; otce_SPO27_1_paynow                                                     ; otce_SPO27_1_paynow_Name                                                     ; otce_SPO27_1_paynow_Description                                                     ;                ; 20.0   ;
+                                            ; otce_SPO27_2_onfirstbill                                                ; otce_SPO27_2_onfirstbill_Name                                                ; otce_SPO27_2_onfirstbill_Description                                                ;                ; 15.0   ; onfirstbill
+                                            ; otce_SPO27_3_paynow                                                     ; otce_SPO27_3_paynow_Name                                                     ; otce_SPO27_3_paynow_Description                                                     ;                ; 10.0   ;
+                                            ; otce_SPO30_paynow                                                       ; otce_SPO30_paynow_Name                                                       ; otce_SPO30_paynow_Description                                                       ;                ; 25.0   ;
+                                            ; otce_DEXT_7000_1_paynow                                                 ; otce_DEXT_7000_1_Name                                                        ; otce_DEXT_7000_1_Description                                                        ;                ; 200.0  ;
+                                            ; otce_DEXT_7000_4_paynow                                                 ; otce_DEXT_7000_4_Name                                                        ; otce_DEXT_7000_4_Description                                                        ;                ; 250.0  ; onfirstbill
+                                            ; otce_DEXT_7000_5_paynow                                                 ; otce_DEXT_7000_5_Name                                                        ; otce_DEXT_7000_5_Description                                                        ;                ; 100.0  ;
+                                            ; otce_1_DEXT_7004_1_paynow                                               ; otce_1_DEXT_7004_1_Name                                                      ; otce_1_DEXT_7004_1_Description                                                      ;                ; 250.0  ;
+                                            ; otce_2_DEXT_7004_1_paynow                                               ; otce_2_DEXT_7004_1_Name                                                      ; otce_2_DEXT_7004_1_Description                                                      ;                ; 200.0  ;
+                                            ; otce_1_DEXT_7004_2_paynow                                               ; otce_1_DEXT_7004_2_Name                                                      ; otce_1_DEXT_7004_2_Description                                                      ;                ; 50.0   ;
+                                            ; otce_1_DEXT_7004_3_paynow                                               ; otce_1_DEXT_7004_3_Name                                                      ; otce_1_DEXT_7004_3_Description                                                      ;                ; 150.0  ;
+                                            ; otce_2_DEXT_7004_3_paynow                                               ; otce_2_DEXT_7004_3_Name                                                      ; otce_2_DEXT_7004_3_Description                                                      ;                ; 100.0  ;
+                                            ; otce_3_DEXT_7004_3_onfirstbill                                          ; otce_3_DEXT_7004_3_Name                                                      ; otce_3_DEXT_7004_3_Description                                                      ;                ; 125.0  ; onfirstbill
+                                            ; otce_1_iPhone_8GB_7481_paynow                                           ; otce_1_iPhone_8GB_7481_Name                                                  ; otce_1_iPhone_8GB_7481_Description                                                  ;                ; 200.0  ;
+                                            ; otce_2_iPhone_8GB_7481_paynow                                           ; otce_2_iPhone_8GB_7481_Name                                                  ; otce_2_iPhone_8GB_7481_Description                                                  ;                ; 250.0  ;
+                                            ; otce_3_iPhone_8GB_7481_paynow                                           ; otce_3_iPhone_8GB_7481_Name                                                  ; otce_3_iPhone_8GB_7481_Description                                                  ;                ; 130.0  ;
+                                            ; otce_4_iPhone_8GB_7481_paynow                                           ; otce_4_iPhone_8GB_7481_Name                                                  ; otce_4_iPhone_8GB_7481_Description                                                  ;                ; 100.0  ;
+                                            ; otce_6743_paynow                                                        ;                                                                              ;                                                                                     ;                ; 180    ;
+                                            ; otce_iPhonex_silver64g_paynow                                           ;                                                                              ;                                                                                     ;                ; 20     ;
+                                            ; otce_SPO7_1_paynow                                                      ;                                                                              ;                                                                                     ;                ; 10     ;
+                                            ; otce_SPO7_2_paynow                                                      ;                                                                              ;                                                                                     ;                ; 17     ;
+                                            ; otce_SPO9_onfirstbill                                                   ;                                                                              ;                                                                                     ;                ; 20     ; onfirstbill ;
+                                            ; otce_SPO9_paynow                                                        ;                                                                              ;                                                                                     ;                ; 10     ;
+                                            ; otce_SPO12_paynow                                                       ;                                                                              ;                                                                                     ;                ; 12     ;
+                                            ; otce_SPO14_paynow                                                       ;                                                                              ;                                                                                     ;                ; 25     ;
+                                            ; otce_SPO15_paynow                                                       ;                                                                              ;                                                                                     ;                ; 12     ;
+                                            ; otce_SPO16_1_paynow                                                     ;                                                                              ;                                                                                     ;                ; 30     ;
+                                            ; otce_SPO16_2_paynow                                                     ;                                                                              ;                                                                                     ;                ; 25     ;
+                                            ; otce_SPO16_3_paynow                                                     ;                                                                              ;                                                                                     ;                ; 15     ;
+                                            ; otce_SPO17_1_paynow                                                     ;                                                                              ;                                                                                     ;                ; 12     ;
+                                            ; otce_SPO17_2_paynow                                                     ;                                                                              ;                                                                                     ;                ; 20     ;
+                                            ; otce_SPO17_3_paynow                                                     ;                                                                              ;                                                                                     ;                ; 23     ;
+                                            ; otce_SPO19_1_paynow                                                     ;                                                                              ;                                                                                     ;                ; 15     ;
+                                            ; otce_SPO19_2_onfirstbill                                                ;                                                                              ;                                                                                     ;                ; 23     ; onfirstbill ;
+                                            ; otce_SPO19_3_paynow                                                     ;                                                                              ;                                                                                     ;                ; 10     ;
+                                            ; otce_SPO19_4_paynow                                                     ;                                                                              ;                                                                                     ;                ; 20     ;
+                                            ; otce_SPO21_paynow                                                       ;                                                                              ;                                                                                     ;                ; 3      ;
+                                            ; otce_SPO22_paynow                                                       ;                                                                              ;                                                                                     ;                ; 10     ;
+                                            ; otce_SPO23_1_paynow                                                     ;                                                                              ;                                                                                     ;                ; 5      ;
+                                            ; otce_SPO23_2_paynow                                                     ;                                                                              ;                                                                                     ;                ; 2      ;
+                                            ; otce_SPO24_onfirstbill                                                  ;                                                                              ;                                                                                     ;                ; 10     ; onfirstbill ;
+                                            ; otce_SPO25_paynow                                                       ;                                                                              ;                                                                                     ;                ; 5      ;
+                                            ; otce_iPhone_7202_paynow                                                 ; otce_iPhone_7202_Name                                                        ; otce_iPhone_7202_Description                                                        ;                ; 20.0   ;
+                                            ; otce_Xperia_7202_paynow                                                 ; otce_Xperia_7202_Name                                                        ; otce_Xperia_7202_Description                                                        ;                ; 15.0   ;
+                                            ; otce_Dext_7202_onfirstbill                                              ; otce_Dext_7202_Name                                                          ; otce_Dext_7202_Description                                                          ;                ; 15.0   ; onfirstbill
+                                            ; otce_1_iPhone6_plus_7202_paynow                                         ; otce_1_iPhone6_plus_7202_Name                                                ; otce_1_iPhone6_plus_7202_Description                                                ;                ; 5.0    ;
+                                            ; otce_2_iPhone6_plus_7202_paynow                                         ; otce_2_iPhone6_plus_7202_Name                                                ; otce_2_iPhone6_plus_7202_Description                                                ;                ; 2.0    ;
+                                            ; otce_3_iPhone6_plus_7202_paynow                                         ; otce_3_iPhone6_plus_7202_Name                                                ; otce_3_iPhone6_plus_7202_Description                                                ;                ; 3.0    ;
+                                            ; otce_1_Milestone_7202_paynow                                            ; otce_1_Milestone_7202_Name                                                   ; otce_1_Milestone_7202_Description                                                   ;                ; 12.0   ;
+                                            ; otce_2_Milestone_7202_paynow                                            ; otce_2_Milestone_7202_Name                                                   ; otce_2_Milestone_7202_Description                                                   ;                ; 23.0   ;
+                                            ; otce_1_iPhone_8GB_6741_paynow                                           ; otce_1_iPhone_8GB_6741_Name                                                  ; otce_1_iPhone_8GB_6741_Description                                                  ;                ; 200.0  ;
+                                            ; otce_2_iPhone_8GB_6741_paynow                                           ; otce_2_iPhone_8GB_6741_Name                                                  ; otce_2_iPhone_8GB_6741_Description                                                  ;                ; 250.0  ;
+                                            ; otce_3_iPhone_8GB_6741_paynow                                           ; otce_3_iPhone_8GB_6741_Name                                                  ; otce_3_iPhone_8GB_6741_Description                                                  ;                ; 130.0  ;
+                                            ; otce_4_iPhone_8GB_6741_paynow                                           ; otce_4_iPhone_8GB_6741_Name                                                  ; otce_4_iPhone_8GB_6741_Description                                                  ;                ; 100.0  ;
+                                            ; otc_500_paynow                                                          ;                                                                              ;                                                                                     ;                ; 500    ;             ;
+                                            ; otc_500_usd_paynow                                                      ; otc_500_usd_paynow Price                                                     ; otc_500_usd_paynow Description                                                      ;                ; 500.0  ;
+                                            ; otc_350_usd_paynow                                                      ; otc_350_usd_paynow Price                                                     ; otc_350_usd_paynow Description                                                      ;                ; 350.0  ;
+
+                                            ; otc_1000_usd_paynow                                                     ; otc_1000_usd_paynow Price                                                    ; otc_1000_usd_paynow Description                                                     ;                ; 1000.0 ;
+                                            ; otc_900_usd_paynow                                                      ; otc_900_usd_paynow Price                                                     ; otc_900_usd_paynow Description                                                      ;                ; 900.0  ;
+                                            ; otc_800_usd_paynow                                                      ; otc_800_usd_paynow Price                                                     ; otc_800_usd_paynow Description                                                      ;                ; 800.0  ;
+                                            ; otc_700_usd_paynow                                                      ; otc_700_usd_paynow Price                                                     ; otc_700_usd_paynow Description                                                      ;                ; 700.0  ;
+                                            ; otc_19_usd_paynow                                                       ; otc_19_usd_paynow Price                                                      ; otc_19_usd_paynow Description                                                       ;                ; 19.0   ;
+                                            ; otc_22_usd_paynow                                                       ; otc_22_usd_paynow Price                                                      ; otc_22_usd_paynow Description                                                       ;                ; 22.0   ;
+                                            ; otce_1_int_100_7234_paynow                                              ; otce_1_int_100_7234_Name                                                     ; otce_1_int_100_7234_Description                                                     ;                ; 20.0   ;
+                                            ; otce_2_int_100_7234_paynow                                              ; otce_2_int_100_7234_Name                                                     ; otce_2_int_100_7234_Description                                                     ;                ; 15.0   ;
+                                            ; otce_int_500_7234_onfirstbill                                           ; otce_int_500_7234_Name                                                       ; otce_int_500_7234_Description                                                       ;                ; 10.0   ; onfirstbill
+                                            ; otce_unlimitedPricePlan_7234_paynow                                     ; otce_unlimitedPricePlan_7234_Name                                            ; otce_unlimitedPricePlan_7234_Description                                            ;                ; 23.0   ;
+                                            ; otce_Apple_iPhone_8_acq                                                 ; otce_Apple_iPhone_8_acq                                                      ; otce_Apple_iPhone_8_acq                                                             ;                ; 749    ;
+                                            ; otce_Apple_iPhone_8_ret                                                 ; otce_Apple_iPhone_8_ret                                                      ; otce_Apple_iPhone_8_ret                                                             ;                ; 709    ;
+                                            ; otce_Apple_iPhone_8_mnp                                                 ; otce_Apple_iPhone_8_mnp                                                      ; otce_Apple_iPhone_8_mnp                                                             ;                ; 599    ;
+                                            ; otce_iPhoneX_acq_mid_occpo                                              ; otce_iPhoneX_acq_mid_occpo                                                   ; otce_iPhoneX_acq_mid_occpo                                                          ;                ; 809    ;
+                                            ; otce_iPhoneX_acq_high_occpo                                             ; otce_iPhoneX_acq_high_occpo                                                  ; otce_iPhoneX_acq_high_occpo                                                         ;                ; 789    ;
+                                            ; otce_simpleProductOffering5_md                                          ; otce_simpleProductOffering5_md                                               ; otce_simpleProductOffering5_md                                                      ;                ; 125    ;
+                                            ; otce_simpleProductFixedDiscount_7204_paynow                             ; otce_simpleProductFixedDiscount_7204_Name                                    ; otce_simpleProductFixedDiscount_7204_Description                                    ;                ; 250    ;
+                                            ; otce_simpleProductFixedDiscount_override_7204_paynow                    ; otce_simpleProductFixedDiscount_override_7204_paynow_Name                    ; otce_simpleProductFixedDiscount_override_7204_paynow_Description                    ;                ; 200    ;
+                                            ; otce_simpleProductFixedDiscountCategory_7204_paynow                     ; otce_simpleProductFixedDiscountCategory_7204_paynow_Name                     ; otce_simpleProductFixedDiscountCategory_7204_paynow_Description                     ;                ; 300    ;
+                                            ; otce_simplePercentageDiscountCart1_7204_paynow                          ; otce_simplePercentageDiscountCart1_7204_paynow_Name                          ; otce_simplePercentageDiscountCart1_7204_paynow_Description                          ;                ; 101    ;
+                                            ; otce_simplePercentageDiscountCart2_7204_paynow                          ; otce_simplePercentageDiscountCart2_7204_paynow_Name                          ; otce_simplePercentageDiscountCart2_7204_paynow_Description                          ;                ; 99     ;
+                                            ; otce_simplePercentageDiscountCart3_7204_paynow                          ; otce_simplePercentageDiscountCart3_7204_paynow_Name                          ; otce_simplePercentageDiscountCart3_7204_paynow_Description                          ;                ; 100    ;
+                                            ; otce_simpleProductPercentageDiscount_7204_paynow                        ; otce_simpleProductPercentageDiscount_7204_paynow_Name                        ; otce_simpleProductPercentageDiscount_7204_paynow_Description                        ;                ; 250    ;
+                                            ; otce_simpleProductPercentageDiscount_override_7204_paynow               ; otce_simpleProductPercentageDiscount_override_7204_paynow_Name               ; otce_simpleProductPercentageDiscount_override_7204_paynow_Description               ;                ; 200    ;
+                                            ; otce_simpleProductPercentageDiscountCategory_7204_paynow                ; otce_simpleProductPercentageDiscountCategory_7204_paynow_Name                ; otce_simpleProductPercentageDiscountCategory_7204_paynow_Description                ;                ; 300    ;
+                                            ; otce_simpleProductFixedPricePromotion1_7204_paynow                      ; otce_simpleProductFixedPricePromotion1_7204_paynow_Name                      ; otce_simpleProductFixedPricePromotion1_7204_paynow_Description                      ;                ; 250    ;
+                                            ; otce_simpleProductFixedPricePromotion1_override_7204_paynow             ; otce_simpleProductFixedPricePromotion1_override_7204_paynow_Name             ; otce_simpleProductFixedPricePromotion1_override_7204_paynow_Description             ;                ; 200    ;
+                                            ; otce_simpleProductFixedPricePromotion2_7204_paynow_7204_paynow          ; otce_simpleProductFixedPricePromotion2_7204_paynow_Name                      ; otce_simpleProductFixedPricePromotion2_7204_paynow_Description                      ;                ; 250    ;
+                                            ; otce_simpleProductFixedPricePromotion2_override_7204_paynow             ; otce_simpleProductFixedPricePromotion2_override_7204_paynow_Name             ; otce_simpleProductFixedPricePromotion2_override_7204_paynow_Description             ;                ; 200    ;
+                                            ; otce_simpleProductFixedPricePromotionCategory_7204_paynow               ; otce_simpleProductFixedPricePromotionCategory_7204_paynow_Name               ; otce_simpleProductFixedPricePromotionCategory_7204_paynow_Description               ;                ; 300    ;
+                                            ; otce_simpleProductFixedPricePromotion2_7204_paynow                      ; otce_simpleProductFixedPricePromotion2_7204_paynow_Name                      ; otce_simpleProductFixedPricePromotion2_7204_paynow_Description                      ;                ; 250    ;
+                                            ; otce_simplePercentageFixedCart1_7204_paynow                             ; otce_simplePercentageFixedCart1_7204_paynow_Name                             ; otce_simplePercentageFixedCart1_7204_paynow_Description                             ;                ; 300    ;
+                                            ; otce_simplePercentageFixedCart2_7204_paynow                             ; otce_simplePercentageFixedCart2_7204_paynow_Name                             ; otce_simplePercentageFixedCart2_7204_paynow_Description                             ;                ; 249    ;
+                                            ; otce_simplePercentageFixedCart3_7204_paynow                             ; otce_simplePercentageFixedCart3_7204_paynow_Name                             ; otce_simplePercentageFixedCart3_7204_paynow_Description                             ;                ; 250    ;
+                                            ; otce_simpleProductPercentageDiscountCart1_7204_paynow                   ; otce_simpleProductPercentageDiscountCart1_7204_paynow_Name                   ; otce_simpleProductPercentageDiscountCart1_7204_paynow_Description                   ;                ; 551    ;
+                                            ; otce_simpleProductPercentageDiscountCart2_7204_paynow                   ; otce_simpleProductPercentageDiscountCart2_7204_paynow_Name                   ; otce_simpleProductPercentageDiscountCart2_7204_paynow_Description                   ;                ; 549    ;
+                                            ; otce_simpleProductPercentageDiscountCart3_7204_paynow                   ; otce_simpleProductPercentageDiscountCart3_7204_paynow_Name                   ; otce_simpleProductPercentageDiscountCart3_7204_paynow_Description                   ;                ; 550    ;
+                                            ; otce_simpleProductPercentageDiscountCart_7204_paynow                    ; otce_simpleProductPercentageDiscountCart_7204_paynow_Name                    ; otce_simpleProductPercentageDiscountCart_7204_paynow_Description                    ;                ; 700    ;
+                                            ; otce_simpleProductPercentageDiscountCart_override_7204_paynow           ; otce_simpleProductPercentageDiscountCart_override_7204_paynow_Name           ; otce_simpleProductPercentageDiscountCart_override_7204_paynow_Description           ;                ; 650    ;
+                                            ; otce_simpleProductPercentageDiscountCartCategory_7204_paynow            ; otce_simpleProductPercentageDiscountCartCategory_7204_paynow_Name            ; otce_simpleProductPercentageDiscountCartCategory_7204_paynow_Description            ;                ; 650    ;
+                                            ; otce_simpleProductPercentageDiscountCartNotCategory_7204_paynow         ; otce_simpleProductPercentageDiscountCartNotCategory_7204_paynow_Name         ; otce_simpleProductPercentageDiscountCartNotCategory_7204_paynow_Description         ;                ; 650    ;
+                                            ; otce_simpleProductPerfectPartnerFixedPrice1_7204_paynow                 ; otce_simpleProductPerfectPartnerFixedPrice1_7204_paynow_Name                 ; otce_simpleProductPerfectPartnerFixedPrice1_7204_paynow_Description                 ;                ; 220    ;
+                                            ; otce_simpleProductPerfectPartnerFixedPrice2_7204_paynow                 ; otce_simpleProductPerfectPartnerFixedPrice2_7204_paynow_Name                 ; otce_simpleProductPerfectPartnerFixedPrice2_7204_paynow_Description                 ;                ; 200    ;
+                                            ; otce_simpleProductPerfectPartnerFixedPriceCategory1_7204_paynow         ; otce_simpleProductPerfectPartnerFixedPriceCategory1_7204_paynow_Name         ; otce_simpleProductPerfectPartnerFixedPriceCategory1_7204_paynow_Description         ;                ; 220    ;
+                                            ; otce_simpleProductPerfectPartnerFixedPriceCategory2_7204_paynow         ; otce_simpleProductPerfectPartnerFixedPriceCategory2_7204_paynow_Name         ; otce_simpleProductPerfectPartnerFixedPriceCategory2_7204_paynow_Description         ;                ; 200    ;
+                                            ; otce_simpleProductPerfectPartnerPercentageDiscount1_7204_paynow         ; otce_simpleProductPerfectPartnerPercentageDiscount1_7204_paynow_Name         ; otce_simpleProductPerfectPartnerPercentageDiscount1_7204_paynow_Description         ;                ; 220    ;
+                                            ; otce_simpleProductPerfectPartnerPercentageDiscount2_7204_paynow         ; otce_simpleProductPerfectPartnerPercentageDiscount2_7204_paynow_Name         ; otce_simpleProductPerfectPartnerPercentageDiscount2_7204_paynow_Description         ;                ; 200    ;
+                                            ; otce_simpleProductPerfectPartnerPercentageDiscountCategory1_7204_paynow ; otce_simpleProductPerfectPartnerPercentageDiscountCategory1_7204_paynow_Name ; otce_simpleProductPerfectPartnerPercentageDiscountCategory1_7204_paynow_Description ;                ; 220    ;
+                                            ; otce_simpleProductPerfectPartnerPercentageDiscountCategory2_7204_paynow ; otce_simpleProductPerfectPartnerPercentageDiscountCategory2_7204_paynow_Name ; otce_simpleProductPerfectPartnerPercentageDiscountCategory2_7204_paynow_Description ;                ; 200    ;
+                                            ; otce_simpleXBuyXGetYFree_7204_paynow                                    ; otce_simpleXBuyXGetYFree_7204_paynow_Name                                    ; otce_simpleXBuyXGetYFree_7204_paynow_Description                                    ;                ; 250    ;
+                                            ; otce_mobileDeal_override_simpleXBuyXGetYFree_paynow                     ; otce_mobileDeal_override_simpleXBuyXGetYFree_paynow_Name                     ; otce_mobileDeal_override_simpleXBuyXGetYFree_paynow_Description                     ;                ; 200    ;
+                                            ; otce_simpleOneXMoreYBuyXGetYFree1_7204_paynow                           ; otce_simpleOneXMoreYBuyXGetYFree1_7204_paynow_Name                           ; otce_simpleOneXMoreYBuyXGetYFree1_7204_paynow_Description                           ;                ; 250    ;
+                                            ; otce_mobileDeal_override_simpleOneXMoreYBuyXGetYFree1_paynow            ; otce_mobileDeal_override_simpleOneXMoreYBuyXGetYFree1_paynow_Name            ; otce_mobileDeal_override_simpleOneXMoreYBuyXGetYFree1_paynow_Description            ;                ; 200    ;
+                                            ; otce_simpleOneXMoreYQuantityBuyXGetYFree1_7204_paynow                   ; otce_simpleOneXMoreYQuantityBuyXGetYFree1_7204_paynow_Name                   ; otce_simpleOneXMoreYQuantityBuyXGetYFree1_7204_paynow_Description                   ;                ; 250    ;
+                                            ; otce_mobileDeal_override_simpleOneXMoreYQuantityBuyXGetYFree1_paynow    ; otce_mobileDeal_override_simpleOneXMoreYQuantityBuyXGetYFree1_paynow_Name    ; otce_mobileDeal_override_simpleOneXMoreYQuantityBuyXGetYFree1_paynow_Description    ;                ; 200    ;
+                                            ; otce_simpleOneXMoreYQuantityBuyXGetYFree2_7204_paynow                   ; otce_simpleOneXMoreYQuantityBuyXGetYFree2_7204_paynow_Name                   ; otce_simpleOneXMoreYQuantityBuyXGetYFree2_7204_paynow_Description                   ;                ; 250    ;
+                                            ; otce_mobileDeal_override_simpleOneXMoreYQuantityBuyXGetYFree2_paynow    ; otce_mobileDeal_override_simpleOneXMoreYQuantityBuyXGetYFree2_paynow_Name    ; otce_mobileDeal_override_simpleOneXMoreYQuantityBuyXGetYFree2_paynow_Description    ;                ; 200    ;
+                                            ; otce_mobileDeal_override_simpleMoreXOneYBuyXGetYFree1_paynow            ; otce_mobileDeal_override_simpleMoreXOneYBuyXGetYFree1_paynow_Name            ; otce_mobileDeal_override_simpleMoreXOneYBuyXGetYFree1_paynow_Description            ;                ; 200    ;
+                                            ; otce_simpleMoreXOneYBuyXGetYFree1_7204_paynow                           ; otce_simpleMoreXOneYBuyXGetYFree1_7204_paynow_Name                           ; otce_simpleMoreXOneYBuyXGetYFree1_7204_paynow_Description                           ;                ; 250    ;
+                                            ; otce_mobileDeal_override_simpleMoreXOneYBuyXGetYFree2_paynow            ; otce_mobileDeal_override_simpleMoreXOneYBuyXGetYFree2_paynow_Name            ; otce_mobileDeal_override_simpleMoreXOneYBuyXGetYFree2_paynow_Description            ;                ; 200    ;
+                                            ; otce_simpleMoreXOneYBuyXGetYFree2_7204_paynow                           ; otce_simpleMoreXOneYBuyXGetYFree2_7204_paynow_Name                           ; otce_simpleMoreXOneYBuyXGetYFree2_7204_paynow_Description                           ;                ; 250    ;
+                                            ; otce_bpoXBuyXGetYFree_7204_paynow                                       ; otce_bpoXBuyXGetYFree_7204_paynow_Name                                       ; otce_bpoXBuyXGetYFree_7204_paynow_Description                                       ;                ; 250    ;
+                                            ; otce_mobileDeal_override_bpoXBuyXGetYFree_paynow                        ; otce_mobileDeal_override_bpoXBuyXGetYFree_paynow_Name                        ; otce_mobileDeal_override_bpoXBuyXGetYFree_paynow_Description                        ;                ; 200    ;
+                                            ; otce_bpoYBuyXGetYFree_7204_paynow                                       ; otce_bpoYBuyXGetYFree_7204_paynow_Name                                       ; otce_bpoYBuyXGetYFree_7204_paynow_Description                                       ;                ; 250    ;
+                                            ; otce_mobileDeal_override_bpoYBuyXGetYFree_paynow                        ; otce_mobileDeal_override_bpoYBuyXGetYFree_paynow_Name                        ; otce_mobileDeal_override_bpoYBuyXGetYFree_paynow_Description                        ;                ; 200    ;
+                                            ; otce_simpleYBuyXGetYFree_7204_paynow                                    ; otce_simpleYBuyXGetYFree_7204_paynow_Name                                    ; otce_simpleYBuyXGetYFree_7204_paynow_Description                                    ;                ; 250    ;
+                                            ; otce_mobileDeal_override_simpleYBuyXGetYFree_paynow                     ; otce_mobileDeal_override_simpleYBuyXGetYFree_paynow_Name                     ; otce_mobileDeal_override_simpleYBuyXGetYFree_paynow_Description                     ;                ; 200    ;
+                                            ; otce_mobileDeal_override_simpleOneXMoreYBuyXGetYFree2_paynow            ; otce_mobileDeal_override_simpleOneXMoreYBuyXGetYFree2_paynow_Name            ; otce_mobileDeal_override_simpleOneXMoreYBuyXGetYFree2_paynow_Description            ;                ; 200    ;
+                                            ; otce_simpleOneXMoreYBuyXGetYFree2_paynow                                ; otce_simpleOneXMoreYBuyXGetYFree2_paynow_Name                                ; otce_simpleOneXMoreYBuyXGetYFree2_paynow_Description                                ;                ; 250    ;
+                                            ; otce_mobileDeal_override_simpleXCategoryBuyXGetYFree_paynow             ; otce_mobileDeal_override_simpleXCategoryBuyXGetYFree_paynow_Name             ; otce_mobileDeal_override_simpleXCategoryBuyXGetYFree_paynow_Description             ;                ; 200    ;
+                                            ; otce_simpleXCategoryBuyXGetYFree_paynow                                 ; otce_simpleXCategoryBuyXGetYFree_paynow_Name                                 ; otce_simpleXCategoryBuyXGetYFree_paynow_Description                                 ;                ; 250    ;
+                                            ; otce_mobileDeal_override_simpleYCategoryBuyXGetYFree_paynow             ; otce_mobileDeal_override_simpleYCategoryBuyXGetYFree_paynow_Name             ; otce_mobileDeal_override_simpleYCategoryBuyXGetYFree_paynow_Description             ;                ; 200    ;
+                                            ; otce_mobileDeal_override_servicePlanButXGetYFree1_paynow                ; otce_mobileDeal_override_servicePlanButXGetYFree1_paynow_Name                ; otce_mobileDeal_override_servicePlanButXGetYFree1_paynow_Description                ;                ; 300    ;
+                                            ; otce_servicePlanButXGetYFree1_paynow                                    ; otce_servicePlanButXGetYFree1_paynow_Name                                    ; otce_servicePlanButXGetYFree1_paynow_Description                                    ;                ; 350    ;
+                                            ; otce_servicePlanButXGetYFree2_spo                                       ; otce_servicePlanButXGetYFree2_spo_Name                                       ; otce_servicePlanButXGetYFree2_spo_Description                                       ;                ; 35     ;
+                                            ; otce_mobileDeal_override_simpleMoreXMoreYBuyXGetYFree1_paynow           ; otce_mobileDeal_override_simpleMoreXMoreYBuyXGetYFree1_paynow_Name           ; otce_mobileDeal_override_simpleMoreXMoreYBuyXGetYFree1_paynow_Description           ;                ; 200    ;
+                                            ; otce_simpleMoreXMoreYBuyXGetYFree1_paynow                               ; otce_simpleMoreXMoreYBuyXGetYFree1_paynow_Name                               ; otce_simpleMoreXMoreYBuyXGetYFree1_paynow_Description                               ;                ; 250    ;
+                                            ; otce_simpleMoreXMoreYBuyXGetYFree2_paynow                               ; otce_simpleMoreXMoreYBuyXGetYFree2_paynow_Name                               ; otce_simpleMoreXMoreYBuyXGetYFree2_paynow_Description                               ;                ; 250    ;
+                                            ; otce_simpleYCategoryBuyXGetYFree_paynow                                 ; otce_simpleYCategoryBuyXGetYFree_paynow_Name                                 ; otce_simpleYCategoryBuyXGetYFree_paynow_Description                                 ;                ; 250    ;
+                                            ; otce_simple_product_bundle_fixed_price3_paynow                          ; otce_simple_product_bundle_fixed_price3_paynow_Name                          ; otce_simple_product_bundle_fixed_price3_paynow_Description                          ;                ; 100    ;
+                                            ; otce_simple_product_bundle_fixed_price_category3_paynow                 ; otce_simple_product_bundle_fixed_price_category3_paynow_Name                 ; otce_simple_product_bundle_fixed_price_category3_paynow_Description                 ;                ; 500    ;
+                                            ; otce_apple_iphone_6_pbfp_paynow                                         ; otce_apple_iphone_6_pbfp_paynow_Name                                         ; otce_apple_iphone_6_pbfp_paynow_Description                                         ;                ; 300    ;
+                                            ; otce_simple_product_bundle_fixed_price_category4_paynow                 ; otce_simple_product_bundle_fixed_price_category4_paynow_Name                 ; otce_simple_product_bundle_fixed_price_category4_paynow_Description                 ;                ; 100    ;
+                                            ; otce_simple_product_bundle_fixed_price1_paynow                          ; otce_simple_product_bundle_fixed_price1_paynow_Name                          ; otce_simple_product_bundle_fixed_price1_paynow_Description                          ;                ; 700    ;
+                                            ; otce_simple_product_bundle_fixed_price2_paynow                          ; otce_simple_product_bundle_fixed_price2_paynow_Name                          ; otce_simple_product_bundle_fixed_price2_paynow_Description                          ;                ; 500    ;
+                                            ; otce_simple_product_bundle_fixed_price_category1_paynow                 ; otce_simple_product_bundle_fixed_price_category1_paynow_Name                 ; otce_simple_product_bundle_fixed_price_category1_paynow_Description                 ;                ; 200    ;
+                                            ; otce_simple_product_bundle_fixed_price_category2_paynow                 ; otce_simple_product_bundle_fixed_price_category2_paynow_Name                 ; otce_simple_product_bundle_fixed_price_category2_paynow_Description                 ;                ; 300    ;
+                                            ; otce_simple_product_price_threshold_fixed_discount_1_paynow             ; otce_simple_product_price_threshold_fixed_discount_1_paynow_Name             ; otce_simple_product_price_threshold_fixed_discount_1_paynow_Description             ;                ; 101    ;
+                                            ; otce_simple_product_price_threshold_fixed_discount_2_paynow             ; otce_simple_product_price_threshold_fixed_discount_2_paynow_Name             ; otce_simple_product_price_threshold_fixed_discount_2_paynow_Description             ;                ; 99     ;
+                                            ; otce_simple_product_price_threshold_fixed_discount_3_paynow             ; otce_simple_product_price_threshold_fixed_discount_3_paynow_Name             ; otce_simple_product_price_threshold_fixed_discount_3_paynow_Description             ;                ; 100    ;
+                                            ; otce_simple_threshold_fixed_discount_product1_paynow                    ; otce_simple_threshold_fixed_discount_product1_paynow_Name                    ; otce_simple_threshold_fixed_discount_product1_paynow_Description                    ;                ; 500    ;
+                                            ; otce_simple_threshold_fixed_discount_product2_paynow                    ; otce_simple_threshold_fixed_discount_product2_paynow_Name                    ; otce_simple_threshold_fixed_discount_product2_paynow_Description                    ;                ; 400    ;
+                                            ; otce_simple_threshold_fixed_discount_product3_paynow                    ; otce_simple_threshold_fixed_discount_product3_paynow_Name                    ; otce_simple_threshold_fixed_discount_product3_paynow_Description                    ;                ; 300    ;
+                                            ; otce_simple_threshold_fixed_discount_affected_product1_paynow           ; otce_simple_threshold_fixed_discount_affected_product1_paynow_Name           ; otce_simple_threshold_fixed_discount_affected_product1_paynow_Description           ;                ; 700    ;
+                                            ; otce_simple_threshold_fixed_discount_affected_product2_paynow           ; otce_simple_threshold_fixed_discount_affected_product2_paynow_Name           ; otce_simple_threshold_fixed_discount_affected_product2_paynow_Description           ;                ; 1600   ;
+                                            ; otce_simple_threshold_fixed_discount_product_category1_paynow           ; otce_simple_threshold_fixed_discount_product_category1_paynow_Name           ; otce_simple_threshold_fixed_discount_product_category1_paynow_Description           ;                ; 1000   ;
+                                            ; otce_simple_threshold_fixed_discount_product_category2_paynow           ; otce_simple_threshold_fixed_discount_product_category2_paynow_Name           ; otce_simple_threshold_fixed_discount_product_category2_paynow_Description           ;                ; 600    ;
+                                            ; otce_simpleProductCustomerSpecificPercentageDiscount_paynow             ; otce_simpleProductCustomerSpecificPercentageDiscount_paynow_Name             ; otce_simpleProductCustomerSpecificPercentageDiscount_paynow_Description             ;                ; 500    ;
+                                            ; otce_simpleProductCustomerSpecificFixedDiscountOrderThreshold1_paynow   ; otce_simpleProductCustomerSpecificFixedDiscountOrderThreshold1_paynow_Name   ; otce_simpleProductCustomerSpecificFixedDiscountOrderThreshold1_paynow_Description   ;                ; 101    ;
+                                            ; otce_simpleProductCustomerSpecificFixedDiscountOrderThreshold2_paynow   ; otce_simpleProductCustomerSpecificFixedDiscountOrderThreshold2_paynow_Name   ; otce_simpleProductCustomerSpecificFixedDiscountOrderThreshold2_paynow_Description   ;                ; 99     ;
+                                            ; otce_simpleProductCustomerSpecificFixedDiscountOrderThreshold3_paynow   ; otce_simpleProductCustomerSpecificFixedDiscountOrderThreshold3_paynow_Name   ; otce_simpleProductCustomerSpecificFixedDiscountOrderThreshold3_paynow_Description   ;                ; 100    ;
+                                            ; otce_simpleOrderThresholdFreeGift1_paynow                               ; otce_simpleOrderThresholdFreeGift1_paynow_Name                               ; otce_simpleOrderThresholdFreeGift1_paynow_Description                               ;                ; 501    ;
+                                            ; otce_simpleOrderThresholdFreeGift2_paynow                               ; otce_simpleOrderThresholdFreeGift2_paynow_Name                               ; otce_simpleOrderThresholdFreeGift2_paynow_Description                               ;                ; 499    ;
+                                            ; otce_simpleOrderThresholdFreeGift3_paynow                               ; otce_simpleOrderThresholdFreeGift3_paynow_Name                               ; otce_simpleOrderThresholdFreeGift3_paynow_Description                               ;                ; 500    ;
+                                            ; otce_simpleOrderThresholdFreeGiftFree_paynow                            ; otce_simpleOrderThresholdFreeGiftFree_paynow_Name                            ; otce_simpleOrderThresholdFreeGiftFree_paynow_Description                            ;                ; 100    ;
+                                            ; otce_simpleNotEligibleOrderThresholdFreeGift_paynow                     ; otce_simpleNotEligibleOrderThresholdFreeGift_paynow_Name                     ; otce_simpleNotEligibleOrderThresholdFreeGift_paynow_Description                     ;                ; 300    ;
+                                            ; otce_simpleCategoryOrderThresholdFreeGift_paynow                        ; otce_simpleCategoryOrderThresholdFreeGift_paynow_Name                        ; otce_simpleCategoryOrderThresholdFreeGift_paynow_Description                        ;                ; 300    ;
+                                            ; otce_simple_coupon_code_percentage_discount_paynow                      ; otce_simple_coupon_code_percentage_discount_paynow_Name                      ; otce_simple_coupon_code_percentage_discount_paynow_Description                      ;                ; 100    ;
+                                            ; otce_simple_coupon_code_fixed_discount_paynow                           ; otce_simple_coupon_code_fixed_discount_paynow_Name                           ; otce_simple_coupon_code_fixed_discount_paynow_Description                           ;                ; 100    ;
+                                            ; otce_simple_coupon_code_percentage_discount_product_paynow              ; otce_simple_coupon_code_percentage_discount_product_paynow_Name              ; otce_simple_coupon_code_percentage_discount_product_paynow_Description              ;                ; 900    ;
+                                            ; otce_apple_iphone_x_256_5836_paynow                                     ; otce_apple_iphone_x_256_5836_paynow_Name                                     ; otce_apple_iphone_x_256_5836_paynow_Description                                     ;                ; 400    ;
+                                            ; otc_20_usd_paynow                                                       ; otc_20_usd_paynow Price                                                      ; otc_20_usd_paynow Description                                                       ;                ; 20.0   ;
+                                            ; otc_15_usd_paynow                                                       ; otc_15_usd_paynow Price                                                      ; otc_15_usd_paynow Description                                                       ;                ; 15.0   ;
+                                            ; otc_10_usd_paynow                                                       ; otc_10_usd_paynow Price                                                      ; otc_10_usd_paynow Description                                                       ;                ; 10.0   ;
+                                            ; otce_apple_iphone_x_256_5836_paynow                                     ; otce_apple_iphone_x_256_5836_paynow_Name                                     ; otce_apple_iphone_x_256_5836_paynow_Description                                     ;                ; 400    ;
+                                            ; otce_iPhone_9plus_LBP_1                                                 ; iPhone_9plus_LBP_1_Name                                                      ; iPhone_9plus_LBP_1_Description                                                      ;                ; 100.0  ;
+                                            ; otce1_Apple_iPhone6_7176                                                ; otce1_Apple_iPhone6_7176_Name                                                ; otce1_Apple_iPhone6_7176_Description                                                ;                ; 200.0  ;
+                                            ; otce2_Apple_iPhone6_7176                                                ; otce2_Apple_iPhone6_7176_Name                                                ; otce2_Apple_iPhone6_7176_Description                                                ;                ; 300.0  ; onfirstbill
+                                            ; otce_Apple_iPhone6plus_7176                                             ; otce_Apple_iPhone6plus_7176_Name                                             ; otce_Apple_iPhone6plus_7176_Description                                             ;                ; 100.0  ;
+                                            ; otce1_Paynow_Galaxy_7176                                                ; otce1_Galaxy_7176_Name                                                       ; otce1_Galaxy_7176_Description                                                       ;                ; 200.0  ;
+                                            ; otce2_Onfirstbill_Galaxy_7176                                           ; otce2_Galaxy_7176_Name                                                       ; otce2_Galaxy_7176_Description                                                       ;                ; 300.0  ; onfirstbill
+
+# composite pricing for price alteration and promotion tests
+                                            ; unlimited5GPlan_7968_otc_USD_1                                          ; unlimited5GPlan_7968_otc_USD_1_Name                                          ; unlimited5GPlan_7968_otc_USD_1_Description                                          ;                ; 50     ;
+                                            ; unlimited5GPlan_7968_otc_USD_2                                          ; unlimited5GPlan_7968_otc_USD_2_Name                                          ; unlimited5GPlan_7968_otc_USD_2_Description                                          ;                ; 40     ; onfirstbill
+                                            ; unlimited5GPlan_7968_otc_USD_3                                          ; unlimited5GPlan_7968_otc_USD_3_Name                                          ; unlimited5GPlan_7968_otc_USD_3_Description                                          ;                ; 30     ;
+## POST ShoppingCart with Credits
+                                            ; otce1_Apple_iPhone6_7289                                                ; otce1_Apple_iPhone6_7289_Name                                                ; otce1_Apple_iPhone6_7289_Description                                                ;                ; 200.0  ;
+                                            ; otce2_Apple_iPhone6_7289                                                ; otce2_Apple_iPhone6_7289_Name                                                ; otce2_Apple_iPhone6_7289_Description                                                ;                ; 300.0  ; onfirstbill
+                                            ; otce_Apple_iPhone6plus_7289                                             ; otce_Apple_iPhone6plus_7289_Name                                             ; otce_Apple_iPhone6plus_7289_Description                                             ;                ; 100.0  ;
+# price alterations as allowance  post shopping cart
+                                            ; unlimitedStarterPlan_8438_otc_1                                         ; unlimitedStarterPlan_8438_otc_1                                              ; unlimitedStarterPlan_8438_otc_1                                                     ;                ; 20     ;
+
+## Recommendation API with Credits
+                                            ; otc_29_usd_paynow                                                       ; otc_29_usd_paynow Price                                                      ; otc_29_usd_paynow Description                                                       ;                ; 29.0   ;
+                                            ; otc_25_usd_paynow                                                       ; otc_25_usd_paynow Price                                                      ; otc_25_usd_paynow Description                                                       ;                ; 25.0   ;
+                                            ; otc_123_usd_paynow                                                      ; otc_123_usd_paynow Price                                                     ; otc_123_usd_paynow Description                                                      ;                ; 123.0  ;
+                                            ; otc_160_usd_onfirstbill                                                 ; otc_160_usd_onfirstbill Price                                                ; otc_160_usd_onfirstbill Description                                                 ;                ; 160.0  ; onfirstbill
+                                            ; otc_250_usd_onfirstbill                                                 ; otc_250_usd_onfirstbill Price                                                ; otc_250_usd_onfirstbill Description                                                 ;                ; 250.0  ; onfirstbill
+## PSCVs on POP
+                                            ; otce_500_usd_paynow_8800                                                ; otce_500_usd_paynow_8800_name                                                ; otce_500_usd_paynow_8800_description                                                ;                ; 500.0  ;             ;          ; 100_min
+                                            ; otce_350_usd_paynow_8800                                                ; otce_350_usd_paynow_8800_name                                                ; otce_350_usd_paynow_8800_description                                                ;                ; 350.0  ;             ;          ; 100_min
+                                            ; otce_700_usd_paynow_8800                                                ; otce_700_usd_paynow_8800_name                                                ; otce_700_usd_paynow_8800_description                                                ;                ; 700.0  ;             ;          ; 200_min
+                                            ; otce_300_usd_paynow_8800                                                ; otce_300_usd_paynow_8800_name                                                ; otce_300_usd_paynow_8800_description                                                ;                ; 300.0  ;             ;          ; 500_sms
+                                            ; otce_100_usd_paynow_8800                                                ; otce_100_usd_paynow_8800_name                                                ; otce_100_usd_paynow_8800_description                                                ;                ; 100.0  ;             ;          ; 40_sd_channels
+
+# BPO Cardinaity - Update Cart
+                                            ; otce_549_usd_paynow                                                     ; otce_549_usd_paynow_name                                                     ; otce_549_usd_paynow_description                                                     ;                ; 549.0  ;             ;          ;
+
+##Composite price E2E
+                                            ; otce1_unlimitedStarterPlan7478_paynow                                   ; otce1_unlimitedStarterPlan_Name                                              ; otce1_unlimitedStarterPlan_Description                                              ;                ; 100.0  ; paynow
+                                            ; otce2_unlimitedStarterPlan7478_paynow                                   ; otce2_unlimitedStarterPlan_Name                                              ; otce2_unlimitedStarterPlan_Description                                              ;                ; 50.0   ; paynow
+                                            ; otce_Apple_iPhone6_7478_paynow                                          ; otce_Apple_iPhone6_Name                                                      ; otce_Apple_iPhone6_Description                                                      ;                ; 270.0  ; paynow
+                                            ; otce1_unlimitedStarterPlan8449_paynow                                   ; otce1_unlimitedStarterPlan_Name                                              ; otce1_unlimitedStarterPlan_Description                                              ;                ; 100.0  ; paynow
+                                            ; otce2_unlimitedStarterPlan8449_paynow                                   ; otce2_unlimitedStarterPlan_Name                                              ; otce2_unlimitedStarterPlan_Description                                              ;                ; 50.0   ; paynow
+                                            ; otce_Apple_iPhone6_8449_paynow                                          ; otce_Apple_iPhone6_Name                                                      ; otce_Apple_iPhone6_Description                                                      ;                ; 270.0  ; paynow
+
+# PO associated with Usage Specifications - GET PO by Id
+                                            ; otce_Fiberlink_500_9493                                                 ; otce_Fiberlink_500_9493_Name                                                 ; otce_Fiberlink_500_9493_Description                                                 ;                ; 100.0  ;
+                                            ; otce_Moto_G5_9493                                                       ; otce_Moto_G5_9493_Name                                                       ; otce_Moto_G5_9493_Description                                                       ;                ; 200.0  ; onfirstbill
+
+# Hierarchical Cart - Promotion
+                                            ; otce_60_usd_paynow                                                      ; otce_60_usd_paynow_name                                                      ; otce_60_usd_paynow_description                                                      ;                ; 60.0   ; paynow      ;          ;
+## GET PO by Id - Fixed BPO
+                                            ; otce_200_usd_10441                                                      ; otce_200_usd_10441_Name                                                      ; otce_200_usd_10441_description                                                      ;                ; 200.0  ;
+
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaOneTimeProdOfferPriceCharge; id[unique = true]   ; $b2ctelcoPoExportCatalogVersion; value; $priceEvent; $currency
+                                            ; otce_iPhone6_7947   ;                                ; 750  ;            ;
+                                            ; otce_sombreroL_7947 ;                                ; 100  ;            ;
+                                            ; otce_salsaS_7947    ;                                ; 200  ;            ;
+# PLA get po by id
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaOneTimeProdOfferPriceCharge; id[unique = true] ; name                   ; description                   ; $catalogVersion; value ; $priceEvent; $currency; productSpecCharacteristicValues(id, $catalogVersion); pricingLogicAlgorithm(id)
+                                            ; otce_100_USD_9334 ; otce_100_USD_9334_Name ; otce_100_USD_9334_Description ;                ; 100.0 ;            ;          ;                                                     ; student_peak_pla
+                                            ; otce_150_USD_9334 ; otce_150_USD_9334_Name ; otce_150_USD_9334_Description ;                ; 150.0 ;            ;          ;                                                     ; vip_peak_pla
+
+
+################################################
+###              Recurring charges           ###
+################################################
+
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaRecurringProdOfferPriceCharge; id[unique = true]                    ; $catalogVersion; value; $currency; $priceEventRcUc; cycleStart; cycleEnd; productSpecCharacteristicValues(id, $catalogVersion)
+                                              ; RC_10_USD_start_1_Test_v3            ;                ; 10.0 ;          ;                ; 1         ;
+                                              ; RC_10_USD_start_1_end_3_Test_v3      ;                ; 10.0 ;          ;                ; 1         ; 3
+                                              ; RC_20_USD_start_4_Test_v3            ;                ; 20.0 ;          ;                ; 4         ;
+                                              ; RC_15_USD_start_1_Test_v3            ;                ; 15.0 ;          ;                ; 1         ;
+                                              ; rce_DEXT_7000_2_start_1              ;                ; 5.0  ;          ;                ; 1         ;
+                                              ; rce_1_DEXT_7004_1_start_1            ;                ; 10.0 ;          ;                ; 1         ;
+                                              ; rce_2_DEXT_7004_1_start_1            ;                ; 7.0  ;          ;                ; 1         ;
+                                              ; rce_1_iPhone_6942_start_1            ;                ; 30.0 ;          ;                ; 1         ;
+                                              ; rce_2_iPhone_6942_start_1            ;                ; 20.0 ;          ;                ; 1         ; 4
+                                              ; rce_3_iPhone_6942_start_4            ;                ; 25.0 ;          ; yearly         ; 4         ;
+                                              ; rce_4_iPhone_6942_start_1            ;                ; 10.0 ;          ; quarterly      ; 1         ;
+                                              ; rce_6743_start_1                     ;                ; 5.0  ;          ;                ; 1         ; 3
+                                              ; rce_6743_start_4                     ;                ; 2.0  ;          ;                ; 4         ; 12
+                                              ; rce_1_SPO10_start_1                  ;                ; 5.0  ;          ;                ; 1         ; 5
+                                              ; rce_1_SPO10_start_6                  ;                ; 7.0  ;          ;                ; 6         ; 12
+                                              ; rce_2_SPO10_start_1                  ;                ; 3.0  ;          ;                ; 1         ; 3
+                                              ; rce_2_SPO10_start_4                  ;                ; 10.0 ;          ;                ; 4         ;
+                                              ; rce_SPO12_start_1                    ;                ; 10.0 ;          ;                ; 1         ; 6
+                                              ; rce_SPO12_start_7                    ;                ; 20.0 ;          ;                ; 7         ; 12
+                                              ; rce_1_SPO17_start_1                  ;                ; 10.0 ;          ;                ; 1         ; 5
+                                              ; rce_1_SPO17_start_6                  ;                ; 5.0  ;          ;                ; 6         ; 12
+                                              ; rce_2_SPO17_start_1                  ;                ; 16.0 ;          ;                ; 1         ; 5
+                                              ; rce_2_SPO17_start_6                  ;                ; 10.0 ;          ;                ; 6         ; 12
+                                              ; rce_2_SPO18_start_1                  ;                ; 15.0 ;          ;                ; 1         ; 2
+                                              ; rce_2_SPO18_start_3                  ;                ; 17.0 ;          ;                ; 3         ; 5
+                                              ; rce_1_SPO18_start_6                  ;                ; 20.0 ;          ;                ; 6         ; 12
+                                              ; rce_1_SPO18_start_1                  ;                ; 17.0 ;          ;                ; 1         ;
+                                              ; rce_SPO20_start_2                    ;                ; 10.0 ;          ;                ; 2         ; 6
+                                              ; rce_SPO20_start_7                    ;                ; 12.0 ;          ;                ; 7         ; 12
+                                              ; rce_SPO21_start_1                    ;                ; 5.0  ;          ;                ; 1         ;
+                                              ; rce_SPO25_start_1                    ;                ; 5.0  ;          ;                ; 1         ; 3
+                                              ; rce_SPO25_start_4                    ;                ; 7.0  ;          ;                ; 4         ;
+                                              ; rce_1_iPhone_7202_start_1            ;                ; 5.0  ;          ;                ; 1         ; 6
+                                              ; rce_2_iPhone_7202_start_7            ;                ; 10.0 ;          ;                ; 7         ;
+                                              ; rce_1_Samsung_7202_start_1           ;                ; 10.0 ;          ;                ; 1         ; 6
+                                              ; rce_2_Samsung_7202_start_7           ;                ; 20.0 ;          ;                ; 7         ;
+                                              ; rce_3_Samsung_7202_start_1           ;                ; 5.0  ;          ;                ; 1         ; 6
+                                              ; rce_4_Samsung_7202_start_7           ;                ; 15.0 ;          ;                ; 7         ;
+                                              ; rce_1_Nexus_7202_start_1             ;                ; 10.0 ;          ;                ; 1         ; 5
+                                              ; rce_2_Nexus_7202_start_6             ;                ; 18.0 ;          ;                ; 6         ;
+                                              ; rce_3_Nexus_7202_start_1             ;                ; 4.0  ;          ;                ; 1         ; 5
+                                              ; rce_4_Nexus_7202_start_6             ;                ; 20.0 ;          ;                ; 6         ;
+                                              ; rce_1_Smartpink_7202_start_1         ;                ; 15.0 ;          ;                ; 1         ; 2
+                                              ; rce_2_Smartpink_7202_start_3         ;                ; 17.0 ;          ;                ; 3         ; 5
+                                              ; rce_3_Smartpink_7202_start_1         ;                ; 20.0 ;          ;                ; 1         ;
+                                              ; rce_4_Smartpink_7202_start_1         ;                ; 17.0 ;          ;                ; 1         ;
+                                              ; rce_1_iPhone_16GB_7202_start_2       ;                ; 10.0 ;          ;                ; 2         ; 6
+                                              ; rce_2_iPhone_16GB_7202_start_7       ;                ; 12.0 ;          ;                ; 7         ; 12
+                                              ; rce_1_iPhone_32GB_6741_start_1       ;                ; 30.0 ;          ;                ; 1         ; 4
+                                              ; rce_1_iPhone_32GB_6741_start_5       ;                ; 25.0 ;          ;                ; 5         ;
+                                              ; rce_2_iPhone_32GB_6741_start_1       ;                ; 50.0 ;          ; yearly         ; 1         ; 4
+                                              ; rce_2_iPhone_32GB_6741_start_5       ;                ; 45.0 ;          ; yearly         ; 5         ; 8
+                                              ; rce_2_iPhone_32GB_6741_start_9       ;                ; 30.0 ;          ; yearly         ; 9         ;
+                                              ; rce_iPhone_6741_start_1              ;                ; 25.0 ;          ;                ; 1         ; 6
+                                              ; rce_iPhone_6741_start_7              ;                ; 30.0 ;          ;                ; 7         ; 12
+                                              ; rce_1_iPhone_32GB_7481_start_1       ;                ; 30.0 ;          ;                ; 1         ; 4
+                                              ; rce_1_iPhone_32GB_7481_start_5       ;                ; 25.0 ;          ;                ; 5         ;
+                                              ; rce_2_iPhone_32GB_7481_start_1       ;                ; 50.0 ;          ; yearly         ; 1         ; 4
+                                              ; rce_2_iPhone_32GB_7481_start_5       ;                ; 45.0 ;          ; yearly         ; 5         ; 8
+                                              ; rce_2_iPhone_32GB_7481_start_9       ;                ; 30.0 ;          ; yearly         ; 9         ;
+                                              ; rce_iPhone_7481_start_1              ;                ; 25.0 ;          ;                ; 1         ; 6
+                                              ; rce_iPhone_7481_start_7              ;                ; 30.0 ;          ;                ; 7         ; 12
+                                              ; rce_tapasXL_occpo                    ;                ; 40   ;          ;                ; 1         ;
+                                              ; rce_tapasXL_tc_occpo                 ;                ; 35   ;          ;                ; 1         ;
+                                              ; rce_tapasXL_EUR_occpo                ;                ; 42   ;          ;                ; 1         ;
+                                              ; rce_tapasXL_tc_EUR_occpo             ;                ; 37   ;          ;                ; 1         ;
+                                              ; rce_sombreroS_LBP_ACQ1               ;                ; 11   ;          ;                ; 1         ;
+                                              ; rce_sombreroS_LBP_ACQ2               ;                ; 22   ;          ;                ; 1         ;
+                                              ; rce_sombreroS_LBP_ACQ3               ;                ; 10   ;          ;                ; 1         ;
+                                              ; rce_sombreroS_LBP_ACQ4               ;                ; 8    ;          ;                ; 1         ;
+                                              ; rce_sombreroS_LBP_RET                ;                ; 44   ;          ;                ; 1         ;
+                                              ; rce_sombreroS_LBP_MNP                ;                ; 55   ;          ;                ; 1         ;
+                                              ; rce_sombreroL_LBP_ACQ1               ;                ; 5    ;          ;                ; 1         ;
+                                              ; rce_sombreroL_LBP_ACQ2               ;                ; 10   ;          ;                ; 1         ;
+                                              ; rce_sombreroL_LBP_ACQ3               ;                ; 15   ;          ;                ; 1         ;
+                                              ; rce_sombreroL_LBP_ACQ4               ;                ; 20   ;          ;                ; 1         ;
+                                              ; rce_sombreroL_LBP_ACQ5               ;                ; 25   ;          ;                ; 1         ;
+
+
+                                              ; rce_5_usd_start_1                    ;                ; 5.0  ;          ;                ; 1         ;
+                                              ; rce_10_usd_start_1_end_10            ;                ; 10.0 ;          ;                ; 1         ; 10
+                                              ; rce_1_usd_start_1_end_6              ;                ; 1.0  ;          ;                ; 1         ; 6
+                                              ; rce_12_usd_start_7_end_10            ;                ; 12.0 ;          ;                ; 7         ; 10
+                                              ; rce_2_usd_start_1_end_6              ;                ; 2.0  ;          ;                ; 1         ; 6
+                                              ; rce_14_usd_start_7_end_10            ;                ; 14.0 ;          ;                ; 7         ; 10
+                                              ; rce_1_Samsung_7234_start_1           ;                ; 10.0 ;          ;                ; 1         ; 5
+                                              ; rce_2_Samsung_7234_start_6           ;                ; 18.0 ;          ;                ; 6         ;
+                                              ; rce_3_Samsung_7234_start_1           ;                ; 4.0  ;          ;                ; 1         ; 5
+                                              ; rce_4_Samsung_7234_start_6           ;                ; 20.0 ;          ;                ; 6         ;
+                                              ; rce_1_iPhone8_7234_start_1           ;                ; 15.0 ;          ;                ; 1         ; 2
+                                              ; rce_2_iPhone8_7234_start_3           ;                ; 17.0 ;          ;                ; 3         ; 5
+                                              ; rce_3_iPhone8_7234_start_1           ;                ; 17.0 ;          ;                ; 1         ;
+                                              ; rce_servicePlanFreeGift              ;                ; 10.0 ;          ;                ; 1         ;
+                                              ; rce_50_usd_start_1                   ;                ; 50.0 ;          ;                ; 1         ;
+                                              ; rce_30_usd_start_1                   ;                ; 30.0 ;          ;                ; 1         ;
+                                              ; rce_18_usd_start_1_end_12            ;                ; 18.0 ;          ;                ; 1         ; 12
+                                              ; rce_20_usd_start_1_end_12            ;                ; 20.0 ;          ;                ; 1         ; 12
+                                              ; rce_4_usd_start_1_end_6              ;                ; 4.0  ;          ;                ; 1         ; 6
+
+                                              ; rce_tapasS_LBP_ACQ1                  ;                ; 11   ;          ;                ; 1         ;
+                                              ; rce_tapasS_LBP_ACQ2                  ;                ; 22   ;          ;                ; 1         ;
+                                              ; rce_tapasS_LBP_ACQ3                  ;                ; 10   ;          ;                ; 1         ;
+                                              ; rce_tapasS_LBP_ACQ4                  ;                ; 8    ;          ;                ; 1         ;
+                                              ; rce_tapasS_LBP_RET                   ;                ; 44   ;          ;                ; 1         ;
+                                              ; rce_tapasS_LBP_MNP                   ;                ; 55   ;          ;                ; 1         ;
+                                              ; rce_tapasS_LBP_SS1                   ;                ; 25   ;          ;                ; 1         ;
+                                              ; rce_iPhone_7plus_LBP_1               ;                ; 9.0  ;          ;                ; 1         ;
+                                              ; rce_iPhone_7plus_LBP_2               ;                ; 8.0  ;          ;                ; 1         ;
+                                              ; rce_iPhone_7plus_LBP_3               ;                ; 9.0  ;          ;                ; 1         ;
+                                              ; rce_iPhone_7plus_LBP_4               ;                ; 8.0  ;          ;                ; 1         ;
+                                              ; rce_iPhone_7_LBP_1                   ;                ; 7.0  ;          ;                ; 1         ;
+                                              ; rce_iPhone_7_LBP_2                   ;                ; 6.0  ;          ;                ; 1         ;
+                                              ; rce_iPhone_7_LBP_3                   ;                ; 5.0  ;          ;                ; 1         ;
+                                              ; rce_int_pack_LBP_ACQ1                ;                ; 2.0  ;          ;                ; 1         ;
+                                              ; rce_int_pack_LBP_ACQ2                ;                ; 5.0  ;          ;                ; 1         ;
+                                              ; rce_int_pack_LBP_ACQ3                ;                ; 3.0  ;          ;                ; 1         ;
+                                              ; rce_int_pack_LBP_ACQ4                ;                ; 4.0  ;          ;                ; 1         ;
+                                              ; rce_int_pack_LBP_ACQ5                ;                ; 3.0  ;          ;                ; 1         ;
+                                              ; rce_iPhone_9_LBP_1                   ;                ; 18.0 ;          ;                ; 1         ;
+                                              ; rce_iPhone_9_LBP_2                   ;                ; 17.0 ;          ;                ; 1         ;
+                                              ; rce_iPhone_9_LBP_3                   ;                ; 16.0 ;          ;                ; 1         ;
+                                              ; rce_tapasXL_LBP_ACQ1                 ;                ; 11.0 ;          ;                ; 1         ;
+                                              ; rce_tapasXL_LBP_ACQ2                 ;                ; 22.0 ;          ;                ; 1         ;
+                                              ; rce_tapasXL_LBP_ACQ3                 ;                ; 10.0 ;          ;                ; 1         ;
+                                              ; rce_tapasXL_LBP_ACQ4                 ;                ; 8.0  ;          ;                ; 1         ;
+                                              ; rce_tapasXL_LBP_RET                  ;                ; 44.0 ;          ;                ; 1         ;
+                                              ; rce_tapasXL_LBP_MNP                  ;                ; 55.0 ;          ;                ; 1         ;
+                                              ; rce_iPhone_10_LBP_1                  ;                ; 5.0  ;          ;                ; 1         ;
+                                              ; rce1_SombreroS_7176                  ;                ; 20.0 ;          ;                ; 1         ; 3
+                                              ; rce2_SombreroS_7176                  ;                ; 15.0 ;          ;                ; 4         ; 12
+                                              ; rce_SombreroM_7176                   ;                ; 40.0 ;          ;                ; 1         ; 3
+                                              ; rce_iPhone_10_LBP_1                  ;                ; 5.0  ;          ;                ; 1         ;
+## POST ShoppingCart with credits
+                                              ; rce1_SombreroS_7289                  ;                ; 20.0 ;          ;                ; 1         ; 3
+                                              ; rce2_SombreroS_7289                  ;                ; 15.0 ;          ;                ; 4         ; 12
+                                              ; rce_SombreroS_7289                   ;                ; 40.0 ;          ;                ; 1         ; 3
+##Composite price E2E
+                                              ; rce_unlimitedStarterPlan7478_start_1 ;                ; 30.0 ;          ;                ; 1         ; 4
+                                              ; rce_unlimitedStarterPlan7478_start_5 ;                ; 25.0 ;          ;                ; 5         ;
+                                              ; rce_unlimitedStarterPlan7478_start_2 ;                ; 15.0 ;          ;                ; 2         ; 12
+                                              ; rce_unlimitedStarterPlan8449_start_1 ;                ; 30.0 ;          ;                ; 1         ; 4
+                                              ; rce_unlimitedStarterPlan8449_start_5 ;                ; 25.0 ;          ;                ; 5         ;
+                                              ; rce_unlimitedStarterPlan8449_start_2 ;                ; 15.0 ;          ;                ; 2         ; 12
+
+# composite pricing for price alteration and promotion tests
+                                              ; unlimited5GPlan_7968_rc_USD          ;                ; 50.0 ;          ;                ; 1         ;
+
+                                              ; rce_10_usd_start_1                   ;                ; 10.0 ;          ;                ; 1         ;
+                                              ; rce_10_usd_start_1_end_3             ;                ; 10.0 ;          ;                ; 1         ; 3
+                                              ; rce_20_usd_start_4                   ;                ; 20.0 ;          ;                ; 4         ;
+                                              ; rce_19_usd_start_1_end_3             ;                ; 19.0 ;          ;                ; 1         ; 3
+                                              ; rce_5_usd_start_4                    ;                ; 5.0  ;          ;                ; 4         ;
+
+# price alterations as allowance  post shopping cart
+                                              ; unlimitedStarterPlan_8438_rc_1       ;                ; 10   ;          ;                ; 2         ;
+## PSCVs on POP
+                                              ; RC_10_USD_start_1_end_3_Test_v3_8800 ;                ; 10.0 ;          ;                ; 1         ; 3       ; 1000_mb
+                                              ; RC_20_USD_start_4_Test_v3_8800       ;                ; 20.0 ;          ;                ; 4         ;         ;
+                                              ; RC_10_USD_start_1_end_6_Test_v3_8800 ;                ; 10.0 ;          ;                ; 1         ; 6       ; 500_mb
+                                              ; RC_20_USD_start_7_Test_v3_8800       ;                ; 20.0 ;          ;                ; 7         ;         ;
+                                              ; RC_30_USD_start_1_Test_v3_8800       ;                ; 30.0 ;          ;                ; 1         ;         ; 10_hd_channels
+
+# BPO Cardinaity - Update Cart
+                                              ; rce_20_usd_monthly                   ;                ; 20.0 ;          ;                ; 1         ;         ;
+
+# PO associated with Usage Specifications - GET PO by Id
+                                              ; rce_Fiberlink_500_9493               ;                ; 30.0 ;          ;                ; 1         ; 3       ; 100_min
+                                              ; rce_Moto_G5_9493                     ;                ; 15.0 ;          ;                ; 1         ; 6
+## GET PO by Id - Fixed BPO
+                                              ; rce_10_USD_start_1_10441             ;                ; 10.0 ;          ;                ; 1         ;
+## POST/PATCH carts of Fixed BPO
+                                              ; rce_10_USD_start_1_10469             ;                ; 10.0 ;          ;                ; 1         ;
+
+#PLA get po by id
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaRecurringProdOfferPriceCharge; id[unique = true]; $catalogVersion; value; $currency; $priceEventRcUc; cycleStart; cycleEnd; productSpecCharacteristicValues(id, $catalogVersion); pricingLogicAlgorithm(id)
+                                              ; rce_10_USD_9334  ;                ; 10.0 ;          ;                ; 1         ;         ;                                                     ; vip_peak_pla
+
+################################################
+###              Usage charges               ###
+################################################
+
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaUsageProdOfferPriceCharge; id[unique = true]                               ; value; tierStart; tierEnd; usageUnit(id) ; $catalogVersion; $currency; $priceEventRcUc; productSpecCharacteristicValues(id, $catalogVersion)
+                                          ; UC_0_05_tierStart_101_end_200_USD_Test_v3       ; 0.05 ; 101      ; 200    ; phone_minutes
+                                          ; UC_0_07_tierStart_201_end_300_USD_Test_v3       ; 0.07 ; 201      ; 300    ; phone_minutes
+                                          ; UC_0_09_tierStart_301_USD_Test_v3               ; 0.09 ; 301      ;        ; phone_minutes
+                                          ; UC_0_09_tierStart_1_minutes_USD_Test_v3         ; 0.09 ; 1        ;        ; phone_minutes
+                                          ; UC_0_09_tierStart_1_sms_USD_Test_v3             ; 0.09 ; 1        ;        ; sms
+                                          ; UC_3_documentaries_on_demand_USD_Test_v3        ; 3.0  ; 1        ;        ; documentaries_on_demand
+                                          ; UC_4_movies_on_demand_USD_Test_v3               ; 4.0  ; 1        ;        ; movies_on_demand
+                                          ; UC_5_blockbusters_on_demand_USD_Test_v3         ; 5.0  ; 1        ;        ; blockbusters_on_demand
+                                          ; UC_7000_3_sms_tierStart_1_end_200_USD           ; 0.09 ; 1        ; 200    ; sms
+                                          ; UC_7004_5_sms_tierStart_1_end_200_USD           ; 0.09 ; 1        ; 200    ; sms
+                                          ; UC_7202_sms_tierStart_1_end_100_USD             ; 1.0  ; 1        ; 100    ; sms
+
+                                          ; UC_6944_1_sms_tierStart_1_end_200_USD           ; 0.09 ; 1        ; 200    ; sms
+                                          ; UC_6944_2_mb_tierStart_1_end_100_USD            ; 0.09 ; 1        ; 100    ; mb
+                                          ; UC_6944_2_minutes_tierStart_1_end_200_USD       ; 0.09 ; 1        ; 200    ; phone_minutes
+                                          ; UC_6944_2_sms_tierStart_100_end_200_USD         ; 1.0  ; 100      ; 200    ; sms
+                                          ; UC_6944_4_sms_tierStart_1_end_200_USD           ; 0.05 ; 1        ; 200    ; sms
+                                          ; UC_6944_4_minutes_tierStart_1_end_200_USD       ; 0.05 ; 1        ; 200    ; phone_minutes
+                                          ; UC_6944_5_mb_tierStart_1_end_100_USD            ; 0.03 ; 1        ; 100    ; mb
+                                          ; UC_6944_5_sms_tierStart_1_end_200_USD           ; 0.03 ; 1        ; 200    ; sms
+                                          ; UC_6944_5_minutes_tierStart_1_end_200_USD       ; 1.0  ; 1        ; 200    ; phone_minutes
+                                          ; UC_21_minutes_tierStart_1_end_200_USD           ; 1    ; 1        ; 200    ; phone_minutes
+                                          ; UC_24_sms_tierStart_1_end_200_USD               ; 0.09 ; 1        ; 200    ; sms
+                                          ; UC_6741_sms_tierStart_1_end_200_USD             ; 0.09 ; 1        ; 200    ; sms
+                                          ; UC_6741_mb_tierStart_1_end_200_USD              ; 0.09 ; 1        ; 200    ; mb
+                                          ; UC_7481_sms_tierStart_1_end_200_USD             ; 0.09 ; 1        ; 200    ; sms
+                                          ; UC_7481_mb_tierStart_1_end_200_USD              ; 0.09 ; 1        ; 200    ; mb
+                                          ; UC_0_5_sms_tierStart_1_end_500_USD              ; 0.5  ; 1        ; 500    ; sms
+                                          ; UC_0_9_sms_tierStart_1_end_100_USD              ; 0.9  ; 1        ; 100    ; sms
+                                          ; UC_0_1_sms_tierStart_1_end_100_USD              ; 0.1  ; 1        ; 100    ; sms
+                                          ; UC_0_2_sms_tierStart_1_end_200_USD              ; 0.2  ; 1        ; 200    ; sms
+
+                                          ; UC_0_3_sms_tierStart_1_end_100_USD              ; 0.3  ; 1        ; 100    ; sms
+                                          ; UC_0_4_sms_tierStart_1_end_200_USD              ; 0.4  ; 1        ; 200    ; sms
+                                          ; UC_0_5_sms_tierStart_1_end_100_USD              ; 0.5  ; 1        ; 100    ; sms
+                                          ; UC_0_6_sms_tierStart_1_end_200_USD              ; 0.6  ; 1        ; 200    ; sms
+                                          ; UC_7234_sms_tierStart_1_end_200_USD             ; 0.09 ; 1        ; 200    ; sms
+                                          ; UC_7234_sms_tierStart_1_end_100_USD             ; 0.03 ; 1        ; 100    ; sms
+                                          ; UC_0_03_sms_tierStart_1_end_100_USD             ; 0.03 ; 1        ; 100    ; sms
+                                          ; UC_0_09_sms_tierStart_1_end_200_USD             ; 0.09 ; 1        ; 200    ; sms
+                                          ; UC_0_3_sms_tierStart_1_end_100_USD              ; 0.3  ; 1        ; 100    ; sms
+                                          ; UC_0_4_sms_tierStart_1_end_200_USD              ; 0.4  ; 1        ; 200    ; sms
+                                          ; UC_0_5_sms_tierStart_1_end_100_USD              ; 0.5  ; 1        ; 100    ; sms
+                                          ; UC_0_6_sms_tierStart_1_end_200_USD              ; 0.6  ; 1        ; 200    ; sms
+                                          ; UC_7234_sms_tierStart_1_end_200_USD             ; 0.09 ; 1        ; 200    ; sms
+                                          ; UC_7234_sms_tierStart_1_end_100_USD             ; 0.03 ; 1        ; 100    ; sms
+                                          ; UC_7176_mb_tierStart_1_end_100_USD              ; 0.09 ; 1        ; 100    ; mb
+                                          ; UC_7176_mb_tierStart_101_end_200_USD            ; 0.09 ; 101      ; 200    ; mb
+                                          ; UC_7176_mb_tierStart_1_end_500_USD              ; 0.05 ; 1        ; 500    ; mb
+                                          ; UC_7176_mb_tierStart_501_end_1000_USD           ; 0.05 ; 501      ; 1000   ; mb
+                                          ; UC_7176_minutes_tierStart_1_end_200_USD         ; 0.03 ; 1        ; 200    ; phone_minutes
+
+## POST ShoppingCart with credits
+                                          ; UC_7289_mb_tierStart_1_end_100_USD              ; 0.09 ; 1        ; 100    ; mb
+                                          ; UC_7289_mb_tierStart_101_end_200_USD            ; 0.09 ; 101      ; 200    ; mb
+                                          ; UC_7289_mb_tierStart_1_end_500_USD              ; 0.05 ; 1        ; 500    ; mb
+                                          ; UC_7289_mb_tierStart_501_end_1000_USD           ; 0.05 ; 501      ; 1000   ; mb
+
+# composite pricing for price alteration and promotion tests
+                                          ; unlimited5GPlan_7968_uc_0_3_tierStart_1_min_USD ; 0.03 ; 1        ;        ; phone_minutes
+##Composite price E2E
+                                          ; UC_7478_sms_tierStart_1_end_200_USD             ; 0.09 ; 1        ; 200    ; sms
+                                          ; UC_7478_sms_tierStart_201_end_500_USD           ; 0.05 ; 201      ; 500    ; sms
+                                          ; UC_8449_sms_tierStart_1_end_200_USD             ; 0.09 ; 1        ; 200    ; sms
+                                          ; UC_8449_sms_tierStart_201_end_500_USD           ; 0.05 ; 201      ; 500    ; sms
+
+# price alterations as allowance  post shopping cart
+                                          ; unlimitedStarterPlan_8438_uc_1                  ; 0.5  ; 1        ;        ; phone_minutes
+## PSCVs on pop
+                                          ; UC_0_05_tierStart_101_end_200_USD_Test_v3_8800  ; 0.05 ; 101      ; 200    ; mb            ;                ;          ;                ; 100_mb
+                                          ; UC_0_07_tierStart_201_end_300_USD_Test_v3_8800  ; 0.07 ; 201      ; 300    ; mb            ;                ;          ;                ; 100_mb
+                                          ; UC_0_09_tierStart_101_end_300_USD_Test_v3_8800  ; 0.09 ; 101      ; 300    ; mb            ;                ;          ;                ; 40_sd_channels
+## GET PO by Id - Fixed BPOs
+                                          ; UC_0_05_tierStart_101_end_200_USD_10441         ; 0.05 ; 101      ; 200    ; phone_minutes ;
+                                          ; UC_0_09_tierStart_101_end_200_USD_10441         ; 0.09 ; 1        ; 200    ; sms           ;
+## POST/PATCH carts of Fixed BPOs
+                                          ; UC_0_05_tierStart_101_end_200_USD_10469         ; 0.05 ; 101      ; 200    ; phone_minutes
+                                          ; UC_0_09_tierStart_101_end_200_USD_10469         ; 0.09 ; 1        ; 200    ; sms
+
+# PO associated with Usage Specifications - GET PO by Id
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaUsageProdOfferPriceCharge; id[unique = true]                 ; value; tierStart; tierEnd; usageUnit(id) ; productUsageSpec(id, $catalogVersion); $catalogVersion; $currency; $priceEventRcUc
+                                          ; UC_0_05_tierStart_101_end_200_USD ; 0.05 ; 101      ; 200    ; phone_minutes ; cdr_voice_spec
+                                          ; UC_0_07_tierStart_201_end_300_USD ; 0.07 ; 201      ; 300    ; phone_minutes ; cdr_voice_spec
+                                          ; UC_0_09_tierStart_1_minutes_USD   ; 0.09 ; 1        ;        ; phone_minutes ; cdr_voice_spec
+                                          ; UC_0_09_tierStart_1_sms_USD       ; 0.09 ; 1        ;        ; sms           ; cdr_sms_spec
+                                          ; UC_0_09_tierStart_1_data_USD      ; 0.09 ; 1        ;        ; mb            ; udr_data_spec
+
+# PO associated with Usage Specifications - GET Recommendation
+                                          ; UC_0_01_tierStart_1_minutes_USD   ; 0.01 ; 1        ; 100    ; phone_minutes ; cdr_voice_spec
+                                          ; UC_0_03_tierStart_101_minutes_USD ; 0.03 ; 101      ; 200    ; phone_minutes ; cdr_voice_spec
+                                          ; UC_0_05_tierStart_101_sms_USD     ; 0.05 ; 101      ; 200    ; sms           ; cdr_sms_spec
+                                          ; UC_0_07_tierStart_1_data_USD      ; 0.07 ; 1        ; 100    ; mb            ;
+                                          ; UC_0_04_tierStart_101_data_USD    ; 0.04 ; 101      ; 200    ; gb            ; udr_data_spec
+# PLA get po by id
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaUsageProdOfferPriceCharge; id[unique = true]                 ; value; tierStart; tierEnd; usageUnit(id) ; $catalogVersion; $currency; $priceEventRcUc; productSpecCharacteristicValues(id, $catalogVersion); pricingLogicAlgorithm(id)
+                                          ; UC_9334_tierStart_1_end_100_USD   ; 1.0  ; 1        ; 100    ; phone_minutes ;                ;          ;                ;                                                     ; call_duration_pla
+                                          ; UC_9334_tierStart_101_end_200_USD ; 0.5  ; 101      ; 200    ; sms           ;                ;          ;                ;                                                     ; call_duration_pla
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaTierUsageChargeCompositePop; id[unique = true]                                     ; usageChargeType(code)   ; children(id, $catalogVersion)                                                                                                                       ; $catalogVersion; productSpecCharacteristicValues(id, $catalogVersion)
+                                            ; essentialsUnlimitedPlan_minutes_usage_USD_pop_Test_v3 ; each_respective_tier    ; UC_0_05_tierStart_101_end_200_USD_Test_v3, UC_0_07_tierStart_201_end_300_USD_Test_v3,UC_0_09_tierStart_301_USD_Test_v3
+                                            ; tv_S_USD_usage_pop_Test_v3                            ; each_respective_tier    ; UC_3_documentaries_on_demand_USD_Test_v3, UC_4_movies_on_demand_USD_Test_v3, UC_5_blockbusters_on_demand_USD_Test_v3
+                                            ; Nexus_6944_6_usage_pop                                ; each_respective_tier    ; UC_6944_1_sms_tierStart_1_end_200_USD, UC_6944_2_mb_tierStart_1_end_100_USD
+                                            ; Nexus_6944_7_usage_pop1                               ; highest_applicable_tier ; UC_6944_5_mb_tierStart_1_end_100_USD, UC_6944_5_sms_tierStart_1_end_200_USD
+                                            ; Nexus_6944_7_usage_pop2                               ; each_respective_tier    ; UC_6944_2_sms_tierStart_100_end_200_USD, UC_6944_5_minutes_tierStart_1_end_200_USD
+                                            ; savannah_plan_7564_tier_pop                           ; each_respective_tier    ; UC_0_1_sms_tierStart_1_end_100_USD, UC_0_2_sms_tierStart_1_end_200_USD
+                                            ; allInOne_plan_7564_tier_pop                           ; each_respective_tier    ; UC_0_3_sms_tierStart_1_end_100_USD, UC_0_4_sms_tierStart_1_end_200_USD
+                                            ; wholeDeal_plan_7564_tier_pop                          ; each_respective_tier    ; UC_0_5_sms_tierStart_1_end_100_USD, UC_0_6_sms_tierStart_1_end_200_USD
+                                            ; Galaxy_7481_usage_pop                                 ; each_respective_tier    ; UC_7481_sms_tierStart_1_end_200_USD, UC_7481_mb_tierStart_1_end_200_USD
+                                            ; SalsaS_7214_usage_pop                                 ; each_respective_tier    ; UC_6944_5_mb_tierStart_1_end_100_USD, UC_6944_5_sms_tierStart_1_end_200_USD
+                                            ; SalsaS_7214_usage_pop1                                ; each_respective_tier    ; UC_0_3_sms_tierStart_1_end_100_USD, UC_0_4_sms_tierStart_1_end_200_USD
+                                            ; TapasS_7960_pop                                       ; each_respective_tier    ; TapasS_7960_pop1, TapasS_7960_pop2
+                                            ; Weekender_7965_usage_pop                              ; each_respective_tier    ; UC_6944_5_mb_tierStart_1_end_100_USD, UC_6944_5_sms_tierStart_1_end_200_USD, Usage_fixed_discount_7960
+                                            ; HotspotOption_7965_usage_pop                          ; each_respective_tier    ; UC_0_3_sms_tierStart_1_end_100_USD, UC_0_4_sms_tierStart_1_end_200_USD, Usage_percentage_discount_7965
+##Composite price E2E
+                                            ; unlimitedStarterPlan7478_tier_pop                     ; each_respective_tier    ; UC_7478_sms_tierStart_1_end_200_USD, UC_7478_sms_tierStart_201_end_500_USD
+                                            ; unlimitedStarterPlan8449_tier_pop                     ; each_respective_tier    ; UC_8449_sms_tierStart_1_end_200_USD, UC_8449_sms_tierStart_201_end_500_USD , promotional_percentage_credits_8449
+
+                                            ; tapasS_6947_uc_alw_pop                                ; each_respective_tier    ; UC_0_1_sms_tierStart_1_end_100_USD, tapasS_6947_uc_alw
+
+
+                                            ; unlimitedStarterPlan_7176_pop                         ; each_respective_tier    ; unlimitedStarterPlan_7176_pop1, unlimitedStarterPlan_7176_pop2
+                                            ; Fiberlink_7176_pop                                    ; each_respective_tier    ; Fiberlink_7176_pop1, Fiberlink_7176_pop2
+
+##POST ShoppingCart with credits
+                                            ; unlimitedStarterPlan_7289_pop                         ; each_respective_tier    ; unlimitedStarterPlan_7289_pop1, unlimitedStarterPlan_7289_pop2
+                                            ; Fiberlink_7289_pop                                    ; each_respective_tier    ; Fiberlink_7289_pop1, Fiberlink_7289_pop2
+                                            ; unlimitedStarterPlan_7289_bpo_pop                     ; each_respective_tier    ; unlimitedStarterPlan_7289_bpo_pop1, unlimitedStarterPlan_7289_bpo_pop2
+                                            ; Fiberlink_7289_bpo_pop                                ; each_respective_tier    ; Fiberlink_7289_bpo_pop1, Fiberlink_7289_bpo_pop2
+## PSCVs on POP
+                                            ; UnlimitedStarterPlan_8800_pop1                        ; each_respective_tier    ; UC_0_05_tierStart_101_end_200_USD_Test_v3_8800, UC_0_07_tierStart_201_end_300_USD_Test_v3_8800, usage_fixed_credits, Usage_percentage_discount_7965 ;                ; 100_min, 100_mb, 1000_sms
+## GET PO by id - Fixed BPOs
+                                            ; Usage_pop_10441                                       ; each_respective_tier    ; UC_0_05_tierStart_101_end_200_USD_10441, UC_0_09_tierStart_101_end_200_USD_10441, Usage_percentage_discount_7965
+
+# PLA get po by id
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaTierUsageChargeCompositePop; id[unique = true]             ; usageChargeType(code); children(id, $catalogVersion); $catalogVersion; productSpecCharacteristicValues(id, $catalogVersion)
+                                            ; Usage_9334_pop                ; each_respective_tier ; UC_9334_tierStart_1_end_100_USD, UC_9334_tierStart_101_end_200_USD
+
+
+# PO associated with Usage Specifications - GET PO by Id
+                                            ; UnlimitedStarterPlan_9493_pop ; each_respective_tier ; UnlimitedStarterPlan_9493_pop1, UC_0_09_tierStart_1_data_USD
+## POST/PATCH cart of Fixed BPOs
+                                            ; tier_usage_pop_10469          ; each_respective_tier ; UC_0_05_tierStart_101_end_200_USD_10469, UC_0_09_tierStart_101_end_200_USD_10469, usage_fixed_credits
+
+################################################
+###              Discount alterations        ###
+################################################
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaDiscountProdOfferPriceAlteration; id[unique = true]                    ; value; cycleStart; cycleEnd; $currency; $priceEvent; $catalogVersion; isPercentage[default = false]; productSpecCharacteristicValues(id, $catalogVersion)
+                                                 ; Standard_fixed_discount_7960         ; 30   ;           ;         ;          ;            ;                ; false                        ;
+                                                 ; Standard_percentage_discount_7960    ; 30   ;           ;         ;          ;            ;                ; true                         ;
+                                                 ; Promo_fixed_discount_7960            ; 15   ; 1         ;         ;          ; monthly    ;                ; false                        ;
+                                                 ; Promo_percentage_discount_7960       ; 15   ; 1         ;         ;          ; monthly    ;                ; true                         ;
+                                                 ; Usage_fixed_discount_7960            ; 0.01 ; 1         ;         ;          ; monthly    ;                ; false                        ;
+                                                 ; Usage_percentage_discount_7965       ; 0.01 ; 1         ;         ;          ; monthly    ;                ; true                         ;
+
+# composite pricing for price alteration and promotion tests
+                                                 ; unlimited5GPlan_7968_otc_USD_pa_1    ; 10   ;           ;         ;          ;            ;                ; true                         ;
+                                                 ; unlimited5GPlan_7968_otc_USD_pa_2    ; 10   ;           ;         ;          ;            ;                ; true                         ;
+                                                 ; unlimited5GPlan_7968_otc_USD_pa_3    ; 5    ;           ;         ;          ;            ;                ;                              ;
+                                                 ; unlimited5GPlan_7968_rc_USD_pa       ; 10   ; 1         ; 6       ;          ; monthly    ;                ;                              ;
+                                                 ; unlimited5GPlan_7968_uc_USD_pa       ; 0.1  ; 1         ; 6       ;          ; monthly    ;                ;                              ;
+                                                 ; unlimitedStarterPlan_8438_discount_1 ; 2    ; 1         ;         ;          ; monthly    ;                ;                              ;
+##Composite prices E2E
+                                                 ; Standard_fixed_discount_8449         ; 30   ; 1         ; 6       ;          ; monthly    ;                ; false                        ;
+                                                 ; Standard_percentage_discount_8449    ; 30   ;           ;         ;          ;            ;                ; true                         ;
+##PSCVs on POP
+                                                 ; Standard_fixed_discount_8800         ; 30   ;           ;         ;          ;            ;                ; false                        ; 10_hd_channels
+# PLA get po by id
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaDiscountProdOfferPriceAlteration; id[unique = true]         ; value; cycleStart; cycleEnd; $currency; $priceEvent; $catalogVersion; isPercentage[default = false]; productSpecCharacteristicValues(id, $catalogVersion); pricingLogicAlgorithm(id)
+                                                 ; Prime_fixed_discount_9334 ; 2    ; 1         ;         ;          ; monthly    ;                ; false                        ;                                                     ; normal_peak_pla
+
+################################################
+###              Allowances alterations        ###
+################################################
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaAllowanceProdOfferPriceAlteration; id[unique = true]                                ; value; cycleStart; cycleEnd; $currency; $priceEvent; $catalogVersion; isPercentage[default = false]; type(code)[default = CREDIT]; productSpecCharacteristicValues(id, $catalogVersion)
+                                                  ; promotional_fixed_credits                        ; 50.0 ;           ;         ;          ;            ;                ;                              ;
+                                                  ; promotional_percentage_credits                   ; 5.0  ;           ;         ;          ;            ;                ; true                         ;
+                                                  ; benefit_fixed_credits                            ; 5.0  ; 1         ; 3       ;          ; monthly    ;                ;                              ;
+                                                  ; benefit_percentage_credits                       ; 2.0  ; 1         ; 3       ;          ; monthly    ;                ; true                         ;
+                                                  ; usage_fixed_credits                              ; 0.02 ; 1         ;         ;          ; monthly    ;                ;                              ;
+                                                  ; usage_percentage_credits                         ; 10.0 ; 1         ;         ;          ; monthly    ;                ; true                         ;
+                                                  ; samsung_s5_6947_alw                              ; 10   ;           ;         ;          ;            ;                ;                              ;
+                                                  ; iPhone_7_6947_alw                                ; 30   ;           ;         ;          ;            ;                ; true                         ;
+                                                  ; int_100_6947_alw                                 ; 5    ;           ;         ;          ;            ;                ;                              ;
+                                                  ; int_1000_6947_alw                                ; 15   ;           ;         ;          ;            ;                ; true                         ;
+                                                  ; int_500_6947_alw                                 ; 0.01 ;           ;         ;          ;            ;                ;                              ;
+                                                  ; city_plan_6947_alw                               ; 2    ;           ;         ;          ;            ;                ; true                         ;
+                                                  ; unlimitedPremiumPlan_6947_alw                    ; 20   ;           ;         ;          ;            ;                ; true                         ;
+                                                  ; tapasS_6947_uc_alw                               ; 0.01 ;           ;         ;          ;            ;                ;                              ;
+                                                  ; samsung_Galaxy_s8_6947_pr1_alw                   ; 50.0 ;           ;         ;          ;            ;                ;                              ;
+                                                  ; samsung_Galaxy_s8_6947_pr2_alw                   ; 30.0 ;           ;         ;          ;            ;                ; true                         ;
+                                                  ; unlimitedStarterPlan_8438_fixed_allowance_1      ; 30   ;           ;         ;          ;            ;                ;                              ;
+                                                  ; unlimitedStarterPlan_8438_percentage_allowance_2 ; 10   ;           ;         ;          ;            ;                ; true                         ;
+                                                  ; myStarterPlan_6946_alw                           ; 30.0 ;           ;         ;          ;            ;                ; true                         ;
+                                                  ; myPremiumPlan_6946_alw                           ; 10.0 ;           ;         ;          ;            ;                ;                              ;
+                                                  ; myExtraPlan_6946_alw_1                           ; 10.0 ;           ;         ;          ;            ;                ;                              ;
+                                                  ; myExtraPlan_6946_alw_2                           ; 12.0 ;           ;         ;          ;            ;                ;                              ;
+##Composite price E2E
+                                                  ; promotional_fixed_credits_8449                   ; 50.0 ;           ;         ;          ;            ;                ;                              ;
+                                                  ; promotional_percentage_credits_8449              ; 5.0  ; 1         ; 3       ;          ; monthly    ;                ; true                         ;
+##PSCVs on POP
+                                                  ; promotional_percentage_credits_8800              ; 2.0  ; 1         ;         ;          ; monthly    ;                ; true                         ;                             ; 10_hd_channels
+
+#PLA get po by id
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaAllowanceProdOfferPriceAlteration; id[unique = true]                ; value; cycleStart; cycleEnd; $currency; $priceEvent; $catalogVersion; isPercentage[default = false]; type(code)[default = CREDIT]; productSpecCharacteristicValues(id, $catalogVersion); pricingLogicAlgorithm(id)
+                                                  ; Fiberlink_percentage_credit_9334 ; 2.0  ; 1         ;         ;          ; monthly    ;                ; true                         ;                             ;                                                     ; normal_peak_pla
+
+
+# PO associated with Usage Specifications - GET PO by Id
+                                                  ; promotional_percentage_credits   ; 5.0  ;           ;         ;          ;            ;                ; true                         ;
+                                                  ; usage_fixed_credits              ; 0.02 ; 1         ;         ;          ; monthly    ;                ;                              ;
+                                                  ; usage_percentage_credits         ; 10.0 ; 1         ;         ;          ; monthly    ;                ; true                         ;
+
+################################################
+###              Composite prices            ###
+################################################
+
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaCompositeProdOfferPrice; id[unique = true]                        ; $catalogVersion; children(id, $catalogVersion)
+                                        ; tv_S_USD_pop_Test_v3                     ;                ; OTC_4_USD_Test_v3, RC_10_USD_start_1_end_3_Test_v3, RC_20_USD_start_4_Test_v3, tv_S_USD_usage_pop_Test_v3
+                                        ; essentialsUnlimitedPlan_USD_pop_Test_v3  ;                ; essentialsUnlimitedPlan_minutes_usage_USD_pop_Test_v3, RC_10_USD_start_1_Test_v3, UC_0_09_tierStart_1_minutes_USD_Test_v3, UC_0_09_tierStart_1_sms_USD_Test_v3
+                                        ; Nexus_6944_4_pop1                        ;                ; UC_6944_1_sms_tierStart_1_end_200_USD, UC_6944_2_mb_tierStart_1_end_100_USD
+                                        ; Nexus_6944_4_pop2_1                      ;                ; UC_6944_4_sms_tierStart_1_end_200_USD, UC_6944_4_minutes_tierStart_1_end_200_USD
+                                        ; Nexus_6944_4_pop2                        ;                ; Nexus_6944_4_pop2_1, UC_6944_2_sms_tierStart_100_end_200_USD
+                                        ; Nexus_6944_4_pop                         ;                ; Nexus_6944_4_pop1, Nexus_6944_4_pop2
+                                        ; Nexus_6944_5_pop1                        ;                ; UC_6944_5_mb_tierStart_1_end_100_USD, UC_6944_5_sms_tierStart_1_end_200_USD
+                                        ; Nexus_6944_5_pop2                        ;                ; UC_6944_2_sms_tierStart_100_end_200_USD, UC_6944_5_minutes_tierStart_1_end_200_USD
+                                        ; iPhone_8GB_7481_pop1                     ;                ; otce_1_iPhone_8GB_7481_paynow, otce_2_iPhone_8GB_7481_paynow
+                                        ; iPhone_8GB_7481_pop2                     ;                ; otce_3_iPhone_8GB_7481_paynow, otce_4_iPhone_8GB_7481_paynow
+                                        ; iPhone_8GB_7481_pop                      ;                ; iPhone_8GB_7481_pop1, iPhone_8GB_7481_pop2
+                                        ; iPhone_32GB_7481_pop1                    ;                ; rce_1_iPhone_32GB_7481_start_1, rce_1_iPhone_32GB_7481_start_5
+                                        ; iPhone_32GB_7481_pop2                    ;                ; rce_2_iPhone_32GB_7481_start_1, rce_2_iPhone_32GB_7481_start_5, rce_2_iPhone_32GB_7481_start_9
+                                        ; iPhone_32GB_7481_pop                     ;                ; iPhone_32GB_7481_pop1, iPhone_32GB_7481_pop2
+                                        ; iPhone_7481_pop                          ;                ; rce_iPhone_7481_start_1, rce_iPhone_7481_start_7
+                                        ; Samsung_7481_pop1                        ;                ; UC_7481_sms_tierStart_1_end_200_USD, UC_7481_mb_tierStart_1_end_200_USD
+                                        ; Samsung_7481_pop                         ;                ; iPhone_8GB_7481_pop1, iPhone_7481_pop, Samsung_7481_pop1
+                                        ; Nexus_7481_pop                           ;                ; iPhone_32GB_7481_pop, iPhone_8GB_7481_pop1
+                                        ; Galaxy_7481_pop                          ;                ; iPhone_8GB_7481_pop1, iPhone_7481_pop, Galaxy_7481_usage_pop
+                                        ; pop_6743                                 ;                ; rce_6743_start_1, rce_6743_start_4, otce_iPhonex_silver64g_paynow
+                                        ; SPO10_pop1                               ;                ; rce_1_SPO10_start_1, rce_1_SPO10_start_6
+                                        ; SPO10_pop2                               ;                ; rce_2_SPO10_start_1, rce_2_SPO10_start_4
+                                        ; SPO12_pop                                ;                ; rce_SPO12_start_1, rce_SPO12_start_7
+                                        ; SPO17_pop1                               ;                ; otce_SPO17_1_paynow, otce_SPO17_2_paynow
+                                        ; SPO17_pop2_1                             ;                ; rce_1_SPO17_start_1, rce_1_SPO17_start_6, rce_2_SPO17_start_1, rce_2_SPO17_start_6
+                                        ; SPO17_pop2                               ;                ; SPO17_pop2_1, otce_SPO17_3_paynow
+                                        ; SPO17_pop                                ;                ; SPO17_pop1, SPO17_pop2
+                                        ; SPO18_pop1_1                             ;                ; rce_2_SPO18_start_1, rce_2_SPO18_start_3
+                                        ; SPO18_pop1                               ;                ; rce_1_SPO18_start_6, SPO18_pop1_1
+                                        ; SPO18_pop2                               ;                ; rce_1_SPO18_start_1
+                                        ; SPO19_pop1_1                             ;                ; otce_SPO19_1_paynow, otce_SPO19_2_onfirstbill
+                                        ; SPO19_pop1                               ;                ; otce_SPO19_3_paynow, SPO19_pop1_1
+                                        ; SPO19_pop2                               ;                ; otce_SPO19_4_paynow
+                                        ; SPO20_pop                                ;                ; rce_SPO20_start_2, rce_SPO20_start_7
+                                        ; SPO21_pop                                ;                ; rce_SPO21_start_1, otce_SPO21_paynow, UC_21_minutes_tierStart_1_end_200_USD
+                                        ; SPO25_pop                                ;                ; rce_SPO25_start_1, rce_SPO25_start_4
+                                        ; iPhone_7202_pop                          ;                ; rce_1_iPhone_7202_start_1, rce_2_iPhone_7202_start_7
+                                        ; Samsung_7202_pop1                        ;                ; rce_1_Samsung_7202_start_1, rce_2_Samsung_7202_start_7
+                                        ; Samsung_7202_pop2                        ;                ; rce_3_Samsung_7202_start_1, rce_4_Samsung_7202_start_7
+                                        ; Nexus_7202_pop1                          ;                ; rce_1_Nexus_7202_start_1, rce_2_Nexus_7202_start_6
+                                        ; Nexus_7202_pop2                          ;                ; rce_3_Nexus_7202_start_1, rce_4_Nexus_7202_start_6
+                                        ; Milestone_7202_pop1                      ;                ; otce_1_Milestone_7202_paynow, otce_iPhone_7202_paynow
+                                        ; Milestone_7202_pop2_1                    ;                ; rce_1_iPhone_7202_start_1, rce_2_iPhone_7202_start_7, rce_1_Samsung_7202_start_1, rce_2_Samsung_7202_start_7
+                                        ; Milestone_7202_pop2                      ;                ; otce_2_Milestone_7202_paynow, Milestone_7202_pop2_1
+                                        ; Milestone_7202_pop                       ;                ; Milestone_7202_pop1, Milestone_7202_pop2
+                                        ; Smartpink_7202_pop1_2                    ;                ; rce_1_Smartpink_7202_start_1, rce_2_Smartpink_7202_start_3
+                                        ; Smartpink_7202_pop1                      ;                ; rce_3_Smartpink_7202_start_1, Smartpink_7202_pop1_2
+                                        ; Smartpink_7202_pop2                      ;                ; rce_4_Smartpink_7202_start_1
+                                        ; Quench_7202_pop1_2                       ;                ; otce_Xperia_7202_paynow, otce_2_Milestone_7202_paynow
+                                        ; Quench_7202_pop1                         ;                ; otce_1_Milestone_7202_paynow, Quench_7202_pop1_2
+                                        ; Quench_7202_pop2                         ;                ; otce_iPhone_7202_paynow
+                                        ; iPhone_16GB_7202_pop                     ;                ; rce_1_iPhone_16GB_7202_start_2, rce_2_iPhone_16GB_7202_start_7
+                                        ; iPhone_32GB_7202_pop                     ;                ; rce_4_Smartpink_7202_start_1, otce_3_iPhone6_plus_7202_paynow, UC_7202_sms_tierStart_1_end_100_USD
+                                        ; iPhone_8GB_6741_pop1                     ;                ; otce_1_iPhone_8GB_6741_paynow, otce_2_iPhone_8GB_6741_paynow
+                                        ; iPhone_8GB_6741_pop2                     ;                ; otce_3_iPhone_8GB_6741_paynow, otce_4_iPhone_8GB_6741_paynow
+                                        ; iPhone_8GB_6741_pop                      ;                ; iPhone_8GB_6741_pop1, iPhone_8GB_6741_pop2
+                                        ; iPhone_32GB_6741_pop1                    ;                ; rce_1_iPhone_32GB_6741_start_1, rce_1_iPhone_32GB_6741_start_5
+                                        ; iPhone_32GB_6741_pop2                    ;                ; rce_2_iPhone_32GB_6741_start_1, rce_2_iPhone_32GB_6741_start_5, rce_2_iPhone_32GB_6741_start_9
+                                        ; iPhone_32GB_6741_pop                     ;                ; iPhone_32GB_6741_pop1, iPhone_32GB_6741_pop2
+                                        ; iPhone_6741_pop                          ;                ; rce_iPhone_6741_start_1, rce_iPhone_6741_start_7
+                                        ; Samsung_6741_pop1                        ;                ; UC_6741_sms_tierStart_1_end_200_USD, UC_6741_mb_tierStart_1_end_200_USD
+                                        ; Samsung_6741_pop                         ;                ; iPhone_8GB_6741_pop1, iPhone_6741_pop, Samsung_6741_pop1
+                                        ; Nexus_6741_pop                           ;                ; iPhone_32GB_6741_pop, iPhone_8GB_6741_pop1
+                                        ; racoon_plan_7564_pop                     ;                ; UC_0_9_sms_tierStart_1_end_100_USD, rce_10_usd_start_1_end_10, otc_19_usd_paynow
+                                        ; allInOne_Rc_plan_7564_pop                ;                ; rce_1_usd_start_1_end_6, rce_12_usd_start_7_end_10
+                                        ; allInOne_plan_composite_7564_pop         ;                ; otc_19_usd_paynow, allInOne_Rc_plan_7564_pop, allInOne_plan_7564_tier_pop
+                                        ; wholeDeal_Rc_plan_7564_pop               ;                ; rce_2_usd_start_1_end_6, rce_14_usd_start_7_end_10
+                                        ; wholeDeal_plan_composite_7564_pop        ;                ; otc_22_usd_paynow, wholeDeal_Rc_plan_7564_pop, wholeDeal_plan_7564_tier_pop
+                                        ; Samsung_7234_pop1                        ;                ; rce_1_Samsung_7234_start_1, rce_2_Samsung_7234_start_6
+                                        ; Samsung_7234_pop2                        ;                ; rce_3_Samsung_7234_start_1, rce_4_Samsung_7234_start_6
+                                        ; unlimitedPremiumPlan_7234_pop1           ;                ; otce_1_int_100_7234_paynow, otce_2_int_100_7234_paynow
+                                        ; unlimitedPremiumPlan_7234_pop2_1         ;                ; Samsung_7234_pop1, Samsung_7234_pop2
+                                        ; unlimitedPremiumPlan_7234_pop2           ;                ; unlimitedPremiumPlan_7234_pop2_1, otce_unlimitedPricePlan_7234_paynow
+                                        ; unlimitedPremiumPlan_7234_pop            ;                ; unlimitedPremiumPlan_7234_pop1, unlimitedPremiumPlan_7234_pop2
+                                        ; iPhone8_7234_pop1                        ;                ; rce_4_Samsung_7234_start_6
+                                        ; iPhone8_7234_pop2                        ;                ; rce_1_iPhone8_7234_start_1, rce_2_iPhone8_7234_start_3
+                                        ; iPhone8_7234_pop                         ;                ; iPhone8_7234_pop1, iPhone8_7234_pop2
+                                        ; smartpink_7234_pop1                      ;                ; otce_int_500_7234_onfirstbill
+                                        ; smartpink_7234_pop2                      ;                ; otce_2_int_100_7234_paynow, otce_unlimitedPricePlan_7234_paynow
+                                        ; smartpink_7234_pop                       ;                ; smartpink_7234_pop1, smartpink_7234_pop2
+                                        ; iPhone_32GB_7234_pop                     ;                ; otce_unlimitedPricePlan_7234_paynow, rce_3_iPhone8_7234_start_1, UC_7234_sms_tierStart_1_end_200_USD
+                                        ; unlimitedPlan_7214_pop                   ;                ; unlimitedPlan_7214_pop1, unlimitedPlan_7214_pop2
+                                        ; unlimitedPlan_7214_pop1_1                ;                ; rce_1_usd_start_1_end_6, rce_12_usd_start_7_end_10
+                                        ; unlimitedPlan_7214_pop1                  ;                ; unlimitedPlan_7214_pop1_1, rce_5_usd_start_1
+                                        ; unlimitedPlan_7214_pop2                  ;                ; rce_2_usd_start_1_end_6, rce_14_usd_start_7_end_10
+                                        ; NokiaXpress_7214_pop                     ;                ; otc_500_usd_paynow, RC_10_USD_start_1_Test_v3, UC_0_05_tierStart_101_end_200_USD_Test_v3
+                                        ; tvS_7214_pop                             ;                ; rce_2_usd_start_1_end_6, otc_500_usd_paynow
+                                        ; tvM_7214_pop                             ;                ; rce_14_usd_start_7_end_10, rce_5_usd_start_1
+                                        ; billionare_plan_pop                      ;                ; otc_19_usd_paynow, rce_30_usd_start_1, UC_0_9_sms_tierStart_1_end_100_USD
+                                        ; billionare_plan_promo_pop                ;                ; otc_19_usd_paynow, rce_50_usd_start_1, UC_0_5_sms_tierStart_1_end_500_USD
+                                        ; composite_7541_pop                       ;                ; rce_2_SPO18_start_1,OTC_4_USD_Test_v3, UC_0_05_tierStart_101_end_200_USD_Test_v3
+                                        ; iPhone_32GB_7345_pop                     ;                ; rce_1_usd_start_1_end_6,otc_10_usd_paynow, UC_0_03_sms_tierStart_1_end_100_USD
+                                        ; Samsung_7960_pop                         ;                ; otce_DEXT_7000_1_paynow, Standard_fixed_discount_7960
+                                        ; iPhone_7960_pop                          ;                ; otce_DEXT_7000_4_paynow, Standard_percentage_discount_7960
+                                        ; int100_7960_pop                          ;                ; RC_10_USD_start_1_Test_v3, Promo_fixed_discount_7960
+                                        ; int1000_7960_pop                         ;                ; RC_10_USD_start_1_end_3_Test_v3, RC_20_USD_start_4_Test_v3, Promo_percentage_discount_7960
+                                        ; int500_7960_pop                          ;                ; UC_7000_3_sms_tierStart_1_end_200_USD, Usage_fixed_discount_7960
+                                        ; int300_7960_pop                          ;                ; UC_7000_3_sms_tierStart_1_end_200_USD, Promo_percentage_discount_7960
+                                        ; unlimitedPremiumPlan_7960_pop1_1         ;                ; otce_DEXT_7000_1_paynow, otce_DEXT_7000_5_paynow,Standard_fixed_discount_7960
+                                        ; unlimitedPremiumPlan_7960_pop1_2         ;                ; RC_10_USD_start_1_end_3_Test_v3, RC_20_USD_start_4_Test_v3, Promo_percentage_discount_7960
+                                        ; unlimitedPremiumPlan_7960_pop1           ;                ; unlimitedPremiumPlan_7960_pop1_1, unlimitedPremiumPlan_7960_pop1_2
+                                        ; unlimitedPremiumPlan_7960_pop2           ;                ; otce_1_DEXT_7004_1_paynow, otce_DEXT_7000_5_paynow, Standard_percentage_discount_7960
+                                        ; unlimitedPremiumPlan_7960_pop            ;                ; unlimitedPremiumPlan_7960_pop1, unlimitedPremiumPlan_7960_pop2
+                                        ; TapasS_7960_pop1                         ;                ; UC_7000_3_sms_tierStart_1_end_200_USD, Usage_fixed_discount_7960
+                                        ; TapasS_7960_pop2                         ;                ; UC_6944_2_mb_tierStart_1_end_100_USD, UC_6944_2_minutes_tierStart_1_end_200_USD
+                                        ; Dext_7960_pop                            ;                ; otce_DEXT_7000_1_paynow, Standard_fixed_discount_7960, Standard_percentage_discount_7960
+
+                                        ; unlimitedPlan_7965_pop                   ;                ; otc_500_usd_paynow, RC_10_USD_start_1_Test_v3, UC_0_05_tierStart_101_end_200_USD_Test_v3, Promo_fixed_discount_7960
+                                        ; StarterPlan_7965_pop                     ;                ; otc_500_usd_paynow, RC_10_USD_start_1_Test_v3, UC_0_05_tierStart_101_end_200_USD_Test_v3, Promo_percentage_discount_7960
+                                        ; Internet_Pack_Max_7965_pop               ;                ; Internet_Pack_Max_7965_pop1, Internet_Pack_Max_7965_pop2
+                                        ; Internet_Pack_Max_7965_pop1              ;                ; otc_500_usd_paynow, Standard_fixed_discount_7960
+                                        ; Internet_Pack_Max_7965_pop2              ;                ; RC_10_USD_start_1_Test_v3, UC_0_05_tierStart_101_end_200_USD_Test_v3, Promo_fixed_discount_7960
+                                        ; Internet_Pack_Basic_7965_pop             ;                ; Internet_Pack_Basic_7965_pop1, Internet_Pack_Basic_7965_pop2
+                                        ; Internet_Pack_Basic_7965_pop1            ;                ; otc_500_usd_paynow, Standard_percentage_discount_7960
+                                        ; Internet_Pack_Basic_7965_pop2            ;                ; rce_12_usd_start_7_end_10, UC_6741_mb_tierStart_1_end_200_USD, Promo_percentage_discount_7960
+
+                                        ; composite_7541_pop                       ;                ; rce_2_SPO18_start_1,OTC_4_USD_Test_v3, UC_0_05_tierStart_101_end_200_USD_Test_v3
+                                        ; Apple_iPhone6_7176_pop                   ;                ; otce2_Apple_iPhone6_7176, promotional_fixed_credits
+                                        ; Apple_iPhone6plus_7176_pop               ;                ; otce_Apple_iPhone6plus_7176, promotional_percentage_credits
+                                        ; SombreroS_7176_pop                       ;                ; rce1_SombreroS_7176, benefit_fixed_credits
+                                        ; SombreroM_7176_pop                       ;                ; rce_SombreroM_7176, benefit_percentage_credits
+                                        ; internet200mb_7176_pop                   ;                ; UC_7176_mb_tierStart_101_end_200_USD, usage_fixed_credits
+                                        ; internet1000mb_7176_pop                  ;                ; UC_7176_mb_tierStart_501_end_1000_USD, usage_percentage_credits
+                                        ; unlimitedStarterPlan_7176_pop1           ;                ; UC_7176_minutes_tierStart_1_end_200_USD, UC_7481_mb_tierStart_1_end_200_USD, usage_percentage_credits
+                                        ; unlimitedStarterPlan_7176_pop2           ;                ; UC_0_09_tierStart_1_sms_USD_Test_v3, usage_fixed_credits
+                                        ; unlimitedBasicPlan_7176_pop              ;                ; unlimitedBasicPlan_7176_pop1, unlimitedBasicPlan_7176_pop2
+                                        ; unlimitedBasicPlan_7176_pop1             ;                ; otc_500_usd_paynow, Standard_fixed_discount_7960, promotional_percentage_credits
+                                        ; unlimitedBasicPlan_7176_pop2             ;                ; unlimitedBasicPlan_7176_pop2_1, UC_0_09_tierStart_1_sms_USD_Test_v3, usage_fixed_credits
+                                        ; unlimitedBasicPlan_7176_pop2_1           ;                ; RC_10_USD_start_1_end_3_Test_v3, RC_20_USD_start_4_Test_v3, Promo_percentage_discount_7960, benefit_fixed_credits
+                                        ; Fiberlink_7176_pop1                      ;                ; UC_21_minutes_tierStart_1_end_200_USD, UC_7481_mb_tierStart_1_end_200_USD,Usage_percentage_discount_7965
+                                        ; Fiberlink_7176_pop2                      ;                ; UC_0_09_tierStart_1_sms_USD_Test_v3, usage_fixed_credits
+                                        ; Dext_7176_pop                            ;                ; otc_350_usd_paynow, Standard_fixed_discount_7960, promotional_percentage_credits
+                                        ; Galaxy_7176_pop1                         ;                ; promotional_percentage_credits
+
+# composite pricing for price alteration and promotion tests
+                                        ; unlimited5GPlan_7968_otc_USD_pop_1       ;                ; unlimited5GPlan_7968_otc_USD_1, unlimited5GPlan_7968_otc_USD_pa_1
+                                        ; unlimited5GPlan_7968_otc_USD_pop_2       ;                ; unlimited5GPlan_7968_otc_USD_2, unlimited5GPlan_7968_otc_USD_pa_2
+                                        ; unlimited5GPlan_7968_otc_USD_pop_3       ;                ; unlimited5GPlan_7968_otc_USD_3, unlimited5GPlan_7968_otc_USD_pa_3
+                                        ; unlimited5GPlan_7968_rc_USD_pop          ;                ; unlimited5GPlan_7968_rc_USD, unlimited5GPlan_7968_rc_USD_pa
+                                        ; unlimited5GPlan_7968_uc_USD_pop          ;                ; unlimited5GPlan_7968_uc_0_3_tierStart_1_min_USD, unlimited5GPlan_7968_uc_USD_pa
+                                        ; unlimited5GPlan_7968_USD_pop             ;                ; unlimited5GPlan_7968_otc_USD_pop_1, unlimited5GPlan_7968_otc_USD_pop_2, unlimited5GPlan_7968_otc_USD_pop_3, unlimited5GPlan_7968_rc_USD_pop, unlimited5GPlan_7968_uc_USD_pop
+                                        ; unlimited5GPlan_7968_discountRow_USD_pop ;                ; unlimited5GPlan_7968_otc_USD_pop_1, unlimited5GPlan_7968_otc_USD_pop_2, unlimited5GPlan_7968_otc_USD_pop_3, unlimited5GPlan_7968_rc_USD_pop, unlimited5GPlan_7968_uc_USD_pop
+                                        ; composite_alteration_7962_pop            ;                ; unlimited5GPlan_7968_otc_USD_pop_1,unlimited5GPlan_7968_rc_USD_pop,unlimited5GPlan_7968_uc_USD_pop
+##Composite price E2E
+                                        ; unlimitedStarterPlan7478_rc_pop          ;                ; rce_unlimitedStarterPlan7478_start_1, rce_unlimitedStarterPlan7478_start_5
+                                        ; unlimitedStarterPlan7478_pop             ;                ; otce1_unlimitedStarterPlan7478_paynow, unlimitedStarterPlan7478_rc_pop, unlimitedStarterPlan7478_tier_pop
+                                        ; unlimitedStarterPlan7478_override_pop    ;                ; otce1_unlimitedStarterPlan7478_paynow, unlimitedStarterPlan7478_rc_pop, UC_7478_sms_tierStart_1_end_200_USD
+                                        ; unlimitedStarterPlan8449_rc_pop          ;                ; rce_unlimitedStarterPlan8449_start_1, rce_unlimitedStarterPlan8449_start_5, promotional_fixed_credits_8449
+                                        ; unlimitedStarterPlan8449_pop             ;                ; otce1_unlimitedStarterPlan8449_paynow, unlimitedStarterPlan8449_rc_pop, unlimitedStarterPlan8449_tier_pop, Standard_fixed_discount_8449
+                                        ; unlimitedStarterPlan8449_override_pop    ;                ; otce1_unlimitedStarterPlan8449_paynow, unlimitedStarterPlan8449_rc_pop, UC_8449_sms_tierStart_1_end_200_USD, Standard_percentage_discount_8449
+
+##POST ShoppingCart with credits
+                                        ; Apple_iPhone6_7289_pop                   ;                ; otce2_Apple_iPhone6_7289, promotional_fixed_credits
+                                        ; Apple_iPhone6plus_7289_pop               ;                ; otce_Apple_iPhone6plus_7289, promotional_percentage_credits
+                                        ; SombreroS_7289_pop                       ;                ; rce1_SombreroS_7289, benefit_fixed_credits
+                                        ; SombreroM_7289_pop                       ;                ; rce_SombreroS_7289, benefit_percentage_credits
+                                        ; internet200mb_7289_pop                   ;                ; UC_7289_mb_tierStart_101_end_200_USD, usage_fixed_credits
+                                        ; internet1000mb_7289_pop                  ;                ; UC_7289_mb_tierStart_501_end_1000_USD, usage_percentage_credits
+                                        ; unlimitedBasicPlan_7289_pop              ;                ; unlimitedBasicPlan_7289_pop1, unlimitedBasicPlan_7289_pop2
+                                        ; unlimitedBasicPlan_7289_pop1             ;                ; otc_500_usd_paynow, promotional_percentage_credits
+                                        ; unlimitedBasicPlan_7289_pop2             ;                ; unlimitedBasicPlan_7289_pop2_1, UC_0_09_tierStart_1_sms_USD_Test_v3, usage_fixed_credits
+                                        ; unlimitedBasicPlan_7289_pop2_1           ;                ; RC_10_USD_start_1_end_3_Test_v3, RC_20_USD_start_4_Test_v3, benefit_fixed_credits
+                                        ; unlimitedStarterPlan_7289_pop1           ;                ; UC_0_09_tierStart_1_minutes_USD_Test_v3, UC_7481_mb_tierStart_1_end_200_USD, usage_percentage_credits
+                                        ; unlimitedStarterPlan_7289_pop2           ;                ; UC_0_09_tierStart_1_sms_USD_Test_v3, usage_fixed_credits
+                                        ; premiumUnlimitedPlan_7289_pop1           ;                ; otc_500_usd_paynow, promotional_percentage_credits
+                                        ; premiumUnlimitedPlan_7289_pop2           ;                ; premiumUnlimitedPlan_7289_pop2_1, UC_0_09_tierStart_1_sms_USD_Test_v3, Usage_fixed_discount_7960
+                                        ; premiumUnlimitedPlan_7289_pop2_1         ;                ; RC_10_USD_start_1_end_3_Test_v3, RC_20_USD_start_4_Test_v3, benefit_fixed_credits
+                                        ; premiumUnlimitedPlan_7289_pop            ;                ; premiumUnlimitedPlan_7289_pop1, premiumUnlimitedPlan_7289_pop2
+                                        ; Fiberlink_7289_pop1                      ;                ; UC_0_09_tierStart_1_minutes_USD_Test_v3, UC_7481_mb_tierStart_1_end_200_USD,Usage_percentage_discount_7965
+                                        ; Fiberlink_7289_pop2                      ;                ; UC_0_09_tierStart_1_sms_USD_Test_v3, usage_fixed_credits
+                                        ; Samsung_s8_7289_pop                      ;                ; otc_350_usd_paynow, promotional_fixed_credits, promotional_percentage_credits
+                                        ; Dext_7289_pop                            ;                ; otc_350_usd_paynow, Standard_fixed_discount_7960, promotional_percentage_credits
+                                        ; Apple_iPhone6_7289_pop1                  ;                ; otce_6743_paynow, promotional_fixed_credits
+                                        ; Apple_iPhone6plus_7289_pop1              ;                ; otc_22_usd_paynow, promotional_percentage_credits
+                                        ; SombreroS_7289_pop1                      ;                ; RC_10_USD_start_1_end_3_Test_v3, benefit_fixed_credits
+                                        ; SombreroM_7289_pop1                      ;                ; RC_15_USD_start_1_Test_v3, benefit_percentage_credits
+                                        ; internet200mb_7289_pop1                  ;                ; UC_6944_5_mb_tierStart_1_end_100_USD, usage_fixed_credits
+                                        ; internet1000mb_7289_pop1                 ;                ; UC_6944_5_mb_tierStart_1_end_100_USD, usage_percentage_credits
+                                        ; unlimitedBasicPlan_7289_bpo_pop          ;                ; unlimitedBasicPlan_7289_bpo_pop1, unlimitedBasicPlan_7289_bpo_pop2
+                                        ; unlimitedBasicPlan_7289_bpo_pop1         ;                ; otc_500_usd_paynow, promotional_percentage_credits
+                                        ; unlimitedBasicPlan_7289_bpo_pop2         ;                ; UC_6944_1_sms_tierStart_1_end_200_USD, rce_30_usd_start_1, usage_fixed_credits
+                                        ; unlimitedStarterPlan_7289_bpo_pop1       ;                ; UC_0_09_tierStart_1_minutes_USD_Test_v3, usage_percentage_credits
+                                        ; unlimitedStarterPlan_7289_bpo_pop2       ;                ; UC_0_09_tierStart_1_sms_USD_Test_v3, usage_fixed_credits
+                                        ; premiumUnlimitedPlan_7289_bpo_pop1       ;                ; otc_500_usd_paynow, promotional_percentage_credits
+                                        ; premiumUnlimitedPlan_7289_bpo_pop2       ;                ; UC_6944_1_sms_tierStart_1_end_200_USD, rce_30_usd_start_1, Usage_fixed_discount_7960
+                                        ; premiumUnlimitedPlan_7289_bpo_pop        ;                ; premiumUnlimitedPlan_7289_bpo_pop1, premiumUnlimitedPlan_7289_bpo_pop2
+                                        ; Fiberlink_7289_bpo_pop1                  ;                ; UC_0_09_tierStart_1_minutes_USD_Test_v3, Usage_percentage_discount_7965
+                                        ; Fiberlink_7289_bpo_pop2                  ;                ; UC_0_09_tierStart_1_sms_USD_Test_v3, usage_fixed_credits
+                                        ; Samsung_s8_7289_pop1                     ;                ; otce_6743_paynow, promotional_fixed_credits, promotional_percentage_credits
+                                        ; Dext_7289_pop1                           ;                ; otce_6743_paynow, Standard_fixed_discount_7960, promotional_percentage_credits
+
+# allowance pops (get product list tests)
+                                        ; samsung_s5_6947_pop                      ;                ; otc_123_usd_paynow, samsung_s5_6947_alw
+                                        ; iPhone_7_6947_pop                        ;                ; otc_160_usd_onfirstbill,iPhone_7_6947_alw
+                                        ; int_100_6947_pop                         ;                ; rce_10_usd_start_1, int_100_6947_alw
+                                        ; int_1000_6947_pop                        ;                ; rce_10_usd_start_1_end_3, rce_20_usd_start_4, int_1000_6947_alw
+                                        ; int_500_6947_pop                         ;                ; UC_0_09_sms_tierStart_1_end_200_USD, int_500_6947_alw
+                                        ; city_plan_6947_pop                       ;                ; UC_0_09_sms_tierStart_1_end_200_USD, city_plan_6947_alw
+
+                                        ; unlimitedPremiumPlan_6947_otc_pop        ;                ; otc_29_usd_paynow, otc_25_usd_paynow
+                                        ; unlimitedPremiumPlan_6947_rc_pop         ;                ; rce_19_usd_start_1_end_3,rce_5_usd_start_4, unlimitedPremiumPlan_6947_alw
+                                        ; unlimitedPremiumPlan_6947_pop            ;                ; unlimitedPremiumPlan_6947_otc_pop, unlimitedPremiumPlan_6947_rc_pop
+
+                                        ; tapasS_6947_uc_pop                       ;                ; UC_6944_1_sms_tierStart_1_end_200_USD, UC_6944_2_mb_tierStart_1_end_100_USD
+                                        ; tapasS_6947_pop                          ;                ; tapasS_6947_uc_alw_pop, tapasS_6947_uc_pop
+
+                                        ; samsung_Galaxy_s8_6947_pr1_pop           ;                ; otc_160_usd_onfirstbill, samsung_Galaxy_s8_6947_pr1_alw
+                                        ; samsung_Galaxy_s8_6947_pr2_pop           ;                ; otc_250_usd_onfirstbill, samsung_Galaxy_s8_6947_pr2_alw
+
+## Product offering prices for reccomandation api allowance tests
+                                        ; myStarterPlan_6946_pop                   ;                ; otc_160_usd_onfirstbill, myStarterPlan_6946_alw
+                                        ; myPremiumPlan_6946_pop                   ;                ; otc_250_usd_onfirstbill, myPremiumPlan_6946_alw
+                                        ; myExtraPlan_6946_pop                     ;                ; otc_29_usd_paynow, myExtraPlan_6946_alw_1, myExtraPlan_6946_alw_2
+
+# price alterations as allowances - place order
+                                        ; pop_PR1_unlimitedStarterPlan_84381       ;                ; unlimitedStarterPlan_8438_otc_1,unlimitedStarterPlan_8438_rc_1, unlimitedStarterPlan_8438_uc_1, unlimitedStarterPlan_8438_fixed_allowance_1
+                                        ; pop_PR1_unlimitedStarterPlan_84382       ;                ; unlimitedStarterPlan_8438_otc_1,unlimitedStarterPlan_8438_rc_1, unlimitedStarterPlan_8438_uc_1, unlimitedStarterPlan_8438_percentage_allowance_2
+                                        ; pop_PR1_unlimitedStarterPlan_84383_otc   ;                ; unlimitedStarterPlan_8438_otc_1, unlimitedStarterPlan_8438_fixed_allowance_1
+                                        ; pop_PR1_unlimitedStarterPlan_84383_rc    ;                ; unlimitedStarterPlan_8438_rc_1, unlimitedStarterPlan_8438_discount_1
+                                        ; pop_PR1_unlimitedStarterPlan_84383       ;                ; pop_PR1_unlimitedStarterPlan_84383_otc, pop_PR1_unlimitedStarterPlan_84383_rc, unlimitedStarterPlan_8438_uc_1
+                                        ; pop_PR1_unlimitedStarterPlan_84384_otc   ;                ; unlimitedStarterPlan_8438_otc_1, unlimitedStarterPlan_8438_percentage_allowance_2
+                                        ; pop_PR1_unlimitedStarterPlan_84384       ;                ; pop_PR1_unlimitedStarterPlan_84384_otc, pop_PR1_unlimitedStarterPlan_84383_rc, unlimitedStarterPlan_8438_uc_1
+## PSCVs on POP
+                                        ; Samsung_s5_8800_pop1                     ;                ; otce_500_usd_paynow_8800, promotional_fixed_credits
+                                        ; Samsung_s5_8800_pop2                     ;                ; otce_350_usd_paynow_8800, promotional_percentage_credits
+                                        ; iPhone_7_8800_pop1                       ;                ; otce_700_usd_paynow_8800, Standard_fixed_discount_7960
+                                        ; iPhone_7_8800_pop2                       ;                ; otce_300_usd_paynow_8800, Standard_percentage_discount_7960
+                                        ; Fiberlink_1000_8800_pop1                 ;                ; RC_10_USD_start_1_end_3_Test_v3_8800, benefit_fixed_credits
+                                        ; Fiberlink_1000_8800_pop2                 ;                ; RC_20_USD_start_4_Test_v3_8800, benefit_percentage_credits
+                                        ; Fiberlink_500_8800_pop1                  ;                ; RC_10_USD_start_1_end_6_Test_v3_8800, Promo_fixed_discount_7960
+                                        ; Fiberlink_500_8800_pop2                  ;                ; RC_20_USD_start_7_Test_v3_8800, Promo_percentage_discount_7960
+
+                                        ; Fiberlink_100_8800_pop1                  ;                ; UC_0_05_tierStart_101_end_200_USD_Test_v3_8800, usage_fixed_credits
+                                        ; Fiberlink_100_8800_pop2                  ;                ; UC_0_07_tierStart_201_end_300_USD_Test_v3_8800, usage_percentage_credits
+                                        ; Fiberlink_300_8800_pop1                  ;                ; UC_0_05_tierStart_101_end_200_USD_Test_v3_8800, Usage_fixed_discount_7960
+                                        ; Fiberlink_300_8800_pop2                  ;                ; UC_0_07_tierStart_201_end_300_USD_Test_v3_8800, Usage_percentage_discount_7965
+                                        ; UnlimitedStarterPlan_8800_pop2           ;                ; UC_0_07_tierStart_201_end_300_USD_Test_v3_8800, Usage_percentage_discount_7965
+## BPO Cardinality
+                                        ; netflix_pop                              ;                ; otc_900_usd_paynow, RC_10_USD_start_1_Test_v3, UC_0_09_tierStart_1_sms_USD_Test_v3
+                                        ; tv_M_8942_pop                            ;                ; RC_10_USD_start_1_Test_v3, UC_0_09_tierStart_1_sms_USD_Test_v3
+                                        ; SportsPack_8942_pop                      ;                ; otc_900_usd_paynow, RC_10_USD_start_1_Test_v3, UC_0_09_tierStart_1_sms_USD_Test_v3
+
+                                        ; Basic_TV_8800_pop1_1                     ;                ; UC_0_09_tierStart_101_end_300_USD_Test_v3_8800, Usage_percentage_discount_7965
+                                        ; Basic_TV_8800_pop1_2                     ;                ; RC_30_USD_start_1_Test_v3_8800, RC_20_USD_start_4_Test_v3_8800, promotional_percentage_credits_8800, Basic_TV_8800_pop1_1
+                                        ; Basic_TV_8800_pop1                       ;                ; otce_100_usd_paynow_8800, Standard_fixed_discount_8800, Basic_TV_8800_pop1_2
+                                        ; Basic_TV_8800_pop2                       ;                ; UC_0_09_tierStart_101_end_300_USD_Test_v3_8800, Usage_percentage_discount_7965
+
+                                        ; Deluxe_TV_8800_pop1_1                    ;                ; UC_0_09_tierStart_101_end_300_USD_Test_v3_8800, Usage_percentage_discount_7965
+                                        ; Deluxe_TV_8800_pop1_2                    ;                ; RC_30_USD_start_1_Test_v3_8800, promotional_percentage_credits_8800, Deluxe_TV_8800_pop1_1
+                                        ; Deluxe_TV_8800_pop1                      ;                ; otce_100_usd_paynow_8800, Standard_fixed_discount_8800, Deluxe_TV_8800_pop1_2
+                                        ; Deluxe_TV_8800_pop2                      ;                ; UC_0_09_tierStart_101_end_300_USD_Test_v3_8800, Usage_percentage_discount_7965
+
+                                        ; Moto_G5_8800_pop1                        ;                ; otc_500_usd_paynow, promotional_fixed_credits
+                                        ; Moto_G5_8800_pop2                        ;                ; otc_350_usd_paynow, promotional_percentage_credits
+
+# PO associated with Usage Specifications - GET PO by Id
+                                        ; internet200mb_9493_pop1                  ;                ; UC_0_07_tierStart_201_end_300_USD, usage_fixed_credits, Usage_percentage_discount_7965
+                                        ; internet200mb_9493_pop2                  ;                ; UC_0_09_tierStart_1_sms_USD, usage_percentage_credits, Usage_fixed_discount_7960
+                                        ; Fiberlink_500_9493_pop1                  ;                ; rce_Fiberlink_500_9493, UC_0_09_tierStart_1_sms_USD, Promo_fixed_discount_7960
+                                        ; Fiberlink_500_9493_pop                   ;                ; Fiberlink_500_9493_pop1, otce_Fiberlink_500_9493, UC_0_05_tierStart_101_end_200_USD, promotional_percentage_credits
+                                        ; UnlimitedStarterPlan_9493_pop1           ;                ; UC_0_09_tierStart_1_minutes_USD, UC_0_09_tierStart_1_sms_USD, Standard_percentage_discount_7960
+                                        ; Moto_G5_9493_pop                         ;                ; otce_Moto_G5_9493, rce_Moto_G5_9493
+
+# PO associated with Usage Specifications - GET Recommendation
+                                        ; UnlimitedStarterPlan_9500_pop1           ;                ; UC_0_03_tierStart_101_minutes_USD, UC_0_05_tierStart_101_sms_USD
+                                        ; UnlimitedStarterPlan_9500_pop2           ;                ; UC_0_01_tierStart_1_minutes_USD, UC_0_04_tierStart_101_data_USD
+## GET PO by id - Fixed BPOs
+                                        ; Starter_pop_10441_1                      ;                ; Usage_pop_10441, rce_10_USD_start_1_10441
+                                        ; Starter_pop_10441_2                      ;                ; otce_200_usd_10441, UC_0_05_tierStart_101_end_200_USD_10441, benefit_percentage_credits
+                                        ; Starter_pop_10441                        ;                ; Starter_pop_10441_1, Starter_pop_10441_2, Standard_fixed_discount_7960
+## POST/PATCH cart of Fixed BPOs
+                                        ; Starter_mobileDeal_10469_pop             ;                ; otc_500_usd_paynow, promotional_fixed_credits
+                                        ; Starter_internet_10469_pop               ;                ; RC_10_USD_start_1_Test_v3, Promo_fixed_discount_7960
+                                        ; Starter_homeDeal_10469_pop               ;                ; otc_700_usd_paynow, int_1000_6947_alw
+                                        ; Starter_internetDeal_10469_pop           ;                ; otc_350_usd_paynow, RC_10_USD_start_1_end_3_Test_v3, UC_0_05_tierStart_101_end_200_USD_Test_v3, benefit_fixed_credits, Usage_percentage_discount_7965
+                                        ; Starter_mobileDeal1_10469_pop            ;                ; UC_0_05_tierStart_101_end_200_USD_Test_v3, UC_0_07_tierStart_201_end_300_USD_Test_v3
+                                        ; Starter_mobileDeal2_10469_pop            ;                ; RC_20_USD_start_4_Test_v3, usage_fixed_credits
+                                        ; Starter_homeDeal2_10469_pop1             ;                ; rce_1_SPO10_start_1, rce_1_SPO10_start_6
+                                        ; Starter_homeDeal2_10469_pop2             ;                ; rce_19_usd_start_1_end_3, rce_3_iPhone_6942_start_4
+                                        ; Starter_quadplay1_10469_pop1_1           ;                ; RC_10_USD_start_1_end_3_Test_v3, RC_20_USD_start_4_Test_v3, benefit_percentage_credits, Starter_quadplay1_10469_pop1_2
+                                        ; Starter_quadplay1_10469_pop1_2           ;                ; UC_0_05_tierStart_101_end_200_USD_Test_v3, Usage_percentage_discount_7965
+                                        ; Starter_quadplay1_10469_pop1             ;                ; otc_500_usd_paynow, Standard_fixed_discount_7960, Starter_quadplay1_10469_pop1_1
+                                        ; Starter_quadplay1_10469_pop2             ;                ; UC_0_07_tierStart_201_end_300_USD_Test_v3, Usage_percentage_discount_7965
+                                        ; Starter_homeDeal4_10469_pop1             ;                ; tier_usage_pop_10469, rce_10_USD_start_1_10469
+                                        ; Starter_homeDeal4_10469_pop2             ;                ; UC_0_09_tierStart_301_USD_Test_v3, city_plan_6947_alw
+                                        ; Starter_homeDeal5_10469_pop              ;                ; otc_900_usd_paynow, Standard_fixed_discount_7960
+                                        ; Starter_homeDeal6_10469_pop              ;                ; otc_800_usd_paynow, promotional_fixed_credits_8449
+                                        ; Starter_homeDeal7_10469_pop              ;                ; RC_10_USD_start_1_end_3_Test_v3, Standard_percentage_discount_7960
+                                        ; quadPlay_10469_pop1                      ;                ; otc_800_usd_paynow, RC_20_USD_start_4_Test_v3, Promo_fixed_discount_7960, usage_fixed_credits
+                                        ; quadPlay_10469_pop2                      ;                ; rce_19_usd_start_1_end_3, UC_0_07_tierStart_201_end_300_USD_Test_v3, Usage_percentage_discount_7965, city_plan_6947_alw
+                                        ; quadPlay_FBPO_10469_pop1                 ;                ; otc_350_usd_paynow, RC_15_USD_start_1_Test_v3, benefit_fixed_credits
+                                        ; quadPlay_FBPO_10469_pop2                 ;                ; otc_900_usd_paynow, UC_6944_2_mb_tierStart_1_end_100_USD, Usage_percentage_discount_7965
+                                        ; summerDeal_FBPO_10469_pop                ;                ; essentialsUnlimitedPlan_minutes_usage_USD_pop_Test_v3
+                                        ; limitedDeal_FBPO_10469_pop               ;                ; otce_1_iPhone_8GB_7481_paynow, UC_7289_mb_tierStart_1_end_100_USD
+                                        ; quadPlay_pop                             ;                ; otc_1000_usd_paynow, rce_4_usd_start_1_end_6, Standard_fixed_discount_7960
+
+# PLA get po by id
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaCompositeProdOfferPrice; id[unique = true]             ; $catalogVersion; children(id, $catalogVersion)
+                                        ; unlimitedStarterPlan_9334_pop ;                ; otc_19_usd_paynow, Usage_9334_pop
+                                        ; primeVideo_9334_pop           ;                ; rce_10_USD_9334, Prime_fixed_discount_9334
+                                        ; Fiberlink_9334_pop            ;                ; rce_10_USD_9334, Fiberlink_percentage_credit_9334
+
+
+# Sample Product Offering Prices with PSCVs
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaRecurringProdOfferPriceCharge; id[unique = true]           ; value; cycleStart; cycleEnd; priceEvent(code); $currency; $catalogVersion; productSpecCharacteristicValues(id, $catalogVersion)
+                                              ; rce_Fiberlink_1500_9100_pop ; 30   ; 1         ;         ; monthly         ;          ;                ; 100_min
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaTierUsageChargeCompositePop; id[unique = true]              ; usageChargeType(code); children(id, $catalogVersion)                                                                                                             ; $catalogVersion; productSpecCharacteristicValues(id, $catalogVersion)
+                                            ; UnlimitedStarterPlan_9100_pop1 ; each_respective_tier ; UC_0_05_tierStart_101_end_200_USD_Test_v3, UC_0_07_tierStart_201_end_300_USD_Test_v3, usage_fixed_credits, Usage_percentage_discount_7965 ;                ; 100_min, 1000_sms
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaCompositeProdOfferPrice; id[unique = true]              ; $catalogVersion; children(id, $catalogVersion)
+                                        ; UnlimitedStarterPlan_9100_pop2 ;                ; UC_0_07_tierStart_201_end_300_USD_Test_v3, Usage_percentage_discount_7965
+
+# Sample Product Offering Prices with PLAs
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaOneTimeProdOfferPriceCharge; id[unique = true]; name                  ; description                  ; $catalogVersion; value; $priceEvent; $currency; productSpecCharacteristicValues(id, $catalogVersion); pricingLogicAlgorithm(id)
+                                            ; otce_20_USD_9368 ; otce_20_USD_9368_Name ; otce_20_USD_9368_Description ;                ; 20.0 ;            ;          ;                                                     ; vip_peak_pla
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaRecurringProdOfferPriceCharge; id[unique = true]; $catalogVersion; value; $currency; $priceEventRcUc; cycleStart; cycleEnd; productSpecCharacteristicValues(id, $catalogVersion); pricingLogicAlgorithm(id)
+                                              ; rce_5_USD_9368   ;                ; 5.0  ;          ;                ; 1         ;         ;                                                     ; normal_peak_pla
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaUsageProdOfferPriceCharge; id[unique = true]                 ; value; tierStart; tierEnd; usageUnit(id); $catalogVersion; $currency; $priceEventRcUc; productSpecCharacteristicValues(id, $catalogVersion); pricingLogicAlgorithm(id)
+                                          ; UC_9368_tierStart_1_end_100_USD   ; 1.0  ; 1        ; 100    ; sms          ;                ;          ;                ;                                                     ; normal_peak_pla
+                                          ; UC_9368_tierStart_101_end_200_USD ; 0.5  ; 101      ; 200    ; sms          ;                ;          ;                ;                                                     ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaTierUsageChargeCompositePop; id[unique = true]; usageChargeType(code); children(id, $catalogVersion); $catalogVersion; productSpecCharacteristicValues(id, $catalogVersion)
+                                            ; Usage_9368_pop   ; each_respective_tier ; UC_9368_tierStart_1_end_100_USD, UC_9368_tierStart_101_end_200_USD
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaCompositeProdOfferPrice; id[unique = true]             ; $catalogVersion; children(id, $catalogVersion)
+                                        ; unlimitedStarterPlan_9368_pop ;                ; otce_20_USD_9368, recurring_9368_pop,Prime_fixed_discount_9368
+                                        ; recurring_9368_pop            ;                ; UC_9368_tierStart_1_end_100_USD, rce_5_USD_9368, recurring_percentage_credit_9368
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaDiscountProdOfferPriceAlteration; id[unique = true]         ; value; cycleStart; cycleEnd; $currency; $priceEvent; $catalogVersion; isPercentage[default = false]; productSpecCharacteristicValues(id, $catalogVersion); pricingLogicAlgorithm(id)
+                                                 ; Prime_fixed_discount_9368 ; 7    ;           ;         ;          ;            ;                ; false                        ;                                                     ; call_duration_pla
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaAllowanceProdOfferPriceAlteration; id[unique = true]                ; value; cycleStart; cycleEnd; $currency; $priceEvent; $catalogVersion; isPercentage[default = false]; type(code)[default = CREDIT]; productSpecCharacteristicValues(id, $catalogVersion); pricingLogicAlgorithm(id)
+                                                  ; recurring_percentage_credit_9368 ; 10.0 ; 1         ;         ;          ; monthly    ;                ; true                         ;                             ;                                                     ;
+
+
+# Create test Sample product Offering prices for TMF Get Order by Id
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaCompositeProdOfferPrice; id[unique = true]      ; $catalogVersion; children(id, $catalogVersion)
+                                        ; Fiberlink_9731_pop1    ;                ; UC_7176_minutes_tierStart_1_end_200_USD, UC_7289_mb_tierStart_1_end_100_USD,Usage_percentage_discount_7965
+                                        ; Fiberlink_9731_pop2    ;                ; UC_0_6_sms_tierStart_1_end_200_USD, usage_fixed_credits
+                                        ; Samsung_s8_9731_pop    ;                ; otc_350_usd_paynow, promotional_percentage_credits, Standard_fixed_discount_7960
+                                        ; Fiberlink_9731_pop     ;                ; Fiberlink_9731_pop1, Fiberlink_9731_pop2
+                                        ; tapasL_9731_pop        ;                ; otce_6743_paynow
+                                        ; tv_S_9731_pop          ;                ; OTC_4_USD_Test_v3, RC_10_USD_start_1_end_3_Test_v3, RC_20_USD_start_4_Test_v3
+                                        ; Fiberlink_100_9731_pop ;                ; otc_500_usd_paynow, UC_6944_5_minutes_tierStart_1_end_200_USD

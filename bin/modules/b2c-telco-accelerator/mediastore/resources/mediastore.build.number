@@ -1,0 +1,10 @@
+#Ant properties
+builddate=20182410
+description=mediastore
+group.id=de.hybris.platform
+module.name=b2ctelco-accelerator-module
+name=mediastore
+releasedate=20182410
+vendor=hybris
+version=19.11.0
+version.api=19.11.0

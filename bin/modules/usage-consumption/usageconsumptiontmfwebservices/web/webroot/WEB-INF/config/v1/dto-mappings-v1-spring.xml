@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <!-- Field mapping configuration -->
+    <alias alias="fieldSetBuilder" name="defaultFieldSetBuilder"/>
+    <bean id="defaultFieldSetBuilder"
+          class="de.hybris.platform.webservicescommons.mapping.impl.DefaultFieldSetBuilder">
+        <property name="defaultRecurrencyLevel" value="10"/>
+        <property name="defaultMaxFieldSetSize" value="500000"/>
+        <property name="fieldSetLevelHelper" ref="fieldSetLevelHelper"/>
+    </bean>
+
+    <alias alias="fieldSetLevelHelper" name="defaultFieldSetLevelHelper"/>
+    <bean id="defaultFieldSetLevelHelper"
+          class="de.hybris.platform.webservicescommons.mapping.impl.DefaultFieldSetLevelHelper">
+    </bean>
+
+    <alias alias="dataMapper" name="defaultDataMapper"/>
+    <bean id="defaultDataMapper"
+          class="de.hybris.platform.webservicescommons.mapping.impl.DefaultDataMapper">
+        <property name="fieldSetBuilder" ref="fieldSetBuilder"/>
+    </bean>
+
+    <!-- ######################### -->
+    <!-- ### Attribute Mappers ### -->
+    <!-- ######################### -->
+
+    <alias name="defaultUcConsumptionSummaryAtTypeAttributeMapper" alias="ucConsumptionSummaryAtTypeAttributeMapper"/>
+    <bean id="defaultUcConsumptionSummaryAtTypeAttributeMapper"
+          class="de.hybris.platform.usageconsumptiontmfwebservices.v1.mappers.consumptionsummary.ConsumptionSummaryAtTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atType"/>
+    </bean>
+
+    <alias name="defaultUcConsumptionSummaryConsumptionPeriodAttributeMapper"
+           alias="ucConsumptionSummaryConsumptionPeriodAttributeMapper"/>
+    <bean id="defaultUcConsumptionSummaryConsumptionPeriodAttributeMapper"
+          class="de.hybris.platform.usageconsumptiontmfwebservices.v1.mappers.consumptionsummary.ConsumptionSummaryConsumptionPeriodAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="consumptionStartDate"/>
+        <constructor-arg name="targetAttributeName" value="consumptionPeriod"/>
+    </bean>
+
+    <alias name="defaultUcConsumptionSummaryProductAttributeMapper"
+           alias="ucConsumptionSummaryProductAttributeMapper"/>
+    <bean id="defaultUcConsumptionSummaryProductAttributeMapper"
+          class="de.hybris.platform.usageconsumptiontmfwebservices.v1.mappers.consumptionsummary.ConsumptionSummaryProductAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="networkProducts"/>
+        <constructor-arg name="targetAttributeName" value="product"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultUcConsumptionSummarySchemaLocationAttributeMapper"
+           alias="ucConsumptionSummarySchemaLocationAttributeMapper"/>
+    <bean id="defaultUcConsumptionSummarySchemaLocationAttributeMapper"
+          class="de.hybris.platform.usageconsumptiontmfwebservices.v1.mappers.consumptionsummary.ConsumptionSummarySchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+
+    <alias name="defaultUcConsumptionSummaryUserAttributeMapper"
+           alias="ucConsumptionSummaryUserAttributeMapper"/>
+    <bean id="defaultUcConsumptionSummaryUserAttributeMapper"
+          class="de.hybris.platform.usageconsumptiontmfwebservices.v1.mappers.consumptionsummary.ConsumptionSummaryUserAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="partyRoles"/>
+        <constructor-arg name="targetAttributeName" value="user"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultUcConsumptionSummaryValueAttributeMapper"
+           alias="ucConsumptionSummaryValueAttributeMapper"/>
+    <bean id="defaultUcConsumptionSummaryValueAttributeMapper"
+          class="de.hybris.platform.usageconsumptiontmfwebservices.v1.mappers.consumptionsummary.ConsumptionSummaryValueAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="value"/>
+        <constructor-arg name="targetAttributeName" value="value"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultUcConsumptionSummaryValueNameAttributeMapper"
+           alias="ucConsumptionSummaryValueNameAttributeMapper"/>
+    <bean id="defaultUcConsumptionSummaryValueNameAttributeMapper"
+          class="de.hybris.platform.usageconsumptiontmfwebservices.v1.mappers.consumptionsummary.ConsumptionSummaryValueNameAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="units"/>
+        <constructor-arg name="targetAttributeName" value="valueName"/>
+    </bean>
+
+    <alias name="defaultUcNetworkProductAtBaseTypeAttributeMapper"
+           alias="ucNetworkProductAtBaseTypeAttributeMapper"/>
+    <bean id="defaultUcNetworkProductAtBaseTypeAttributeMapper"
+          class="de.hybris.platform.usageconsumptiontmfwebservices.v1.mappers.networkproduct.NetworkProductAtBaseTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atbaseType"/>
+    </bean>
+
+    <alias name="defaultUcNetworkProductAtTypeAttributeMapper"
+           alias="ucNetworkProductAtTypeAttributeMapper"/>
+    <bean id="defaultUcNetworkProductAtTypeAttributeMapper"
+          class="de.hybris.platform.usageconsumptiontmfwebservices.v1.mappers.networkproduct.NetworkProductAtTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atType"/>
+    </bean>
+
+    <alias name="defaultUcNetworkProductHrefAttributeMapper"
+           alias="ucNetworkProductHrefAttributeMapper"/>
+    <bean id="defaultUcNetworkProductHrefAttributeMapper"
+          class="de.hybris.platform.usageconsumptiontmfwebservices.v1.mappers.networkproduct.NetworkProductHrefAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultUcNetworkProductOutOfBucketCounterAttributeMapper"
+           alias="ucNetworkProductOutOfBucketCounterAttributeMapper"/>
+    <bean id="defaultUcNetworkProductOutOfBucketCounterAttributeMapper"
+          class="de.hybris.platform.usageconsumptiontmfwebservices.v1.mappers.networkproduct.NetworkProductOutOfBucketCounterAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="consumptionSummaries"/>
+        <constructor-arg name="targetAttributeName" value="outOfBucketCounter"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultUcNetworkProductSchemaLocationAttributeMapper"
+           alias="ucNetworkProductSchemaLocationAttributeMapper"/>
+    <bean id="defaultUcNetworkProductSchemaLocationAttributeMapper"
+          class="de.hybris.platform.usageconsumptiontmfwebservices.v1.mappers.networkproduct.NetworkProductSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+
+    <alias name="defaultUcNetworkProductUserAttributeMapper"
+           alias="ucNetworkProductUserAttributeMapper"/>
+    <bean id="defaultUcNetworkProductUserAttributeMapper"
+          class="de.hybris.platform.usageconsumptiontmfwebservices.v1.mappers.networkproduct.NetworkProductUserAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="usedBy"/>
+        <constructor-arg name="targetAttributeName" value="user"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultUcRelatedPartyReferredTypeAttributeMapper"
+           alias="ucRelatedPartyReferredTypeAttributeMapper"/>
+    <bean id="defaultUcRelatedPartyReferredTypeAttributeMapper"
+          class="de.hybris.platform.usageconsumptiontmfwebservices.v1.mappers.relatedparty.RelatedPartyReferredTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atreferredType"/>
+    </bean>
+
+    <alias name="defaultUcRelatedPartyHrefAttributeMapper"
+           alias="ucRelatedPartyHrefAttributeMapper"/>
+    <bean id="defaultUcRelatedPartyHrefAttributeMapper"
+          class="de.hybris.platform.usageconsumptiontmfwebservices.v1.mappers.relatedparty.RelatedPartyHrefAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="type"/>
+        <constructor-arg name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultUcRelatedPartySchemaLocationAttributeMapper"
+           alias="ucRelatedPartySchemaLocationAttributeMapper"/>
+    <bean id="defaultUcRelatedPartySchemaLocationAttributeMapper"
+          class="de.hybris.platform.usageconsumptiontmfwebservices.v1.mappers.relatedparty.RelatedPartySchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+
+    <alias name="defaultUcRelatedPartyIdAttributeMapper" alias="ucRelatedPartyIdAttributeMapper"/>
+    <bean id="defaultUcRelatedPartyIdAttributeMapper"
+          class="de.hybris.platform.usageconsumptiontmfwebservices.v1.mappers.relatedparty.RelatedPartyIdAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="id"/>
+    </bean>
+
+    <alias name="defaultUcRelatedPartyNameAttributeMapper" alias="ucRelatedPartyNameAttributeMapper"/>
+    <bean id="defaultUcRelatedPartyNameAttributeMapper"
+          class="de.hybris.platform.usageconsumptiontmfwebservices.v1.mappers.relatedparty.RelatedPartyNameAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="name"/>
+        <constructor-arg name="targetAttributeName" value="name"/>
+    </bean>
+
+    <alias name="defaultUcUsageVolumeBalanceAtTypeAttributeMapper" alias="ucUsageVolumeBalanceAtTypeAttributeMapper"/>
+    <bean id="defaultUcUsageVolumeBalanceAtTypeAttributeMapper"
+          class="de.hybris.platform.usageconsumptiontmfwebservices.v1.mappers.usagevolumebalance.UsageVolumeBalanceAtTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atType"/>
+    </bean>
+
+    <alias name="defaultUcUsageVolumeBalanceRemainingValueAttributeMapper"
+           alias="ucUsageVolumeBalanceRemainingValueAttributeMapper"/>
+    <bean id="defaultUcUsageVolumeBalanceRemainingValueAttributeMapper"
+          class="de.hybris.platform.usageconsumptiontmfwebservices.v1.mappers.usagevolumebalance.UsageVolumeBalanceRemainingValueAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="remainingValue"/>
+        <constructor-arg name="targetAttributeName" value="remainingValue"/>
+    </bean>
+
+    <alias name="defaultUcUsageVolumeBalanceRemainingValueNameAttributeMapper"
+           alias="ucUsageVolumeBalanceRemainingValueNameAttributeMapper"/>
+    <bean id="defaultUcUsageVolumeBalanceRemainingValueNameAttributeMapper"
+          class="de.hybris.platform.usageconsumptiontmfwebservices.v1.mappers.usagevolumebalance.UsageVolumeBalanceRemainingValueNameAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="remainingValue"/>
+        <constructor-arg name="targetAttributeName" value="remainingValueName"/>
+    </bean>
+
+    <alias name="defaultUcUsageVolumeBalanceSchemaLocationAttributeMapper"
+           alias="ucUsageVolumeBalanceSchemaLocationAttributeMapper"/>
+    <bean id="defaultUcUsageVolumeBalanceSchemaLocationAttributeMapper"
+          class="de.hybris.platform.usageconsumptiontmfwebservices.v1.mappers.usagevolumebalance.UsageVolumeBalanceSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+
+    <alias name="defaultUcUsageVolumeBalanceValidForAttributeMapper"
+           alias="ucUsageVolumeBalanceValidForAttributeMapper"/>
+    <bean id="defaultUcUsageVolumeBalanceValidForAttributeMapper"
+          class="de.hybris.platform.usageconsumptiontmfwebservices.v1.mappers.usagevolumebalance.UsageVolumeBalanceValidForAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="startDate"/>
+        <constructor-arg name="targetAttributeName" value="validFor"/>
+    </bean>
+
+    <alias name="defaultUcUsageVolumeProductAtBaseTypeAttributeMapper"
+           alias="ucUsageVolumeProductAtBaseTypeAttributeMapper"/>
+    <bean id="defaultUcUsageVolumeProductAtBaseTypeAttributeMapper"
+          class="de.hybris.platform.usageconsumptiontmfwebservices.v1.mappers.usagevolumeproduct.UsageVolumeProductAtBaseTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atbaseType"/>
+    </bean>
+
+    <alias name="defaultUcUsageVolumeProductAtTypeAttributeMapper"
+           alias="ucUsageVolumeProductAtTypeAttributeMapper"/>
+    <bean id="defaultUcUsageVolumeProductAtTypeAttributeMapper"
+          class="de.hybris.platform.usageconsumptiontmfwebservices.v1.mappers.usagevolumeproduct.UsageVolumeProductAtTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atType"/>
+    </bean>
+
+    <alias name="defaultUcUsageVolumeProductBucketBalanceAttributeMapper"
+           alias="ucUsageVolumeProductBucketBalanceAttributeMapper"/>
+    <bean id="defaultUcUsageVolumeProductBucketBalanceAttributeMapper"
+          class="de.hybris.platform.usageconsumptiontmfwebservices.v1.mappers.usagevolumeproduct.UsageVolumeProductBucketBalanceAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="usageVolumeBalances"/>
+        <constructor-arg name="targetAttributeName" value="bucketBalance"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultUcUsageVolumeProductBucketCounterAttributeMapper"
+           alias="ucUsageVolumeProductBucketCounterAttributeMapper"/>
+    <bean id="defaultUcUsageVolumeProductBucketCounterAttributeMapper"
+          class="de.hybris.platform.usageconsumptiontmfwebservices.v1.mappers.usagevolumeproduct.UsageVolumeProductBucketCounterAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="consumptionSummaries"/>
+        <constructor-arg name="targetAttributeName" value="bucketCounter"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultUcUsageVolumeProductIsSharedAttributeMapper"
+           alias="ucUsageVolumeProductIsSharedAttributeMapper"/>
+    <bean id="defaultUcUsageVolumeProductIsSharedAttributeMapper"
+          class="de.hybris.platform.usageconsumptiontmfwebservices.v1.mappers.usagevolumeproduct.UsageVolumeProductIsSharedAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="usageVolumeProductSpec"/>
+        <constructor-arg name="targetAttributeName" value="isShared"/>
+    </bean>
+
+    <alias name="defaultUcUsageVolumeProductProductAttributeMapper"
+           alias="ucUsageVolumeProductProductAttributeMapper"/>
+    <bean id="defaultUcUsageVolumeProductProductAttributeMapper"
+          class="de.hybris.platform.usageconsumptiontmfwebservices.v1.mappers.usagevolumeproduct.UsageVolumeProductProductAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="networkProducts"/>
+        <constructor-arg name="targetAttributeName" value="product"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultUcUsageVolumeProductSchemaLocationAttributeMapper"
+           alias="ucUsageVolumeProductSchemaLocationAttributeMapper"/>
+    <bean id="defaultUcUsageVolumeProductSchemaLocationAttributeMapper"
+          class="de.hybris.platform.usageconsumptiontmfwebservices.v1.mappers.usagevolumeproduct.UsageVolumeProductSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+
+    <alias name="defaultUcUsageVolumeProductUsageTypeAttributeMapper"
+           alias="ucUsageVolumeProductUsageTypeAttributeMapper"/>
+    <bean id="defaultUcUsageVolumeProductUsageTypeAttributeMapper"
+          class="de.hybris.platform.usageconsumptiontmfwebservices.v1.mappers.usagevolumeproduct.UsageVolumeProductUsageTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="usageVolumeProductSpec"/>
+        <constructor-arg name="targetAttributeName" value="usageType"/>
+    </bean>
+
+    <alias name="defaultUcNetworkProductRefSchemaLocationAttributeMapper"
+           alias="ucNetworkProductRefSchemaLocationAttributeMapper"/>
+    <bean id="defaultUcNetworkProductRefSchemaLocationAttributeMapper"
+          class="de.hybris.platform.usageconsumptiontmfwebservices.v1.mappers.networkproductref.NetworkProductRefSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+
+    <alias name="defaultUcNetworkProductRefHrefAttributeMapper" alias="ucNetworkProductRefHrefAttributeMapper"/>
+    <bean id="defaultUcNetworkProductRefHrefAttributeMapper"
+          class="de.hybris.platform.usageconsumptiontmfwebservices.v1.mappers.networkproductref.NetworkProductRefHrefAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultUcNetworkProductRefReferredType" alias="ucNetworkProductRefReferredType"/>
+    <bean id="defaultUcNetworkProductRefReferredType"
+          class="de.hybris.platform.usageconsumptiontmfwebservices.v1.mappers.networkproductref.NetworkProductRefReferredType">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atreferredType"/>
+    </bean>
+
+    <!-- ###################### -->
+    <!-- ### Entity Mappers ### -->
+    <!-- ###################### -->
+
+    <!-- Entity mapper for ConsumptionSummary (from UcConsumptionSummaryModel)-->
+    <alias name="defaultUcConsumptionSummaryEntityMapperV1" alias="ucConsumptionSummaryEntityMapperV1"/>
+    <bean id="defaultUcConsumptionSummaryEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.usageconsumptiontmfwebservices.v1.mappers.UcEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.usageconsumptionservices.model.UcConsumptionSummaryModel"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.usageconsumptiontmfwebservices.v1.dto.ConsumptionSummary"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="ucConsumptionSummaryAtTypeAttributeMapper"/>
+                <ref bean="ucConsumptionSummaryConsumptionPeriodAttributeMapper"/>
+                <ref bean="ucConsumptionSummaryProductAttributeMapper"/>
+                <ref bean="ucConsumptionSummarySchemaLocationAttributeMapper"/>
+                <ref bean="ucConsumptionSummaryUserAttributeMapper"/>
+                <ref bean="ucConsumptionSummaryValueAttributeMapper"/>
+                <ref bean="ucConsumptionSummaryValueNameAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for NetworkProduct (from UcNetworkProductModel)-->
+    <alias name="defaultUcNetworkProductEntityMapperV1" alias="ucNetworkProductEntityMapperV1"/>
+    <bean id="defaultUcNetworkProductEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.usageconsumptiontmfwebservices.v1.mappers.UcEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.usageconsumptionservices.model.UcNetworkProductModel"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.usageconsumptiontmfwebservices.v1.dto.NetworkProduct"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="ucNetworkProductAtBaseTypeAttributeMapper"/>
+                <ref bean="ucNetworkProductAtTypeAttributeMapper"/>
+                <ref bean="ucNetworkProductHrefAttributeMapper"/>
+                <ref bean="ucNetworkProductOutOfBucketCounterAttributeMapper"/>
+                <ref bean="ucNetworkProductSchemaLocationAttributeMapper"/>
+                <ref bean="ucNetworkProductUserAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for NetworkProductRef (from UcNetworkProductModel)-->
+    <alias name="defaultUcNetworkProductRefEntityMapperV1" alias="ucNetworkProductRefEntityMapperV1"/>
+    <bean id="defaultUcNetworkProductRefEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.usageconsumptiontmfwebservices.v1.mappers.UcEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.usageconsumptionservices.model.UcNetworkProductModel"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.usageconsumptiontmfwebservices.v1.dto.NetworkProductRef"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="ucNetworkProductRefHrefAttributeMapper"/>
+                <ref bean="ucNetworkProductRefReferredType"/>
+                <ref bean="ucNetworkProductRefSchemaLocationAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for RelatedParty (from UcPartyRoleModel)-->
+    <alias name="defaultUcRelatedPartyEntityMapperV1" alias="ucRelatedPartyEntityMapperV1"/>
+    <bean id="defaultUcRelatedPartyEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.usageconsumptiontmfwebservices.v1.mappers.UcEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.usageconsumptionservices.model.UcPartyRoleModel"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.usageconsumptiontmfwebservices.v1.dto.RelatedParty"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="ucRelatedPartyReferredTypeAttributeMapper"/>
+                <ref bean="ucRelatedPartyHrefAttributeMapper"/>
+                <ref bean="ucRelatedPartySchemaLocationAttributeMapper"/>
+                <ref bean="ucRelatedPartyIdAttributeMapper"/>
+                <ref bean="ucRelatedPartyNameAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for UsageVolumeBalance (from UcUsageVolumeBalanceModel)-->
+    <alias name="defaultUcUsageVolumeBalanceEntityMapperV1" alias="ucUsageVolumeBalanceEntityMapperV1"/>
+    <bean id="defaultUcUsageVolumeBalanceEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.usageconsumptiontmfwebservices.v1.mappers.UcEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.usageconsumptionservices.model.UcUsageVolumeBalanceModel"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.usageconsumptiontmfwebservices.v1.dto.UsageVolumeBalance"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="ucUsageVolumeBalanceAtTypeAttributeMapper"/>
+                <ref bean="ucUsageVolumeBalanceRemainingValueAttributeMapper"/>
+                <ref bean="ucUsageVolumeBalanceRemainingValueNameAttributeMapper"/>
+                <ref bean="ucUsageVolumeBalanceSchemaLocationAttributeMapper"/>
+                <ref bean="ucUsageVolumeBalanceValidForAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for UsageVolumeProduct (from UcUsageVolumeProductModel)-->
+    <alias name="defaultUcUsageVolumeProductEntityMapperV1" alias="ucUsageVolumeProductEntityMapperV1"/>
+    <bean id="defaultUcUsageVolumeProductEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.usageconsumptiontmfwebservices.v1.mappers.UcEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.usageconsumptionservices.model.UcUsageVolumeProductModel"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.usageconsumptiontmfwebservices.v1.dto.UsageVolumeProduct"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="ucUsageVolumeProductAtBaseTypeAttributeMapper"/>
+                <ref bean="ucUsageVolumeProductAtTypeAttributeMapper"/>
+                <ref bean="ucUsageVolumeProductBucketBalanceAttributeMapper"/>
+                <ref bean="ucUsageVolumeProductBucketCounterAttributeMapper"/>
+                <ref bean="ucUsageVolumeProductIsSharedAttributeMapper"/>
+                <ref bean="ucUsageVolumeProductProductAttributeMapper"/>
+                <ref bean="ucUsageVolumeProductSchemaLocationAttributeMapper"/>
+                <ref bean="ucUsageVolumeProductUsageTypeAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

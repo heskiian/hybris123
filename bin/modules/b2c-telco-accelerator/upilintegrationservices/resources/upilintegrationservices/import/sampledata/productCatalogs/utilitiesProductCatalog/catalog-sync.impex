@@ -1,0 +1,13 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+
+
+$productCatalog = utilitiesProductCatalog
+
+UPDATE CatalogVersionSyncJob; code[unique = true]; roottypes(code)[mode = append];
+; sync $productCatalog:Staged->Online ; UpilSemantics                     ;
+; sync $productCatalog:Staged->Online ; UpilAdditionalAttributes          ;
+
+
+

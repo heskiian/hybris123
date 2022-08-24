@@ -1,0 +1,80 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for Importing Customers Test Data
+
+#% impex.enableCodeExecution(true);
+
+$defaultPassword = 1234
+
+#Business Partner Customers
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE Customer; originalUid[unique = true]; uid[unique = true]     ; customerID             ; name        ; groups(uid)   ; password[default = $defaultPassword]; Europe1PriceFactory_UPG(code)
+                      ; testtmfapi1@hybris.com    ; testtmfapi1@hybris.com ; testtmfapi1@hybris.com ; testtmfapi1 ; customergroup ;
+
+#Consent Sample test data
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE Consent; code[unique = true]; consentTemplate(id, basesite(uid))    ; customer(uid)
+                     ; 0000006            ; BUSSINESS_PARTNER_UTILITIES:utilities ; testtmfapi1@hybris.com
+
+# Create test customer
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE Customer; originalUid[unique = true]         ; uid[unique = true]                 ; customerID                         ; name                    ; groups(uid)   ; password[default = $defaultPassword]
+                      ; occpostformer1@hybris.com          ; occpostformer1@hybris.com          ; occpostformer1@hybris.com          ; occpostformer1          ; customergroup ;
+                      ; tmfpostformer1@hybris.com          ; tmfpostformer1@hybris.com          ; tmfpostformer1@hybris.com          ; tmfpostformer1          ; customergroup ;
+                      ; tmfpostformer2@hybris.com          ; tmfpostformer2@hybris.com          ; tmfpostformer2@hybris.com          ; tmfpostformer2          ; customergroup ;
+                      ; tmfpostformer3@hybris.com          ; tmfpostformer3@hybris.com          ; tmfpostformer3@hybris.com          ; tmfpostformer3          ; customergroup ;
+                      ; tmfpostformer4@hybris.com          ; tmfpostformer4@hybris.com          ; tmfpostformer4@hybris.com          ; tmfpostformer4          ; customergroup ;
+
+##Former Supplier
+                      ; occpostformer1@hybris.com          ; occpostformer1@hybris.com          ; occpostformer1@hybris.com          ; occpostformer1          ; customergroup ;
+                      ; tmfpostformer1@hybris.com          ; tmfpostformer1@hybris.com          ; tmfpostformer1@hybris.com          ; tmfpostformer1          ; customergroup ;
+                      ; tmfpostformer2@hybris.com          ; tmfpostformer2@hybris.com          ; tmfpostformer2@hybris.com          ; tmfpostformer2          ; customergroup ;
+                      ; tmfpostformer3@hybris.com          ; tmfpostformer3@hybris.com          ; tmfpostformer3@hybris.com          ; tmfpostformer3          ; customergroup ;
+                      ; tmfpostformer4@hybris.com          ; tmfpostformer4@hybris.com          ; tmfpostformer4@hybris.com          ; tmfpostformer4          ; customergroup ;
+                      ; occpatchformersupplier1@hybris.com ; occpatchformersupplier1@hybris.com ; occpatchformersupplier1@hybris.com ; occpatchformersupplier1 ; customergroup ;
+                      ; occpatchformersupplier2@hybris.com ; occpatchformersupplier2@hybris.com ; occpatchformersupplier2@hybris.com ; occpatchformersupplier2 ; customergroup ;
+                      ; occpatchformersupplier3@hybris.com ; occpatchformersupplier3@hybris.com ; occpatchformersupplier3@hybris.com ; occpatchformersupplier3 ; customergroup ;
+                      ; occpatchformersupplier4@hybris.com ; occpatchformersupplier4@hybris.com ; occpatchformersupplier4@hybris.com ; occpatchformersupplier4 ; customergroup ;
+                      ; tmfpatchformersupplier1@hybris.com ; tmfpatchformersupplier1@hybris.com ; tmfpatchformersupplier1@hybris.com ; tmfpatchformersupplier1 ; customergroup ;
+                      ; tmfpatchformersupplier2@hybris.com ; tmfpatchformersupplier2@hybris.com ; tmfpatchformersupplier2@hybris.com ; tmfpatchformersupplier2 ; customergroup ;
+                      ; tmfpatchformersupplier3@hybris.com ; tmfpatchformersupplier3@hybris.com ; tmfpatchformersupplier3@hybris.com ; tmfpatchformersupplier3 ; customergroup ;
+                      ; tmfpatchformersupplier4@hybris.com ; tmfpatchformersupplier4@hybris.com ; tmfpatchformersupplier4@hybris.com ; tmfpatchformersupplier4 ; customergroup ;
+                      ; tmfpostorderformer1@hybris.com     ; tmfpostorderformer1@hybris.com     ; tmfpostorderformer1@hybris.com     ; tmfpostorderformer1     ; customergroup ;
+                      ; tmfpostorderformer2@hybris.com     ; tmfpostorderformer2@hybris.com     ; tmfpostorderformer2@hybris.com     ; tmfpostorderformer2     ; customergroup ;
+                      ; tmfpostorderformer3@hybris.com     ; tmfpostorderformer3@hybris.com     ; tmfpostorderformer3@hybris.com     ; tmfpostorderformer3     ; customergroup ;
+                      ; tmfpostorderformer4@hybris.com     ; tmfpostorderformer4@hybris.com     ; tmfpostorderformer4@hybris.com     ; tmfpostorderformer4     ; customergroup ;
+## TMF Order Apis baseSiteId
+                      ; selfserviceuser98713@hybris.com    ; selfserviceuser98713@hybris.com    ; selfserviceuser98713@hybris.com    ; selfserviceuser98713    ; customergroup ;
+                      ; selfserviceuser98716@hybris.com    ; selfserviceuser98716@hybris.com    ; selfserviceuser98716@hybris.com    ; selfserviceuser98716    ; customergroup
+
+# Create eligiblity context
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaEligibilityContext; customer(uid)[unique = true]       ; processesCodes                                   ; requiredPoCodes; subscriberId; termCodes
+##Former Supplier
+                                   ; occpostformer1@hybris.com          ; DEVICE_ONLY,ACQUISITION, SWITCH_SERVICE_PROVIDER ;
+                                   ; tmfpostformer1@hybris.com          ; DEVICE_ONLY,ACQUISITION, SWITCH_SERVICE_PROVIDER ;
+                                   ; tmfpostformer2@hybris.com          ; DEVICE_ONLY,ACQUISITION, SWITCH_SERVICE_PROVIDER ;
+                                   ; tmfpostformer3@hybris.com          ; DEVICE_ONLY,ACQUISITION, SWITCH_SERVICE_PROVIDER ;
+                                   ; tmfpostformer4@hybris.com          ; DEVICE_ONLY,ACQUISITION, SWITCH_SERVICE_PROVIDER ;
+                                   ; occpatchformersupplier1@hybris.com ; DEVICE_ONLY,ACQUISITION, SWITCH_SERVICE_PROVIDER ;
+                                   ; tmfpatchformersupplier1@hybris.com ; DEVICE_ONLY,ACQUISITION, SWITCH_SERVICE_PROVIDER ;
+                                   ; tmfpatchformersupplier2@hybris.com ; DEVICE_ONLY,ACQUISITION, SWITCH_SERVICE_PROVIDER ;
+                                   ; tmfpatchformersupplier3@hybris.com ; DEVICE_ONLY,ACQUISITION, SWITCH_SERVICE_PROVIDER ;
+                                   ; tmfpatchformersupplier4@hybris.com ; DEVICE_ONLY,ACQUISITION, SWITCH_SERVICE_PROVIDER ;
+                                   ; tmfpostorderformer1@hybris.com     ; DEVICE_ONLY,ACQUISITION, SWITCH_SERVICE_PROVIDER ;
+                                   ; tmfpostorderformer2@hybris.com     ; DEVICE_ONLY,ACQUISITION, SWITCH_SERVICE_PROVIDER ;
+                                   ; tmfpostorderformer3@hybris.com     ; DEVICE_ONLY,ACQUISITION, SWITCH_SERVICE_PROVIDER ;
+                                   ; tmfpostorderformer4@hybris.com     ; DEVICE_ONLY,ACQUISITION, SWITCH_SERVICE_PROVIDER ;
+
+# Create test customer
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE Customer; originalUid[unique = true]      ; uid[unique = true]              ; customerID                      ; name                 ; groups(uid)   ; password[default = $defaultPassword]; Europe1PriceFactory_UPG(code)
+                      ; selfserviceuser6425@hybris.com  ; selfserviceuser6425@hybris.com  ; selfserviceuser6425@hybris.com  ; selfserviceuser6425  ; customergroup ;
+                      ; selfserviceuser6426@hybris.com  ; selfserviceuser6426@hybris.com  ; selfserviceuser6426@hybris.com  ; selfserviceuser6426  ; customergroup ;
+                      ; selfserviceuser64261@hybris.com ; selfserviceuser64261@hybris.com ; selfserviceuser64261@hybris.com ; selfserviceuser64261 ; customergroup ;
+                      ; selfserviceuser6427@hybris.com  ; selfserviceuser6427@hybris.com  ; selfserviceuser6427@hybris.com  ; selfserviceuser6427  ; customergroup ;
+                      ; occpatchcartuser1@hybris.com    ; occpatchcartuser1@hybris.com    ; occpatchcartuser1@hybris.com    ; occpatchcartuser1    ; customergroup ;
+                      ; occpatchcartuser2@hybris.com    ; occpatchcartuser2@hybris.com    ; occpatchcartuser2@hybris.com    ; occpatchcartuser2    ; customergroup ;
+

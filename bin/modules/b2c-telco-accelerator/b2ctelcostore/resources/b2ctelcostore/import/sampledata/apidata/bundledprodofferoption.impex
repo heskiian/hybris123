@@ -1,0 +1,56 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for Importing Sample Bundled Product Offering Options
+
+$catalog-id = b2ctelcoProductCatalog
+$catalog-version = Online
+$catalogVersion = catalogversion(catalog(id[default = $catalog-id]), version[default = $catalog-version])[unique = true, default = $catalog-id:$catalog-version]
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaBundledProdOfferOption; bundledProductOffering(code, $catalogVersion)[unique = true]; productOffering(code, $catalogVersion)[unique = true]; $catalogVersion; lowerLimit; upperLimit; default
+                                       ; quadPlay_3640                                               ; Samsung_s8_3640                                      ;                ; 1         ; 1         ; 1
+                                       ; quadPlay_3640                                               ; TV_S_3640                                            ;                ; 0         ; 1         ; 0
+                                       ; quadPlay_3640                                               ; netflix_3640                                         ;                ; 1         ;           ; 1
+                                       ; landLine_3640                                               ; Samsung_s8_3640                                      ;                ; 1         ; 1         ; 1
+                                       ; landLine_3640                                               ; TV_S_3640                                            ;                ; 0         ; 1         ; 0
+                                       ; landLine_3640                                               ; netflix_3640                                         ;                ; 1         ;           ; 1
+                                       ; back2school_3640                                            ; quadPlay_3640                                        ;                ; 1         ; 1         ; 1
+                                       ; back2school_3640                                            ; mobileDeal_3640                                      ;                ; 0         ; 1         ; 0
+
+# BPO Cardinality - Place Order
+                                       ; ipTVDeal_8942                                               ; tv_S_8942                                            ;                ; 0         ; 1         ; 0
+                                       ; ipTVDeal_8942                                               ; tv_M_8942                                            ;                ; 1         ;           ; 3
+                                       ; ipTVDeal_8942                                               ; MoviesGO_8942                                        ;                ; 1         ; 1         ; 1
+                                       ; ipTVDeal_8942                                               ; SportsPack_8942                                      ;                ; 0         ; 1         ; 1
+                                       ; quadPlay_8942                                               ; mobileDeal_8942                                      ;                ; 1         ; 1         ; 1
+                                       ; quadPlay_8942                                               ; homeDeal_8942                                        ;                ; 0         ; 1         ; 1
+                                       ; mobileDeal_8942                                             ; Apple_iPhone6_8942                                   ;                ; 0         ; 1         ; 1
+                                       ; mobileDeal_8942                                             ; Samsung_s8_8942                                      ;                ; 1         ; 2         ; 1
+                                       ; mobileDeal_8942                                             ; TapasS_8942                                          ;                ; 0         ; 1         ; 1
+                                       ; homeDeal_8942                                               ; Motorola_8942                                        ;                ; 1         ; 1         ; 1
+                                       ; homeDeal_8942                                               ; Dext_8942                                            ;                ; 0         ; 1         ; 0
+                                       ; homeDeal_8942                                               ; PremiumUnlimitedPlan_8942                            ;                ; 0         ; 1         ; 1
+
+# BPO Cardinality - Create Cart
+                                       ; homeDeal_8941                                               ; tv_S_8941                                            ;                ; 1         ; 1         ; 1
+                                       ; homeDeal_8941                                               ; netflix_8941                                         ;                ; 0         ; 1         ; 0
+                                       ; homeDeal_8941                                               ; landLine_8941                                        ;                ; 0         ; 1         ; 0
+                                       ; homeDeal_8941                                               ; back2school_8941                                     ;                ; 1         ; 1         ; 1
+                                       ; internet_8941                                               ; int_100_8941                                         ;                ; 2         ;           ; 2
+                                       ; internet_8941                                               ; int_500_8941                                         ;                ; 0         ; 1         ; 0
+                                       ; landLine_8941                                               ; ll_voip_8941                                         ;                ; 1         ; 1         ; 1
+                                       ; back2school_8941                                            ; Apple_iPhone6_8941                                   ;                ; 1         ; 1         ; 1
+                                       ; back2school_8941                                            ; samsung_s8_8941                                      ;                ; 0         ; 1         ; 0
+                                       ; ipTvDeal_8941                                               ; tv_L_8941                                            ;                ; 1         ; 1         ; 1
+
+# BPO Cardinality - Update Cart
+                                       ; starterMobileDeal_8983                                      ; unlimitedStarterPlan_8983                            ;                ; 1         ; 1         ; 1
+                                       ; starterMobileDeal_8983                                      ; Apple_iPhone_6_8983                                  ;                ; 0         ; 1         ; 0
+
+# Hierarchical Cart - E2E
+                                       ; mobileDeal_9610                                             ; Apple_iPhone_6_9610                                  ;                ; 0         ; 2         ; 0
+## Order APIs - Fixed BPOs
+                                       ; WinterDeal_10500                                            ; internet_200mb_10441                                 ;                ; 2         ; 2         ; 2
+

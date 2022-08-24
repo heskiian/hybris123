@@ -1,0 +1,20 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for Product Specifications
+
+$productCatalog = utilitiesProductCatalog
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Staged'])[unique = true, default = $productCatalog:Staged]
+$defaultApprovalStatus = approvalstatus(code)[default = 'check']
+
+# Product Type
+INSERT_UPDATE TmaProductSpecType ;code[unique = true];
+                                 ; ISU_UIL_REFPROD
+                                 
+# Product Specifications                        
+INSERT_UPDATE TmaAtomicProductSpecification; id[unique = true]; $catalogVersion;type(code);
+                                           ; electricity      ;                 ;ISU_UIL_REFPROD
+                                           ; gas              ;                 ;ISU_UIL_REFPROD
+                                           ; homewarranty     ;                 ;ISU_UIL_REFPROD
+

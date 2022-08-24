@@ -1,0 +1,75 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+# ImpEx for Importing Utilities Store Prices
+#% impex.setLocale( Locale.ENGLISH );
+
+$productCatalog=utilitiesProductCatalog
+$catalogVersion=catalogversion(catalog(id[default = $productCatalog]), version[default = 'Staged'])[unique = true, default = '$productCatalog:Staged']
+
+# Set product approval status to Approved only for those products that have prices.
+$billingEvent=billingEvent(code)[default = 'onfirstbill']
+
+# ImpEx for Importing Prices for Utilities products
+$regions=regions(isocode)
+
+# Set product approval status to Approved only for those products that have prices.
+$processTypes=processTypes(code)
+$subscriptionTerms=subscriptionTerms(id)   
+
+# UPIL Semantics
+INSERT_UPDATE UpilSemantics; &semantics       ; semanticType(code)[unique=true]     ; semanticsName1[unique=true]; semanticsName2[unique=true]; $catalogVersion
+                           ; activation_fee   ; ONETIME_CHARGE_ENTRY                ; ACTIVATION    			 ; FEE           			  ;
+                           ; isu_discount     ; ONETIME_CHARGE_ENTRY                ; ISU           			 ; DISCOUNT					  ;
+                           ; termination_fee  ; ONETIME_CHARGE_ENTRY                ; TERMINATION   			 ; FEE						  ;
+                           ; debit_discount   ; DISCOUNT                            ; DIRECT-DEBIT  			 ; DISCOUNT					  ;
+                           ; initial_credit   ; DISCOUNT                            ; INITIAL       			 ; CREDIT					  ;
+                           ; direct_debit     ; DISCOUNT                            ; DIRECT        			 ; DEBIT					  ;
+                           ; paperless_bill   ; DISCOUNT                            ; PAPERLESS     			 ; BILL						  ;
+                           ; paperless_discount   ; DISCOUNT                        ; PAPERLESS     			 ; DISCOUNT					  ;
+                           ; discount_demand  ; DISCOUNT                            ; DISCOUNT      			 ; DEMAND         			  ;
+                           ; termination_fee  ; ONETIME_CHARGE_ENTRY                ; TERMINATION   			 ; FEE						  ;
+                           ; duration_period  ; UPIL_BILLING_ATTRIBUTES             ; DURATION      			 ; PERIOD		              ;
+                           ; sales_channel    ; UPIL_SALES_ATTRIBUTES               ; SALES         			 ; CHANNEL					  ;
+                           ; payment_method   ; UPIL_SALES_ATTRIBUTES               ; PAYMENT       			 ; METHOD					  ;
+                           ; cooling_off      ; UPIL_SALES_ATTRIBUTES               ; COOLING       			 ; OFF			              ;
+                           ; contract_term_extension   ; UPIL_SALES_ATTRIBUTES      ; CONTRACT_TERM 			 ; EXTENSION				  ;
+                           ; price_guarantee  ; UPIL_SALES_ATTRIBUTES               ; PRICE         			 ; GUARANTEE 	              ;
+                           ; product_region   ; UPIL_SALES_ATTRIBUTES               ; PRODUCT       			 ; REGION 		              ;
+                           ; usage_charge     ; USAGE_CHARGE_ENTRY                  ; USAGE         			 ; CHARGE		              ;
+                           ; monthly_fixed    ; RECURRING_CHARGE_ENTRY              ; MONTHLY       			 ; FIXED			          ;                             
+
+# UpilAdditionalAttributes
+INSERT_UPDATE UpilAdditionalAttributes; code[unique=true]; utilsProductEntryValue; semantics(&semantics); attributeType(code); $catalogVersion
+                                      ; 1000000001       ; 11101                 ; duration_period      ; BILLING
+                                      ; 1000000002       ; 11102                 ; duration_period      ; BILLING
+                                      ; 1000000003       ; 11103                 ; duration_period      ; BILLING
+                                      ; 1000000004       ; 11104                 ; sales_channel        ; SALES
+                                      ; 1000000005       ; 11105                 ; sales_channel        ; SALES
+
+
+INSERT_UPDATE SubscriptionPricePlan; &pricePlan                     ; product(code, $catalogVersion)[unique = true]; $processTypes[unique = true]; $subscriptionTerms     ; $catalogVersion; currency(isocode)[default = USD]; unit(code)[default = pieces]; $regions; UpilAdditionalAttributes(code,$catalogVersion)
+                                   ; pp_electric_plan_plus          ; electric_plan_plus                           ; RETENTION                   ; monthly_36 ;;;;;1000000001
+                                   ; pp_gas_plan_basic              ; gas_plan_basic                               ; TARIFF_CHANGE               ; monthly_36 ;;;;;1000000003
+                                   ; pp_home_warranty               ; home_warranty                                ; RETENTION                   ; monthly_18 ;;;;;1000000005
+                                 
+#########################
+### RECURRING CHARGES ###
+#########################
+
+INSERT_UPDATE RecurringChargeEntry; id[unique = true]               ; subscriptionPricePlanRecurring(&pricePlan); price; cycleStart; cycleEnd; semantics(&semantics); $catalogVersion
+                                  ; rce_electric_plan_plus          ; pp_electric_plan_plus                     ; 35   ; 1         ;         ; monthly_fixed        ;
+                                  ; rce_gas_plan_basic              ; pp_gas_plan_basic                         ; 45   ; 1         ;         ; monthly_fixed        ;
+                                  ; rce_home_warranty               ; pp_home_warranty                          ; 55   ; 1         ;         ; monthly_fixed        ;
+#####################
+### USAGE CHARGES ###
+#####################
+INSERT_UPDATE TierUsageChargeEntry; id[unique = true]                 ; price; tierStart; tierEnd; semantics(&semantics); $catalogVersion
+                                  ; electric_plan_plus_power_101_200  ; 0,08 ; 101      ; 200    ;usage_charge
+                                  ; electric_plan_plus_power_201_300  ; 0,09 ; 201      ; 300    ;usage_charge
+
+INSERT_UPDATE OverageUsageChargeEntry; id[unique = true]                 ; price; semantics(&semantics); $catalogVersion
+                                     ; electric_plan_plus_power_overage  ; 0,10 ; usage_charge         ;
+
+INSERT_UPDATE PerUnitUsageCharge; id[unique = true]               ; subscriptionPricePlanUsage(&pricePlan); usageUnit(id); usageChargeType(code); usageChargeEntries(id, $catalogVersion)                                                               ; $catalogVersion
+                                ; electric_plan_plus_power_usage  ; pp_electric_plan_plus                 ; kwh          ; each_respective_tier ; electric_plan_plus_power_101_200,electric_plan_plus_power_201_300,electric_plan_plus_power_overage    ;

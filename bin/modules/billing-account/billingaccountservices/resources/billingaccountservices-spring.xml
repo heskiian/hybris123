@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <alias name="defaultBaBillingAccountSearchDao" alias="baBillingAccountSearchDao"/>
+    <bean id="defaultBaBillingAccountSearchDao"
+          class="de.hybris.platform.billingaccountservices.daos.impl.DefaultBaGenericSearchDao">
+        <constructor-arg name="typeCode"
+                         value="#{T(de.hybris.platform.billingaccountservices.model.BaBillingAccountModel)._TYPECODE}"/>
+    </bean>
+
+    <alias name="defaultBaBillingAccountDao" alias="baBillingAccountDao"/>
+    <bean id="defaultBaBillingAccountDao"
+          class="de.hybris.platform.billingaccountservices.daos.impl.DefaultBaBillingAccountDao">
+    </bean>
+
+    <alias name="defaultBaGenericDao" alias="baGenericDao"/>
+    <bean id="defaultBaGenericDao"
+          class="de.hybris.platform.billingaccountservices.daos.impl.DefaultBaGenericDao">
+        <constructor-arg name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <alias name="defaultBaBillingAccountService" alias="baBillingAccountService"/>
+    <bean id="defaultBaBillingAccountService"
+          class="de.hybris.platform.billingaccountservices.services.impl.DefaultBaBillingAccountService">
+        <constructor-arg name="billingAccountSearchDao" ref="baBillingAccountSearchDao"/>
+        <constructor-arg name="billingAccountDao" ref="baBillingAccountDao"/>
+        <constructor-arg name="modelService" ref="modelService"/>
+    </bean>
+
+    <alias name="defaultBaGenericService" alias="baGenericService"/>
+    <bean name="defaultBaGenericService" class="de.hybris.platform.billingaccountservices.services.impl.DefaultBaGenericService">
+        <constructor-arg name="modelService" ref="modelService"/>
+        <constructor-arg name="baGenericDao" ref="baGenericDao"/>
+    </bean>
+
+    <alias name="defaultBaPaginationService" alias="baPaginationService"/>
+    <bean name="defaultBaPaginationService"
+          class="de.hybris.platform.billingaccountservices.services.impl.DefaultBaPaginationService">
+    </bean>
+
+    <bean name="billingAccountSystemSetup"
+          class="de.hybris.platform.billingaccountservices.setup.BillingAccountSystemSetup"
+          parent="abstractCoreSystemSetup">
+    </bean>
+
+    <alias name="defaultBaPartyRoleIdGenerator" alias="baPartyRoleIdGenerator"/>
+    <bean id="defaultBaPartyRoleIdGenerator"
+          class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.baPartyRole.id.name}"/>
+        <property name="digits" value="${keygen.baPartyRole.id.digits}"/>
+        <property name="start" value="${keygen.baPartyRole.id.start}"/>
+        <property name="type" value="${keygen.baPartyRole.id.type}"/>
+        <property name="template" value="${keygen.baPartyRole.id.template}"/>
+    </bean>
+
+    <alias name="defaultBaContactIdGenerator" alias="baContactIdGenerator"/>
+    <bean id="defaultBaContactIdGenerator"
+          class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.baContact.id.name}"/>
+        <property name="digits" value="${keygen.baContact.id.digits}"/>
+        <property name="start" value="${keygen.baContact.id.start}"/>
+        <property name="type" value="${keygen.baContact.id.type}"/>
+        <property name="template" value="${keygen.baContact.id.template}"/>
+    </bean>
+
+    <alias name="defaultBaAccountBalanceIdGenerator" alias="baAccountBalanceIdGenerator"/>
+    <bean id="defaultBaAccountBalanceIdGenerator"
+          class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.baAccountBalance.id.name}"/>
+        <property name="digits" value="${keygen.baAccountBalance.id.digits}"/>
+        <property name="start" value="${keygen.baAccountBalance.id.start}"/>
+        <property name="type" value="${keygen.baAccountBalance.id.type}"/>
+        <property name="template" value="${keygen.baAccountBalance.id.template}"/>
+    </bean>
+
+    <alias name="defaultBaAccountRelationshipIdGenerator" alias="baAccountRelationshipIdGenerator"/>
+    <bean id="defaultBaAccountRelationshipIdGenerator"
+          class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.baAccountRelationship.id.name}"/>
+        <property name="digits" value="${keygen.baAccountRelationship.id.digits}"/>
+        <property name="start" value="${keygen.baAccountRelationship.id.start}"/>
+        <property name="type" value="${keygen.baAccountRelationship.id.type}"/>
+        <property name="template" value="${keygen.baAccountRelationship.id.template}"/>
+    </bean>
+
+    <alias name="defaultBaPaymentPlanIdGenerator" alias="baPaymentPlanIdGenerator"/>
+    <bean id="defaultBaPaymentPlanIdGenerator"
+          class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.baPaymentPlan.id.name}"/>
+        <property name="digits" value="${keygen.baPaymentPlan.id.digits}"/>
+        <property name="start" value="${keygen.baPaymentPlan.id.start}"/>
+        <property name="type" value="${keygen.baPaymentPlan.id.type}"/>
+        <property name="template" value="${keygen.baPaymentPlan.id.template}"/>
+    </bean>
+
+    <alias name="defaultBaAccountTaxExemptionIdGenerator" alias="baAccountTaxExemptionIdGenerator"/>
+    <bean id="defaultBaAccountTaxExemptionIdGenerator"
+          class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.baAccountTaxExemption.id.name}"/>
+        <property name="digits" value="${keygen.baAccountTaxExemption.id.digits}"/>
+        <property name="start" value="${keygen.baAccountTaxExemption.id.start}"/>
+        <property name="type" value="${keygen.baAccountTaxExemption.id.type}"/>
+        <property name="template" value="${keygen.baAccountTaxExemption.id.template}"/>
+    </bean>
+
+    <alias name="defaultBaContactMediumIdGenerator" alias="baContactMediumIdGenerator"/>
+    <bean id="defaultBaContactMediumIdGenerator"
+          class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.baContactMedium.id.name}"/>
+        <property name="digits" value="${keygen.baContactMedium.id.digits}"/>
+        <property name="start" value="${keygen.baContactMedium.id.start}"/>
+        <property name="type" value="${keygen.baContactMedium.id.type}"/>
+        <property name="template" value="${keygen.baContactMedium.id.template}"/>
+    </bean>
+
+    <alias name="defaultBaMediumCharacteristicIdGenerator" alias="baMediumCharacteristicIdGenerator"/>
+    <bean id="defaultBaMediumCharacteristicIdGenerator"
+          class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.baMediumCharacteristic.id.name}"/>
+        <property name="digits" value="${keygen.baMediumCharacteristic.id.digits}"/>
+        <property name="start" value="${keygen.baMediumCharacteristic.id.start}"/>
+        <property name="type" value="${keygen.baMediumCharacteristic.id.type}"/>
+        <property name="template" value="${keygen.baMediumCharacteristic.id.template}"/>
+    </bean>
+
+    <alias name="defaultBaAccountIdGenerator" alias="baAccountIdGenerator"/>
+    <bean id="defaultBaAccountIdGenerator"
+          class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.baAccount.id.name}"/>
+        <property name="digits" value="${keygen.baAccount.id.digits}"/>
+        <property name="start" value="${keygen.baAccount.id.start}"/>
+        <property name="type" value="${keygen.baAccount.id.type}"/>
+        <property name="template" value="${keygen.baAccount.id.template}"/>
+    </bean>
+
+    <alias name="defaultBaBillStructureIdGenerator" alias="baBillStructureIdGenerator"/>
+    <bean id="defaultBaBillStructureIdGenerator"
+          class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.baBillStructure.id.name}"/>
+        <property name="digits" value="${keygen.baBillStructure.id.digits}"/>
+        <property name="start" value="${keygen.baBillStructure.id.start}"/>
+        <property name="type" value="${keygen.baBillStructure.id.type}"/>
+        <property name="template" value="${keygen.baBillStructure.id.template}"/>
+    </bean>
+
+    <alias name="defaultBaDurationIdGenerator" alias="baDurationIdGenerator"/>
+    <bean id="defaultBaDurationIdGenerator"
+          class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.baDuration.id.name}"/>
+        <property name="digits" value="${keygen.baDuration.id.digits}"/>
+        <property name="start" value="${keygen.baDuration.id.start}"/>
+        <property name="type" value="${keygen.baDuration.id.type}"/>
+        <property name="template" value="${keygen.baDuration.id.template}"/>
+    </bean>
+
+    <alias name="defaultBaPartyRolePrepareInterceptor" alias="baPartyRolePrepareInterceptor"/>
+    <bean id="defaultBaPartyRolePrepareInterceptor"
+          class="de.hybris.platform.billingaccountservices.interceptors.BaPartyRolePrepareInterceptor">
+        <constructor-arg name="keyGenerator" ref="baPartyRoleIdGenerator"/>
+    </bean>
+
+    <alias name="defaultBaPartyRolePrepareInterceptorMapping" alias="baPartyRolePrepareInterceptorMapping"/>
+    <bean id="defaultBaPartyRolePrepareInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="baPartyRolePrepareInterceptor"/>
+        <property name="typeCode" value="BaPartyRole"/>
+    </bean>
+
+    <alias name="defaultBaContactPrepareInterceptor" alias="baContactPrepareInterceptor"/>
+    <bean id="defaultBaContactPrepareInterceptor"
+          class="de.hybris.platform.billingaccountservices.interceptors.BaContactPrepareInterceptor">
+        <constructor-arg name="keyGenerator" ref="baContactIdGenerator"/>
+    </bean>
+
+    <alias name="defaultBaContactPrepareInterceptorMapping" alias="baContactPrepareInterceptorMapping"/>
+    <bean id="defaultBaContactPrepareInterceptorMapping" class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="baContactPrepareInterceptor"/>
+        <property name="typeCode" value="BaContact"/>
+    </bean>
+
+    <alias name="defaultBaAccountBalancePrepareInterceptor" alias="baAccountBalancePrepareInterceptor"/>
+    <bean id="defaultBaAccountBalancePrepareInterceptor"
+          class="de.hybris.platform.billingaccountservices.interceptors.BaAccountBalancePrepareInterceptor">
+        <constructor-arg name="keyGenerator" ref="baAccountBalanceIdGenerator"/>
+    </bean>
+
+    <alias name="defaultBaAccountBalancePrepareInterceptorMapping" alias="baAccountBalancePrepareInterceptorMapping"/>
+    <bean id="defaultBaAccountBalancePrepareInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="baAccountBalancePrepareInterceptor"/>
+        <property name="typeCode" value="BaAccountBalance"/>
+    </bean>
+
+    <alias name="defaultBaAccountRelationshipPrepareInterceptor" alias="baAccountRelationshipPrepareInterceptor"/>
+    <bean id="defaultBaAccountRelationshipPrepareInterceptor"
+          class="de.hybris.platform.billingaccountservices.interceptors.BaAccountRelationshipPrepareInterceptor">
+        <constructor-arg name="keyGenerator" ref="baAccountRelationshipIdGenerator"/>
+    </bean>
+
+    <alias name="defaultBaAccountRelationshipPrepareInterceptorMapping" alias="baAccountRelationshipPrepareInterceptorMapping"/>
+    <bean id="defaultBaAccountRelationshipPrepareInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="baAccountRelationshipPrepareInterceptor"/>
+        <property name="typeCode" value="BaAccountRelationship"/>
+    </bean>
+
+    <alias name="defaultBaPaymentPlanPrepareInterceptor" alias="baPaymentPlanPrepareInterceptor"/>
+    <bean id="defaultBaPaymentPlanPrepareInterceptor"
+          class="de.hybris.platform.billingaccountservices.interceptors.BaPaymentPlanPrepareInterceptor">
+        <constructor-arg name="keyGenerator" ref="baPaymentPlanIdGenerator"/>
+    </bean>
+
+    <alias name="defaultBaPaymentPlanPrepareInterceptorMapping" alias="baPaymentPlanPrepareInterceptorMapping"/>
+    <bean id="defaultBaPaymentPlanPrepareInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="baPaymentPlanPrepareInterceptor"/>
+        <property name="typeCode" value="BaPaymentPlan"/>
+    </bean>
+
+    <alias name="defaultBaAccountTaxExemptionPrepareInterceptor" alias="baAccountTaxExemptionPrepareInterceptor"/>
+    <bean id="defaultBaAccountTaxExemptionPrepareInterceptor"
+          class="de.hybris.platform.billingaccountservices.interceptors.BaAccountTaxExemptionPrepareInterceptor">
+        <constructor-arg name="keyGenerator" ref="baAccountTaxExemptionIdGenerator"/>
+    </bean>
+
+    <alias name="defaultBaAccountTaxExemptionPrepareInterceptorMapping" alias="baAccountTaxExemptionPrepareInterceptorMapping"/>
+    <bean id="defaultBaAccountTaxExemptionPrepareInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="baAccountTaxExemptionPrepareInterceptor"/>
+        <property name="typeCode" value="BaAccountTaxExemption"/>
+    </bean>
+
+    <alias name="defaultBaContactMediumPrepareInterceptor" alias="baContactMediumPrepareInterceptor"/>
+    <bean id="defaultBaContactMediumPrepareInterceptor"
+          class="de.hybris.platform.billingaccountservices.interceptors.BaContactMediumPrepareInterceptor">
+        <constructor-arg name="keyGenerator" ref="baContactMediumIdGenerator"/>
+    </bean>
+
+    <alias name="defaultBaContactMediumPrepareInterceptorMapping" alias="baContactMediumPrepareInterceptorMapping"/>
+    <bean id="defaultBaContactMediumPrepareInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="baContactMediumPrepareInterceptor"/>
+        <property name="typeCode" value="BaContactMedium"/>
+    </bean>
+
+    <alias name="defaultBaMediumCharacteristicPrepareInterceptor" alias="baMediumCharacteristicPrepareInterceptor"/>
+    <bean id="defaultBaMediumCharacteristicPrepareInterceptor"
+          class="de.hybris.platform.billingaccountservices.interceptors.BaMediumCharacteristicPrepareInterceptor">
+        <constructor-arg name="keyGenerator" ref="baMediumCharacteristicIdGenerator"/>
+    </bean>
+
+    <alias name="defaultBaMediumCharacteristicPrepareInterceptorMapping" alias="baMediumCharacteristicPrepareInterceptorMapping"/>
+    <bean id="defaultBaMediumCharacteristicPrepareInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="baMediumCharacteristicPrepareInterceptor"/>
+        <property name="typeCode" value="BaMediumCharacteristic"/>
+    </bean>
+
+    <alias name="defaultBaBillStructurePrepareInterceptor" alias="baBillStructurePrepareInterceptor"/>
+    <bean id="defaultBaBillStructurePrepareInterceptor"
+          class="de.hybris.platform.billingaccountservices.interceptors.BaBillStructurePrepareInterceptor">
+        <constructor-arg name="keyGenerator" ref="baBillStructureIdGenerator"/>
+    </bean>
+
+    <alias name="defaultBaBillStructurePrepareInterceptorMapping" alias="baBillStructurePrepareInterceptorMapping"/>
+    <bean id="defaultBaBillStructurePrepareInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="baBillStructurePrepareInterceptor"/>
+        <property name="typeCode" value="BaBillStructure"/>
+    </bean>
+
+    <alias name="defaultBaDurationPrepareInterceptor" alias="baDurationPrepareInterceptor"/>
+    <bean id="defaultBaDurationPrepareInterceptor"
+          class="de.hybris.platform.billingaccountservices.interceptors.BaDurationPrepareInterceptor">
+        <constructor-arg name="keyGenerator" ref="baDurationIdGenerator"/>
+    </bean>
+
+    <alias name="defaultBaDurationPrepareInterceptorMapping" alias="baDurationPrepareInterceptorMapping"/>
+    <bean id="defaultBaDurationPrepareInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="baDurationPrepareInterceptor"/>
+        <property name="typeCode" value="BaDuration"/>
+    </bean>
+
+    <alias name="defaultBaAccountPrepareInterceptor" alias="baAccountPrepareInterceptor"/>
+    <bean id="defaultBaAccountPrepareInterceptor"
+          class="de.hybris.platform.billingaccountservices.interceptors.BaAccountPrepareInterceptor">
+        <constructor-arg name="keyGenerator" ref="baAccountIdGenerator"/>
+    </bean>
+
+    <alias name="defaultBaAccountPrepareInterceptorMapping" alias="baAccountPrepareInterceptorMapping"/>
+    <bean id="defaultBaAccountPrepareInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="baAccountPrepareInterceptor"/>
+        <property name="typeCode" value="BaAccount"/>
+    </bean>
+
+
+</beans>

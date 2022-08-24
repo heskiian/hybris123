@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved. -->
+<widget-definition
+	id="de.hybris.platform.b2ctelcobackoffice.widgets.policyContext"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://www.hybris.com/schema/cockpitng/widget-definition.xsd">
+
+	<name>Search Policy Context</name>
+	<description>Search Policy Context Widget</description>
+	<defaultTitle>Search Policy </defaultTitle>
+	<author>hybris</author>
+	<version>1.0</version>
+	<keywords>
+		<keyword>Policy Context Search</keyword>
+	</keywords>
+
+	<controller class="de.hybris.platform.b2ctelcobackoffice.widget.controller.SearchPolicyInContextController" />
+	<sockets>
+		<input id="policySearch" type="java.util.List" />
+		<output id="policyList" type="java.util.List" />
+	</sockets>
+	
+</widget-definition>

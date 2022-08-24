@@ -1,0 +1,2706 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd
+           http://www.springframework.org/schema/util
+     	   http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <alias alias="fieldSetBuilder" name="defaultFieldSetBuilder"/>
+    <bean id="defaultFieldSetBuilder"
+          class="de.hybris.platform.webservicescommons.mapping.impl.DefaultFieldSetBuilder">
+        <property name="defaultRecurrencyLevel" value="7"/>
+        <property name="defaultMaxFieldSetSize" value="5000000"/>
+        <property name="fieldSetLevelHelper" ref="fieldSetLevelHelper"/>
+    </bean>
+
+    <alias alias="fieldSetLevelHelper" name="defaultFieldSetLevelHelper"/>
+    <bean id="defaultFieldSetLevelHelper"
+          class="de.hybris.platform.webservicescommons.mapping.impl.DefaultFieldSetLevelHelper">
+    </bean>
+
+    <alias alias="dataMapper" name="defaultDataMapper"/>
+    <bean id="defaultDataMapper"
+          class="de.hybris.platform.webservicescommons.mapping.impl.DefaultDataMapper">
+        <property name="fieldSetBuilder" ref="fieldSetBuilder"/>
+    </bean>
+
+    <!-- START of Attribute Mappers for Product Specification -->
+
+    <alias name="defaultTmaProdSpecHREFAttributeMapper"
+           alias="tmaProductSpecHREFAttributeMapper"/>
+    <bean id="defaultTmaProdSpecHREFAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.specification.TmaProdSpecHrefAttributeMapper">
+        <property name="sourceAttributeName" value="id"/>
+        <property name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultTmaPscvAttributeMapper"
+           alias="tmaPscvAttributeMapper"/>
+    <bean id="defaultTmaPscvAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.specification.TmaPscvAttributeMapper">
+        <property name="sourceAttributeName" value="featureValues"/>
+        <property name="targetAttributeName"
+                  value="productSpecCharacteristicValue"/>
+        <property name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultTmaPsAttributeMapper"
+           alias="tmaPsAttributeMapper"/>
+    <bean id="defaultTmaPsAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.specification.TmaPsAttributeMapper">
+        <property name="sourceAttributeName" value="featureValues"/>
+        <property name="targetAttributeName"
+                  value="productSpecCharacteristicValue"/>
+        <property name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <!-- END of Attribute Mappers for Product Specification -->
+
+    <!-- START of Atrribute Mappers for ProductWsDTO -->
+
+    <alias name="defaultTmaProductOfferingGroupAttributeMapper"
+           alias="tmaProductOfferingGroupAttributeMapper"/>
+    <bean id="defaultTmaProductOfferingGroupAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.productoffering.TmaProductOfferingGroupAttributeMapper">
+        <property name="sourceAttributeName" value="offeringGroups"/>
+        <property name="targetAttributeName" value="offeringGroup"/>
+        <property name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="productOfferFacade" ref="tmaProductOfferFacade"/>
+    </bean>
+
+    <alias name="defaultTmaProductSpecificationAttributeMapper"
+           alias="tmaProductSpecificationAttributeMapper"/>
+    <bean id="defaultTmaProductSpecificationAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.productoffering.TmaProductSpecificationAttributeMapper">
+        <property name="sourceAttributeName"
+                  value="productSpecifications"/>
+        <property name="targetAttributeName"
+                  value="productSpecification"/>
+        <property name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultTmaProductValidForAttributeMapper"
+           alias="tmaProductValidForAttributeMapper"/>
+    <bean id="defaultTmaProductValidForAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.productoffering.TmaProductValidForAttributeMapper">
+        <property name="sourceAttributeName" value="startDate"/>
+        <property name="targetAttributeName" value="validFor"/>
+    </bean>
+
+    <alias name="defaultTmaProdSpecCharValueUsesAttributeMapper"
+           alias="tmaProdSpecCharValueUsesAttributeMapper"/>
+    <bean id="defaultTmaProdSpecCharValueUsesAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.productoffering.TmaProductSpecCharValuesAttributeMapper">
+        <property name="sourceAttributeName" value="prodSpecCharValueUses"/>
+        <property name="targetAttributeName" value="productSpecCharValues"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+    
+    <alias name="defaultTmaPoPscvuAttributeMapper"
+           alias="tmaPoPscvuAttributeMapper"/>
+    <bean id="defaultTmaPoPscvuAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.productoffering.TmaPoPscvuAttributeMapper">
+        <property name="sourceAttributeName" value="poSpecCharValueUses"/>
+        <property name="targetAttributeName" value="poSpecCharValueUses"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultTmaPoAttachmentsAttributeMapper" alias="tmaPoAttachmentsAttributeMapper"/>
+    <bean id="defaultTmaPoAttachmentsAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.productoffering.TmaPoAttachmentsAttributeMapper">
+        <property name="sourceAttributeName" value="data_sheet"/>
+        <property name="targetAttributeName" value="attachments"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultTmaPoIsBundleAttributeMapper"
+           alias="tmaPoIsBundleAttributeMapper"/>
+    <bean id="defaultTmaPoIsBundleAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.productoffering.TmaPoIsBundleAttributeMapper">
+        <property name="sourceAttributeName" value="code"/>
+        <property name="targetAttributeName" value="isBundle"/>
+        <constructor-arg name="productOfferFacade" ref="tmaProductOfferFacade"/>
+    </bean>
+
+    <alias name="defaultTmaPoBpoOptionAttributeMapper" alias="tmaPoBpoOptionAttributeMapper"/>
+    <bean id="defaultTmaPoBpoOptionAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.productoffering.TmaPoBpoOptionAttributeMapper">
+        <property name="sourceAttributeName" value="bundledProdOfferOption"/>
+        <property name="targetAttributeName" value="bundledProductOfferingOption"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <!-- END of Atrribute Mappers for ProductWsDTO -->
+
+    <!-- ### START of Attribute Mappers for OfferingGroupWsDTO ### -->
+
+    <alias name="defaultTmaOfferingGroupChildOfferingsAttributeMapper" alias="tmaOfferingGroupChildOfferingsAttributeMapper"/>
+    <bean id="defaultTmaOfferingGroupChildOfferingsAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.offeringgroup.TmaOfferingGroupChildOfferingsAttributeMapper">
+        <property name="sourceAttributeName" value="childProductOfferings"/>
+        <property name="targetAttributeName" value="childProductOfferings"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <!-- ### END of Attribute Mappers for OfferingGroupWsDTO ### -->
+
+    <!--Start of Atrribute Mappers for ProductOfferingPriceWsDTO -->
+
+    <alias name="defaultTmaPoPriceLastUpdateAttributeMapper"
+           alias="tmaPoPriceLastUpdateAttributeMapper"/>
+    <bean id="defaultTmaPoPriceLastUpdateAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.price.TmaPoPriceLastUpdateAttributeMapper">
+        <property name="sourceAttributeName" value="modifiedtime"/>
+        <property name="targetAttributeName" value="modifiedTime"/>
+    </bean>
+
+    <alias name="defaultTmaPoPriceChannelAttributeMapper"
+           alias="tmaPoPriceChannelAttributeMapper"/>
+    <bean id="defaultTmaPoPriceChannelAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.price.TmaPriceChannelAttributeMapper">
+        <property name="sourceAttributeName"
+                  value="distributionChannels"/>
+        <property name="targetAttributeName" value="channel"/>
+        <property name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultTmaPoPricePoRelationshipAttributeMapper"
+           alias="tmaPoPricePoRelationshipAttributeMapper"/>
+    <bean id="defaultTmaPoPricePoRelationshipAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.price.TmaPricePORelationshipAttributeMapper">
+        <property name="sourceAttributeName"
+                  value="affectedProductOffering"/>
+        <property name="targetAttributeName" value="poRelationship"/>
+        <property name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultTmaPoPriceProcessTypeAttributeMapper"
+           alias="tmaPoPriceProcessTypeAttributeMapper"/>
+    <bean id="defaultTmaPoPriceProcessTypeAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.price.TmaPriceProcessTypeAttributeMapper">
+        <property name="sourceAttributeName" value="processTypes"/>
+        <property name="targetAttributeName" value="processType"/>
+    </bean>
+
+    <alias name="defaultTmaPoPriceTermAttributeMapper"
+           alias="tmaPoPriceTermAttributeMapper"/>
+    <bean id="defaultTmaPoPriceTermAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.price.TmaPricePOTermAttributeMapper">
+        <property name="sourceAttributeName"
+                  value="subscriptionTerms"/>
+        <property name="targetAttributeName"
+                  value="productOfferingTerm"/>
+        <property name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultTmaPoPriceUnitOfMeasureAttributeMapper"
+           alias="tmaPoPriceUnitOfMeasureAttributeMapper"/>
+    <bean id="defaultTmaPoPriceUnitOfMeasureAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.price.TmaPriceUnitOfMeasureAttributeMapper">
+        <property name="sourceAttributeName" value="unitFactor"/>
+        <property name="targetAttributeName" value="unitOfMeasure"/>
+    </bean>
+
+    <alias name="defaultTmaPoPriceValidForAttributeMapper"
+           alias="tmaPoPriceValidForAttributeMapper"/>
+    <bean id="defaultTmaPoPriceValidForAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.price.TmaPriceValidForAttributeMapper">
+        <property name="sourceAttributeName" value="startDate"/>
+        <property name="targetAttributeName" value="validFor"/>
+    </bean>
+
+    <alias name="defaultTmaPoPriceBundledPopAttributeMapper"
+           alias="tmaPoPriceBundledPopAttributeMapper"/>
+    <bean id="defaultTmaPoPriceBundledPopAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.price.TmaPriceBundledPOPAttributeMapper">
+        <property name="sourceAttributeName" value="charges"/>
+        <property name="targetAttributeName" value="bundledPop"/>
+        <property name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultTmaIsPriceOverrideAttributeMapper"
+           alias="tmaIsPriceOverrideAttributeMapper"/>
+    <bean id="defaultTmaIsPriceOverrideAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.price.TmaPriceIsPriceOverrideAttributeMapper">
+        <property name="sourceAttributeName"
+                  value="affectedProductOffering"/>
+        <property name="targetAttributeName" value="isPriceOverride"/>
+    </bean>
+
+    <alias name="defaultTmaPoPriceRegionAttributeMapper"
+           alias="tmaPoPriceRegionAttributeMapper"/>
+    <bean id="defaultTmaPoPriceRegionAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.price.TmaPriceRegionAttributeMapper">
+        <property name="sourceAttributeName" value="regions"/>
+        <property name="targetAttributeName" value="region"/>
+        <property name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultTmaPoPriceUserAttributeMapper"
+           alias="tmaPoPriceUserAttributeMapper"/>
+    <bean id="defaultTmaPoPriceUserAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.price.TmaPriceUserAttributeMapper">
+        <property name="sourceAttributeName" value="user"/>
+        <property name="targetAttributeName" value="user"/>
+    </bean>
+
+    <alias name="defaultTmaPoPriceUserGroupAttributeMapper"
+           alias="tmaPoPriceUserGroupAttributeMapper"/>
+    <bean id="defaultTmaPoPriceUserGroupAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.price.TmaPriceUserGroupAttributeMapper">
+        <property name="sourceAttributeName" value="userGroup"/>
+        <property name="targetAttributeName" value="userGroup"/>
+    </bean>
+
+    <alias name="defaultTmaPopBundledPopAttributeMapper" alias="tmaPopBundledPopAttributeMapper"/>
+    <bean id="defaultTmaPopBundledPopAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.productofferingprice.TmaPopBundledPopAttributeMapper">
+        <property name="sourceAttributeName" value="children"/>
+        <property name="targetAttributeName" value="bundledPop"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="priceTypeDtoMap" ref="priceTypeToWsDtoMap"/>
+    </bean>
+
+    <alias name="defaultTmaPriceBundledPopMapper" alias="tmaPriceBundledPopMapper"/>
+    <bean id="defaultTmaPriceBundledPopMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.price.TmaPriceBundledPopMapper">
+        <property name="sourceAttributeName" value="productOfferingPrice"/>
+        <property name="targetAttributeName" value="bundledPop"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="priceTypeDtoMap" ref="priceTypeToWsDtoMap"/>
+    </bean>
+
+    <alias name="defaultTmaPriceIdAttributeMapper" alias="tmaPriceIdAttributeMapper"/>
+    <bean id="defaultTmaPriceIdAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.price.TmaPriceIdAttributeMapper">
+        <property name="sourceAttributeName" value="code"/>
+        <property name="targetAttributeName" value="id"/>
+    </bean>
+
+    <alias name="defaultTmaPopPricingLogicAlgorithmAttributeMapper" alias="tmaPopPricingLogicAlgorithmAttributeMapper"/>
+    <bean id="defaultTmaPopPricingLogicAlgorithmAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.productofferingprice.TmaPopPricingLogicAlgorithmAttributeMapper">
+        <property name="sourceAttributeName" value="pla"/>
+        <property name="targetAttributeName" value="pricingLogicAlgorithm"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <!-- END of Atrribute Mappers for ProductOfferingPriceWsDTO -->
+
+    <!-- Map between source class and target class for ProductOfferingPriceWsDTO subtypes -->
+
+    <util:map id="priceTypeToWsDtoMap" map-class="java.util.HashMap">
+        <entry key="TmaOneTimeProdOfferPriceChargeData"
+               value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.OneTimePriceChargeWsDTO"/>
+        <entry key="TmaRecurringProdOfferPriceChargeData"
+               value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.RecurringPriceChargeWsDTO"/>
+        <entry key="TmaUsageProdOfferPriceChargeData"
+               value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.UsagePriceChargeWsDTO"/>
+        <entry key="TmaCompositeProdOfferPriceData"
+               value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductOfferingPriceWsDTO"/>
+        <entry key="TmaTierUsageCompositeProdOfferPriceData"
+               value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductOfferingPriceWsDTO"/>
+        <entry key="TmaDiscountProdOfferPriceAlterationData"
+               value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductOfferingPriceAlterationWsDTO"/>
+        <entry key="TmaAllowanceProdOfferPriceAlterationData"
+               value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductOfferingPriceAllowanceWsDTO"/>
+    </util:map>
+
+    <!--Start of Atrribute Mappers for ChannelWsDTO -->
+
+    <alias name="defaultTmaChannelRefIdAttributeMapper"
+           alias="tmaChannelRefIdAttributeMapper"/>
+    <bean id="defaultTmaChannelRefIdAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.price.TmaChannelIdAttributeMapper">
+        <property name="sourceAttributeName" value="code"/>
+        <property name="targetAttributeName" value="id"/>
+    </bean>
+
+    <!--END of Atrribute Mappers for ChannelWsDTO -->
+
+    <!-- Start of deprecated Atrribute Mappers for ProductWsDTO -->
+
+    <alias name="defaultTmaProdOfferPriceAttributeMapper"
+           alias="tmaProdOfferPriceAttributeMapper"/>
+    <bean id="defaultTmaProdOfferPriceAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.productoffering.TmaProdOfferPriceAttributeMapper">
+        <property name="sourceAttributeName"
+                  value="productOfferingPrices"/>
+        <property name="targetAttributeName"
+                  value="productOfferingPrice"/>
+        <property name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <!-- Start of new Atrribute Mappers for ProductWsDTO -->
+
+    <alias name="defaultTmaProductOfferingPriceAttributeMapper" alias="tmaProductOfferingPriceAttributeMapper"/>
+    <bean id="defaultTmaProductOfferingPriceAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.productoffering.TmaProductOfferingPriceAttributeMapper">
+        <property name="sourceAttributeName" value="productOfferingPrices"/>
+        <property name="targetAttributeName" value="productOfferingPrice"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <!-- Map between source class and productOfferingType for TmaProductOffering subtypes -->
+    <util:map id="productOfferingTypeDtoMap" map-class="java.util.HashMap">
+        <entry key="#{T(de.hybris.platform.b2ctelcoservices.model.TmaSimpleProductOfferingModel)._TYPECODE}"
+               value="SimpleProductOffering"/>
+        <entry key="#{T(de.hybris.platform.b2ctelcoservices.model.TmaBundledProductOfferingModel)._TYPECODE}"
+               value="BundledProductOffering"/>
+        <entry key="#{T(de.hybris.platform.b2ctelcoservices.model.TmaFixedBundledProductOfferingModel)._TYPECODE}"
+               value="FixedBundledProductOffering"/>
+    </util:map>
+
+    <alias name="defaultTmaProductOfferingTypeAttributeMapper" alias="tmaProductOfferingTypeAttributeMapper"/>
+    <bean id="defaultTmaProductOfferingTypeAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.productoffering.TmaProductOfferingTypeAttributeMapper">
+        <property name="sourceAttributeName" value="itemType"/>
+        <property name="targetAttributeName" value="type"/>
+        <constructor-arg name="productOfferingType" ref="productOfferingTypeDtoMap"/>
+    </bean>
+
+    <!-- END of new Atrribute Mappers ProductWsDTO -->
+
+    <!-- Start of Atrribute Mappers for HasParentBPO -->
+    <alias name="defaultTmaPoHasParentBPOAttributeMapper"
+           alias="tmaPoHasParentBPOAttributeMapper"/>
+    <bean id="defaultTmaPoHasParentBPOAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.productoffering.TmaPoHasParentBPOAttributeMapper">
+        <property name="sourceAttributeName" value="hasParentBpos"/>
+        <property name="targetAttributeName" value="hasParentBpos"/>
+    </bean>
+    <!-- END of Atrribute Mappers HasParentBPO -->
+
+    <!-- Start of Atrribute Mappers for PoRelationshipWsDTO -->
+
+    <alias name="defaultTmaPoRelationshipRefIdAttributeMapper"
+           alias="tmaPoRelationshipRefIdAttributeMapper"/>
+    <bean id="defaultTmaPoRelationshipRefIdAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.porelationship.TmaPoRelationshipRefIdAttributeMapper">
+        <property name="sourceAttributeName" value="code"/>
+        <property name="targetAttributeName" value="id"/>
+    </bean>
+
+    <alias name="defaultTmaPoRelationshipRefHrefAttributeMapper"
+           alias="tmaPoRelationshipRefHrefAttributeMapper"/>
+    <bean id="defaultTmaPoRelationshipRefHrefAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.porelationship.TmaPoRelationshipRefHrefAttributeMapper">
+        <property name="sourceAttributeName" value="code"/>
+        <property name="targetAttributeName" value="href"/>
+    </bean>
+
+    <!-- END of Atrribute Mappers for PoRelationshipWsDTO -->
+
+    <!-- Start of Atrribute Mappers for ProductOfferingTermWsDTO -->
+
+    <alias name="defaultTmaPoTermDurationAttributeMapper"
+           alias="tmaPoTermDurationAttributeMapper"/>
+    <bean id="defaultTmaPoTermDurationAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.priceterm.TmaPoTermDurationAttributeMapper">
+        <property name="sourceAttributeName"
+                  value="termOfServiceNumber"/>
+        <property name="targetAttributeName" value="duration"/>
+    </bean>
+
+    <alias name="defaultTmaPoTermOfServiceAttributeMapper"
+           alias="tmaPoTermOfServiceAttributeMapper"/>
+    <bean id="defaultTmaPoTermOfServiceAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.priceterm.TmaPoTermOfServiceAttributeMapper">
+        <property name="sourceAttributeName"
+                  value="termOfServiceFrequency"/>
+        <property name="targetAttributeName"
+                  value="termOfServiceFrequency"/>
+    </bean>
+
+    <alias name="defaultTmaPoTermBillingPlanAttributeMapper"
+           alias="tmaPoTermBillingPlanAttributeMapper"/>
+    <bean id="defaultTmaPoTermBillingPlanAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.priceterm.TmaPoTermBillingPlanAttributeMapper">
+        <property name="sourceAttributeName" value="billingPlan"/>
+        <property name="targetAttributeName" value="billingPlan"/>
+        <property name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias
+            name="defaultTmaSubscriptionTermBillingPlanAttributeMapper"
+            alias="tmaSubscriptionTermBillingPlanAttributeMapper"/>
+    <bean id="defaultTmaSubscriptionTermBillingPlanAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.priceterm.TmaSubscriptionTermBillingPlanAttributeMapper">
+        <property name="sourceAttributeName" value="billingTime"/>
+        <property name="targetAttributeName" value="billingTime"/>
+    </bean>
+
+    <!-- END of Atrribute Mappers for ProductOfferingTermWsDTO -->
+
+    <!-- Map between source class and priceType for TmaProductOfferingPrice subtypes -->
+    <util:map id="productOfferingPriceTypeDtoMap" map-class="java.util.HashMap">
+        <entry key="TmaOneTimeProdOfferPriceChargeData" value="oneTime"/>
+        <entry key="TmaUsageProdOfferPriceChargeData" value="usage"/>
+        <entry key="TmaRecurringProdOfferPriceChargeData" value="recurring"/>
+        <entry key="TmaDiscountProdOfferPriceAlterationData" value="discount"/>
+        <entry key="TmaAllowanceProdOfferPriceAlterationData" value="allowance"/>
+    </util:map>
+
+    <!--	START definition of Product offering prices attribute mappers-->
+
+    <alias name="defaultTmaPopIsBundleAttributeMapper" alias="tmaPopIsBundleAttributeMapper"/>
+    <bean id="defaultTmaPopIsBundleAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.productofferingprice.TmaPopIsBundleAttributeMapper">
+        <property name="sourceAttributeName" value="id"/>
+        <property name="targetAttributeName" value="isBundle"/>
+    </bean>
+
+    <alias name="defaultTmaPopPriceAttributeMapper" alias="tmaPopPriceAttributeMapper"/>
+    <bean id="defaultTmaPopPriceAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.productofferingprice.TmaPopPriceAttributeMapper">
+        <property name="sourceAttributeName" value="price"/>
+        <property name="targetAttributeName" value="price"/>
+    </bean>
+
+    <alias name="defaultTmaPopPriceTypeAttributeMapper" alias="tmaPopPriceTypeAttributeMapper"/>
+    <bean id="defaultTmaPopPriceTypeAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.productofferingprice.TmaPopPriceTypeAttributeMapper">
+        <property name="sourceAttributeName" value="price"/>
+        <property name="targetAttributeName" value="chargeType"/>
+        <constructor-arg name="productOfferingPriceTypeDtoMap" ref="productOfferingPriceTypeDtoMap"/>
+    </bean>
+
+    <alias name="defaultTmaPopBillingEventAttributeMapper" alias="tmaPopBillingEventAttributeMapper"/>
+    <bean id="defaultTmaPopBillingEventAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.productofferingprice.TmaPopBillingEventAttributeMapper">
+        <property name="sourceAttributeName" value="priceEvent"/>
+        <property name="targetAttributeName" value="billingEvent"/>
+    </bean>
+
+    <alias name="defaultTmaPopPscvAttributeMapper" alias="tmaPopPscvAttributeMapper"/>
+    <bean id="defaultTmaPopPscvAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.productofferingprice.TmaPopPscvAttributeMapper">
+        <property name="sourceAttributeName" value="productSpecCharValues"/>
+        <property name="targetAttributeName" value="productSpecCharValues"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultTmaPopUsageSpecAttributeMapper" alias="tmaPopUsageSpecAttributeMapper"/>
+    <bean id="defaultTmaPopUsageSpecAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.usagepricechargeentry.TmaPopUsageSpecAttributeMapper">
+        <property name="sourceAttributeName" value="productUsageSpecification"/>
+        <property name="targetAttributeName" value="usageSpecification"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <!-- START definition of attribute mappers for entity mapper tmaProdSpecCharValueEntityMapper -->
+    <alias name="defaultTmaPscvUnitOfMeasureAttributeMapper" alias="tmaPscvUnitOfMeasureAttributeMapper"/>
+    <bean id="defaultTmaPscvUnitOfMeasureAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.productspeccharacteristicvalue.TmaPscvUnitOfMeasureAttributeMapper">
+        <property name="sourceAttributeName" value="unitOfMeasurement"/>
+        <property name="targetAttributeName" value="unitOfMeasure"/>
+    </bean>
+    
+    <alias name="defaultTmaPscvuPscvAttributeMapper" alias="tmaPscvuPscvAttributeMapper"/>
+    <bean id="defaultTmaPscvuPscvAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.productspeccharacteristicvalueuse.TmaPscvuPscvAttributeMapper">
+        <property name="sourceAttributeName" value="productSpecCharacteristicValues"/>
+        <property name="targetAttributeName" value="productSpecCharacteristicValue"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+    <!-- END definition of  attribute mappers for entity mapper tmaProdSpecCharValueEntityMapper -->
+
+    <!-- START definition of old atribute mappers for entity mapper tmaOtpcEntityMapper -->
+
+    <alias name="defaultTmaOtpcChargeTypeAttributeMapper"
+           alias="tmaOtpcChargeTypeAttributeMapper"/>
+    <bean id="defaultTmaOtpcChargeTypeAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.onetimepricecharge.TmaOtpcPriceTypeAttributeMapper">
+        <property name="sourceAttributeName" value="price"/>
+        <property name="targetAttributeName" value="chargeType"/>
+    </bean>
+
+    <alias name="defaultTmaOtpcBillingEventAttributeMapper"
+           alias="tmaOtpcBillingEventAttributeMapper"/>
+    <bean id="defaultTmaOtpcBillingEventAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.onetimepricecharge.TmaOtpcBillingEventAttributeMapper">
+        <property name="sourceAttributeName" value="billingTime"/>
+        <property name="targetAttributeName" value="billingEvent"/>
+    </bean>
+
+    <alias name="defaultTmaOtpcIsBundleAttributeMapper"
+           alias="tmaOtpcIsBundleAttributeMapper"/>
+    <bean id="defaultTmaOtpcIsBundleAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.onetimepricecharge.TmaOtpcIsBundleAttributeMapper">
+        <property name="sourceAttributeName" value="id"/>
+        <property name="targetAttributeName" value="isBundle"/>
+    </bean>
+
+    <!-- END definition of old atribute mappers for entity mapper tmaOtpcEntityMapper -->
+
+    <!-- START definition of old atribute mappers for entity mapper tmaRpcEntityMapper -->
+    <alias name="defaultTmaRpcPriceTypeAttributeMapper"
+           alias="tmaRpcPriceTypeAttributeMapper"/>
+    <bean id="defaultTmaRpcPriceTypeAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.recurringpricecharge.TmaRpcPriceTypeAttributeMapper">
+        <property name="sourceAttributeName" value="price"/>
+        <property name="targetAttributeName" value="chargeType"/>
+    </bean>
+
+    <alias name="defaultTmaRpcCycleAttributeMapper"
+           alias="tmaRpcCycleAttributeMapper"/>
+    <bean id="defaultTmaRpcCycleAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.recurringpricecharge.TmaRpcCycleAttributeMapper">
+        <property name="sourceAttributeName" value="cycleStart"/>
+        <property name="targetAttributeName" value="cycle"/>
+    </bean>
+
+    <alias name="defaultTmaRpcIsBundleAttributeMapper"
+           alias="tmaRpcIsBundleAttributeMapper"/>
+    <bean id="defaultTmaRpcIsBundleAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.recurringpricecharge.TmaRpcIsBundleAttributeMapper">
+        <property name="sourceAttributeName" value="id"/>
+        <property name="targetAttributeName" value="isBundle"/>
+    </bean>
+
+    <!-- END definition of old atribute mappers for entity mapper tmaRpcEntityMapper -->
+
+    <!-- START definition of new atribute mappers for entity mapper tmaRpcEntityMapper -->
+
+    <alias name="defaultTmaRcCycleAttributeMapper" alias="tmaRcCycleAttributeMapper"/>
+    <bean id="defaultTmaRcCycleAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.productofferingprice.TmaPopCycleAttributeMapper">
+        <property name="sourceAttributeName" value="cycleStart"/>
+        <property name="targetAttributeName" value="cycle"/>
+    </bean>
+    <!-- END definition of new atribute mappers for entity mapper tmaRpcEntityMapper -->
+
+    <!-- START definition of  attribute mappers for entity mapper tmaDiscountPopEntityMapper -->
+    <alias name="defaultTmaDiscountCycleAttributeMapper" alias="tmaDiscountCycleAttributeMapper"/>
+    <bean id="defaultTmaDiscountCycleAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.productofferingprice.TmaPopDiscountCycleAttributeMapper">
+        <property name="sourceAttributeName" value="cycle"/>
+        <property name="targetAttributeName" value="cycle"/>
+    </bean>
+
+    <alias name="defaultTmaPopAllowanceTypeAttributeMapper" alias="tmaPopAllowanceTypeAttributeMapper"/>
+    <bean id="defaultTmaPopAllowanceTypeAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.productofferingprice.TmaPopAllowanceTypeAttributeMapper">
+        <property name="sourceAttributeName" value="type"/>
+        <property name="targetAttributeName" value="chargeType"/>
+        <constructor-arg name="productOfferingPriceTypeDtoMap" ref="productOfferingPriceTypeDtoMap"/>
+    </bean>
+
+    <!-- END definition of  attribute mappers for entity mapper tmaDiscountPopEntityMapper -->
+
+    <!-- START definition of old atribute mappers for entity mapper tmaUpcEntityMapper -->
+
+    <alias name="defaultTmaUpcEntriesAttributeMapper"
+           alias="tmaUpcEntriesAttributeMapper"/>
+    <bean id="defaultTmaUpcEntriesAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.usagepricecharge.TmaUpcEntriesAttributeMapper">
+        <property name="sourceAttributeName"
+                  value="usageChargeEntries"/>
+        <property name="targetAttributeName" value="bundledPop"/>
+        <property name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultTmaUpcUsageTypeAttributeMapper"
+           alias="tmaUpcUsageTypeAttributeMapper"/>
+    <bean id="defaultTmaUpcUsageTypeAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.usagepricecharge.TmaUpcUsageTypeAttributeMapper">
+        <property name="sourceAttributeName" value="usageChargeType"/>
+        <property name="targetAttributeName" value="usageType"/>
+    </bean>
+
+    <alias name="defaultTmaUpcUsageUnitAttributeMapper"
+           alias="tmaUpcUsageUnitAttributeMapper"/>
+    <bean id="defaultTmaUpcUsageUnitAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.usagepricecharge.TmaUpcUsageUnitAttributeMapper">
+        <property name="sourceAttributeName" value="usageUnit"/>
+        <property name="targetAttributeName" value="usageUnit"/>
+    </bean>
+
+    <!-- END definition of old atribute mappers for entity mapper tmaUpcEntityMapper -->
+
+    <!-- START definition of new atribute mappers for entity mapper tmaUpcEntityMapper -->
+    <alias name="defaultTmaPopUsageTypeAttributeMapper" alias="tmaPopUsageTypeAttributeMapper"/>
+    <bean id="defaultTmaPopUsageTypeAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.productofferingprice.TmaPopUsageTypeAttributeMapper">
+        <property name="sourceAttributeName" value="usageChargeType"/>
+        <property name="targetAttributeName" value="usageType"/>
+    </bean>
+    <!-- END definition of new attribute mappers for entity mapper tmaUpcEntityMapper -->
+
+    <!-- START definition of old attribute mappers for entity mapper tmaUpceEntityMapper -->
+
+    <alias name="defaultTmaUpceIdAttributeMapper"
+           alias="tmaUpceIdAttributeMapper"/>
+    <bean id="defaultTmaUpceIdAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.usagepricechargeentry.TmaUpceIdAttributeMapper">
+        <property name="sourceAttributeName" value="id"/>
+        <property name="targetAttributeName" value="id"/>
+    </bean>
+    <alias name="defaultTmaUpceTierStartAttributeMapper"
+           alias="tmaUpceTierStartAttributeMapper"/>
+    <bean id="defaultTmaUpceTierStartAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.usagepricechargeentry.TmaUpceTierStartAttributeMapper">
+        <property name="sourceAttributeName" value="tierStart"/>
+        <property name="targetAttributeName" value="tierStart"/>
+    </bean>
+
+    <alias name="defaultTmaUpceTierEndAttributeMapper"
+           alias="tmaUpceTierEndAttributeMapper"/>
+    <bean id="defaultTmaUpceTierEndAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.usagepricechargeentry.TmaUpceTierEndAttributeMapper">
+        <property name="sourceAttributeName" value="tierEnd"/>
+        <property name="targetAttributeName" value="tierEnd"/>
+    </bean>
+
+    <alias name="defaultTmaUpceLastUpdateAttributeMapper"
+           alias="tmaUpceLastUpdateAttributeMapper"/>
+    <bean id="defaultTmaUpceLastUpdateAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.usagepricechargeentry.TmaUpceLastUpdateAttributeMapper">
+        <property name="sourceAttributeName" value="modifiedTime"/>
+        <property name="targetAttributeName" value="modifiedTime"/>
+    </bean>
+
+    <!-- END definition of old attribute mappers for entity mapper tmaUpceEntityMapper -->
+
+    <!-- START definition of new attribute mappers for entity mapper tmaUpceEntityMapper -->
+    <alias name="defaultTmaPopUsageUnitAttributeMapper" alias="tmaPopUsageUnitAttributeMapper"/>
+    <bean id="defaultTmaPopUsageUnitAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.productofferingprice.TmaPopUsageUnitAttributeMapper">
+        <property name="sourceAttributeName" value="usageUnit"/>
+        <property name="targetAttributeName" value="usageUnit"/>
+    </bean>
+    <!-- END definition of new atribute mappers for entity mapper tmaUpceEntityMapper -->
+
+    <!-- START definition of atribute mappers for entity mapper tmaCartItemEntityMapper -->
+
+    <alias name="defaultTmaCartEntriesProcessTypeAttributeMapper"
+           alias="tmaCartEntriesProcessTypeAttributeMapper"/>
+    <bean id="defaultTmaCartEntriesProcessTypeAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.cart.entries.TmaCartEntriesProcessTypeAttributeMapper">
+        <property name="sourceAttributeName" value="code"/>
+        <property name="targetAttributeName" value="processType"/>
+    </bean>
+
+    <alias name="defaultTmaCartEntriesTermAttributeMapper"
+           alias="tmaCartEntriesTermAttributeMapper"/>
+    <bean id="defaultTmaCartEntriesTermAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.cart.entries.TmaCartEntriesTermAttributeMapper">
+        <property name="sourceAttributeName" value="subscriptionInfo"/>
+        <property name="targetAttributeName" value="subscriptionTerm"/>
+        <property name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultTmaCartEntriesPriceAttributeMapper"
+           alias="tmaCartEntriesPriceAttributeMapper"/>
+    <bean id="defaultTmaCartEntriesPriceAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.cart.entries.TmaCartEntriesPriceAttributeMapper">
+        <property name="sourceAttributeName" value="price"/>
+        <property name="targetAttributeName" value="cartPrice"/>
+        <property name="mapperFacade" ref="dataMapper"/>
+        <property name="priceTypeDtoMap" ref="priceTypeDtoMap"/>
+    </bean>
+
+    <alias name="defaultTmaCartEntriesRootBpoCodeAttributeMapper"
+           alias="tmaCartEntriesRootBpoCodeAttributeMapper"/>
+    <bean id="defaultTmaCartEntriesRootBpoCodeAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.cart.entries.TmaCartEntriesRootBpoCodeAttributeMapper">
+        <property name="sourceAttributeName" value="bpo"/>
+        <property name="targetAttributeName" value="rootBpoCode"/>
+    </bean>
+
+    <alias name="defaultTmaCartEntriesActionAttributeMapper" alias="tmaCartEntriesActionAttributeMapper"/>
+    <bean id="defaultTmaCartEntriesActionAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.cart.entries.TmaCartEntriesActionAttributeMapper">
+        <property name="sourceAttributeName" value="subscribedProductAction"/>
+        <property name="targetAttributeName" value="action"/>
+    </bean>
+
+    <alias name="defaultTmaSubscribedProductAttributeMapper" alias="tmaSubscribedProductAttributeMapper"/>
+    <bean id="defaultTmaSubscribedProductAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.cart.entries.TmaSubscribedProductAttributeMapper">
+        <property name="sourceAttributeName" value="subscriptionInfo"/>
+        <property name="targetAttributeName" value="subscribedProduct"/>
+        <property name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultTmaOrderEntryProductOfferingAttributeMapper" alias="tmaOrderEntryProductOfferingAttributeMapper"/>
+    <bean id="defaultTmaOrderEntryProductOfferingAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.cart.entries.TmaOrderEntryProductOfferingAttributeMapper">
+        <property name="sourceAttributeName" value="product"/>
+        <property name="targetAttributeName" value="product"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="tmaProductOfferFacade" ref="tmaProductOfferFacade"/>
+    </bean>
+
+    <alias name="defaultTmaCartEntriesAppointmentAttributeMapper" alias="tmaCartEntriesAppointmentAttributeMapper"/>
+    <bean id="defaultTmaCartEntriesAppointmentAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.cart.entries.TmaCartEntriesAppointmentAttributeMapper">
+        <property name="sourceAttributeName" value="appointmentId"/>
+        <property name="targetAttributeName" value="appointment"/>
+    </bean>
+
+
+    <!-- START definition of atribute mappers for entity mapper tmaShoppingCartEntityMapper -->
+
+    <alias name="defaultTmaCartRootGroupsAttributeMapper"
+           alias="tmaCartRootGroupsAttributeMapper"/>
+    <bean id="defaultTmaCartRootGroupsAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.cart.TmaCartRootGroupsAttributeMapper">
+        <property name="sourceAttributeName" value="rootGroups"/>
+        <property name="targetAttributeName" value="rootGroups"/>
+        <property name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <!-- END definition of atribute mappers for entity mapper tmaShoppingCartEntityMapper -->
+
+    <!-- Attribute Mappers for CartCostWsDTO -->
+
+    <alias name="defaultTmaCartCostNameAttributeMapper"
+           alias="tmaCartCostNameAttributeMapper"/>
+    <bean id="defaultTmaCartCostNameAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.cartcost.TmaCartCostNameAttributeMapper">
+        <property name="sourceAttributeName" value="name"/>
+        <property name="targetAttributeName" value="name"/>
+    </bean>
+
+    <alias name="defaultTmaCartCostRcpAttributeMapper"
+           alias="tmaCartCostRcpAttributeMapper"/>
+    <bean id="defaultTmaCartCostRcpAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.cartcost.TmaCartCostRcpAttributeMapper">
+        <property name="sourceAttributeName" value="recurringChargePeriod"/>
+        <property name="targetAttributeName" value="recurringChargePeriod"/>
+    </bean>
+
+    <alias name="defaultTmaCartCostTaxRateAttributeMapper"
+           alias="tmaCartCostTaxRateAttributeMapper"/>
+    <bean id="defaultTmaCartCostTaxRateAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.cartcost.TmaCartCostTaxRateAttributeMapper">
+        <property name="sourceAttributeName" value="taxRate"/>
+        <property name="targetAttributeName" value="taxRate"/>
+        <property name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultTmaCartCostTaxPriceAttributeMapper"
+           alias="tmaCartCostTaxPriceAttributeMapper"/>
+    <bean id="defaultTmaCartCostTaxPriceAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.cartcost.TmaCartCostTaxPriceAttributeMapper">
+        <property name="sourceAttributeName" value="taxValue"/>
+        <property name="targetAttributeName"
+                  value="taxIncludedAmount"/>
+        <property name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultTmaCartCostDescriptionAttributeMapper"
+           alias="tmaCartCostDescriptionAttributeMapper"/>
+    <bean id="defaultTmaCartCostDescriptionAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.cartcost.TmaCartCostDescriptionAttributeMapper">
+        <property name="sourceAttributeName" value="description"/>
+        <property name="targetAttributeName" value="description"/>
+    </bean>
+
+    <alias name="defaultTmaCartCostOneTimeChargeTypeAttributeMapper"
+           alias="tmaCartCostOneTimeChargeTypeAttributeMapper"/>
+    <bean id="defaultTmaCartCostOneTimeChargeTypeAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.cartcost.TmaCartCostOneTimeChargeTypeAttributeMapper">
+        <property name="sourceAttributeName" value="chargeType"/>
+        <property name="targetAttributeName" value="chargeType"/>
+    </bean>
+
+    <alias name="defaultTmaCartCostDutyFreeValueAttributeMapper"
+           alias="tmaCartCostDutyFreeValueAttributeMapper"/>
+    <bean id="defaultTmaCartCostDutyFreeValueAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.cartcost.TmaCartCostDutyFreeValueAttributeMapper">
+        <property name="sourceAttributeName" value="dutyFreeAmount"/>
+        <property name="targetAttributeName" value="dutyFreeAmount"/>
+        <property name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultTmaCartCostPriceTypeAttributeMapper"
+           alias="tmaCartCostPriceTypeAttributeMapper"/>
+    <bean id="defaultTmaCartCostPriceTypeAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.cartcost.TmaCartCostPriceTypeAttributeMapper">
+        <property name="sourceAttributeName" value="priceType"/>
+        <property name="targetAttributeName" value="priceType"/>
+    </bean>
+
+    <alias name="defaultTmaCartCostChildrenAttributeMapper"
+           alias="tmaCartCostChildrenAttributeMapper"/>
+    <bean id="defaultTmaCartCostChildrenAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.cartcost.TmaCartCostChildrenAttributeMapper">
+        <property name="sourceAttributeName" value="childPrices"/>
+        <property name="targetAttributeName" value="cartPrice"/>
+        <property name="mapperFacade" ref="dataMapper"/>
+        <property name="priceTypeDtoMap" ref="priceTypeDtoMap"/>
+    </bean>
+
+    <alias name="defaultTmaCartCostUsageChargeTypeAttributeMapper"
+           alias="tmaCartCostUsageChargeTypeAttributeMapper"/>
+    <bean id="defaultTmaCartCostUsageChargeTypeAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.cartcost.TmaCartCostUsageChargeTypeAttributeMapper">
+        <property name="sourceAttributeName" value="usageChargeType"/>
+        <property name="targetAttributeName" value="usageChargeType"/>
+    </bean>
+
+    <alias name="defaultTmaCartCostPriceAlterationAttributeMapper" alias="tmaCartCostPriceAlterationAttributeMapper"/>
+    <bean id="defaultTmaCartCostPriceAlterationAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.cartcost.TmaCartCostPriceAlterationAttributeMapper">
+        <property name="sourceAttributeName" value="childPrices"/>
+        <property name="targetAttributeName" value="priceAlteration"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultTmaCartCostProductOfferingPriceAttributeMapper" alias="tmaCartCostProductOfferingPriceAttributeMapper"/>
+    <bean id="defaultTmaCartCostProductOfferingPriceAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.cartcost.TmaCartCostProductOfferingPriceAttributeMapper">
+        <property name="sourceAttributeName" value="priceId"/>
+        <property name="targetAttributeName" value="productOfferingPrice"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <!-- Map between source class and target class for CartPrice subtypes -->
+
+    <util:map id="priceTypeDtoMap" map-class="java.util.HashMap">
+        <entry key="TmaAbstractOrderOneTimeChargePriceData"
+               value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.OneTimeChargeCartCostWsDTO"/>
+        <entry key="TmaAbstractOrderRecurringChargePriceData"
+               value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.RecurringChargeCartCostWsDTO"/>
+        <entry key="TmaAbstractOrderUsageChargePriceData"
+               value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.UsageChargeCartCostWsDTO"/>
+        <entry key="TmaAbstractOrderCompositePriceData"
+               value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.CartCostWsDTO"/>
+        <entry key="TmaAbstractOrderTierUsageCompositePriceData"
+               value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.CartCostWsDTO"/>
+    </util:map>
+
+    <!-- Attribute Mappers for MessageWsDTO -->
+
+    <alias name="defaultTmaMessageTypeAttributeMapper" alias="tmaMessageTypeAttributeMapper"/>
+    <bean id="defaultTmaMessageTypeAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.message.TmaCartMessageTypeAttributeMapper">
+        <property name="sourceAttributeName" value="code"/>
+        <property name="targetAttributeName" value="type"/>
+    </bean>
+
+    <alias name="defaultTmaMessageValueAttributeMapper" alias="tmaMessageValueAttributeMapper"/>
+    <bean id="defaultTmaMessageValueAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.message.TmaCartMessageValueAttributeMapper">
+        <property name="sourceAttributeName" value="message"/>
+        <property name="targetAttributeName" value="value"/>
+    </bean>
+
+    <!-- Attribute Mappers for CartWsDTO -->
+
+    <alias name="defaultTmaCartCostsAttributeMapper" alias="tmaCartCostsAttributeMapper"/>
+    <bean id="defaultTmaCartCostsAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.cart.TmaCartCostsAttributeMapper">
+        <property name="sourceAttributeName" value="price"/>
+        <property name="targetAttributeName" value="cartCosts"/>
+        <property name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultTmaCartMessageAttributeMapper" alias="tmaCartMessageAttributeMapper"/>
+    <bean id="defaultTmaCartMessageAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.cart.TmaCartMessageAttributeMapper">
+        <property name="sourceAttributeName" value="validationMessages"/>
+        <property name="targetAttributeName" value="message"/>
+        <property name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <!-- Attribute Mappers for MoneyWsDTO -->
+
+    <alias name="defaultTmaMoneyValueAttributeMapper"
+           alias="tmaMoneyValueAttributeMapper"/>
+    <bean id="defaultTmaMoneyValueAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.money.TmaMoneyValueAttributeMapper">
+        <property name="sourceAttributeName" value="value"/>
+        <property name="targetAttributeName" value="value"/>
+    </bean>
+
+    <!-- Attribute Mappers for RecurringChargeCartCostWsDTO -->
+
+    <alias name="defaultTmaRCCartCostCycleAttributeMapper"
+           alias="tmaRCCartCostCycleAttributeMapper"/>
+    <bean id="defaultTmaRCCartCostCycleAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.recurringchargecartcost.TmaRCCartCostCycleAttributeMapper">
+        <property name="sourceAttributeName" value="cycle"/>
+        <property name="targetAttributeName" value="cycle"/>
+    </bean>
+
+    <!-- Attribute Mappers for UsageChargeCartCostWsDTO -->
+
+    <alias name="defaultTmaUCCartCostUnitOfMeasureAttributeMapper"
+           alias="tmaUCCartCostUnitOfMeasureAttributeMapper"/>
+    <bean id="defaultTmaUCCartCostUnitOfMeasureAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.usagechargecartcost.TmaUCCartCostUnitOfMeasureAttributeMapper">
+        <property name="sourceAttributeName" value="usageUnit"/>
+        <property name="targetAttributeName" value="unitOfMeasure"/>
+    </bean>
+
+    <alias name="defaultTmaUCCartCostUsageChargeTypeAttributeMapper"
+           alias="tmaUCCartCostUsageChargeTypeAttributeMapper"/>
+    <bean id="defaultTmaUCCartCostUsageChargeTypeAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.usagechargecartcost.TmaUCCartCostUsageChargeTypeAttributeMapper">
+        <description>Deprecated since 2007</description>
+        <property name="sourceAttributeName" value="usageChargeType"/>
+        <property name="targetAttributeName" value="usageChargeType"/>
+    </bean>
+
+    <!-- Attribute Mappers for PriceAlterationWsDto -->
+    <alias name="defaultTmaPriceAlterationCycleAttributeMapper" alias="tmaPriceAlterationCycleAttributeMapper"/>
+    <bean id="defaultTmaPriceAlterationCycleAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.pricealteration.TmaPriceAlterationCycleAttributeMapper">
+        <property name="sourceAttributeName" value="cycle"/>
+        <property name="targetAttributeName" value="cycle"/>
+    </bean>
+
+    <alias name="defaultTmaPriceAlterationPriceAttributeMapper" alias="tmaPriceAlterationPriceAttributeMapper"/>
+    <bean id="defaultTmaPriceAlterationPriceAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.pricealteration.TmaPriceAlterationPriceAttributeMapper">
+        <property name="sourceAttributeName" value="childPrices"/>
+        <property name="targetAttributeName" value="price"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultTmaPriceAlterationPriceTypeAttributeMapper" alias="tmaPriceAlterationPriceTypeAttributeMapper"/>
+    <bean id="defaultTmaPriceAlterationPriceTypeAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.pricealteration.TmaPriceAlterationPriceTypeAttributeMapper">
+        <property name="sourceAttributeName" value="typeOfPrice"/>
+        <property name="targetAttributeName" value="priceType"/>
+    </bean>
+
+    <alias name="defaultTmaPriceAlterationRcpAttributeMapper" alias="tmaPriceAlterationRcpAttributeMapper"/>
+    <bean id="defaultTmaPriceAlterationRcpAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.pricealteration.TmaPriceAlterationRcpAttributeMapper">
+        <property name="sourceAttributeName" value="billingTime"/>
+        <property name="targetAttributeName" value="recurringChargePeriod"/>
+    </bean>
+
+    <alias name="defaultTmaPriceAlterationProductOfferingPriceAttributeMapper"
+           alias="tmaPriceAlterationProductOfferingPriceAttributeMapper"/>
+    <bean id="defaultTmaPriceAlterationProductOfferingPriceAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.pricealteration.TmaPriceAlterationProductOfferingPriceAttributeMapper">
+        <property name="sourceAttributeName" value="priceId"/>
+        <property name="targetAttributeName" value="productOfferingPrice"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <!-- Attribute Mappers for SubscribedProductWsDTO-->
+    <alias name="defaultTmaSubscribedProductIdAttributeMapper" alias="tmaSubscribedProductIdAttributeMapper"/>
+    <bean id="defaultTmaSubscribedProductIdAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.subscribedproduct.TmaSubscribedProductIdAttributeMapper">
+        <property name="sourceAttributeName" value="code"/>
+        <property name="targetAttributeName" value="id"/>
+    </bean>
+
+    <alias name="defaultTmaSubscribedProductNameAttributeMapper" alias="tmaSubscribedProductNameAttributeMapper"/>
+    <bean id="defaultTmaSubscribedProductNameAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.subscribedproduct.TmaSubscribedProductNameAttributeMapper">
+        <property name="sourceAttributeName" value="name"/>
+        <property name="targetAttributeName" value="name"/>
+    </bean>
+
+    <alias name="defaultTmaSubscribedProductPlaceAttributeMapper" alias="tmaSubscribedProductPlaceAttributeMapper"/>
+    <bean id="defaultTmaSubscribedProductPlaceAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.subscribedproduct.TmaSubscribedProductPlaceAttributeMapper">
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <property name="sourceAttributeName" value="place"/>
+        <property name="targetAttributeName" value="place"/>
+    </bean>
+
+    <alias name="defaultTmaSubscribedProductPscvAttributeMapper" alias="tmaSubscribedProductPscvAttributeMapper"/>
+    <bean id="defaultTmaSubscribedProductPscvAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.subscribedproduct.TmaSubscribedProductPscvAttributeMapper">
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <property name="sourceAttributeName" value="productSpecCharacteristics"/>
+        <property name="targetAttributeName" value="characteristic"/>
+    </bean>
+
+    <alias name="defaultTmaSubscribedProductRelatedPartyAttributeMapper" alias="tmaSubscribedProductRelatedPartyAttributeMapper"/>
+    <bean id="defaultTmaSubscribedProductRelatedPartyAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.subscribedproduct.TmaSubscribedProductRelatedPartyAttributeMapper">
+        <property name="sourceAttributeName" value="formerSupplier"/>
+        <property name="targetAttributeName" value="relatedParty"/>
+    </bean>
+
+    <!--Attribute Mappers for PlaceWsDTO -->
+    <alias name="defaultTmaPlaceIdAttributeMapper" alias="tmaPlaceIdAttributeMapper"/>
+    <bean id="defaultTmaPlaceIdAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.place.TmaPlaceIdAttributeMapper">
+        <property name="sourceAttributeName" value="code"/>
+        <property name="targetAttributeName" value="id"/>
+    </bean>
+
+    <alias name="defaultTmaPlaceRoleAttributeMapper" alias="tmaPlaceRoleAttributeMapper"/>
+    <bean id="defaultTmaPlaceRoleAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.place.TmaPlaceRoleAttributeMapper">
+        <property name="sourceAttributeName" value="role"/>
+        <property name="targetAttributeName" value="role"/>
+    </bean>
+
+    <!-- Attribute Mappers for OrderWsDTO -->
+    <alias name="defaultTmaOrderCostsAttributeMapper" alias="tmaOrderCostsAttributeMapper"/>
+    <bean id="defaultTmaOrderCostsAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.order.TmaOrderCostsAttributeMapper">
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <property name="sourceAttributeName" value="price"/>
+        <property name="targetAttributeName" value="orderCosts"/>
+    </bean>
+
+    <!-- START of Attribute Mappers for ExternalIdentifierWsDto -->
+    <alias name="defaultTmaExternalIdentifierTypeAttributeMapper" alias="tmaExternalIdentifierTypeAttributeMapper"/>
+    <bean id="defaultTmaExternalIdentifierTypeAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.externalidentifier.TmaExternalIdentifierTypeAttributeMapper">
+        <property name="sourceAttributeName" value="resourceType"/>
+        <property name="targetAttributeName" value="externalIdentifierType"/>
+    </bean>
+    <!-- END of Attribute Mappers for ExternalIdentifierWsDto -->
+
+    <!-- Attribute Mappers for UsageSpecificationRefWsDTO -->
+    <alias name="defaultTmaUsageSpecRefHrefAttributeMapper" alias="tmaUsageSpecRefHrefAttributeMapper"/>
+    <bean id="defaultTmaUsageSpecRefHrefAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.usagespecificationref.TmaUsageSpecRefHrefAttributeMapper">
+        <property name="sourceAttributeName" value="id"/>
+        <property name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultTmaUsageSpecRefExternalIdentifierAttributeMapper"
+           alias="tmaUsageSpecRefExternalIdentifierAttributeMapper"/>
+    <bean id="defaultTmaUsageSpecRefExternalIdentifierAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.usagespecificationref.TmaUsageSpecRefExternalIdentifierAttributeMapper">
+        <property name="sourceAttributeName" value="externalIds"/>
+        <property name="targetAttributeName" value="externalIdentifier"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <!-- START of Attribute Mappers for PricingLogicAlgorithmWsDto -->
+    <alias name="defaultTmaPlaExternalIdentifierAttributeMapper" alias="tmaPlaExternalIdentifierAttributeMapper"/>
+    <bean id="defaultTmaPlaExternalIdentifierAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.pricinglogicalgorithm.TmaPlaExternalIdentifierAttributeMapper">
+        <property name="sourceAttributeName" value="externalIds"/>
+        <property name="targetAttributeName" value="externalIdentifier"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultTmaPlaSpecIdAttributeMapper" alias="tmaPlaSpecIdAttributeMapper"/>
+    <bean id="defaultTmaPlaSpecIdAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.pricinglogicalgorithm.TmaPlaSpecIdAttributeMapper">
+        <property name="sourceAttributeName" value="pricingLogicAlgorithmSpecId"/>
+        <property name="targetAttributeName" value="plaSpecId"/>
+    </bean>
+
+    <alias name="defaultTmaPlaValidForAttributeMapper" alias="tmaPlaValidForAttributeMapper"/>
+    <bean id="defaultTmaPlaValidForAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.pricinglogicalgorithm.TmaPlaValidForAttributeMapper">
+        <property name="sourceAttributeName" value="date"/>
+        <property name="targetAttributeName" value="validFor"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+    <!-- END of Attribute Mappers for PricingLogicAlgorithmWsDto -->
+
+    <!-- ### START of Attribute Mappers for TimePeriodWsDTO (from TmaPricingLogicAlgorithmData) ### -->
+    <alias name="defaultTmaPlaStartDateTimeAttributeMapper" alias="tmaPlaStartDateTimeAttributeMapper"/>
+    <bean id="defaultTmaPlaStartDateTimeAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.platimeperiod.TmaTimePeriodStartDateTimeAttributeMapper">
+        <property name="sourceAttributeName" value="onlineDate"/>
+        <property name="targetAttributeName" value="startDateTime"/>
+    </bean>
+
+    <alias name="defaultTmaPlaEndDateTimeAttributeMapper" alias="tmaPlaEndDateTimeAttributeMapper"/>
+    <bean id="defaultTmaPlaEndDateTimeAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.platimeperiod.TmaTimePeriodEndDateTimeAttributeMapper">
+        <property name="sourceAttributeName" value="offlineDate"/>
+        <property name="targetAttributeName" value="endDateTime"/>
+    </bean>
+    <!-- ### END of Attribute Mappers for TimePeriodWsDTO (from TmaPricingLogicAlgorithmData) ### -->
+
+    <!-- ### START of Attribute Mappers for ProductOfferingPriceWsDTO (from TmaAbstractOrderPriceData) ### -->
+    <alias name="defaultTmaProductOfferingPriceRefIdAttributeMapper" alias="tmaProductOfferingPriceRefIdAttributeMapper"/>
+    <bean id="defaultTmaProductOfferingPriceRefIdAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.productofferingpriceref.TmaProductOfferingPriceRefIdAttributeMapper">
+        <property name="sourceAttributeName" value="priceId"/>
+        <property name="targetAttributeName" value="id"/>
+    </bean>
+
+    <alias name="defaultTmaProductOfferingPriceRefHrefAttributeMapper" alias="tmaProductOfferingPriceRefHrefAttributeMapper"/>
+    <bean id="defaultTmaProductOfferingPriceRefHrefAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.productofferingpriceref.TmaProductOfferingPriceRefHrefAttributeMapper">
+        <property name="sourceAttributeName" value="priceId"/>
+        <property name="targetAttributeName" value="href"/>
+    </bean>
+    <!-- ### END of Attribute Mappers for ProductOfferingPriceWsDTO (from TmaPricingLogicAlgorithmData) ### -->
+
+    <!-- START of Entity Mappers for ProductWsDTO -->
+
+    <alias name="defaultTmaPSEntityMapper" alias="tmaPSEntityMapper"/>
+    <bean id="defaultTmaPSEntityMapper" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.b2ctelcofacades.data.TmaProductSpecificationData"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductSpecificationWsDTO"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaProductSpecHREFAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="defaultTmaOfferingGroupEntityMapper"
+           alias="tmaOfferingGroupEntityMapper"/>
+    <bean id="defaultTmaOfferingGroupEntityMapper"
+          parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.b2ctelcofacades.data.TmaOfferingGroupData"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.OfferingGroupWsDTO"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaOfferingGroupChildOfferingsAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="defaultTmaProductEntityMapper"
+           alias="tmaProductEntityMapper"/>
+    <bean id="defaultTmaProductEntityMapper"
+          parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.commercefacades.product.data.ProductData"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.commercewebservicescommons.dto.product.ProductWsDTO"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaProductOfferingGroupAttributeMapper"/>
+                <ref bean="tmaProductSpecificationAttributeMapper"/>
+                <ref bean="tmaProductValidForAttributeMapper"/>
+                <ref bean="tmaPoHasParentBPOAttributeMapper"/>
+                <ref bean="tmaProductOfferingPriceAttributeMapper"/>
+                <ref bean="tmaProductOfferingTypeAttributeMapper"/>
+                <ref bean="tmaProdSpecCharValueUsesAttributeMapper"/>
+                <ref bean="tmaPoAttachmentsAttributeMapper"/>
+                <ref bean="tmaPoIsBundleAttributeMapper"/>
+                <ref bean="tmaPoBpoOptionAttributeMapper"/>
+                <ref bean="tmaPoPscvuAttributeMapper"/>
+           </list>
+        </property>
+    </bean>
+
+    <!-- END of Entity Mappers for ProductWsDTO -->
+
+    <!-- Entity mapper for PoRelationshipWsDTO (from ProductData) -->
+
+    <alias name="defaultTmaPoRelationshipRefEntityMapper"
+           alias="tmaPoRelationshipRefEntityMapper"/>
+    <bean id="defaultTmaPoRelationshipRefEntityMapper"
+          parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.commercefacades.product.data.ProductData"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.PoRelationshipWsDTO"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaPoRelationshipRefIdAttributeMapper"/>
+                <ref bean="tmaPoRelationshipRefHrefAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for ChannelWsDTO (from PriceRowChannel) -->
+
+    <alias name="defaultTmaChannelRefEntityMapper"
+           alias="tmaChannelRefEntityMapper"/>
+    <bean id="defaultTmaChannelRefEntityMapper"
+          parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.europe1.enums.PriceRowChannel"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ChannelWsDTO"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaChannelRefIdAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for ProductOfferingTermWsDTO (from SubscriptionTermData) -->
+
+    <alias name="defaultTmaPoTermEntityMapper"
+           alias="tmaPoTermEntityMapper"/>
+    <bean id="defaultTmaPoTermEntityMapper"
+          parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.subscriptionfacades.data.SubscriptionTermData"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductOfferingTermWsDTO"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaPoTermOfServiceAttributeMapper"/>
+                <ref bean="tmaPoTermBillingPlanAttributeMapper"/>
+                <ref bean="tmaPoTermDurationAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for BillingPlanWsDTO (from BilingPlanData) -->
+
+    <alias name="defaultTmaPoTermBillingPlanEntityMapper"
+           alias="tmaPoTermBillingPlanEntityMapper"/>
+    <bean id="defaultTmaPoTermBillingPlanEntityMapper"
+          parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.subscriptionfacades.data.BillingPlanData"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.BillingPlanWsDTO"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaSubscriptionTermBillingPlanAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Deprecated Entity mapper for ProductOfferingPriceWsDTO (from SubscriptionPricePlanData) -->
+
+    <alias name="defaultTmaProductOfferingPriceEntityMapper"
+           alias="tmaProductOfferingPriceEntityMapper"/>
+    <bean id="defaultTmaProductOfferingPriceEntityMapper"
+          parent="tmaPriceDataProductOfferingPriceEntityMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.subscriptionfacades.data.SubscriptionPricePlanData"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductOfferingPriceWsDTO"/>
+    </bean>
+
+    <!-- Entity mapper for ProductOfferingPriceWsDTO (from PriceData) -->
+
+    <alias name="defaultPriceDataTmaProductOfferingPriceEntityMapper" alias="tmaPriceDataProductOfferingPriceEntityMapper"/>
+    <bean id="defaultPriceDataTmaProductOfferingPriceEntityMapper"
+          parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.commercefacades.product.data.PriceData"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductOfferingPriceWsDTO"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaPriceIdAttributeMapper"/>
+                <ref bean="tmaPoPriceChannelAttributeMapper"/>
+                <ref bean="tmaPoPricePoRelationshipAttributeMapper"/>
+                <ref bean="tmaPoPriceProcessTypeAttributeMapper"/>
+                <ref bean="tmaPoPriceUnitOfMeasureAttributeMapper"/>
+                <ref bean="tmaPoPriceValidForAttributeMapper"/>
+                <ref bean="tmaPriceBundledPopMapper"/>
+                <ref bean="tmaIsPriceOverrideAttributeMapper"/>
+                <ref bean="tmaPoPriceTermAttributeMapper"/>
+                <ref bean="tmaPoPriceLastUpdateAttributeMapper"/>
+                <ref bean="tmaPoPriceRegionAttributeMapper"/>
+                <ref bean="tmaPoPriceUserAttributeMapper"/>
+                <ref bean="tmaPoPriceUserGroupAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Deprecated Entity mapper for OneTimePriceCharge (from OneTimeChargeEntryData) -->
+
+    <alias name="defaultTmaOtpcEntityMapper"
+           alias="tmaOtpcEntityMapper"/>
+    <bean id="defaultTmaOtpcEntityMapper"
+          parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.subscriptionfacades.data.OneTimeChargeEntryData"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.OneTimePriceChargeWsDTO"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaOtpcChargeTypeAttributeMapper"/>
+                <ref bean="tmaOtpcIsBundleAttributeMapper"/>
+                <ref bean="tmaOtpcBillingEventAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for OneTimePriceChargeWsDTO (from TmaOneTimeProdOfferPriceChargeData) -->
+
+    <alias name="defaultTmaPopEntityMapper" alias="tmaPopDataEntityMapper"/>
+    <bean id="defaultTmaPopEntityMapper" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.b2ctelcofacades.data.TmaProductOfferingPriceData"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductOfferingPriceWsDTO"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaPopIsBundleAttributeMapper"/>
+                <ref bean="tmaPopBillingEventAttributeMapper"/>
+                <ref bean="tmaPopPscvAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="defaultTmaPopComponentEntityMapper" alias="tmaPopComponentEntityMapper"/>
+    <bean id="defaultTmaPopComponentEntityMapper" parent="tmaPopDataEntityMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.b2ctelcofacades.data.TmaComponentProdOfferPriceData"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductOfferingPriceWsDTO"/>
+        <property name="attributeMappers">
+            <list merge="true">
+                <ref bean="tmaPopPriceAttributeMapper"/>
+                <ref bean="tmaPopPriceTypeAttributeMapper"/>
+                <ref bean="tmaPopPricingLogicAlgorithmAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Deprecated Entity mapper for RecurringPriceCharge (from RecurringChargeEntryData) -->
+
+    <alias name="defaultTmaRpcEntityMapper"
+           alias="tmaRpcEntityMapper"/>
+    <bean id="defaultTmaRpcEntityMapper" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.subscriptionfacades.data.RecurringChargeEntryData"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.RecurringPriceChargeWsDTO"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaRpcPriceTypeAttributeMapper"/>
+                <ref bean="tmaRpcIsBundleAttributeMapper"/>
+                <ref bean="tmaRpcCycleAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for RecurringPriceChargeWsDTO (from TmaRecurringProdOfferPriceChargeData) -->
+
+    <alias name="defaultTmaRcEntityMapper" alias="tmaRpcEntityMapper"/>
+    <bean id="defaultTmaRcEntityMapper" parent="tmaPopComponentEntityMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.b2ctelcofacades.data.TmaRecurringProdOfferPriceChargeData"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.RecurringPriceChargeWsDTO"/>
+        <property name="attributeMappers">
+            <list merge="true">
+                <ref bean="tmaRcCycleAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Deprecated Entity mapper for UsagePriceCharge (from UsageChargeData) -->
+
+    <alias name="defaultTmaUpcEntityMapper"
+           alias="tmaUpcEntityMapper"/>
+    <bean id="defaultTmaUpcEntityMapper" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.subscriptionfacades.data.UsageChargeData"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.UsagePriceChargeWsDTO"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaUpcUsageTypeAttributeMapper"/>
+                <ref bean="tmaUpcUsageUnitAttributeMapper"/>
+                <ref bean="tmaUpcEntriesAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for UsagePriceChargeEntryWsDTO (from UsageChargeEntryData) -->
+
+    <alias name="defaultTmaUceEntityMapper" alias="tmaUceEntityMapper"/>
+    <bean id="defaultTmaUceEntityMapper"
+          parent="tmaPopComponentEntityMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.b2ctelcofacades.data.TmaUsageProdOfferPriceChargeData"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.UsagePriceChargeEntryWsDTO"/>
+        <property name="attributeMappers">
+            <list merge="true">
+                <ref bean="tmaPopUsageUnitAttributeMapper"/>
+                <ref bean="tmaPopUsageSpecAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for ProductOfferingPriceAlterationWsDTO (from TmaProdOfferPriceAlterationData) -->
+    <alias name="defaultTmaAlterationPopEntityMapper" alias="tmaAlterationPopEntityMapper"/>
+    <bean id="defaultTmaAlterationPopEntityMapper" parent="tmaPopComponentEntityMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.b2ctelcofacades.data.TmaProdOfferPriceAlterationData"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductOfferingPriceAlterationWsDTO"/>
+        <property name="attributeMappers">
+            <list merge="true">
+                <ref bean="tmaDiscountCycleAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for ProductOfferingPriceAlterationWsDTO (from TmaDiscountProdOfferPriceAlterationData) -->
+    <alias name="defaultTmaDiscountPopEntityMapper" alias="tmaDiscountPopEntityMapper"/>
+    <bean id="defaultTmaDiscountPopEntityMapper" parent="tmaAlterationPopEntityMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.b2ctelcofacades.data.TmaDiscountProdOfferPriceAlterationData"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductOfferingPriceAlterationWsDTO"/>
+    </bean>
+
+    <!-- Entity mapper for ProductOfferingPriceAllowanceWsDTO (from TmaAllowanceProdOfferPriceAlterationData) -->
+    <alias name="defaultTmaAllowancePopEntityMapper" alias="tmaAllowancePopEntityMapper"/>
+    <bean id="defaultTmaAllowancePopEntityMapper" parent="tmaAlterationPopEntityMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.b2ctelcofacades.data.TmaAllowanceProdOfferPriceAlterationData"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductOfferingPriceAllowanceWsDTO"/>
+        <property name="attributeMappers">
+            <list merge="true">
+                <ref bean="tmaPopAllowanceTypeAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for ProductOfferingPriceWsDTO (from TmaCompositeProdOfferPriceData) -->
+    <alias name="defaultTmaCompositePopEntityMapper" alias="tmaCompositePopEntityMapper"/>
+    <bean id="defaultTmaCompositePopEntityMapper"
+          parent="tmaPopDataEntityMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.b2ctelcofacades.data.TmaCompositeProdOfferPriceData"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductOfferingPriceWsDTO"/>
+        <property name="attributeMappers">
+            <list merge="true">
+                <ref bean="tmaPopBundledPopAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for UsagePriceChargeWsDTO (from TmaTierUsageCompositeProdOfferPriceData) -->
+
+    <alias name="defaultTmaUcEntityMapper" alias="tmaUcEntityMapper"/>
+    <bean id="defaultTmaUcEntityMapper" parent="tmaCompositePopEntityMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.b2ctelcofacades.data.TmaTierUsageCompositeProdOfferPriceData"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.UsagePriceChargeWsDTO"/>
+        <property name="attributeMappers">
+            <list merge="true">
+                <ref bean="tmaPopUsageTypeAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Deprecated Entity mapper for UsagePriceChargeEntry (from UsageChargeEntryData) -->
+
+    <alias name="defaultTmaUpceEntityMapper"
+           alias="tmaUpceEntityMapper"/>
+    <bean id="defaultTmaUpceEntityMapper"
+          parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.subscriptionfacades.data.UsageChargeEntryData"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.UsagePriceChargeEntryWsDTO"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaUpceTierEndAttributeMapper"/>
+                <ref bean="tmaUpceTierStartAttributeMapper"/>
+                <ref bean="tmaUpceIdAttributeMapper"/>
+                <ref bean="tmaUpceLastUpdateAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for CartCost -->
+    <alias name="defaultTmaAbstractCartCostEntityMapper" alias="tmaAbstractCartCostEntityMapper"/>
+    <bean id="defaultTmaAbstractCartCostEntityMapper" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper" abstract="true">
+        <property name="sourceClass" value="de.hybris.platform.b2ctelcofacades.data.TmaAbstractOrderPriceData"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.CartCostWsDTO"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaCartCostDescriptionAttributeMapper"/>
+                <ref bean="tmaCartCostPriceTypeAttributeMapper"/>
+                <ref bean="tmaCartCostDutyFreeValueAttributeMapper"/>
+                <ref bean="tmaCartCostTaxPriceAttributeMapper"/>
+                <ref bean="tmaCartCostTaxRateAttributeMapper"/>
+                <ref bean="tmaCartCostRcpAttributeMapper"/>
+                <ref bean="tmaCartCostProductOfferingPriceAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for RecurringChargeCartPrice (from TmaAbstractOrderRecurringChargePriceData) -->
+    <alias name="defaultTmaRecurringChargeCartCostEntityMapper" alias="tmaRecurringChargeCartCostEntityMapper"/>
+    <bean id="defaultTmaRecurringChargeCartCostEntityMapper" parent="tmaAbstractCartCostEntityMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.b2ctelcofacades.data.TmaAbstractOrderRecurringChargePriceData"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.RecurringChargeCartCostWsDTO"/>
+        <property name="attributeMappers">
+            <list merge="true">
+                <ref bean="tmaRCCartCostCycleAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for UsageChargeCartPrice (from TmaAbstractOrderUsageChargePriceData) -->
+    <alias name="defaultTmaUsageChargeCartCostEntityMapper" alias="tmaUsageChargeCartCostEntityMapper"/>
+    <bean id="defaultTmaUsageChargeCartCostEntityMapper" parent="tmaAbstractCartCostEntityMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.b2ctelcofacades.data.TmaAbstractOrderUsageChargePriceData"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.UsageChargeCartCostWsDTO"/>
+        <property name="attributeMappers">
+            <list merge="true">
+                <ref bean="tmaUCCartCostUsageChargeTypeAttributeMapper"/>
+                <ref bean="tmaUCCartCostUnitOfMeasureAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for PriceAlteration (from TmaAbstractOrderAlterationPriceData) -->
+    <alias name="defaultTmaAlterationPriceEntityMapper" alias="tmaAlterationPriceEntityMapper"/>
+    <bean id="defaultTmaAlterationPriceEntityMapper" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.b2ctelcofacades.data.TmaAbstractOrderAlterationPriceData"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.PriceAlterationWsDTO"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaPriceAlterationCycleAttributeMapper"/>
+                <ref bean="tmaPriceAlterationPriceAttributeMapper"/>
+                <ref bean="tmaPriceAlterationPriceTypeAttributeMapper"/>
+                <ref bean="tmaPriceAlterationRcpAttributeMapper"/>
+                <ref bean="tmaPriceAlterationProductOfferingPriceAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for OneTimeChargeCartPrice (from TmaAbstractOrderOneTimeChargePriceData) -->
+    <alias name="defaultTmaOneTimeChargeCostPriceEntityMapper" alias="tmaOneTimeChargeCartCostEntityMapper"/>
+    <bean id="defaultTmaOneTimeChargeCostPriceEntityMapper" parent="tmaAbstractCartCostEntityMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.b2ctelcofacades.data.TmaAbstractOrderOneTimeChargePriceData"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.OneTimeChargeCartCostWsDTO"/>
+        <property name="attributeMappers">
+            <list merge="true">
+                <ref bean="tmaCartCostOneTimeChargeTypeAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for Message -->
+
+    <alias name="defaultTmaMessageEntityMapper" alias="tmaMessageEntityMapper"/>
+    <bean id="defaultTmaMessageEntityMapper" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.b2ctelcofacades.data.TmaCartValidationData"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.MessageWsDTO"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaMessageTypeAttributeMapper"/>
+                <ref bean="tmaMessageValueAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for CartWsDTO (from CartData) -->
+
+    <alias name="defaultTmaCartEntityMapper" alias="cartDataFieldMapper"/>
+    <bean id="defaultTmaCartEntityMapper" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.commercefacades.order.data.CartData"/>
+        <property name="targetClass" value="de.hybris.platform.commercewebservicescommons.dto.order.CartWsDTO"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaCartCostsAttributeMapper"/>
+                <ref bean="tmaCartMessageAttributeMapper"/>
+                <ref bean="tmaCartRootGroupsAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity Mapper for CartCostWsDTO -->
+
+    <alias name="defaultTmaCartCostEntityMapper"
+           alias="tmaCartCostEntityMapper"/>
+    <bean id="defaultTmaCartCostEntityMapper"
+          parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.b2ctelcofacades.data.TmaAbstractOrderCompositePriceData"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.CartCostWsDTO"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaCartCostChildrenAttributeMapper"/>
+                <ref bean="tmaCartCostPriceAlterationAttributeMapper"/>
+                <ref bean="tmaCartCostProductOfferingPriceAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="defaultTmaCartCostTierUsageEntityMapper"
+           alias="tmaCartCostTierUsageEntityMapper"/>
+    <bean id="defaultTmaCartCostTierUsageEntityMapper"
+          parent="tmaCartCostEntityMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.b2ctelcofacades.data.TmaAbstractOrderTierUsageCompositePriceData"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.CartCostWsDTO"/>
+        <property name="attributeMappers">
+            <list merge="true">
+                <ref bean="tmaCartCostUsageChargeTypeAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity Mapper for MoneyWsDTO -->
+
+    <alias name="defaultTmaMoneyEntityMapper"
+           alias="tmaMoneyEntityMapper"/>
+    <bean id="defaultTmaMoneyEntityMapper"
+          parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.subscriptionfacades.data.SubscriptionPricePlanData"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.MoneyWsDTO"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaMoneyValueAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity Mapper for CycleWsDTO -->
+
+    <alias name="defaultTmaCycleEntityMapper"
+           alias="tmaCycleEntityMapper"/>
+    <bean id="defaultTmaCycleEntityMapper"
+          parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.b2ctelcofacades.data.TmaAbstractOrderRecurringChargePriceData"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.CycleWsDTO"/>
+        <property name="attributeMappers">
+            <list></list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for OrderEntryWsDTO (from OrderEntryData) -->
+    <alias name="defaultTmaCartItemEntityMapper" alias="orderEntryFieldMapper"/>
+    <alias name="defaultTmaCartItemEntityMapper"
+           alias="tmaCartItemEntityMapper"/>
+    <bean id="defaultTmaCartItemEntityMapper"
+          parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.commercefacades.order.data.OrderEntryData"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.commercewebservicescommons.dto.order.OrderEntryWsDTO"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaCartEntriesTermAttributeMapper"/>
+                <ref bean="tmaCartEntriesProcessTypeAttributeMapper"/>
+                <ref bean="tmaCartEntriesPriceAttributeMapper"/>
+                <ref bean="tmaCartEntriesRootBpoCodeAttributeMapper"/>
+                <ref bean="tmaCartEntriesActionAttributeMapper"/>
+                <ref bean="tmaSubscribedProductAttributeMapper"/>
+                <ref bean="tmaCartEntriesAppointmentAttributeMapper"/>
+                <ref bean="tmaOrderEntryProductOfferingAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for SubscribedProductWsDTO -->
+    <alias name="defaultTmaSubscribedProductEntityMapper" alias="tmaSubscribedProductEntityMapper"/>
+    <bean id="defaultTmaSubscribedProductEntityMapper" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.commercefacades.order.data.OrderEntryData"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.SubscribedProductWsDTO"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaSubscribedProductIdAttributeMapper"/>
+                <ref bean="tmaSubscribedProductNameAttributeMapper"/>
+                <ref bean="tmaSubscribedProductPlaceAttributeMapper"/>
+                <ref bean="tmaSubscribedProductPscvAttributeMapper"/>
+                <ref bean="tmaSubscribedProductRelatedPartyAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for PlaceWsDTO -->
+    <alias name="defaultTmaPlaceEntityMapper" alias="tmaPlaceEntityMapper"/>
+    <bean id="defaultTmaPlaceEntityMapper" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.commercefacades.user.data.AddressData"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.PlaceWsDTO"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaPlaceIdAttributeMapper"/>
+                <ref bean="tmaPlaceRoleAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for ProductCharacteristicWsDTO -->
+    <alias name="defaultTmaPscvEntityMapper" alias="tmaPscvEntityMapper"/>
+    <bean id="defaultTmaPscvEntityMapper" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.commercefacades.order.data.OrderEntryData"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductCharacteristicWsDTO"/>
+    </bean>
+
+    <!-- Entity mapper for ProductSpecCharacteristicValueWsDTO -->
+    <alias name="defaultTmaProdSpecCharValueEntityMapper" alias="tmaProdSpecCharValueEntityMapper"/>
+    <bean id="defaultTmaProdSpecCharValueEntityMapper" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.b2ctelcofacades.data.TmaProductSpecCharacteristicValueData"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductSpecCharacteristicValueWsDTO"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaPscvUnitOfMeasureAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+    
+     <!-- Entity mapper for ProductSpecCharacteristicValueWsDTO -->
+    <alias name="defaultTmaProdSpecCharValueUseEntityMapper" alias="tmaProdSpecCharValueUseEntityMapper"/>
+    <bean id="defaultTmaProdSpecCharValueUseEntityMapper" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.b2ctelcofacades.data.TmaProductSpecCharacteristicValueUseData"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProdSpecCharValueUseWsDTO"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaPscvuPscvAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for RootGroupsWsDTO (from EntryGroupData) -->
+
+    <alias name="defaultTmaRootGroupEntityMapper" alias="tmaRootGroupEntityMapper"/>
+    <bean id="defaultTmaRootGroupEntityMapper" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.commercefacades.order.EntryGroupData"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.RootGroupsWsDTO"/>
+        <property name="attributeMappers">
+            <list>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for TmaCartValidationWsDTO (from TmaCartValidationData) -->
+
+    <alias name="defaultTmaCartValidationEntityMapper" alias="tmaCartValidationEntityMapper"/>
+    <bean id="defaultTmaCartValidationEntityMapper" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.b2ctelcofacades.data.TmaCartValidationData"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.TmaCartValidationWsDTO"/>
+        <property name="attributeMappers">
+            <list>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for MediaWsDto (from MediaData) -->
+    <alias name="defaultTmaMediaEntityMapper" alias="tmaMediaEntityMapper"/>
+    <bean id="defaultTmaMediaEntityMapper" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.cmsfacades.data.MediaData"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.MediaWsDTO"/>
+        <property name="attributeMappers">
+            <list></list>
+        </property>
+    </bean>
+
+    <!-- dto level mapping for TmaOfferWsDto -->
+
+    <bean parent="fieldSetLevelMapping"
+          id="tmaOfferWsDtoFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.TmaOfferProductWsDto"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="parentBpo,product"/>
+                <entry key="DEFAULT"
+                       value="parentBpo(DEFAULT),product(DEFAULT)"/>
+                <entry key="FULL" value="parentBpo(FULL),product(FULL)"/>
+            </map>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for OrderWsDTO (from OrderData) -->
+    <alias name="defaultTmaOrderEntityMapper" alias="tmaOrderEntityMapper"/>
+    <bean id="defaultTmaOrderEntityMapper" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.commercefacades.order.data.OrderData"/>
+        <property name="targetClass" value="de.hybris.platform.commercewebservicescommons.dto.order.OrderWsDTO"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaOrderCostsAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- dto level mapping for TmaRecommendationProductListWsDto -->
+
+    <bean parent="fieldSetLevelMapping"
+          id="tmaRecommendationProductsWsDtoFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.TmaRecommendationProductsWsDto"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="subscriptionInfo,offers,product"/>
+                <entry key="DEFAULT"
+                       value="subscriptionInfo(DEFAULT),offers(DEFAULT),product(DEFAULT)"/>
+                <entry key="FULL"
+                       value="subscriptionInfo(FULL),offers(FULL),product(FULL)"/>
+            </map>
+        </property>
+    </bean>
+
+    <!-- Dto level mapping for eligibleSubscription -->
+
+    <bean parent="fieldSetLevelMapping"
+          id="tmaEligibleSubscriptionSelectionListDtoLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.TmaEligibleSubscriptionSelectionListWsDto"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC"
+                       value="eligibleSubscriptionSelection(BASIC)"/>
+                <entry key="DEFAULT"
+                       value="eligibleSubscriptionSelection(DEFAULT)"/>
+                <entry key="FULL" value="eligibleSubscriptionSelection(FULL)"/>
+            </map>
+        </property>
+    </bean>
+
+    <!-- Dto level mapping for tmaSubscriptionBasesWsDto -->
+
+    <bean parent="fieldSetLevelMapping"
+          id="tmaSubscriptionBasesWsDtoLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.TmaSubscriptionBasesWsDto"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC"
+                       value="billingArrangementId,subscriptionSelectionList(BASIC)"/>
+                <entry key="DEFAULT"
+                       value="billingArrangementId,subscriptionSelectionList(DEFAULT)"/>
+                <entry key="FULL"
+                       value="billingArrangementId,subscriptionSelectionList(FULL)"/>
+            </map>
+        </property>
+    </bean>
+
+    <!-- Dto level mapping for tmaSubscriptionSelectionListWsDto -->
+
+    <bean parent="fieldSetLevelMapping"
+          id="tmaSubscriptionSelectionListWsDtoLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.TmaSubscriptionSelectionListWsDto"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="subscriptionSelection(BASIC)"/>
+                <entry key="DEFAULT" value="subscriptionSelection(DEFAULT)"/>
+                <entry key="FULL" value="subscriptionSelection(FULL)"/>
+            </map>
+        </property>
+    </bean>
+
+    <!-- Dto level mapping for tmaSubscriptionSelectionWsDto -->
+
+    <bean parent="fieldSetLevelMapping"
+          id="tmaSubscriptionSelectionWsDtoLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.TmaSubscriptionSelectionWsDto"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC"
+                       value="bpoCode,productCode,billingAgreementId,subscriberIdentity,billingSystemId"/>
+                <entry key="DEFAULT"
+                       value="bpoCode,productCode,billingAgreementId,subscriberIdentity,billingSystemId"/>
+                <entry key="FULL"
+                       value="bpoCode,productCode,billingAgreementId,subscriberIdentity,billingSystemId"/>
+            </map>
+        </property>
+    </bean>
+
+    <!-- Dto level mapping for tmaSubscriptionBaseWsDto -->
+
+    <bean parent="fieldSetLevelMapping"
+          id="tmaSubscriptionBaseWsDtoFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.TmaSubscriptionBaseWsDto"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="subscriberIdentity"/>
+                <entry key="DEFAULT"
+                       value="subscriberIdentity,billingSystemId"/>
+                <entry key="FULL"
+                       value="subscriberIdentity,billingSystemId,billingAccountId"/>
+            </map>
+        </property>
+    </bean>
+
+    <!-- field mapping for ProductWsDTO -->
+
+    <bean parent="fieldSetLevelMapping"
+          id="productWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.commercewebservicescommons.dto.product.ProductWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC"
+                       value="purchasable,stock,name,baseProduct,availableForPickup,code,url,price,soldIndividually,mainSpoPriceInBpo,productOfferingPrice,isBundle,bundledProductOfferingOption(BASIC),type"/>
+                <entry key="DEFAULT"
+                       value="summary,averageRating,purchasable,stock(DEFAULT),description,variantMatrix(DEFAULT),name,baseOptions(DEFAULT),baseProduct,availableForPickup,variantOptions(DEFAULT),code,url,price(DEFAULT),numberOfReviews,manufacturer,categories(BASIC),priceRange,multidimensional,configuratorType,configurable,tags,children(BASIC),isBundle,soldIndividually,modifiedTime,approvalStatus,offeringGroup(DEFAULT),parents(BASIC),productSpecification(DEFAULT),productSpecCharValues(DEFAULT),validFor(DEFAULT),mainSpoPriceInBpo(DEFAULT),productOfferingPrice(DEFAULT),productSpecDescription,hasParentBpos,attachments(DEFAULT),bundledProductOfferingOption(DEFAULT),poSpecCharValueUses(DEFAULT),type"/>
+                <entry key="FULL"
+                       value="summary,productReferences(FULL),classifications(FULL),averageRating,purchasable,volumePrices(FULL),variantType,stock(FULL),description,variantMatrix(FULL),name,baseOptions(FULL),baseProduct,availableForPickup,variantOptions(FULL),reviews(FULL),code,url,price(FULL),numberOfReviews,manufacturer,volumePricesFlag,futureStocks(FULL),images(FULL),categories(FULL),potentialPromotions(FULL),priceRange,multidimensional,configuratorType,configurable,tags,children(BASIC),isBundle,soldIndividually,modifiedTime,approvalStatus,offeringGroup(FULL),parents(BASIC),productSpecification,productSpecCharValues(FULL),validFor(FULL),mainSpoPriceInBpo(FULL),productOfferingPrice(FULL),productSpecDescription,preselected,disabledMessage,componentId,isRemovableEntry,isMaxLimitReachedForBundle,hasParentBpos,baseProductName,storageSize,colors,isComponentEditable,attachments(FULL),bundledProductOfferingOption(FULL),poSpecCharValueUses(FULL),type"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping"
+          id="productOfferingPriceWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductOfferingPriceWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC"
+                       value="id,lifecycleStatus,channel,priority,price,bundledPop,isPriceOverride,name,poRelationship,chargeType,processType,productOfferingTerm,unitOfMeasure,modifiedTime,isBundle,validFor,region,user(DEFAULT),userPriceGroupID,isPercentage,pricingLogicAlgorithm(BASIC)"/>
+                <entry key="DEFAULT"
+                       value="id,lifecycleStatus,channel,priority,price,bundledPop(DEFAULT),isPriceOverride,name,poRelationship(DEFAULT),chargeType,processType,productOfferingTerm(DEFAULT),recurringChargePeriodLength,unitOfMeasure,modifiedTime,isBundle,validFor,billingEvent,cycle,itemType,usageType,usageUnit,tierEnd,tierStart,region(DEFAULT),user(DEFAULT),userPriceGroupID,isPercentage,productSpecCharValues(DEFAULT),usageSpecification(DEFAULT),pricingLogicAlgorithm(DEFAULT)"/>
+                <entry key="FULL"
+                       value="id,lifecycleStatus,channel,priority,price,bundledPop(FULL),isPriceOverride,name,poRelationship(FULL),chargeType,processType,productOfferingTerm(FULL),recurringChargePeriodLength,recurringChargePeriodType,unitOfMeasure,modifiedTime,isBundle,validFor,billingEvent,cycle,itemType,usageType,usageUnit,tierEnd,tierStart,region(FULL),user(DEFAULT),userPriceGroupID,isPercentage,productSpecCharValues(FULL),usageSpecification(FULL),pricingLogicAlgorithm(FULL)"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping"
+          id="bpoOptionWsDtoFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.BundledProductOfferingOptionWsDto"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="lowerLimit,upperLimit,defaultValue"/>
+                <entry key="DEFAULT" value="lowerLimit,upperLimit,defaultValue"/>
+                <entry key="FULL" value="lowerLimit,upperLimit,defaultValue"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping"
+          id="channelWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ChannelWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="id"/>
+                <entry key="DEFAULT" value="id"/>
+                <entry key="FULL" value="id"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping"
+          id="poRelationshipWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.PoRelationshipWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="id,bpoId,name"/>
+                <entry key="DEFAULT" value="id,href,bpoId,name"/>
+                <entry key="FULL" value="id,href,poAttributeType,bpoId,name"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping"
+          id="processTypeWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProcessTypeWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="id"/>
+                <entry key="DEFAULT" value="id"/>
+                <entry key="FULL" value="id"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping"
+          id="prodSpecCharValueUseWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProdSpecCharValueUseWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC"
+                       value="id,name,minCardinality,description,maxCardinality,valueType,productSpecCharacteristicValue,productSpecification"/>
+                <entry key="DEFAULT"
+                       value="id,name,minCardinality,description,maxCardinality,valueType,productSpecCharacteristicValue(DEFAULT),productSpecification(DEFAULT)"/>
+                <entry key="FULL"
+                       value="id,name,minCardinality,description,maxCardinality,valueType,productSpecCharacteristicValue(FULL),productSpecification(FULL)"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping"
+          id="quantityWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.QuantityWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="amount"/>
+                <entry key="DEFAULT" value="amount,units"/>
+                <entry key="FULL" value="amount,units"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping"
+          id="moneyWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.MoneyWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="value"/>
+                <entry key="DEFAULT" value="value,currencyIso"/>
+                <entry key="FULL" value="value,currencyIso"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping"
+          id="timePeriodWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.TimePeriodWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="endDateTime,startDateTime"/>
+                <entry key="DEFAULT" value="endDateTime,startDateTime"/>
+                <entry key="FULL" value="endDateTime,startDateTime"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping"
+          id="productSpecCharacteristicValueWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductSpecCharacteristicValueWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="id,value,unitOfMeasure"/>
+                <entry key="DEFAULT" value="id,description,unitOfMeasure,value,valueType"/>
+                <entry key="FULL" value="id,description,unitOfMeasure,value,valueType"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping"
+          id="productSpecificationWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductSpecificationWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="href,id,name"/>
+                <entry key="DEFAULT" value="href,id,name,version"/>
+                <entry key="FULL" value="href,id,name,version"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping"
+          id="offeringGroupWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.OfferingGroupWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="id"/>
+                <entry key="DEFAULT" value="id,name,childProductOfferings"/>
+                <entry key="FULL" value="id,name,childProductOfferings"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping"
+          id="regionWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.commercewebservicescommons.dto.user.RegionWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="isocode,name"/>
+                <entry key="DEFAULT" value="isocode,name,countryIso"/>
+                <entry key="FULL" value="isocode,name,countryIso,isocodeShort"/>
+            </map>
+        </property>
+    </bean>
+
+    <!-- dto level mapping for OrderEntryWsDTO -->
+
+    <bean parent="fieldSetLevelMapping"
+          id="orderEntryWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.commercewebservicescommons.dto.order.OrderEntryWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC"
+                       value="entryNumber,quantity,deliveryPointOfService,configurationInfos,appointment,entries(BASIC)"/>
+                <entry key="DEFAULT"
+                       value="BASIC,entryGroupNumbers,processType,cartPrice(DEFAULT),totalPrice,product(BASIC),subscriptionTerm(DEFAULT),rootBpoCode,action,appointment,subscribedProduct(DEFAULT),validationMessages,region,contractStartDate,entries(DEFAULT)"/>
+                <entry key="FULL"
+                       value="product(BASIC),entryGroupNumbers,processType,cartPrice(FULL),deliveryPointOfService(FULL),entryNumber,updateable,deliveryMode(FULL),quantity,basePrice(FULL),totalPrice(FULL),configurationInfos(FULL),subscriptionTerm(FULL),rootBpoCode,action,appointment,subscribedProduct(DEFAULT),validationMessages,region,contractStartDate,entries(FULL)"/>
+            </map>
+        </property>
+    </bean>
+
+    <!-- dto level mapping for BillingPlanWsDTO -->
+
+    <bean parent="fieldSetLevelMapping"
+          id="BillingPlanWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.BillingPlanWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC"
+                       value="billingCycleDay,billingCycleType,billingTime,name"/>
+                <entry key="DEFAULT"
+                       value="billingCycleDay,billingCycleType,billingTime,name"/>
+                <entry key="FULL"
+                       value="billingCycleDay,billingCycleType,billingTime,name"/>
+            </map>
+        </property>
+    </bean>
+
+    <!-- dto level mapping for ProductOfferingTermWsDTO -->
+
+    <bean parent="fieldSetLevelMapping"
+          id="productOfferingTermWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductOfferingTermWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="id,name"/>
+                <entry key="DEFAULT"
+                       value="id,name,termOfServiceRenewal,termOfServiceNumber,termOfServiceFrequency,cancellable,duration"/>
+                <entry key="FULL"
+                       value="id,name,billingPlan(FULL),termOfServiceRenewal,termOfServiceNumber,termOfServiceFrequency,cancellable"/>
+            </map>
+        </property>
+    </bean>
+
+    <!-- dto level mapping for RootGroupsWsDTO -->
+
+    <bean parent="fieldSetLevelMapping"
+          id="rootGroupsWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.RootGroupsWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="groupNumber,groupType"/>
+                <entry key="DEFAULT"
+                       value="groupNumber,groupType,externalReferenceId,erroneous,validationMessages"/>
+                <entry key="FULL"
+                       value="groupNumber,groupType,externalReferenceId,erroneous,errorMessages,isAutoPickEnabled,validationMessages"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping"
+          id="cartCostWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.CartCostWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC"
+                       value="description,id,name,priceType,recurringChargePeriod,unitOfMeasure,cartPrice(BASIC),dutyFreeAmount(DEFAULT),percentage,taxIncludedAmount(DEFAULT),taxRate(BASIC),chargeType,cycle,tierEnd,tierStart,usageChargeType,priceAlteration(BASIC),productOfferingPrice(BASIC)"/>
+                <entry key="DEFAULT"
+                       value="description,id,name,priceType,recurringChargePeriod,unitOfMeasure,cartPrice(DEFAULT),dutyFreeAmount(DEFAULT),percentage,taxIncludedAmount(DEFAULT),taxRate(DEFAULT),chargeType,cycle,tierEnd,tierStart,usageChargeType,priceAlteration(DEFAULT),productOfferingPrice(DEFAULT)"/>
+                <entry key="FULL"
+                       value="description,id,name,priceType,recurringChargePeriod,unitOfMeasure,cartPrice(FULL),dutyFreeAmount(FULL),percentage,taxIncludedAmount(FULL),taxRate(FULL),chargeType,cycle,tierEnd,tierStart,usageChargeType,priceAlteration(FULL),productOfferingPrice(FULL)"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping"
+          id="priceAlterationWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.PriceAlterationWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC"
+                       value="id,priceType,recurringChargePeriod,price(BASIC),cycle(BASIC),productOfferingPrice(BASIC)"/>
+                <entry key="DEFAULT"
+                       value="id,name,description,priceType,recurringChargePeriod,price(DEFAULT),cycle(DEFAULT),productOfferingPrice(DEFAULT)"/>
+                <entry key="FULL"
+                       value="id,name,description,priceType,recurringChargePeriod,price(FULL),cycle(FULL),productOfferingPrice(FULL)"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping"
+          id="cycleWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.CycleWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC"
+                       value="cycleStart,cycleEnd"/>
+                <entry key="DEFAULT"
+                       value="cycleStart,cycleEnd"/>
+                <entry key="FULL"
+                       value="cycleStart,cycleEnd"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductOfferingPriceRefWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="id,href"/>
+                <entry key="DEFAULT" value="id,href"/>
+                <entry key="FULL" value="id,href"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping"
+          id="cartWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.commercewebservicescommons.dto.order.CartWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="code,guid"/>
+                <entry key="DEFAULT"
+                       value="BASIC,totalItems,totalPrice,totalPriceWithTax,entries(DEFAULT),cartCosts(DEFAULT),rootGroups(DEFAULT),message"/>
+                <entry key="FULL"
+                       value="potentialProductPromotions(FULL),potentialOrderPromotions(FULL),totalUnitCount,store,appliedOrderPromotions(FULL),pickupItemsQuantity,net,calculated,appliedVouchers(FULL),productDiscounts(FULL),totalDiscounts(FULL),subTotal(FULL),orderDiscounts(FULL),entries(FULL),appliedProductPromotions(FULL),totalPrice(FULL),site,deliveryMode(FULL),code,deliveryOrderGroups(FULL),guid,paymentInfo(FULL),pickupOrderGroups(FULL),totalItems,totalPriceWithTax(FULL),deliveryItemsQuantity,totalTax(FULL),user(FULL),deliveryAddress(FULL),deliveryCost(FULL),name,description,savedBy,saveTime,expirationTime,cartCosts(DEFAULT),rootGroups(FULL),message"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="tmaIdentificationWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.TmaIdentificationWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC"
+                       value="identificationType,identificationNumber"/>
+                <entry key="DEFAULT"
+                       value="identificationType,identificationNumber"/>
+                <entry key="FULL"
+                       value="identificationType,identificationNumber"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="userWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.commercewebservicescommons.dto.user.UserWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC"
+                       value="lastName,title,titleCode,displayUid,defaultAddress,language,firstName,currency,uid,name,customerId,deactivationDate,identifications"/>
+                <entry key="DEFAULT"
+                       value="lastName,title,titleCode,displayUid,defaultAddress(DEFAULT),language(DEFAULT),firstName,currency(DEFAULT),uid,name,customerId,deactivationDate,identifications(DEFAULT)"/>
+                <entry key="FULL"
+                       value="lastName,title,titleCode,displayUid,defaultAddress(FULL),language(FULL),firstName,currency(FULL),uid,name,customerId,deactivationDate,identifications(FULL)"/>
+            </map>
+        </property>
+    </bean>
+
+
+    <!-- dto level mapping for SubscribedProductWsDTO -->
+
+    <bean parent="fieldSetLevelMapping"
+          id="subscribedProductWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.SubscribedProductWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="id,name,place,characteristic,relatedParty"/>
+                <entry key="DEFAULT" value="id,name,place,characteristic,relatedParty"/>
+                <entry key="FULL" value="id,name,place,characteristic,relatedParty"/>
+            </map>
+        </property>
+    </bean>
+
+    <!-- dto level mapping for PlaceWSDTO -->
+    <bean parent="fieldSetLevelMapping"
+          id="placeWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.PlaceWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="id,role,name,line1,line2,town,postalCode,country(FULL),region(FULL)"/>
+                <entry key="DEFAULT" value="id,role,name,line1,line2,town,postalCode,country(FULL),region(FULL)"/>
+                <entry key="FULL" value="id,role,name,line1,line2,town,postalCode,country(FULL),region(FULL)"/>
+            </map>
+        </property>
+    </bean>
+
+    <!-- dto level mapping for ProductCharacteristicWsDTO -->
+    <bean parent="fieldSetLevelMapping"
+          id="characteristicWSDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductCharacteristicWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="name,value"/>
+                <entry key="DEFAULT" value="name,value"/>
+                <entry key="FULL" value="name,value"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="cartModificationWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.commercewebservicescommons.dto.order.CartModificationWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC"
+                       value="statusCode,entry,quantity,quantityAdded,deliveryModeChanged,validationMessages"/>
+                <entry key="DEFAULT"
+                       value="statusCode,entry(DEFAULT),quantity,quantityAdded,deliveryModeChanged,statusMessage,validationMessages"/>
+                <entry key="FULL"
+                       value="statusCode,entry(FULL),quantity,quantityAdded,deliveryModeChanged,statusMessage,validationMessages"/>
+            </map>
+        </property>
+    </bean>
+
+    <!-- dto level mapping for OrderWsDTO -->
+    <bean parent="fieldSetLevelMapping" id="orderWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.commercewebservicescommons.dto.order.OrderWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="code,guid"/>
+                <entry key="DEFAULT"
+                       value="unconsignedEntries(DEFAULT),status,created,deliveryStatusDisplay,statusDisplay,consignments(DEFAULT),guestCustomer,deliveryStatus,store,appliedOrderPromotions(DEFAULT),pickupItemsQuantity,net,calculated,appliedVouchers(DEFAULT),productDiscounts(DEFAULT),totalDiscounts(DEFAULT),subTotal(DEFAULT),orderDiscounts(DEFAULT),entries(DEFAULT),appliedProductPromotions(DEFAULT),totalPrice(DEFAULT),site,deliveryMode(DEFAULT),code,deliveryOrderGroups(DEFAULT),guid,paymentInfo(DEFAULT),pickupOrderGroups(DEFAULT),totalItems,totalPriceWithTax(DEFAULT),deliveryItemsQuantity,totalTax(DEFAULT),user(DEFAULT),deliveryAddress(DEFAULT),deliveryCost(DEFAULT),orderCosts"/>
+                <entry key="FULL"
+                       value="unconsignedEntries(FULL),status,created,deliveryStatusDisplay,statusDisplay,consignments(FULL),guestCustomer,deliveryStatus,store,appliedOrderPromotions(FULL),pickupItemsQuantity,net,calculated,appliedVouchers(FULL),productDiscounts(FULL),totalDiscounts(FULL),subTotal(FULL),orderDiscounts(FULL),entries(FULL),appliedProductPromotions(FULL),totalPrice(FULL),site,deliveryMode(FULL),code,deliveryOrderGroups(FULL),guid,paymentInfo(FULL),pickupOrderGroups(FULL),totalItems,totalPriceWithTax(FULL),deliveryItemsQuantity,totalTax(FULL),user(FULL),deliveryAddress(FULL),deliveryCost(FULL),orderCosts"/>
+            </map>
+        </property>
+    </bean>
+
+    <!-- dto level mapping for AddressWsDTO -->
+    <bean parent="fieldSetLevelMapping" id="addressWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.commercewebservicescommons.dto.user.AddressWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="id"/>
+                <entry key="DEFAULT"
+                       value="BASIC,firstName,lastName,titleCode,phone,cellphone,line1,line2,postalCode,country,region,district,town,defaultAddress,installationAddress,building,apartment"/>
+                <entry key="FULL"
+                       value="DEFAULT,companyName,country(FULL),region(FULL),title,email,visibleInAddressBook,formattedAddress,shippingAddress"/>
+            </map>
+        </property>
+    </bean>
+
+    <!-- dto level mapping for MediaWsDTO -->
+    <bean parent="fieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.MediaWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="code,url,altText,realFileName"/>
+                <entry key="DEFAULT" value="BASIC,mime,folder"/>
+                <entry key="FULL" value="DEFAULT,downloadUrl,description,catalogId"/>
+            </map>
+        </property>
+    </bean>
+
+    <!-- dto level mapping for UsageSpecificationRefWsDTO -->
+    <bean parent="fieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.UsageSpecificationRefWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="id,name,href,externalIdentifier(BASIC)"/>
+                <entry key="DEFAULT" value="id,name,href,externalIdentifier(DEFAULT)"/>
+                <entry key="FULL" value="id,name,href,externalIdentifier(FULL)"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping"
+          id="pricingLogicAlgorithmWsDtoFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.PricingLogicAlgorithmWsDto"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC"
+                       value="id,externalIdentifier(BASIC),name,plaSpecId"/>
+                <entry key="DEFAULT"
+                       value="id,externalIdentifier(DEFAULT),name,description,validFor(DEFAULT),plaSpecId"/>
+                <entry key="FULL"
+                       value="id,externalIdentifier(FULL),name,description,validFor(FULL),plaSpecId"/>
+            </map>
+        </property>
+    </bean>
+
+    <!-- dto level mapping for ExternalIdentifierWsDto -->
+    <bean parent="fieldSetLevelMapping"
+          id="externalIdentifierWsDtoFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ExternalIdentifierWsDto"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC"
+                       value="id,owner,externalIdentifierType"/>
+                <entry key="DEFAULT"
+                       value="id,owner,externalIdentifierType"/>
+                <entry key="FULL"
+                       value="id,owner,externalIdentifierType"/>
+            </map>
+        </property>
+    </bean>
+
+    <!-- ### START definition of atribute mappers for entity mapper tmaRegionPlaceEntityMapper ### -->
+    <alias name="defaultTmaRegionPlaceIdAttributeMapper"
+           alias="tmaRegionPlaceIdAttributeMapper"/>
+    <bean id="defaultTmaRegionPlaceIdAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.place.TmaRegionPlaceIdAttributeMapper">
+        <property name="sourceAttributeName" value="isocode"/>
+        <property name="targetAttributeName" value="id"/>
+    </bean>
+
+    <alias name="defaultTmaRegionPlaceRoleAttributeMapper"
+           alias="tmaRegionPlaceRoleAttributeMapper"/>
+    <bean id="defaultTmaRegionPlaceRoleAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.place.TmaRegionPlaceRoleAttributeMapper">
+        <property name="sourceAttributeName" value="isocode"/>
+        <property name="targetAttributeName" value="role"/>
+    </bean>
+
+    <alias name="defaultTmaRegionPlaceNameAttributeMapper"
+           alias="tmaRegionPlaceNameAttributeMapper"/>
+    <bean id="defaultTmaRegionPlaceNameAttributeMapper"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.place.TmaRegionPlaceNameAttributeMapper">
+        <property name="sourceAttributeName" value="isocode"/>
+        <property name="targetAttributeName" value="name"/>
+    </bean>
+    <!-- ### END definition of atribute mappers for entity mapper tmaRegionPlaceEntityMapper ### -->
+
+    <!-- Entity mapper for PlaceWsDto (from RegionData) -->
+    <alias name="defaultTmaPlaceWsDtoEntityMapper" alias="tmaPlaceWsDtoEntityMapper"/>
+    <bean id="defaultTmaPlaceWsDtoEntityMapper" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.commercefacades.user.data.RegionData"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.PlaceWsDTO"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaRegionPlaceIdAttributeMapper"/>
+                <ref bean="tmaRegionPlaceRoleAttributeMapper"/>
+                <ref bean="tmaRegionPlaceNameAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for UsageSpecificationRefWsDTO (from TmaProductUsageSpecificationData) -->
+    <alias name="defaultTmaUsageSpecificationRefWsDtoEntityMapper" alias="tmaUsageSpecificationRefWsDtoEntityMapper"/>
+    <bean id="defaultTmaUsageSpecificationRefWsDtoEntityMapper" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.b2ctelcofacades.data.TmaProductUsageSpecificationData"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.UsageSpecificationRefWsDTO"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaUsageSpecRefHrefAttributeMapper"/>
+                <ref bean="tmaUsageSpecRefExternalIdentifierAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for ExternalIdentifierWsDto (from TmaExternalIdentifierData) -->
+    <alias name="defaultTmaExternalIdentifierEntityMapper" alias="tmaExternalIdentifierEntityMapper"/>
+    <bean id="defaultTmaExternalIdentifierEntityMapper" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.b2ctelcofacades.data.TmaExternalIdentifierData"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ExternalIdentifierWsDto"/>
+        <property name="attributeMappers">
+            <list merge="true">
+                <ref bean="tmaExternalIdentifierTypeAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for PricingLogicAlgorithmWsDto (from TmaPricingLogicAlgorithmData) -->
+    <alias name="defaultTmaPricingLogicAlgorithmEntityMapper" alias="tmaPricingLogicAlgorithmEntityMapper"/>
+    <bean id="defaultTmaPricingLogicAlgorithmEntityMapper" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.b2ctelcofacades.data.TmaPricingLogicAlgorithmData"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.PricingLogicAlgorithmWsDto"/>
+        <property name="attributeMappers">
+            <list merge="true">
+                <ref bean="tmaPlaExternalIdentifierAttributeMapper"/>
+                <ref bean="tmaPlaSpecIdAttributeMapper"/>
+                <ref bean="tmaPlaValidForAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for TimePeriodWsDTO (from TmaPricingLogicAlgorithmData) -->
+    <alias name="defaultTmaPlaTimePeriodEntityMapper" alias="tmaPlaTimePeriodEntityMapper"/>
+    <bean id="defaultTmaPlaTimePeriodEntityMapper" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.b2ctelcofacades.data.TmaPricingLogicAlgorithmData"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.TimePeriodWsDTO"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaPlaStartDateTimeAttributeMapper"/>
+                <ref bean="tmaPlaEndDateTimeAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for ProductOfferingPriceRefWsDTO (from TmaAbstractOrderPriceData) -->
+    <alias name="defaultTmaProductOfferingPriceRefEntityMapper" alias="tmaProductOfferingPriceRefEntityMapper"/>
+    <bean id="defaultTmaProductOfferingPriceRefEntityMapper" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.b2ctelcofacades.data.TmaAbstractOrderPriceData"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductOfferingPriceRefWsDTO"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaProductOfferingPriceRefIdAttributeMapper"/>
+                <ref bean="tmaProductOfferingPriceRefHrefAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="defaultTmaDeliveryAddressValidator" alias="deliveryAddressValidator"/>
+    <bean id="defaultTmaDeliveryAddressValidator"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.validator.TmaDeliveryAddressValidator">
+    </bean>
+
+    <alias name="defaultTmaPlaceOrderCartValidator" alias="tmaPlaceOrderCartValidator"/>
+    <bean id="defaultTmaPlaceOrderCartValidator"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.validator.TmaPlaceOrderCartValidator">
+        <constructor-arg ref="voucherFacade"/>
+    </bean>
+
+    <!-- Subscription Access validators -->
+    <alias name="defaultTmaSubscriptionAccessRequestWsDtoValidator" alias="tmaSubscriptionAccessRequestWsDtoValidator"/>
+    <bean id="defaultTmaSubscriptionAccessRequestWsDtoValidator"
+          class="de.hybris.platform.webservicescommons.validators.CompositeValidator">
+        <property name="validators">
+            <list>
+                <bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+                    <property name="fieldPath" value="principalUid"/>
+                </bean>
+                <bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+                    <property name="fieldPath" value="billingSystemId"/>
+                </bean>
+                <bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+                    <property name="fieldPath" value="subscriberIdentity"/>
+                </bean>
+                <bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+                    <property name="fieldPath" value="accessType"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="defaultTmaSubscriptionAccessUpdateRequestWsDtoValidator"
+           alias="tmaSubscriptionAccessUpdateRequestWsDtoValidator"/>
+    <bean id="defaultTmaSubscriptionAccessUpdateRequestWsDtoValidator"
+          class="de.hybris.platform.webservicescommons.validators.CompositeValidator">
+        <property name="validators">
+            <list>
+                <bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+                    <property name="fieldPath" value="accessType"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Validator -->
+
+    <alias name="defaultTmaSubscriptionBaseValidator"
+           alias="tmaSubscriptionBaseValidator"/>
+    <bean id="defaultTmaSubscriptionBaseValidator"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.validator.TmaSubscriptionBaseValidator">
+        <property name="tmaSubscriptionBaseFacade"
+                  ref="tmaSubscriptionBaseFacade"/>
+        <property name="tmaDefaultCustomerFacade"
+                  ref="defaultTmaCustomerFacade"/>
+    </bean>
+
+    <alias name="defaultTmaProcessTypeValidator"
+           alias="tmaProcessTypeValidator"/>
+    <bean id="defaultTmaProcessTypeValidator"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.validator.TmaProcessTypeValidator">
+        <property name="customerFacade" ref="customerFacade"/>
+        <property name="enumerationService" ref="enumerationService"/>
+    </bean>
+
+    <alias name="defaultUserAccessValidator"
+           alias="userAccessValidator"/>
+    <bean id="defaultUserAccessValidator"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.validator.TmaUserAccessValidator">
+        <constructor-arg name="userFacade" ref="userFacade"/>
+    </bean>
+
+    <alias name="defaultTmaIdentificationValidator" alias="tmaIdentificationValidator"/>
+    <bean id="defaultTmaIdentificationValidator"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.validator.TmaIdentificationValidator">
+        <constructor-arg name="enumerationService" ref="enumerationService"/>
+    </bean>
+
+    <alias name="defaultTmaAnonymousCartValidator"
+           alias="anonymousCartValidator"/>
+    <bean id="defaultTmaAnonymousCartValidator"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.validator.TmaAnonymousCartValidator">
+        <property name="userFacade" ref="userFacade"/>
+        <property name="tmaCartFacade" ref="tmaCartFacade"/>
+    </bean>
+
+    <alias name="defaultTmaUserCartValidator"
+           alias="userCartValidator"/>
+    <bean id="defaultTmaUserCartValidator"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.validator.TmaUserCartValidator">
+        <constructor-arg name="tmaCartFacade" ref="tmaCartFacade"/>
+    </bean>
+
+    <alias name="defaultTmaWsDateFormatter" alias="tmaWsDateFormatter"/>
+    <bean id="defaultTmaWsDateFormatter"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.formatters.impl.DefaultTmaWsDateFormatter"/>
+
+
+    <alias name="defaultTmaSubscribedProductActionValidator" alias="tmaSubscribedProductActionValidator"/>
+    <bean id="defaultTmaSubscribedProductActionValidator"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.validator.TmaSubscribedProductActionValidator">
+    </bean>
+
+    <alias name="defaultTmaCartEntryPlaceValidator" alias="tmaCartEntryPlaceValidator"/>
+    <bean id="defaultTmaCartEntryPlaceValidator"
+          class="de.hybris.platform.b2ctelcocommercewebservicescommons.validator.TmaCartEntryPlaceValidator">
+    </bean>
+</beans>

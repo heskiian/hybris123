@@ -1,0 +1,100 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for Importing SBG Prices (English)
+
+# Macros / Replacement Parameter definitions
+$productCatalog = b2ctelcoProductCatalog
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = Staged])[unique = true, default = $productCatalog:Staged]
+$processTypes = processTypes(code)
+$lang = en
+
+# ImpEx for Importing Telco Prices (English)
+UPDATE SubscriptionPricePlan; product(code, $catalogVersion)[unique = true]; $processTypes[unique = true]; name; $catalogVersion; currency(isocode)[default = USD, unique = true]
+; unlimitedStarterPlan     ; ACQUISITION   ; Unlimited Starter Plan - ACQ
+; unlimitedStarterPlan     ; RETENTION     ; Unlimited Starter Plan - RET
+; unlimitedStarterPlan     ; MNP           ; Unlimited Starter Plan - RET
+
+; unlimitedBasicPlan     ; ACQUISITION   ; Unlimited Basic Plan - ACQ
+; unlimitedBasicPlan     ; RETENTION     ; Unlimited Basic Plan - RET
+; unlimitedBasicPlan     ; MNP           ; Unlimited Basic Plan - MNP
+
+; unlimitedPlusPlan     ; ACQUISITION   ; Unlimited Plus Plan - ACQ
+; unlimitedPlusPlan     ; RETENTION     ; Unlimited Plus Plan - RET
+; unlimitedPlusPlan     ; MNP           ; Unlimited Plus Plan - MNP
+
+; unlimitedPremiumPlan    ; RETENTION     ; Unlimited Premium Plan XL - RET
+; unlimitedPremiumPlan    ; MNP           ; Unlimited Premium Plan XL - MNP
+
+; essentialsUnlimited55Plan    ; RETENTION     ; essentials Unlimited 55 Plan - RET
+; essentialsUnlimited55Plan    ; TARIFF_CHANGE ; essentials Unlimited 55 Plan - TC
+
+; getTheMostNoLimit5GPlan ; RETENTION     ; Get the Most No Limit 5G Plan - RETENTION
+; getTheMostNoLimit5GPlan ; TARIFF_CHANGE ; Get the Most No Limit 5G Plan - TC
+
+UPDATE SubscriptionPricePlan; product(code, $catalogVersion)[unique = true]; name; $catalogVersion; currency(isocode)[default = USD, unique = true]
+; essentialsUnlimitedPlan               ; Essentials Unlimited Plan
+; signatureUnlimitedPlan               ; Signature Unlimited Plan
+; premiumUnlimitedPlan               ; Premium Unlimited Plan
+
+; starterNoLimit5GPlan            ; Starter No Limit 5G Plan
+; streamMoreNoLimit5GPlan            ; Stream More No Limit 5G Plan
+; doMoreNoLimit5GPlan            ; Do More No Limit 5G Plan
+
+; tv_S                 ; TV S - ACQ
+; tv_M                 ; TV M - ACQ
+; tv_L                 ; TV L - ACQ
+
+; movies_go            ; Movies - ACQ
+; sports               ; Sports - ACQ
+
+; int_100              ; Internet 100 - ACQ
+; int_500              ; Internet 500 - ACQ
+; int_1000             ; Internet 1000 - ACQ
+
+; copper_internet      ; Copper Internet - ACQ
+; fiber_internet       ; Fiber Internet - ACQ
+; 5g_internet          ; 5g Internet  - ACQ
+
+; ll_voip              ; landline VOIP - ACQ
+; ll_pots              ; landline POTS - ACQ
+
+; friends_and_family   ; Price Plan FnF
+; weekender            ; Price Plan Weekend
+; hotspot              ; Price Plan Hotspot
+
+; internet_pack_casual ; Price Plan Data Casual
+; internet_pack_smart  ; Price Plan Data Smart
+; internet_pack_max    ; Price Plan Data Max
+
+UPDATE OneTimeChargeEntry;id[unique=true];name[lang=$lang];$catalogVersion
+;otce_tv_S          ; Installation Fee
+;otce_tv_M          ; Installation Fee
+;otce_tv_L          ; Installation Fee
+;otce_int_100       ; Installation Fee
+;otce_int_500       ; Installation Fee
+;otce_int_1000      ; Installation Fee
+;otce_landline_voip ; Installation Fee
+
+UPDATE PerUnitUsageCharge; id[unique = true]; name[lang = $lang]; $catalogVersion
+# TV
+;documentary_on_demand_pp_tv_S 				; Documentary on demand
+;movie_on_demand_pp_tv_S      				; Movie on demand
+;blockbuster_on_demand_pp_tv_S 				; Blockbuster on demand
+;documentary_on_demand_pp_tv_M				; Documentary on demand
+;movie_on_demand_pp_tv_M      				; Movie on demand
+; blockbuster_on_demand_pp_tv_M 			; Blockbuster on demand
+; documentary_on_demand_pp_tv_L 			; Documentary on demand
+; movie_on_demand_pp_tv_L    	    		; Movie on demand
+; blockbuster_on_demand_pp_tv_L 			; Blockbuster on demand
+
+; documentary_on_demand_pp_basic_tv 		; Documentary on demand
+; movie_on_demand_pp_basic_tv				; Movie on demand
+; blockbuster_on_demand_pp_basic_tv 		; Blockbuster on demand
+; documentary_on_demand_pp_big_tv			; Documentary on demand
+; movie_on_demand_pp_big_tv					; Movie on demand
+; blockbuster_on_demand_pp_big_tv 		    ; Blockbuster on demand
+; documentary_on_demand_pp_premium_tv		; Documentary on demand
+; movie_on_demand_pp_premium_tv		 		; Movie on demand
+; blockbuster_on_demand_pp_premium_tv		; Blockbuster on demand

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd">
+
+
+    <import resource="b2ctelcotmfevents/mappers/v1/dto-mappings-spring.xml"/>
+
+    <!-- Catalog versions for which tmf events will be sent -->
+    <util:set id="eventAllowedCatalogVersions" value-type="java.lang.String">
+        <value>Online</value>
+    </util:set>
+
+    <alias name="defaultTmaAbstractEventsService" alias="tmaAbstractEventsService"/>
+    <bean id="defaultTmaAbstractEventsService" parent="eventService"
+          class="de.hybris.platform.b2ctelcotmfevents.services.TmaAbstractEventsService" abstract="true">
+    </bean>
+
+    <alias name="defaultTmaEventsService" alias="tmaEventsService"/>
+    <bean id="defaultTmaEventsService" parent="tmaAbstractEventsService"
+          class="de.hybris.platform.b2ctelcotmfevents.services.impl.DefaultTmaEventsService">
+        <constructor-arg name="modelService" ref="modelService"/>
+    </bean>
+
+    <alias name="defaultTmaAbstractAfterSaveListener" alias="tmaAbstractAfterSaveListener"/>
+    <bean id="defaultTmaAbstractAfterSaveListener"
+          class="de.hybris.platform.b2ctelcotmfevents.listeners.TmaAbstractAfterSaveListener" abstract="true">
+        <constructor-arg name="modelService" ref="modelService"/>
+        <constructor-arg name="eventsService" ref="tmaEventsService"/>
+        <constructor-arg name="eventAllowedCatalogVersions" ref="eventAllowedCatalogVersions"/>
+    </bean>
+
+    <alias name="defaultTmaProductOfferingAfterSaveListener" alias="tmaProductOfferingAfterSaveListener"/>
+    <bean id="defaultTmaProductOfferingAfterSaveListener"
+          class="de.hybris.platform.b2ctelcotmfevents.listeners.TmaProductOfferingAfterSaveListener"
+          parent="tmaAbstractAfterSaveListener">
+        <constructor-arg name="dataMapper" ref="dataMapper"/>
+        <constructor-arg name="eventPayloadBuilder" ref="tmaProductOfferingEventPayloadBuilder"/>
+    </bean>
+
+    <alias name="defaultTmaPopAfterSaveListener" alias="tmaPopAfterSaveListener"/>
+    <bean id="defaultTmaPopAfterSaveListener"
+          class="de.hybris.platform.b2ctelcotmfevents.listeners.TmaPopAfterSaveListener" parent="tmaAbstractAfterSaveListener">
+        <constructor-arg name="dataMapper" ref="dataMapper"/>
+        <constructor-arg name="eventPayloadBuilder" ref="tmaPopEventPayloadBuilder"/>
+    </bean>
+
+    <alias name="defaultTmaOrderAfterSaveListener" alias="tmaOrderAfterSaveListener"/>
+    <bean id="defaultTmaOrderAfterSaveListener"
+          class="de.hybris.platform.b2ctelcotmfevents.listeners.TmaOrderAfterSaveListener" parent="tmaAbstractAfterSaveListener">
+        <constructor-arg name="dataMapper" ref="dataMapper"/>
+        <constructor-arg name="eventPayloadBuilder" ref="tmaOrderEventPayloadBuilder"/>
+    </bean>
+
+    <alias name="defaultTmaProductOfferingRemoveInterceptor" alias="tmaProductOfferingRemoveInterceptor"/>
+    <bean id="defaultTmaProductOfferingRemoveInterceptor"
+          class="de.hybris.platform.b2ctelcotmfevents.interceptors.TmaProductOfferingRemoveInterceptor">
+        <constructor-arg name="eventService" ref="tmaEventsService"/>
+        <constructor-arg name="dataMapper" ref="dataMapper"/>
+        <constructor-arg name="eventPayloadBuilder" ref="tmaProductOfferingEventPayloadBuilder"/>
+        <constructor-arg name="eventAllowedCatalogVersions" ref="eventAllowedCatalogVersions"/>
+        <constructor-arg name="modelService" ref="modelService"/>
+        <constructor-arg name="sessionService" ref="sessionService"/>
+    </bean>
+
+    <bean id="tmaProductOfferingRemoveInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="tmaProductOfferingRemoveInterceptor"/>
+        <property name="typeCode" value="TmaProductOffering"/>
+    </bean>
+
+    <alias name="defaultTmaProductOfferingEventPrepareInterceptor" alias="tmaProductOfferingEventPrepareInterceptor"/>
+    <bean id="defaultTmaProductOfferingEventPrepareInterceptor"
+          class="de.hybris.platform.b2ctelcotmfevents.interceptors.TmaProductOfferingEventPrepareInterceptor">
+        <constructor-arg name="sessionService" ref="sessionService"/>
+        <constructor-arg name="eventsService" ref="tmaEventsService"/>
+        <constructor-arg name="eventAllowedCatalogVersions" ref="eventAllowedCatalogVersions"/>
+    </bean>
+
+    <bean id="tmaProductOfferingEventPrepareInterceptorMapping"
+          class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="tmaProductOfferingEventPrepareInterceptor"/>
+        <property name="typeCode" value="TmaProductOffering"/>
+    </bean>
+
+    <alias name="defaultTmaPopEventPrepareInterceptor" alias="tmaPopEventPrepareInterceptor"/>
+    <bean id="defaultTmaPopEventPrepareInterceptor"
+          class="de.hybris.platform.b2ctelcotmfevents.interceptors.TmaPopEventPrepareInterceptor">
+        <constructor-arg name="sessionService" ref="sessionService"/>
+        <constructor-arg name="eventsService" ref="tmaEventsService"/>
+        <constructor-arg name="eventAllowedCatalogVersions" ref="eventAllowedCatalogVersions"/>
+    </bean>
+
+    <bean id="tmaPopEventPrepareInterceptorMapping" class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="tmaPopEventPrepareInterceptor"/>
+        <property name="typeCode" value="TmaProductOfferingPrice"/>
+    </bean>
+
+    <alias name="defaultTmaPopRemoveInterceptor" alias="tmaPopRemoveInterceptor"/>
+    <bean id="defaultTmaPopRemoveInterceptor"
+          class="de.hybris.platform.b2ctelcotmfevents.interceptors.TmaPopRemoveInterceptor">
+        <constructor-arg name="eventService" ref="tmaEventsService"/>
+        <constructor-arg name="dataMapper" ref="dataMapper"/>
+        <constructor-arg name="eventPayloadBuilder" ref="tmaPopEventPayloadBuilder"/>
+        <constructor-arg name="eventAllowedCatalogVersions" ref="eventAllowedCatalogVersions"/>
+        <constructor-arg name="modelService" ref="modelService"/>
+        <constructor-arg name="sessionService" ref="sessionService"/>
+    </bean>
+
+    <bean id="tmaPopRemoveInterceptorMapping" class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="tmaPopRemoveInterceptor"/>
+        <property name="typeCode" value="TmaProductOfferingPrice"/>
+    </bean>
+
+    <alias name="defaultTmaProductOfferingEventPayloadBuilder" alias="tmaProductOfferingEventPayloadBuilder"/>
+    <bean id="defaultTmaProductOfferingEventPayloadBuilder"
+          class="de.hybris.platform.b2ctelcotmfevents.builders.impl.TmaProductOfferingEventPayloadBuilder">
+        <constructor-arg name="timeService" ref="timeService"/>
+    </bean>
+
+    <alias name="defaultTmaPopEventPayloadBuilder" alias="tmaPopEventPayloadBuilder"/>
+    <bean id="defaultTmaPopEventPayloadBuilder"
+          class="de.hybris.platform.b2ctelcotmfevents.builders.impl.TmaPopEventPayloadBuilder">
+        <constructor-arg name="timeService" ref="timeService"/>
+    </bean>
+
+    <alias name="defaultTmaOrderEventPayloadBuilder" alias="tmaOrderEventPayloadBuilder"/>
+    <bean id="defaultTmaOrderEventPayloadBuilder"
+          class="de.hybris.platform.b2ctelcotmfevents.builders.impl.TmaOrderEventPayloadBuilder">
+        <constructor-arg name="timeService" ref="timeService"/>
+    </bean>
+
+</beans>

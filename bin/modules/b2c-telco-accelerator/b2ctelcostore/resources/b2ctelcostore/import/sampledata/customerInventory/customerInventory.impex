@@ -1,0 +1,167 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for importing the customer product inventory.
+
+$catalog-id = b2ctelcoProductCatalog
+$catalog-version = Staged
+$catalogVersion = catalogversion(catalog(id[default = $catalog-id]), version[default = $catalog-version])[unique = true, default = $catalog-id:$catalog-version]
+
+# Create Customer Group
+INSERT_UPDATE Usergroup; uid[unique = true]; groups(uid)[mode = append]
+; customergroup ;
+
+# Create test customer
+INSERT_UPDATE Customer; originalUid[unique = true]; uid[unique = true]; customerID; name; groups(uid);
+; selfserviceuser2@hybris.com ; selfserviceuser2@hybris.com ; selfserviceuser2@hybris.com ; selfserviceuser2 ; customergroup ;
+; selfserviceuser3@hybris.com ; selfserviceuser3@hybris.com ; selfserviceuser3@hybris.com ; selfserviceuser3 ; customergroup ;
+; selfserviceuser4@hybris.com ; selfserviceuser4@hybris.com ; selfserviceuser4@hybris.com ; selfserviceuser4 ; customergroup ;
+; selfserviceuser5@hybris.com ; selfserviceuser5@hybris.com ; selfserviceuser5@hybris.com ; selfserviceuser5 ; customergroup ;
+; selfserviceuser6@hybris.com ; selfserviceuser6@hybris.com ; selfserviceuser6@hybris.com ; selfserviceuser6 ; customergroup ;
+
+# Import sample subscribed products (tmForum/SID Product equivalent)
+INSERT_UPDATE TmaSubscribedProduct; id[unique = true]; serviceType(code); startDate[dateformat = dd.MM.yyyy]; endDate[dateformat = dd.MM.yyyy]; billingFrequency; productCode; name; bundledProductCode; subscriptionStatus; contractDuration; billingsystemId[unique = true]; billingSubscriptionId; contractFrequency; paymentMethodId; productSpecification(id, $catalogVersion)
+# standalone gsm subscribed products
+; 2110000001 ; TARIFF_PLAN ; 13.10.2017 ; 12.10.2018 ; monthly ; signatureUnlimitedPlan              ; signatureUnlimitedPlan              ;            ; ACTIVE  ; 12 ; IN ; bsid10001 ; months ; 9874687087554 ; unlimited5GPlans
+; 1110000002 ; ADD_ON      ; 13.10.2017 ; 12.10.2018 ; monthly ; internet_pack_smart ; internet_pack_smart ;            ; ACTIVE  ; 12 ; IN ; bsid1001 ; months ; 9874687087554
+
+# mobile deal gsm subsribed products
+; 2110000003 ; TARIFF_PLAN ; 27.11.2017 ; 26.11.2018 ; monthly ; unlimitedPremiumPlan             ; unlimitedPremiumPlan             ; mobileDeal ; ACTIVE  ; 12 ; IN ; bsid10021 ; months ; 9874687087554 ; unlimitedPlans
+; 2110000004 ; TARIFF_PLAN ; 01.02.2016 ; 31.01.2017 ; monthly ; doMoreNoLimit5GPlan           ; doMoreNoLimit5GPlan           ; mobileDeal ; EXPIRED ; 12 ; IN ; bsid10031 ; months ; noLimitPlans
+
+# guad play gsm subscribed products
+; 2000002100 ; TARIFF_PLAN ; 20.08.2017 ; 19.09.2019 ; monthly ; premiumUnlimitedPlan              ; premiumUnlimitedPlan              ; quadPlay   ; ACTIVE  ; 2  ; IN ; bsid10041 ; years  ; 9874687087554 ; unlimited5GPlans
+; 1000002101 ; ADD_ON      ; 20.08.2017 ; 19.09.2019 ; monthly ; internet_pack_smart ; internet_pack_smart ; quadPlay   ; ACTIVE  ; 2  ; IN ; bsid1005 ; years  ; 9874687087554
+
+# quad play subscribed products
+; 1000002102 ; TARIFF_PLAN ; 20.03.2018 ; 19.03.2019 ; monthly ; int_100             ; int_100             ; quadPlay   ; ACTIVE  ; 12 ; IN ; bsid1006 ; months ; 9874687087554 ; internet
+; 1000002103 ; TARIFF_PLAN ; 20.03.2018 ; 19.03.2019 ; monthly ; tv_M                ; tv_M                ; quadPlay   ; ACTIVE  ; 12 ; IN ; bsid1007 ; months ; 9874687087554 ; tv
+; 1000002104 ; ADD_ON      ; 20.03.2018 ; 19.03.2019 ; monthly ; movies_go           ; movies_go           ; quadPlay   ; ACTIVE  ; 12 ; IN ; bsid1008 ; months ; 9874687087554
+; 1000002105 ; ADD_ON      ; 20.03.2018 ; 19.03.2019 ; monthly ; sports              ; sports              ; quadPlay   ; ACTIVE  ; 12 ; IN ; bsid1009 ; months ; 9874687087554
+; 2000002106 ; TARIFF_PLAN ; 20.03.2018 ; 19.03.2019 ; monthly ; unlimitedStarterPlan; unlimitedStarterPlan; quadPlay   ; ACTIVE  ; 12 ; IN ; bsid10101 ; months ; 9874687087554 ; unlimited5GPlans
+
+# home deal subscribed products
+; 1000003101 ; TARIFF_PLAN ; 14.06.2018 ; 13.01.2020 ; monthly ; int_500             ; int_500             ; homeDeal   ; ACTIVE  ; 18 ; IN ; bsid1012 ; months ; 9874687087554 ; internet
+; 1000003102 ; TARIFF_PLAN ; 14.06.2018 ; 13.01.2020 ; monthly ; tv_L                ; tv_L                ; homeDeal   ; ACTIVE  ; 18 ; IN ; bsid1013 ; months ; 9874687087554 ; tv
+
+# standalone internet subscribed products
+; 1000003113 ; TARIFF_PLAN ; 11.03.2020 ; 15.02.2021 ; monthly ; int_100             ; int_100             ;            ; ACTIVE  ; 12 ; IN ; bsid1014 ; months ; 9874687087554 ; internet
+
+# Import sample subscription bases with associated subscribed products and subscription accesses
+INSERT_UPDATE TmaSubscriptionBase; subscriberIdentity[unique = true]; billingSystemId[unique = true]; subscribedProducts(id)
+; 1040123111111 ; IN ; 2110000001,1110000002
+; 1040123222222 ; IN ; 2110000003,2110000004
+; 1040123333333 ; IN ; 2000002100, 1000002101
+; internet_1    ; IN ; 1000002102
+; tv_1          ; IN ; 1000002103,1000002104,1000002105
+; 1040123444444 ; IN ; 2000002106
+; internet_2    ; IN ; 1000003101
+; tv_2          ; IN ; 1000003102
+; internet_3    ; IN ; 1000003113
+
+# Import sample subscription accesses for B2C customers
+INSERT_UPDATE TmaSubscriptionAccess; principal(uid)[unique = true]; subscriptionBase(billingSystemId, subscriberIdentity)[unique = true]; accessType(code)
+; selfserviceuser2@hybris.com ; IN:1040123111111 ; OWNER
+; selfserviceuser2@hybris.com ; IN:internet_3    ; OWNER
+; selfserviceuser3@hybris.com ; IN:1040123222222 ; OWNER
+; selfserviceuser3@hybris.com ; IN:1040123111111 ; BENEFICIARY
+; selfserviceuser4@hybris.com ; IN:1040123333333 ; OWNER
+; selfserviceuser4@hybris.com ; IN:1040123444444 ; ADMINISTRATOR
+; selfserviceuser5@hybris.com ; IN:internet_1    ; OWNER
+; selfserviceuser5@hybris.com ; IN:tv_1          ; OWNER
+; selfserviceuser5@hybris.com ; IN:1040123444444 ; OWNER
+; selfserviceuser5@hybris.com ; IN:1040123333333 ; BENEFICIARY
+; selfserviceuser6@hybris.com ; IN:internet_2    ; OWNER
+; selfserviceuser6@hybris.com ; IN:tv_2          ; OWNER
+; selfserviceuser6@hybris.com ; IN:tv_1          ; BENEFICIARY
+
+# Import sample billing accounts
+INSERT_UPDATE TmaBillingAccount; billingAccountId[unique = true]; billingSystemId[unique = true]; subscriptionBases(subscriberIdentity); parent(billingAccountId, billingSystemId)
+; BACC-24564 ; IN ; 1040123111111,1040123222222   ;
+; BACC-89761 ; IN ; 1040123333333,internet_1,tv_1 ; BACC-24564:IN
+; BACC-45499 ; IN ; internet_2,tv_2,internet_3    ; BACC-89761:IN
+
+# Import sample billing agreement and billing agreement item
+INSERT_UPDATE TmaBillingAgreementItem; id[unique = true]; subscribedProducts(id)
+; signatureUnlimitedPlan_baItem                     ; 2110000001
+; internet_pack_smart_baItem        ; 1110000002
+; unlimitedPremiumPlan_baItem                    ; 2110000003
+; doMoreNoLimit5GPlan_baItem                  ; 2110000004
+; premiumUnlimitedPlan_internet_pack_smart_baItem ; 2000002100,1000002101
+; int_100_baItem                    ; 1000002102
+; tv_M_baItem                       ; 1000002103,1000002104,1000002105
+; gsm_baItem                        ; 2000002106
+; int_500_baItem                    ; 1000003101
+; tv_L_baItem                       ; 1000003102
+; int_100_1_baItem                  ; 1000003113
+INSERT_UPDATE TmaBillingAgreementTerm; id[unique = true]; billingSystemId; start[dateformat = dd.MM.yyyy]; end[dateformat = dd.MM.yyyy]; length; frequency(code); offerTermRef
+; gsm_monthly_term           ; IN ; 13.10.2017 ; 12.10.2018 ; 12 ; monthly  ; monthly_12
+; gsm_unlimitedPremiumPlan_monthly_term   ; IN ; 27.11.2017 ; 26.11.2018 ; 12 ; monthly  ; monthly_12
+; gsm_doMoreNoLimit5GPlan_monthly_term ; IN ; 01.02.2017 ; 31.01.2018 ; 12 ; monthly  ; monthly_12
+; guad_play_gsm_anually_term ; IN ; 20.08.2017 ; 19.09.2019 ; 2  ; annually ; annually_2
+; quad_play_monthly_term     ; IN ; 20.03.2018 ; 19.03.2019 ; 12 ; monthly  ; monthly_12
+; home_deal_monthly_term     ; IN ; 14.06.2018 ; 13.01.2020 ; 18 ; monthly  ; monthly_18
+
+INSERT_UPDATE TmaBillingAgreementTerm; id[unique = true]; billingSystemId; start[dateformat = dd.MM.yyyy]; end[dateformat = dd.MM.yyyy HH:mm]; length; frequency(code); offerTermRef
+; internet_monthly_term      ; IN ; 11.03.2020 ; 18.02.2021 23:59 ; 12 ; monthly  ; monthly_12
+
+INSERT_UPDATE TmaBillingAgreement; id[unique = true]; billingSystemId; term(id); agreementItems(id)
+; gsm_contract_ 13_10_2017          ; IN ; gsm_monthly_term           ; signatureUnlimitedPlan_baItem,internet_pack_smart_baItem
+; gsm_guad_play_contract_20_08_2017 ; IN ; guad_play_gsm_anually_term ; premiumUnlimitedPlan_internet_pack_smart_baItem
+; gsm_unlimitedPremiumPlan_contract_27_11_2017   ; IN ; gsm_unlimitedPremiumPlan_monthly_term   ; unlimitedPremiumPlan_baItem
+; gsm_doMoreNoLimit5GPlan_contract_01_02_2017 ; IN ; gsm_doMoreNoLimit5GPlan_monthly_term ; doMoreNoLimit5GPlan_baItem
+; quad_play_contract_20_03_2018     ; IN ; quad_play_monthly_term     ; int_100_baItem,tv_M_baItem,gsm_baItem
+; home_deal_contract_14_06_2018     ; IN ; home_deal_monthly_term     ; int_500_baItem,tv_L_baItem
+; internet_contract_11_03_2020      ; IN ; internet_monthly_term      ; int_100_1_baItem
+
+#Import sample TmaAverageServiceUsage
+INSERT_UPDATE TmaAverageServiceUsage; id[unique = true]; value; unitOfMeasure(id); subscribedProduct(id); pscvId; usageType(code); startDate[dateformat = dd.MM.yyyy]; endDate[dateformat = dd.MM.yyyy]
+; internet_pack_smart_data_usage   ; 950  ; mb            ; 1000002101 ; 1000_mb       ; CURRENT  ; 01.03.2018 ; 31.03.2018
+; internet_pack_smart_data_usage_1 ; 129  ; mb            ; 1000002101 ; 1000_mb       ; HISTORIC ; 01.01.2018 ; 31.01.2018
+; internet_pack_smart_data_usage_2 ; 200  ; mb            ; 1000002101 ; 1000_mb       ; HISTORIC ; 01.02.2018 ; 28.02.2018
+
+; unlimited_Premium_Plan_sms_usage               ; 400  ; sms           ; 2110000003 ; unlimited_sms ; CURRENT  ; 01.03.2018 ; 31.03.2018
+; unlimited_Premium_Plan_sms_usage_1             ; 77   ; sms           ; 2110000003 ; unlimited_sms ; HISTORIC ; 01.02.2018 ; 28.02.2018
+; unlimited_Premium_Plan_data_usage_1            ; 300  ; mb            ; 2110000003 ; unlimited_mb  ; CURRENT  ; 01.03.2018 ; 31.03.2018
+; unlimited_Premium_Plan_data_usage_2            ; 300  ; mb            ; 2110000003 ; unlimited_mb  ; HISTORIC ; 01.02.2018 ; 28.02.2018
+; unlimited_Premium_Plan_voice_usage             ; 980  ; phone_minutes ; 2110000003 ; unlimited_min ; CURRENT  ; 01.03.2018 ; 31.03.2018
+; unlimited_Premium_Plan_voice_usage_1           ; 400  ; phone_minutes ; 2110000003 ; unlimited_min ; HISTORIC ; 01.02.2018 ; 28.02.2018
+
+; signature_Unlimited_Plan_voice_usage              ; 580  ; phone_minutes ; 2110000001 ; 600_min       ; CURRENT  ; 01.03.2018 ; 31.03.2018
+; signature_Unlimited_Plan_voice_usage_1            ; 60   ; phone_minutes ; 2110000001 ; 600_min       ; HISTORIC ; 01.02.2018 ; 28.02.2018
+; signature_Unlimited_Plan_sms_usage                ; 550  ; sms           ; 2110000001 ; 600_sms       ; CURRENT  ; 01.03.2018 ; 31.03.2018
+; signature_Unlimited_Plan_sms_usage_1              ; 100  ; sms           ; 2110000001 ; 600_sms       ; HISTORIC ; 01.02.2018 ; 28.02.2018
+
+; do_More_No_Limit_5GPlan_voice_usage           ; 1150 ; phone_minutes ; 2110000004 ; 1200_min      ; CURRENT  ; 01.03.2018 ; 31.03.2018
+; do_More_No_Limit_5GPlan_voice_usage_1         ; 81   ; phone_minutes ; 2110000004 ; 1200_min      ; HISTORIC ; 01.02.2018 ; 28.02.2018
+; do_More_No_Limit_5GPlan_voice_usage_2         ; 700  ; sms           ; 2110000004 ; 1200_sms      ; CURRENT  ; 01.03.2018 ; 31.03.2018
+; do_More_No_Limit_5GPlan_voice_usage_3         ; 100  ; sms           ; 2110000004 ; 1200_sms      ; HISTORIC ; 01.02.2018 ; 28.02.2018
+
+#Import sample Usage unit conversion map
+INSERT_UPDATE UsageUnit; id[unique = true]; unitConversionMap(key(UsageUnit(code)), value)[map-delimiter = |]
+; gb                      ; mb->1024|gb->1
+; radio_stations          ; radio_stations->1
+; theme_packages          ; theme_packages->1
+; movies_on_demand        ; movies_on_demand->1
+; documentaries_on_demand ; documentaries_on_demand->1
+; blockbusters_on_demand  ; blockbusters_on_demand->1
+; videos_on_demand        ; videos_on_demand->1
+; sessions                ; sessions->1
+; channels                ; channels->1
+; unit                    ; unit->1
+; phone_minutes           ; phone_minutes->1
+; sms                     ; sms->1
+; mobile_data             ; mobile_data->1|mb->1|gb->0.0009765625
+; music_pieces            ; music_pieces->1
+; replacements            ; replacements->1
+; mb                      ; mb->1|gb->0.0009765625
+; gbps                    ; gbps->1|mbps->1024
+; mbps                    ; mbps->1|gbps->0.0009765625
+
+#Identification sample data
+INSERT_UPDATE TmaIdentification; identificationType(code); identificationNumber[unique = true]; customers(uid)
+; DRIVING_LICENSE ; NHL12506878  ; selfserviceuser2@hybris.com
+; NATIONAL_ID     ; 380645180851 ; selfserviceuser3@hybris.com
+; PASSPORT        ; J8369867     ; selfserviceuser4@hybris.com
+; SOCIAL_SECURITY ; 67925538927  ; selfserviceuser5@hybris.com

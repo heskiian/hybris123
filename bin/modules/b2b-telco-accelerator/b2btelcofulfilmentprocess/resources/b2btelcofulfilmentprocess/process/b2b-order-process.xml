@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<process xmlns="http://www.hybris.de/xsd/processdefinition" start="checkOrderContext" name="b2b-order-process"
+         processClass="de.hybris.platform.orderprocessing.model.OrderProcessModel">
+
+    <action id="checkOrderContext" bean="tmaCheckOrderContextAction">
+        <transition name="B2B" to="checkApprovalFromOrganization"/>
+        <transition name="B2C" to="startB2cOrderProcess"/>
+        <transition name="NOK" to="error"/>
+    </action>
+
+    <action id="checkApprovalFromOrganization" bean="tmaCheckApprovalFromOrganizationAction">
+        <transition name="OK" to="success"/>
+        <transition name="NO_ANSWER" to="waitForApprovalFromOrganizationApprover"/>
+        <transition name="NOK" to="error"/>
+    </action>
+
+    <wait id="waitForApprovalFromOrganizationApprover" then="checkApprovalFromOrganization" prependProcessCode="false">
+        <event>${process.order.code}_OrganizationApproverDecision</event>
+    </wait>
+
+    <action id="startB2cOrderProcess" bean="tmaStartB2cOrderProcessAction">
+        <transition name="OK" to="waitB2cOrderProcessEnd"/>
+    </action>
+
+    <wait id="waitB2cOrderProcessEnd" then="checkB2cOrderProcess" prependProcessCode="false">
+        <event>${process.code}_B2cOrderProcessEnd</event>
+    </wait>
+
+    <action id="checkB2cOrderProcess" bean="tmaCheckB2cOrderProcessAction">
+        <transition name="SUCCESS" to="success"/>
+        <transition name="FAILED" to="failed"/>
+        <transition name="ERROR" to="error"/>
+        <transition name="NO_ANSWER" to="waitB2cOrderProcessEnd"/>
+    </action>
+
+    <end id="error" state="ERROR">All went wrong.</end>
+    <end id="failed" state="FAILED">Order not placed.</end>
+    <end id="success" state="SUCCEEDED">Order placed.</end>
+
+</process>

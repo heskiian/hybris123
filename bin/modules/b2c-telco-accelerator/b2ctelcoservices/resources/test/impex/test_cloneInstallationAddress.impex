@@ -1,0 +1,40 @@
+#
+# Copyright (c) 2019 SAP SE or an SAP affiliate company.  All rights reserved.
+#
+
+# ---------------------------------------------------------------------------
+## ---------------------------------------------------------------------------
+
+$catalog-id = b2ctelcoProductCatalog
+$catalog-version = Online
+$approved = approvalstatus(code)[default = 'approved']
+$lang = en
+$catalogversion = catalogversion(catalog(id[default=$catalog-id]), version[default='Online'])[unique=true, default=$catalog-id:$catalog-version]
+$prices = europe1prices[translator=de.hybris.platform.europe1.jalo.impex.Europe1PricesTranslator]
+
+INSERT_UPDATE Catalog; id[unique = true]; name[lang = en]; defaultCatalog;
+; $catalog-id ; $catalog-id ; true ;
+
+INSERT_UPDATE Currency; isocode[unique = true]; active; conversion; digits; symbol
+; USD ; true ; 1.5 ; 2 ; "$"
+
+INSERT_UPDATE Unit; unitType[unique = true]; code[unique = true]; conversion
+; pieces ; pieces ; 1
+
+INSERT_UPDATE CatalogVersion; catalog(id)[unique = true]; version[unique = true]; active; defaultCurrency(isocode)[default = USD]
+; $catalog-id ; $catalog-version ; true ;
+
+INSERT_UPDATE TmaSimpleProductOffering; code[unique = true]; name[lang = en]; $approved; $catalogversion; unit(code);
+; int_100 ; Internet for home ; ; ; pieces ;
+
+INSERT_UPDATE UserGroup; uid[unique = true]; groups(uid);
+; customergroup ; ;
+
+INSERT_UPDATE Customer; uid[unique = true]; customerID; name; description; sessionLanguage(isocode); sessionCurrency(isocode); groups(uid); password;;
+; testuser@hybris.com ; testuser ; Mathias John ; ; en ; USD ; customergroup ; 1234 ; ;
+
+INSERT_UPDATE Country; isocode[unique = true]; active;
+; US ; true ;
+
+INSERT_UPDATE Address; id; streetname; streetnumber; postalcode[unique = true]; town[unique = true]; country(isocode); region(isocode); phone1; owner(Customer.uid)[unique = true]; installationAddress(id)
+; testAddress ; Premium Outlets Blvd. ; 1650 ; 60504 ; Beijing ; US ; ; 630.585.9566 ; testuser@hybris.com ; true

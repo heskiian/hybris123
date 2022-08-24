@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+ Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+
+<project name="b2btelcofulfilmentprocess_buildcallbacks">
+
+    <macrodef name="b2btelcofulfilmentprocess_clean_classpath_file">
+
+        <sequential>
+
+            <copy failonerror="true" file="${ext.b2btelcofulfilmentprocess.path}/.classpath" overwrite="true"
+                  tofile="${ext.b2btelcofulfilmentprocess.path}/.classpath.edit">
+
+                <filterchain>
+
+                    <linecontainsregexp negate="true">
+
+                        <regexp pattern="^(\t\t\t\t|)$"/>
+
+                        <!-- added by script -->
+
+                    </linecontainsregexp>
+
+                </filterchain>
+
+            </copy>
+
+            <move failonerror="true" file="${ext.b2btelcofulfilmentprocess.path}/.classpath.edit" overwrite="true"
+                  tofile="${ext.b2btelcofulfilmentprocess.path}/.classpath"/>
+
+        </sequential>
+
+    </macrodef>
+
+    <macrodef name="b2btelcofulfilmentprocess_after_clean">
+
+        <sequential>
+
+            <echo level="info" message="Generating .classpath file for b2btelcofulfilmentprocess"/>
+
+            <create_extension_classpath_file extname="b2btelcofulfilmentprocess"/>
+
+            <b2btelcofulfilmentprocess_clean_classpath_file/>
+
+        </sequential>
+
+    </macrodef>
+
+    <!-- 
+		Called whenever 'ant ear' is used. this callback can be used to modify the content of the ear file
+	
+		 ${ear.path}: 			path to ear
+	 -->
+
+    <macrodef name="b2btelcofulfilmentprocess_before_ear">
+
+        <sequential>
+
+            <!-- you can do anything before the EAR file is being packed -->
+
+        </sequential>
+
+    </macrodef>
+
+</project>

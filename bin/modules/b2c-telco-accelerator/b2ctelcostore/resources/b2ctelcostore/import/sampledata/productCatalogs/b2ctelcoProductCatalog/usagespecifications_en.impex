@@ -1,0 +1,91 @@
+#
+# Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+#
+
+# -----------------------------------------------------------------------
+# ImpEx for Importing UsageSpecifications into B2C Telco Store
+
+# Macros / Replacement Parameter definitions
+$productCatalog = b2ctelcoProductCatalog
+$productCatalogName = B2C Telco Product Catalog
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Staged'])[unique = true, default = $productCatalog:Staged]
+$onlineCatalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Online'])[unique = true, default = $productCatalog:Online]
+$lang = en
+
+INSERT_UPDATE TmaUsageCharacteristicCategory; id[unique = true]; name[lang = $lang];
+                                            ; WHERE            ; Where             ;
+                                            ; WHO              ; Who               ;
+                                            ; WHEN             ; When              ;
+                                            ; WHAT             ; What              ;
+
+INSERT_UPDATE TmaUsageSpecCharacteristicValue; id[unique = true]      ; name[lang = $lang]; $catalogVersion
+                                             ; creationTime           ; creationTime_USCV
+                                             ; originalCountryCode    ; originalCountryCode_USCV
+                                             ; originatingNumber      ; originatingNumber
+                                             ; destinationCountryCode ; destinationCountryCode
+                                             ; destinationNumber      ; destinationNumber
+                                             ; duration               ; duration
+                                             ; unitOfMeasure          ; unitOfMeasure
+                                             ; time                   ; time
+                                             ; userId                 ; userId
+                                             ; callType               ; callType
+                                             ; serviceIdentifier      ; serviceIdentifier
+                                             ; ipAddress              ; ipAddress
+                                             ; accessProvider         ; accessProvider
+                                             ; locationName           ; locationName
+                                             ; input_octets           ; input_octets
+                                             ; output_octets          ; output_octets
+                                             ; service_type_tv        ; service_type_tv
+                                             ; channel_id             ; channel_id
+                                             ; consumer_id            ; consumer_id
+                                             ; recType                ; recType
+                                             ; subtitleSelected       ; subtitleSelected
+                                             ; startTime              ; startTime
+                                             ; endTime                ; endTime
+                                             ; destinationId          ; destinationId
+                                             ; subscriberId           ; subscriberId
+                                             ; uniqueCallId           ; uniqueCallId
+
+
+INSERT_UPDATE TmaUsageSpecCharacteristic; id[unique = true]      ; name[lang = $lang]     ; description[lang = $lang]; $catalogVersion
+                                        ; creationTime           ; creationTime           ; The time when the event has been generated
+                                        ; originalCountryCode    ; originalCountryCode    ; Country code of the caller
+                                        ; originatingNumber      ; originatingNumber      ; Phone number of the caller
+                                        ; destinationCountryCode ; destinationCountryCode ; Country code of the called party
+                                        ; destinationNumber      ; destinationNumber      ; Phone number of the caller
+                                        ; duration               ; duration               ; Duration of the call
+                                        ; unitOfMeasure          ; unitOfMeasure          ; Unit of the duration
+                                        ; time                   ; time                   ; A time of a day the call was connected
+                                        ; userIdentifier         ; userIdentifier         ; Identifier of the device producing the Call Detail Record
+                                        ; callType               ; callType               ; Identifier of the device producing the Call Detail Record
+                                        ; serviceIdentifier      ; serviceIdentifier      ; Identifier of the service, relevant to corelate the usage detail record to the specific service
+                                        ; ipAddress              ; ipAddress              ; IP address of the end user
+                                        ; accessProvider         ; accessProvider         ; The PWLAN operator providing network access
+                                        ; locationName           ; locationName           ; Descriptive location name of the user access network
+                                        ; input_octets           ; input-octets           ; Bytes user received
+                                        ; output_octets          ; output_octets          ; Bytes user transmitted
+                                        ; serviceType_tv         ; serviceType            ; Type of the service associated with the service.
+                                        ; channelId              ; channelId              ; Identifier of the main channel the viewer is viewing at the time of the event
+                                        ; consumer_id            ; consumerId             ; Identifier of the IPTV Consumer and IPTV viewer Profile
+                                        ; recType                ; recType                ; Record type
+                                        ; subtitleSelected       ; subtitleSelected       ; Indicates whether subtitle was selected
+                                        ; startTime              ; startTime              ; Time when a consumer starts using a service
+                                        ; endTime                ; endTime                ; Time when a consumer stops using a service (hangup time)
+                                        ; destinationId          ; destinationId          ; Called party number for direct calls
+                                        ; subscriberId           ; subscriberId           ; IP address of the end user
+                                        ; uniqueCallId           ; uniqueCallId           ; Unique Call id to identify thatdifferent IPDRs generated for different elements are for the same call
+
+
+INSERT_UPDATE TmaAtomicProductUsageSpec; id[unique = true] ; name[lang = $lang]; $catalogVersion
+                                       ; cdr_voice_spec    ; cdr_voice_spec    ;
+                                       ; cdr_sms_spec      ; cdr_sms_spec      ;
+                                       ; udr_data_spec     ; udr_data_spec     ;
+                                       ; ipdr_wlan_spec    ; ipdr_wlan_spec    ;
+                                       ; ipdr_iptv_spec    ; ipdr_iptv_spec    ;
+                                       ; ipdr_voip_spec    ; ipdr_voip_spec    ;
+                                       ; udr_landline_pots ; udr_landline_pots ;
+
+
+INSERT_UPDATE TmaCompositeProductUsageSpec; id[unique = true]; name[lang = $lang]; $catalogVersion
+                                          ; gsm_usage_spec   ; gsm_usage_spec    ;
+

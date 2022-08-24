@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+--><extensioninfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="extensioninfo.xsd">
+    	
+    <extension abstractclassprefix="Generated" classprefix="B2ctelcoaddon" description="b2ctelcoaddon extension" managername="B2ctelcoaddonManager" managersuperclass="de.hybris.platform.jalo.extension.Extension" name="b2ctelcoaddon">
+        		
+        <!-- you should add all required extensions to this list, except platform extensions which are automatically required -->
+                 
+		
+        <requires-extension name="acceleratorstorefrontcommons"/>
+        		
+        <requires-extension name="b2ctelcofacades"/>
+        		
+        <requires-extension name="addonsupport"/>
+        		
+        <requires-extension name="subscriptionfacades"/>
+        		
+		
+        <coremodule generated="true" manager="de.hybris.platform.b2ctelcoaddon.jalo.B2ctelcoaddonManager" packageroot="de.hybris.platform.b2ctelcoaddon"/>
+        	
+    </extension>
+    
+</extensioninfo>

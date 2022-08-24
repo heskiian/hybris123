@@ -1,0 +1,55 @@
+.yw-de_hybris_platform_b2ctelcobackoffice_widgets_policyContext {
+ 	overflow: auto;
+	width:100%;
+	height:100%;
+}	
+  .yas-selectors {
+    display: block;
+}
+    .yas-policyType-selector {
+        display: inline-block;
+    }
+  
+ .yas-policy-table-style {
+      border-spacing: 0px;
+      box-sizing: border-box;
+      background-color: #fff;
+   	  border-top: 1px solid #ddd;
+   	  -webkit-box-sizing: -webkit-box-sizing;
+    }
+    
+.yas-policy-table-col-1 {
+      padding: 8px;
+      /* border-bottom: 1px solid #ddd;
+      border-right: 1px solid #ddd; */
+      vertical-align: middle;
+      width:30%;
+    }
+    
+.yas-policy-table-col-2 {
+      padding: 8px;
+      /* border-bottom: 1px solid #ddd;
+      border-right: 1px solid #ddd; */
+      vertical-align: middle;
+      width: 70%;
+    }
+    
+.yas-policy-table-col {
+		text-align: right;
+      padding: 10px 50px;
+      /* border-bottom: 1px solid #ddd;
+      border-right: 1px solid #ddd; */
+      vertical-align: middle;
+      width: 50%;
+    }
+.yas-policy-table-style.z-tablelayout .yas-policy-datebox.z-datebox {
+    display: inline-table;
+}
+
+.yas-policy-table-style .yas-policy-datebox .z-datebox-input {
+  width:210px;
+}
+.text-center {
+    text-align: center;
+    padding: 10px 0px;
+}

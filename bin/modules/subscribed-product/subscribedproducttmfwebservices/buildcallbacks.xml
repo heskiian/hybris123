@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+--><!--
+ All hybris buildcallbacks.xml macrodefinitions:
+ 
+ Build/Documentation
+ 
+	 before/after ant macro "clean"
+		 <macrodef name="subscribedproducttmfwebservices_before_clean"/>
+		 <macrodef name="subscribedproducttmfwebservices_after_clean"/>
+	 
+	 before/after ant macro "build"
+		 <macrodef name="subscribedproducttmfwebservices_before_build"/>
+		 <macrodef name="subscribedproducttmfwebservices_after_build"/>
+		 
+	 before/after ant macro "compile_core" - the core module of the extension
+		 <macrodef name="subscribedproducttmfwebservices_before_compile_core">
+		 <macrodef name="subscribedproducttmfwebservices_after_compile_core">
+	 
+	 before/after ant macro "compile_web" - the web module of the extension
+		 <macrodef name="subscribedproducttmfwebservices_before_compile_web" />
+		 <macrodef name="subscribedproducttmfwebservices_after_compile_web" />
+	 
+	 before/after ant macro "compile_hmc" - the hmc module of the extension
+		 <macrodef name="subscribedproducttmfwebservices_before_compile_hmc" />
+		 <macrodef name="subscribedproducttmfwebservices_after_compile_hmc" />
+ 
+ Preparing extension
+ 
+	 will be called in the beginning of the ant call and only once (also when using multiple 
+	 ant targets e.g. ant build yunittest)	
+		 <macrodef name="subscribedproducttmfwebservices_only_once_prepare"/>
+ 
+ Creating ear module/production
+ 
+	 before/after ant macro "ear"
+		 <macrodef name="subscribedproducttmfwebservices_before_ear"/>
+		 <macrodef name="subscribedproducttmfwebservices_after_ear"/>
+
+	 before/after ant macro "production" - for hybris server only
+		 <macrodef name="subscribedproducttmfwebservices_before_production" />
+		 <macrodef name="subscribedproducttmfwebservices_after_production" />
+ 
+ JUnit Test
+ 
+	 before/after ant macro "yunitinit" 
+		 <macrodef name="subscribedproducttmfwebservices_before_yunitinit" />
+		 <macrodef name="subscribedproducttmfwebservices_after_yunitinit" />
+	 
+	 before/after ant macro "yunit"
+		 <macrodef name="subscribedproducttmfwebservices_before_yunit" />
+		 <macrodef name="subscribedproducttmfwebservices_after_yunit" />
+		 
+ Distribution package
+ 
+ 	 before/after ant macro "dist" - internal target; only for use when platform is available in source code
+		 <macrodef name="subscribedproducttmfwebservices_after_dist"/>
+		 <macrodef name="subscribedproducttmfwebservices_before_dist"/>
+	 
+	 before/after ant macro "dist_copy" - internal target; only for use when platform is available in source code
+		 <macrodef name="subscribedproducttmfwebservices_before_dist_copy"/>
+		 <macrodef name="subscribedproducttmfwebservices_after_dist_copy"/>
+		  
+ 	 With these filters you can override the default extension filters defined in platform/resources/ant/dist/filtersets.xml
+ 	  	 <patternset id="extension.subscribedproducttmfwebservices.binary.filter">
+ 	  	  	 <patternset refid="extension.filter" />
+ 	  	  	 <exclude name="**/*-source.jar" />
+ 	  	 </patternset>
+ 	  	 <patternset id="extension.subscribedproducttmfwebservices.source.filter">
+ 	  	  	 <exclude name="**/bin/**" />
+ 	  	 </patternset>
+ 
+-->
+<project name="subscribedproducttmfwebservices_buildcallbacks">
+
+    <!--
+    Called whenever 'ant ear' is used. this callback can be used to modify the content of the ear file
+
+     ${ear.path}: 			path to ear
+ -->
+
+    <macrodef name="subscribedproducttmfwebservices_before_ear">
+        <sequential>
+
+            <!-- you can do anything before the EAR file is being packed -->
+
+        </sequential>
+    </macrodef>
+
+    <macrodef name="subscribedproducttmfwebservices_before_build">
+        <!--<attribute name="extname"/>-->
+        <!--<attribute name="destdir"/>-->
+
+        <sequential>
+            <subscribedproduct_compile_swagger_custom_class/>
+            <subscribedproduct_generate_swagger_dtos/>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="subscribedproduct_compile_swagger_custom_class">
+        <attribute name="baseDir" default="${ext.subscribedproducttmfwebservices.path}"/>
+        <sequential>
+            <if>
+                <not>
+                    <available file="@{baseDir}/lib/swagger-custom-codegen.jar"/>
+                </not>
+                <then>
+                    <if>
+                        <not>
+                            <available file="@{baseDir}/lib/swagger"/>
+                        </not>
+                        <then>
+                            <mkdir dir="@{baseDir}/lib/swagger"/>
+                        </then>
+                    </if>
+                    <javacompile destdir="@{baseDir}/lib/swagger">
+                        <additionalclasspath>
+                            <path>
+                                <fileset dir="@{baseDir}/lib">
+                                    <include name="swagger-codegen-cli-*.jar"/>
+                                </fileset>
+                            </path>
+                        </additionalclasspath>
+                        <source>
+                            <pathelement path="@{baseDir}/src/de/hybris/platform/subscribedproducttmfwebservices/swagger/"/>
+                        </source>
+                    </javacompile>
+
+                    <path id="build.classpath">
+                        <fileset dir="@{baseDir}/lib">
+                            <include name="swagger-codegen-cli-*.jar"/>
+                        </fileset>
+                    </path>
+
+                    <pathconvert property="manifest.classpath" pathsep=" ">
+                        <path refid="build.classpath"/>
+                        <mapper>
+                            <chainedmapper>
+                                <flattenmapper/>
+                            </chainedmapper>
+                        </mapper>
+                    </pathconvert>
+
+                    <jar destfile="@{baseDir}/lib/swagger-custom-codegen.jar">
+                        <fileset dir="@{baseDir}/lib/swagger" includes="**/*.class"/>
+                        <manifest>
+                            <attribute name="Main-Class" value="io.swagger.codegen.SwaggerCodegen"/>
+                            <attribute name="Class-Path" value="${manifest.classpath}"/>
+                        </manifest>
+                    </jar>
+                </then>
+            </if>
+        </sequential>
+    </macrodef>
+
+    <target name="subscribedproduct_generate_swagger" description="Generates swagger dtos">
+        <subscribedproduct_generate_swagger_dtos forced="true"/>
+    </target>
+
+    <macrodef name="subscribedproduct_generate_swagger_dtos">
+        <attribute name="baseDir" default="${ext.subscribedproducttmfwebservices.path}"/>
+        <attribute name="templateDir" default="${ext.subscribedproducttmfwebservices.path}/resources/dtos"/>
+        <attribute name="forced" default="true"/>
+        <sequential>
+            <if>
+                <or>
+                    <equals arg1="@{forced}" arg2="true"/>
+                    <not>
+                        <available file="@{baseDir}/gensrc/.swagger-codegen/VERSION"/>
+                    </not>
+                </or>
+                <then>
+                    <dirset id="subscribedproductVersions" dir="@{templateDir}" includes="*"/>
+                    <property name="subscribedproductVersions" refid="subscribedproductVersions"/>
+                    <for param="dtoVersion" list="${subscribedproductVersions}" delimiter=";">
+                        <sequential>
+                            <fileset id="swaggerFiles" dir="@{templateDir}/@{dtoVersion}" includes="*.json"/>
+                            <property name="swaggerFiles" refid="swaggerFiles"/>
+                            <for param="file" list="${swaggerFiles}" delimiter=";">
+                                <sequential>
+                                    <subscribedproduct_generate_api templateDir="@{templateDir}" version="@{dtoVersion}"
+                                                                    file="@{file}"/>
+                                </sequential>
+                            </for>
+                        </sequential>
+                    </for>
+                </then>
+                <else>
+                    <echo message="Skipping swagger apis generation"/>
+                </else>
+            </if>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="subscribedproduct_generate_api">
+        <attribute name="file"/>
+        <attribute name="templateDir"/>
+        <attribute name="version"/>
+        <attribute name="defaultPackage" default="de.hybris.platform.subscribedproducttmfwebservices"/>
+        <attribute name="baseDir" default="${ext.subscribedproducttmfwebservices.path}"/>
+        <sequential>
+            <path id="subscribedproducttmfwebservices_custom">
+                <fileset dir="@{baseDir}/lib" includes="*"/>
+            </path>
+            <property name="classpath" refid="subscribedproducttmfwebservices_custom"/>
+            <java jar="@{baseDir}/lib/swagger-custom-codegen.jar" fork="true" failonerror="true">
+                <arg line="generate"/>
+                <arg line="-l de.hybris.platform.subscribedproducttmfwebservices.swagger.SubscribedProductsCodegen"/>
+                <arg line="-i @{templateDir}/@{version}/@{file}"/>
+                <arg line="-o @{baseDir}/gensrc/"/>
+                <arg line="-c @{baseDir}/resources/swaggerconfig/@{version}/swagger-generator-config.json"/>
+                <arg line="--model-package @{defaultPackage}.@{version}.dto"/>
+                <arg line="--api-package @{defaultPackage}.@{version}.api"/>
+            </java>
+            <move file="@{baseDir}/gensrc/src/main/java" tofile="@{baseDir}/gensrc" overwrite="true" failonerror="true"/>
+            <delete includeEmptyDirs="true">
+                <fileset dir="@{baseDir}/gensrc/src"/>
+            </delete>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="subscribedproducttmfwebservices_after_build">
+        <sequential>
+            <echo message="subscribedproducttmfwebservices_after_build"/>
+            <containsExact string="${extension.names}" substring="addonsupport" separator=";">
+                <do>
+                    <foreachext>
+                        <do>
+                            <for list="${addon.folder}" param="addOnFile" delimiter=";">
+                                <sequential>
+                                    <if>
+                                        <available file="${ext.@{extname}.path}/acceleratoraddon/@{addOnFile}"/>
+                                        <then>
+                                            <echo message="Found addon:  @{extname}"/>
+                                            <echo message="addOnFile test:  @{addOnFile}"/>
+                                            <copyAddOnToExtension addonextension="@{extname}" addonresource="@{addOnFile}"
+                                                                  target="subscribedproducttmfwebservices"/>
+                                        </then>
+                                    </if>
+                                </sequential>
+                            </for>
+                        </do>
+                    </foreachext>
+                </do>
+            </containsExact>
+        </sequential>
+    </macrodef>
+
+    <patternset id="extension.subscribedproducttmfwebservices.production.filter">
+        <patternset refid="extension.production.filter"/>
+        <exclude name="web/addonsrc/**"/>
+    </patternset>
+
+</project>

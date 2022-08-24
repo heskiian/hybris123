@@ -1,0 +1,11 @@
+#Ant properties
+#Wed Apr 15 02:27:58 UTC 2020
+version.api=2102
+vendor=hybris
+group.id=de.hybris.platform
+name=b2ctelcocommercewebservicescommons
+description=b2ctelcocommercewebservicescommons
+builddate=20200415 0226
+releasedate=20200415 0226
+version=2102.0
+module.name=platform-module

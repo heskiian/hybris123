@@ -1,0 +1,29 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for Importing Sample Products
+
+#Create SubscribedProductInventory billingAccount
+INSERT_UPDATE SpiBillingAccount; id[unique = true]     ; name[lang = en]
+                               ; baettaberg@hybris.com ; baettaberg
+                               ; batimjames@hybris.com ; batimjames
+
+INSERT_UPDATE Customer; originalUid[unique = true]; uid[unique = true]   ; customerID           ; name      ; groups(uid); password[default = $defaultPassword]; Europe1PriceFactory_UPG(code)
+                      ; etta.berg@hybris.com      ; etta.berg@hybris.com ; etta.berg@hybris.com ; etta.berg ;            ;
+                      ; tim.james@hybris.com      ; tim.james@hybris.com ; tim.james@hybris.com ; tim.james ;            ;
+                      ; sam.felt@hybris.com       ; sam.felt@hybris.com  ; sam.felt@hybris.com  ; sam.felt  ;            ;
+
+#Create SubscribedProductInventory partyRole
+INSERT_UPDATE SpiPartyRole; id[unique = true]; role
+                          ; etta.berg        ; admin
+                          ; tim.james        ; owner
+
+INSERT_UPDATE SpiParty; id[unique = true]; name[lang = en]; type(code)   ; partyRoles(id); principals(uid)
+                      ; party_108281     ; etta berg      ; Individual   ; etta.berg     ; etta.berg@hybris.com
+                      ; party_108282     ; tim james      ; Organization ; tim.james     ; tim.james@hybris.com
+
+#Create SubscribedProductInventory ProductComponent
+INSERT_UPDATE SpiProductComponent; id[unique = true]      ; name[lang = en]             ; description[lang = en]          ; status(code); billingAccount(id)    ; partyRoles(id)
+                                 ; signatureUnlimitedPlan ; signatureUnlimitedPlan_name ; sup_108281_description          ; ACTIVE      ; baettaberg@hybris.com ; etta.berg
+                                 ; christmasHomeDeal      ; christmasHomeDeal_name      ; chd_fibre_net_10828_description ; ACTIVE      ; batimjames@hybris.com ; tim.james

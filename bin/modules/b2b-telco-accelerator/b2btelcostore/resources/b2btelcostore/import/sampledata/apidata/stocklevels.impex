@@ -1,0 +1,42 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for Importing Product Offerings Stock Levels
+
+$productCatalog = b2btelcoProductCatalog
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Online'])[unique = true, default = $productCatalog:Online]
+
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE StockLevel; productCode[unique = true]; available[default = 10]; warehouse(code)[unique = true, default = warehouse_b2btelco]; inStockStatus(code)[default = notSpecified]; maxPreOrder[default = 0]; maxStockLevelHistoryCount[default = -1]; overSelling[default = 0]; preOrder[default = 0]; reserved[default = 0]
+                        ; gsm_10884
+                        ; sattelite_10884
+                        ; sattelite_Bandwidth_10884
+                        ; sattelite_TerminalType_10884
+                        ; sattelite_TerminalType_config_10884
+
+# PO Permissions
+                        ; iPhone_10895
+                        ; Samsung_10895
+                        ; unlimitedPremiumPlan_10895
+                        ; Fiberlink_10895
+                        ; iPhone6_10895
+                        ; iPhone7_10895
+                        ; unlimitedBasicPlan_10895
+
+# PO Permissions E2E
+                        ; iPhone_10894
+                        ; Samsung_10894
+                        ; unlimitedPremiumPlan_10894
+                        ; Fiberlink_10894
+                        ; iPhone6_10894
+                        ; iPhone7_10894
+                        ; unlimitedBasicPlan_10894
+
+# Order Apporval - POST
+                        ; iphone6_11038
+
+
+# Order Apporval - E2E
+                        ; connect_50_11037

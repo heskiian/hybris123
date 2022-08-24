@@ -1,0 +1,6 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+INSERT_UPDATE TmaIdentification ; identificationType(code) ; identificationNumber[unique=true]
+                                ; DRIVING_LICENSE          ; NHL12506878

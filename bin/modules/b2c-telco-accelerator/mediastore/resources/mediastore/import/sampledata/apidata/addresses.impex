@@ -1,0 +1,13 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for Importing Address test Data
+
+#% impex.enableCodeExecution(true);
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE Address; id[unique = true]; owner(Customer.uid)             ; streetname       ; streetnumber; postalcode; town     ; country(isocode); installationAddress[default = false]; billingAddress[default = false]; shippingAddress[default = false]
+## TMF Order APIs baseSiteId
+                     ; 98712            ; selfserviceuser98712@hybris.com ; East 42nd Street ; 141         ; 10017     ; New York ; US              ; true                                ; true                           ; true
+                     ; 98715            ; selfserviceuser98715@hybris.com ; East 42nd Street ; 144         ; 10017     ; New York ; US              ; true                                ; true                           ; true

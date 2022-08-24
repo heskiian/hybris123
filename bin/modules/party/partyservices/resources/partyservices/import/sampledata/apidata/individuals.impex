@@ -1,0 +1,131 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+$lang = en
+
+$defaultPassword = 1234
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE Customer; originalUid[unique = true]; uid[unique = true]    ; customerID            ; name       ; groups(uid)   ; password[default = $defaultPassword];
+                      ; jane.smith@hybris.com     ; jane.smith@hybris.com ; jane.smith@hybris.com ; Jane Smith ; customergroup ;                                     ;
+                      ; john.smith@hybris.com     ; john.smith@hybris.com ; john.smith@hybris.com ; John Smith ; customergroup ;                                     ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE Company; uid[unique = true]       ;
+                     ; company_principal_115311 ;
+                     ; company_principal_115312 ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PmExternalReference; id[unique = true]        ; externalReferenceType; name                             ;
+                                 ; externalReference_115311 ; facebookId           ; "https://facebook.com/janeSmith" ;
+                                 ; externalReference_115312 ; googleId             ; "https://google.com/janeSmith"   ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PmCharacteristic; id[unique = true]     ; name            ; value       ; valueType;
+                              ; characteristic_115311 ; Hobby           ; Modern Jazz ; String   ;
+                              ; characteristic_115312 ; Hobby           ; Cinema      ; String   ;
+                              ; characteristic_115313 ; Children Number ; 1           ; number   ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE Title; code[unique = true]; name[lang = $lang];
+                   ; mrs                ; mrs               ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PmOtherName; id[unique = true]; title(code); aristocraticTitle[lang = $lang]; generation; givenName[lang = $lang]; preferredGivenName[lang = $lang]; familyNamePrefix[lang = $lang]; familyName[lang = $lang]; legalName[lang = $lang]            ; middleName[lang = $lang]; fullName[lang = $lang]             ; formattedName[lang = $lang]        ; startDate[dateformat = dd.MM.yyyy]; endDate[dateformat = dd.MM.yyyy];
+                         ; otherName_115311 ;            ; lady                           ; jr        ; Jane                   ; Jane                            ; von                           ; Egmond                  ; Lady Jane Elizabeth von Egmond Jr. ; Elizabeth               ; Lady Jane Elizabeth von Egmond Jr. ; Lady Jane Elizabeth von Egmond Jr. ; 27.05.1965                        ; 18.06.1986                      ;
+                         ; otherName_115312 ; mrs        ;                                ;           ; Jane                   ; Jane                            ;                               ; Smith                   ; Jane Elizabeth Smith               ; Elizabeth               ; Jane Elizabeth Smith               ; Jane Elizabeth Smith               ; 18.06.1986                        ;                                 ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE MediaFormat; qualifier[unique = true]; name[lang = $lang] ;
+                         ; documentCopy            ; documentCopy       ;
+                         ; passportCopy            ; passportCopy       ;
+                         ; driversLicenceCopy      ; driversLicenceCopy ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE CatalogUnawareMedia; code[unique = true]; mediaFormat(qualifier); description                                         ; mime            ; realFileName                        ; size; url                                                           ;
+                                 ; attachment_115311  ; passportCopy          ; Scanned copy of the passport                        ; application/pdf ; passportCopy.pdf                    ; 246 ; "https://DocumentManager/passportCopy.pdf"                    ;
+                                 ; attachment_115312  ; driversLicenceCopy    ; Scanned copy of the driver's licence                ; application/pdf ; driversLicenceCopy.pdf              ; 219 ; "https://DocumentManager/driversLicenceCopy.pdf"              ;
+                                 ; attachment_115313  ; documentCopy          ; Electronic version of the tax exemption certificate ; application/pdf ; tax_exemption_certificate.pdf       ; 130 ; "https://DocumentManager/tax_exemption_certificate.pdf"       ;
+                                 ; attachment_115314  ; documentCopy          ; Sales tax exemption certificate                     ; application/pdf ; sales_tax_exemption_certificate.pdf ; 165 ; "https://DocumentManager/sales_tax_exemption_certificate.pdf" ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PmIdentification; identificationId[unique = true]; identificationType; issuingAuthority; issuingDate[dateformat = dd.MM.yyyy]; startDate[dateformat = dd.MM.yyyy]; endDate[dateformat = dd.MM.yyyy]; attachment(code)  ;
+                              ; identification_115311          ; passport          ; Us Government   ; 12.05.2019                          ; 01.01.2020                        ; 31.12.2030                      ; attachment_115311 ;
+                              ; identification_115312          ; driversLicence    ; DMV             ; 24.06.2019                          ; 01.01.2020                        ; 31.12.2030                      ; attachment_115312 ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PmTaxDefinition; id[unique = true]    ; name[lang = $lang]; taxType    ;
+                             ; taxDefinition_115311 ; value-added tax   ; federalVat ;
+                             ; taxDefinition_115312 ; sales tax         ; sales      ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PmTaxExemptionCertificate; id[unique = true]              ; startDate[dateformat = dd.MM.yyyy]; endDate[dateformat = dd.MM.yyyy]; taxDefinitions(id)   ; attachment(code)  ;
+                                       ; taxExemptionCertificate_115311 ; 18.11.2020                        ; 18.11.2030                      ; taxDefinition_115311 ; attachment_115313 ;
+                                       ; taxExemptionCertificate_115312 ; 05.02.2021                        ; 05.02.2031                      ; taxDefinition_115312 ; attachment_115314 ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PmPartyCreditProfile; id[unique = true]    ; creditAgencyName; creditAgencyType; ratingScore; ratingReference; startDate[dateformat = dd.MM.yyyy]; endDate[dateformat = dd.MM.yyyy];
+                                  ; creditProfile_115311 ; Experian        ; externalAgency  ; 680        ; ref456         ; 14.06.2018                        ;                                 ;
+                                  ; creditProfile_115312 ; ExperianUnited  ; externalAgency  ; 400        ; ref567         ;                                   ; 25.04.2020                      ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PmMediumCharacteristic; id[unique = true]           ; city    ; contactType(code)   ; country       ; emailAddress          ; faxNumber; phoneNumber; postCode; socialNetworkId; stateOrProvince; street1            ; street2;
+                                    ; mediumCharacteristic_115311 ;         ; MOBILE_PHONE_NUMBER ;               ; jane.smith@hybris.com ; 123456   ; 234567     ;         ;                ;                ;                    ;        ;
+                                    ; mediumCharacteristic_115312 ; Seattle ; SHIPPING_ADDRESS    ; United States ; jane.smith@hybris.com ;          ;            ; 98109   ; 345678         ; Washington     ; 1156  Ryder Avenue ; ap 1A  ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PmContactMedium; id[unique = true]    ; mediumType(code); preferred[default = false]; startDate[dateformat = dd.MM.yyyy]; endDate[dateformat = dd.MM.yyyy]; characteristic(id)          ;
+                             ; contactMedium_115311 ; PHONE_NUMBER    ; true                      ; 28.06.2021                        ; 28.06.2022                      ; mediumCharacteristic_115311 ;
+                             ; contactMedium_115312 ; POSTAL_ADDRESS  ;                           ; 28.06.2021                        ; 28.06.2022                      ; mediumCharacteristic_115312 ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PmDisability; id[unique = true] ; disabilityCode; disabilityName               ; startDate[dateformat = dd.MM.yyyy]; endDate[dateformat = dd.MM.yyyy];
+                          ; disability_115311 ; BLD           ; Blind                        ; 26.09.1967                        ;                                 ;
+                          ; disability_115312 ; SLD           ; Specific Learning Disability ; 06.12.1974                        ;                                 ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE Language; isocode[unique = true]; active[default = true]; name
+                      ; en                    ;                       ; english
+                      ; sp                    ;                       ; spanish
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PmLanguageAbility; id[unique = true]      ; language(isocode); isFavouriteLanguage[default = false]; writingProficiency; readingProficiency; speakingProficiency; listeningProficiency; startDate[dateformat = dd.MM.yyyy]; endDate[dateformat = dd.MM.yyyy];
+                               ; languageAbility_115311 ; en               ; true                                ; native            ; native            ; native             ; native              ; 19.02.1979                        ;                                 ;
+                               ; languageAbility_115312 ; sp               ;                                     ; scholar           ; scholar           ; scholar            ; scholar             ; 22.10.2018                        ;                                 ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PmSkill; id[unique = true]; skillCode; skillName          ; evaluatedLevel; comment                  ; startDate[dateformat = dd.MM.yyyy]; endDate[dateformat = dd.MM.yyyy];
+                     ; skill_115311     ; SK001    ; Marketing          ; Advanced      ; Ten years experience     ; 22.10.2010                        ;                                 ;
+                     ; skill_115312     ; SK002    ; Project Management ; Beginner      ; First work experience    ; 22.10.2018                        ;                                 ;
+                     ; skill_115313     ; SK003    ; Violin             ; Proficient    ; Fifteen years experience ; 22.10.2005                        ;                                 ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PmPartyRole; id[unique = true]; role          ;
+                         ; partyRole_115311 ; employee      ;
+                         ; partyRole_115312 ; violinist     ;
+                         ; partyRole_115313 ; emplyer       ;
+                         ; partyRole_115314 ; musicProvider ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PmIndividual; id[unique = true] ; gender(code); placeOfBirth; countryOfBirth; nationality; maritalStatus; birthDate[dateformat = dd.MM.yyyy]; deathDate[dateformat = dd.MM.yyyy]; title(code); aristocraticTitle[lang = $lang]; generation; givenName; preferredGivenName[lang = $lang]; familyNamePrefix[lang = $lang]; familyName; legalName[lang = $lang]; middleName[lang = $lang]; fullName[lang = $lang]             ; formattedName[lang = $lang]; location; status(code); principals(uid)       ; partyRoles(id)                     ; languageAbilities(id)                          ; creditRatings(id)                          ; disabilities(id)                     ; externalReferences(id)                             ; otherNames(id)                     ; partyCharacteristics(id)                                            ; skills(id)                               ; contactMediums(id)                         ; taxExemptionCertificates(id)                                   ; identifications(identificationId)
+                          ; individual_115311 ; FEMALE      ; Seattle     ; United States ; American   ; married      ; 27.05.1965                        ;                                   ; mrs        ; lady                           ; jr        ; Jane     ; Jane                            ; von                           ; Egmond    ; Jane von Egmond        ; Elizabeth               ; Lady Jane Elizabeth von Egmond Jr. ; Jane Elizabeth von Egmond  ; Seattle ; VALIDATED   ; jane.smith@hybris.com ; partyRole_115311, partyRole_115312 ; languageAbility_115311, languageAbility_115312 ; creditProfile_115311, creditProfile_115312 ; disability_115311, disability_115312 ; externalReference_115311, externalReference_115312 ; otherName_115311, otherName_115312 ; characteristic_115311, characteristic_115312, characteristic_115313 ; skill_115311, skill_115312, skill_115313 ; contactMedium_115311, contactMedium_115312 ; taxExemptionCertificate_115311, taxExemptionCertificate_115312 ; identification_115311, identification_115312
+                          ; individual_115312 ;             ;             ;               ;            ;              ;                                   ;                                   ;            ;                                ;           ; John     ;                                 ;                               ; Smith     ; John Smith             ;                         ;                                    ;                            ;         ;             ; john.smith@hybris.com ;                                    ;                                                ;                                            ;                                      ;                                                    ;                                    ;                                                                     ;                                          ;                                            ;                                                                ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PmOrganization; id[unique = true]   ; name[lang = $lang] ; tradingName        ; principals(uid)          ; partyRoles(id)   ;
+                            ; organization_115311 ; Cofee Do Brazil    ; Cofee Do Brazil    ; company_principal_115311 ; partyRole_115313 ;
+                            ; organization_115312 ; National Orchestra ; National Orchestra ; company_principal_115312 ; partyRole_115314 ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PmPartyRoleAssociation; code[unique = true]         ; associationType; partyRoleInvolvedWith(id); partyRoleInvolves(id);
+                                    ; partyRoleAssociation_115311 ; member of      ; partyRole_115314         ; partyRole_115312     ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PmBusinessInteractionRole; code[unique = true]            ; interactionName; interactionType; partyRole(id)    ;
+                                       ; businessInteractionRole_115311 ; Employed of    ; employed by    ; partyRole_115311 ;
+                                       ; businessInteractionRole_115312 ; Employes       ; employes       ; partyRole_115313 ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PmAgreement; id[unique = true]; startDate[dateformat = dd.MM.yyyy]; endDate[dateformat = dd.MM.yyyy]; description[lang = $lang]; interactionRoles(code)                                         ;
+                         ; agreement_115311 ; 25.06.2018                        ;                                 ; Employment Contrat       ; businessInteractionRole_115311, businessInteractionRole_115312 ;

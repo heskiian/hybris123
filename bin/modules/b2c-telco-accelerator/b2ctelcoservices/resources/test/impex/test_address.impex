@@ -1,0 +1,21 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+INSERT_UPDATE Country; isocode[unique = true]; name[lang = en]; active[default = true]
+; DE ; "Germany"
+
+INSERT_UPDATE Company; uid[unique = true]; buyer; manufacturer; supplier; carrier; country(isocode); locname
+; hybris ; true ; false ; true ; true ; DE ; hybris GmbH ; hybris GmbH
+
+INSERT_UPDATE UserGroup; uid[unique = true];
+; customergroup ;
+
+INSERT_UPDATE Customer; uid[unique = true]; customerID; name; description; groups(uid); password;
+; user1@hybris.com  ; K2006-C0005 ; Anja Hertz    ; ; customergroup ; 1234 ;
+
+INSERT_UPDATE Address; id[unique = true]; owner(Company.uid)[unique = true]; streetname[unique = true]; streetnumber[unique = true]; postalcode[unique = true]; town; country(isocode); billingAddress; contactAddress; shippingAddress; unloadingAddress; email; phone1; url; company; appartment; building; fax
+; 788867AB ; hybris    ; Nymphenburger Strasse ; 86 ; D-80636 ; München ; DE ; true ; true ; true ; true ; info@hybris.de  ; +49(0)89 / 890 650 ; http://www.hybris.de ; hybris GmbH ; 3. Etage ; Treppenhaus 3 ; +49(0)89 / 890 65 555
+
+INSERT_UPDATE Address; id[unique = true]; owner(Customer.uid)[unique = true]; streetname[unique = true]; streetnumber[unique =true]; postalcode[unique = true]; town; country(isocode); billingAddress; contactAddress; shippingAddress; unloadingAddress; email; phone1; url; company; appartment; building; fax
+; 12341234 ; user1@hybris.com ; Nordlinger Strasse    ; 76 ; D-80635 ; München ; DE ; true ; true ; true ; true ; info2@hybris.de ; +49(0)89 /890 650  ; http://www.hybris.de ; hybris GmbH ; 3. Etage ; Treppenhaus 3 ; +49(0)89 / 890 65 555

@@ -1,0 +1,11 @@
+#Ant properties
+#Mon Jul 16 11:21:34 UTC 2018
+builddate=20180716 1121
+description=upilbackoffice
+group.id=de.hybris.platform
+module.name=platform-module
+name=upilbackoffice
+releasedate=20180709 1839
+vendor=hybris
+version=21.02.0
+version.api=21.02.0

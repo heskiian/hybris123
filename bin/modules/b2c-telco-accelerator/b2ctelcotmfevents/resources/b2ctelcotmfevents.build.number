@@ -1,0 +1,10 @@
+#Ant properties
+version.api=2105
+vendor=hybris
+group.id=de.hybris.platform
+name=b2ctelcotmfevents
+description=b2ctelcotmfevents
+builddate=20200511 1122
+releasedate=20200511 1122
+version=2105.0
+module.name=b2ctelco-accelerator-module

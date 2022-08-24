@@ -1,0 +1,882 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for Importing Sample Subscription data
+
+#% impex.enableCodeExecution(true);
+
+#%de.hybris.platform.core.Registry.setCurrentTenantByID("api");
+#% setAccessibility(true)
+#% Date date = new Date();
+#% date.setMonth(date.getMonth()+2);
+#% impex.definitions.put("$twoMonthsAfterCurrent", new java.text.SimpleDateFormat("dd.MM.yyyy").format(date))
+#% Date date2 = new Date();
+#% date2.setMonth(date2.getMonth()+4);
+#% impex.definitions.put("$fourMonthsAfterCurrent", new java.text.SimpleDateFormat("dd.MM.yyyy").format(date2))
+
+$cart-site-store = b2ctelco
+$productCatalog = b2ctelcoProductCatalog
+$productCatalogName = B2C Telco Product Catalog
+$catalog-id = b2ctelcoProductCatalog
+$catalog-version = Online
+$catalogVersion = catalogversion(catalog(id[default = $catalog-id]), version[default = $catalog-version])[unique = true, default = $catalog-id:$catalog-version]
+
+# Create test subscribed product
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaSubscribedProduct; id[unique = true]                  ; serviceType(code); startDate[dateformat = dd.MM.yyyy]; endDate[dateformat = dd.MM.yyyy]; billingFrequency; productCode               ; bundledProductCode; subscriptionStatus; contractDuration; billingsystemId; billingSubscriptionId              ; productSpecification(id, $catalogVersion)
+                                  ; 9999999991                         ; TARIFF_PLAN      ; 5.06.2017                         ; 4.12.2017                       ; monthly         ; SIMPLE_PRODUCT_OFFERING_1 ; mobileDeal        ; ACTIVE            ; 6               ; IN             ; billingSubscriptionId31            ; salsa
+                                  ; 9999999992                         ; TARIFF_PLAN      ; 5.06.2017                         ; 4.12.2017                       ; monthly         ; SIMPLE_PRODUCT_OFFERING_2 ; mobileDeal        ; ACTIVE            ; 6               ; IN             ; billingSubscriptionId32            ; salsa
+                                  ; 9999999993                         ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2019                      ; monthly         ; tapasL                    ; mobileDeal        ; ACTIVE            ; 2               ; IN             ; billingSubscriptionId33            ; tapas
+                                  ; 9999999994                         ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2019                      ; monthly         ; tapasL                    ; mobileDeal        ; ACTIVE            ; 2               ; IN             ; billingSubscriptionId34            ; tapas
+                                  ; 9999999995                         ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2019                      ; monthly         ; tapasL                    ; mobileDeal        ; ACTIVE            ; 2               ; IN             ; billingSubscriptionId35            ; tapas
+                                  ; 9999995111                         ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; tapasL                    ; mobileDeal        ; ACTIVE            ; 4               ; IN             ; billingSubscriptionId5111          ; tapas
+                                  ; 99999951112                        ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; tapasL                    ; mobileDeal        ; ACTIVE            ; 4               ; IN             ; billingSubscriptionId51112         ; tapas
+                                  ; 9999999701                         ; TARIFF_PLAN      ; 5.06.2017                         ; 4.12.2019                       ; monthly         ; salsaS                    ; mobileDeal        ; ACTIVE            ; 6               ; IN             ; billingSubscriptionId70            ; salsa
+                                  ; 9999999712                         ; TARIFF_PLAN      ; 5.06.2017                         ; 4.12.2019                       ; monthly         ; salsaS                    ; mobileDeal        ; ACTIVE            ; 6               ; IN             ; billingSubscriptionId71            ; salsa
+                                  ; 9999995112                         ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; tapasL                    ; mobileDeal        ; ACTIVE            ; 4               ; IN             ; billingSubscriptionId5112          ; tapas
+                                  ; 999999573                          ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; tapasL                    ; mobileDeal        ; ACTIVE            ; 4               ; IN             ; billingSubscriptionId573           ; tapas
+                                  ; 9999995113                         ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; tapasL                    ; mobileDeal        ; ACTIVE            ; 4               ; IN             ; billingSubscriptionId5113          ; tapas
+                                  ; 9999995114                         ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; salsaS                    ; mobileDeal        ; ACTIVE            ; 4               ; IN             ; billingSubscriptionId5114          ; salsa
+                                  ; 9999995115                         ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; salsaM                    ; mobileDeal        ; ACTIVE            ; 4               ; IN             ; billingSubscriptionId5115          ; salsa
+                                  ; 9999995116                         ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; salsaL                    ; mobileDeal        ; ACTIVE            ; 4               ; IN             ; billingSubscriptionId5116          ; salsa
+                                  ; 9999951051                         ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; tapasL                    ; mobileDeal        ; ACTIVE            ; 4               ; IN             ; billingSubscriptionId51051         ; tapas
+                                  ; 9999951052                         ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; internet_pack_casual      ; mobileDeal        ; ACTIVE            ; 4               ; IN             ; billingSubscriptionId51052         ; data_add_ons
+                                  ; 9999956161                         ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; salsaS                    ; mobileDeal        ; ACTIVE            ; 4               ; IN             ; billingSubscriptionId56161         ; salsa
+                                  ; 9999956162                         ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; internet_pack_casual      ; mobileDeal        ; ACTIVE            ; 4               ; IN             ; billingSubscriptionId56162         ; data_add_ons
+                                  ; 9999995117                         ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; salsaXL                   ; mobileDeal        ; ACTIVE            ; 4               ; IN             ; billingSubscriptionId5117          ; salsa
+                                  ; 9999995118                         ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; salsaXL                   ; mobileDeal        ; ACTIVE            ; 4               ; IN             ; billingSubscriptionId5118          ; salsa
+                                  ; 9999995119                         ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; int_500                   ; mobileDeal        ; ACTIVE            ; 4               ; IN             ; billingSubscriptionId5119          ; internet
+                                  ; 9999995120                         ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; int_500                   ; mobileDeal        ; ACTIVE            ; 4               ; IN             ; billingSubscriptionId5120          ; internet
+                                  ; 9999995121                         ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; int_1000                  ; mobileDeal        ; ACTIVE            ; 4               ; IN             ; billingSubscriptionId5121          ; internet
+                                  ; 9999995122                         ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; int_500                   ; mobileDeal        ; ACTIVE            ; 4               ; IN             ; billingSubscriptionId5122          ; internet
+                                  ; 9999995123                         ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; int_500                   ; mobileDeal        ; ACTIVE            ; 4               ; IN             ; billingSubscriptionId5123          ; internet
+                                  ; 9999995124                         ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; salsaL                    ; mobileDeal        ; ACTIVE            ; 4               ; IN             ; billingSubscriptionId5124          ; salsa
+                                  ; 9999995125                         ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; int_500                   ; mobileDeal        ; ACTIVE            ; 4               ; IN             ; billingSubscriptionId5125          ; internet
+                                  ; 9999995126                         ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; salsaM                    ; mobileDeal        ; ACTIVE            ; 4               ; IN             ; billingSubscriptionId5126          ; salsa
+                                  ; 9999999996                         ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2019                      ; monthly         ; tapasL                    ; mobileDeal        ; ACTIVE            ; 2               ; IN             ; billingSubscriptionId36            ; tapas
+                                  ; tmuocc_cartactions3_tapasL         ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; tapasL                    ; mobileDeal        ; ACTIVE            ; 4               ; IN             ; tmuocc_cartactions3_tapasL         ; tapas
+                                  ; tmuocc_cartactions4_myTapasS       ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; tapasS                    ; mobileDeal        ; ACTIVE            ; 4               ; IN             ; tmuocc_cartactions4_myTapasS       ; tapas
+                                  ; tmuocc_cartactions6_myTapasL       ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; tapasL                    ;                   ; ACTIVE            ; 4               ; IN             ; tmuocc_cartactions6_myTapasL       ; tapas
+                                  ; tmuocc_cartactions8_myTapasS       ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; tapasS                    ; mobileDeal        ; ACTIVE            ; 4               ; IN             ; tmuocc_cartactions8_myTapasS       ; tapas
+                                  ; tmuocc_cartactions13_myTapasS      ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; tapasS                    ; mobileDeal        ; ACTIVE            ; 4               ; IN             ; tmuocc_cartactions13_myTapasS      ; tapas
+                                  ; tmuocc_cartactions15_myTapasL      ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; tapasL                    ; mobileDeal        ; ACTIVE            ; 4               ; IN             ; tmuocc_cartactions15_myTapasS      ; tapas
+                                  ; tmuocc_cartactions16_myTapasL      ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; tapasL                    ; mobileDeal        ; ACTIVE            ; 4               ; IN             ; tmuocc_cartactions16_myTapasS      ; tapas
+                                  ; tmuocc_cartactions18_myTapasL      ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; tapasL                    ; mobileDeal        ; ACTIVE            ; 4               ; IN             ; tmuocc_cartactions18_myTapasS      ; tapas
+                                  ; tmuocc_cartactions19_myTapasL      ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; tapasL                    ; mobileDeal        ; ACTIVE            ; 4               ; IN             ; tmuocc_cartactions19_myTapasS      ; tapas
+                                  ; tmuocc_cartactions20_myTapasL      ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; tapasL                    ;                   ; ACTIVE            ; 4               ; IN             ; tmuocc_cartactions20_myTapasS      ; tapas
+                                  ; tmuocc_cartactions21_myTapasS      ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; tapasS                    ;                   ; ACTIVE            ; 4               ; IN             ; tmuocc_cartactions21_myTapasS      ; tapas
+                                  ; tmuocc_cartactions22_myTapasL      ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; tapasL                    ;                   ; ACTIVE            ; 4               ; IN             ; tmuocc_cartactions22_myTapasL      ; tapas
+                                  ; tmuocc_cartactions23_myTapasS      ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; tapasS                    ;                   ; ACTIVE            ; 4               ; IN             ; tmuocc_cartactions23_myTapasS      ; tapas
+                                  ; tmuocc_cartactions24_myTapasL      ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; tapasL                    ;                   ; ACTIVE            ; 4               ; IN             ; tmuocc_cartactions24_myTapasL      ; tapas
+                                  ; tmuocc_cartactions27_myTapasS      ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; tapasS                    ;                   ; ACTIVE            ; 4               ; IN             ; tmuocc_cartactions27_myTapasS      ; tapas
+                                  ; tmuocc_cartactions27_myTapasL      ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; tapasL                    ;                   ; ACTIVE            ; 4               ; IN             ; tmuocc_cartactions27_myTapasL      ; tapas
+                                  ; 5588000001                         ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; salsaS                    ; mobileDeal        ; ACTIVE            ; 4               ; IN             ; billingSubscriptionId55881         ; salsa
+                                  ; 5588000002                         ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; internet_pack_casual      ; mobileDeal        ; ACTIVE            ; 4               ; IN             ; billingSubscriptionId55882         ; data_add_ons
+                                  ; 1000003101                         ; TARIFF_PLAN      ; 20.03.2018                        ; 19.04.2020                      ; monthly         ; int_100                   ; quadPlay          ; ACTIVE            ; 12              ; IN             ; bsid3101
+                                  ; 1000003102                         ; TARIFF_PLAN      ; 20.03.2018                        ; 19.04.2020                      ; monthly         ; tv_M                      ; quadPlay          ; ACTIVE            ; 12              ; IN             ; bsid3102
+                                  ; 1000003103                         ; TARIFF_PLAN      ; 20.03.2018                        ; 19.04.2020                      ; monthly         ; int_100                   ; quadPlay          ; ACTIVE            ; 12              ; IN             ; bsid3103
+                                  ; 1000003104                         ; TARIFF_PLAN      ; 20.03.2018                        ; 19.04.2020                      ; monthly         ; tv_M                      ; quadPlay          ; ACTIVE            ; 12              ; IN             ; bsid3104
+                                  ; 1000003105                         ; TARIFF_PLAN      ; 20.03.2017                        ; 19.04.2018                      ; monthly         ; int_100                   ; quadPlay          ; EXPIRED           ; 12              ; IN             ; bsid3105
+                                  ; 1000003106                         ; TARIFF_PLAN      ; 20.03.2017                        ; 19.04.2018                      ; monthly         ; tapasL                    ; quadPlay          ; EXPIRED           ; 12              ; IN             ; bsid3106
+                                  ; 1000003107                         ; TARIFF_PLAN      ; 13.10.2017                        ; 20.10.2020                      ; monthly         ; tapasL                    ; quadPlay          ; ACTIVE            ; 12              ; IN             ; bsid3109
+                                  ; 1000003108                         ; TARIFF_PLAN      ; 13.10.2017                        ; 20.06.2019                      ; monthly         ; tapasS                    ; quadPlay          ; ACTIVE            ; 12              ; IN             ; bsid3110
+                                  ; 1000003991                         ; TARIFF_PLAN      ; 20.03.2018                        ; 19.04.2020                      ; monthly         ; int_100                   ; quadPlay          ; ACTIVE            ; 12              ; IN             ; bsid3111
+                                  ; 1000003992                         ; TARIFF_PLAN      ; 20.03.2018                        ; 19.04.2020                      ; monthly         ; tv_M                      ; quadPlay          ; ACTIVE            ; 12              ; IN             ; bsid3112
+                                  ; tmuocc_jc56451_2_int_100           ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; int_100                   ;                   ; ACTIVE            ; 4               ; IN             ; tmuocc_jc56451_2_int_100           ; internet
+                                  ; tmuocc_jc56451_15_int_100          ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; int_100                   ;                   ; ACTIVE            ; 4               ; IN             ; tmuocc_jc56451_15_int_100          ; internet
+                                  ; tmuocc_journey564407_myTapasL      ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; tapasL                    ; mobileDeal        ; ACTIVE            ; 4               ; IN             ; tmuocc_journey564407_myTapasL      ; tapas
+                                  ; tmuocc_journey564413_myTapasL      ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; int_500                   ; mobileDeal        ; ACTIVE            ; 4               ; IN             ; tmuocc_journey564413_myTapasL      ; internet
+                                  ; tmuocc_cartactions563601_myint_500 ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; int_500                   ; mobileDeal        ; ACTIVE            ; 4               ; IN             ; tmuocc_cartactions563601_myint_500 ; internet
+                                  ; tmuocc_cartactions563604_mySalsaS  ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; salsaS                    ; mobileDeal        ; ACTIVE            ; 4               ; IN             ; tmuocc_cartactions563604_mySalsaS  ; salsa
+                                  ; selfserviceuser73_myint100         ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; int_100                   ; mobileDeal        ; ACTIVE            ; 4               ; IN             ; selfserviceuser73_myint100         ; internet
+                                  ; tmuocc_cartactions563607_mySalsaS  ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; salsaS                    ; mobileDeal        ; ACTIVE            ; 4               ; IN             ; tmuocc_cartactions563607_mySalsaS  ; salsa
+                                  ; selfserviceuser581203_myTapasS     ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; tapasS                    ;                   ; ACTIVE            ; 4               ; IN             ; selfserviceuser581203_myTapasS     ; tapas
+                                  ; selfserviceuser581208_myTapasS     ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; tapasS                    ;                   ; ACTIVE            ; 4               ; IN             ; selfserviceuser581208_myTapasS     ; tapas
+                                  ; tmuocc_cartactions5113_1_mySalsaS  ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; salsaS                    ; mobileDeal        ; ACTIVE            ; 4               ; IN             ; tmuocc_cartactions5113_1_mySalsaS  ; salsa
+                                  ; selfserviceuser5113_1_mySalsaS     ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; salsaS                    ; mobileDeal        ; ACTIVE            ; 4               ; IN             ; selfserviceuser5113_1_mySalsaS     ; salsa
+                                  ; selfserviceuser5113_3_mySalsaS     ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; salsaS                    ; mobileDeal        ; ACTIVE            ; 4               ; IN             ; selfserviceuser5113_2_mySalsaS     ; salsa
+                                  ; selfserviceuser5113_3_myAddon      ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; internet_pack_casual      ; mobileDeal        ; ACTIVE            ; 4               ; IN             ; selfserviceuser5113_2_myAddon      ; data_add_ons
+                                  ; selfserviceuser5113_4_mySalsaS     ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; salsaS                    ; mobileDeal        ; ACTIVE            ; 4               ; IN             ; selfserviceuser5113_4_mySalsaS     ; salsa
+                                  ; selfserviceuser5113_4_myInt_100    ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2021                      ; monthly         ; int_500                   ; mobileDeal        ; ACTIVE            ; 4               ; IN             ; selfserviceuser5113_4_myInt_100    ; internet
+                                  ; 9999999013                         ; TARIFF_PLAN      ; 5.06.2017                         ; 4.12.2017                       ; monthly         ; salsaS                    ; mobileDeal        ; ACTIVE            ; 6               ; IN             ; billingSubscriptionId13            ; salsa
+                                  ; 9999999015                         ; TARIFF_PLAN      ; 5.06.2017                         ; 4.12.2017                       ; monthly         ; tapasL                    ; mobileDeal        ; ACTIVE            ; 6               ; IN             ; billingSubscriptionId15            ; tapas
+                                  ; 7234000000                         ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2019                      ; monthly         ; salsaS                    ; mobileDeal        ; ACTIVE            ; 2               ; IN             ; billingSubscriptionId7234
+                                  ; 9999999011                         ; TARIFF_PLAN      ; 5.06.2017                         ; 4.12.2017                       ; monthly         ; SIMPLE_PRODUCT_OFFERING_1 ; mobileDeal        ; ACTIVE            ; 6               ; IN             ; billingSubscriptionId11            ; salsa
+                                  ; 9999999012                         ; TARIFF_PLAN      ; 5.06.2017                         ; 4.12.2017                       ; monthly         ; tapasL                    ; mobileDeal        ; ACTIVE            ; 6               ; IN             ; billingSubscriptionId12            ; tapas
+                                  ; selfserviceuser70041_dext70042     ; TARIFF_PLAN      ; 5.06.2017                         ; 4.12.2017                       ; monthly         ; DEXT_7004_2               ; mobileDeal        ; ACTIVE            ; 6               ; IN             ; bsid_user70041_dext70042_ret       ; tapas
+#  With subscribed product having Product Offering  not available in catalog
+                                  ; 9000009101                         ; TARIFF_PLAN      ; 25.01.2020                        ; 24.01.2021                      ; monthly         ; int_700                   ;                   ; ACTIVE            ; 12              ; IN             ; bsid9101                           ; unlimited5GPlans
+#Subscribed products for cart_actions
+                                  ; occcartactions9772_2_mySalasS      ; TARIFF_PLAN      ; 5.06.2020                         ; 4.12.2020                       ; monthly         ; salsaS                    ; quadPlay          ; ACTIVE            ; 6               ; IN             ; occcartactions9772_2_mySalasS_bsid
+                                  ; occcartactions9772_2_tv_S          ; TARIFF_PLAN      ; 5.06.2020                         ; 4.12.2020                       ; monthly         ; tv_S                      ; quadPlay          ; ACTIVE            ; 6               ; IN             ; occcartactions9772_2_tv_S_bsid     ;
+## Oder APIs - Fixed BPOs
+                                  ; 1050000000                         ; TARIFF_PLAN      ; 20.08.2017                        ; 19.09.2022                      ; monthly         ; internet_200mb_10441      ; SchoolPlan_10500  ; ACTIVE            ; 2               ; IN             ; billingSubscriptionId10500
+
+# Create test subscribed product for PSCVs
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaSubscribedProduct; id[unique = true]; serviceType(code); startDate[dateformat = dd.MM.yyyy]; endDate[dateformat = dd.MM.yyyy]; billingFrequency; productCode               ; bundledProductCode; subscriptionStatus; contractDuration; billingsystemId; billingSubscriptionId      ; productSpecification(id, $catalogVersion)
+                                  ; 9100910001       ; TARIFF_PLAN      ; 5.10.2019                         ; 4.11.2020                       ; monthly         ; Fiberlink_1500_9100       ; mobileDeal_9100   ; ACTIVE            ; 6               ; IN             ; billingSubscriptionId91001 ; internet
+                                  ; 9100910002       ; TARIFF_PLAN      ; 5.10.2019                         ; 4.11.2020                       ; monthly         ; UnlimitedStarterPlan_9100 ; mobileDeal_9100   ; ACTIVE            ; 6               ; IN             ; billingSubscriptionId91002 ; internet
+
+# PO associated with Usage Specifications - GET Recommendation
+                                  ; 9500950001       ; TARIFF_PLAN      ; 5.10.2019                         ; 4.12.2020                       ; monthly         ; UnlimitedStarterPlan_9500 ; mobileDeal_9500   ; ACTIVE            ; 6               ; IN             ; billingSubscriptionId95001 ; unlimitedPlans
+                                  ; 9500950002       ; TARIFF_PLAN      ; 5.10.2019                         ; 4.12.2020                       ; monthly         ; Moto_G5_9500              ; mobileDeal_9500   ; ACTIVE            ; 6               ; IN             ; billingSubscriptionId95002 ;
+
+# Create test subscribed product for Recommended SPOs with PLAs
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaSubscribedProduct; id[unique = true]; serviceType(code); startDate[dateformat = dd.MM.yyyy]; endDate[dateformat = dd.MM.yyyy]; billingFrequency; productCode               ; bundledProductCode; subscriptionStatus; contractDuration; billingsystemId; billingSubscriptionId      ; productSpecification(id, $catalogVersion)
+                                  ; 9368000001       ; TARIFF_PLAN      ; 5.10.2019                         ; 4.12.2020                       ; monthly         ; unlimitedStarterPlan_9368 ; mobileDeal_9368   ; ACTIVE            ; 6               ; IN             ; billingSubscriptionId93681 ; unlimitedPlans
+                                  ; 9368000002       ; TARIFF_PLAN      ; 5.10.2019                         ; 4.12.2020                       ; monthly         ; internet200mb_9368        ; mobileDeal_9368   ; ACTIVE            ; 6               ; IN             ; billingSubscriptionId93682 ;
+
+#Create test subscription base
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaSubscriptionBase; subscriberIdentity[unique = true]  ; billingSystemId[unique = true]; subscribedProducts(id)
+                                 ; 99999999930                        ; IN                            ; 9999999991
+                                 ; 99999999931                        ; IN                            ; 9999999992
+                                 ; 99999999932                        ; IN                            ; 9999999993
+                                 ; 99999999934                        ; IN                            ; 9999999994
+                                 ; 99999999935                        ; IN                            ; 9999999995
+                                 ; 99999985111                        ; IN                            ; 9999995111
+                                 ; 99999851112                        ; IN                            ; 99999951112
+                                 ; 99999990701                        ; IN                            ; 9999999701
+                                 ; 99999990712                        ; IN                            ; 9999999712
+                                 ; 99999985112                        ; IN                            ; 9999995112
+                                 ; 9999998573                         ; IN                            ; 999999573
+                                 ; 99999855113                        ; IN                            ; 9999995113
+                                 ; 99999855114                        ; IN                            ; 9999995114
+                                 ; 99999855115                        ; IN                            ; 9999995115
+                                 ; 99999855116                        ; IN                            ; 9999995116
+                                 ; 99999951051                        ; IN                            ; 9999951051
+                                 ; 99999951052                        ; IN                            ; 9999951052
+                                 ; 99999956161                        ; IN                            ; 9999956161
+                                 ; 99999956162                        ; IN                            ; 9999956162
+                                 ; 99999855117                        ; IN                            ; 9999995117
+                                 ; 99999855118                        ; IN                            ; 9999995118
+                                 ; 99999855119                        ; IN                            ; 9999995119
+                                 ; 99999855120                        ; IN                            ; 9999995120
+                                 ; 99999855121                        ; IN                            ; 9999995121
+                                 ; 99999855122                        ; IN                            ; 9999995122
+                                 ; 99999855123                        ; IN                            ; 9999995123
+                                 ; 99999855124                        ; IN                            ; 9999995124
+                                 ; 99999855125                        ; IN                            ; 9999995125
+                                 ; 99999855126                        ; IN                            ; 9999995126
+                                 ; 99999999936                        ; IN                            ; 9999999996
+                                 ; tmuocc_cartactions3_tapasL         ; IN                            ; tmuocc_cartactions3_tapasL
+                                 ; tmuocc_cartactions4_myTapasS       ; IN                            ; tmuocc_cartactions4_myTapasS
+                                 ; tmuocc_cartactions6_myTapasL       ; IN                            ; tmuocc_cartactions6_myTapasL
+                                 ; tmuocc_cartactions8_myTapasS       ; IN                            ; tmuocc_cartactions8_myTapasS
+                                 ; tmuocc_cartactions13_myTapasS      ; IN                            ; tmuocc_cartactions13_myTapasS
+                                 ; tmuocc_cartactions15_myTapasL      ; IN                            ; tmuocc_cartactions15_myTapasL
+                                 ; tmuocc_cartactions16_myTapasL      ; IN                            ; tmuocc_cartactions16_myTapasL
+                                 ; tmuocc_cartactions18_myTapasL      ; IN                            ; tmuocc_cartactions18_myTapasL
+                                 ; tmuocc_cartactions19_myTapasL      ; IN                            ; tmuocc_cartactions19_myTapasL
+                                 ; tmuocc_cartactions20_myTapasL      ; IN                            ; tmuocc_cartactions20_myTapasL
+                                 ; tmuocc_cartactions21_myTapasS      ; IN                            ; tmuocc_cartactions21_myTapasS
+                                 ; tmuocc_cartactions22_myTapasL      ; IN                            ; tmuocc_cartactions22_myTapasL
+                                 ; tmuocc_cartactions23_myTapasS      ; IN                            ; tmuocc_cartactions23_myTapasS
+                                 ; tmuocc_cartactions24_myTapasL      ; IN                            ; tmuocc_cartactions24_myTapasL
+                                 ; tmuocc_cartactions27_myTapasS      ; IN                            ; tmuocc_cartactions27_myTapasS
+                                 ; tmuocc_cartactions27_myTapasL      ; IN                            ; tmuocc_cartactions27_myTapasL
+                                 ; 55880000001                        ; IN                            ; 5588000001
+                                 ; 55880000002                        ; IN                            ; 5588000002
+                                 ; 0000031013102                      ; IN                            ; 1000003101
+                                 ; 0000031033104                      ; IN                            ; 1000003103,1000003104
+                                 ; 0000031053106                      ; IN                            ; 1000003105,1000003106
+                                 ; 0000031053108                      ; IN                            ; 1000003107
+                                 ; 0000031053110                      ; IN                            ; 1000003108
+                                 ; 0000031053112                      ; IN                            ; 1000003102
+                                 ; 0000031053991                      ; IN                            ; 1000003991
+                                 ; 0000031053992                      ; IN                            ; 1000003992
+                                 ; tmuocc_journey564407_myTapasL      ; IN                            ; tmuocc_journey564407_myTapasL
+                                 ; tmuocc_journey564413_myTapasL      ; IN                            ; tmuocc_journey564413_myTapasL
+                                 ; tmuocc_jc56451_2_int_100           ; IN                            ; tmuocc_jc56451_2_int_100
+                                 ; tmuocc_jc56451_15_int_100          ; IN                            ; tmuocc_jc56451_15_int_100
+                                 ; tmuocc_cartactions563601_myint_500 ; IN                            ; tmuocc_cartactions563601_myint_500
+                                 ; tmuocc_cartactions563604_mySalsaS  ; IN                            ; tmuocc_cartactions563604_mySalsaS
+                                 ; selfserviceuser73_myint100         ; IN                            ; selfserviceuser73_myint100
+                                 ; tmuocc_cartactions563607_mySalsaS  ; IN                            ; tmuocc_cartactions563607_mySalsaS
+                                 ; selfserviceuser581203_myTapasS     ; IN                            ; selfserviceuser581203_myTapasS
+                                 ; selfserviceuser581208_myTapasS     ; IN                            ; selfserviceuser581208_myTapasS
+                                 ; tmuocc_cartactions5113_1_mySalsaS  ; IN                            ; tmuocc_cartactions5113_1_mySalsaS
+                                 ; selfserviceuser5113_1_mySalsaS     ; IN                            ; selfserviceuser5113_1_mySalsaS
+                                 ; selfserviceuser5113_3_mySalsaS     ; IN                            ; selfserviceuser5113_3_mySalsaS,selfserviceuser5113_3_myAddon
+                                 ; selfserviceuser5113_4_mySalsaS     ; IN                            ; selfserviceuser5113_4_mySalsaS,selfserviceuser5113_4_myInt_100
+                                 ; 99999999113                        ; IN                            ; 9999999013
+                                 ; 99999999115                        ; IN                            ; 9999999015
+                                 ; 72340000000                        ; IN                            ; 7234000000
+                                 ; 99999999111                        ; IN                            ; 9999999011
+                                 ; 99999999112                        ; IN                            ; 9999999012
+                                 ; selfserviceuser70041_dext70042     ; IN                            ; selfserviceuser70041_dext70042
+                                 ; 9040123111111                      ; IN                            ; 9000009101
+                                 ; tmuocccartactions9772              ; IN                            ; occcartactions9772_2_mySalasS,occcartactions9772_2_tv_S
+## Order APIs - Fixed BPOs
+                                 ; 10500000000                        ; IN                            ; 1050000000
+
+
+
+#Create test subscription base for PSCVs
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaSubscriptionBase; subscriberIdentity[unique = true]; billingSystemId[unique = true]; subscribedProducts(id)
+                                 ; 9100910020                       ; IN                            ; 9100910001
+                                 ; 9100910029                       ; IN                            ; 9100910002
+
+# PO associated with Usage Specifications - GET Recommendation
+                                 ; 9500950012                       ; IN                            ; 9500950001
+                                 ; 9500950022                       ; IN                            ; 9500950002
+
+# Create test subscription base for Recommended SPOs with PLAs
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaSubscriptionBase; subscriberIdentity[unique = true]; billingSystemId[unique = true]; subscribedProducts(id)
+                                 ; 9368000012                       ; IN                            ; 9368000001
+                                 ; 9368000022                       ; IN                            ; 9368000002
+
+# Create test subscription access
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaSubscriptionAccess; principal(uid)[unique = true]         ; subscriptionBase(billingSystemId, subscriberIdentity)[unique = true]; accessType(code)
+                                   ; "selfserviceuser30@hybris.com"        ; IN:99999999930                                                      ; OWNER
+                                   ; "selfserviceuser30@hybris.com"        ; IN:99999999931                                                      ; BENEFICIARY
+                                   ; "selfserviceuser32@hybris.com"        ; IN:99999999932                                                      ; ADMINISTRATOR
+                                   ; "selfserviceuser6@hybris.com"         ; IN:99999999934                                                      ; BENEFICIARY
+                                   ; "selfserviceuser67@hybris.com"        ; IN:99999999935                                                      ; OWNER
+                                   ; "selfserviceuser5111@hybris.com"      ; IN:99999985111                                                      ; OWNER
+                                   ; "selfserviceuser70@hybris.com"        ; IN:99999990701                                                      ; OWNER
+                                   ; "selfserviceuser71@hybris.com"        ; IN:99999990712                                                      ; OWNER
+                                   ; "selfserviceuser51112@hybris.com"     ; IN:99999851112                                                      ; OWNER
+                                   ; "selfserviceuser51113@hybris.com"     ; IN:99999851112                                                      ; OWNER
+                                   ; "selfserviceuser73@hybris.com"        ; IN:99999985112                                                      ; OWNER
+                                   ; "selfserviceuser73_1@hybris.com"      ; IN:99999985112                                                      ; OWNER
+                                   ; "selfserviceuser573@hybris.com"       ; IN:9999998573                                                       ; OWNER
+                                   ; "selfserviceuser75@hybris.com"        ; IN:99999855113                                                      ; OWNER
+                                   ; "selfserviceuser75_1@hybris.com"      ; IN:99999855113                                                      ; OWNER
+                                   ; "selfserviceuser77@hybris.com"        ; IN:99999855114                                                      ; OWNER
+                                   ; "selfserviceuser77@hybris.com"        ; IN:99999855115                                                      ; OWNER
+                                   ; "selfserviceuser78@hybris.com"        ; IN:99999855116                                                      ; OWNER
+                                   ; "selfserviceuser51051@hybris.com"     ; IN:99999951051                                                      ; OWNER
+                                   ; "selfserviceuser51051@hybris.com"     ; IN:99999951052                                                      ; OWNER
+                                   ; "selfserviceuser56161@hybris.com"     ; IN:99999956161                                                      ; OWNER
+                                   ; "selfserviceuser56161@hybris.com"     ; IN:99999956162                                                      ; OWNER
+                                   ; "selfserviceuser78@hybris.com"        ; IN:99999855117                                                      ; OWNER
+                                   ; "selfserviceuser73@hybris.com"        ; IN:99999855118                                                      ; OWNER
+                                   ; "selfserviceuser72@hybris.com"        ; IN:99999855119                                                      ; OWNER
+                                   ; "selfserviceuser69@hybris.com"        ; IN:99999855120                                                      ; OWNER
+                                   ; "selfserviceuser69@hybris.com"        ; IN:99999855121                                                      ; OWNER
+                                   ; "selfserviceuser70@hybris.com"        ; IN:99999855122                                                      ; OWNER
+                                   ; "selfserviceuser70@hybris.com"        ; IN:99999855123                                                      ; OWNER
+                                   ; "selfserviceuser67@hybris.com"        ; IN:99999855124                                                      ; OWNER
+                                   ; "selfserviceuser68@hybris.com"        ; IN:99999855125                                                      ; OWNER
+                                   ; "selfserviceuser125@hybris.com"       ; IN:99999855126                                                      ; OWNER
+                                   ; "testtmfapi3@hybris.com"              ; IN:99999999932                                                      ; ADMINISTRATOR
+                                   ; "testtmfapi4@hybris.com"              ; IN:99999999932                                                      ; ADMINISTRATOR
+                                   ; "tmuocc_cartactions3@hybris.com"      ; IN:tmuocc_cartactions3_tapasL                                       ; OWNER
+                                   ; "tmuocc_cartactions4@hybris.com"      ; IN:tmuocc_cartactions4_myTapasS                                     ; OWNER
+                                   ; "tmuocc_cartactions6@hybris.com"      ; IN:tmuocc_cartactions6_myTapasL                                     ; OWNER
+                                   ; "tmuocc_cartactions8@hybris.com"      ; IN:tmuocc_cartactions8_myTapasS                                     ; OWNER
+                                   ; "tmuocc_cartactions13@hybris.com"     ; IN:tmuocc_cartactions13_myTapasS                                    ; OWNER
+                                   ; "tmuocc_cartactions15@hybris.com"     ; IN:tmuocc_cartactions15_myTapasL                                    ; OWNER
+                                   ; "tmuocc_cartactions16@hybris.com"     ; IN:tmuocc_cartactions16_myTapasL                                    ; OWNER
+                                   ; "tmuocc_cartactions18@hybris.com"     ; IN:tmuocc_cartactions18_myTapasL                                    ; OWNER
+                                   ; "tmuocc_cartactions19@hybris.com"     ; IN:tmuocc_cartactions19_myTapasL                                    ; OWNER
+                                   ; "tmuocc_cartactions20@hybris.com"     ; IN:tmuocc_cartactions20_myTapasL                                    ; OWNER
+                                   ; "tmuocc_cartactions21@hybris.com"     ; IN:tmuocc_cartactions21_myTapasS                                    ; OWNER
+                                   ; "tmuocc_cartactions22@hybris.com"     ; IN:tmuocc_cartactions22_myTapasL                                    ; OWNER
+                                   ; "tmuocc_cartactions23@hybris.com"     ; IN:tmuocc_cartactions23_myTapasS                                    ; OWNER
+                                   ; "tmuocc_cartactions24@hybris.com"     ; IN:tmuocc_cartactions24_myTapasL                                    ; OWNER
+                                   ; "tmuocc_cartactions27@hybris.com"     ; IN:tmuocc_cartactions27_myTapasS                                    ; OWNER
+                                   ; "tmuocc_cartactions27@hybris.com"     ; IN:tmuocc_cartactions27_myTapasL                                    ; OWNER
+                                   ; "tmuoccuser558801@hybris.com"         ; IN:55880000001                                                      ; OWNER
+                                   ; "tmuoccuser558801@hybris.com"         ; IN:55880000002                                                      ; OWNER
+                                   ; "apitestuser1@hybris.com"             ; IN:0000031013102                                                    ; OWNER
+                                   ; "apitestuser1@hybris.com"             ; IN:0000031053112                                                    ; OWNER
+                                   ; "apitestuser2@hybris.com"             ; IN:0000031033104                                                    ; OWNER
+                                   ; "apitestuser3@hybris.com"             ; IN:0000031053106                                                    ; OWNER
+                                   ; "apitestuser4@hybris.com"             ; IN:0000031053108                                                    ; OWNER
+                                   ; "apitestuser5@hybris.com"             ; IN:0000031053110                                                    ; OWNER
+                                   ; "apitestuser6@hybris.com"             ; IN:0000031053991                                                    ; OWNER
+                                   ; "apitestuser6@hybris.com"             ; IN:0000031053992                                                    ; OWNER
+                                   ; "tmuocc_journey564407@hybris.com"     ; IN:tmuocc_journey564407_myTapasL                                    ; OWNER
+                                   ; "tmuocc_journey564413@hybris.com"     ; IN:tmuocc_journey564413_myTapasL                                    ; OWNER
+                                   ; "tmuocc_jc56451@hybris.com"           ; IN:tmuocc_jc56451_2_int_100                                         ; OWNER
+                                   ; "tmuocc_jc56451@hybris.com"           ; IN:tmuocc_jc56451_15_int_100                                        ; OWNER
+                                   ; "tmuocc_cartactions563601@hybris.com" ; IN:tmuocc_cartactions563601_myint_500                               ; OWNER
+                                   ; "tmuocc_cartactions563604@hybris.com" ; IN:tmuocc_cartactions563604_mySalsaS                                ; OWNER
+                                   ; "selfserviceuser73@hybris.com"        ; IN:selfserviceuser73_myint100                                       ; OWNER
+                                   ; "tmuocc_cartactions563607@hybris.com" ; IN:tmuocc_cartactions563607_mySalsaS                                ; OWNER
+                                   ; "selfserviceuser581203@hybris.com"    ; IN:selfserviceuser581203_myTapasS                                   ; OWNER
+                                   ; "selfserviceuser581208@hybris.com"    ; IN:selfserviceuser581208_myTapasS                                   ; OWNER
+                                   ; "tmuocc_cartactions5113_1@hybris.com" ; IN:tmuocc_cartactions5113_1_mySalsaS                                ; OWNER
+                                   ; "selfserviceuser5113_1@hybris.com"    ; IN:selfserviceuser5113_1_mySalsaS                                   ; OWNER
+                                   ; "selfserviceuser5113_3@hybris.com"    ; IN:selfserviceuser5113_3_mySalsaS                                   ; OWNER
+                                   ; "selfserviceuser5113_4@hybris.com"    ; IN:selfserviceuser5113_4_mySalsaS                                   ; OWNER
+                                   ; "tmuocctestorder24@hybris.com"        ; IN:55880000001                                                      ; OWNER
+                                   ; "selfserviceuser16_ret@hybris.com"    ; IN:99999999113                                                      ; OWNER
+                                   ; "selfserviceuser64_1@hybris.com"      ; IN:99999999115                                                      ; OWNER
+                                   ; "selfserviceuser16@hybris.com"        ; IN:72340000000                                                      ; OWNER
+                                   ; "selfserviceuser64@hybris.com"        ; IN:99999999934                                                      ; OWNER
+                                   ; "selfserviceuser51051@hybris.com"     ; IN:99999999934                                                      ; OWNER
+                                   ; "occteste2euser11@hybris.com"         ; IN:99999999111                                                      ; OWNER
+                                   ; "occteste2euser12@hybris.com"         ; IN:99999999112                                                      ; OWNER
+                                   ; "selfserviceuser70041@hybris.com"     ; IN:selfserviceuser70041_dext70042                                   ; OWNER
+                                   ; selfserviceuser9972_1@hybris.com      ; IN: 9040123111111                                                   ; OWNER
+
+                                   ; "selfserviceuser9972_1@hybris.com"    ; IN:tmuocccartactions9772                                            ; OWNER
+## Order APIs - Fixed BPOs
+                                   ; "selfserviceuser105006@hybris.com"    ; IN:10500000000                                                      ; OWNER
+## Get carts - Fixed BPOs
+                                   ; "selfserviceuser105106@hybris.com"    ; IN:10500000000                                                      ; OWNER
+
+# Create test subscription access for PSCVs
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaSubscriptionAccess; principal(uid)[unique = true]     ; subscriptionBase(billingSystemId, subscriberIdentity)[unique = true]; accessType(code)
+                                   ; "selfserviceuser91001@hybris.com" ; IN:9100910020                                                       ; OWNER
+                                   ; "selfserviceuser91002@hybris.com" ; IN:9100910029                                                       ; OWNER
+
+# PO associated with Usage Specifications - GET Recommendation
+                                   ; "selfserviceuser95001@hybris.com" ; IN:9500950012                                                       ; OWNER
+                                   ; "selfserviceuser95002@hybris.com" ; IN:9500950022                                                       ; OWNER
+
+# Create test subscription access for Recommended SPOs with PLAs
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaSubscriptionAccess; principal(uid)[unique = true]     ; subscriptionBase(billingSystemId, subscriberIdentity)[unique = true]; accessType(code)
+                                   ; "selfserviceuser93681@hybris.com" ; IN:9368000012                                                       ; OWNER
+                                   ; "selfserviceuser93682@hybris.com" ; IN:9368000022                                                       ; OWNER
+
+# Create test billing account
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaBillingAccount; billingAccountId[unique = true]    ; billingSystemId[unique = true]; subscriptionBases(subscriberIdentity)                   ; parent(billingAccountId, billingSystemId)
+                               ; BA-99930                           ; IN                            ; 99999999930                                             ;
+                               ; BA-99931                           ; IN                            ; 99999999931                                             ;
+                               ; BA-99932                           ; IN                            ; 99999999932                                             ;
+                               ; BA-99934                           ; IN                            ; 99999999934                                             ;
+                               ; BA-99935                           ; IN                            ; 99999999935                                             ;
+                               ; BA-5111                            ; IN                            ; 99999985111                                             ;
+                               ; BA-99970                           ; IN                            ; 99999990701                                             ;
+                               ; BA-99971                           ; IN                            ; 99999990712                                             ;
+                               ; BA-51112                           ; IN                            ; 99999851112                                             ;
+                               ; BA-5112                            ; IN                            ; 99999985112                                             ;
+                               ; BA-573                             ; IN                            ; 9999998573                                              ;
+                               ; BA-5113                            ; IN                            ; 99999855113                                             ;
+                               ; BA-5114                            ; IN                            ; 99999855114                                             ;
+                               ; BA-5115                            ; IN                            ; 99999855115                                             ;
+                               ; BA-5116                            ; IN                            ; 99999855116                                             ;
+                               ; BA-51051                           ; IN                            ; 99999951051                                             ;
+                               ; BA-51052                           ; IN                            ; 99999951052                                             ;
+                               ; BA-56161                           ; IN                            ; 99999956161                                             ;
+                               ; BA-56162                           ; IN                            ; 99999956162                                             ;
+                               ; BA-5117                            ; IN                            ; 99999855117                                             ;
+                               ; BA-5118                            ; IN                            ; 99999855118                                             ;
+                               ; BA-5119                            ; IN                            ; 99999855119                                             ;
+                               ; BA-5120                            ; IN                            ; 99999855120                                             ;
+                               ; BA-5121                            ; IN                            ; 99999855121                                             ;
+                               ; BA-5122                            ; IN                            ; 99999855122                                             ;
+                               ; BA-5123                            ; IN                            ; 99999855123                                             ;
+                               ; BA-5124                            ; IN                            ; 99999855124                                             ;
+                               ; BA-5125                            ; IN                            ; 99999855125                                             ;
+                               ; BA-5126                            ; IN                            ; 99999855126                                             ;
+                               ; tmuocc_cartactions3_tapasL         ; IN                            ; tmuocc_cartactions3_tapasL                              ;
+                               ; tmuocc_cartactions4_myTapasS       ; IN                            ; tmuocc_cartactions4_myTapasS                            ;
+                               ; tmuocc_cartactions6_myTapasL       ; IN                            ; tmuocc_cartactions6_myTapasL                            ;
+                               ; tmuocc_cartactions8_myTapasS       ; IN                            ; tmuocc_cartactions8_myTapasS                            ;
+                               ; tmuocc_cartactions13_myTapasS      ; IN                            ; tmuocc_cartactions13_myTapasS                           ;
+                               ; tmuocc_cartactions15_myTapasL      ; IN                            ; tmuocc_cartactions15_myTapasL                           ;
+                               ; tmuocc_cartactions16_myTapasL      ; IN                            ; tmuocc_cartactions16_myTapasL                           ;
+                               ; tmuocc_cartactions18_myTapasL      ; IN                            ; tmuocc_cartactions18_myTapasL                           ;
+                               ; tmuocc_cartactions19_myTapasL      ; IN                            ; tmuocc_cartactions19_myTapasL                           ;
+                               ; tmuocc_cartactions20_myTapasL      ; IN                            ; tmuocc_cartactions20_myTapasL                           ;
+                               ; tmuocc_cartactions21_myTapasS      ; IN                            ; tmuocc_cartactions21_myTapasS                           ;
+                               ; tmuocc_cartactions22_myTapasL      ; IN                            ; tmuocc_cartactions22_myTapasL                           ;
+                               ; tmuocc_cartactions23_myTapasS      ; IN                            ; tmuocc_cartactions23_myTapasS                           ;
+                               ; tmuocc_cartactions24_myTapasL      ; IN                            ; tmuocc_cartactions24_myTapasL                           ;
+                               ; tmuocc_cartactions27_myTapasS      ; IN                            ; tmuocc_cartactions27_myTapasS                           ;
+                               ; tmuocc_cartactions27_myTapasL      ; IN                            ; tmuocc_cartactions27_myTapasL                           ;
+                               ; BA-55881                           ; IN                            ; 55880000001                                             ;
+                               ; BA-55882                           ; IN                            ; 55880000002                                             ;
+                               ; BA-34574                           ; IN                            ; 0000031033104,0000031053106,0000031053108,0000031053110 ;
+                               ; BA-34575                           ; IN                            ; 0000031053112                                           ;
+                               ; BA-34576                           ; IN                            ; 0000031013102                                           ;
+                               ; BA-34123                           ; IN                            ; 0000031053991                                           ;
+                               ; BA-34124                           ; IN                            ; 0000031053992                                           ;
+                               ; tmuocc_journey564407_myTapasL      ; IN                            ; tmuocc_journey564407_myTapasL                           ;
+                               ; tmuocc_journey564413_myTapasL      ; IN                            ; tmuocc_journey564413_myTapasL                           ;
+                               ; tmuocc_jc56451_2                   ; IN                            ; tmuocc_jc56451_2_int_100                                ;
+                               ; tmuocc_jc56451_15                  ; IN                            ; tmuocc_jc56451_15_int_100                               ;
+                               ; tmuocc_cartactions563601_myint_500 ; IN                            ; tmuocc_cartactions563601_myint_500                      ;
+                               ; tmuocc_cartactions563604_mySalsaS  ; IN                            ; tmuocc_cartactions563604_mySalsaS                       ;
+                               ; selfserviceuser73_myint100         ; IN                            ; selfserviceuser73_myint100                              ;
+                               ; tmuocc_cartactions563607_mySalsaS  ; IN                            ; tmuocc_cartactions563607_mySalsaS                       ;
+                               ; selfserviceuser581203_myTapasS     ; IN                            ; selfserviceuser581203_myTapasS                          ;
+                               ; selfserviceuser581208_myTapasS     ; IN                            ; selfserviceuser581208_myTapasS                          ;
+                               ; tmuocc_cartactions5113_1_mySalsaS  ; IN                            ; tmuocc_cartactions5113_1_mySalsaS                       ;
+                               ; selfserviceuser5113_1_mySalsaS     ; IN                            ; selfserviceuser5113_1_mySalsaS                          ;
+                               ; selfserviceuser5113_3_mySalsaS     ; IN                            ; selfserviceuser5113_3_mySalsaS                          ;
+                               ; selfserviceuser5113_4_mySalsaS     ; IN                            ; selfserviceuser5113_4_mySalsaS                          ;
+                               ; BA-999013                          ; IN                            ; 99999999113                                             ;
+                               ; BA-999015                          ; IN                            ; 99999999115                                             ;
+                               ; BA-72340                           ; IN                            ; 72340000000                                             ;
+                               ; BA-999011                          ; IN                            ; 99999999111                                             ;
+                               ; BA-999012                          ; IN                            ; 99999999112                                             ;
+                               ; BA-user70041_dext70042             ; IN                            ; selfserviceuser70041_dext70042                          ;
+                               ; BACC-89762                         ; IN                            ; 9040123111111                                           ;
+                               ; occcartactions9772_2_bsid          ; IN                            ; tmuocccartactions9772                                   ;
+## Order APIs - Fixed BPOs
+                               ; BA-10500                           ; IN                            ; 10500000000                                             ;
+
+# Create test billing account for PSCVs
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaBillingAccount; billingAccountId[unique = true]; billingSystemId[unique = true]; subscriptionBases(subscriberIdentity); parent(billingAccountId, billingSystemId)
+                               ; BA-99920                       ; IN                            ; 9100910020                           ;
+                               ; BA-99929                       ; IN                            ; 9100910029                           ;
+
+# PO associated with Usage Specifications - GET Recommendation
+                               ; BA-99912                       ; IN                            ; 9500950012                           ;
+                               ; BA-99922                       ; IN                            ; 9500950022                           ;
+
+# Create test billing account for Recommended SPOs with PLAs
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaBillingAccount; billingAccountId[unique = true]; billingSystemId[unique = true]; subscriptionBases(subscriberIdentity); parent(billingAccountId, billingSystemId)
+                               ; BA-93681                       ; IN                            ; 9368000012                           ;
+                               ; BA-93682                       ; IN                            ; 9368000022                           ;
+
+# Create test billing agreement and billing agreement item
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaBillingAgreementItem; id[unique = true]                  ; subscribedProducts(id)
+                                     ; 9999999830_baItem                  ; 9999999991
+                                     ; 9999999831_baItem                  ; 9999999992
+                                     ; 9999999832_baItem                  ; 9999999993
+                                     ; 9999999834_baItem                  ; 9999999994
+                                     ; 9999999835_baItem                  ; 9999999995
+                                     ; 995111_baItem                      ; 9999995111
+                                     ; 9951112_baItem                     ; 99999951112
+                                     ; 9999999701_baItem                  ; 9999999701
+                                     ; 9999999712_baItem                  ; 9999999712
+                                     ; 995112_baItem                      ; 9999995112
+                                     ; 99573_baItem                       ; 999999573
+                                     ; 995113_baItem                      ; 9999995113
+                                     ; 995114_baItem                      ; 9999995114
+                                     ; 995115_baItem                      ; 9999995115
+                                     ; 995116_baItem                      ; 9999995116
+                                     ; 9951051_baItem                     ; 9999951051
+                                     ; 9951052_baItem                     ; 9999951052
+                                     ; 9956161_baItem                     ; 9999956161
+                                     ; 9956162_baItem                     ; 9999956162
+                                     ; 995117_baItem                      ; 9999995117
+                                     ; 995118_baItem                      ; 9999995118
+                                     ; 995119_baItem                      ; 9999995119
+                                     ; 995120_baItem                      ; 9999995120
+                                     ; 995121_baItem                      ; 9999995121
+                                     ; 995122_baItem                      ; 9999995122
+                                     ; 995123_baItem                      ; 9999995123
+                                     ; 995124_baItem                      ; 9999995124
+                                     ; 995125_baItem                      ; 9999995125
+                                     ; 995126_baItem                      ; 9999995126
+                                     ; tmuocc_cartactions3_tapasL         ; tmuocc_cartactions3_tapasL
+                                     ; tmuocc_cartactions4_myTapasS       ; tmuocc_cartactions4_myTapasS
+                                     ; tmuocc_cartactions6_myTapasL       ; tmuocc_cartactions6_myTapasL
+                                     ; tmuocc_cartactions8_myTapasS       ; tmuocc_cartactions8_myTapasS
+                                     ; tmuocc_cartactions13_myTapasS      ; tmuocc_cartactions13_myTapasS
+                                     ; tmuocc_cartactions15_myTapasL      ; tmuocc_cartactions15_myTapasL
+                                     ; tmuocc_cartactions16_myTapasL      ; tmuocc_cartactions16_myTapasL
+                                     ; tmuocc_cartactions18_myTapasL      ; tmuocc_cartactions18_myTapasL
+                                     ; tmuocc_cartactions19_myTapasL      ; tmuocc_cartactions19_myTapasL
+                                     ; tmuocc_cartactions20_myTapasL      ; tmuocc_cartactions20_myTapasL
+                                     ; tmuocc_cartactions21_myTapasS      ; tmuocc_cartactions21_myTapasS
+                                     ; tmuocc_cartactions22_myTapasL      ; tmuocc_cartactions22_myTapasL
+                                     ; tmuocc_cartactions23_myTapasS      ; tmuocc_cartactions23_myTapasS
+                                     ; tmuocc_cartactions24_myTapasL      ; tmuocc_cartactions24_myTapasL
+                                     ; tmuocc_cartactions27_myTapasS      ; tmuocc_cartactions27_myTapasS
+                                     ; tmuocc_cartactions27_myTapasL      ; tmuocc_cartactions27_myTapasL
+                                     ; 9955811_baItem                     ; 5588000001
+                                     ; 9955812_baItem                     ; 5588000002
+                                     ; tmuocc_journey564407_myTapasL      ; tmuocc_journey564407_myTapasL
+                                     ; tmuocc_journey564413_myTapasL      ; tmuocc_journey564413_myTapasL
+                                     ; tmuocc_jc56451_2_int_100_item      ; tmuocc_jc56451_2_int_100
+                                     ; tmuocc_jc56451_15_int_100_item     ; tmuocc_jc56451_15_int_100
+                                     ; apitest_3101_baItem                ; 1000003101
+                                     ; apitest_3102_baItem                ; 1000003102
+                                     ; apitest_3103_baItem                ; 1000003103
+                                     ; apitest_3104_baItem                ; 1000003104
+                                     ; apitest_3105_baItem                ; 1000003105
+                                     ; apitest_3106_baItem                ; 1000003106
+                                     ; apitest_3107_baItem                ; 1000003107
+                                     ; apitest_3108_baItem                ; 1000003108
+                                     ; apitest_3109_baItem                ; 1000003991
+                                     ; apitest_3100_baItem                ; 1000003992
+                                     ; 9999999830_baItem                  ; 9999999991
+                                     ; 9999999831_baItem                  ; 9999999992
+                                     ; 9999999832_baItem                  ; 9999999993
+                                     ; 9999999834_baItem                  ; 9999999994
+                                     ; 9999999835_baItem                  ; 9999999995
+                                     ; 995111_baItem                      ; 9999995111
+                                     ; 9951112_baItem                     ; 99999951112
+                                     ; 9999999701_baItem                  ; 9999999701
+                                     ; 9999999712_baItem                  ; 9999999712
+                                     ; 995112_baItem                      ; 9999995112
+                                     ; 995113_baItem                      ; 9999995113
+                                     ; 995114_baItem                      ; 9999995114
+                                     ; 995115_baItem                      ; 9999995115
+                                     ; 995116_baItem                      ; 9999995116
+                                     ; 9951051_baItem                     ; 9999951051
+                                     ; 9951052_baItem                     ; 9999951052
+                                     ; 9956161_baItem                     ; 9999956161
+                                     ; 9956162_baItem                     ; 9999956162
+                                     ; 995117_baItem                      ; 9999995117
+                                     ; 995118_baItem                      ; 9999995118
+                                     ; 995119_baItem                      ; 9999995119
+                                     ; 995120_baItem                      ; 9999995120
+                                     ; 995121_baItem                      ; 9999995121
+                                     ; 995122_baItem                      ; 9999995122
+                                     ; 995123_baItem                      ; 9999995123
+                                     ; 995124_baItem                      ; 9999995124
+                                     ; 995125_baItem                      ; 9999995125
+                                     ; 995126_baItem                      ; 9999995126
+                                     ; tmuocc_cartactions3_tapasL         ; tmuocc_cartactions3_tapasL
+                                     ; tmuocc_cartactions4_myTapasS       ; tmuocc_cartactions4_myTapasS
+                                     ; tmuocc_cartactions6_myTapasL       ; tmuocc_cartactions6_myTapasL
+                                     ; tmuocc_cartactions8_myTapasS       ; tmuocc_cartactions8_myTapasS
+                                     ; tmuocc_cartactions13_myTapasS      ; tmuocc_cartactions13_myTapasS
+                                     ; tmuocc_cartactions15_myTapasL      ; tmuocc_cartactions15_myTapasL
+                                     ; tmuocc_cartactions16_myTapasL      ; tmuocc_cartactions16_myTapasL
+                                     ; tmuocc_cartactions18_myTapasL      ; tmuocc_cartactions18_myTapasL
+                                     ; tmuocc_cartactions19_myTapasL      ; tmuocc_cartactions19_myTapasL
+                                     ; tmuocc_cartactions20_myTapasL      ; tmuocc_cartactions20_myTapasL
+                                     ; tmuocc_cartactions21_myTapasS      ; tmuocc_cartactions21_myTapasS
+                                     ; tmuocc_cartactions22_myTapasL      ; tmuocc_cartactions22_myTapasL
+                                     ; tmuocc_cartactions23_myTapasS      ; tmuocc_cartactions23_myTapasS
+                                     ; tmuocc_cartactions24_myTapasL      ; tmuocc_cartactions24_myTapasL
+                                     ; tmuocc_cartactions27_myTapasS      ; tmuocc_cartactions27_myTapasS
+                                     ; tmuocc_cartactions27_myTapasL      ; tmuocc_cartactions27_myTapasL
+                                     ; 9955811_baItem                     ; 5588000001
+                                     ; 9955812_baItem                     ; 5588000002
+                                     ; tmuocc_journey564407_myTapasL      ; tmuocc_journey564407_myTapasL
+                                     ; tmuocc_journey564413_myTapasL      ; tmuocc_journey564413_myTapasL
+                                     ; tmuocc_jc56451_2_int_100_item      ; tmuocc_jc56451_2_int_100
+                                     ; tmuocc_jc56451_15_int_100_item     ; tmuocc_jc56451_15_int_100
+                                     ; tmuocc_journey564407_myTapasL      ; tmuocc_journey564407_myTapasL
+                                     ; tmuocc_journey564413_myTapasL      ; tmuocc_journey564413_myTapasL
+                                     ; tmuocc_jc56451_2_int_100_item      ; tmuocc_jc56451_2_int_100
+                                     ; tmuocc_jc56451_15_int_100_item     ; tmuocc_jc56451_15_int_100
+                                     ; tmuocc_cartactions563601_myint_500 ; tmuocc_cartactions563601_myint_500
+                                     ; tmuocc_cartactions563604_mySalsaS  ; tmuocc_cartactions563604_mySalsaS
+                                     ; selfserviceuser73_myint100         ; selfserviceuser73_myint100
+                                     ; tmuocc_cartactions563607_mySalsaS  ; tmuocc_cartactions563607_mySalsaS
+                                     ; selfserviceuser581203_myTapasS     ; selfserviceuser581203_myTapasS
+                                     ; selfserviceuser581208_myTapasS     ; selfserviceuser581208_myTapasS
+                                     ; tmuocc_cartactions5113_1_mySalsaS  ; tmuocc_cartactions5113_1_mySalsaS
+                                     ; selfserviceuser5113_1_mySalsaS     ; selfserviceuser5113_1_mySalsaS
+                                     ; selfserviceuser5113_3_mySalsaS     ; selfserviceuser5113_3_mySalsaS
+                                     ; selfserviceuser5113_4_mySalsaS     ; selfserviceuser5113_4_mySalsaS
+                                     ; 9999999013_baItem                  ; 9999999013
+                                     ; 9999999015_baItem                  ; 9999999015
+                                     ; 7234000000_baItem                  ; 7234000000
+                                     ; 9999999011_baItem                  ; 9999999011
+                                     ; 9999999012_baItem                  ; 9999999012
+                                     ; user70041_dext70042_baItem         ; selfserviceuser70041_dext70042
+                                     ; 9040123111111_baItem               ; 9000009101
+                                     ; occcartactions9772_2_baItem        ; occcartactions9772_2_mySalasS,occcartactions9772_2_tv_S
+## Oder APIs - Fixed BPOs
+                                     ; 1050000000_baItem                  ; 1050000000
+
+# Create test billing agreement and billing agreement item for PSCVs
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaBillingAgreementItem; id[unique = true] ; subscribedProducts(id)
+                                     ; 9100910020_baItem ; 9100910001
+                                     ; 9100910029_baItem ; 9100910002
+
+# PO associated with Usage Specifications - GET Recommendation
+                                     ; 9500950012_baItem ; 9500950001
+                                     ; 9500950022_baItem ; 9500950002
+
+# Create test billing agreement and billing agreement item for Recommended SPOs with PLAs
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaBillingAgreementItem; id[unique = true] ; subscribedProducts(id)
+                                     ; 9368000012_baItem ; 9368000001
+                                     ; 9368000022_baItem ; 9368000002
+
+# Create test billing agreement and billing agreement term
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaBillingAgreementTerm; id[unique = true]                  ; billingSystemId; start[dateformat = dd.MM.yyyy]; end[dateformat = dd.MM.yyyy]; length; frequency(code); offerTermRef
+                                     ; test_billing_agreement_term_30     ; IN             ; 13.9.2017                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; test_billing_agreement_term_31     ; IN             ; 10.1.2018                     ; 9.12.2025                   ; 12    ; monthly        ; monthly_12
+                                     ; test_billing_agreement_term_34     ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; test_billing_agreement_term_35     ; IN             ; 10.1.2018                     ; $fourMonthsAfterCurrent     ; 12    ; monthly        ; monthly_12
+                                     ; test_billing_agreement_term_5111   ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; test_billing_agreement_term_51112  ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; test_billing_agreement_term_70     ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; test_billing_agreement_term_71     ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; test_billing_agreement_term_5112   ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; test_billing_agreement_term_573    ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; test_billing_agreement_term_5113   ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; test_billing_agreement_term_5114   ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; test_billing_agreement_term_5115   ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; test_billing_agreement_term_5116   ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; test_billing_agreement_term_51051  ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; test_billing_agreement_term_51052  ; IN             ; 10.1.2018                     ; $fourMonthsAfterCurrent     ; 12    ; monthly        ; monthly_12
+                                     ; test_billing_agreement_term_56161  ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; test_billing_agreement_term_56162  ; IN             ; 10.1.2018                     ; $fourMonthsAfterCurrent     ; 12    ; monthly        ; monthly_12
+                                     ; test_billing_agreement_term_5117   ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; test_billing_agreement_term_5118   ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; test_billing_agreement_term_5119   ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; test_billing_agreement_term_5120   ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; test_billing_agreement_term_5121   ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; test_billing_agreement_term_5122   ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; test_billing_agreement_term_5123   ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; test_billing_agreement_term_5124   ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; test_billing_agreement_term_5125   ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; test_billing_agreement_term_5126   ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; tmuocc_cartactions3_tapasL         ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; tmuocc_cartactions4_myTapasS       ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; tmuocc_cartactions6_myTapasL       ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; tmuocc_cartactions8_myTapasS       ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; tmuocc_cartactions13_myTapasS      ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; tmuocc_cartactions15_myTapasL      ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; tmuocc_cartactions16_myTapasL      ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; tmuocc_cartactions18_myTapasL      ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; tmuocc_cartactions19_myTapasL      ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; tmuocc_cartactions20_myTapasL      ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; tmuocc_cartactions21_myTapasS      ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; tmuocc_cartactions22_myTapasL      ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; tmuocc_cartactions23_myTapasS      ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; tmuocc_cartactions24_myTapasL      ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; tmuocc_cartactions27_myTapasS      ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; tmuocc_cartactions27_myTapasL      ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; test_billing_agreement_term_55881  ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; test_billing_agreement_term_55882  ; IN             ; 10.1.2018                     ; $fourMonthsAfterCurrent     ; 12    ; monthly        ; monthly_12
+                                     ; apitest_31013102_monthly_term      ; IN             ; 13.04.2018                    ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; apitest_31013199_monthly_term      ; IN             ; 13.04.2018                    ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; apitest_31013191_monthly_term      ; IN             ; 13.04.2018                    ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; apitest_31033104_monthly_term      ; IN             ; 13.04.2018                    ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; apitest_31053106_monthly_term      ; IN             ; 13.04.2017                    ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; apitest_31053108_monthly_term      ; IN             ; 13.04.2017                    ; 12.03.2019                  ; 12    ; monthly        ; monthly_12
+                                     ; apitest_31053110_monthly_term      ; IN             ; 13.04.2017                    ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; tmuocc_journey564407_myTapasL      ; IN             ; 10.1.2018                     ; $fourMonthsAfterCurrent     ; 12    ; monthly        ; monthly_12
+                                     ; tmuocc_journey564413_myTapasL      ; IN             ; 10.1.2018                     ; $fourMonthsAfterCurrent     ; 12    ; monthly        ; monthly_12
+                                     ; tmuocc_jc56451_2_int_100_term      ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; tmuocc_jc56451_15_int_100_term     ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; tmuocc_cartactions563601_myint_500 ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; tmuocc_cartactions563604_mySalsaS  ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; selfserviceuser73_myint100         ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; tmuocc_cartactions563607_mySalsaS  ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; selfserviceuser581203_myTapasS     ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; selfserviceuser581208_myTapasS     ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; tmuocc_cartactions5113_1_mySalsaS  ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; selfserviceuser5113_1_mySalsaS     ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; selfserviceuser5113_3_mySalsaS     ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; selfserviceuser5113_4_mySalsaS     ; IN             ; 10.1.2018                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; test_billing_agreement_term_13     ; IN             ; 13.9.2017                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; test_billing_agreement_term_15     ; IN             ; 13.9.2017                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; test_billing_agreement_term_51052  ; IN             ; 13.9.2017                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; selfserviceuser16_BA_7234          ; IN             ; 10.1.2020                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; test_billing_agreement_term_11     ; IN             ; 13.9.2017                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; test_billing_agreement_term_12     ; IN             ; 13.9.2017                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; user70041_dext70042_bat            ; IN             ; 13.9.2017                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; 9040123111111_monthly_term         ; IN             ; 25.01.2020                    ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; occcartactions9772_2_term          ; IN             ; 13.9.2020                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+## Order APIs - Fixed BPOs
+                                     ; selfserviceuser105006_BA_10500     ; IN             ; 10.1.2020                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+
+# Create test billing agreement and billing agreement term for PSCVs
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaBillingAgreementTerm; id[unique = true]               ; billingSystemId; start[dateformat = dd.MM.yyyy]; end[dateformat = dd.MM.yyyy]; length; frequency(code); offerTermRef
+                                     ; test_billing_agreement_term_20  ; IN             ; 10.1.2019                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; test_billing_agreement_term_29  ; IN             ; 10.1.2019                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+
+# PO associated with Usage Specifications - GET Recommendation
+                                     ; test_billing_agreement_term_121 ; IN             ; 10.1.2019                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; test_billing_agreement_term_22  ; IN             ; 10.1.2019                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+
+# Create test billing agreement and billing agreement term for Recommended SPOs with PLAs
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaBillingAgreementTerm; id[unique = true]                 ; billingSystemId; start[dateformat = dd.MM.yyyy]; end[dateformat = dd.MM.yyyy]; length; frequency(code); offerTermRef
+                                     ; test_billing_agreement_term_93681 ; IN             ; 10.1.2019                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; test_billing_agreement_term_93682 ; IN             ; 10.1.2019                     ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+
+# Create test billing agreement and billing agreement
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaBillingAgreement; id[unique = true]                    ; billingSystemId; term(id)                           ; agreementItems(id)
+                                 ; test_billing_agreement_30            ; IN             ; test_billing_agreement_term_30     ; 9999999830_baItem
+                                 ; test_billing_agreement_31            ; IN             ; test_billing_agreement_term_30     ; 9999999831_baItem
+                                 ; test_billing_agreement_32            ; IN             ; test_billing_agreement_term_31     ; 9999999832_baItem
+                                 ; test_billing_agreement_34            ; IN             ; test_billing_agreement_term_34     ; 9999999834_baItem
+                                 ; test_billing_agreement_35            ; IN             ; test_billing_agreement_term_35     ; 9999999835_baItem
+                                 ; test_billing_agreement_5111          ; IN             ; test_billing_agreement_term_5111   ; 995111_baItem
+                                 ; test_billing_agreement_51112         ; IN             ; test_billing_agreement_term_51112  ; 9951112_baItem
+                                 ; test_billing_agreement_70            ; IN             ; test_billing_agreement_term_70     ; 9999999701_baItem
+                                 ; test_billing_agreement_71            ; IN             ; test_billing_agreement_term_71     ; 9999999712_baItem
+                                 ; test_billing_agreement_5112          ; IN             ; test_billing_agreement_term_5112   ; 995112_baItem
+                                 ; test_billing_agreement_573           ; IN             ; test_billing_agreement_term_573    ; 99573_baItem
+                                 ; test_billing_agreement_5113          ; IN             ; test_billing_agreement_term_5113   ; 995113_baItem
+                                 ; test_billing_agreement_5114          ; IN             ; test_billing_agreement_term_5114   ; 995114_baItem
+                                 ; test_billing_agreement_5115          ; IN             ; test_billing_agreement_term_5115   ; 995115_baItem
+                                 ; test_billing_agreement_5116          ; IN             ; test_billing_agreement_term_5116   ; 995116_baItem
+                                 ; test_billing_agreement_51051         ; IN             ; test_billing_agreement_term_51051  ; 9951051_baItem
+                                 ; test_billing_agreement_51052         ; IN             ; test_billing_agreement_term_51052  ; 9951052_baItem
+                                 ; test_billing_agreement_56161         ; IN             ; test_billing_agreement_term_56161  ; 9956161_baItem
+                                 ; test_billing_agreement_56162         ; IN             ; test_billing_agreement_term_56162  ; 9956162_baItem
+                                 ; test_billing_agreement_5117          ; IN             ; test_billing_agreement_term_5117   ; 995117_baItem
+                                 ; test_billing_agreement_5118          ; IN             ; test_billing_agreement_term_5118   ; 995118_baItem
+                                 ; test_billing_agreement_5119          ; IN             ; test_billing_agreement_term_5119   ; 995119_baItem
+                                 ; test_billing_agreement_5120          ; IN             ; test_billing_agreement_term_5120   ; 995120_baItem
+                                 ; test_billing_agreement_5121          ; IN             ; test_billing_agreement_term_5121   ; 995121_baItem
+                                 ; test_billing_agreement_5122          ; IN             ; test_billing_agreement_term_5122   ; 995122_baItem
+                                 ; test_billing_agreement_5123          ; IN             ; test_billing_agreement_term_5123   ; 995123_baItem
+                                 ; test_billing_agreement_5124          ; IN             ; test_billing_agreement_term_5124   ; 995124_baItem
+                                 ; test_billing_agreement_5125          ; IN             ; test_billing_agreement_term_5125   ; 995125_baItem
+                                 ; test_billing_agreement_5126          ; IN             ; test_billing_agreement_term_5126   ; 995126_baItem
+                                 ; tmuocc_cartactions3_tapasL           ; IN             ; tmuocc_cartactions3_tapasL         ; tmuocc_cartactions3_tapasL
+                                 ; tmuocc_cartactions4_myTapasS         ; IN             ; tmuocc_cartactions4_myTapasS       ; tmuocc_cartactions4_myTapasS
+                                 ; tmuocc_cartactions6_myTapasL         ; IN             ; tmuocc_cartactions6_myTapasL       ; tmuocc_cartactions6_myTapasL
+                                 ; tmuocc_cartactions8_myTapasS         ; IN             ; tmuocc_cartactions8_myTapasS       ; tmuocc_cartactions8_myTapasS
+                                 ; tmuocc_cartactions13_myTapasS        ; IN             ; tmuocc_cartactions13_myTapasS      ; tmuocc_cartactions13_myTapasS
+                                 ; tmuocc_cartactions15_myTapasL        ; IN             ; tmuocc_cartactions15_myTapasL      ; tmuocc_cartactions15_myTapasL
+                                 ; tmuocc_cartactions16_myTapasL        ; IN             ; tmuocc_cartactions16_myTapasL      ; tmuocc_cartactions16_myTapasL
+                                 ; tmuocc_cartactions18_myTapasL        ; IN             ; tmuocc_cartactions18_myTapasL      ; tmuocc_cartactions18_myTapasL
+                                 ; tmuocc_cartactions19_myTapasL        ; IN             ; tmuocc_cartactions19_myTapasL      ; tmuocc_cartactions19_myTapasL
+                                 ; tmuocc_cartactions20_myTapasL        ; IN             ; tmuocc_cartactions20_myTapasL      ; tmuocc_cartactions20_myTapasL
+                                 ; tmuocc_cartactions21_myTapasS        ; IN             ; tmuocc_cartactions21_myTapasS      ; tmuocc_cartactions21_myTapasS
+                                 ; tmuocc_cartactions22_myTapasL        ; IN             ; tmuocc_cartactions22_myTapasL      ; tmuocc_cartactions22_myTapasL
+                                 ; tmuocc_cartactions23_myTapasS        ; IN             ; tmuocc_cartactions23_myTapasS      ; tmuocc_cartactions23_myTapasS
+                                 ; tmuocc_cartactions24_myTapasL        ; IN             ; tmuocc_cartactions24_myTapasL      ; tmuocc_cartactions24_myTapasL
+                                 ; tmuocc_cartactions27_myTapasS        ; IN             ; tmuocc_cartactions27_myTapasS      ; tmuocc_cartactions27_myTapasS
+                                 ; tmuocc_cartactions27_myTapasL        ; IN             ; tmuocc_cartactions27_myTapasL      ; tmuocc_cartactions27_myTapasL
+                                 ; test_billing_agreement_55881         ; IN             ; test_billing_agreement_term_55881  ; 9955811_baItem
+                                 ; test_billing_agreement_55882         ; IN             ; test_billing_agreement_term_55882  ; 9955812_baItem
+                                 ; apitest_31013102_contract_13_04_2018 ; IN             ; apitest_31013102_monthly_term      ; apitest_3101_baItem
+                                 ; apitest_31033104_contract_13_04_2018 ; IN             ; apitest_31033104_monthly_term      ; apitest_3102_baItem
+                                 ; apitest_31053106_contract_13_04_2017 ; IN             ; apitest_31053106_monthly_term      ; apitest_3103_baItem
+                                 ; apitest_31053108_contract_13_04_2017 ; IN             ; apitest_31053108_monthly_term      ; apitest_3104_baItem
+                                 ; apitest_31053110_contract_13_04_2017 ; IN             ; apitest_31053110_monthly_term      ; apitest_3105_baItem
+                                 ; apitest_31013199_contract_13_04_2018 ; IN             ; apitest_31013199_monthly_term      ; apitest_3109_baItem
+                                 ; apitest_31013191_contract_13_04_2018 ; IN             ; apitest_31013191_monthly_term      ; apitest_3100_baItem
+                                 ; tmuocc_journey564407_myTapasL        ; IN             ; tmuocc_journey564407_myTapasL      ; tmuocc_journey564407_myTapasL
+                                 ; tmuocc_journey564413_myTapasL        ; IN             ; tmuocc_journey564413_myTapasL      ; tmuocc_journey564413_myTapasL
+                                 ; tmuocc_jc56451_2_int_100_ba          ; IN             ; tmuocc_jc56451_2_int_100_term      ; tmuocc_jc56451_2_int_100_item
+                                 ; tmuocc_jc56451_15_int_100_ba         ; IN             ; tmuocc_jc56451_15_int_100_term     ; tmuocc_jc56451_15_int_100_item
+                                 ; tmuocc_cartactions563601_myint_500   ; IN             ; tmuocc_cartactions563601_myint_500 ; tmuocc_cartactions563601_myint_500
+                                 ; tmuocc_cartactions563604_mySalsaS    ; IN             ; tmuocc_cartactions563604_mySalsaS  ; tmuocc_cartactions563604_mySalsaS
+                                 ; selfserviceuser73_myint100           ; IN             ; selfserviceuser73_myint100         ; selfserviceuser73_myint100
+                                 ; tmuocc_cartactions563607_mySalsaS    ; IN             ; tmuocc_cartactions563607_mySalsaS  ; tmuocc_cartactions563607_mySalsaS
+                                 ; selfserviceuser581203_myTapasS       ; IN             ; selfserviceuser581203_myTapasS     ; selfserviceuser581203_myTapasS
+                                 ; selfserviceuser581208_myTapasS       ; IN             ; selfserviceuser581208_myTapasS     ; selfserviceuser581208_myTapasS
+                                 ; tmuocc_cartactions5113_1_mySalsaS    ; IN             ; tmuocc_cartactions5113_1_mySalsaS  ; tmuocc_cartactions5113_1_mySalsaS
+                                 ; selfserviceuser5113_1_mySalsaS       ; IN             ; selfserviceuser5113_1_mySalsaS     ; selfserviceuser5113_1_mySalsaS
+                                 ; selfserviceuser5113_3_mySalsaS       ; IN             ; selfserviceuser5113_3_mySalsaS     ; selfserviceuser5113_3_mySalsaS
+                                 ; selfserviceuser5113_4_mySalsaS       ; IN             ; selfserviceuser5113_4_mySalsaS     ; selfserviceuser5113_4_mySalsaS
+                                 ; test_billing_agreement_13            ; IN             ; test_billing_agreement_term_13     ; 9999999013_baItem
+                                 ; test_billing_agreement_15            ; IN             ; test_billing_agreement_term_15     ; 9999999015_baItem
+                                 ; billing_agreement_7234               ; IN             ; selfserviceuser16_BA_7234          ; 7234000000_baItem
+                                 ; test_billing_agreement_11            ; IN             ; test_billing_agreement_term_11     ; 9999999011_baItem
+                                 ; test_billing_agreement_12            ; IN             ; test_billing_agreement_term_12     ; 9999999012_baItem
+                                 ; user70041_dext70042_ba               ; IN             ; user70041_dext70042_bat            ; user70041_dext70042_baItem
+                                 ; billing_agreement_9972               ; IN             ; 9040123111111_monthly_term         ; 9040123111111_baItem
+                                 ; occcartactions9772_2_billingAgree    ; IN             ; occcartactions9772_2_term          ; occcartactions9772_2_baItem
+## Order APIs - Fixed BPOs
+                                 ; billing_agreement_105006             ; IN             ; selfserviceuser105006_BA_10500     ; 1050000000_baItem
+
+# Create test billing agreement and billing agreement for PSCVs
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaBillingAgreement; id[unique = true]          ; billingSystemId; term(id)                        ; agreementItems(id)
+                                 ; test_billing_agreement_20  ; IN             ; test_billing_agreement_term_20  ; 9100910020_baItem
+                                 ; test_billing_agreement_29  ; IN             ; test_billing_agreement_term_29  ; 9100910029_baItem
+
+# PO associated with Usage Specifications - GET Recommendation
+                                 ; test_billing_agreement_121 ; IN             ; test_billing_agreement_term_121 ; 9500950012_baItem
+                                 ; test_billing_agreement_22  ; IN             ; test_billing_agreement_term_22  ; 9500950022_baItem
+
+# Create test billing agreement and billing agreement for Recommended SPOs with PLAs
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaBillingAgreement; id[unique = true]            ; billingSystemId; term(id)                          ; agreementItems(id)
+                                 ; test_billing_agreement_93681 ; IN             ; test_billing_agreement_term_93681 ; 9368000012_baItem
+                                 ; test_billing_agreement_93682 ; IN             ; test_billing_agreement_term_93682 ; 9368000022_baItem
+
+# Create test Sample Subscription Data for TMF Get Order by Id
+# Create test subscribed product
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaSubscribedProduct; id[unique = true]; serviceType(code); startDate[dateformat = dd.MM.yyyy]; endDate[dateformat = dd.MM.yyyy]; billingFrequency; productCode        ; bundledProductCode; subscriptionStatus; contractDuration; billingsystemId; billingSubscriptionId      ; productSpecification(id, $catalogVersion)
+                                  ; 9731973101       ; TARIFF_PLAN      ; 5.10.2019                         ; 4.11.2020                       ; monthly         ; Fiberlink_100_9731 ;                   ; ACTIVE            ; 12              ; IN             ; billingSubscriptionId97311 ; tv
+
+
+#Create test subscription base
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaSubscriptionBase; subscriberIdentity[unique = true]; billingSystemId[unique = true]; subscribedProducts(id)
+                                 ; 9731973120                       ; IN                            ; 9731973101
+
+# Create test subscription access
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaSubscriptionAccess; principal(uid)[unique = true] ; subscriptionBase(billingSystemId, subscriberIdentity)[unique = true]; accessType(code)
+                                   ; "tmfgetorderuser4@hybris.com" ; IN:9731973120                                                       ; OWNER
+
+# Create test billing account
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaBillingAccount; billingAccountId[unique = true]; billingSystemId[unique = true]; subscriptionBases(subscriberIdentity); parent(billingAccountId, billingSystemId)
+                               ; BA-97310                       ; IN                            ; 9731973120                           ;
+
+# Create test billing agreement and billing agreement item
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaBillingAgreementItem; id[unique = true] ; subscribedProducts(id)
+                                     ; 9731973120_baItem ; 9731973101
+
+# Create test billing agreement and billing agreement term
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaBillingAgreementTerm; id[unique = true]              ; billingSystemId; start[dateformat = dd.MM.yyyy]; end[dateformat = dd.MM.yyyy]; length; frequency(code); offerTermRef
+                                     ; test_billing_agreement_term_16 ; IN             ; 10.1.2019                     ; 9.12.2020                   ; 12    ; monthly        ; monthly_12
+
+# Create test billing agreement and billing agreement
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaBillingAgreement; id[unique = true]         ; billingSystemId; term(id)                       ; agreementItems(id)
+                                 ; test_billing_agreement_16 ; IN             ; test_billing_agreement_term_16 ; 9731973120_baItem
+
+
+# Create test Sample Subscription Data for TMF Get Product by Id
+# Create test subscribed product
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaSubscribedProduct; id[unique = true]              ; serviceType(code); startDate[dateformat = dd.MM.yyyy]; endDate[dateformat = dd.MM.yyyy]; billingFrequency; productCode        ; bundledProductCode; subscriptionStatus; contractDuration; billingsystemId; billingSubscriptionId             ; orderNumber; orderEntryNumber;
+                                  ; product_gsm_plan_7541          ; TARIFF_PLAN      ; 30.12.2020                        ; 31.12.2021                      ; monthly         ; gsm_plan_7541      ; homeDeal_7541     ; ACTIVE            ; 12              ; IN             ; product_gsm_plan_7541_bs          ; order1     ; 0
+                                  ; product_internet_plan_7541     ; TARIFF_PLAN      ; 30.12.2020                        ; 31.12.2021                      ; monthly         ; internet_plan_7541 ; homeDeal_7541     ; ACTIVE            ; 12              ; IN             ; product_internet_plan_7541_bs     ; order1     ; 1
+                                  ; product_spo_internet_plan_7541 ; TARIFF_PLAN      ; 30.12.2020                        ; 31.12.2021                      ; monthly         ; internet_plan_7541 ;                   ; ACTIVE            ; 12              ; IN             ; product_spo_internet_plan_7541_bs ; order2     ; 0
+                                  ; product_sports                 ; TARIFF_PLAN      ; 30.12.2020                        ; 31.12.2021                      ; monthly         ; sports_test        ;                   ; ACTIVE            ; 12              ; IN             ; product_sports_bs                 ; order3     ; 1
+                                  ; product_sports_bpo             ; TARIFF_PLAN      ; 30.12.2020                        ; 31.12.2021                      ; monthly         ; sports_test        ; homeDeal_7541     ; ACTIVE            ; 12              ; IN             ; pproduct_sports_bpo_bs            ; order4     ; 0
+                                  ; product_bpo_gsm_plan_7541      ; TARIFF_PLAN      ; 30.12.2020                        ; 31.12.2021                      ; monthly         ; gsm_plan_7541      ; homeDeal_7541     ; ACTIVE            ; 12              ; IN             ; product_bpo_gsm_plan_7541_bs      ; order4     ; 1
+#Create test subscription base
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaSubscriptionBase; subscriberIdentity[unique = true]; billingSystemId[unique = true]; subscribedProducts(id)
+                                 ; sub_homeDeal_7541                ; IN                            ; product_gsm_plan_7541,product_internet_plan_7541
+                                 ; sub_spo_internet_plan_7541       ; IN                            ; product_spo_internet_plan_7541
+                                 ; sub_product_sports               ; IN                            ; product_sports
+                                 ; sub_bpo_product_sports           ; IN                            ; product_sports_bpo,product_bpo_gsm_plan_7541
+# Create test subscription access
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaSubscriptionAccess; principal(uid)[unique = true]; subscriptionBase(billingSystemId, subscriberIdentity)[unique = true]; accessType(code)
+                                   ; ronan@hybris.com             ; IN:sub_homeDeal_7541                                                ; OWNER
+                                   ; brayden@hybris.com           ; IN:sub_homeDeal_7541                                                ; BENEFICIARY
+                                   ; hugo@hybris.com              ; IN:sub_spo_internet_plan_7541                                       ; OWNER
+                                   ; brayden@hybris.com           ; IN:IN:sub_spo_internet_plan_7541                                    ;
+                                   ; hugo@hybris.com              ; IN:sub_product_sports                                               ; OWNER
+                                   ; brayden@hybris.com           ; IN:sub_bpo_product_sports                                           ; OWNER
+# Create test billing account
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaBillingAccount; billingAccountId[unique = true]; billingSystemId[unique = true]; subscriptionBases(subscriberIdentity); parent(billingAccountId, billingSystemId)
+                               ; BA-sub_homeDeal_7541           ; IN                            ; sub_homeDeal_7541                    ;
+                               ; BA-spo_internet_plan_754       ; IN                            ; sub_spo_internet_plan_7541           ;
+                               ; BA-sub_product_sports          ; IN                            ; sub_product_sports                   ;
+                               ; BA-sub_bpo_product_sports      ; IN                            ; sub_bpo_product_sports               ;
+# Create test billing agreement and billing agreement item
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaBillingAgreementItem; id[unique = true]             ; subscribedProducts(id)
+                                     ; homeDeal_7541_baItem          ; product_gsm_plan_7541,product_internet_plan_7541
+                                     ; spo_internet_plan_7541_baItem ; product_spo_internet_plan_7541
+                                     ; product_sports_baItem         ; product_sports
+                                     ; product_sports_bpo_baItem     ; product_sports_bpo,product_bpo_gsm_plan_7541
+# Create test billing agreement and billing agreement term
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaBillingAgreementTerm; id[unique = true]                     ; billingSystemId; start[dateformat = dd.MM.yyyy]; end[dateformat = dd.MM.yyyy]; length; frequency(code); offerTermRef
+                                     ; homeDeal_7541_agreement_term          ; IN             ; 30.12.2020                    ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; spo_internet_plan_7541_agreement_term ; IN             ; 30.12.2020                    ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; product_sports_agreement_term         ; IN             ; 30.12.2020                    ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+                                     ; product_sports_bpo_agreement_term     ; IN             ; 30.12.2020                    ; $twoMonthsAfterCurrent      ; 12    ; monthly        ; monthly_12
+# Create test billing agreement and billing agreement
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaBillingAgreement; id[unique = true]                ; billingSystemId; term(id)                              ; agreementItems(id)
+                                 ; homeDeal_7541_agreement          ; IN             ; homeDeal_7541_agreement_term          ; homeDeal_7541_baItem
+                                 ; spo_internet_plan_7541_agreement ; IN             ; spo_internet_plan_7541_agreement_term ; spo_internet_plan_7541_baItem
+                                 ; product_sports_agreement         ; IN             ; product_sports_agreement_term         ; product_sports_baItem
+                                 ; product_sports_bpo_agreement     ; IN             ; product_sports_bpo_agreement_term     ; product_sports_bpo_baItem

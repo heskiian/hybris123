@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<!-- WARNING: This is the Spring WEB configuration file. If you want to replace items or managers you have to do this from the extensions
+	core configuration file (agreementtmfwebservices/resources/agreementtmfwebservices-spring.xml) -->
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+			  http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:annotation-config/>
+
+    <import resource="config/commons/cache-config-spring.xml"/>
+    <import resource="config/commons/security-spring.xml"/>
+    <import resource="config/commons/error-config-spring.xml"/>
+    <import resource="config/commons/field-mapping-spring.xml"/>
+    <import resource="config/v1-web-spring.xml"/>
+
+    <bean id="objectMapper" name="objectMapper"
+          class="com.fasterxml.jackson.databind.ObjectMapper"/>
+
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>/WEB-INF/messages/messages</value>
+            </list>
+        </property>
+        <property name="defaultEncoding" value="UTF-8"/>
+    </bean>
+
+    <!-- Spring managed FilterChain for hybris Filter stack -->
+    <bean id="agreementtmfwebservicesPlatformFilterChain" class="de.hybris.platform.servicelayer.web.PlatformFilterChain">
+        <constructor-arg>
+            <list>
+                <!-- Filter that catches and resolves exceptions thrown from other filters. Can be uncommented if you need such functionality -->
+                <!-- <ref bean="exceptionTranslationFilter" /> -->
+
+                <ref bean="log4jFilter"/>
+                <ref bean="tenantActivationFilter"/>
+                <ref bean="corsFilter"/>
+                <!-- This filter creates new jalo session and close it after request is handled. -->
+                <ref bean="restSessionFilter"/>
+                <!-- If you want to track user session:
+                    - uncomment filter below
+                    - comment or remove restSessionFilter above
+                    - comment or remove SessionHindingRequestFilter in web.xml -->
+                <!-- ref bean="sessionFilter" /-->
+
+                <!-- Security -->
+                <ref bean="springSecurityFilterChain"/>
+                <!-- Other -->
+                <ref bean="agrSessionAttributesFilter"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <bean id="restSessionFilter" class="de.hybris.platform.webservicescommons.filter.RestSessionFilter">
+        <property name="sessionService" ref="sessionService"/>
+    </bean>
+
+    <!-- Filter that catches and resolves exceptions thrown from other filters. Can be added to filter chain if you need such functionality -->
+    <alias alias="exceptionTranslationFilter" name="defaultExceptionTranslationFilter"/>
+    <bean id="defaultExceptionTranslationFilter" class="de.hybris.platform.webservicescommons.filter.ExceptionTranslationFilter">
+        <property name="restHandlerExceptionResolver" ref="restHandlerExceptionResolver"/>
+    </bean>
+
+    <bean id="agrSessionAttributesFilter"
+          class="de.hybris.platform.agreementtmfwebservices.v1.filters.AgrSessionAttributesFilter">
+        <constructor-arg name="contextInformationLoader" ref="agrWsContextInformationLoader"/>
+    </bean>
+
+    <alias name="defaultAgrWsContextInformationLoader" alias="agrWsContextInformationLoader"/>
+    <bean id="defaultAgrWsContextInformationLoader"
+          class="de.hybris.platform.agreementtmfwebservices.v1.context.impl.AgrDefaultContextInformationLoader">
+        <constructor-arg name="commonI18NService" ref="commonI18NService"/>
+        <constructor-arg name="commerceCommonI18NService" ref="commerceCommonI18NService"/>
+    </bean>
+
+    <alias name="defaultUserValidator" alias="userValidator"/>
+    <bean id="defaultUserValidator" class="de.hybris.platform.agreementtmfwebservices.v1.security.AgrUserValidator">
+        <constructor-arg name="userService" ref="userService"/>
+        <constructor-arg name="agreementsService" ref="agrAgreementsService"/>
+        <constructor-arg name="agreementSpecificationService" ref="agrAgreementSpecificationService"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementCreateValidator" alias="agrAgreementCreateValidator"/>
+    <bean id="defaultAgrAgreementCreateValidator"
+          class="de.hybris.platform.agreementtmfwebservices.v1.validators.AgrAgreementCreateValidator">
+        <constructor-arg name="agrGenericService" ref="agrGenericService"/>
+    </bean>
+
+    <!-- Event Validators-->
+    <alias name="defaultAgrAgreementCreateEventValidator" alias="agrAgreementCreateEventValidator"/>
+    <bean id="defaultAgrAgreementCreateEventValidator"
+          class="de.hybris.platform.agreementtmfwebservices.v1.validators.AgrAgreementCreateEventValidator">
+        <constructor-arg name="agrGenericService" ref="agrGenericService"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementUpdateEventValidator" alias="agrAgreementUpdateEventValidator"/>
+    <bean id="defaultAgrAgreementUpdateEventValidator"
+          class="de.hybris.platform.agreementtmfwebservices.v1.validators.AgrAgreementUpdateEventValidator"/>
+
+    <alias name="defaultAgrAgreementStateChangeEventValidator" alias="agrAgreementStateChangeEventValidator"/>
+    <bean id="defaultAgrAgreementStateChangeEventValidator"
+          class="de.hybris.platform.agreementtmfwebservices.v1.validators.AgrAgreementStateChangeEventValidator"/>
+
+    <alias name="defaultAgrAgreementDeleteEventValidator" alias="agrAgreementDeleteEventValidator"/>
+    <bean id="defaultAgrAgreementDeleteEventValidator"
+          class="de.hybris.platform.agreementtmfwebservices.v1.validators.AgrAgreementDeleteEventValidator"/>
+
+    <alias name="defaultAgrAgreementSpecCreateEventValidator" alias="agrAgreementSpecCreateEventValidator"/>
+    <bean id="defaultAgrAgreementSpecCreateEventValidator"
+          class="de.hybris.platform.agreementtmfwebservices.v1.validators.AgrAgreementSpecCreateEventValidator">
+        <constructor-arg name="agrGenericService" ref="agrGenericService"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementSpecUpdateEventValidator" alias="agrAgreementSpecUpdateEventValidator"/>
+    <bean id="defaultAgrAgreementSpecUpdateEventValidator"
+          class="de.hybris.platform.agreementtmfwebservices.v1.validators.AgrAgreementSpecUpdateEventValidator"/>
+
+    <alias name="defaultAgrAgreementSpecStateChangeEventValidator" alias="agrAgreementSpecStateChangeEventValidator"/>
+    <bean id="defaultAgrAgreementSpecStateChangeEventValidator"
+          class="de.hybris.platform.agreementtmfwebservices.v1.validators.AgrAgreementSpecStateChangeEventValidator"/>
+
+    <alias name="defaultAgrAgreementSpecDeleteEventValidator" alias="agrAgreementSpecDeleteEventValidator"/>
+    <bean id="defaultAgrAgreementSpecDeleteEventValidator"
+          class="de.hybris.platform.agreementtmfwebservices.v1.validators.AgrAgreementSpecDeleteEventValidator"/>
+
+    <alias name="defaultAgrAgreementSpecificationCreateValidator" alias="agrAgreementSpecificationCreateValidator"/>
+    <bean id="defaultAgrAgreementSpecificationCreateValidator"
+          class="de.hybris.platform.agreementtmfwebservices.v1.validators.AgrAgreementSpecificationCreateValidator">
+        <constructor-arg name="agrGenericService" ref="agrGenericService"/>
+    </bean>
+</beans>

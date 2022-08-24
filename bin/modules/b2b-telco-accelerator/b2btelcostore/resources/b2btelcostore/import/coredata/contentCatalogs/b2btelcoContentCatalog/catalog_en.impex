@@ -1,0 +1,14 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+#
+# Import the B2B Telco Content Catalog
+#
+
+# Language
+$lang = en
+
+# Create Content Catalog
+UPDATE ContentCatalog; id[unique = true]      ; name[lang = $lang]
+                     ; b2btelcoContentCatalog ; "B2B Telco Content Catalog"

@@ -1,0 +1,108 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# Macros / Replacement Parameter definitions
+$productCatalog = b2ctelcoProductCatalog
+$productCatalogName = B2C Telco Product Catalog
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Staged'])[unique = true, default = $productCatalog:Staged]
+$onlineCatalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Online'])[unique = true, default = $productCatalog:Online]
+$supercategories = supercategories(code, $catalogVersion)
+$baseProduct = baseProduct(code, $catalogVersion)
+$approved = approvalstatus(code)[default = 'approved']
+
+# ImpEx for Importing Products
+# Macros / Replacement Parameter definitions
+$solrIndexedTypeIdentifier = b2ctelcoProductType
+$solrIndexedType = indexedType(identifier[default = $solrIndexedTypeIdentifier])
+
+INSERT_UPDATE TmaBundledProductOffering; code[unique = true]; name[lang = en]   ; parents(code, $catalogVersion); unit(code)[default = pieces]; $approved; $catalogVersion
+                                       ; quadPlay           ; Quad Play         ;
+                                       ; mobileDeal         ; Mobile Deal       ; quadPlay
+                                       ; homeDeal           ; Home Deal         ; quadPlay
+                                       ; ipTVDeal           ; IP TV Deal        ; homeDeal
+                                       ; internet           ; Internet          ; homeDeal
+                                       ; landline           ; Landline          ; homeDeal
+                                       ; back2School        ; Back To School    ;
+                                       ; starterHomeDeal    ; Starter Home Deal ;
+
+INSERT_UPDATE TmaSimpleProductOffering; code[unique = true]; name[lang = en]    ; parents(code, $catalogVersion); $approved; $catalogVersion
+#mobile deal
+                                      ; Apple_iPhone_6     ; Apple iPhone 6     ; mobileDeal, back2School
+                                      ; Apple_iPhone_6plus ; Apple iPhone 6plus ; mobileDeal, back2School
+                                      ; samsung_s8         ; Samsung s8         ; mobileDeal, back2School
+
+
+INSERT_UPDATE TmaSimpleProductOffering; code[unique = true]       ; parents(code, $catalogVersion); $approved; $catalogVersion
+                                      ; 2047052                   ; mobileDeal, back2School
+                                      ; 2093587                   ; mobileDeal, back2School
+                                      ; 3417125                   ; mobileDeal, back2School
+                                      ; 3961745                   ; mobileDeal, back2School
+                                      ; 3994624                   ; mobileDeal, back2School
+
+                                      ; essentialsUnlimitedPlan   ; mobileDeal
+                                      ; signatureUnlimitedPlan    ; mobileDeal
+                                      ; premiumUnlimitedPlan      ; mobileDeal
+                                      ; essentialsUnlimited55Plan ; mobileDeal
+
+                                      ; unlimited5GPlan           ; mobileDeal
+                                      ; unlimitedStarterPlan      ; mobileDeal
+                                      ; unlimitedBasicPlan        ; mobileDeal
+                                      ; unlimitedPlusPlan         ; mobileDeal
+                                      ; unlimitedPremiumPlan      ; mobileDeal
+                                      ; unlimitedSocialMediaPlan  ; mobileDeal
+
+                                      ; starterNoLimit5GPlan      ; mobileDeal
+                                      ; streamMoreNoLimit5GPlan   ; mobileDeal
+                                      ; doMoreNoLimit5GPlan       ; mobileDeal
+                                      ; getTheMostNoLimit5GPlan   ; mobileDeal
+
+                                      ; internet_pack_casual      ; mobileDeal
+                                      ; internet_pack_smart       ; mobileDeal
+                                      ; internet_pack_max         ; mobileDeal
+
+### home deal - internet
+                                      ; int_100                   ; internet, starterHomeDeal
+                                      ; int_500                   ; internet
+                                      ; int_1000                  ; internet
+
+### home deal - tv
+                                      ; tv_S                      ; ipTVDeal, starterHomeDeal
+                                      ; tv_L                      ; ipTVDeal
+                                      ; tv_M                      ; ipTVDeal
+                                      ; movies_go                 ; ipTVDeal
+                                      ; sports                    ; ipTVDeal
+                                      ; media_box                 ;
+                                      ; netflix                   ; starterHomeDeal
+                                      ; hbo_go                    ; starterHomeDeal
+                                      ; amazon_prime              ; starterHomeDeal
+
+### home deal - landline
+                                      ; ll_voip                   ; landline
+                                      ; ll_pots                   ; landline
+
+### variants
+                                      ; iPhone_x_space_gray_64g   ; mobileDeal, back2School
+                                      ; iPhone_x_space_gray_256g  ; mobileDeal, back2School
+                                      ; iPhone_x_silver_64g       ; mobileDeal, back2School
+                                      ; iPhone_x_silver_256g      ; mobileDeal, back2School
+                                      ; iPhone_8_space_gray_64g   ; mobileDeal, back2School
+                                      ; iPhone_8_space_gray_256g  ; mobileDeal, back2School
+                                      ; iPhone_8_silver_64g       ; mobileDeal, back2School
+                                      ; iPhone_8_silver_256g      ; mobileDeal, back2School
+                                      ; iPhone_8_gold_64g         ; mobileDeal, back2School
+                                      ; iPhone_8_gold_256g        ; mobileDeal, back2School
+                                      ; iPhone_8_red_64g          ; mobileDeal, back2School
+                                      ; iPhone_8_red_256g         ; mobileDeal, back2School
+
+INSERT_UPDATE TmaFixedBundledProductOffering; code[unique = true]; name[lang = en]      ; children(code, $catalogVersion)        ; unit(code)[default = pieces]; $approved; $catalogVersion
+                                            ; standardMobileDeal ; Standard Mobile Deal ; essentialsUnlimitedPlan,samsung_s8     ;                             ;          ;
+                                            ; winterDeal         ; Winter Deal          ; standardMobileDeal,internet_pack_smart ;                             ;          ;
+
+INSERT_UPDATE TmaBundledProdOfferOption; bundledProductOffering(code, $catalogVersion)[unique = true]; productOffering(code, $catalogVersion)[unique = true]; $catalogVersion; lowerLimit; upperLimit; default
+# Starter Home Deal
+                                       ; starterHomeDeal                                             ; int_100                                              ;                ; 1         ; 1         ; 1
+                                       ; starterHomeDeal                                             ; tv_S                                                 ;                ; 1         ; 1         ; 1
+                                       ; starterHomeDeal                                             ; netflix                                              ;                ; 0         ; 1         ; 0
+                                       ; starterHomeDeal                                             ; hbo_go                                               ;                ; 0         ; 1         ; 0
+                                       ; starterHomeDeal                                             ; amazon_prime                                         ;                ; 0         ; 1         ; 0

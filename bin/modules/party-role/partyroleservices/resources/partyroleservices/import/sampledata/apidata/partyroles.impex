@@ -1,0 +1,88 @@
+#-----------------------------------------------------------------------
+# Copyright (c) 2021 SAP SE or an SAP affiliate company.  All rights reserved.
+#-----------------------------------------------------------------------
+
+$lang = en
+
+$defaultPassword = 1234
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE Customer; originalUid[unique = true]  ; uid[unique = true]          ; customerID                  ; name             ; groups(uid)   ; password[default = $defaultPassword];
+                      ; emily.smith@hybris.com      ; emily.smith@hybris.com      ; emily.smith@hybris.com      ; Emily Smith      ; customergroup ;                                     ;
+                      ; gustave.flaubert@hybris.com ; gustave.flaubert@hybris.com ; gustave.flaubert@hybris.com ; Gustave Flaubert ; customergroup ;                                     ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE Company; uid[unique = true]       ;
+                     ; company_principal_115121 ;
+                     ; company_principal_115122 ;
+                     ; company_principal_115123 ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PrPartyRole; id[unique = true];
+                         ; partyRole_115121 ;
+                         ; partyRole_115122 ;
+                         ; partyRole_115123 ;
+                         ; partyRole_115124 ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PrOrganization; id[unique = true]   ; name[lang = $lang]; principals(uid)                                  ; partyRoles(id)   ;
+                            ; organization_115121 ; Global Pirates    ; company_principal_115121, emily.smith@hybris.com ; partyRole_115121 ;
+                            ; organization_115122 ; Total Protect     ; company_principal_115122                         ; partyRole_115123 ;
+                            ; organization_115123 ; Life Productions  ; company_principal_115123                         ; partyRole_115124 ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PrIndividual; id[unique = true] ; name[lang = $lang]; principals(uid)             ; partyRoles(id)   ;
+                          ; individual_115121 ; Gustave Flaubert  ; gustave.flaubert@hybris.com ; partyRole_115122 ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PrAccount; id[unique = true]; name[lang = $lang]; description[lang = $lang]    ;
+                       ; account_115121   ; Paradise Account  ; Paradise Account Description ;
+                       ; account_115122   ; Regular Account   ; Regular Account Description  ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PaymentInfo; code[unique = true]; user(uid)              ;
+                         ; payment_115121     ; emily.smith@hybris.com ;
+                         ; payment_115122     ; emily.smith@hybris.com ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PrCharacteristic; id[unique = true]     ; name[lang = $lang]; value     ; valueType;
+                              ; characteristic_115121 ; Main Skill        ; Analytics ; String   ;
+                              ; characteristic_115122 ; Secondary Skill   ; Finance   ; String   ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PrMediumCharacteristic; id[unique = true]           ; city    ; contactType(code)   ; country       ; emailAddress           ; faxNumber; phoneNumber; postCode; socialNetworkId; stateOrProvince; street1            ; street2;
+                                    ; mediumCharacteristic_115121 ;         ; MOBILE_PHONE_NUMBER ;               ; emily.smith@hybris.com ; 123456   ; 234567     ;         ;                ;                ;                    ;        ;
+                                    ; mediumCharacteristic_115122 ; Seattle ; SHIPPING_ADDRESS    ; United States ; emily.smith@hybris.com ;          ;            ; 98109   ; 345678         ; Washington     ; 1156  Ryder Avenue ; ap 1A  ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PrContactMedium; id[unique = true]    ; mediumType(code); preferred[default = false]; startDate[dateformat = dd.MM.yyyy]; endDate[dateformat = dd.MM.yyyy]; characteristic(id)          ;
+                             ; contactMedium_115121 ; PHONE_NUMBER    ; true                      ; 28.06.2021                        ; 28.06.2022                      ; mediumCharacteristic_115121 ;
+                             ; contactMedium_115122 ; POSTAL_ADDRESS  ;                           ; 28.06.2021                        ; 28.06.2022                      ; mediumCharacteristic_115122 ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PrCreditProfile; id[unique = true]    ; name[lang = $lang]       ; creditProfileDate[dateformat = dd.MM.yyyy]; creditScore; creditRiskRating; startDate[dateformat = dd.MM.yyyy]; endDate[dateformat = dd.MM.yyyy];
+                             ; creditProfile_115121 ; "Credit Profile #115121" ; 17.06.2018                                ; 1          ; 4               ; 14.06.2018                        ; 13.09.2018                      ;
+                             ; creditProfile_115122 ; "Credit Profile #115122" ; 17.06.2019                                ; 2          ; 3               ; 18.07.2019                        ; 25.04.2020                      ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PrPartyRole; id[unique = true]; name[lang = $lang]; status   ; statusReason            ; accounts (id)                  ; startDate[dateformat = dd.MM.yyyy]; endDate[dateformat = dd.MM.yyyy]; engagedParty (id)   ; characteristics(id)                          ; contactMediums(id)                         ; creditProfiles(id)                         ; paymentMethods(code)           ;
+                         ; partyRole_115121 ; Global Pirates    ; Approved ; NDA has been signed     ; account_115121, account_115122 ; 16.06.2018                        ; 13.01.2019                      ; organization_115121 ; characteristic_115121, characteristic_115122 ; contactMedium_115121, contactMedium_115122 ; creditProfile_115121, creditProfile_115122 ; payment_115121, payment_115122 ;
+                         ; partyRole_115122 ; Gustave Flaubert  ; Pending  ; Background check        ;                                ;                                   ; 13.01.2019                      ; individual_115121   ;                                              ;                                            ;                                            ;                                ;
+                         ; partyRole_115123 ; Total Protect     ; Approved ; NDA has been signed     ;                                ;                                   ; 13.01.2019                      ; organization_115122 ;                                              ;                                            ;                                            ;                                ;
+                         ; partyRole_115124 ; Life Productions  ; Pending  ; NDA has not been signed ;                                ;                                   ; 13.01.2019                      ; organization_115123 ;                                              ;                                            ;                                            ;                                ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PrPartyRoleAssociation; code[unique = true]         ; associationType; partyRoleInvolves(id); partyRoleInvolvedWith(id);
+                                    ; partyRoleAssociation_115121 ; customer       ; partyRole_115121     ; partyRole_115122         ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PrBusinessInteractionRole; code[unique = true]            ; interactionName  ; interactionType ; partyRole(id)    ;
+                                       ; businessInteractionRole_115121 ; Business Partner ; businessPartner ; partyRole_115121 ;
+                                       ; businessInteractionRole_115122 ; Business Partner ; businessPartner ; partyRole_115123 ;
+                                       ; businessInteractionRole_115123 ; Service Consumer ; serviceConsumer ; partyRole_115121 ;
+                                       ; businessInteractionRole_115124 ; Service Provider ; serviceProvider ; partyRole_115124 ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PrAgreement; id[unique = true]; startDate[dateformat = dd.MM.yyyy]; endDate[dateformat = dd.MM.yyyy]; name[lang = $lang]; description[lang = $lang]     ; interactionRoles(code)                                         ;
+                         ; agreement_115121 ; 25.06.2018                        ; 30.09.2018                      ; Contract          ; Business Partner Contrat      ; businessInteractionRole_115121, businessInteractionRole_115122 ;
+                         ; agreement_115122 ; 26.06.2018                        ; 12.10.2019                      ; Contract          ; Service Provisioning Contract ; businessInteractionRole_115123, businessInteractionRole_115124 ;

@@ -1,0 +1,103 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+$defaultCurrency = USD
+$defaultLanguage = en
+$deliveryCountries = US
+
+$catalog-id = testCatalog
+$catalog-version = Online
+$product = product(code, $catalogversion)[unique = true]
+$testCategory0-id = testCategory0
+$testCategory1-id = testCategory1
+$processTypes = processTypes(code)
+$lang = en
+$catalogversion = catalogversion(catalog(id[default = $catalog-id]), version[default = $catalog-version])[unique = true, default = $catalog-id:$catalog-version]
+$subscriptionTerms = subscriptionTerms(id)[unique = true]
+$supercategories = supercategories(code, catalogversion(catalog(id[default = $catalog-id]), version[default = $catalog-version]))
+$prices = @Europe1prices[translator = de.hybris.platform.b2ctelcoservices.dataimport.batch.price.TmaPriceRowTranslator]
+$distributionChannels = distributionChannels(code)
+
+## Currency, unit, catalog definitions ##
+INSERT_UPDATE Language; isocode[unique = true]; active;
+; en ; true ;
+
+INSERT_UPDATE Unit; unitType[unique = true]; code[unique = true]; name[lang = en]; conversion;
+; pieces ; pieces ; pieces ; 1
+
+INSERT_UPDATE Currency; isocode[unique = true]; name[lang = en]; active; base; conversion; digits; symbol;
+; USD ; US Dollar ; true ; false ; 1,38 ; 2 ; $
+
+INSERT_UPDATE Country; isocode[unique = true]; name[lang = en]; active;
+; US ; United States of America ; true ;
+
+INSERT_UPDATE Catalog; id[unique = true]; name[lang = en]; defaultCatalog;
+; $catalog-id ; $catalog-id ; true ;
+
+INSERT_UPDATE CatalogVersion; catalog(id)[unique = true]; version[unique = true]; active; defaultCurrency(isocode);
+; $catalog-id ; $catalog-version ; true ; USD ;
+
+INSERT_UPDATE Vendor; code[unique = true]; name[lang = en];
+; electro ; Electro ;
+
+## Base store definition ##
+INSERT_UPDATE BaseStore; uid[unique = true]; catalogs(id); currencies(isocode); net; taxGroup(code); storelocatorDistanceUnit(code); defaultCurrency(isocode); languages(isocode); defaultLanguage(isocode); deliveryCountries(isocode); solrFacetSearchConfiguration(name); submitOrderProcessCode; paymentProvider; checkoutFlowGroup;
+; testStore ; $catalog-id ; $defaultCurrency ; false ; ; km ; $defaultCurrency ; $defaultLanguage ; $defaultLanguage ; $deliveryCountries ; ; order-process ; Mockup ; defaultCheckoutGroup ;
+
+INSERT_UPDATE BaseSite; uid[unique = true]; stores(uid); channel(code)
+; testSite ; testStore ; B2C
+
+INSERT_UPDATE Warehouse; code[unique = true]; name[lang = en]; vendor(code); default; baseStores(uid);
+; warehouse_s ; Warehouse South ; electro ; true ; testStore ;
+
+## Customers definitions ##
+INSERT_UPDATE UserGroup; uid[unique = true];
+; customergroup ;
+
+INSERT_UPDATE Customer; uid[unique = true]; customerID; name; description; sessionLanguage(isocode); sessionCurrency(isocode); groups(uid); password;
+; user@hybris.com  ; K2006-C0005 ; Anja Hertz    ; ; en ; USD ; customergroup ; 1234 ;
+; user2@hybris.com ; K2006-C0006 ; Horia Brenciu ; ; en ; USD ; customergroup ; 1234 ;
+
+
+INSERT_UPDATE TmaEligibilityContext  ; customer(uid)[unique = true] ; processesCodes
+  ; user@hybris.com    ; DEVICE_ONLY,ACQUISITION
+  ; user2@hybris.com    ; DEVICE_ONLY,ACQUISITION
+
+
+## Products and prices definition ##
+INSERT_UPDATE TmaBundledProductOffering; code[unique = true]; parents(code, $catalogversion); name[lang = en]; $catalogversion
+; BPO1 ; ; BPO1 ;
+
+INSERT_UPDATE TmaSimpleProductOffering; code[unique = true]; $catalogversion; name[en]; parents(code, $catalogversion); unit(code); $prices; approvalStatus(code); startLineNumber; $supercategories
+; iphonex     ; ; testEN      ;      ; pieces ; 50 USD ; approved ; 0 ;
+; iphonexs    ; ; iphonexs    ; BPO1 ; pieces ; 50 USD ; approved ; 0 ;
+; iphonexsmax ; ; iphonexsmax ; BPO1 ; pieces ; 50 USD ; approved ; 0 ;
+; iphone6     ; ; iphone6     ; BPO1 ; pieces ; 60 USD ; approved ; 0 ;
+
+INSERT_UPDATE StockLevel; available; warehouse(code)[unique = true]; inStockStatus(code); maxPreOrder; maxStockLevelHistoryCount; overSelling; preOrder; productCode[unique = true]; reserved;
+; 15 ; warehouse_s ; notSpecified ; 0 ; -1 ; 0 ; 0 ; iphonex     ; 0 ;
+; 15 ; warehouse_s ; notSpecified ; 0 ; -1 ; 0 ; 0 ; iphonexs    ; 0 ;
+; 15 ; warehouse_s ; notSpecified ; 0 ; -1 ; 0 ; 0 ; iphonexsmax ; 0 ;
+; 15 ; warehouse_s ; notSpecified ; 0 ; -1 ; 0 ; 0 ; iphone6     ; 0 ;
+
+INSERT_UPDATE SubscriptionTerm; id[unique = true]; name[lang = $lang]
+; monthly_12 ; 12 Months - monthly billing
+; monthly_24 ; 24 Months - monthly billing
+
+INSERT_UPDATE SubscriptionPricePlan; name[unique = true, lang = $lang]; product(code); affectedProductOffering(code, $catalogversion)[unique = true]; requiredProductOfferings(code, $catalogversion)[unique = true]; $processTypes[unique = true]; $subscriptionTerms[unique = true]; $distributionChannels[unique = true]; currency(isocode); unit(code); $catalogversion
+; BPO1_acq ; BPO1 ; iphonexsmax ; iphonexs ; ACQUISITION ; ; ; USD ; pieces
+
+INSERT_UPDATE BillingEvent; code[unique = true]; order; cartAware[default = true]
+; paynow ; 1
+
+INSERT_UPDATE OneTimeChargeEntry; id[unique = true]; subscriptionPricePlanOneTime(name[lang = $lang], $catalogversion); price; billingEvent(code); $catalogversion[unique = true]
+; BPO_Otc ; BPO1_acq ; 15 ; paynow
+
+## Cart creation ##
+INSERT_UPDATE Cart; user(uid); code[unique = true]; currency(isocode); date[dateformat = dd.MM.yyyy HH:mm:ss]; net; calculated; site(uid); store(uid); guid;
+; user@hybris.com  ; userCart  ; USD ; 27.04.2010 00:00:00 ; false ; false ;
+; user2@hybris.com ; userCart2 ; USD ; 27.04.2010 00:00:00 ; false ; false ;
+
+INSERT CartEntry; order(Cart.code); creationTime[dateformat = dd.MM.yyyy HH:mm:ss]; product(code, catalogVersion(catalog(id), version)); quantity; unit(code); entryNumber; processType(code)
+; userCart ; 27.04.2010 00:00:00 ; iphonex :$catalog-id:$catalog-version ; 2 ; pieces ; 1 ; ACQUISITION

@@ -1,0 +1,358 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for Importing sample compatibility policies
+
+$productCatalog = b2ctelcoProductCatalog
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Staged'])[unique = true, default = $productCatalog:Staged]
+
+#################################################################################################
+# Policy1 (Cardinality with required component):
+# A customer can select exactly one mobile addons if he selected an offer with unlimited voice. #
+#################################################################################################
+INSERT_UPDATE TmaPscvPolicyStatement; code[unique = true]; min; max; productSpecCharacteristic(id, $catalogVersion); valueMin; valueMax; unitOfMeasure(id); $catalogVersion
+; unlimited_voice ; 1 ; 1 ; voice ; ; ; phone_minutes ;
+
+INSERT_UPDATE TmaAtomicPolicyCondition; code[unique = true]; statement(code, $catalogVersion); $catalogVersion
+; unlimited_voice ; unlimited_voice ;
+
+INSERT_UPDATE TmaPoGroupPolicyStatement; code[unique = true]; min; max; productOfferingGroup(code, $catalogVersion); $catalogVersion
+; mobile_addons ; 0 ; 1 ; mobile_addons ;
+
+INSERT_UPDATE TmaPolicyAction; code[unique = true]; statement(code, $catalogVersion); actionType(code); $catalogVersion
+; mobile_addons ; mobile_addons ; SELECT
+
+INSERT_UPDATE TmaCompatibilityPolicy; code[unique = true]; conditions(code, $catalogVersion); actions(code, $catalogVersion); conditionsEvaluatorType(code); $catalogVersion
+; mobile_addons_with_unlimited_voice ; unlimited_voice ; mobile_addons ; AND
+
+######################################################################################
+# Policy2 (Cardinality with required component):
+# A customer is required to select exactly one device if he selected a service plan. #
+######################################################################################
+INSERT_UPDATE TmaPoGroupPolicyStatement; code[unique = true]; min; max; productOfferingGroup(code, $catalogVersion); $catalogVersion
+; mobile_plans_exactly_one ; 1 ; 1 ; mobile_plans ;
+
+INSERT_UPDATE TmaAtomicPolicyCondition; code[unique = true]; statement(code, $catalogVersion); $catalogVersion
+; mobile_plans_exactly_one ; mobile_plans_exactly_one ;
+
+INSERT_UPDATE TmaPoGroupPolicyStatement; code[unique = true]; min; max; productOfferingGroup(code, $catalogVersion); $catalogVersion
+; mobile_devices_exactly_one ; 1 ; 1 ; mobile_devices
+
+INSERT_UPDATE TmaPolicyAction; code[unique = true]; statement(code, $catalogVersion); actionType(code); $catalogVersion
+; mobile_devices_exactly_one ; mobile_devices_exactly_one ; SELECT
+
+INSERT_UPDATE TmaCompatibilityPolicy; code[unique = true]; conditions(code, $catalogVersion); actions(code, $catalogVersion); conditionsEvaluatorType(code); onlineFrom[dateformat = dd.MM.yyyy]; onlineTo[dateformat = dd.MM.yyyy]; $catalogVersion
+; mobile_plans_with_devices ; mobile_plans_exactly_one ; mobile_devices_exactly_one ; AND ; 01.06.2018 ;
+
+##################################################
+# Policy3 (General cardinality rules):
+# A customer can select only one service plan.  #
+#################################################
+INSERT_UPDATE TmaPoGroupPolicyStatement; code[unique = true]; min; max; productOfferingGroup(code, $catalogVersion); $catalogVersion
+; mobile_plans ; 0 ; 1 ; mobile_plans ;
+
+INSERT_UPDATE TmaPolicyAction; code[unique = true]; statement(code, $catalogVersion); actionType(code); $catalogVersion
+; mobile_plans ; mobile_plans ; SELECT
+
+INSERT_UPDATE TmaCompatibilityPolicy; code[unique = true]; conditions(code, $catalogVersion); actions(code, $catalogVersion); conditionsEvaluatorType(code); onlineFrom[dateformat = dd.MM.yyyy]; onlineTo[dateformat = dd.MM.yyyy]; $catalogVersion
+; mobile_plans ; ; mobile_plans ; AND ; 03.05.2019 ; 07.05.2019 ;
+
+########################################################
+# Policy3 (Required component):
+# An internet connection is required to purchase iptv. #
+########################################################
+INSERT_UPDATE TmaPoGroupPolicyStatement; code[unique = true]; min; max; productOfferingGroup(code, $catalogVersion); $catalogVersion
+; ipTVDeal_plans ; 1 ; ; ipTVDeal_plans ;
+
+INSERT_UPDATE TmaAtomicPolicyCondition; code[unique = true]; statement(code, $catalogVersion); $catalogVersion
+; ipTVDeal_plans ; ipTVDeal_plans ;
+
+INSERT_UPDATE TmaPoGroupPolicyStatement; code[unique = true]; min; max; productOfferingGroup(code, $catalogVersion); $catalogVersion
+; internet_plans ; 1 ; ; internet_plans ;
+
+INSERT_UPDATE TmaPolicyAction; code[unique = true]; statement(code, $catalogVersion); actionType(code); $catalogVersion
+; internet ; internet_plans ; SELECT
+
+INSERT_UPDATE TmaCompatibilityPolicy; code[unique = true]; conditions(code, $catalogVersion); actions(code, $catalogVersion); conditionsEvaluatorType(code); $catalogVersion
+; ipTVDeal ; ipTVDeal_plans ; internet ; AND
+
+######################################################################################
+# Policy4 (Cardinality):
+# A customer is allowed to select one of the two TV-addons (Movies Go, Sports Go).   #
+######################################################################################
+INSERT_UPDATE TmaPoGroupPolicyStatement; code[unique = true]; min; max; productOfferingGroup(code, $catalogVersion); $catalogVersion
+; ipTVDeal_addons ; 0 ; 1 ; ipTVDeal_addons ;
+
+INSERT_UPDATE TmaPolicyAction; code[unique = true]; statement(code, $catalogVersion); actionType(code); $catalogVersion
+; tv_addons ; ipTVDeal_addons ; SELECT
+
+INSERT_UPDATE TmaCompatibilityPolicy; code[unique = true]; conditions(code, $catalogVersion); actions(code, $catalogVersion); conditionsEvaluatorType(code); $catalogVersion
+; ipTVDeal_addons ; ; tv_addons ; AND
+
+#########################################################################################################
+# Policy5 (Required component):
+# A customer is allowed to select samsung_s8 only if he has premium Unlimited Plan and he has an internet option.      #
+#########################################################################################################
+INSERT_UPDATE TmaPoPolicyStatement; code[unique = true]; min; max; productOffering(code, $catalogVersion); $catalogVersion
+; iPhone_x   ; 0 ; 1 ; iPhone_x
+; samsung_s8 ; 0 ; 1 ; samsung_s8
+; premium_Unlimited_Plan    ; 1 ; 1 ; premiumUnlimitedPlan
+
+INSERT_UPDATE TmaAtomicPolicyCondition; code[unique = true]; statement(code, $catalogVersion); $catalogVersion
+; samsung_s8 ; samsung_s8 ;
+
+INSERT_UPDATE TmaPoGroupPolicyStatement; code[unique = true]; min; max; productOfferingGroup(code, $catalogVersion); $catalogVersion
+; mobile_addons_exactly_one ; 1 ; 1 ; mobile_addons ;
+
+INSERT_UPDATE TmaPolicyAction; code[unique = true]; statement(code, $catalogVersion); actionType(code); $catalogVersion
+; premium_Unlimited_Plan                   ; premium_Unlimited_Plan                   ; SELECT
+; mobile_addons_exactly_one ; mobile_addons_exactly_one ; SELECT
+
+INSERT_UPDATE TmaCompatibilityPolicy; code[unique = true]; conditionsEvaluatorType(code); conditions(code, $catalogVersion); actions(code, $catalogVersion); $catalogVersion
+; samsung_s8_premium_Unlimited_Plan ; AND ; samsung_s8 ; premium_Unlimited_Plan,mobile_addons_exactly_one ;
+
+#############################################################################################
+# Policy6 (Disable rule):
+# A customer cannot select internet_pack_max if he bought Essentials Unlimited Plan, unlimitedStarterPlan or Starter No Limit 5G Plan.   #
+#############################################################################################
+INSERT_UPDATE TmaPoPolicyStatement; code[unique = true]; min; max; productOffering(code, $catalogVersion); $catalogVersion
+; internet_pack_max ; 0 ; 0 ; internet_pack_max
+; essentials_Unlimited_Plan           ; 1 ; 1 ; essentialsUnlimitedPlan
+; unlimited_Starter_Plan           ; 1 ; 1 ; unlimitedStarterPlan
+; starterNoLimit5GPlan        ; 1 ; 1 ; starterNoLimit5GPlan
+
+INSERT_UPDATE TmaAtomicPolicyCondition; code[unique = true]; statement(code, $catalogVersion); $catalogVersion
+; essentials_Unlimited_Plan    ; essentials_Unlimited_Plan
+; unlimited_Starter_Plan    ; unlimited_Starter_Plan
+; starterNoLimit5GPlan ; starterNoLimit5GPlan
+
+INSERT_UPDATE TmaPolicyAction; code[unique = true]; statement(code, $catalogVersion); actionType(code); $catalogVersion
+; internet_pack_max ; internet_pack_max ; SELECT
+
+INSERT_UPDATE TmaCompatibilityPolicy; code[unique = true]; conditionsEvaluatorType(code); conditions(code, $catalogVersion); actions(code, $catalogVersion); $catalogVersion
+; internet_pack_max_disable ; OR ; essentials_Unlimited_Plan,unlimited_Starter_Plan,starterNoLimit5GPlan ; internet_pack_max
+
+###########################################################################################################
+# Policy7 (Auto-pick action):
+# When a customer selects tv_M IpTV plan and ll_voip landline plan, auto-pick int_1000 internet plan.     #
+###########################################################################################################
+INSERT_UPDATE TmaPoPolicyStatement; code[unique = true]; min; max; productOffering(code, $catalogVersion); $catalogVersion
+; tv_M     ; 1 ;   ; tv_M
+; ll_voip  ; 1 ;   ; ll_voip
+; int_1000 ; 1 ; 1 ; int_1000
+
+INSERT_UPDATE TmaAtomicPolicyCondition; code[unique = true]; statement(code, $catalogVersion); $catalogVersion
+; tv_M    ; tv_M
+; ll_voip ; ll_voip
+
+INSERT_UPDATE TmaPolicyAction; code[unique = true]; statement(code, $catalogVersion); actionType(code); $catalogVersion
+; int_1000 ; int_1000 ; AUTOPICK
+
+INSERT_UPDATE TmaCompatibilityPolicy; code[unique = true]; conditionsEvaluatorType(code); conditions(code, $catalogVersion); actions(code, $catalogVersion); $catalogVersion
+; int_1000_internet_autopick ; AND ; tv_M,ll_voip ; int_1000
+
+###########################################################################################################
+# Policy8 (Cardinality with requird components based on pscv):
+# When a customer selects 1000mbps internet he is allowed to purchase 0 to 5 media boxes for TV
+# When a customer selects 200 mbps internet he is allowed to purchase 0 to 3 media boxes for TV
+# When a customer selects 100 mbps internet he is allowed to purchase 0 to 2 media boxes for TV
+###########################################################################################################
+INSERT_UPDATE TmaPscvPolicyStatement; code[unique = true]; min; max; valueMin; valueMax; unitOfMeasure(id); productSpecCharacteristic(id, $catalogVersion); $catalogVersion
+; st_int_media_co_2 ; 0 ; ; 0     ; 100 ; mbps ; download_speed ;
+; st_int_media_co_3 ; 0 ; ; 101   ; 200 ; mbps ; download_speed ;
+; st_int_media_co_5 ; 0 ; ; 0.201 ;     ; gbps ; download_speed ;
+
+INSERT_UPDATE TmaPoPolicyStatement; code[unique = true]; min; max; productOffering(code, $catalogVersion); $catalogVersion
+; st_int_media_ac_2 ; 0 ; 2 ; media_box ;
+; st_int_media_ac_3 ; 0 ; 3 ; media_box ;
+; st_int_media_ac_5 ; 0 ; 5 ; media_box ;
+
+INSERT_UPDATE TmaAtomicPolicyCondition; code[unique = true]; statement(code, $catalogVersion); $catalogVersion
+; co_int_media_2 ; st_int_media_co_2 ;
+; co_int_media_3 ; st_int_media_co_3 ;
+; co_int_media_5 ; st_int_media_co_5 ;
+
+INSERT_UPDATE TmaPolicyAction; code[unique = true]; statement(code, $catalogVersion); actionType(code); $catalogVersion
+; ac_int_media_2 ; st_int_media_ac_2 ; SELECT
+; ac_int_media_3 ; st_int_media_ac_3 ; SELECT
+; ac_int_media_5 ; st_int_media_ac_5 ; SELECT
+
+INSERT_UPDATE TmaCompatibilityPolicy; code[unique = true]; conditionsEvaluatorType(code); conditions(code, $catalogVersion); actions(code, $catalogVersion); $catalogVersion
+; internet_mediaBoxes_2 ; AND ; co_int_media_2 ; ac_int_media_2
+; internet_mediaBoxes_3 ; AND ; co_int_media_3 ; ac_int_media_3
+; internet_mediaBoxes_5 ; AND ; co_int_media_5 ; ac_int_media_5
+
+########################################################################################################
+# Policy9 (Device cardinality):
+# A customer is allowed to buy max 3 iphone 8                                                         #
+########################################################################################################
+INSERT_UPDATE TmaPoPolicyStatement; code[unique = true]; min; max; productOffering(code, $catalogVersion); $catalogVersion
+; iPhone_8 ; 0 ; 3 ; iPhone_8
+
+INSERT_UPDATE TmaPolicyAction; code[unique = true]; statement(code, $catalogVersion); actionType(code); $catalogVersion
+; iPhone_8_cardinality ; iPhone_8 ; SELECT
+
+INSERT_UPDATE TmaCompatibilityPolicy; code[unique = true]; conditionsEvaluatorType(code); conditions(code, $catalogVersion); actions(code, $catalogVersion); onlineFrom[dateformat = dd.MM.yyyy]; onlineTo[dateformat = dd.MM.yyyy]; $catalogVersion
+; iPhone_8_cardinality ; AND ; ; iPhone_8_cardinality ; 25.05.2018 ; 25.01.2019
+
+########################################################################################################
+# Policy10 (Disabled rule expired policy):
+# A customer is not allowed to buy DELUXE_TV  if he bought PREMIUM_TV (expired rule)                   #
+########################################################################################################
+INSERT_UPDATE TmaPoPolicyStatement; code[unique = true]; min; max; productOffering(code, $catalogVersion); $catalogVersion
+; PREMIUM_TV ; 1 ;   ; PREMIUM_TV
+; DELUXE_TV  ; 0 ; 0 ; DELUXE_TV
+
+INSERT_UPDATE TmaAtomicPolicyCondition; code[unique = true]; statement(code, $catalogVersion); $catalogVersion
+; PREMIUM_TV ; PREMIUM_TV
+
+INSERT_UPDATE TmaPolicyAction; code[unique = true]; statement(code, $catalogVersion); actionType(code); $catalogVersion
+; DELUXE_TV ; DELUXE_TV ; SELECT
+
+INSERT_UPDATE TmaCompatibilityPolicy; code[unique = true]; conditionsEvaluatorType(code); conditions(code, $catalogVersion); actions(code, $catalogVersion); onlineFrom[dateformat = dd.MM.yyyy]; onlineTo[dateformat = dd.MM.yyyy]; $catalogVersion
+; premium_tv_disabled_rule ; AND ; PREMIUM_TV ; DELUXE_TV ; 01.01.2018 ; 01.06.2018
+
+##################################################################################################################
+# Policy11 (Mobile addons dependency):
+# A customer is required to purchase an internet addon if he selected iphone 8 & unlimited_Starter_Plan or iphone_x & essentials_Unlimited_Plan   #                                                      #
+##################################################################################################################
+INSERT_UPDATE TmaPoPolicyStatement; code[unique = true]; min; max; productOffering(code, $catalogVersion); $catalogVersion
+; iPhone_8_min_1 ; 1 ; ; iPhone_8
+; iPhone_x_min_1 ; 1 ; ; iPhone_x
+
+INSERT_UPDATE TmaAtomicPolicyCondition; code[unique = true]; statement(code, $catalogVersion); $catalogVersion
+; iPhone_8       ; iPhone_8_min_1 ;
+; iPhone_x_min_1 ; iPhone_x_min_1 ;
+
+INSERT_UPDATE TmaCompositePolicyCondition; code[unique = true]; children(code, $catalogVersion); conditionsEvaluatorType(code); $catalogVersion
+; iPhone_8_and_unlimited_Starter_Plan ; iPhone_8,unlimited_Starter_Plan       ; AND ;
+; iPhone_x_and_essentials_Unlimited_Plan ; iPhone_x_min_1,essentials_Unlimited_Plan ; AND ;
+
+INSERT_UPDATE TmaCompatibilityPolicy; code[unique = true]; conditionsEvaluatorType(code); conditions(code, $catalogVersion); actions(code, $catalogVersion); $catalogVersion
+; mobile_addons_for_iphone_8_iphone_x ; OR ; iPhone_8_and_unlimited_Starter_Plan,iPhone_x_and_essentials_Unlimited_Plan ; mobile_addons_exactly_one ;
+
+###############################################################################################################################################
+# Policy12 (Autopick action):
+# When a customer selects iphone 8 & unlimited_Starter_Plan or iphone_x & essentials_Unlimited_Plan together with a tv_S & movies_go, auto-pick fiberlink 100 internet plan.   #                                                                                              #
+###############################################################################################################################################
+INSERT_UPDATE TmaPoPolicyStatement; code[unique = true]; min; max; productOffering(code, $catalogVersion); $catalogVersion
+; tv_S      ; 1 ; ; tv_S
+; movies_go ; 1 ; ; movies_go
+
+INSERT_UPDATE TmaAtomicPolicyCondition; code[unique = true]; statement(code, $catalogVersion); $catalogVersion
+; tv_S      ; tv_S
+; movies_go ; movies_go
+
+INSERT_UPDATE TmaCompositePolicyCondition; code[unique = true]; children(code, $catalogVersion); conditionsEvaluatorType(code); $catalogVersion
+; iPhone_8_or_iPhone_x           ; iPhone_8_and_unlimited_Starter_Plan,iPhone_x_and_essentials_Unlimited_Plan ; OR  ;
+; tv_S_and_movies_go             ; tv_S,movies_go                            ; AND ;
+; iPhone_8_or_iPhone_x_with_tv_s ; iPhone_8_or_iPhone_x,tv_S_and_movies_go   ; AND ;
+
+INSERT_UPDATE TmaPoPolicyStatement; code[unique = true]; min; max; productOffering(code, $catalogVersion); $catalogVersion
+; int_100 ; 1 ; 1 ; int_100
+
+INSERT_UPDATE TmaPolicyAction; code[unique = true]; statement(code, $catalogVersion); actionType(code); $catalogVersion
+; int_100 ; int_100 ; AUTOPICK
+
+INSERT_UPDATE TmaCompatibilityPolicy; code[unique = true]; conditionsEvaluatorType(code); conditions(code, $catalogVersion); actions(code, $catalogVersion); $catalogVersion
+; iPhone_8_or_iPhone_x_with_ipTV_plan ; AND ; iPhone_8_or_iPhone_x_with_tv_s ; int_100 ;
+
+########################################################################################################
+# Policy13 (Disabled rule expired policy):
+# A customer is not allowed to buy 	Iphone X Gray 64 GB AND Iphone X Gray 256 GB if he bought Essentials Unlimited Plan   #
+########################################################################################################
+INSERT_UPDATE TmaPoPolicyStatement; code[unique = true]; min; max; productOffering(code, $catalogVersion); $catalogVersion
+; iPhone_x_space_gray_64g  ; 0 ; 0 ; iPhone_x_space_gray_64g
+; iPhone_x_space_gray_256g ; 0 ; 0 ; iPhone_x_space_gray_256g
+; essentials_Unlimited_Plan_variants         ; 1 ;   ; essentialsUnlimitedPlan
+
+INSERT_UPDATE TmaAtomicPolicyCondition; code[unique = true]; statement(code, $catalogVersion); $catalogVersion
+; essentials_Unlimited_Plan_variants ; essentials_Unlimited_Plan_variants
+
+INSERT_UPDATE TmaPolicyAction; code[unique = true]; statement(code, $catalogVersion); actionType(code); $catalogVersion
+; iPhone_x_space_gray_64g  ; iPhone_x_space_gray_64g  ; SELECT
+; iPhone_x_space_gray_256g ; iPhone_x_space_gray_256g ; SELECT
+
+INSERT_UPDATE TmaCompatibilityPolicy; code[unique = true]; conditionsEvaluatorType(code); conditions(code, $catalogVersion); actions(code, $catalogVersion); onlineFrom[dateformat = dd.MM.yyyy]; onlineTo[dateformat = dd.MM.yyyy]; $catalogVersion
+; iphone_x_variants_disable_rule ; AND ; essentials_Unlimited_Plan_variants ; iPhone_x_space_gray_64g,iPhone_x_space_gray_256g ;
+
+
+########################################################################################################
+# Eligibility Policy1 (retention policy):
+# A customer is eligible for RETENTION flow when the remaining contract term is less than 3 months     #
+########################################################################################################
+INSERT_UPDATE TmaProcessTypesPolicyStatement; code[unique = true]; processes(code); $catalogVersion
+; retention_statement ; RETENTION
+
+INSERT_UPDATE TmaRemainingCommittedPeriodPolicyStatement; code[unique = true]; days; $catalogVersion
+; 3months_statement ; 90
+
+INSERT_UPDATE TmaAtomicPolicyCondition; code[unique = true]; statement(code, $catalogVersion); $catalogVersion
+; remainingPeriodConditions_90 ; 3months_statement
+
+INSERT_UPDATE TmaPolicyAction; code[unique = true]; statement(code, $catalogVersion); actionType(code); $catalogVersion
+; allow_retention ; retention_statement ; ALLOW
+
+INSERT_UPDATE TmaCompatibilityPolicy; code[unique = true]; conditionsEvaluatorType(code); conditions(code, $catalogVersion); actions(code, $catalogVersion); onlineFrom[dateformat = dd.MM.yyyy]; onlineTo[dateformat = dd.MM.yyyy]; $catalogVersion
+; 3months_remainingPeriod_eligibility ; AND ; remainingPeriodConditions_90 ; allow_retention ;
+
+###################################################################################################
+# Eligibility Policy2 (general acquisition, device only and switch supplier policy):              #
+# A customer is eligible for ACQUISITION DEVICE_ONLY and SWITCH_SERVICE_PROVIDER flows in all conditions  #
+###################################################################################################
+INSERT_UPDATE TmaProcessTypesPolicyStatement; code[unique = true]; processes(code); $catalogVersion
+; acq_and_device_only_and_switch_service_provider_statement ; ACQUISITION,DEVICE_ONLY,SWITCH_SERVICE_PROVIDER
+
+INSERT_UPDATE TmaPolicyAction; code[unique = true]; statement(code, $catalogVersion); actionType(code); $catalogVersion
+; allow_acq_and_device_only_and_switch_service_provider ; acq_and_device_only_and_switch_service_provider_statement ; ALLOW
+
+INSERT_UPDATE TmaCompatibilityPolicy; code[unique = true]; conditionsEvaluatorType(code); conditions(code, $catalogVersion); actions(code, $catalogVersion); onlineFrom[dateformat = dd.MM.yyyy]; onlineTo[dateformat = dd.MM.yyyy]; $catalogVersion
+; acq_and_device_only_and_switch_service_provider_eligibility ; AND ; ; allow_acq_and_device_only_and_switch_service_provider ;
+
+####################################################################################
+# Eligibility Policy3 (tariff change policy):
+# A customer is eligible for TARIFF_CHANGE flow if he is subscribed to premium Unlimited Plan.    #
+####################################################################################
+INSERT_UPDATE TmaProcessTypesPolicyStatement; code[unique = true]; processes(code); $catalogVersion
+; tariff_change_statement ; TARIFF_CHANGE
+
+INSERT_UPDATE TmaPolicyAction; code[unique = true]; statement(code, $catalogVersion); actionType(code); $catalogVersion
+; allow_tariff_change ; tariff_change_statement ; ALLOW
+
+INSERT_UPDATE TmaSubscribedPoPolicyStatement; code[unique = true]; min; productOffering(code, $catalogVersion); $catalogVersion
+; premiumUnlimitedPlan_subscribedProduct ; 1 ; premiumUnlimitedPlan
+
+INSERT_UPDATE TmaAtomicPolicyCondition; code[unique = true]; statement(code, $catalogVersion); $catalogVersion
+; premiumUnlimitedPlan_subscribedProduct ; premiumUnlimitedPlan_subscribedProduct
+
+INSERT_UPDATE TmaCompatibilityPolicy; code[unique = true]; conditionsEvaluatorType(code); conditions(code, $catalogVersion); actions(code, $catalogVersion); onlineFrom[dateformat = dd.MM.yyyy]; onlineTo[dateformat = dd.MM.yyyy]; $catalogVersion
+; tariff_change_eligibility ; AND ; premiumUnlimitedPlan_subscribedProduct ; allow_tariff_change ;
+
+########################################################################################################
+# Eligibility Policy (termination policy):                                                             #
+# A customer is eligible for TERMINATION flow when the remaining contract term is 0 day                #
+# and the status of subscribed product is ACTIVE / SUSPENDED                                           #
+########################################################################################################
+
+INSERT_UPDATE TmaProductStatusPolicyStatement; code[unique = true]; statuses(code); $catalogVersion
+; termination_status_statement ; active,SUSPENDED
+
+INSERT_UPDATE TmaRemainingCommittedPeriodPolicyStatement; code[unique = true]; days; $catalogVersion
+; termination_remaining_period_statement ; 0
+
+INSERT_UPDATE TmaProcessTypesPolicyStatement; code[unique = true]; processes(code); $catalogVersion
+; termination_processtype_statement ; TERMINATION
+
+INSERT_UPDATE TmaAtomicPolicyCondition; code[unique = true]; statement(code, $catalogVersion); $catalogVersion
+; termination_status_condition        ; termination_status_statement
+; termination_remaining_period_condition ; termination_remaining_period_statement
+
+INSERT_UPDATE TmaCompositePolicyCondition; code[unique = true]; children(code, $catalogVersion); conditionsEvaluatorType(code); $catalogVersion
+; termination_policy_composite_condition ; termination_status_condition,termination_remaining_period_condition         ; AND  ;
+
+INSERT_UPDATE TmaPolicyAction; code[unique = true]; statement(code, $catalogVersion); actionType(code); $catalogVersion
+; allow_termination ; termination_processtype_statement ; ALLOW
+
+INSERT_UPDATE TmaCompatibilityPolicy; code[unique = true]; conditionsEvaluatorType(code); conditions(code, $catalogVersion); actions(code, $catalogVersion); onlineFrom[dateformat = dd.MM.yyyy]; onlineTo[dateformat = dd.MM.yyyy]; $catalogVersion
+; termination_eligibility_policy    ; AND                ; termination_policy_composite_condition ; allow_termination ;

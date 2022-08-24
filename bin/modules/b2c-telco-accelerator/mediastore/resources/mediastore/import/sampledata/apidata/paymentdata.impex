@@ -1,0 +1,13 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for Importing Payment Method Test Data
+
+#% impex.enableCodeExecution(true);
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE CreditCardPaymentInfo; code[unique = true]; user(uid)                       ; ccOwner     ; number           ; type(code); validToMonth; validToYear; saved ; subscriptionId
+## TMF Order APIs baseSiteId
+                                   ; 98710002           ; selfserviceuser98712@hybris.com ; ANNA DOE    ; 1111222233334444 ; master    ; 5           ; 2023       ; TRUE
+                                   ; 98710005           ; selfserviceuser98715@hybris.com ; Lucy Jenkin ; 1111222233334444 ; master    ; 5           ; 2023       ; TRUE ; 9111

@@ -1,0 +1,126 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+$lang = en
+
+$defaultPassword = 1234
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE Customer; originalUid[unique = true]  ; uid[unique = true]          ; customerID                  ; name             ; groups(uid)   ; password[default = $defaultPassword];
+                      ; emily.smith@hybris.com      ; emily.smith@hybris.com      ; emily.smith@hybris.com      ; Emily Smith      ; customergroup ;                                     ;
+                      ; gustave.flaubert@hybris.com ; gustave.flaubert@hybris.com ; gustave.flaubert@hybris.com ; Gustave Flaubert ; customergroup ;                                     ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE Company; uid[unique = true]       ;
+                     ; company_principal_115380 ;
+                     ; company_principal_115381 ;
+                     ; company_principal_115382 ;
+                     ; company_principal_115383 ;
+                     ; subUnit_principal_115381 ;
+                     ; subUnit_principal_115382 ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PmExternalReference; id[unique = true]        ; externalReferenceType; name                                   ;
+                                 ; externalReference_115381 ; internetSite         ; "https://globalpirate.com"             ;
+                                 ; externalReference_115382 ; socialMedia          ; "https://socialMedia.com/globalpirate" ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PmCharacteristic; id[unique = true]     ; name                ; value  ; valueType;
+                              ; characteristic_115381 ; Number of employees ; 125    ; number   ;
+                              ; characteristic_115382 ; Market Segment      ; Retail ; String   ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PmOtherName; id[unique = true]; nameType; tradingName[lang = $lang]; name[lang = $lang] ; startDate[dateformat = dd.MM.yyyy]; endDate[dateformat = dd.MM.yyyy];
+                         ; otherName_115381 ; inc     ; Pirate Shop              ; Pirate Shop        ; 28.06.2021                        ; 27.06.2023                      ;
+                         ; otherName_115382 ; inc     ; Global Pirate Shop       ; Global Pirate Shop ; 28.06.2021                        ; 27.06.2023                      ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE MediaFormat; qualifier[unique = true]; name[lang = $lang];
+                         ; documentCopy            ; documentCopy      ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE CatalogUnawareMedia; code[unique = true]; mediaFormat(qualifier); description                      ; mime            ; realFileName                     ; size; url                                                        ;
+                                 ; attachment_115381  ;                       ; Commercion Registration for US   ; application/pdf ; commercial_registration_us.pdf   ; 121 ; "https://DocumentManager/commercial_registration_us.pdf"   ;
+                                 ; attachment_115382  ;                       ; Commercial Registration for EU   ; application/pdf ; commercial_registration_eu.pdf   ; 132 ; "https://DocumentManager/commercial_registration_eu.pdf"   ;
+                                 ; attachment_115383  ; documentCopy          ; Tax Exemption Certificate for US ; application/pdf ; tax_exemption_certificate_us.pdf ; 124 ; "https://DocumentManager/tax_exemption_certificate_us.pdf" ;
+                                 ; attachment_115384  ; documentCopy          ; Tax Exemption Certificate for EU ; application/pdf ; tax_exemption_certificate_eu.pdf ; 165 ; "https://DocumentManager/tax_exemption_certificate_eu.pdf" ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PmIdentification; identificationId[unique = true]; identificationType     ; issuingAuthority; issuingDate[dateformat = dd.MM.yyyy]; startDate[dateformat = dd.MM.yyyy]; endDate[dateformat = dd.MM.yyyy]; attachment(code)  ;
+                              ; identification_115381          ; commercialRegistration ; Us Government   ; 12.05.2019                          ; 01.01.2020                        ; 31.12.2030                      ; attachment_115381 ;
+                              ; identification_115382          ; commercialRegistration ; European Union  ; 24.06.2019                          ; 01.01.2020                        ; 31.12.2030                      ; attachment_115382 ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PmTaxDefinition; id[unique = true]    ; name[lang = $lang]; taxType     ;
+                             ; taxDefinition_115381 ; value-added tax   ; value-added ;
+                             ; taxDefinition_115382 ; property tax      ; property    ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PmTaxExemptionCertificate; id[unique = true]              ; startDate[dateformat = dd.MM.yyyy]; endDate[dateformat = dd.MM.yyyy]; taxDefinitions(id)                         ; attachment(code)  ;
+                                       ; taxExemptionCertificate_115381 ; 18.11.2020                        ; 18.11.2030                      ; taxDefinition_115381, taxDefinition_115382 ; attachment_115383 ;
+                                       ; taxExemptionCertificate_115382 ; 05.02.2021                        ; 05.02.2031                      ; taxDefinition_115381                       ; attachment_115384 ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PmPartyCreditProfile; id[unique = true]    ; creditAgencyName; creditAgencyType; ratingScore; ratingReference; startDate[dateformat = dd.MM.yyyy]; endDate[dateformat = dd.MM.yyyy];
+                                  ; creditProfile_115381 ; Experian        ; externalAgency  ; 400        ; ref456         ; 14.06.2018                        ;                                 ;
+                                  ; creditProfile_115382 ; ExperianUnited  ; externalAgency  ; 300        ; ref567         ;                                   ; 25.04.2020                      ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PmMediumCharacteristic; id[unique = true]           ; city    ; contactType(code)   ; country       ; emailAddress           ; faxNumber; phoneNumber; postCode; socialNetworkId; stateOrProvince; street1            ; street2;
+                                    ; mediumCharacteristic_115381 ;         ; MOBILE_PHONE_NUMBER ;               ; emily.smith@hybris.com ; 123456   ; 234567     ;         ;                ;                ;                    ;        ;
+                                    ; mediumCharacteristic_115382 ; Seattle ; SHIPPING_ADDRESS    ; United States ; emily.smith@hybris.com ;          ;            ; 98109   ; 345678         ; Washington     ; 1156  Ryder Avenue ; ap 1A  ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PmContactMedium; id[unique = true]    ; mediumType(code); preferred[default = false]; startDate[dateformat = dd.MM.yyyy]; endDate[dateformat = dd.MM.yyyy]; characteristic(id)          ;
+                             ; contactMedium_115381 ; PHONE_NUMBER    ; true                      ; 28.06.2021                        ; 28.06.2022                      ; mediumCharacteristic_115381 ;
+                             ; contactMedium_115382 ; POSTAL_ADDRESS  ;                           ; 28.06.2021                        ; 28.06.2022                      ; mediumCharacteristic_115382 ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PmPartyRole; id[unique = true]; role       ;
+                         ; partyRole_115380 ; company    ;
+                         ; partyRole_115381 ; company    ;
+                         ; partyRole_115382 ; customer   ;
+                         ; partyRole_115383 ; company    ;
+                         ; partyRole_115384 ; company    ;
+                         ; partyRole_115385 ; department ;
+                         ; partyRole_115386 ; department ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PmIndividual; id[unique = true] ; legalName[lang = $lang]; familyName; givenName; principals(uid)             ; partyRoles(id)   ;
+                          ; individual_115381 ; Gustave Flaubert       ; Flaubert  ; Gustave  ; gustave.flaubert@hybris.com ; partyRole_115382 ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PmOrganization; id[unique = true]   ; tradingName                     ; name[lang = $lang]              ; nameType; isLegalEntity[default = false]; isHeadOffice[default = false]; organizationType; principals(uid)                                  ; partyRoles(id)   ; startDate[dateformat = dd.MM.yyyy]; endDate[dateformat = dd.MM.yyyy]; status(code); externalReferences(id)                             ; partyCharacteristics(id)                     ; otherNames(id)                     ; identifications(identificationId)            ; taxExemptionCertificates(id)                                   ; creditRatings(id)                          ; contactMediums(id)                         ;
+                            ; organization_115380 ; Global Pirates Inc              ; Global Pirates Inc              ; inc     ; true                          ; true                         ; company         ; company_principal_115380                         ; partyRole_115380 ; 29.06.2021                        ; 28.06.2022                      ; VALIDATED   ;                                                    ;                                              ;                                    ;                                              ;                                                                ;                                            ;                                            ;
+                            ; organization_115381 ; Global Pirates                  ; Global Pirates                  ; inc     ; true                          ;                              ; company         ; company_principal_115381, emily.smith@hybris.com ; partyRole_115381 ; 29.06.2021                        ; 28.06.2022                      ; VALIDATED   ; externalReference_115381, externalReference_115382 ; characteristic_115381, characteristic_115382 ; otherName_115381, otherName_115382 ; identification_115381, identification_115382 ; taxExemptionCertificate_115381, taxExemptionCertificate_115382 ; creditProfile_115381, creditProfile_115382 ; contactMedium_115381, contactMedium_115382 ;
+                            ; organization_115382 ; Total Protect                   ; Total Protect                   ; inc     ;                               ; true                         ; company         ; company_principal_115382                         ; partyRole_115383 ; 29.06.2021                        ; 28.06.2022                      ; INITIALIZED ;                                                    ;                                              ;                                    ;                                              ;                                                                ;                                            ;                                            ;
+                            ; organization_115383 ; Life Productions                ; Life Productions                ; inc     ;                               ; true                         ; company         ; company_principal_115383                         ; partyRole_115384 ; 29.06.2021                        ; 28.06.2022                      ; INITIALIZED ;                                                    ;                                              ;                                    ;                                              ;                                                                ;                                            ;                                            ;
+                            ; subunit_115381      ; Global Pirates HR Department    ; Global Pirates HR Department    ;         ;                               ;                              ; subUnit         ; subUnit_principal_115381                         ; partyRole_115385 ; 29.06.2021                        ; 28.06.2022                      ; VALIDATED   ;                                                    ;                                              ;                                    ;                                              ;                                                                ;                                            ;                                            ;
+                            ; subunit_115382      ; Global Pirates Legal Department ; Global Pirates Legal Department ;         ;                               ;                              ; subUnit         ; subUnit_principal_115382                         ; partyRole_115386 ; 29.06.2021                        ; 28.06.2022                      ; VALIDATED   ;                                                    ;                                              ;                                    ;                                              ;                                                                ;                                            ;                                            ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PmOrganizationRelationship; id[unique = true]               ; relationshipType; organization(id)    ; parentOrganization(id);
+                                        ; organizationRelationship_115381 ; juridical       ; subunit_115381      ; organization_115381   ;
+                                        ; organizationRelationship_115382 ; juridical       ; subunit_115382      ; organization_115381   ;
+                                        ; organizationRelationship_115383 ; juridical       ; organization_115381 ; organization_115380   ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+UPDATE PmOrganization; id[unique = true]   ; organizationParent(id)          ;
+                     ; organization_115381 ; organizationRelationship_115383 ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PmPartyRoleAssociation; code[unique = true]         ; associationType; partyRoleInvolves(id); partyRoleInvolvedWith(id);
+                                    ; partyRoleAssociation_115381 ; customer       ; partyRole_115381     ; partyRole_115382         ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PmBusinessInteractionRole; code[unique = true]            ; interactionName  ; interactionType ; partyRole(id)    ;
+                                       ; businessInteractionRole_115381 ; Business Partner ; businessPartner ; partyRole_115381 ;
+                                       ; businessInteractionRole_115382 ; Business Partner ; businessPartner ; partyRole_115383 ;
+                                       ; businessInteractionRole_115383 ; Service Consumer ; serviceConsumer ; partyRole_115381 ;
+                                       ; businessInteractionRole_115384 ; Service Provider ; serviceProvider ; partyRole_115384 ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PmAgreement; id[unique = true]; startDate[dateformat = dd.MM.yyyy]; endDate[dateformat = dd.MM.yyyy]; description[lang = $lang]     ; interactionRoles(code)                                         ;
+                         ; agreement_115381 ; 25.06.2018                        ; 30.09.2018                      ; Business Partner Contrat      ; businessInteractionRole_115381, businessInteractionRole_115382 ;
+                         ; agreement_115382 ; 26.06.2018                        ; 12.10.2019                      ; Service Provisioning Contract ; businessInteractionRole_115383, businessInteractionRole_115384 ;

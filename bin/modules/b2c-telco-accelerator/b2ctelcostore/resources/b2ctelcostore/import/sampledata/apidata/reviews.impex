@@ -1,0 +1,24 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for Importing Product Reviews
+
+# Macros / Replacement Parameter definitions
+
+#% impex.enableCodeExecution(true);
+
+$catalog-Online = Online
+$product-catalog = b2ctelcoProductCatalog
+$productCV = catalogVersion(CatalogVersion.catalog(Catalog.id[default=$product-catalog]), CatalogVersion.version[default=$catalog-Online])[default=$product-catalog:$catalog-Online]
+
+$catalogVersion = catalogversion(catalog(id[default=$product-catalog]), version[default='Online'])[unique=true, default=$product-catalog:Online]
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE CustomerReview; user(uid)[unique = true]; product(code, $productCV)[unique = true]; approvalStatus(code); rating; headline; comment; language(isocode)
+; selfserviceuser2@hybris.com ; REVIEW_PRODUCT_OFFERING         ; approved ; 1.5 ; bad       ; Battery not lasting ; en ;
+; selfserviceuser3@hybris.com ; REVIEW_PRODUCT_OFFERING         ; approved ; 3.5 ; good      ; It's ok             ; en ;
+; selfserviceuser4@hybris.com ; REVIEW_PRODUCT_OFFERING         ; approved ; 5   ; great     ; I love it           ; en ;
+; selfserviceuser5@hybris.com ; REVIEW_PRODUCT_OFFERING         ; approved ; 3   ; very good ; The best            ; en ;
+; selfserviceuser6@hybris.com ; REVIEW_PRODUCT_OFFERING         ; approved ; 5   ; sehr gut  ; ich liebe ihn       ; de ;
+; selfserviceuser2@hybris.com ; VARIANT_REVIEW_PRODUCT_OFFERING ; approved ; 4   ; ok!!!     ; it does a good job  ; en ;

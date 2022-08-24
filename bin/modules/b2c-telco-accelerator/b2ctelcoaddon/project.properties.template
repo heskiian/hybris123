@@ -1,0 +1,24 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+
+# you can put key/value pairs here.
+# Use Config.getParameter(..) to retrieve the values during runtime.
+
+# Specifies the location of the spring context file added automatically to the global platform application context.
+b2ctelcoaddon.application-context=b2ctelcoaddon-spring.xml
+
+yacceleratorstorefront.additionalWebSpringConfigs.b2ctelcoaddon=classpath:/b2ctelcoaddon/web/spring/b2ctelcoaddon-web-spring.xml
+
+b2ctelcoaddon.javascript.paths.responsive=/responsive/common/js/acc.producttocarttabs.js;/responsive/common/js/acc.detailPagePopup.js;/responsive/common/js/acc.cart.js;/responsive/common/js/acc.autocomplete.js;/responsive/common/js/acc.paymentdetails.js;/responsive/common/js/acc.paymentInfo.js;/responsive/common/js/acc.checkremovepaymentinfo.js;/responsive/common/js/acc.guidedSelling.js;/responsive/common/js/acc.checkout.js;/responsive/common/js/acc.telco.pickupinstore.js;/responsive/common/js/acc.telco.storefinder.js;/responsive/common/js/acc.ratingstars.js;/responsive/common/js/acc.minicart.js;/responsive/common/js/acc.productlistviews.js;/responsive/common/js/acc.homepagemenu.js;/responsive/common/js/acc.b2ctelcocheckoutcartdetails.js;/responsive/common/js/acc.deliverymodedescription.js;/responsive/common/js/acc.hopdebug.js;/responsive/common/js/acc.removepaymentdetails.js;/responsive/common/js/acc.silentorderpost.js;/responsive/common/js/acc.updatebillingaddress.js;/responsive/common/js/acc.checkoutaddress.js;/responsive/common/js/acc.configureGuidedSelling.js;/responsive/common/js/subscriptionstorefront.js;/responsive/common/js/acc.processtypes.js;/responsive/common/js/acc.productoffers.js;/responsive/common/js/acc.modaldialog.js;/responsive/common/js/acc.carousel.js;
+b2ctelcoaddon.filterProductTypes=TmaSimpleProductOffering,TmaPoVariant
+
+website.b2ctelco.http=http://b2ctelco.local:9001/yacceleratorstorefront
+website.b2ctelco.https=https://b2ctelco.local:9002/yacceleratorstorefront
+
+website.media.http=http://media.local:9001/yacceleratorstorefront
+website.media.https=https://media.local:9002/yacceleratorstorefront
+
+website.utilities.http=http://utilities.local:9001/yacceleratorstorefront
+website.utilities.https=https://utilities.local:9002/yacceleratorstorefront
+accelerator.storefront.checkout.multistep.sop=true

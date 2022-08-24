@@ -1,0 +1,11 @@
+#Ant properties
+#Thu Mar 04 09:17:41 CET 2021
+version.api=2011
+vendor=hybris
+group.id=de.hybris.platform
+name=b2btelcofulfilmentprocess
+description=b2btelcofulfilmentprocess
+builddate=20210304 0914
+releasedate=20201119 1630
+version=21.05.0
+module.name=platform-module

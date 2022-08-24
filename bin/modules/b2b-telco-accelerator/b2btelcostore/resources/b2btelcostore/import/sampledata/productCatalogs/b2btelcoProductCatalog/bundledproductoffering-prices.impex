@@ -1,0 +1,17 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+$productCatalog = b2btelcoProductCatalog
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Staged'])[unique = true, default = '$productCatalog:Staged']
+$currency = currency(isocode)[default = USD]
+$price = price[default = 0.0]
+$processTypes = processTypes(code)
+$regions = regions(isocode)
+$subscriptionTerms = subscriptionTerms(id)
+$priority = priority[default = 50]
+
+################################################
+###                   Prices                 ###
+################################################
+

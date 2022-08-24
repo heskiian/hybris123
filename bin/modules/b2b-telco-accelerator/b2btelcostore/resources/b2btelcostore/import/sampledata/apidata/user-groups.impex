@@ -1,0 +1,103 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+$lang = en
+$defaultPassword = 1234
+
+"#% Registry.setCurrentTenantByID(""api"");"
+
+INSERT_UPDATE B2BUnit; uid[unique = true]       ; name                       ; locName[lang = $lang]    ; groups(uid); reportingOrganization(uid);
+# PO Permissions
+                     ; BU1                      ; BU1                        ; BU1                      ;            ; BU1                       ;
+                     ; BU2                      ; BU2                        ; BU2                      ;            ; BU2                       ;
+                     ; BU3                      ; BU3                        ; BU3                      ;            ; BU3                       ;
+                     ; BU4                      ; BU4                        ; BU4                      ;            ; BU4                       ;
+                     ; BU5                      ; BU5                        ; BU5                      ; BU3        ; BU3                       ;
+
+# PO Permissions E2E
+                     ; BU1_10894                ; BU1_10894                  ; BU1_10894                ;            ; BU1_10894                 ;
+                     ; BU2_10894                ; BU2_10894                  ; BU2_10894                ;            ; BU2_10894                 ;
+                     ; BU3_10894                ; BU3_10894                  ; BU3_10894                ;            ; BU3_10894                 ;
+                     ; BU4_10894                ; BU4_10894                  ; BU4_10894                ;            ; BU4_10894                 ;
+                     ; BU5_10894                ; BU5_10894                  ; BU5_10894                ; BU3_10894  ; BU3_10894                 ;
+
+## Order Approvals - GET
+# simple organization - 1 unit
+                     ; simpleorg                ; simple org                 ;                          ; simpleorg
+# simple organization - 2 units
+                     ; biunitorg                ; 2 unit org                 ;                          ; biunitorg
+                     ; biunitorg1               ; 2 unit org - u1            ; biunitorg                ; biunitorg
+                     ; biunitorg2               ; 2 unit org - u2            ; biunitorg                ; biunitorg
+# other organization
+                     ; otherorg                 ; other org                  ;                          ; otherorg
+
+# Order Apporval - POST
+                     ; orgnization_11038        ; Organization 11038         ;                          ; orgnization_11038
+
+# Order Approval - GET
+                     ; parentCom                ; parent company             ;                          ; parentCom
+                     ; childComA                ; child company a            ; parentCom                ; parentCom
+                     ; childComB                ; child company b            ; parentCom                ; parentCom
+
+# Order Apporval - E2E
+                     ; parentOrganization_11037 ; Parent Organization 11037  ;                          ; parentOrganization_11037
+                     ; childOrganizationA_11037 ; Child Organization A 11037 ; parentOrganization_11037 ; parentOrganization_11037
+                     ; childOrganizationB_11037 ; Child Organization B 11037 ; parentOrganization_11037 ; parentOrganization_11037
+
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE B2BCustomer; description                    ; uid[unique = true]                             ; customerID                              ; originalUid                                    ; email                                          ; name                     ; title(code); groups(uid)                                                 ; sessionCurrency(isocode)[default = 'USD']; password[default = $defaultPassword];
+# PO Permissions
+                         ; b2b customer                   ; selfserviceuser10895001@hybris.com             ; selfserviceuser10895001@hybris.com      ; selfserviceuser10895001@hybris.com             ; selfserviceuser10895001@hybris.com             ; selfserviceuser 10895001 ; mr         ; b2bcustomergroup,BU4                                        ;                                          ;
+                         ; b2b customer                   ; selfserviceuser10895002@hybris.com             ; selfserviceuser10895002@hybris.com      ; selfserviceuser10895002@hybris.com             ; selfserviceuser10895002@hybris.com             ; selfserviceuser 10895002 ; mr         ; b2bcustomergroup,BU5                                        ;                                          ;
+                         ; b2b customer                   ; selfserviceuser10895003@hybris.com             ; selfserviceuser10895003@hybris.com      ; selfserviceuser10895003@hybris.com             ; selfserviceuser10895003@hybris.com             ; selfserviceuser 10895003 ; mr         ; b2bcustomergroup,BU3                                        ;                                          ;
+                         ; b2b customer                   ; selfserviceuser10895004@hybris.com             ; selfserviceuser10895004@hybris.com      ; selfserviceuser10895004@hybris.com             ; selfserviceuser10895004@hybris.com             ; selfserviceuser 10895004 ; mr         ; b2bcustomergroup,BU3                                        ;                                          ;
+                         ; b2b customer                   ; selfserviceuser10895005@hybris.com             ; selfserviceuser10895005@hybris.com      ; selfserviceuser10895005@hybris.com             ; selfserviceuser10895005@hybris.com             ; selfserviceuser 10895005 ; mr         ; b2bcustomergroup,BU4                                        ;                                          ;
+                         ; b2b customer                   ; selfserviceuser10895006@hybris.com             ; selfserviceuser10895006@hybris.com      ; selfserviceuser10895006@hybris.com             ; selfserviceuser10895006@hybris.com             ; selfserviceuser 10895006 ; mr         ; b2bcustomergroup,BU5                                        ;                                          ;
+                         ; b2b customer                   ; selfserviceuser10895007@hybris.com             ; selfserviceuser10895007@hybris.com      ; selfserviceuser10895007@hybris.com             ; selfserviceuser10895007@hybris.com             ; selfserviceuser 10895007 ; mr         ; b2bcustomergroup,BU3                                        ;                                          ;
+                         ; b2b customer                   ; selfserviceuser10895008@hybris.com             ; selfserviceuser10895008@hybris.com      ; selfserviceuser10895008@hybris.com             ; selfserviceuser10895008@hybris.com             ; selfserviceuser 10895008 ; mr         ; b2bcustomergroup,BU3                                        ;                                          ;
+                         ; b2b customer                   ; selfserviceuser10895015@hybris.com             ; selfserviceuser10895015@hybris.com      ; selfserviceuser10895015@hybris.com             ; selfserviceuser10895015@hybris.com             ; selfserviceuser 10895015 ; mr         ; b2bcustomergroup,BU4                                        ;                                          ;
+                         ; b2b customer                   ; selfserviceuser10895016@hybris.com             ; selfserviceuser10895016@hybris.com      ; selfserviceuser10895016@hybris.com             ; selfserviceuser10895016@hybris.com             ; selfserviceuser 10895016 ; mr         ; b2bcustomergroup,BU5                                        ;                                          ;
+                         ; b2b customer                   ; selfserviceuser10895017@hybris.com             ; selfserviceuser10895017@hybris.com      ; selfserviceuser10895017@hybris.com             ; selfserviceuser10895017@hybris.com             ; selfserviceuser 10895017 ; mr         ; b2bcustomergroup,BU3                                        ;                                          ;
+                         ; b2b customer                   ; selfserviceuser10895019@hybris.com             ; selfserviceuser10895019@hybris.com      ; selfserviceuser10895019@hybris.com             ; selfserviceuser10895019@hybris.com             ; selfserviceuser 10895019 ; mr         ; b2bcustomergroup,BU4                                        ;                                          ;
+                         ; b2b customer                   ; selfserviceuser10895020@hybris.com             ; selfserviceuser10895020@hybris.com      ; selfserviceuser10895020@hybris.com             ; selfserviceuser10895020@hybris.com             ; selfserviceuser 10895020 ; mr         ; b2bcustomergroup,BU5                                        ;                                          ;
+                         ; b2b customer                   ; selfserviceuser10895021@hybris.com             ; selfserviceuser10895021@hybris.com      ; selfserviceuser10895021@hybris.com             ; selfserviceuser10895021@hybris.com             ; selfserviceuser 10895021 ; mr         ; b2bcustomergroup,BU3                                        ;                                          ;
+                         ; b2b customer                   ; selfserviceuser10895022@hybris.com             ; selfserviceuser10895022@hybris.com      ; selfserviceuser10895022@hybris.com             ; selfserviceuser10895022@hybris.com             ; selfserviceuser 10895022 ; mr         ; b2bcustomergroup,BU3                                        ;                                          ;
+                         ; b2b customer                   ; selfserviceuser10895009@hybris.com             ; selfserviceuser10895009@hybris.com      ; selfserviceuser10895009@hybris.com             ; selfserviceuser10895009@hybris.com             ; selfserviceuser 10895009 ; mr         ; b2bcustomergroup,BU4                                        ;                                          ;
+                         ; b2b customer                   ; selfserviceuser10895010@hybris.com             ; selfserviceuser10895010@hybris.com      ; selfserviceuser10895010@hybris.com             ; selfserviceuser10895010@hybris.com             ; selfserviceuser 10895010 ; mr         ; b2bcustomergroup,BU5                                        ;                                          ;
+                         ; b2b customer                   ; selfserviceuser10895011@hybris.com             ; selfserviceuser10895011@hybris.com      ; selfserviceuser10895011@hybris.com             ; selfserviceuser10895011@hybris.com             ; selfserviceuser 10895011 ; mr         ; b2bcustomergroup,BU3                                        ;                                          ;
+                         ; b2b customer                   ; selfserviceuser10895012@hybris.com             ; selfserviceuser10895012@hybris.com      ; selfserviceuser10895012@hybris.com             ; selfserviceuser10895012@hybris.com             ; selfserviceuser 10895012 ; mr         ; b2bcustomergroup,BU4                                        ;                                          ;
+                         ; b2b customer                   ; selfserviceuser10895013@hybris.com             ; selfserviceuser10895013@hybris.com      ; selfserviceuser10895013@hybris.com             ; selfserviceuser10895013@hybris.com             ; selfserviceuser 10895013 ; mr         ; b2bcustomergroup,BU5                                        ;                                          ;
+                         ; b2b customer                   ; selfserviceuser10895014@hybris.com             ; selfserviceuser10895014@hybris.com      ; selfserviceuser10895014@hybris.com             ; selfserviceuser10895014@hybris.com             ; selfserviceuser 10895014 ; mr         ; b2bcustomergroup,BU3                                        ;                                          ;
+
+# PO Permissions E2E
+                         ; b2b customer                   ; selfserviceuser10894001@hybris.com             ; selfserviceuser10894001@hybris.com      ; selfserviceuser10894001@hybris.com             ; selfserviceuser10894001@hybris.com             ; selfserviceuser 10894001 ; mr         ; b2bcustomergroup,BU5_10894                                  ;                                          ;
+
+## Order Approvals - GET
+# users in simpleorg
+                         ; user1                          ; user1@simpleorg.com                            ; user1@simpleorg.com                     ; user1@simpleorg.com                            ; user1@simpleorg.com                            ; user1                    ; mr         ; simpleorg, b2bcustomergroup                                 ;
+                         ; user2                          ; user2@simpleorg.com                            ; user2@simpleorg.com                     ; user2@simpleorg.com                            ; user2@simpleorg.com                            ; user2                    ; mr         ; simpleorg, b2bcustomergroup                                 ;
+# users in simpleorg
+                         ; user1                          ; user1@biunitorg.com                            ; user1@biunitorg.com                     ; user1@biunitorg.com                            ; user1@biunitorg.com                            ; user1                    ; mr         ; biunitorg, b2bcustomergroup                                 ;
+                         ; user2                          ; user2@biunitorg.com                            ; user2@biunitorg.com                     ; user2@biunitorg.com                            ; user2@biunitorg.com                            ; user2                    ; mr         ; biunitorg, b2bcustomergroup                                 ;
+# users in otherorg
+                         ; user1                          ; user1@otherorg.com                             ; user1@otherorg.com                      ; user1@otherorg.com                             ; user1@otherorg.com                             ; user1                    ; mr         ; otherorg, b2bcustomergroup                                  ;
+
+# Order Apporval - POST
+                         ; b2b customer                   ; selfserviceuser11038001@hybris.com             ; 11038-11038-11038-11038                 ; selfserviceuser11038001@hybris.com             ; selfserviceuser11038001@hybris.com             ; Test User                ; mr         ; b2bcustomergroup, orgnization_11038                         ;
+                         ; b2b customer requires approval ; selfserviceuser11038002@hybris.com             ; 11038-11038-11038-11038                 ; selfserviceuser11038002@hybris.com             ; selfserviceuser11038002@hybris.com             ; Test User                ; mr         ; b2bcustomergroup_requiresapproval, orgnization_11038        ;
+
+# Order Aprrovale - PATCH
+                         ; test user                      ; customer@parent.com                            ; 2rc701a94-xd344-4ao35-a22f-199e275c730e ; customer@parent.com                            ; customer@parent.com                            ; Parent Customer          ; mr         ; parentCom, b2bcustomergroup_requiresapproval                ;
+                         ; test user                      ; approver@parent.com                            ; bfr522d10-5xad9-46o88-bd37-1c6d56f34c8c ; approver@parent.com                            ; approver@parent.com                            ; Parent Approver          ; mr         ; parentCom, b2bapprovergroup                                 ;
+                         ; test user                      ; customer@childa.com                            ; b38reb920-73xe5-45o67-97c6-5d9a8d8efd84 ; customer@childa.com                            ; customer@childa.com                            ; Child A Customer         ; mr         ; childComA, b2bcustomergroup_requiresapproval                ;
+                         ; test user                      ; approver@childa.com                            ; b38erb920-73ex5-45o67-97c6-5d9a8d8efd85 ; approver@childa.com                            ; approver@childa.com                            ; Child A Approver         ; mr         ; childComA, b2bapprovergroup                                 ;
+                         ; test user                      ; customer@childb.com                            ; b38ebr920-73e5x-45o67-97c6-5d9a8d8efd86 ; customer@childb.com                            ; customer@childb.com                            ; Child B Customer         ; mr         ; childComB, b2bcustomergroup_requiresapproval                ;
+                         ; test user                      ; not_approver@childb.com                        ; b38eb9r20-73ey5-45o67-97c6-5d9a8d8efd87 ; not_approver@childb.com                        ; not_approver@childb.com                        ; Child B Not Approver     ; mr         ; childComB, b2bcustomergroup_requiresapproval                ;
+
+# Order Apporval - E2E
+                         ; b2b customer requires approval ; b2bcustomer_a_requiresapproval11037@hybris.com ; 110371-110371-110371-110371             ; b2bcustomer_a_requiresapproval11037@hybris.com ; b2bcustomer_a_requiresapproval11037@hybris.com ; Test User                ; mr         ; childOrganizationA_11037, b2bcustomergroup_requiresapproval ;
+                         ; b2b customer                   ; b2bcustomer_b11037@hybris.com                  ; 110372-110372-110372-110372             ; b2bcustomer_b11037@hybris.com                  ; b2bcustomer_b11037@hybris.com                  ; Test User                ; mr         ; childOrganizationB_11037, b2bcustomergroup                  ;
+                         ; b2b customer requires approval ; b2bcustomer_requiresapproval11037@hybris.com   ; 110373-110373-110373-110373             ; b2bcustomer_requiresapproval11037@hybris.com   ; b2bcustomer_requiresapproval11037@hybris.com   ; Test User                ; mr         ; parentOrganization_11037, b2bcustomergroup_requiresapproval ;
+                         ; b2b approver                   ; b2bapprover_a11037@hybris.com                  ; 110374-110374-110374-110374             ; b2bapprover_a11037@hybris.com                  ; b2bapprover_a11037@hybris.com                  ; Test User                ; mr         ; childOrganizationA_11037, b2bapprovergroup                  ;

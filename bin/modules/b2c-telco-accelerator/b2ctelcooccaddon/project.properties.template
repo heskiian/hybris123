@@ -1,0 +1,55 @@
+
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+
+# you can put key/value pairs here.
+# Use Config.getParameter(..) to retrieve the values during runtime.
+
+b2ctelcooccaddon.key=value
+
+# Specifies the location of the spring context file added automatically to the global platform application context.
+b2ctelcooccaddon.application-context=b2ctelcooccaddon-spring.xml
+
+# Specifies the location of the spring context file which will be added to commerce web services web context
+ycommercewebservices.additionalWebSpringConfigs.b2ctelcooccaddon=classpath:/b2ctelcooccaddon/web/spring/b2ctelcooccaddon-web-spring.xml
+
+#Use for generating static swagger documentation
+b2ctelcooccaddon.documentation.static.generate=true
+
+ycommercewebservices.wro4jconfigscan.b2ctelcooccaddon=true
+
+b2ctelcooccaddon.TmaProductsController.getProductByCode.priority=100
+b2ctelcooccaddon.TmaExportController.exportProducts.priority=100
+b2ctelcooccaddon.TmaCartsController.getCarts.priority=100
+b2ctelcooccaddon.TmaCartsController.getCart.priority=100
+b2ctelcooccaddon.TmaCartsController.replaceCartPaymentDetails.priority=100
+b2ctelcooccaddon.TmaCartsController.createCartEntry.priority=100
+b2ctelcooccaddon.TmaCartsController.createCart.priority=100
+b2ctelcooccaddon.TmaCartsController.cloneCart.priority=100
+b2ctelcooccaddon.TmaCartsController.deleteCartEntry.priority=100
+b2ctelcooccaddon.TmaCartsController.updateCartEntry.priority=100
+b2ctelcooccaddon.TmaCartsController.getCartEntry.priority=100
+b2ctelcooccaddon.TmaCartsController.replaceCartEntry.priority=100
+b2ctelcooccaddon.TmaSaveCartController.doUpdateSavedCart.priority=100
+b2ctelcooccaddon.TmaOrdersController.placeOrder.priority=100
+b2ctelcooccaddon.TmaAddressController.createAddress.priority=100
+b2ctelcooccaddon.TmaAddressController.updateAddress.priority=100
+
+# Webservices related constants used commonly
+b2ctelcooccaddon.api.base.url=https://b2ctelco.local:9002
+b2ctelcooccaddon.api.webmodule.webroot=/b2ctelcooccaddon/
+
+# Webservices related constants used while retrieving ProductOffering
+b2ctelcooccaddon.tmaProductOfferingApi.version=v2
+b2ctelcooccaddon.productOfferingApi.href=/productOffering/
+b2ctelcooccaddon.productSpecificationApi.href=/productSpecification/
+
+##########
+# When restoring a saved cart, one copy of the restored saved cart can be kept. The name of this copied/(cloned) cart is
+# the original saved cart name + copy#. This property set the regex for the name suffix of #.
+commerceservices.clone.savecart.name.regex.b2ctelco=(\\s+\\d*)$
+b2ctelcooccaddon.eligibility.admin.roles=ROLE_TRUSTED_CLIENT
+b2ctelcooccaddon.admin.roles=ROLE_TRUSTED_CLIENT
+
+ycommercewebservices.cart.refreshed.by.default=true

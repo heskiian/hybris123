@@ -1,0 +1,60 @@
+.bpo-tree-first-column {
+    width: 60%;
+}
+
+.bpo-tree-second-column {
+    width: 20%;
+}
+
+.bpo-tree-second-column .z-treecell-content {
+    float: left;
+    clear: right;
+}
+
+.yw-image-attribute-item-type {
+    width: 16px;
+    height: 16px;
+    padding: 8px;
+    display: inline;
+    position: relative;
+}
+
+.yw-image-attribute-item-type:before {
+    content: " ";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 24px;
+    height: 24px;
+    margin-left: -12px;
+    margin-top: -12px;
+    background: url("/backoffice/cng/images/icon_item_type.svg") center no-repeat;
+}
+
+.ye-com_hybris_cockpitng_editor_extendedmultireferenceeditor .z-listbox-header .z-listheader {
+   white-space: normal;
+}
+
+.yw-com_hybris_cockpitng_collectionBrowser .z-listbox-header .z-listheader {
+    white-space: normal;
+}
+
+.conditions-tree-first-column {
+    width: 50%;
+}
+
+.conditions-tree-second-column {
+    width: 10%;
+}
+
+.conditions-tree-third-column {
+    width: 10%;
+}
+
+.conditions-tree-fourth-column {
+    width: 10%;
+}
+
+.z-messagebox .z-label{
+    white-space: pre-wrap;
+}

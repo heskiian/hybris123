@@ -1,0 +1,1282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <!-- Field mapping configuration -->
+    <alias alias="fieldSetBuilder" name="defaultFieldSetBuilder"/>
+    <bean id="defaultFieldSetBuilder"
+          class="de.hybris.platform.webservicescommons.mapping.impl.DefaultFieldSetBuilder">
+        <property name="defaultRecurrencyLevel" value="10"/>
+        <property name="defaultMaxFieldSetSize" value="500000"/>
+        <property name="fieldSetLevelHelper" ref="fieldSetLevelHelper"/>
+    </bean>
+
+    <alias alias="fieldSetLevelHelper" name="defaultFieldSetLevelHelper"/>
+    <bean id="defaultFieldSetLevelHelper"
+          class="de.hybris.platform.webservicescommons.mapping.impl.DefaultFieldSetLevelHelper">
+    </bean>
+
+    <alias alias="dataMapper" name="defaultDataMapper"/>
+    <bean id="defaultDataMapper"
+          class="de.hybris.platform.webservicescommons.mapping.impl.DefaultDataMapper">
+        <property name="fieldSetBuilder" ref="fieldSetBuilder"/>
+    </bean>
+
+
+    <!-- ######################### -->
+    <!-- ### Attribute Mappers ### -->
+    <!-- ######################### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper pmAttachmentRefOrValueEntityMapperV1 ### -->
+    <alias name="defaultPmAttachmentRefOrValueAtReferredTyoeAttributeMapper"
+           alias="pmAttachmentRefOrValueAtReferredTyoeAttributeMapper"/>
+    <bean id="defaultPmAttachmentRefOrValueAtReferredTyoeAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.attachmentreforvalue.AttachmentRefOrValueAtReferredTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="code"/>
+        <constructor-arg name="targetAttributeName" value="atreferredType"/>
+    </bean>
+
+    <alias name="defaultPmAttachmentRefOrValueAtSchemaLocationAttributeMapper"
+           alias="pmAttachmentRefOrValueAtSchemaLocationAttributeMapper"/>
+    <bean id="defaultPmAttachmentRefOrValueAtSchemaLocationAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.attachmentreforvalue.AttachmentRefOrValueAtSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="code"/>
+        <constructor-arg name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+
+    <alias name="defaultPmAttachmentRefOrValueAtTypeAttributeMapper" alias="pmAttachmentRefOrValueAtTypeAttributeMapper"/>
+    <bean id="defaultPmAttachmentRefOrValueAtTypeAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.attachmentreforvalue.AttachmentRefOrValueAtTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="code"/>
+        <constructor-arg name="targetAttributeName" value="attype"/>
+    </bean>
+
+    <alias name="defaultPmAttachmentRefOrValueHrefAttributeMapper" alias="pmAttachmentRefOrValueHrefAttributeMapper"/>
+    <bean id="defaultPmAttachmentRefOrValueHrefAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.attachmentreforvalue.AttachmentRefOrValueHrefAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="code"/>
+        <constructor-arg name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultPmAttachmentRefOrValueIdAttributeMapper" alias="pmAttachmentRefOrValueIdAttributeMapper"/>
+    <bean id="defaultPmAttachmentRefOrValueIdAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.attachmentreforvalue.AttachmentRefOrValueIdAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="code"/>
+        <constructor-arg name="targetAttributeName" value="id"/>
+    </bean>
+
+    <alias name="defaultPmAttachmentRefOrValueMimeTypeAttributeMapper" alias="pmAttachmentRefOrValueMimeTypeAttributeMapper"/>
+    <bean id="defaultPmAttachmentRefOrValueMimeTypeAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.attachmentreforvalue.AttachmentRefOrValueMimeTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="mime"/>
+        <constructor-arg name="targetAttributeName" value="mimeType"/>
+    </bean>
+
+    <alias name="defaultPmAttachmentRefOrValueNameAttributeMapper" alias="pmAttachmentRefOrValueNameAttributeMapper"/>
+    <bean id="defaultPmAttachmentRefOrValueNameAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.attachmentreforvalue.AttachmentRefOrValueNameAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="realFileName"/>
+        <constructor-arg name="targetAttributeName" value="name"/>
+    </bean>
+
+    <alias name="defaultPmAttachmentRefOrValueSizeAttributeMapper" alias="pmAttachmentRefOrValueSizeAttributeMapper"/>
+    <bean id="defaultPmAttachmentRefOrValueSizeAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.attachmentreforvalue.AttachmentRefOrValueSizeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="size"/>
+        <constructor-arg name="targetAttributeName" value="size"/>
+    </bean>
+
+    <alias name="defaultPmAttachmentRefOrValueTypeAttributeMapper" alias="pmAttachmentRefOrValueTypeAttributeMapper"/>
+    <bean id="defaultPmAttachmentRefOrValueTypeAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.attachmentreforvalue.AttachmentRefOrValueTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="mediaFormat"/>
+        <constructor-arg name="targetAttributeName" value="attachmentType"/>
+    </bean>
+    <!-- ### END definition of attribute mappers for entity mapper pmAttachmentRefOrValueEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper pmCharacteristicEntityMapperV1 ### -->
+    <alias name="defaultPmCharacteristicAtSchemaLocationAttributeMapper" alias="pmCharacteristicAtSchemaLocationAttributeMapper"/>
+    <bean id="defaultPmCharacteristicAtSchemaLocationAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.characteristic.CharacteristicAtSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+
+    <alias name="defaultPmCharacteristicAtTypeAttributeMapper" alias="pmCharacteristicAtTypeAttributeMapper"/>
+    <bean id="defaultPmCharacteristicAtTypeAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.characteristic.CharacteristicAtTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="attype"/>
+    </bean>
+    <!-- ### END definition of attribute mappers for entity mapper pmCharacteristicEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper pmContactMediumEntityMapperV1 ### -->
+    <alias name="defaultPmContactMediumAtSchemaLocationAttributeMapper" alias="pmContactMediumAtSchemaLocationAttributeMapper"/>
+    <bean id="defaultPmContactMediumAtSchemaLocationAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.contactmedium.ContactMediumAtSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+
+    <alias name="defaultPmContactMediumAtTypeAttributeMapper" alias="pmContactMediumAtTypeAttributeMapper"/>
+    <bean id="defaultPmContactMediumAtTypeAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.contactmedium.ContactMediumAtTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="attype"/>
+    </bean>
+
+    <alias name="defaultPmContactMediumValidForAttributeMapper" alias="pmContactMediumValidForAttributeMapper"/>
+    <bean id="defaultPmContactMediumValidForAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.contactmedium.ContactMediumValidForAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="validFor"/>
+        <constructor-arg name="targetAttributeName" value="validFor"/>
+    </bean>
+    <!-- ### END definition of attribute mappers for entity mapper pmContactMediumEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper pmDisabilityEntityMapperV1 ### -->
+    <alias name="defaultPmDisabilityAtSchemaLocationAttributeMapper" alias="pmDisabilityAtSchemaLocationAttributeMapper"/>
+    <bean id="defaultPmDisabilityAtSchemaLocationAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.disability.DisabilityAtSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+
+    <alias name="defaultPmDisabilityAtTypeAttributeMapper" alias="pmDisabilityAtTypeAttributeMapper"/>
+    <bean id="defaultPmDisabilityAtTypeAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.disability.DisabilityAtTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="attype"/>
+    </bean>
+
+    <alias name="defaultPmDisabilityValidForAttributeMapper" alias="pmDisabilityValidForAttributeMapper"/>
+    <bean id="defaultPmDisabilityValidForAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.disability.DisabilityValidForAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="startDate"/>
+        <constructor-arg name="targetAttributeName" value="validFor"/>
+    </bean>
+    <!-- ### END definition of attribute mappers for entity mapper pmDisabilityEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper pmExternalReferenceEntityMapperV1 ### -->
+    <alias name="defaultPmExternalReferenceAtSchemaLocationAttributeMapper"
+           alias="pmExternalReferenceAtSchemaLocationAttributeMapper"/>
+    <bean id="defaultPmExternalReferenceAtSchemaLocationAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.externalReference.ExternalReferenceAtSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+
+    <alias name="defaultPmExternalReferenceAtTypeAttributeMapper" alias="pmExternalReferenceAtTypeAttributeMapper"/>
+    <bean id="defaultPmExternalReferenceAtTypeAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.externalReference.ExternalReferenceAtTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="attype"/>
+    </bean>
+    <!-- ### END definition of attribute mappers for entity mapper pmExternalReferenceEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper pmIndividualEntityMapperV1 ### -->
+    <alias name="defaultPmIndividualAtTypeAttributeMapper" alias="pmIndividualAtTypeAttributeMapper"/>
+    <bean id="defaultPmIndividualAtTypeAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.individual.IndividualAtTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="attype"/>
+    </bean>
+
+    <alias name="defaultPmIndividualDisabilityAttributeMapper" alias="pmIndividualDisabilityAttributeMapper"/>
+    <bean id="defaultPmIndividualDisabilityAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.individual.IndividualDisabilityAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="disabilities"/>
+        <constructor-arg name="targetAttributeName" value="disability"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultPmIndividualHrefAttributeMapper" alias="pmIndividualHrefAttributeMapper"/>
+    <bean id="defaultPmIndividualHrefAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.individual.IndividualHrefAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultPmIndividualIdentificationAttributeMapper" alias="pmIndividualIdentificationAttributeMapper"/>
+    <bean id="defaultPmIndividualIdentificationAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.individual.IndividualIdentificationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="identifications"/>
+        <constructor-arg name="targetAttributeName" value="individualIdentification"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultPmIndividualLanguageAbilityAttributeMapper" alias="pmIndividualLanguageAbilityAttributeMapper"/>
+    <bean id="defaultPmIndividualLanguageAbilityAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.individual.IndividualLanguageAbilityAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="languageAbilities"/>
+        <constructor-arg name="targetAttributeName" value="languageAbility"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultPmIndividualOtherNameAttributeMapper" alias="pmIndividualOtherNameAttributeMapper"/>
+    <bean id="defaultPmIndividualOtherNameAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.individual.IndividualOtherNameAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="otherNames"/>
+        <constructor-arg name="targetAttributeName" value="otherName"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultPmIndividualSkillAttributeMapper" alias="pmIndividualSkillAttributeMapper"/>
+    <bean id="defaultPmIndividualSkillAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.individual.IndividualSkillAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="skills"/>
+        <constructor-arg name="targetAttributeName" value="skill"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultPmIndividualTitleAttributeMapper" alias="pmIndividualTitleAttributeMapper"/>
+    <bean id="defaultPmIndividualTitleAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.individual.IndividualTitleAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="title"/>
+        <constructor-arg name="targetAttributeName" value="title"/>
+    </bean>
+    <!-- ### END definition of attribute mappers for entity mapper pmIndividualEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper pmIndividualIdentificationEntityMapperV1 ### -->
+    <alias name="defaultPmIndividualIdentificationAtSchemaLocationAttributeMapper"
+           alias="pmIndividualIdentificationAtSchemaLocationAttributeMapper"/>
+    <bean id="defaultPmIndividualIdentificationAtSchemaLocationAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.individualidentification.IndividualIdentificationAtSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+
+    <alias name="defaultPmIndividualIdentificationAtTypeAttributeMapper"
+           alias="pmIndividualIdentificationAtTypeAttributeMapper"/>
+    <bean id="defaultPmIndividualIdentificationAtTypeAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.individualidentification.IndividualIdentificationAtTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="attype"/>
+    </bean>
+
+    <alias name="defaultPmIndividualIdentificationValidForAttributeMapper"
+           alias="pmIndividualIdentificationValidForAttributeMapper"/>
+    <bean id="defaultPmIndividualIdentificationValidForAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.individualidentification.IndividualIdentificationValidForAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="validFor"/>
+        <constructor-arg name="targetAttributeName" value="validFor"/>
+    </bean>
+    <!-- ### END definition of attribute mappers for entity mapper pmIndividualIdentificationEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper pmLanguageAbilityEntityMapperV1 ### -->
+    <alias name="defaultPmLanguageAbilityAtSchemaLocationAttributeMapper"
+           alias="pmLanguageAbilityAtSchemaLocationAttributeMapper"/>
+    <bean id="defaultPmLanguageAbilityAtSchemaLocationAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.languageability.LanguageAbilityAtSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+
+    <alias name="defaultPmLanguageAbilityAtTypeAttributeMapper" alias="pmLanguageAbilityAtTypeAttributeMapper"/>
+    <bean id="defaultPmLanguageAbilityAtTypeAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.languageability.LanguageAbilityAtTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="attype"/>
+    </bean>
+
+    <alias name="defaultPmLanguageAbilityCodeAttributeMapper" alias="pmLanguageAbilityCodeAttributeMapper"/>
+    <bean id="defaultPmLanguageAbilityCodeAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.languageability.LanguageAbilityCodeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="language"/>
+        <constructor-arg name="targetAttributeName" value="languageCode"/>
+    </bean>
+
+    <alias name="defaultPmLanguageAbilityNameAttributeMapper" alias="pmLanguageAbilityNameAttributeMapper"/>
+    <bean id="defaultPmLanguageAbilityNameAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.languageability.LanguageAbilityNameAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="language"/>
+        <constructor-arg name="targetAttributeName" value="languageName"/>
+    </bean>
+
+    <alias name="defaultPmLanguageAbilityValidForAttributeMapper" alias="pmLanguageAbilityValidForAttributeMapper"/>
+    <bean id="defaultPmLanguageAbilityValidForAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.languageability.LanguageAbilityValidForAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="validFor"/>
+        <constructor-arg name="targetAttributeName" value="validFor"/>
+    </bean>
+    <!-- ### END definition of attribute mappers for entity mapper pmLanguageAbilityEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper pmMediumCharacteristicEntityMapperV1 ### -->
+    <alias name="defaultPmMediumCharacteristicAtSchemaLocationAttributeMapper"
+           alias="pmMediumCharacteristicAtSchemaLocationAttributeMapper"/>
+    <bean id="defaultPmMediumCharacteristicAtSchemaLocationAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.mediumcharacteristic.MediumCharacteristicAtSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+
+    <alias name="defaultPmMediumCharacteristicAtTypeAttributeMapper" alias="pmMediumCharacteristicAtTypeAttributeMapper"/>
+    <bean id="defaultPmMediumCharacteristicAtTypeAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.mediumcharacteristic.MediumCharacteristicAtTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="attype"/>
+    </bean>
+    <!-- ### END definition of attribute mappers for entity mapper pmMediumCharacteristicEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper pmOrganizationEntityMapperV1 ### -->
+    <alias name="defaultPmOrganizationAtSchemaLocationAttributeMapper" alias="pmOrganizationAtSchemaLocationAttributeMapper"/>
+    <bean id="defaultPmOrganizationAtSchemaLocationAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.organization.OrganizationAtSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+
+    <alias name="defaultPmOrganizationAtTypeAttributeMapper" alias="pmOrganizationAtTypeAttributeMapper"/>
+    <bean id="defaultPmOrganizationAtTypeAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.organization.OrganizationAtTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="attype"/>
+    </bean>
+
+    <alias name="defaultPmOrganizationChildRelationshipAttributeMapper" alias="pmOrganizationChildRelationshipAttributeMapper"/>
+    <bean id="defaultPmOrganizationChildRelationshipAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.organization.OrganizationChildRelationshipAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="childOrganizations"/>
+        <constructor-arg name="targetAttributeName" value="organizationChildRelationship"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultPmOrganizationExistsDuringAttributeMapper" alias="pmOrganizationExistsDuringAttributeMapper"/>
+    <bean id="defaultPmOrganizationExistsDuringAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.organization.OrganizationExistsDuringAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="validFor"/>
+        <constructor-arg name="targetAttributeName" value="existsDuring"/>
+    </bean>
+
+    <alias name="defaultPmOrganizationHrefAttributeMapper" alias="pmOrganizationHrefAttributeMapper"/>
+    <bean id="defaultPmOrganizationHrefAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.organization.OrganizationHrefAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultPmOrganizationIdentificationAttributeMapper" alias="pmOrganizationIdentificationAttributeMapper"/>
+    <bean id="defaultPmOrganizationIdentificationAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.organization.OrganizationIdentificationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="identifications"/>
+        <constructor-arg name="targetAttributeName" value="organizationIdentification"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultPmOrganizationOtherNameAttributeMapper" alias="pmOrganizationOtherNameAttributeMapper"/>
+    <bean id="defaultPmOrganizationOtherNameAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.organization.OrganizationOtherNameAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="otherNames"/>
+        <constructor-arg name="targetAttributeName" value="otherName"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultPmOrganizationParentRelationshipAttributeMapper" alias="pmOrganizationParentRelationshipAttributeMapper"/>
+    <bean id="defaultPmOrganizationParentRelationshipAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.organization.OrganizationParentRelationshipAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="organizationParent"/>
+        <constructor-arg name="targetAttributeName" value="organizationParentRelationship"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+    <!-- ### END definition of attribute mappers for entity mapper pmOrganizationEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper pmOrganizationChildRelationshipEntityMapperV1 ### -->
+    <alias name="defaultPmOrganizationChildRelationshipAtSchemaLocationAttributeMapper"
+           alias="pmOrganizationChildRelationshipAtSchemaLocationAttributeMapper"/>
+    <bean id="defaultPmOrganizationChildRelationshipAtSchemaLocationAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.organizationchildrelationship.OrganizationChildRelationshipAtSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+
+    <alias name="defaultPmOrganizationChildRelationshipAtTypeAttributeMapper"
+           alias="pmOrganizationChildRelationshipAtTypeAttributeMapper"/>
+    <bean id="defaultPmOrganizationChildRelationshipAtTypeAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.organizationchildrelationship.OrganizationChildRelationshipAtTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="attype"/>
+    </bean>
+    <!-- ### END definition of attribute mappers for entity mapper pmOrganizationChildRelationshipEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper pmOrganizationIdentificationEntityMapperV1 ### -->
+    <alias name="defaultPmOrganizationIdentificationAtSchemaLocationAttributeMapper"
+           alias="pmOrganizationIdentificationAtSchemaLocationAttributeMapper"/>
+    <bean id="defaultPmOrganizationIdentificationAtSchemaLocationAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.organizationidentification.OrganizationIdentificationAtSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+
+    <alias name="defaultPmOrganizationIdentificationAtTypeAttributeMapper"
+           alias="pmOrganizationIdentificationAtTypeAttributeMapper"/>
+    <bean id="defaultPmOrganizationIdentificationAtTypeAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.organizationidentification.OrganizationIdentificationAtTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="attype"/>
+    </bean>
+
+    <alias name="defaultPmOrganizationIdentificationValidForAttributeMapper"
+           alias="pmOrganizationIdentificationValidForAttributeMapper"/>
+    <bean id="defaultPmOrganizationIdentificationValidForAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.organizationidentification.OrganizationIdentificationValidForAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="validFor"/>
+        <constructor-arg name="targetAttributeName" value="validFor"/>
+    </bean>
+    <!-- ### END definition of attribute mappers for entity mapper pmOrganizationIdentificationEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper pmOrganizationParentRelationshipEntityMapperV1 ### -->
+    <alias name="defaultPmOrganizationParentRelationshipAtSchemaLocationAttributeMapper"
+           alias="pmOrganizationParentRelationshipAtSchemaLocationAttributeMapper"/>
+    <bean id="defaultPmOrganizationParentRelationshipAtSchemaLocationAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.organizationparentrelationship.OrganizationParentRelationshipAtSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+
+    <alias name="defaultPmOrganizationParentRelationshipOrganizationAttributeMapper"
+           alias="pmOrganizationParentRelationshipOrganizationAttributeMapper"/>
+    <bean id="defaultPmOrganizationParentRelationshipOrganizationAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.organizationparentrelationship.OrganizationParentRelationshipOrganizationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="parentOrganization"/>
+        <constructor-arg name="targetAttributeName" value="organization"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultPmOrganizationParentRelationshipAtTypeAttributeMapper"
+           alias="pmOrganizationParentRelationshipAtTypeAttributeMapper"/>
+    <bean id="defaultPmOrganizationParentRelationshipAtTypeAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.organizationparentrelationship.OrganizationParentRelatipnshipAtTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="attype"/>
+    </bean>
+    <!-- ### END definition of attribute mappers for entity mapper pmOrganizationParentRelationshipEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper pmOrganizationRefEntityMapperV1 ### -->
+    <alias name="defaultPmOrganizationRefAtReferredTypeAttributeMapper" alias="pmOrganizationRefAtReferredTypeAttributeMapper"/>
+    <bean id="defaultPmOrganizationRefAtReferredTypeAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.organizationref.OrganizationRefAtReferredTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atreferredType"/>
+    </bean>
+
+    <alias name="defaultPmOrganizationRefAtSchemaLocationAttributeMapper"
+           alias="pmOrganizationRefAtSchemaLocationAttributeMapper"/>
+    <bean id="defaultPmOrganizationRefAtSchemaLocationAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.organizationref.OrganizationRefAtSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+
+    <alias name="defaultPmOrganizationRefAtTypeAttributeMapper" alias="pmOrganizationRefAtTypeAttributeMapper"/>
+    <bean id="defaultPmOrganizationRefAtTypeAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.organizationref.OrganizationRefAtTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="attype"/>
+    </bean>
+
+    <alias name="defaultPmOrganizationRefHrefAttributeMapper" alias="pmOrganizationRefHrefAttributeMapper"/>
+    <bean id="defaultPmOrganizationRefHrefAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.organizationref.OrganizationRefHrefAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="href"/>
+    </bean>
+    <!-- ### END definition of attribute mappers for entity mapper pmOrganizationRefEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper pmOtherNameIndividualEntityMapperV1 ### -->
+    <alias name="defaultPmOtherNameIndividualAtSchemaLocationAttributeMapper"
+           alias="pmOtherNameIndividualAtSchemaLocationAttributeMapper"/>
+    <bean id="defaultPmOtherNameIndividualAtSchemaLocationAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.othernameindividual.OtherNameIndividualAtSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+
+    <alias name="defaultPmOtherNameIndividualAtTypeAttributeMapper" alias="pmOtherNameIndividualAtTypeAttributeMapper"/>
+    <bean id="defaultPmOtherNameIndividualAtTypeAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.othernameindividual.OtherNameIndividualAtTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="attype"/>
+    </bean>
+
+    <alias name="defaultPmOtherNameIndividualTitleAttributeMapper" alias="pmOtherNameIndividualTitleAttributeMapper"/>
+    <bean id="defaultPmOtherNameIndividualTitleAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.othernameindividual.OtherNameIndividualTitleAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="title"/>
+        <constructor-arg name="targetAttributeName" value="title"/>
+    </bean>
+
+    <alias name="defaultPmOtherNameIndividualValidForAttributeMapper" alias="pmOtherNameIndividualValidForAttributeMapper"/>
+    <bean id="defaultPmOtherNameIndividualValidForAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.othernameindividual.OtherNameIndividualValidForAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="validFor"/>
+        <constructor-arg name="targetAttributeName" value="validFor"/>
+    </bean>
+    <!-- ### END definition of attribute mappers for entity mapper pmOtherNameIndividualEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper pmOtherNameOrganizationEntityMapperV1 ### -->
+    <alias name="defaultPmOtherNameOrganizationAtSchemaLocationAttributeMapper"
+           alias="pmOtherNameOrganizationAtSchemaLocationAttributeMapper"/>
+    <bean id="defaultPmOtherNameOrganizationAtSchemaLocationAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.othernameorganization.OtherNameOrganizationAtSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+
+    <alias name="defaultPmOtherNameOrganizationAtTypeAttributeMapper" alias="pmOtherNameOrganizationAtTypeAttributeMapper"/>
+    <bean id="defaultPmOtherNameOrganizationAtTypeAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.othernameorganization.OtherNameOrganizationAtTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="attype"/>
+    </bean>
+
+    <alias name="defaultPmOtherNameOrganizationValidForAttributeMapper" alias="pmOtherNameOrganizationValidForAttributeMapper"/>
+    <bean id="defaultPmOtherNameOrganizationValidForAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.othernameorganization.OtherNameOrganizationValidForAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="validFor"/>
+        <constructor-arg name="targetAttributeName" value="validFor"/>
+    </bean>
+    <!-- ### END definition of attribute mappers for entity mapper pmOtherNameOrganizationEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper pmPartyEntityMapperV1 ### -->
+    <alias name="defaultPmPartyAtSchemaLocationAttributeMapper" alias="pmPartyAtSchemaLocationAttributeMapper"/>
+    <bean id="defaultPmPartyAtSchemaLocationAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.party.PartyAtSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+
+    <alias name="defaultPmPartyAtTypeAttributeMapper" alias="pmPartyAtTypeAttributeMapper"/>
+    <bean id="defaultPmPartyAtTypeAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.party.PartyAtTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="attype"/>
+    </bean>
+
+    <alias name="defaultPmPartyCharacteristicAttributeMapper" alias="pmPartyCharacteristicAttributeMapper"/>
+    <bean id="defaultPmPartyCharacteristicAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.party.PartyCharacteristicAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="partyCharacteristics"/>
+        <constructor-arg name="targetAttributeName" value="partyCharacteristic"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultPmPartyContactMediumAttributeMapper" alias="pmPartyContactMediumAttributeMapper"/>
+    <bean id="defaultPmPartyContactMediumAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.party.PartyContactMediumAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="contactMediums"/>
+        <constructor-arg name="targetAttributeName" value="contactMedium"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultPmPartyCreditRatingAttributeMapper" alias="pmPartyCreditRatingAttributeMapper"/>
+    <bean id="defaultPmPartyCreditRatingAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.party.PartyCreditRatingAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="creditRatings"/>
+        <constructor-arg name="targetAttributeName" value="creditRating"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultPmPartyExternalReferenceAttributeMapper" alias="pmPartyExternalReferenceAttributeMapper"/>
+    <bean id="defaultPmPartyExternalReferenceAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.party.PartyExternalReferenceAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="externalReferences"/>
+        <constructor-arg name="targetAttributeName" value="externalReference"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultPmPartyHrefAttributeMapper" alias="pmPartyHrefAttributeMapper"/>
+    <bean id="defaultPmPartyHrefAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.party.PartyHrefAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultPmPartyRelatedPartyAttributeMapper" alias="pmPartyRelatedPartyAttributeMapper"/>
+    <bean id="defaultPmPartyRelatedPartyAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.party.PartyRelatedPartyAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="partyRoleAssociations"/>
+        <constructor-arg name="targetAttributeName" value="relatedParty"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultPmPartyTaxExemptionCertificateAttributeMapper" alias="pmPartyTaxExemptionCertificateAttributeMapper"/>
+    <bean id="defaultPmPartyTaxExemptionCertificateAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.party.PartyTaxExemptionCertificateAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="taxExemptionCertificates"/>
+        <constructor-arg name="targetAttributeName" value="taxExemptionCertificate"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+    <!-- ### END definition of attribute mappers for entity mapper pmPartyEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper pmPartyCreditProfileEntityMapperV1 ### -->
+    <alias name="defaultPmPartyCreditProfileAtSchemaLocationAttributeMapper"
+           alias="pmPartyCreditProfileAtSchemaLocationAttributeMapper"/>
+    <bean id="defaultPmPartyCreditProfileAtSchemaLocationAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.partycreditprofile.PartyCreditProfileAtSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+
+    <alias name="defaultPmPartyCreditProfileAtTypeAttributeMapper" alias="pmPartyCreditProfileAtTypeAttributeMapper"/>
+    <bean id="defaultPmPartyCreditProfileAtTypeAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.partycreditprofile.PartyCreditProfileAtTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="attype"/>
+    </bean>
+
+    <alias name="defaultPmPartyCreditProfileValidForAttributeMapper" alias="pmPartyCreditProfileValidForAttributeMapper"/>
+    <bean id="defaultPmPartyCreditProfileValidForAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.partycreditprofile.PartyCreditProfileValidForAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="validFor"/>
+        <constructor-arg name="targetAttributeName" value="validFor"/>
+    </bean>
+    <!-- ### END definition of attribute mappers for entity mapper pmPartyCreditProfileEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper pmRelatedPartyFromBusinessInteractionRoleEntityMapperV1 ### -->
+    <alias name="defaultPmRelatedPartyBirAtReferredTypeAttributeMapper" alias="pmRelatedPartyBirAtReferredTypeAttributeMapper"/>
+    <bean id="defaultPmRelatedPartyBirAtReferredTypeAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.relatedpartyfrombusinessinteractionrole.RelatedPartyAtReferredTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="code"/>
+        <constructor-arg name="targetAttributeName" value="atreferredType"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultPmRelatedPartyBirAtSchemaLocationAttributeMapper"
+           alias="pmRelatedPartyBirAtSchemaLocationAttributeMapper"/>
+    <bean id="defaultPmRelatedPartyBirAtSchemaLocationAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.relatedpartyfrombusinessinteractionrole.RelatedPartyAtSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="code"/>
+        <constructor-arg name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+
+    <alias name="defaultPmRelatedPartyBirAtTypeAttributeMapper" alias="pmRelatedPartyBirAtTypeAttributeMapper"/>
+    <bean id="defaultPmRelatedPartyBirAtTypeAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.relatedpartyfrombusinessinteractionrole.RelatedPartyAtTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="code"/>
+        <constructor-arg name="targetAttributeName" value="attype"/>
+    </bean>
+
+    <alias name="defaultPmRelatedPartyBirHrefAttributeMapper" alias="pmRelatedPartyBirHrefAttributeMapper"/>
+    <bean id="defaultPmRelatedPartyBirHrefAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.relatedpartyfrombusinessinteractionrole.RelatedPartyHrefAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="code"/>
+        <constructor-arg name="targetAttributeName" value="href"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultPmRelatedPartyBirIdAttributeMapper" alias="pmRelatedPartyBirIdAttributeMapper"/>
+    <bean id="defaultPmRelatedPartyBirIdAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.relatedpartyfrombusinessinteractionrole.RelatedPartyIdAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="code"/>
+        <constructor-arg name="targetAttributeName" value="id"/>
+    </bean>
+
+    <alias name="defaultPmRelatedPartyBirRoleAttributeMapper" alias="pmRelatedPartyBirRoleAttributeMapper"/>
+    <bean id="defaultPmRelatedPartyBirRoleAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.relatedpartyfrombusinessinteractionrole.RelatedPartyRoleAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="associationType"/>
+        <constructor-arg name="targetAttributeName" value="role"/>
+    </bean>
+    <!-- ### END definition of attribute mappers for entity mapper pmRelatedPartyFromBusinessInteractionRoleEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper pmRelatedPartyFromIndividualEntityMapperV1 ### -->
+    <alias name="defaultPmRelatedPartyFromIndividualAtReferredTypeAttributeMapper"
+           alias="pmRelatedPartyFromIndividualAtReferredTypeAttributeMapper"/>
+    <bean id="defaultPmRelatedPartyFromIndividualAtReferredTypeAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.relatedpartyfromindividual.RelatedPartyAtReferredTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atreferredType"/>
+    </bean>
+
+    <alias name="defaultPmRelatedPartyFromIndividualHrefAttributeMapper"
+           alias="pmRelatedPartyFromIndividualHrefAttributeMapper"/>
+    <bean id="defaultPmRelatedPartyFromIndividualHrefAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.relatedpartyfromindividual.RelatedPartyHrefAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="href"/>
+    </bean>
+    <!-- ### END definition of attribute mappers for entity mapper pmRelatedPartyFromIndividualEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper pmRelatedPartyFromOrganizationEntityMapperV1 ### -->
+    <alias name="defaultPmRelatedPartyFromOrganizationAtReferredTypeAttributeMapper"
+           alias="pmRelatedPartyFromOrganizationAtReferredTypeAttributeMapper"/>
+    <bean id="defaultPmRelatedPartyFromOrganizationAtReferredTypeAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.relatedpartyfromorganization.RelatedPartyAtReferredTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atreferredType"/>
+    </bean>
+
+    <alias name="defaultPmRelatedPartyFromOrganizationHrefAttributeMapper"
+           alias="pmRelatedPartyFromOrganizationHrefAttributeMapper"/>
+    <bean id="defaultPmRelatedPartyFromOrganizationHrefAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.relatedpartyfromorganization.RelatedPartyHrefAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="href"/>
+    </bean>
+    <!-- ### END definition of attribute mappers for entity mapper pmRelatedPartyFromOrganizationEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper pmRelatedPartyFromPartyEntityMapperV1 ### -->
+    <alias name="defaultPmRelatedPartyFromPartyAtReferredTypeAttributeMapper"
+           alias="pmRelatedPartyFromPartyAtReferredTypeAttributeMapper"/>
+    <bean id="defaultPmRelatedPartyFromPartyAtReferredTypeAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.relatedpartyfromparty.RelatedPartyAtReferredTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atreferredType"/>
+    </bean>
+
+    <alias name="defaultPmRelatedPartyFromPartyHrefAttributeMapper" alias="pmRelatedPartyFromPartyHrefAttributeMapper"/>
+    <bean id="defaultPmRelatedPartyFromPartyHrefAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.relatedpartyfromparty.RelatedPartyHrefAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="href"/>
+    </bean>
+    <!-- ### END definition of attribute mappers for entity mapper pmRelatedPartyFromPartyEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper pmRelatedPartyFromPartyRoleAssociationEntityMapperV1 ### -->
+    <alias name="defaultPmRelatedPartyPraAtReferredTypeAttributeMapper" alias="pmRelatedPartyPraAtReferredTypeAttributeMapper"/>
+    <bean id="defaultPmRelatedPartyPraAtReferredTypeAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.relatedpartyfrompartyroleassociation.RelatedPartyAtReferredTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="code"/>
+        <constructor-arg name="targetAttributeName" value="atreferredType"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultPmRelatedPartyPraAtSchemaLocationAttributeMapper"
+           alias="pmRelatedPartyPraAtSchemaLocationAttributeMapper"/>
+    <bean id="defaultPmRelatedPartyPraAtSchemaLocationAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.relatedpartyfrompartyroleassociation.RelatedPartyAtSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="code"/>
+        <constructor-arg name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+
+    <alias name="defaultPmRelatedPartyPraAtTypeAttributeMapper" alias="pmRelatedPartyPraAtTypeAttributeMapper"/>
+    <bean id="defaultPmRelatedPartyPraAtTypeAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.relatedpartyfrompartyroleassociation.RelatedPartyAtTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="code"/>
+        <constructor-arg name="targetAttributeName" value="attype"/>
+    </bean>
+
+    <alias name="defaultPmRelatedPartyPraHrefAttributeMapper" alias="pmRelatedPartyPraHrefAttributeMapper"/>
+    <bean id="defaultPmRelatedPartyPraHrefAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.relatedpartyfrompartyroleassociation.RelatedPartyHrefAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="code"/>
+        <constructor-arg name="targetAttributeName" value="href"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultPmRelatedPartyPraIdAttributeMapper" alias="pmRelatedPartyPraIdAttributeMapper"/>
+    <bean id="defaultPmRelatedPartyPraIdAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.relatedpartyfrompartyroleassociation.RelatedPartyIdAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="code"/>
+        <constructor-arg name="targetAttributeName" value="id"/>
+    </bean>
+
+    <alias name="defaultPmRelatedPartyPraRoleAttributeMapper" alias="pmRelatedPartyPraRoleAttributeMapper"/>
+    <bean id="defaultPmRelatedPartyPraRoleAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.relatedpartyfrompartyroleassociation.RelatedPartyRoleAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="associationType"/>
+        <constructor-arg name="targetAttributeName" value="role"/>
+    </bean>
+    <!-- ### END definition of attribute mappers for entity mapper pmRelatedPartyFromPartyRoleAssociationEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper pmSkillEntityMapperV1 ### -->
+    <alias name="defaultPmSkillAtSchemaLocationAttributeMapper" alias="pmSkillAtSchemaLocationAttributeMapper"/>
+    <bean id="defaultPmSkillAtSchemaLocationAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.skill.SkillAtSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+
+    <alias name="defaultPmSkillAtTypeAttributeMapper" alias="pmSkillAtTypeAttributeMapper"/>
+    <bean id="defaultPmSkillAtTypeAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.skill.SkillAtTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="attype"/>
+    </bean>
+
+    <alias name="defaultPmSkillValidForAttributeMapper" alias="pmSkillValidForAttributeMapper"/>
+    <bean id="defaultPmSkillValidForAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.skill.SkillValidForAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="validFor"/>
+        <constructor-arg name="targetAttributeName" value="validFor"/>
+    </bean>
+    <!-- ### END definition of attribute mappers for entity mapper pmSkillEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper pmTaxDefinitionEntityMapperV1 ### -->
+    <alias name="defaultPmTaxDefinitionAtSchemaLocationAttributeMapper" alias="pmTaxDefinitionAtSchemaLocationAttributeMapper"/>
+    <bean id="defaultPmTaxDefinitionAtSchemaLocationAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.taxdefinition.TaxDefinitionAtSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+
+    <alias name="defaultPmTaxDefinitionAtTypeAttributeMapper" alias="pmTaxDefinitionAtTypeAttributeMapper"/>
+    <bean id="defaultPmTaxDefinitionAtTypeAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.taxdefinition.TaxDefinitionAtTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="attype"/>
+    </bean>
+    <!-- ### END definition of attribute mappers for entity mapper pmTaxDefinitionEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper pmTaxExemptionCertificateEntityMapperV1 ### -->
+    <alias name="defaultPmTaxExemptionCertificateAtSchemaLocationAttributeMapper"
+           alias="pmTaxExemptionCertificateAtSchemaLocationAttributeMapper"/>
+    <bean id="defaultPmTaxExemptionCertificateAtSchemaLocationAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.taxexemptioncertificate.TaxExemptionCertificateAtSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+
+    <alias name="defaultPmTaxExemptionCertificateAtTypeAttributeMapper" alias="pmTaxExemptionCertificateAtTypeAttributeMapper"/>
+    <bean id="defaultPmTaxExemptionCertificateAtTypeAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.taxexemptioncertificate.TaxExemptionCertificateAtTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="attype"/>
+    </bean>
+
+    <alias name="defaultPmTaxExemptionCertificateTaxDefinitionAttributeMapper"
+           alias="pmTaxExemptionCertificateTaxDefinitionAttributeMapper"/>
+    <bean id="defaultPmTaxExemptionCertificateTaxDefinitionAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.taxexemptioncertificate.TaxExemptionCertificateTaxDefinitionAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="taxDefinitions"/>
+        <constructor-arg name="targetAttributeName" value="taxDefinition"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultPmTaxExemptionCertificateValidForAttributeMapper"
+           alias="pmTaxExemptionCertificateValidForAttributeMapper"/>
+    <bean id="defaultPmTaxExemptionCertificateValidForAttributeMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.taxexemptioncertificate.TaxExemptionCertificateValidForAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="validFor"/>
+        <constructor-arg name="targetAttributeName" value="validFor"/>
+    </bean>
+    <!-- ### END definition of attribute mappers for entity mapper pmTaxExemptionCertificateEntityMapperV1 ### -->
+
+
+    <!-- ###################### -->
+    <!-- ### Entity Mappers ### -->
+    <!-- ###################### -->
+
+    <!-- Entity mapper for AttachmentRefOrValue (from CatalogUnawareMedia)-->
+    <alias name="defaultPmAttachmentRefOrValueEntityMapperV1" alias="pmAttachmentRefOrValueEntityMapperV1"/>
+    <bean id="defaultPmAttachmentRefOrValueEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.PmEntityMapper">
+        <constructor-arg name="sourceClass" value="de.hybris.platform.catalog.model.CatalogUnawareMediaModel"/>
+        <constructor-arg name="targetClass" value="de.hybris.platform.partytmfwebservices.v1.dto.AttachmentRefOrValue"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="pmAttachmentRefOrValueAtReferredTyoeAttributeMapper"/>
+                <ref bean="pmAttachmentRefOrValueAtSchemaLocationAttributeMapper"/>
+                <ref bean="pmAttachmentRefOrValueAtTypeAttributeMapper"/>
+                <ref bean="pmAttachmentRefOrValueHrefAttributeMapper"/>
+                <ref bean="pmAttachmentRefOrValueIdAttributeMapper"/>
+                <ref bean="pmAttachmentRefOrValueMimeTypeAttributeMapper"/>
+                <ref bean="pmAttachmentRefOrValueNameAttributeMapper"/>
+                <ref bean="pmAttachmentRefOrValueSizeAttributeMapper"/>
+                <ref bean="pmAttachmentRefOrValueTypeAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for Characteristic (from PmCharacteristic)-->
+    <alias name="defaultPmCharacteristicEntityMapperV1" alias="pmCharacteristicEntityMapperV1"/>
+    <bean id="defaultPmCharacteristicEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.PmEntityMapper">
+        <constructor-arg name="sourceClass" value="de.hybris.platform.partyservices.model.PmCharacteristicModel"/>
+        <constructor-arg name="targetClass" value="de.hybris.platform.partytmfwebservices.v1.dto.Characteristic"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="pmCharacteristicAtSchemaLocationAttributeMapper"/>
+                <ref bean="pmCharacteristicAtTypeAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for ContactMedium (from PmContactMedium)-->
+    <alias name="defaultPmContactMediumEntityMapperV1" alias="pmContactMediumEntityMapperV1"/>
+    <bean id="defaultPmContactMediumEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.PmEntityMapper">
+        <constructor-arg name="sourceClass" value="de.hybris.platform.partyservices.model.PmContactMediumModel"/>
+        <constructor-arg name="targetClass" value="de.hybris.platform.partytmfwebservices.v1.dto.ContactMedium"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="pmContactMediumAtSchemaLocationAttributeMapper"/>
+                <ref bean="pmContactMediumAtTypeAttributeMapper"/>
+                <ref bean="pmContactMediumValidForAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for Disability (from PmDisability)-->
+    <alias name="defaultPmDisabilityEntityMapperV1" alias="pmDisabilityEntityMapperV1"/>
+    <bean id="defaultPmDisabilityEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.PmEntityMapper">
+        <constructor-arg name="sourceClass" value="de.hybris.platform.partyservices.model.PmDisabilityModel"/>
+        <constructor-arg name="targetClass" value="de.hybris.platform.partytmfwebservices.v1.dto.Disability"/>
+        <constructor-arg name="attributeMappers">
+            <list merge="true">
+                <ref bean="pmDisabilityAtSchemaLocationAttributeMapper"/>
+                <ref bean="pmDisabilityAtTypeAttributeMapper"/>
+                <ref bean="pmDisabilityValidForAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for Individual(from PmIndividual)-->
+    <alias name="defaultPmIndividualEntityMapperV1" alias="pmIndividualEntityMapperV1"/>
+    <bean id="defaultPmIndividualEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.PmEntityMapper">
+        <constructor-arg name="sourceClass" value="de.hybris.platform.partyservices.model.PmIndividualModel"/>
+        <constructor-arg name="targetClass" value="de.hybris.platform.partytmfwebservices.v1.dto.Individual"/>
+        <constructor-arg name="attributeMappers">
+            <list merge="true">
+                <ref bean="pmIndividualAtTypeAttributeMapper"/>
+                <ref bean="pmIndividualDisabilityAttributeMapper"/>
+                <ref bean="pmIndividualHrefAttributeMapper"/>
+                <ref bean="pmIndividualIdentificationAttributeMapper"/>
+                <ref bean="pmIndividualLanguageAbilityAttributeMapper"/>
+                <ref bean="pmIndividualOtherNameAttributeMapper"/>
+                <ref bean="pmIndividualSkillAttributeMapper"/>
+                <ref bean="pmIndividualTitleAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for IndividualIdentification (from PmIdentification)-->
+    <alias name="defaultPmIndividualIdentificationEntityMapperV1" alias="pmIndividualIdentificationEntityMapperV1"/>
+    <bean id="defaultPmIndividualIdentificationEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.PmEntityMapper">
+        <constructor-arg name="sourceClass" value="de.hybris.platform.partyservices.model.PmIdentificationModel"/>
+        <constructor-arg name="targetClass" value="de.hybris.platform.partytmfwebservices.v1.dto.IndividualIdentification"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="pmIndividualIdentificationAtSchemaLocationAttributeMapper"/>
+                <ref bean="pmIndividualIdentificationAtTypeAttributeMapper"/>
+                <ref bean="pmIndividualIdentificationValidForAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for Language Ability (from PmLanguageAbility)-->
+    <alias name="defaultPmLanguageAbilityEntityMapperV1" alias="pmLanguageAbilityEntityMapperV1"/>
+    <bean id="defaultPmLanguageAbilityEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.PmEntityMapper">
+        <constructor-arg name="sourceClass" value="de.hybris.platform.partyservices.model.PmLanguageAbilityModel"/>
+        <constructor-arg name="targetClass" value="de.hybris.platform.partytmfwebservices.v1.dto.LanguageAbility"/>
+        <constructor-arg name="attributeMappers">
+            <list merge="true">
+                <ref bean="pmLanguageAbilityAtSchemaLocationAttributeMapper"/>
+                <ref bean="pmLanguageAbilityAtTypeAttributeMapper"/>
+                <ref bean="pmLanguageAbilityCodeAttributeMapper"/>
+                <ref bean="pmLanguageAbilityNameAttributeMapper"/>
+                <ref bean="pmLanguageAbilityValidForAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for ExternalReference (from PmExternalReference)-->
+    <alias name="defaultPmExternalReferenceEntityMapperV1" alias="pmExternalReferenceEntityMapperV1"/>
+    <bean id="defaultPmExternalReferenceEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.PmEntityMapper">
+        <constructor-arg name="sourceClass" value="de.hybris.platform.partyservices.model.PmExternalReferenceModel"/>
+        <constructor-arg name="targetClass" value="de.hybris.platform.partytmfwebservices.v1.dto.ExternalReference"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="pmExternalReferenceAtSchemaLocationAttributeMapper"/>
+                <ref bean="pmExternalReferenceAtTypeAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for MediumCharacteristic (from PmMediumCharacteristic)-->
+    <alias name="defaultPmMediumCharacteristicEntityMapperV1" alias="pmMediumCharacteristicEntityMapperV1"/>
+    <bean id="defaultPmMediumCharacteristicEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.PmEntityMapper">
+        <constructor-arg name="sourceClass" value="de.hybris.platform.partyservices.model.PmMediumCharacteristicModel"/>
+        <constructor-arg name="targetClass" value="de.hybris.platform.partytmfwebservices.v1.dto.MediumCharacteristic"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="pmMediumCharacteristicAtSchemaLocationAttributeMapper"/>
+                <ref bean="pmMediumCharacteristicAtTypeAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for Organization (from PmOrganization)-->
+    <alias name="defaultPmOrganizationEntityMapperV1" alias="pmOrganizationEntityMapperV1"/>
+    <bean id="defaultPmOrganizationEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.PmEntityMapper">
+        <constructor-arg name="sourceClass" value="de.hybris.platform.partyservices.model.PmOrganizationModel"/>
+        <constructor-arg name="targetClass" value="de.hybris.platform.partytmfwebservices.v1.dto.Organization"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="pmOrganizationAtSchemaLocationAttributeMapper"/>
+                <ref bean="pmOrganizationAtTypeAttributeMapper"/>
+                <ref bean="pmOrganizationChildRelationshipAttributeMapper"/>
+                <ref bean="pmOrganizationExistsDuringAttributeMapper"/>
+                <ref bean="pmOrganizationHrefAttributeMapper"/>
+                <ref bean="pmOrganizationIdentificationAttributeMapper"/>
+                <ref bean="pmOrganizationOtherNameAttributeMapper"/>
+                <ref bean="pmOrganizationParentRelationshipAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for OrganizationChildRelationship (from PmOrganizationRelationship)-->
+    <alias name="defaultPmOrganizationChildRelationshipEntityMapperV1" alias="pmOrganizationChildRelationshipEntityMapperV1"/>
+    <bean id="defaultPmOrganizationChildRelationshipEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.PmEntityMapper">
+        <constructor-arg name="sourceClass" value="de.hybris.platform.partyservices.model.PmOrganizationRelationshipModel"/>
+        <constructor-arg name="targetClass" value="de.hybris.platform.partytmfwebservices.v1.dto.OrganizationChildRelationship"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="pmOrganizationChildRelationshipAtSchemaLocationAttributeMapper"/>
+                <ref bean="pmOrganizationChildRelationshipAtTypeAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for OrganizationIdentification (from PmIdentification)-->
+    <alias name="defaultPmOrganizationIdentificationEntityMapperV1" alias="pmOrganizationIdentificationEntityMapperV1"/>
+    <bean id="defaultPmOrganizationIdentificationEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.PmEntityMapper">
+        <constructor-arg name="sourceClass" value="de.hybris.platform.partyservices.model.PmIdentificationModel"/>
+        <constructor-arg name="targetClass" value="de.hybris.platform.partytmfwebservices.v1.dto.OrganizationIdentification"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="pmOrganizationIdentificationAtSchemaLocationAttributeMapper"/>
+                <ref bean="pmOrganizationIdentificationAtTypeAttributeMapper"/>
+                <ref bean="pmOrganizationIdentificationValidForAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for OrganizationParentRelationship (from PmOrganizationRelationship)-->
+    <alias name="defaultPmOrganizationParentRelationshipEntityMapperV1" alias="pmOrganizationParentRelationshipEntityMapperV1"/>
+    <bean id="defaultPmOrganizationParentRelationshipEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.PmEntityMapper">
+        <constructor-arg name="sourceClass" value="de.hybris.platform.partyservices.model.PmOrganizationRelationshipModel"/>
+        <constructor-arg name="targetClass" value="de.hybris.platform.partytmfwebservices.v1.dto.OrganizationParentRelationship"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="pmOrganizationParentRelationshipAtSchemaLocationAttributeMapper"/>
+                <ref bean="pmOrganizationParentRelationshipOrganizationAttributeMapper"/>
+                <ref bean="pmOrganizationParentRelationshipAtTypeAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for OrganizationRef (from PmOrganization)-->
+    <alias name="defaultPmOrganizationRefEntityMapperV1" alias="pmOrganizationRefEntityMapperV1"/>
+    <bean id="defaultPmOrganizationRefEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.PmEntityMapper">
+        <constructor-arg name="sourceClass" value="de.hybris.platform.partyservices.model.PmOrganizationModel"/>
+        <constructor-arg name="targetClass" value="de.hybris.platform.partytmfwebservices.v1.dto.OrganizationRef"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="pmOrganizationRefAtReferredTypeAttributeMapper"/>
+                <ref bean="pmOrganizationRefAtSchemaLocationAttributeMapper"/>
+                <ref bean="pmOrganizationRefAtTypeAttributeMapper"/>
+                <ref bean="pmOrganizationRefHrefAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for OtherNameIndividual (from PmOtherName)-->
+    <alias name="defaultPmOtherNameIndividualEntityMapperV1" alias="pmOtherNameIndividualEntityMapperV1"/>
+    <bean id="defaultPmOtherNameIndividualEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.PmEntityMapper">
+        <constructor-arg name="sourceClass" value="de.hybris.platform.partyservices.model.PmOtherNameModel"/>
+        <constructor-arg name="targetClass" value="de.hybris.platform.partytmfwebservices.v1.dto.OtherNameIndividual"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="pmOtherNameIndividualAtSchemaLocationAttributeMapper"/>
+                <ref bean="pmOtherNameIndividualAtTypeAttributeMapper"/>
+                <ref bean="pmOtherNameIndividualTitleAttributeMapper"/>
+                <ref bean="pmOtherNameIndividualValidForAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for OtherNameOrganization (from PmOtherName)-->
+    <alias name="defaultPmOtherNameOrganizationEntityMapperV1" alias="pmOtherNameOrganizationEntityMapperV1"/>
+    <bean id="defaultPmOtherNameOrganizationEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.PmEntityMapper">
+        <constructor-arg name="sourceClass" value="de.hybris.platform.partyservices.model.PmOtherNameModel"/>
+        <constructor-arg name="targetClass" value="de.hybris.platform.partytmfwebservices.v1.dto.OtherNameOrganization"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="pmOtherNameOrganizationAtSchemaLocationAttributeMapper"/>
+                <ref bean="pmOtherNameOrganizationAtTypeAttributeMapper"/>
+                <ref bean="pmOtherNameOrganizationValidForAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for Party (from PmParty)-->
+    <alias name="defaultPmPartyEntityMapperV1" alias="pmPartyEntityMapperV1"/>
+    <bean id="defaultPmPartyEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.PmEntityMapper">
+        <constructor-arg name="sourceClass" value="de.hybris.platform.partyservices.model.PmPartyModel"/>
+        <constructor-arg name="targetClass" value="de.hybris.platform.partytmfwebservices.v1.dto.Party"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="pmPartyAtSchemaLocationAttributeMapper"/>
+                <ref bean="pmPartyAtTypeAttributeMapper"/>
+                <ref bean="pmPartyCharacteristicAttributeMapper"/>
+                <ref bean="pmPartyContactMediumAttributeMapper"/>
+                <ref bean="pmPartyCreditRatingAttributeMapper"/>
+                <ref bean="pmPartyExternalReferenceAttributeMapper"/>
+                <ref bean="pmPartyHrefAttributeMapper"/>
+                <ref bean="pmPartyRelatedPartyAttributeMapper"/>
+                <ref bean="pmPartyTaxExemptionCertificateAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for PartyCreditProfile (from PmPartyCreditProfile)-->
+    <alias name="defaultPmPartyCreditProfileEntityMapperV1" alias="pmPartyCreditProfileEntityMapperV1"/>
+    <bean id="defaultPmPartyCreditProfileEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.PmEntityMapper">
+        <constructor-arg name="sourceClass" value="de.hybris.platform.partyservices.model.PmPartyCreditProfileModel"/>
+        <constructor-arg name="targetClass" value="de.hybris.platform.partytmfwebservices.v1.dto.PartyCreditProfile"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="pmPartyCreditProfileAtSchemaLocationAttributeMapper"/>
+                <ref bean="pmPartyCreditProfileAtTypeAttributeMapper"/>
+                <ref bean="pmPartyCreditProfileValidForAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for RelatedParty (from PmBusinessInteractionRole)-->
+    <alias name="defaultPmRelatedPartyFromBusinessInteractionRoleEntityMapperV1"
+           alias="pmRelatedPartyFromBusinessInteractionRoleEntityMapperV1"/>
+    <bean id="defaultPmRelatedPartyFromBusinessInteractionRoleEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.PmEntityMapper">
+        <constructor-arg name="sourceClass" value="de.hybris.platform.partyservices.model.PmBusinessInteractionRoleModel"/>
+        <constructor-arg name="targetClass" value="de.hybris.platform.partytmfwebservices.v1.dto.RelatedParty"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="pmRelatedPartyBirAtReferredTypeAttributeMapper"/>
+                <ref bean="pmRelatedPartyBirAtSchemaLocationAttributeMapper"/>
+                <ref bean="pmRelatedPartyBirAtTypeAttributeMapper"/>
+                <ref bean="pmRelatedPartyBirHrefAttributeMapper"/>
+                <ref bean="pmRelatedPartyBirIdAttributeMapper"/>
+                <ref bean="pmRelatedPartyBirRoleAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for RelatedParty (from PmIndividualModel)-->
+    <alias name="defaultPmRelatedPartyFromPartyIndividualMapperV1" alias="pmRelatedPartyFromIndividualEntityMapperV1"/>
+    <bean id="defaultPmRelatedPartyFromPartyIndividualMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.PmEntityMapper">
+        <constructor-arg name="sourceClass" value="de.hybris.platform.partyservices.model.PmIndividualModel"/>
+        <constructor-arg name="targetClass" value="de.hybris.platform.partytmfwebservices.v1.dto.RelatedParty"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="pmRelatedPartyFromIndividualAtReferredTypeAttributeMapper"/>
+                <ref bean="pmRelatedPartyFromIndividualHrefAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for RelatedParty (from PmOrganizationModel)-->
+    <alias name="defaultPmRelatedPartyFromPartyOrganizationMapperV1" alias="pmRelatedPartyFromOrganizationEntityMapperV1"/>
+    <bean id="defaultPmRelatedPartyFromPartyOrganizationMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.PmEntityMapper">
+        <constructor-arg name="sourceClass" value="de.hybris.platform.partyservices.model.PmOrganizationModel"/>
+        <constructor-arg name="targetClass" value="de.hybris.platform.partytmfwebservices.v1.dto.RelatedParty"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="pmRelatedPartyFromOrganizationAtReferredTypeAttributeMapper"/>
+                <ref bean="pmRelatedPartyFromOrganizationHrefAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for RelatedParty (from PmParty)-->
+    <alias name="defaultPmRelatedPartyFromPartyEntityMapperV1" alias="pmRelatedPartyFromPartyEntityMapperV1"/>
+    <bean id="defaultPmRelatedPartyFromPartyEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.PmEntityMapper">
+        <constructor-arg name="sourceClass" value="de.hybris.platform.partyservices.model.PmPartyModel"/>
+        <constructor-arg name="targetClass" value="de.hybris.platform.partytmfwebservices.v1.dto.RelatedParty"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="pmRelatedPartyFromPartyAtReferredTypeAttributeMapper"/>
+                <ref bean="pmRelatedPartyFromPartyHrefAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for RelatedParty (from PmPartyRoleAssociation)-->
+    <alias name="defaultPmRelatedPartyFromPartyRoleAssociationEntityMapperV1"
+           alias="pmRelatedPartyFromPartyRoleAssociationEntityMapperV1"/>
+    <bean id="defaultPmRelatedPartyFromPartyRoleAssociationEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.PmEntityMapper">
+        <constructor-arg name="sourceClass" value="de.hybris.platform.partyservices.model.PmPartyRoleAssociationModel"/>
+        <constructor-arg name="targetClass" value="de.hybris.platform.partytmfwebservices.v1.dto.RelatedParty"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="pmRelatedPartyPraAtReferredTypeAttributeMapper"/>
+                <ref bean="pmRelatedPartyPraAtSchemaLocationAttributeMapper"/>
+                <ref bean="pmRelatedPartyPraAtTypeAttributeMapper"/>
+                <ref bean="pmRelatedPartyPraHrefAttributeMapper"/>
+                <ref bean="pmRelatedPartyPraIdAttributeMapper"/>
+                <ref bean="pmRelatedPartyPraRoleAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for Skill (from PmSkill) -->
+    <alias name="defaultPmSkillEntityMapperV1" alias="pmSkillEntityMapperV1"/>
+    <bean id="defaultPmSkillEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.PmEntityMapper">
+        <constructor-arg name="sourceClass" value="de.hybris.platform.partyservices.model.PmSkillModel"/>
+        <constructor-arg name="targetClass" value="de.hybris.platform.partytmfwebservices.v1.dto.Skill"/>
+        <constructor-arg name="attributeMappers">
+            <list merge="true">
+                <ref bean="pmSkillAtSchemaLocationAttributeMapper"/>
+                <ref bean="pmSkillAtTypeAttributeMapper"/>
+                <ref bean="pmSkillValidForAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for TaxDefinition (from PmTaxDefinition)-->
+    <alias name="defaultPmTaxDefinitionEntityMapperV1" alias="pmTaxDefinitionEntityMapperV1"/>
+    <bean id="defaultPmTaxDefinitionEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.PmEntityMapper">
+        <constructor-arg name="sourceClass" value="de.hybris.platform.partyservices.model.PmTaxDefinitionModel"/>
+        <constructor-arg name="targetClass" value="de.hybris.platform.partytmfwebservices.v1.dto.TaxDefinition"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="pmTaxDefinitionAtSchemaLocationAttributeMapper"/>
+                <ref bean="pmTaxDefinitionAtTypeAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for TaxExemptionCertificate (from PmTaxExemptionCertificate)-->
+    <alias name="defaultPmTaxExemptionCertificateEntityMapperV1" alias="pmTaxExemptionCertificateEntityMapperV1"/>
+    <bean id="defaultPmTaxExemptionCertificateEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.partytmfwebservices.v1.mappers.PmEntityMapper">
+        <constructor-arg name="sourceClass" value="de.hybris.platform.partyservices.model.PmTaxExemptionCertificateModel"/>
+        <constructor-arg name="targetClass" value="de.hybris.platform.partytmfwebservices.v1.dto.TaxExemptionCertificate"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="pmTaxExemptionCertificateAtSchemaLocationAttributeMapper"/>
+                <ref bean="pmTaxExemptionCertificateAtTypeAttributeMapper"/>
+                <ref bean="pmTaxExemptionCertificateTaxDefinitionAttributeMapper"/>
+                <ref bean="pmTaxExemptionCertificateValidForAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+</beans>

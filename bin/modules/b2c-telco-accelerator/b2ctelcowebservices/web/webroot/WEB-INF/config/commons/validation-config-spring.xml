@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	                       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- Validators -->
+
+    <alias name="defaultTmaBillingAccountWsDtoValidator" alias="tmaBillingAccountWsDtoValidator"/>
+    <bean id="defaultTmaBillingAccountWsDtoValidator"
+          class="de.hybris.platform.webservicescommons.validators.CompositeValidator">
+        <property name="validators">
+            <list>
+                <bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+                    <property name="fieldPath" value="billingAccountId"/>
+                </bean>
+                <bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+                    <property name="fieldPath" value="billingSystemId"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="defaultTmaSubscriptionBaseWsDtoValidator" alias="tmaSubscriptionBaseWsDtoValidator"/>
+    <bean id="defaultTmaSubscriptionBaseWsDtoValidator"
+          class="de.hybris.platform.webservicescommons.validators.CompositeValidator">
+        <property name="validators">
+            <list>
+                <bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+                    <property name="fieldPath" value="subscriberIdentity"/>
+                </bean>
+                <bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+                    <property name="fieldPath" value="billingSystemId"/>
+                </bean>
+                <bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+                    <property name="fieldPath" value="billingAccountId"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="defaultTmaSubscriptionAccessRequestWsDtoValidator" alias="tmaSubscriptionAccessRequestWsDtoValidator"/>
+    <bean id="defaultTmaSubscriptionAccessRequestWsDtoValidator"
+          class="de.hybris.platform.webservicescommons.validators.CompositeValidator">
+        <property name="validators">
+            <list>
+                <bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+                    <property name="fieldPath" value="principalUid"/>
+                </bean>
+                <bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+                    <property name="fieldPath" value="subscriberIdentity"/>
+                </bean>
+                <bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+                    <property name="fieldPath" value="billingSystemId"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="defaultUpdatableTmaSubscribedProductDtoValidator" alias="updatableTmaSubscribedProductDtoValidator"/>
+    <bean id="defaultUpdatableTmaSubscribedProductDtoValidator"
+          class="de.hybris.platform.webservicescommons.validators.CompositeValidator">
+        <property name="validators">
+            <list>
+                <bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+                    <property name="fieldPath" value="name"/>
+                </bean>
+                <bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+                    <property name="fieldPath" value="productCode"/>
+                </bean>
+                <bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+                    <property name="fieldPath" value="subscriptionBaseId"/>
+                </bean>
+                <bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+                    <property name="fieldPath" value="cancellable"/>
+                </bean>
+                <bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+                    <property name="fieldPath" value="billingFrequency"/>
+                </bean>
+                <bean class="de.hybris.platform.webservicescommons.validators.FieldIntegerValidator">
+                    <property name="fieldPath" value="contractDuration"/>
+                </bean>
+                <bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+                    <property name="fieldPath" value="contractFrequency"/>
+                </bean>
+                <bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+                    <property name="fieldPath" value="serviceType"/>
+                </bean>
+                <bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+                    <property name="fieldPath" value="subscriptionStatus"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <alias name="defaultTmaSubscribedProductDtoValidator" alias="tmaSubscribedProductDtoValidator"/>
+    <bean id="defaultTmaSubscribedProductDtoValidator" class="de.hybris.platform.webservicescommons.validators.CompositeValidator"
+          parent="defaultUpdatableTmaSubscribedProductDtoValidator">
+        <property name="validators">
+            <list>
+                <bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+                    <property name="fieldPath" value="billingSystemId"/>
+                </bean>
+                <bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+                    <property name="fieldPath" value="billingSubscriptionId"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>

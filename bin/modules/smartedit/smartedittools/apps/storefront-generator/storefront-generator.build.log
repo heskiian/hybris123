@@ -1,0 +1,21 @@
+Invoking: webpack --config=webpack.config.js 
+
+Hash: bbf4c0900fae277683ac
+Version: webpack 4.44.1
+Time: 9798ms
+Built at: 12/16/2021 6:19:38 PM
+                  Asset      Size            Chunks                   Chunk Names
+                main.js  38.7 KiB              main  [emitted]        main
+            main.js.map  31.5 KiB              main  [emitted] [dev]  main
+             runtime.js  6.15 KiB           runtime  [emitted]        runtime
+         runtime.js.map  6.13 KiB           runtime  [emitted] [dev]  runtime
+    storefrontvendor.js  4.29 MiB  storefrontvendor  [emitted]        storefrontvendor
+storefrontvendor.js.map  4.43 MiB  storefrontvendor  [emitted] [dev]  storefrontvendor
+Entrypoint main = runtime.js runtime.js.map storefrontvendor.js storefrontvendor.js.map main.js main.js.map
+[../../common/temp/node_modules/.pnpm/webpack@4.44.1_webpack-cli@3.3.12/node_modules/webpack/buildin/global.js] (webpack)/buildin/global.js 472 bytes {main} [built]
+[./src lazy recursive] ./src lazy namespace object 160 bytes {main} [built]
+[./src/AppComponent.ts] 681 bytes {main} [built]
+[./src/Page1Component.ts] 1.34 KiB {main} [built]
+[./src/Page2Component.ts] 1.34 KiB {main} [built]
+[./src/index.ts] 1.56 KiB {main} [built]
+    + 209 hidden modules

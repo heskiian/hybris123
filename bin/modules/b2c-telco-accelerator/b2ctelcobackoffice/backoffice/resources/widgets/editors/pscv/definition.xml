@@ -1,0 +1,16 @@
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<editor-definition id="de.hybris.platform.b2ctelcobackoffice.editor.pscv"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:noNamespaceSchemaLocation="http://www.hybris.com/schema/cockpitng/editor-definition.xsd">
+
+    <name>Product Specification Characteristic Values Editor</name>
+    <description>Define the Product Specification Characteristic Values for a Product Offering.</description>
+    <author>hybris</author>
+    <version>1.0</version>
+
+    <type>java.util.Set&lt;de.hybris.platform.b2ctelcoservices.model.TmaProductSpecCharacteristicValueModel&gt;</type>
+    <editorClassName>de.hybris.platform.b2ctelcobackoffice.editors.TmaPscvListSelectorEditor</editorClassName>
+
+</editor-definition>

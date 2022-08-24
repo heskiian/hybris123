@@ -1,0 +1,11 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+###### VALIDATION AND DATA QUALITY ######
+ 
+INSERT_UPDATE TypeConstraint ; id[unique=true,allownull=true]        ; severity(code,itemtype(code)) ; annotation                                                                  ; target[allownull=true]                                                 ; type(code)              
+                             ; TmaPoGroupImmediateChildrenConstraint ; ERROR:Severity                ; de.hybris.platform.b2ctelcoservices.constraints.TmaPoGroupImmediateChildren ; de.hybris.platform.b2ctelcoservices.model.TmaProductOfferingGroupModel ; TmaProductOfferingGroup ;  
+                             ; TmaPoGroupValidSpoBpoConstraint       ; ERROR:Severity                ; de.hybris.platform.b2ctelcoservices.constraints.TmaPoGroupValidSpoBpo       ; de.hybris.platform.b2ctelcoservices.model.TmaProductOfferingGroupModel ; TmaProductOfferingGroup ;  
+                             ; TmaBpoPreconfigurationConstraint      ; ERROR:Severity                ; de.hybris.platform.b2ctelcoservices.constraints.TmaBpoPreConfiguration      ; de.hybris.platform.b2ctelcoservices.model.TmaBpoPreConfigModel         ; TmaBpoPreConfig         
+                             ; AverageServiceUsageUnitConstraint     ; ERROR:Severity                ; de.hybris.platform.b2ctelcoservices.constraints.AverageServiceUsageUnit     ; de.hybris.platform.b2ctelcoservices.model.TmaAverageServiceUsageModel  ; TmaAverageServiceUsage  ;  

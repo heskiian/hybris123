@@ -1,0 +1,23 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+$catalog-id = testCatalog
+$catalog-version = Online
+$catalogVersion = catalogversion(catalog(id[default = $catalog-id]), version[default = $catalog-version])[unique = true, default = $catalog-id:$catalog-version]
+$lang = en
+
+INSERT_UPDATE Catalog; id[unique = true]; name[lang = en]; defaultCatalog;
+                     ; $catalog-id      ; $catalog-id    ; true          ;
+
+INSERT_UPDATE CatalogVersion; catalog(id)[unique = true]; version[unique = true]; active
+                            ; $catalog-id               ; $catalog-version      ; true
+
+#Atomic Product Specification
+INSERT_UPDATE TmaAtomicProductSpecification; id[unique = true]; name[lang = $lang] ; description[lang = $lang]; $catalogVersion
+                                           ; unlimited5GPlans ; Unlimited 5G Plans ; Unlimited 5G Plans
+                                           ; internet         ; Internet Plan      ; Internet Plans
+
+#Composite Product Specification
+INSERT_UPDATE TmaCompositeProductSpecification; id[unique = true]             ; name[lang = $lang]            ; description[lang = $lang]    ; $catalogVersion; children(id, $catalogVersion)
+                                              ; internet_compositeProductSpec ; internet_compositeProductSpec ; ComposedInternet ProductSpec ;                ; internet

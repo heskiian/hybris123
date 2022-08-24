@@ -1,0 +1,100 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+
+# ImpEx for Importing Utilities Store Prices
+#% impex.setLocale( Locale.ENGLISH );
+
+$catalog-id = testCatalog
+$catalog-version = Online
+$catalog-version-staged = Staged
+$catalogVersion = catalogversion(catalog(id[default = $catalog-id]), version[default = $catalog-version])[unique = true, default = $catalog-id:$catalog-version]
+$approved = approvalstatus(code)[default = 'approved']
+$taxGroup = Europe1PriceFactory_PTG(code)[default = us-sales-tax-full]
+
+
+$billingEvent = billingEvent(code)[default = 'onfirstbill']
+
+# ImpEx for Importing Prices for Utilities products
+$prices = Europe1prices[translator = de.hybris.platform.europe1.jalo.impex.Europe1PricesTranslator]
+$europe1pricefactory_ptg = Europe1PriceFactory_PTG(code)[default = test-us-sales-tax-full]
+$currency = currency(isocode)[default = USD]
+$unit = unit(code)[default = pieces]
+$product = product(code, $catalogVersion)
+$subscriptionTerms = subscriptionTerms(id)
+
+# Set product approval status to Approved only for those products that have prices.
+$distributionChannels = distributionChannels(code)
+$processTypes = processTypes(code)
+$subscriptionTerms = subscriptionTerms(id)
+$oneTimeChargeEntries = oneTimeChargeEntries(id, $catalogVersion)
+$recurringChargeEntries = recurringChargeEntries(id, $catalogVersion)
+
+INSERT_UPDATE Catalog; id[unique = true]
+                     ; $catalog-id
+
+INSERT_UPDATE CatalogVersion; catalog(id)[unique = true]; version[unique = true]; active
+                            ; $catalog-id               ; $catalog-version      ; true
+                            ; $catalog-id               ; $catalog-version-staged      ; false
+                            
+
+INSERT_UPDATE ProductTaxGroup;code[unique=true]
+                             ;test-us-sales-tax-full
+
+INSERT_UPDATE Currency ; isocode[unique=true] ; active ; conversion ; digits ; symbol 
+                       ; USD                  ; true   ; 1.5        ; 2      ; "$"    
+                       ; JPY                  ; true   ; 2          ; 2      ; "¥"    
+                       
+INSERT_UPDATE Unit ; unitType[unique=true] ; code[unique=true] ; conversion 
+                   ; pieces                ; pieces            ; 1
+                   
+INSERT_UPDATE BillingFrequency; code[unique=true]; frequencyUnit ; frequencyValue
+                              ; monthly          ; 1             ; 2
+                              
+INSERT_UPDATE BillingPlan; id[unique = true]; billingFrequency(code);
+                         ; MonthlyPlan      ; monthly
+
+INSERT_UPDATE SubscriptionTerm; id[unique = true]; termOfServiceFrequency(code); termOfServiceNumber(code); termOfServiceRenewal(code); billingPlan(id);
+                              ; monthly_12        ; monthly                    ; 12                       ; auto_renewing             ; MonthlyPlan
+
+
+INSERT_UPDATE UsageUnit;id[unique=true];
+                       ;kwh
+
+# Product Specification Type
+INSERT_UPDATE TmaProductSpecType; code[unique = true];
+                                ; ISU_UIL_REFPROD
+                                ; RATE1
+                                 
+# Product Specifications
+INSERT_UPDATE TmaAtomicProductSpecification; id[unique = true]     ; type(code); $catalogVersion;
+                                           ; test_electric_plan_ps ; ISU_UIL_REFPROD;
+                                           ; test_gas_plan_ps      ; RATE1;
+# UPIL Semantics
+INSERT_UPDATE UpilSemantics; &semantics       ; semanticType(code)[unique=true]      ; semanticsName1[unique=true]; semanticsName2[unique=true]; $catalogVersion
+                           ; duration_period  ; UPIL_BILLING_ATTRIBUTES              ; DURATION                   ; PERIOD                     ;
+                           ; sales_channel    ; UPIL_SALES_ATTRIBUTES                ; SALES                      ; CHANNEL                    ;
+                           ; monthly_fixed    ; RECURRING_CHARGE_ENTRY               ; MONTHLY                    ; FIXED                      ;    
+                           ; usage_charge     ; USAGE_CHARGE_ENTRY                   ; USAGE         			  ; CHARGE		               ;                
+
+#########################
+### Prices for: Plans ###
+#########################
+# setting price factory #
+INSERT_UPDATE TmaSimpleProductOffering; code[unique = true]; productSpecification(id, $catalogVersion); $catalogVersion; $approved; $europe1pricefactory_ptg;
+                                      ; test_electric_plan ; test_electric_plan_ps;
+                                      ; test_gas_plan      ; test_gas_plan_ps;
+
+
+# UpilAdditionalAttributes
+
+INSERT_UPDATE UpilAdditionalAttributes; code[unique=true]; utilsProductEntryValue; semantics(&semantics)          ;attributeType(code); $catalogVersion
+                                      ; 1000000006       ; 11107                 ; duration_period                ; BILLING
+
+
+INSERT_UPDATE SubscriptionPricePlan; &pricePlan            ; product(code, $catalogVersion)[unique = true]; $processTypes[unique = true]; $subscriptionTerms; UpilAdditionalAttributes(code,$catalogVersion); $catalogVersion; currency(isocode)[default = USD]; unit(code)[default = pieces]
+
+# Electricity plans prices
+                                   ; test_pp_electric_plan ; test_electric_plan                          ;                              ; monthly_12         ; 1000000006                           ;
+                                   ; test_pp_gas_plan      ; test_gas_plan                               ;                              ; monthly_12         ; 1000000006                           ;
+

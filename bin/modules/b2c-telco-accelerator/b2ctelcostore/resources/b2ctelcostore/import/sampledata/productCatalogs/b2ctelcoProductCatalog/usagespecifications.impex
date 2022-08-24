@@ -1,0 +1,99 @@
+#
+# Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+#
+
+# -----------------------------------------------------------------------
+# ImpEx for Importing UsageSpecifications into B2C Telco Store
+
+# Macros / Replacement Parameter definitions
+$productCatalog = b2ctelcoProductCatalog
+$productCatalogName = B2C Telco Product Catalog
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Staged'])[unique = true, default = $productCatalog:Staged]
+$valueType = valueType(code)
+$defaultApprovalStatus = approvalstatus(code)[default='approved']
+
+INSERT_UPDATE TmaUsageCharacteristicCategory; id[unique = true]
+                                            ; WHERE
+                                            ; WHO
+                                            ; WHEN
+                                            ; WHAT
+
+INSERT_UPDATE TmaUsageSpecCharacteristicValue; id[unique = true]      ; $valueType; value; valueFrom; valueTo; default[default = false]; $catalogVersion; allowedValues
+                                             ; creationTime           ; DATE_TIME ;      ;          ;        ;                         ;                ;
+                                             ; originalCountryCode    ; NUMERIC   ;      ;          ;        ;                         ;                ;
+                                             ; originatingNumber      ; NUMERIC   ;      ;          ;        ;                         ;                ;
+                                             ; destinationCountryCode ; NUMERIC   ;      ;          ;        ;                         ;                ;
+                                             ; destinationNumber      ; NUMERIC   ;      ;          ;        ;                         ;                ;
+                                             ; duration               ; NUMERIC   ;      ;          ;        ;                         ;                ;
+                                             ; unitOfMeasure          ; ENUM      ;      ;          ;        ;                         ;                ;
+                                             ; time                   ; DATE_TIME ;      ;          ;        ;                         ;                ;
+                                             ; userId                 ; STRING    ;      ;          ;        ;                         ;                ;
+                                             ; callType               ; STRING    ;      ;          ;        ;                         ;                ; VOICE,VOICEMAIL
+                                             ; serviceIdentifier      ; STRING    ;      ;          ;        ;                         ;                ;
+                                             ; ipAddress              ; NUMERIC   ;      ;          ;        ;                         ;                ;
+                                             ; accessProvider         ; STRING    ;      ;          ;        ;                         ;                ;
+                                             ; locationName           ; STRING    ;      ;          ;        ;                         ;                ;
+                                             ; input_octets           ; NUMERIC   ;      ;          ;        ;                         ;                ;
+                                             ; output_octets          ; NUMERIC   ;      ;          ;        ;                         ;                ;
+                                             ; service_type_tv        ; ENUM      ;      ;          ;        ;                         ;                ; Linear/Broadcast, Pay Per View, Video on Demand
+                                             ; channel_id             ; STRING    ;      ;          ;        ;                         ;                ;
+                                             ; consumer_id            ; STRING    ;      ;          ;        ;                         ;                ;
+                                             ; recType                ; ENUM      ;      ;          ;        ;                         ;                ; Start, Interim, Stop
+                                             ; subtitleSelected       ; BOOLEAN   ;      ;          ;        ;                         ;                ;
+                                             ; startTime              ; DATE_TIME ;      ;          ;        ;                         ;                ;
+                                             ; endTime                ; DATE_TIME ;      ;          ;        ;                         ;                ;
+                                             ; destinationId          ; NUMERIC   ;      ;          ;        ;                         ;                ;
+                                             ; subscriberId           ; STRING    ;      ;          ;        ;                         ;                ;
+                                             ; uniqueCallId           ; STRING    ;      ;          ;        ;                         ;                ;
+
+
+INSERT_UPDATE TmaUsageSpecCharacteristic; id[unique = true]      ; mandatory[default = false]; category(id); $catalogVersion; usageSpecCharacteristicValues(id, $catalogVersion)
+                                        ; creationTime           ;                           ; WHEN        ;                ; creationTime
+                                        ; originalCountryCode    ; true                      ; WHERE       ;                ; originalCountryCode
+                                        ; originatingNumber      ; true                      ; WHO         ;                ; originatingNumber
+                                        ; destinationCountryCode ; true                      ; WHERE       ;                ; destinationCountryCode
+                                        ; destinationNumber      ; true                      ; WHO         ;                ; destinationNumber
+                                        ; duration               ; true                      ; WHEN        ;                ; duration
+                                        ; unitOfMeasure          ; true                      ; WHAT        ;                ; unitOfMeasure
+                                        ; time                   ; true                      ; WHEN        ;                ; time
+                                        ; userIdentifier         ; true                      ; WHO         ;                ; userId
+                                        ; callType               ; false                     ; WHAT        ;                ; callType
+                                        ; serviceIdentifier      ; true                      ; WHAT        ;                ; serviceIdentifier
+                                        ; ipAddress              ; false                     ; WHO         ;                ; ipAddress
+                                        ; accessProvider         ; true                      ; WHERE       ;                ; accessProvider
+                                        ; locationName           ;                           ; WHERE       ;                ; locationName
+                                        ; input_octets           ; true                      ; WHAT        ;                ; input_octets
+                                        ; output_octets          ; true                      ; WHAT        ;                ; output_octets
+                                        ; serviceType_tv         ; true                      ; WHAT        ;                ; service_type_tv
+                                        ; channelId              ; true                      ; WHAT        ;                ; channel_id
+                                        ; consumer_id            ; true                      ; WHO         ;                ; consumer_id
+                                        ; recType                ; true                      ; WHO         ;                ; recType
+                                        ; subtitleSelected       ; false                     ; WHAT        ;                ; subtitleSelected
+                                        ; startTime              ; true                      ; WHEN        ;                ; startTime
+                                        ; endTime                ; true                      ; WHEN        ;                ; endTime
+                                        ; destinationId          ; true                      ; WHERE       ;                ; destinationId
+                                        ; subscriberId           ; false                     ; WHO         ;                ; subscriberId
+                                        ; uniqueCallId           ;                           ; WHO         ;                ; uniqueCallId
+
+INSERT_UPDATE TmaExternalIdentifier; billingSystemExtId[unique = true]; billingSystemId[unique = true]; resourceType
+                                   ; cdr_voice_spec_ext               ; Amdocs                        ; UsageSpecification
+                                   ; cdr_sms_spec_ext                 ; Amdocs                        ; UsageSpecification
+                                   ; udr_data_spec_ext                ; Amdocs                        ; UsageSpecification
+                                   ; ipdr_wlan_spec_ext               ; Amdocs                        ; UsageSpecification
+                                   ; ipdr_iptv_spec_ext               ; Amdocs                        ; UsageSpecification
+                                   ; ipdr_voip_spec_ext               ; Amdocs                        ; UsageSpecification
+                                   ; udr_landline_pots_ext            ; Amdocs                        ; UsageSpecification
+                                   ; gsm_usage_spec_ext               ; Amdocs                        ; UsageSpecification
+
+INSERT_UPDATE TmaAtomicProductUsageSpec; id[unique = true] ; externalIds(billingSystemId, billingSystemExtId); $defaultApprovalStatus; $catalogVersion; usageSpecCharacteristics(id, $catalogVersion)
+                                       ; cdr_voice_spec    ; Amdocs:cdr_voice_spec_ext                       ;                       ;                ; creationTime,originalCountryCode,originatingNumber,destinationCountryCode,destinationNumber,duration,unitOfMeasure,time,userIdentifier,callType,serviceIdentifier
+                                       ; cdr_sms_spec      ; Amdocs:cdr_sms_spec_ext                         ;                       ;                ; originalCountryCode,originatingNumber,destinationCountryCode,destinationNumber,time,unitOfMeasure,userIdentifier
+                                       ; udr_data_spec     ; Amdocs:udr_data_spec_ext                        ;                       ;                ; originalCountryCode,originatingNumber,unitOfMeasure,serviceIdentifier
+                                       ; ipdr_wlan_spec    ; Amdocs:ipdr_wlan_spec_ext                       ;                       ;                ; ipAddress,userIdentifier,accessProvider,locationName,originalCountryCode,time,input_octets,output_octets,unitOfMeasure,serviceIdentifier
+                                       ; ipdr_iptv_spec    ; Amdocs:ipdr_iptv_spec_ext                       ;                       ;                ; creationTime,serviceIdentifier,serviceType_tv,channelId,consumer_id,recType,subtitleSelected
+                                       ; ipdr_voip_spec    ; Amdocs:ipdr_voip_spec_ext                       ;                       ;                ; startTime,endTime,destinationId,ipAddress,subscriberId,uniqueCallId
+                                       ; udr_landline_pots ; Amdocs:udr_landline_pots_ext                    ;                       ;                ; originatingNumber,originalCountryCode,destinationCountryCode,destinationNumber,serviceIdentifier,userIdentifier
+
+
+INSERT_UPDATE TmaCompositeProductUsageSpec; id[unique = true]; externalIds(billingSystemId, billingSystemExtId)[unique = true]; $defaultApprovalStatus; $catalogVersion; children(id, $catalogVersion)
+                                          ; gsm_usage_spec   ; Amdocs:gsm_usage_spec_ext                                      ;                       ;                ; cdr_voice_spec,cdr_sms_spec,udr_data_spec

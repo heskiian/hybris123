@@ -1,0 +1,26 @@
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<action-definition id="de.hybris.platform.b2ctelcobackoffice.action.searchspopricesinbpos"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:noNamespaceSchemaLocation="http://www.hybris.com/schema/cockpitng/action-definition.xsd">
+
+    <name>Product price search in bundled product offerings</name>
+    <description>Triggers the popup displaying all prices for the selected SPO or Fixed BPO inside existing BPOs.</description>
+    <author>hybris</author>
+    <version>1.0</version>
+
+    <actionClassName>de.hybris.platform.b2ctelcobackoffice.actions.search.SearchSpoPricesInsideBposAction</actionClassName>
+
+    <inputType>de.hybris.platform.b2ctelcoservices.model.TmaProductOfferingModel</inputType>
+    <sockets>
+        <output id="finderOutput" type="com.hybris.backoffice.widgets.advancedsearch.impl.AdvancedSearchInitContext"/>
+    </sockets>
+
+    <settings>
+        <setting key="viewMode" default-value="iconOnly"/>
+    </settings>
+
+    <iconUri>icons/icon_action_search_prices_default.png</iconUri>
+
+</action-definition>

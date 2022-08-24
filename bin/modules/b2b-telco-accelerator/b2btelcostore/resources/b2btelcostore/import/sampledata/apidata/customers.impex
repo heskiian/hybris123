@@ -1,0 +1,37 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for Importing Customer Test Data
+
+#% impex.enableCodeExecution(true);
+
+$defaultPassword = 1234
+
+# Create test customer  
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE Customer; originalUid[unique = true]         ; uid[unique = true]                 ; customerID                         ; name                    ; groups(uid)   ; password[default = $defaultPassword]; Europe1PriceFactory_UPG(code)
+                      ; selfserviceuser10884001@hybris.com ; selfserviceuser10884001@hybris.com ; selfserviceuser10884001@hybris.com ; selfserviceuser10884001 ; customergroup ;
+                      ; selfserviceuser10884002@hybris.com ; selfserviceuser10884002@hybris.com ; selfserviceuser10884002@hybris.com ; selfserviceuser10884002 ; customergroup ;
+                      ; selfserviceuser10884003@hybris.com ; selfserviceuser10884003@hybris.com ; selfserviceuser10884003@hybris.com ; selfserviceuser10884003 ; customergroup ;
+                      ; selfserviceuser10884005@hybris.com ; selfserviceuser10884005@hybris.com ; selfserviceuser10884005@hybris.com ; selfserviceuser10884005 ; customergroup ;
+                      ; selfserviceuser10884006@hybris.com ; selfserviceuser10884006@hybris.com ; selfserviceuser10884006@hybris.com ; selfserviceuser10884006 ; customergroup ;
+                      ; selfserviceuser10884007@hybris.com ; selfserviceuser10884007@hybris.com ; selfserviceuser10884007@hybris.com ; selfserviceuser10884007 ; customergroup ;
+                      ; selfserviceuser10884008@hybris.com ; selfserviceuser10884008@hybris.com ; selfserviceuser10884008@hybris.com ; selfserviceuser10884008 ; customergroup ;
+                      ; selfserviceuser10884010@hybris.com ; selfserviceuser10884010@hybris.com ; selfserviceuser10884010@hybris.com ; selfserviceuser10884010 ; customergroup ;
+                      ; selfserviceuser10884009@hybris.com ; selfserviceuser10884009@hybris.com ; selfserviceuser10884009@hybris.com ; selfserviceuser10884009 ; customergroup ;
+                      ; selfserviceuser10884011@hybris.com ; selfserviceuser10884011@hybris.com ; selfserviceuser10884011@hybris.com ; selfserviceuser10884011 ; customergroup ;
+
+# e2e 10862
+                      ; selfserviceuser10862007@hybris.com ; selfserviceuser10862007@hybris.com ; selfserviceuser10862007@hybris.com ; selfserviceuser10862007 ; customergroup ;
+                      ; selfserviceuser10862008@hybris.com ; selfserviceuser10862008@hybris.com ; selfserviceuser10862008@hybris.com ; selfserviceuser10862008 ; customergroup ;
+                      ; selfserviceuser10862009@hybris.com ; selfserviceuser10862009@hybris.com ; selfserviceuser10862009@hybris.com ; selfserviceuser10862009 ; customergroup ;
+
+# Order Approvals - GET
+                      ; user@standalone.com                ; user@standalone.com                ; user@standalone.com                ; user standalone         ; customergroup ;
+
+# Order Apporval - POST
+                      ; selfserviceuser11038003@hybris.com ; selfserviceuser11038003@hybris.com ; selfserviceuser11038003@hybris.com ; selfserviceuser11038003 ; customergroup ;
+
+# Order Apporval - E2E
+                      ; customer11037@hybris.com           ; customer11037@hybris.com           ; customer11037@hybris.com           ; Test User               ; customergroup ;

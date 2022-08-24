@@ -1,0 +1,39 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+#
+# ENGLISH LOCALIZATION
+#
+
+$lang = en
+$solrIndexedType = telcoPriceType
+
+###################
+# used in headers #
+###################
+$hIndexType = solrIndexedType(identifier)[unique = true, default = telcoPriceType]
+$hName = name[unique = true]
+$hCode = code[unique = true]
+$hDisplayName = displayName[lang = en]
+$hLang = language(isocode)[unique = true, default = en]
+UPDATE SolrIndexedProperty; $hIndexType; $hName; $hDisplayName
+# facets
+; ; color                ; "Color"
+; ; colorcompatibility   ; "Other Available Colors"
+; ; gps                  ; "GPS"
+; ; camera               ; "Camera"
+; ; keyboard             ; "KeyBoard"
+; ; formfactor           ; "Form Factor"
+; ; touchscreen          ; "Touch Screen"
+; ; featurecompatibility ; "Feature Compatibility"
+; ; vendorcompatibility  ; "Vendor Compatibility"
+; ; mobileplatform       ; "Operating System"
+; ; bands                ; "Bands"
+; ; smsquantity          ; "Sms"
+; ; voice                ; "Minutes"
+; ; datavolume           ; "Data volume"
+; ; dataspeed            ; "Data speed"
+; ; sdchannels           ; "SD Channels"
+; ; hdchannels           ; "HD Channels"
+; ; tvsessions           ; "TV Sessions"

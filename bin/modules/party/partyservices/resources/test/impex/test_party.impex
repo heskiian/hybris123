@@ -1,0 +1,22 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+INSERT_UPDATE User; uid[unique = true]  ;
+                  ; test_user_principal ;
+
+INSERT_UPDATE Company; uid[unique = true]          ;
+                     ; test_organization_principal ;
+
+INSERT_UPDATE PmPartyRole; id[unique = true]; role     ;
+                         ; test_employee    ; employee ;
+                         ; test_employer    ; employer ;
+
+INSERT_UPDATE PmPartyRoleAssociation; code[unique = true]; associationType; partyRoleInvolvedWith(id); partyRoleInvolves(id);
+                                    ; test_developer     ; developer      ; test_employee            ; test_employer        ;
+
+INSERT_UPDATE PmOrganization; id[unique = true]; name              ; tradingName       ; principals(uid)             ; partyRoles(id);
+                            ; test_org         ; Test Organization ; Test Organization ; test_organization_principal ; test_employer ;
+
+INSERT_UPDATE PmIndividual; id[unique = true]; givenName; familyName; principals(uid)     ; partyRoles(id);
+                          ; test_empl        ; John     ; Doe       ; test_user_principal ; test_employee ;

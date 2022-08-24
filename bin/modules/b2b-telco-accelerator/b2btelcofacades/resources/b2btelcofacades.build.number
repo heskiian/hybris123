@@ -1,0 +1,10 @@
+#Ant properties
+builddate=20182410
+name=b2btelcofacades
+description=b2btelcofacades
+group.id=de.hybris.platform
+module.name=b2btelco-accelerator-module
+releasedate=20182410
+vendor=hybris
+version=21.05.0
+

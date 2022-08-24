@@ -1,0 +1,23 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for importing Product Offering Variants into Media Store
+
+$productCatalog=mediaProductCatalog
+$productCatalogName=Media Product Catalog
+$catalogVersion=catalogversion(catalog(id[default=$productCatalog]), version[default='Staged'])[unique=true, default=$productCatalog:Staged]
+
+$prices=@Europe1prices[translator = de.hybris.platform.b2ctelcoservices.dataimport.batch.price.TmaPriceRowTranslator]
+$europe1pricefactory_ptg=Europe1PriceFactory_PTG(code)[default=us-sales-tax-full]
+$unit=unit(code)[default=pieces]
+
+UPDATE TmaPoVariant;code[unique=true]   ;$prices;$europe1pricefactory_ptg;$catalogVersion
+                   ;t-shirt_bp_black_S  ;9,60 USD
+                   ;t-shirt_bp_black_M  ;9,60 USD
+                   ;t-shirt_bp_black_L  ;9,60 USD
+                   ;t-shirt_bp_black_XL ;9,60 USD
+                   ;t-shirt_bp_white_S  ;11,60 USD
+                   ;t-shirt_bp_white_M  ;11,60 USD
+                   ;t-shirt_bp_white_L  ;11,60 USD
+                   ;t-shirt_bp_white_XL ;11,60 USD

@@ -1,0 +1,85 @@
+#Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+
+$catalog-id = testCatalog
+$catalog-version = Online
+$lang = en
+$catalogversion = catalogversion(catalog(id[default=$catalog-id]), version[default='Online'])[unique=true, default=$catalog-id:$catalog-version]
+$prices = europe1prices[translator=de.hybris.platform.europe1.jalo.impex.Europe1PricesTranslator]
+
+INSERT_UPDATE Language; isocode[unique = true]; active; name[lang = en]
+                      ; en                    ; true  ; English
+
+INSERT_UPDATE Unit; unitType[unique = true]; code[unique = true]; name[lang = en]; conversion; ; ; ; ;
+                  ; pieces                 ; pieces             ; pieces         ; 1         ; ; ; ; ;
+
+INSERT_UPDATE Currency; isocode[unique = true]; name[lang = en]; active; base  ; conversion; digits; symbol; ;
+                      ; EUR                   ; Euro           ; true  ; true  ; 1         ; 2     ; E     ; ;
+                      ; USD                   ; US Dollar      ; true  ; false ; 1,38      ; 2     ; $     ; ;
+
+INSERT_UPDATE UserGroup; uid[unique = true]; groups(uid);
+                       ; customergroup     ;            ;
+
+INSERT_UPDATE Customer; uid[unique = true]; customerID; name       ; description; sessionLanguage(isocode); sessionCurrency(isocode); groups(uid)   ; password; ;
+                      ; user1@hybris.com  ; U007      ; James Bond ;            ; en                      ; USD                     ; customergroup ; 1234    ; ;
+
+INSERT_UPDATE Catalog; id[unique = true]; name[lang = en]; defaultCatalog; ; ; ; ; ;
+                     ; $catalog-id      ; $catalog-id    ; true          ; ; ; ; ; ;
+
+INSERT_UPDATE CatalogVersion; catalog(id)[unique = true]; version[unique = true]; active; defaultCurrency(isocode);    ; ; ; ; ;
+                            ; $catalog-id               ; $catalog-version      ; true  ; EUR                     ; en ; ; ; ; ;
+
+INSERT_UPDATE TmaProductSpecCharacteristic; id[unique = true]; $catalogversion; name[lang = $lang]; description[lang = $lang]                              ; configurable[default = false]
+                                          ; msisdn           ;                ; MSISDN            ; MSISDN is a number uniquely identifying a subscription ; true
+                                          ; gb               ;                ; Gb                ; Memory
+                                          ; inch             ;                ; Inch              ; Display Inches
+                                          ; sim_cards        ;                ; sim_cards         ; Sim Cards Slots
+
+INSERT_UPDATE TmaProductSpecCharacteristicValue; id[unique = true]; value; unitOfMeasure(id); $catalogversion; productSpecCharacteristic(id, $catalogversion);
+                                               ; msisdn           ; ##   ;                  ;                ; msisdn
+                                               ; gb               ; ##   ;                  ;                ; gb
+                                               ; inch             ; ##   ;                  ;                ; inch
+                                               ; sim_cards        ; 2    ;                  ;                ; sim_cards
+
+INSERT_UPDATE Country; isocode[unique = true]; name[lang = en]; active[default = true]
+                     ; DE                    ; "Germany"
+                     ; TEST_IN               ; "TEST IN"
+
+INSERT_UPDATE Region; country(isocode); isocode[unique = true]; isocodeShort; name[lang = en]; active[default = true]
+                    ; TEST_IN         ; IN-ND                 ; ND          ; "Delhi"
+                    ; TEST_IN         ; IN-MY                 ; MY          ; "Mysore"
+
+INSERT_UPDATE Company; uid[unique = true]; buyer; manufacturer; supplier; carrier; country(isocode); locname
+                     ; hybris            ; true ; false       ; true    ; true   ; DE              ; hybris GmbH ; hybris GmbH
+
+INSERT_UPDATE Address; id[unique = true]; owner(Company.uid)[unique = true]; streetname[unique = true]; streetnumber[unique = true]; postalcode[unique = true]; town    ; country(isocode); billingAddress; contactAddress; shippingAddress; unloadingAddress; installationAddress; email          ; phone1             ; url                  ; company     ; appartment; building      ; fax
+                     ; 788867AB         ; hybris                           ; Nymphenburger Strasse    ; 86                         ; D-80636                  ; München ; DE              ; true          ; true          ; true           ; true            ; true               ; info@hybris.de ; +49(0)89 / 890 650 ; http://www.hybris.de ; hybris GmbH ; 3. Etage  ; Treppenhaus 3 ; +49(0)89 / 890 65 555
+
+INSERT_UPDATE Address; id[unique = true]; owner(Customer.uid)[unique = true]; streetname[unique = true]; streetnumber[unique = true]; postalcode[unique = true]; town    ; country(isocode); billingAddress; contactAddress; shippingAddress; unloadingAddress; installationAddress; email           ; phone1            ; url                  ; company     ; appartment; building      ; fax
+                     ; 12341234         ; user1@hybris.com                  ; Nordlinger Strasse       ; 76                         ; D-80635                  ; München ; DE              ; true          ; true          ; true           ; true            ; true               ; info2@hybris.de ; +49(0)89 /890 650 ; http://www.hybris.de ; hybris GmbH ; 3. Etage  ; Treppenhaus 3 ; +49(0)89 / 890 65 555
+
+INSERT_UPDATE TmaSimpleProductOffering; code[unique = true]; $catalogversion; name[lang = en]; unit(code); $prices   ; approvalStatus(code)
+                                      ; salsaS             ;                ; salsaS         ; pieces    ; 57,95 EUR ; approved
+                                      ; iphoneX            ;                ; iphoneX        ; pieces    ; 57,95 EUR ; approved
+                                      ; samsung            ;                ; samsung        ; pieces    ; 57,95 EUR ; approved
+                                      ; iphone6            ;                ; iphone6        ; pieces    ; 100 EUR   ; approved
+                                      ; internet_plan      ;                ; tapasS         ; pieces    ; 100 EUR   ; approved
+
+INSERT_UPDATE TmaProductSpecCharValueUse; name[lang = $lang][unique = true]; productSpecCharacteristicValues(id, $catalogversion)[unique = true]; minCardinality; maxCardinality; productOfferings(code, $catalogversion)[unique = true]; valueType(code); $catalogversion;
+                                        ; msisdn                           ;                                                                    ; 0             ;               ; salsaS                                                ; STRING         ;                ;
+                                        ; gb                               ; gb                                                                 ; 1             ; 1             ; iphoneX                                               ; STRING         ;                ;
+                                        ; inch                             ; inch                                                               ; 1             ; 1             ; iphoneX                                               ; STRING         ;                ;
+                                        ; sim_cards                        ; sim_cards                                                          ; 1             ; 1             ; internet_plan                                         ; STRING         ;                ;
+
+INSERT_UPDATE Cart; user(uid)        ; code[unique = true]; currency(isocode); date[dateformat = dd.MM.yyyy HH:mm:ss]; net   ; calculated; site(uid); store(uid); guid; ; ;;
+                  ; user1@hybris.com ; user1Cart          ; EUR              ; 01.07.2019 00:00:00                   ; false ; false     ;          ;           ;     ; ; ;
+                  ; user1@hybris.com ; user1Cart2         ; EUR              ; 01.07.2019 00:00:00                   ; false ; false     ;          ;           ;     ; ; ;
+                  ; user1@hybris.com ; user1Cart3         ; EUR              ; 01.07.2019 00:00:00                   ; false ; false     ;          ;           ;     ; ; ;
+
+INSERT CartEntry; order(Cart.code); creationTime[dateformat = dd.MM.yyyy HH:mm:ss]; product(code, catalogVersion(catalog(id), version)); quantity; unit(code); entryNumber; processType(code)
+                ; user1Cart       ; 27.04.2010 00:00:00                           ; salsaS :$catalog-id:$catalog-version               ; 1       ; pieces    ; 1          ; ACQUISITION
+                ; user1Cart2      ; 27.04.2010 00:00:00                           ; iphoneX :$catalog-id:$catalog-version              ; 1       ; pieces    ; 1          ; ACQUISITION
+                ; user1Cart3      ; 27.04.2010 00:00:00                           ; iphone6 :$catalog-id:$catalog-version              ; 1       ; pieces    ; 1          ; ACQUISITION
+                ; user1Cart3      ; 27.04.2010 00:00:00                           ; internet_plan :$catalog-id:$catalog-version        ; 1       ; pieces    ; 2          ; ACQUISITION
+
+INSERT_UPDATE TmaEligibilityContext; customer(uid)[unique = true]; processesCodes                                   ; requiredPoCodes; subscriberId; termCodes
+                                   ; user1@hybris.com            ; DEVICE_ONLY,ACQUISITION, SWITCH_SERVICE_PROVIDER ;

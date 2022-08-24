@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<widget-definition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://www.hybris.com/schema/cockpitng/widget-definition.xsd"
+	id="de.hybris.platform.b2ctelcobackoffice.applicablePolicyDefinition">
+	<name>Eligibility Policy </name>
+	<description>Eligibility Policy Widget</description>
+	<defaultTitle>Eligibility Policy Widget</defaultTitle>
+	<author>hybris</author>
+	<version>1.0</version>
+	<controller class="de.hybris.platform.b2ctelcobackoffice.controller.SearchPolicyController" />
+	<view src="none" />
+</widget-definition>

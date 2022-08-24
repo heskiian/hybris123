@@ -1,0 +1,661 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="items.xsd">
+
+    <collectiontypes>
+        <collectiontype code="MediaList" elementtype="CatalogUnawareMedia" type="list"/>
+        <collectiontype code="PrincipalList" elementtype="Principal" type="list"/>
+    </collectiontypes>
+
+    <enumtypes>
+        <enumtype code="AgrAgreementSpecCharValueType" autocreate="true" generate="true" dynamic="true">
+            <description>Type describing value type of agreement specification characteristics</description>
+            <value code="STRING"/>
+            <value code="NUMERIC"/>
+            <value code="BOOLEAN"/>
+            <value code="DATE_TIME"/>
+            <value code="ENUM"/>
+        </enumtype>
+        <enumtype code="AgrAgreementStatus" autocreate="true" generate="true" dynamic="true">
+            <description>Type describing status of the agreement</description>
+            <value code="APPROVED"/>
+            <value code="IN_PROCESS"/>
+            <value code="REJECTED"/>
+        </enumtype>
+        <enumtype code="AgrAgreementLifecycleStatus" autocreate="true" generate="true" dynamic="true">
+            <description>Type describing lifecycle status of the agreement</description>
+            <value code="APPROVED"/>
+            <value code="INITIALIZED"/>
+            <value code="REJECTED"/>
+        </enumtype>
+        <enumtype code="AgrAgreementType" autocreate="true" generate="true" dynamic="true">
+            <description>Type describing type of the agreement</description>
+            <value code="COMMERCIAL"/>
+        </enumtype>
+        <enumtype code="AgrPartyType" dynamic="true">
+            <description>Type of a party</description>
+            <value code="INDIVIDUAL"/>
+            <value code="ORGANIZATION"/>
+        </enumtype>
+    </enumtypes>
+
+    <relations>
+        <relation code="AgrAgreementSpecCharacteristic2AgrAgreementSpecCharacteristicValue" localized="false">
+            <description>Agreement Spec Characteristic has list of Agreement Spec Characteristic values</description>
+            <sourceElement type="AgrAgreementSpecCharacteristic" qualifier="agreementSpecCharacteristic" cardinality="one">
+                <description>Agreement Spec Characteristic</description>
+            </sourceElement>
+            <targetElement type="AgrAgreementSpecCharacteristicValue" qualifier="agreementSpecCharacteristicValues"
+                           cardinality="many"
+                           collectiontype="set">
+                <description>Agreement Spec Characteristic values</description>
+            </targetElement>
+        </relation>
+
+        <relation code="AgrAgreement2AgrAgreementAuthorization" localized="false">
+            <description>Agreement has list of Agreement authorizations</description>
+            <sourceElement type="AgrAgreement" qualifier="agreement" cardinality="one">
+                <description>Agreement</description>
+            </sourceElement>
+            <targetElement type="AgrAgreementAuthorization" qualifier="agreementAuthorizations" cardinality="many"
+                           collectiontype="set">
+                <description>Agreement Authorization</description>
+            </targetElement>
+        </relation>
+
+        <relation code="AgrAgreement2AgrAgreementItem" localized="false">
+            <description>Agreement has list of Agreement items</description>
+            <sourceElement type="AgrAgreement" qualifier="agreement" cardinality="one">
+                <description>Agreement</description>
+            </sourceElement>
+            <targetElement type="AgrAgreementItem" qualifier="agreementItems" cardinality="many"
+                           collectiontype="set">
+                <description>Agreement Item</description>
+            </targetElement>
+        </relation>
+
+        <relation code="AgrAgreement2AgrAgreementSpecCharValueUse" localized="false">
+            <description>Agreement has list of Agreement Spec Characteristic Values</description>
+            <sourceElement type="AgrAgreement" qualifier="agreement" cardinality="one">
+                <description>Agreement</description>
+            </sourceElement>
+            <targetElement type="AgrAgreementSpecCharValueUse" qualifier="agreementSpecCharacteristicValues"
+                           cardinality="many"
+                           collectiontype="set">
+                <description>Agreement Spec Characteristic Values</description>
+            </targetElement>
+        </relation>
+
+        <relation code="AgrParty2AgrPartyRole" localized="false">
+            <description>Party has list of roles</description>
+            <sourceElement type="AgrParty" qualifier="party" cardinality="one">
+                <description>Party</description>
+            </sourceElement>
+            <targetElement type="AgrPartyRole" qualifier="partyRoles" cardinality="many"
+                           collectiontype="set">
+                <description>Party Roles</description>
+            </targetElement>
+        </relation>
+
+        <relation code="AgrAgreementSpecification2AgrAgreementRelationship" localized="false">
+            <description>Agreement Specification has a list of Agreement Relationships assigned</description>
+            <sourceElement type="AgrAgreementSpecification" qualifier="sourceAgreementSpecification" cardinality="one">
+                <description>Source Agreement</description>
+            </sourceElement>
+            <targetElement type="AgrAgreementRelationship" qualifier="agreementSpecCharReferences" cardinality="many"
+                           collectiontype="set">
+                <description>Agreement Relationship References</description>
+            </targetElement>
+        </relation>
+
+        <relation code="AgrAgreementRelationship2AgrAgreementSpecification" localized="false">
+            <description>Agreement Specification has a list of Agreement Relationships assigned</description>
+            <sourceElement type="AgrAgreementRelationship" qualifier="agreementSpecificationReferencedBy" cardinality="many"
+                           collectiontype="set">
+                <description>Agreement Relationship Referenced By</description>
+            </sourceElement>
+            <targetElement type="AgrAgreementSpecification" qualifier="targetAgreementSpecification" cardinality="one">
+                <description>Target Agreement</description>
+            </targetElement>
+        </relation>
+
+        <relation code="AgrAgreementItem2AgrProduct" localized="false">
+            <description>A Product can be associated with multiple agreements</description>
+            <sourceElement type="AgrAgreementItem" qualifier="agreementItem" cardinality="many">
+                <description>Agreement Item</description>
+            </sourceElement>
+            <targetElement type="AgrProduct" qualifier="products" cardinality="one">
+                <description>Product</description>
+            </targetElement>
+        </relation>
+
+        <relation code="AgrAgreementItem2AgrProductOffering" localized="false">
+            <description>A Product offering can be associated with multiple agreements</description>
+            <sourceElement type="AgrAgreementItem" qualifier="agreementItem" cardinality="many">
+                <description>Agreement Item</description>
+            </sourceElement>
+            <targetElement type="AgrProductOffering" qualifier="productOfferings" cardinality="one">
+                <description>Product Offering</description>
+            </targetElement>
+        </relation>
+
+        <relation code="AgrAgreementSpecification2AgrPartyRole" localized="false">
+            <description>Relation defining the Party Roles of a Agreement Specification</description>
+            <deployment table="AgreementSpec2PartyRole" typecode="7215"/>
+            <sourceElement type="AgrAgreementSpecification" qualifier="agreementSpecification" cardinality="many">
+                <description>Agreement Specification</description>
+            </sourceElement>
+            <targetElement type="AgrPartyRole" qualifier="partyRoles" cardinality="many"
+                           collectiontype="set">
+                <description>Party Roles presenting the agreement specification</description>
+            </targetElement>
+        </relation>
+
+        <relation code="AgrAgreement2AgrPartyRole" localized="false">
+            <description>Relation defining the Party Roles of a Agreement</description>
+            <deployment table="Agreement2PartyRole" typecode="7216"/>
+            <sourceElement type="AgrAgreement" qualifier="agreement" cardinality="many">
+                <description>Agreement</description>
+            </sourceElement>
+            <targetElement type="AgrPartyRole" qualifier="partyRoles" cardinality="many"
+                           collectiontype="set">
+                <description>Party Roles presenting the agreement</description>
+            </targetElement>
+        </relation>
+
+        <relation code="AgrParty2PrincipalRelation" localized="false">
+            <description>Relation defining the Principal of a Agr Party</description>
+            <sourceElement type="AgrParty" qualifier="agrParty" cardinality="one">
+                <description>The party for which that principal is valid.</description>
+            </sourceElement>
+            <targetElement type="Principal" qualifier="partyUsers" cardinality="many" collectiontype="set">
+                <description>The principals of the party.</description>
+            </targetElement>
+        </relation>
+
+        <relation code="AgrAgreementSpecification2AgrAgreementSpecCharacteristic" localized="false">
+            <description>Agreement Specification has list of Agreement Spec Characteristics</description>
+            <deployment table="AgrmentSpec2AgrmentSC" typecode="7217"/>
+            <sourceElement type="AgrAgreementSpecification" qualifier="agreementSpecification" cardinality="many">
+                <description>Agreement Specifications</description>
+            </sourceElement>
+            <targetElement type="AgrAgreementSpecCharacteristic" qualifier="agreementSpecCharacteristics" cardinality="many"
+                           collectiontype="set">
+                <description>Agreement Spec Characteristics</description>
+            </targetElement>
+        </relation>
+
+        <relation code="AgrAgreement2AgrAgreement" localized="false">
+            <description>Agreement Specification has list of Agreement Spec Characteristics</description>
+            <deployment table="Agreement2Agreement" typecode="7218"/>
+            <sourceElement type="AgrAgreement" qualifier="agreement" cardinality="many">
+                <description>Agreement Specifications</description>
+            </sourceElement>
+            <targetElement type="AgrAgreement" qualifier="associatedAgreements" cardinality="many"
+                           collectiontype="set">
+                <description>Agreement Spec Characteristics</description>
+            </targetElement>
+        </relation>
+
+        <relation code="AgrAgreementItem2AgrAgreementTC" localized="false">
+            <description>Agreement Item has list of Agreement Terms or conditions</description>
+            <deployment table="AgrmentItem2AgrmentTC" typecode="7219"/>
+            <sourceElement type="AgrAgreementItem" qualifier="agreementItem" cardinality="many">
+                <description>Agreement Item</description>
+            </sourceElement>
+            <targetElement type="AgrAgreementTermOrCondition" qualifier="agreementTermsOrConditions" cardinality="many"
+                           collectiontype="set">
+                <description>Agreement Terms or Conditions</description>
+            </targetElement>
+        </relation>
+    </relations>
+
+    <itemtypes>
+        <itemtype code="AgrCategory" autocreate="true" generate="true">
+            <description>Category of the Agreement</description>
+            <deployment table="AgrCategories" typecode="7201"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <description>Identifier of agreement category</description>
+                    <persistence type="property"/>
+                    <modifiers unique="false" optional="false" initial="true"/>
+                </attribute>
+                <attribute qualifier="name" type="localized:java.lang.String">
+                    <description>Name of agreement category</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="version" type="java.lang.String">
+                    <description>Version of agreement category</description>
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="agrCategoryIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="AgrAgreementRelationship" autocreate="true" generate="true">
+            <description>Agreement Relationship</description>
+            <deployment table="AgrAgreementRels" typecode="7202"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <description>Identifier of agreement relationship</description>
+                    <persistence type="property"/>
+                    <modifiers unique="true" optional="false" initial="true"/>
+                </attribute>
+                <attribute qualifier="name" type="java.lang.String">
+                    <description>Name of agreement relationship</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="relationshipType" type="java.lang.String">
+                    <description>Type of agreement relationship</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="startDateTime" type="java.util.Date">
+                    <description>Start date of agreement relationship</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="endDateTime" type="java.util.Date">
+                    <description>End date of agreement relationship</description>
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="agrAgreementRelationShipIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="AgrAgreementSpecCharacteristic" autocreate="true" generate="true">
+            <description>Agreement specification characteristics</description>
+            <deployment table="AgrAgreementSpecChars" typecode="7203"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <description>Identifier of Agreement specification characteristics</description>
+                    <persistence type="property"/>
+                    <modifiers unique="true" optional="false" initial="true"/>
+                </attribute>
+                <attribute qualifier="name" type="localized:java.lang.String">
+                    <description>Name of Agreement specification characteristics</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="description" type="localized:java.lang.String">
+                    <description>Description of Agreement specification characteristics</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="configurable" type="java.lang.Boolean">
+                    <description>describes if the Agreement specification characteristics is configurable or not</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="valueType" type="java.lang.String">
+                    <description>Type of Value of Agreement specification characteristics</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="startDateTime" type="java.util.Date">
+                    <description>Start date of Agreement specification characteristics</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="endDateTime" type="java.util.Date">
+                    <description>End date of Agreement specification characteristics</description>
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="agrAgreementSpecCharIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="AgrAgreementSpecCharacteristicValue" autocreate="true" generate="true">
+            <description>Agreement specification characteristics value</description>
+            <deployment table="AgrAgreementSCVs" typecode="7204"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <description>Identifier of Agreement specification characteristics value</description>
+                    <persistence type="property"/>
+                    <modifiers unique="true" optional="false" initial="true"/>
+                </attribute>
+                <attribute qualifier="value" type="java.lang.String">
+                    <description>Value of Agreement specification characteristics</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="valueType" type="AgrAgreementSpecCharValueType">
+                    <description>A kind of value that the characteristic can take on</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="valueTo" type="java.lang.String">
+                    <description>The upper range value that a characteristic can take on.</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="valueFrom" type="java.lang.String">
+                    <description>The low range value that a characteristic can take on.</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="startDateTime" type="java.util.Date">
+                    <description>Start date for which a Agreement specification characteristics value is applicable</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="endDateTime" type="java.util.Date">
+                    <description>End date for which a Agreement specification characteristics value is applicable</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="unitOfMeasure" type="java.lang.String">
+                    <description>Unit of measure for the characteristic</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="default" type="java.lang.Boolean">
+                    <description>Indicates if the value is the default value for a characteristic.</description>
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="agrAgreementSCVIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="AgrAgreementSpecCharValueUse" autocreate="true" generate="true">
+            <description>Agreement specification characteristics value use</description>
+            <deployment table="AgrSpecCvus" typecode="7205"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <description>Identifier of Agreement specification characteristics value use</description>
+                    <persistence type="property"/>
+                    <modifiers unique="true" optional="false" initial="true"/>
+                </attribute>
+                <attribute qualifier="agreementSpecCharValue" type="AgrAgreementSpecCharacteristicValue">
+                    <description>Agreement specification characteristics value</description>
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="agrAgreementSCVUseIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="AgrAgreementSpecification" autocreate="true" generate="true">
+            <description>Agreement specification information</description>
+            <deployment table="AgrAgreementSpecs" typecode="7206"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <description>Identifier of agreement specification</description>
+                    <persistence type="property"/>
+                    <modifiers unique="true" optional="false" initial="true"/>
+                </attribute>
+                <attribute qualifier="name" type="localized:java.lang.String">
+                    <description>Name of agreement specification</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="description" type="localized:java.lang.String">
+                    <description>Description of agreement specification</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="isBundle" type="java.lang.Boolean">
+                    <description>If true, this agreement specification is a grouping of other agreement specifications.
+                    </description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="startDateTime" type="java.util.Date">
+                    <description>Start date of agreement specification</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="endDateTime" type="java.util.Date">
+                    <description>End date of agreement specification</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="lifecycleStatus" type="AgrAgreementLifecycleStatus">
+                    <description>Indicates the current lifecycle status of agreement specification</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="version" type="java.lang.String">
+                    <description>version of agreement specification</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="serviceCategory" type="AgrCategory">
+                    <description>The category for grouping recommendations</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="attachments" type="MediaList">
+                    <description>List of Media objects</description>
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="agrAgreementSpecificationIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="AgrParty" autocreate="true" generate="true">
+            <description>Agreement Party</description>
+            <deployment table="AgrParties" typecode="7207"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <description>Identifier of Agreement Party</description>
+                    <persistence type="property"/>
+                    <modifiers unique="true" optional="false" initial="true"/>
+                </attribute>
+                <attribute qualifier="name" type="localized:java.lang.String">
+                    <description>Name of the party</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="type" type="AgrPartyType">
+                    <description>type of the party</description>
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="agrAgreementPartyIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="AgrPartyRole" autocreate="true" generate="true">
+            <description>Agreement Party Role</description>
+            <deployment table="AgrPartyRoles" typecode="7208"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers unique="true" optional="false" initial="true"/>
+                </attribute>
+                <attribute qualifier="role" type="java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="agrAgreementPartyRoleIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="AgrProduct" autocreate="true" generate="true">
+            <description>Agreement Product</description>
+            <deployment table="AgrProducts" typecode="7209"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers unique="true" optional="false" initial="true"/>
+                </attribute>
+                <attribute qualifier="name" type="java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="agrProductIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="AgrProductOffering" autocreate="true" generate="true">
+            <description>Agreement Product Offering</description>
+            <deployment table="AgrProductOfferings" typecode="7210"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers unique="true" optional="false" initial="true"/>
+                </attribute>
+                <attribute qualifier="name" type="java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="agrProductOfferingIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="AgrAgreementItem" autocreate="true" generate="true">
+            <description>Agreement Product Offering</description>
+            <deployment table="AgrAgreementItems" typecode="7211"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers unique="true" optional="false" initial="true"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="agrAgreementItemIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="AgrAgreementTermOrCondition" autocreate="true" generate="true">
+            <description>Agreement Terms Or Conditions</description>
+            <deployment table="AgrAgreementTnCs" typecode="7212"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers unique="true" optional="false" initial="true"/>
+                </attribute>
+                <attribute qualifier="description" type="localized:java.lang.String">
+                    <description>Description of agreement Terms Or Conditions</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="startDateTime" type="java.util.Date">
+                    <description>Start date of Agreement Terms Or Conditions</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="endDateTime" type="java.util.Date">
+                    <description>End date of Agreement Terms Or Conditions</description>
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="agrAgreementTermOrConditionIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="AgrAgreementAuthorization" autocreate="true" generate="true">
+            <description>Agreement Authorization</description>
+            <deployment table="AgrAgreementAuths" typecode="7213"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers unique="true" optional="false" initial="true"/>
+                </attribute>
+                <attribute qualifier="date" type="java.util.Date">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="signatureRepresentation" type="java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="state" type="java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="agrAgreementAuthorizationIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="AgrAgreement" autocreate="true" generate="true">
+            <description>Agreement information</description>
+            <deployment table="AgrAgreements" typecode="7214"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <description>Identifier of agreement</description>
+                    <persistence type="property"/>
+                    <modifiers unique="false" optional="false" initial="true"/>
+                </attribute>
+                <attribute qualifier="name" type="localized:java.lang.String">
+                    <description>Name of agreement</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="description" type="localized:java.lang.String">
+                    <description>Description of agreement</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="status" type="AgrAgreementStatus">
+                    <description>Status of the agreement</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="version" type="java.lang.String">
+                    <description>Version of the agreement</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="agreementType" type="AgrAgreementType">
+                    <description>Type of agreement</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="agreementStartDateTime" type="java.util.Date">
+                    <description>Start date of agreement</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="agreementEndDateTime" type="java.util.Date">
+                    <description>End date of agreement</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="initialDate" type="java.util.Date">
+                    <description>Date at which the agreement was initialized</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="completionStartDateTime" type="java.util.Date">
+                    <description>Start date of agreement</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="completionEndDateTime" type="java.util.Date">
+                    <description>End date of agreement</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="documentNumber" type="java.lang.Integer">
+                    <description>A reference number assigned to an Agreement</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="statementOfIntent" type="java.lang.String">
+                    <description>An overview and goals of the Agreement</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="agreementSpecification" type="AgrAgreementSpecification">
+                    <description>A template of an agreement that can be used when establishing partnerships</description>
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="agrAgreementIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+    </itemtypes>
+</items>

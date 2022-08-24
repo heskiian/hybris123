@@ -1,0 +1,76 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+$catalog-id=testCatalog
+$catalog-version=Online
+$catalogversion=catalogversion(catalog(id[default=$catalog-id]),version[default=$catalog-version])[unique=true,default=$catalog-id:$catalog-version]
+$prices=@Europe1prices[translator = de.hybris.platform.b2ctelcoservices.dataimport.batch.price.TmaPriceRowTranslator]
+$contentCatalog=testContentCatalog
+$lang=en
+$contentCV=catalogVersion(CatalogVersion.catalog(Catalog.id[default=$contentCatalog]),CatalogVersion.version[default=Online])[default=$contentCatalog:Online]
+ 
+$currencies=USD
+$defaultCurrency=USD
+$defaultLanguage=en
+$deliveryCountries=US
+$paymentProvider=Mockup
+ 
+INSERT_UPDATE Catalog ; id[unique=true] 
+                      ; $catalog-id     
+                      ; $contentCatalog 
+                      
+INSERT_UPDATE Currency ; isocode[unique=true] ; active ; conversion ; digits ; symbol 
+                       ; USD                  ; true   ; 1.5        ; 2      ; "$"    
+                       ; JPY                  ; true   ; 2          ; 2      ; "¥"    
+                       
+INSERT_UPDATE Unit ; unitType[unique=true] ; code[unique=true] ; conversion 
+                   ; pieces                ; pieces            ; 1          
+                   
+                   
+INSERT_UPDATE CatalogVersion ; catalog(id)[unique=true] ; version[unique=true] ; active ; defaultCurrency(isocode)[default=USD] 
+                             ; $catalog-id              ; $catalog-version     ; true   ;                                       
+                             ; $catalog-id              ; Staged               ; false  
+                             ; $contentCatalog          ; $catalog-version     ; true   ;                                       
+                             ; $contentCatalog          ; Staged               ; false  
+                             
+INSERT_UPDATE BaseStore ; uid[unique=true] ; catalogs(id) ; currencies(isocode) ; net   ; defaultCurrency(isocode) ; languages(isocode) ; defaultLanguage(isocode) ; paymentProvider  
+                        ; testStore        ; $catalog-id  ; $currencies         ; false ; $defaultCurrency         ; $defaultLanguage   ; $defaultLanguage         ; $paymentProvider 
+                        
+INSERT_UPDATE CMSSite ; uid[unique=true] ; stores(uid) ; defaultCatalog(id) 
+                      ; testSite         ; testStore   ; $catalog-id        
+                      
+INSERT_UPDATE TmaBundledProductOffering ; code[unique=true] ; parents(code,$catalogversion) ; name[lang=en] ; $catalogversion 
+                                        ; quadPlay          ;                               ; Quad Play     ;                 
+                                        
+INSERT_UPDATE TmaBundledProductOffering ; code[unique=true] ; parents(code,$catalogversion) ; $catalogversion 
+                                        ; mobileDeal        ; quadPlay                      ;                 
+                                        ; homeDeal          ; quadPlay                      ;                 
+                                        ; ipTVDeal          ; homeDeal                      ;                 
+                                        ; internet          ; homeDeal                      ;                 
+                                        ; landline          ; homeDeal                      ;                 
+                                        
+INSERT_UPDATE TmaSimpleProductOffering ; code[unique = true]  ; parents(code, $catalogversion) ; description[lang = $lang] ; $catalogversion ; summary[lang = $lang] 
+                                       ; 2047052              ; mobileDeal                     ;                           
+                                       ; 2093587              ; mobileDeal                     ;                           
+                                       ; tapasS               ; mobileDeal                     ;                           
+                                       ; salsaS               ; mobileDeal                     ;                           
+                                       ; sombreroS            ; mobileDeal                     ;                           
+                                       ; internet_pack_casual ; mobileDeal                     ;                           
+                                       ; int_100              ; internet                       ;                           
+                                       ; int_500              ; internet                       ;                           
+                                       ; int_1000             ; internet                       ;                           
+                                       ; tv_S                 ; ipTVDeal                       ;                           
+                                       ; tv_L                 ; ipTVDeal                       ;                           
+                                       ; tv_M                 ; ipTVDeal                       ;                           
+                                       ; movies_go            ; ipTVDeal                       ;                           
+                                       ; sports               ; ipTVDeal                       ;                           
+                                       ; ll_voip              ; landline                       ;                           
+                                       ; ll_pots              ; landline                       ;                           
+                                       
+INSERT_UPDATE TmaBpoPreConfig ; code[unique=true]       ; rootBpo(code, $catalogversion) ; preConfigSpos(code, $catalogversion) ; $catalogversion 
+                              ; testPreconfigMobileDeal ; mobileDeal                     ; 2093587, salsaS, sombreroS           ;                 
+                              
+                              
+                              
+                              

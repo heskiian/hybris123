@@ -1,0 +1,10 @@
+#Integration Object for TmaSimpleProductOffering.
+INSERT_UPDATE IntegrationObject ; code[unique = true]   ; integrationType(code) 
+                                ; SimpleProductOffering ; INBOUND               
+                                
+INSERT_UPDATE IntegrationObjectItem ; integrationObject(code)[unique = true] ; code[unique = true]     ; type(code)              ; root[default = false] 
+                                    ; SimpleProductOffering                  ; OverageUsageChargeEntry ; OverageUsageChargeEntry ;                       ;  
+                                    
+INSERT_UPDATE IntegrationObjectItemAttribute ; integrationObjectItem(integrationObject(code), code)[unique = true] ; attributeName[unique = true] ; attributeDescriptor(enclosingType(code), qualifier) ; returnIntegrationObjectItem(integrationObject(code), code) ; unique[default = false] ; autoCreate[default = false] 
+                                             ; SimpleProductOffering:OverageUsageChargeEntry                       ; tierStart                    ; OverageUsageChargeEntry:tierStart                   ;                                                            ;                         ;                             
+                                             ; SimpleProductOffering:OverageUsageChargeEntry                       ; tierEnd                      ; OverageUsageChargeEntry:tierEnd                     ;                                                            ;                         ;                             

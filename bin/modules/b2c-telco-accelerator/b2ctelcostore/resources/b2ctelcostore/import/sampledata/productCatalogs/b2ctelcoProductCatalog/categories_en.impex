@@ -1,0 +1,71 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+#******************************This file is generated - please do not edit it. It will be regenerated after every build.********************************#
+# ImpEx for Importing Categories into B2C Telco Store
+
+
+# Macros / Replacement Parameter definitions
+$productCatalog=b2ctelcoProductCatalog
+$productCatalogName=B2C Telco Product Catalog
+$catalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+
+
+# Language
+$lang=en
+
+# Create Categories
+UPDATE Category;code[unique=true];$catalogVersion;name[lang=$lang]
+ ;1;;Open Catalogue;
+
+
+# ImpEx for Importing SBG Categories into telco Store (English)
+UPDATE Category;code[unique=true];name[lang=$lang];description[lang=$lang];$catalogVersion
+;sbgproducts;TV Channels
+
+
+# ImpEx for Importing Categories into telco Store (English)
+UPDATE Category;code[unique=true];name[lang=$lang];description[lang=$lang];$catalogVersion
+;devices;Devices
+;accessories;Accessories
+;plans;Plans
+;smartphone;Smartphone;Smartphone
+;basicphone;Basic phone;Basic phone
+;tablet;Tablet;Tablet
+;bluetoothandwired;Headsets;Headsets
+;chargersanddocks;Chargers and Docks;Chargers and Docks
+;casesandcovers;Cases and Covers;Cases and Covers
+;batteries;Batteries
+;memorycards;Memory Cards
+;screenprotectors;Screen Protectors
+;unlimited5GPlans;Unlimited 5G Plans
+;unlimitedPlans;Unlimited Plans
+;noLimitPlans;No Limit Plans
+;addons;Add Ons;Add Ons
+;classics;Classics;Classics
+;internet;Internet;Internet
+;entertainment;Entertainment;Entertainment
+;travellers;For Travellers;For Travellers
+;mobiletv;Mobile TV;Mobile TV
+;sbgproducts;TV Channels ;TV Channels
+;tvplans;TV Plans;TV Plans
+;landline;Land Line;Land Line
+;tvaddons;TV Addons;TV Addons
+
+# ImpEx for Importing Variant Categories into telco Store (English)
+UPDATE VariantCategory; code[unique = true]; name[lang = $lang]; $catalogVersion
+; color        ; Color
+; storage_size ; Storage Size
+
+# ImpEx for Variant Value Categories into telco Store (English)
+UPDATE VariantValueCategory; code[unique = true]; name[lang = $lang]; $catalogVersion
+; space_gray ; Space Gray
+; silver     ; Silver
+; gold       ; Gold
+; red        ; Red
+; 16G        ; 16G
+; 32G        ; 32G
+; 64G        ; 64G
+; 128G       ; 128G
+; 256G       ; 256G

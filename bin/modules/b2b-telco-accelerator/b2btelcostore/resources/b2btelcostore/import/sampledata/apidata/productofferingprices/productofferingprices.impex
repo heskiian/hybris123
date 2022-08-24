@@ -1,0 +1,58 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for Importing Sample Product Offering Prices
+
+
+$productCatalog = b2btelcoProductCatalog
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Online'])[unique = true, default = '$productCatalog:Online']
+$currency = currency(isocode)[default = USD]
+$priceEvent = priceEvent(code)[default='paynow']
+$priceEventRcUc = priceEvent(code)[default='monthly']
+
+
+################################################
+###              Recurring charges           ###
+################################################
+
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaRecurringProdOfferPriceCharge; id[unique = true]                ; $catalogVersion; value ; $currency; $priceEventRcUc; cycleStart; cycleEnd; productSpecCharacteristicValues(id, $catalogVersion)
+                                              ; rce_gsm_10884                    ;                ; 150.0 ;          ;                ; 1         ;
+                                              ; rce_sattelite_10884              ;                ; 160.0 ;          ;                ; 1         ;
+                                              ; rce_sattelite_Bandwidth_10884    ;                ; 100.0 ;          ;                ; 1         ;
+                                              ; rce_sattelite_TerminalType_10884 ;                ; 110.0 ;          ;                ; 1         ;
+                                              ; rce_TerminalType_config_10884    ;                ; 170.0 ;          ;                ; 1         ;
+# e2e 10862
+                                              ; rce_sattelite_10862              ;                ; 160.0 ;          ;                ; 1         ;
+
+# PO Permissions
+                                              ; rce_Samsung_10895                ;                ; 150.0 ;          ;                ; 1         ;
+                                              ; rce_Fiberlink_10895              ;                ; 160.0 ;          ;                ; 1         ;
+                                              ; rce_unlimitedBasicPlan_10895     ;                ; 100.0 ;          ;                ; 1         ;
+                                              ; rce_unlimitedPremiumPlan_10895   ;                ; 110.0 ;          ;                ; 1         ;
+
+# PO Permissions E2E
+                                              ; rce_Samsung_10894                ;                ; 150.0 ;          ;                ; 1         ;
+                                              ; rce_Fiberlink_10894              ;                ; 160.0 ;          ;                ; 1         ;
+                                              ; rce_unlimitedBasicPlan_10894     ;                ; 100.0 ;          ;                ; 1         ;
+                                              ; rce_unlimitedPremiumPlan_10894   ;                ; 110.0 ;          ;                ; 1         ;
+
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaOneTimeProdOfferPriceCharge; id[unique = true]    ; name              ; description                   ; $catalogVersion; value ; $priceEvent; $currency; productSpecCharacteristicValues(id, $catalogVersion)
+                                            ; OTC_iPhone_10895     ; OTC_iPhone_10895  ; OTC_iPhone_10895_Description  ;                ; 100.0 ;
+                                            ; OTC_iPhone6_10895    ; OTC_iPhone6_10895 ; OTC_iPhone6_10895_Description ;                ; 110.0 ;
+                                            ; OTC_iPhone7_10895    ; OTC_iPhone7_10895 ; OTC_iPhone7_10895_Description ;                ; 120.0 ;
+
+# PO Permissions E2E
+                                            ; OTC_iPhone_10894     ; OTC_iPhone_10894  ; OTC_iPhone_10894_Description  ;                ; 100.0 ;
+                                            ; OTC_iPhone6_10894    ; OTC_iPhone6_10894 ; OTC_iPhone6_10894_Description ;                ; 110.0 ;
+                                            ; OTC_iPhone7_10894    ; OTC_iPhone7_10894 ; OTC_iPhone7_10894_Description ;                ; 120.0 ;
+
+# Order Apporval - POST
+                                            ; rce_connect_50_11038 ;                   ; 170.0                         ;                ;       ; 1          ;
+
+# Order Apporval - E2E
+                                            ; rce_connect_50_11037 ;                   ; 100.0                         ;                ;       ; 1          ;

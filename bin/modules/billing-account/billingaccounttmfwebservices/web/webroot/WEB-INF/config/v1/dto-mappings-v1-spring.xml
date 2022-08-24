@@ -1,0 +1,1068 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c)  2021 SAP SE or an SAP affiliate company. All rights reserved.
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <!-- Field mapping configuration -->
+    <alias alias="fieldSetBuilder" name="defaultFieldSetBuilder"/>
+    <bean id="defaultFieldSetBuilder"
+          class="de.hybris.platform.webservicescommons.mapping.impl.DefaultFieldSetBuilder">
+        <property name="defaultRecurrencyLevel" value="10"/>
+        <property name="defaultMaxFieldSetSize" value="500000"/>
+        <property name="fieldSetLevelHelper" ref="fieldSetLevelHelper"/>
+    </bean>
+
+    <alias alias="fieldSetLevelHelper" name="defaultFieldSetLevelHelper"/>
+    <bean id="defaultFieldSetLevelHelper"
+          class="de.hybris.platform.webservicescommons.mapping.impl.DefaultFieldSetLevelHelper">
+    </bean>
+
+    <alias alias="dataMapper" name="defaultDataMapper"/>
+    <bean id="defaultDataMapper"
+          class="de.hybris.platform.webservicescommons.mapping.impl.DefaultDataMapper">
+        <property name="fieldSetBuilder" ref="fieldSetBuilder"/>
+    </bean>
+
+    <!-- ######################### -->
+    <!-- ### Attribute Mappers ### -->
+    <!-- ######################### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper baRelatedPartyEntityMapperV1 ### -->
+    <alias name="defaultBaRelatedPartyIdAttributeMapper" alias="baRelatedPartyIdAttributeMapper"/>
+    <bean id="defaultBaRelatedPartyIdAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.relatedparty.RelatedPartyIdAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="id"/>
+    </bean>
+
+    <alias name="defaultBaRelatedPartyHrefAttributeMapper" alias="baRelatedPartyHrefAttributeMapper"/>
+    <bean id="defaultBaRelatedPartyHrefAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.relatedparty.RelatedPartyHrefAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultBaRelatedPartySchemaLocationAttributeMapper" alias="baRelatedPartySchemaLocationAttributeMapper"/>
+    <bean id="defaultBaRelatedPartySchemaLocationAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.relatedparty.RelatedPartySchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+
+    <alias name="defaultBaRelatedPartyReferredTypeAttributeMapper" alias="baRelatedPartyReferredTypeAttributeMapper"/>
+    <bean id="defaultBaRelatedPartyReferredTypeAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.relatedparty.RelatedPartyReferredTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atreferredType"/>
+    </bean>
+
+    <alias name="defaultBaRelatedPartyNameAttributeMapper" alias="baRelatedPartyNameAttributeMapper"/>
+    <bean id="defaultBaRelatedPartyNameAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.relatedparty.RelatedPartyNameAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="name"/>
+        <constructor-arg name="targetAttributeName" value="name"/>
+    </bean>
+
+    <!-- ### END definition of attribute mappers for entity mapper baRelatedPartyEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper baAccountBalanceEntityMapperV1 ### -->
+
+    <alias name="defaultBaAccBalanceAmountAttributeMapper" alias="baAccBalanceAmountAttributeMapper"/>
+    <bean id="defaultBaAccBalanceAmountAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.accountbalance.AccBalanceAmountAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="amount"/>
+        <constructor-arg name="targetAttributeName" value="amount"/>
+        <constructor-arg name="commonI18NService" ref="commonI18NService"/>
+    </bean>
+
+    <alias name="defaultBaAccBalanceValidForAttributeMapper" alias="baAccBalanceValidForAttributeMapper"/>
+    <bean id="defaultBaAccBalanceValidForAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.accountbalance.AccBalanceValidForAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="startDateTime"/>
+        <constructor-arg name="targetAttributeName" value="validFor"/>
+    </bean>
+
+    <alias name="defaultBaAccBalanceTypeAttributeMapper" alias="baAccBalanceTypeAttributeMapper"/>
+    <bean id="defaultBaAccBalanceTypeAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.accountbalance.AccBalanceTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="balanceType"/>
+        <constructor-arg name="targetAttributeName" value="balanceType"/>
+    </bean>
+
+    <!-- ### END definition of attribute mappers for entity mapper baAccountBalanceEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper baAccountTaxExemptionEntityMapperV1 ### -->
+
+    <alias name="defaultBaAccTaxExemptionSchemaLocationAttributeMapper" alias="baAccTaxExemptionSchemaLocationAttributeMapper"/>
+    <bean id="defaultBaAccTaxExemptionSchemaLocationAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.accounttaxexemption.AccTaxExemptionSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+
+    <alias name="defaultBaAccTaxExemptionAtTypeAttributeMapper" alias="baAccTaxExemptionAtTypeAttributeMapper"/>
+    <bean id="defaultBaAccTaxExemptionAtTypeAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.accounttaxexemption.AccTaxExemptionAtTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atType"/>
+    </bean>
+
+    <alias name="defaultBaAccTaxExemptionValidForAttributeMapper" alias="baAccTaxExemptionValidForAttributeMapper"/>
+    <bean id="defaultBaAccTaxExemptionValidForAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.accounttaxexemption.AccTaxExemptionValidForAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="startDateTime"/>
+        <constructor-arg name="targetAttributeName" value="validFor"/>
+    </bean>
+
+    <!-- ### END definition of attribute mappers for entity mapper baAccountTaxExemptionEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper baMediumCharacteristicEntityMapperV1 ### -->
+
+    <alias name="defaultBaMediumCharacteristicSchemaLocationAttributeMapper"
+           alias="baMediumCharacteristicSchemaLocationAttributeMapper"/>
+    <bean id="defaultBaMediumCharacteristicSchemaLocationAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.mediumcharacteristic.MediumCharacteristicSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+
+    <alias name="defaultBaMediumCharacteristicTypeAttributeMapper" alias="baMediumCharacteristicTypeAttributeMapper"/>
+    <bean id="defaultBaMediumCharacteristicTypeAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.mediumcharacteristic.MediumCharacteristicTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atType"/>
+    </bean>
+
+    <alias name="defaultBaMediumCharacteristicContactTypeAttributeMapper"
+           alias="baMediumCharacteristicContactTypeAttributeMapper"/>
+    <bean id="defaultBaMediumCharacteristicContactTypeAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.mediumcharacteristic.MediumCharacteristicContactTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="contactType"/>
+        <constructor-arg name="targetAttributeName" value="contactType"/>
+    </bean>
+
+    <!-- ### END definition of attribute mappers for entity mapper baMediumCharacteristicEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper baContactMediumEntityMapperV1 ### -->
+
+    <alias name="defaultBaContactMediumSchemaLocationAttributeMapper" alias="baContactMediumSchemaLocationAttributeMapper"/>
+    <bean id="defaultBaContactMediumSchemaLocationAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.contactmedium.ContactMediumSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+
+    <alias name="defaultBaContactMediumTypeAttributeMapper" alias="baContactMediumTypeAttributeMapper"/>
+    <bean id="defaultBaContactMediumTypeAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.contactmedium.ContactMediumTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atType"/>
+    </bean>
+
+    <alias name="defaultBaContactMediumValidForAttributeMapper" alias="baContactMediumValidForAttributeMapper"/>
+    <bean id="defaultBaContactMediumValidForAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.contactmedium.ContactMediumValidForAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="startDateTime"/>
+        <constructor-arg name="targetAttributeName" value="validFor"/>
+    </bean>
+
+    <alias name="defaultContactMediumMedCharacContTypeAttributeMapper" alias="baContactMediumMedCharacContTypeAttributeMapper"/>
+    <bean id="defaultContactMediumMedCharacContTypeAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.contactmedium.ContactMediumMedCharacContTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="characteristic"/>
+        <constructor-arg name="targetAttributeName" value="characteristic"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="baGenericService" ref="baGenericService"/>
+    </bean>
+
+    <alias name="defaultBaContactMediumMedTypeAttributeMapper" alias="baContactMediumMedTypeAttributeMapper"/>
+    <bean id="defaultBaContactMediumMedTypeAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.contactmedium.ContactMediumMedTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="mediumType"/>
+        <constructor-arg name="targetAttributeName" value="mediumType"/>
+    </bean>
+
+    <!-- ### END definition of attribute mappers for entity mapper baContactMediumEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper baContactEntityMapperV1 ### -->
+
+    <alias name="defaultBaContactSchemaLocationAttributeMapper" alias="baContactSchemaLocationAttributeMapper"/>
+    <bean id="defaultBaContactSchemaLocationAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.contact.ContactSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+
+    <alias name="defaultBaContactTypeAttributeMapper" alias="baContactTypeAttributeMapper"/>
+    <bean id="defaultBaContactTypeAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.contact.ContactTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atType"/>
+    </bean>
+
+    <alias name="defaultBaContactValidForAttributeMapper" alias="baContactValidForAttributeMapper"/>
+    <bean id="defaultBaContactValidForAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.contact.ContactValidForAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="startDateTime"/>
+        <constructor-arg name="targetAttributeName" value="validFor"/>
+    </bean>
+
+    <alias name="defaultBaContactContMediumAttributeMapper" alias="baContactContMediumAttributeMapper"/>
+    <bean id="defaultBaContactContMediumAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.contact.ContactContMediumAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="contactMediums"/>
+        <constructor-arg name="targetAttributeName" value="contactMedium"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="baGenericService" ref="baGenericService"/>
+    </bean>
+
+    <alias name="defaultBaContactContTypeAttributeMapper" alias="baContactContTypeAttributeMapper"/>
+    <bean id="defaultBaContactContTypeAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.contact.ContactContTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="contactType"/>
+        <constructor-arg name="targetAttributeName" value="contactType"/>
+    </bean>
+
+    <alias name="defaultBaContactRelatedPartyAttributeMapper" alias="baContactRelatedPartyAttributeMapper"/>
+    <bean id="defaultBaContactRelatedPartyAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.contact.ContactRelatedPartyAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atType"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="baGenericService" ref="baGenericService"/>
+    </bean>
+
+    <!-- ### END definition of attribute mappers for entity mapper baContactEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper baPaymentMethodRefEntityMapperV1 ### -->
+
+    <alias name="defaultBaPaymentMethodRefHrefAttributeMapper" alias="baPaymentMethodRefHrefAttributeMapper"/>
+    <bean id="defaultBaPaymentMethodRefHrefAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.paymentmethodref.PaymentMethodRefHrefAttributeMapper">
+        <description>Deprecated since 2111</description>
+        <constructor-arg name="sourceAttributeName" value="code"/>
+        <constructor-arg name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultBaPaymentMethodRefTypeAttributeMapper" alias="baPaymentMethodRefTypeAttributeMapper"/>
+    <bean id="defaultBaPaymentMethodRefTypeAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.paymentmethodref.PaymentMethodRefTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="code"/>
+        <constructor-arg name="targetAttributeName" value="atType"/>
+    </bean>
+
+    <alias name="defaultBaPaymentMethodRefSchemaLocationAttributeMapper" alias="baPaymentMethodRefSchemaLocationAttributeMapper"/>
+    <bean id="defaultBaPaymentMethodRefSchemaLocationAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.paymentmethodref.PaymentMethodRefSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="code"/>
+        <constructor-arg name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+
+    <alias name="defaultBaPaymentMethodRefIdAttributeMapper" alias="baPaymentMethodRefIdAttributeMapper"/>
+    <bean id="defaultBaPaymentMethodRefIdAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.paymentmethodref.PaymentMethodRefIdAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="code"/>
+        <constructor-arg name="targetAttributeName" value="id"/>
+    </bean>
+
+    <alias name="defaultBaPaymentMethodHrefAttributeMapper" alias="baPaymentMethodHrefAttributeMapper"/>
+    <bean id="defaultBaPaymentMethodHrefAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.paymentmethodref.PaymentMethodHrefAttributeMapper">
+        <description>Deprecated since 2111</description>
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultBaPaymentMethodTypeAttributeMapper" alias="baPaymentMethodTypeAttributeMapper"/>
+    <bean id="defaultBaPaymentMethodTypeAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.paymentmethodref.PaymentMethodTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atType"/>
+    </bean>
+
+    <alias name="defaultBaPaymentMethodSchemaLocationAttributeMapper" alias="baPaymentMethodSchemaLocationAttributeMapper"/>
+    <bean id="defaultBaPaymentMethodSchemaLocationAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.paymentmethodref.PaymentMethodSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+
+    <!-- ### END definition of attribute mappers for entity mapper baPaymentMethodRefEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper baAccountRefEntityMapperV1 ### -->
+
+    <alias name="defaultBaAccountRefHrefAttributeMapper" alias="baAccountRefHrefAttributeMapper"/>
+    <bean id="defaultBaAccountRefHrefAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.accountref.AccountRefHrefAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultBaAccountRefReferredTypeAttributeMapper" alias="baAccountRefReferredTypeAttributeMapper"/>
+    <bean id="defaultBaAccountRefReferredTypeAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.accountref.AccountRefReferredTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atreferredType"/>
+    </bean>
+
+    <alias name="defaultBaAccountRefSchemaLocationAttributeMapper" alias="baAccountRefSchemaLocationAttributeMapper"/>
+    <bean id="defaultBaAccountRefSchemaLocationAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.accountref.AccountRefSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+
+    <!-- ### END definition of attribute mappers for entity mapper baAccountRefEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper baFinancialAccountRefEntityMapperV1 ### -->
+
+    <alias name="defaultBaFinancialAccountRefHrefAttributeMapper" alias="baFinancialAccountRefHrefAttributeMapper"/>
+    <bean id="defaultBaFinancialAccountRefHrefAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.financialaccountref.FinancialAccountRefHrefAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultBaFinancialAccountRefReferredTypeAttributeMapper"
+           alias="baFinancialAccountRefReferredTypeAttributeMapper"/>
+    <bean id="defaultBaFinancialAccountRefReferredTypeAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.financialaccountref.FinancialAccountRefReferredTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atreferredType"/>
+    </bean>
+
+    <alias name="defaultBaFinancialAccountRefSchemaLocationAttributeMapper"
+           alias="baFinancialAccountRefSchemaLocationAttributeMapper"/>
+    <bean id="defaultBaFinancialAccountRefSchemaLocationAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.financialaccountref.FinancialAccountRefSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+
+    <!-- ### END definition of attribute mappers for entity mapper baFinancialAccountRefEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper baAccountRelationshipEntityMapperV1 ### -->
+
+    <alias name="defaultBaAccRelationshipSchemaLocationAttributeMapper" alias="baAccRelationshipSchemaLocationAttributeMapper"/>
+    <bean id="defaultBaAccRelationshipSchemaLocationAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.accountrelationship.AccRelationshipSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+
+    <alias name="defaultBaAccRelationshipTypeAttributeMapper" alias="baAccRelationshipTypeAttributeMapper"/>
+    <bean id="defaultBaAccRelationshipTypeAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.accountrelationship.AccRelationshipTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atType"/>
+    </bean>
+
+    <alias name="defaultBaAccRelationshipAccountAttributeMapper" alias="baAccRelationshipAccountAttributeMapper"/>
+    <bean id="defaultBaAccRelationshipAccountAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.accountrelationship.AccRelationshipAccountAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="targetAccount"/>
+        <constructor-arg name="targetAttributeName" value="account"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="baGenericService" ref="baGenericService"/>
+    </bean>
+
+    <alias name="defaultBaAccRelationshipValidForAttributeMapper" alias="baAccRelationshipValidForAttributeMapper"/>
+    <bean id="defaultBaAccRelationshipValidForAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.accountrelationship.AccRelationshipValidForAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="startDateTime"/>
+        <constructor-arg name="targetAttributeName" value="validFor"/>
+    </bean>
+
+    <!-- ### END definition of attribute mappers for entity mapper baAccountRelationshipEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper baBillingAccountEntityMapperV1 ### -->
+
+    <alias name="defaultBaBillingAccountHrefAttributeMapper" alias="baBillingAccountHrefAttributeMapper"/>
+    <bean id="defaultBaBillingAccountHrefAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.billingaccount.BillingAccountHrefAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultBaBillingAccountSchemaLocationAttributeMapper" alias="baBillingAccountSchemaLocationAttributeMapper"/>
+    <bean id="defaultBaBillingAccountSchemaLocationAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.billingaccount.BillingAccountSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+
+    <alias name="defaultBaBillingAccountAccBalanceAttributeMapper" alias="baBillingAccountAccBalanceAttributeMapper"/>
+    <bean id="defaultBaBillingAccountAccBalanceAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.billingaccount.BillingAccountAccBalanceAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="accountBalances"/>
+        <constructor-arg name="targetAttributeName" value="accountBalance"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="baGenericService" ref="baGenericService"/>
+    </bean>
+
+    <alias name="defaultBaBillingAccountTaxExemptionAttributeMapper" alias="baBillingAccountTaxExemptionAttributeMapper"/>
+    <bean id="defaultBaBillingAccountTaxExemptionAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.billingaccount.BillingAccountTaxExemptionAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="taxExemptions"/>
+        <constructor-arg name="targetAttributeName" value="taxExemption"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="baGenericService" ref="baGenericService"/>
+    </bean>
+
+    <alias name="defaultBaBillingAccountContactAttributeMapper" alias="baBillingAccountContactAttributeMapper"/>
+    <bean id="defaultBaBillingAccountContactAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.billingaccount.BillingAccountContactAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="contacts"/>
+        <constructor-arg name="targetAttributeName" value="contact"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="baGenericService" ref="baGenericService"/>
+    </bean>
+
+    <alias name="defaultBaBillingAccountRelatedPartyAttributeMapper" alias="baBillingAccountRelatedPartyAttributeMapper"/>
+    <bean id="defaultBaBillingAccountRelatedPartyAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.billingaccount.BillingAccountRelatedPartyAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="partyRoles"/>
+        <constructor-arg name="targetAttributeName" value="relatedParty"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="baGenericService" ref="baGenericService"/>
+    </bean>
+
+    <alias name="defaultBaBillingAccountAccRelationshipAttributeMapper" alias="baBillingAccountAccRelationshipAttributeMapper"/>
+    <bean id="defaultBaBillingAccountAccRelationshipAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.billingaccount.BillingAccountAccRelationshipAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="accountRelationshipReferences"/>
+        <constructor-arg name="targetAttributeName" value="accountRelationship"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="baGenericService" ref="baGenericService"/>
+    </bean>
+
+    <alias name="defaultBillingAccountCreditLimitAttributeMapper" alias="baBillingAccountCreditLimitAttributeMapper"/>
+    <bean id="defaultBillingAccountCreditLimitAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.billingaccount.BillingAccountCreditLimitAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="creditLimit"/>
+        <constructor-arg name="targetAttributeName" value="creditLimit"/>
+        <constructor-arg name="baGenericService" ref="baGenericService"/>
+    </bean>
+
+    <alias name="defaultBillingAccountPaymentPlanAttributeMapper" alias="baBillingAccountPaymentPlanAttributeMapper"/>
+    <bean id="defaultBillingAccountPaymentPlanAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.billingaccount.BillingAccountPaymentPlanAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="paymentPlans"/>
+        <constructor-arg name="targetAttributeName" value="paymentPlan"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="baGenericService" ref="baGenericService"/>
+    </bean>
+
+    <alias name="defaultBillingAccountLastModifiedAttibuteMapper" alias="baBillingAccountLastModifiedAttibuteMapper"/>
+    <bean id="defaultBillingAccountLastModifiedAttibuteMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.billingaccount.BillingAccountLastModifiedAttibuteMapper">
+        <constructor-arg name="sourceAttributeName" value="modifiedTime"/>
+        <constructor-arg name="targetAttributeName" value="lastModified"/>
+    </bean>
+
+    <alias name="defaultBillingAccountPaymentStatusAttributeMapper" alias="baBillingAccountPaymentStatusAttributeMapper"/>
+    <bean id="defaultBillingAccountPaymentStatusAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.billingaccount.BillingAccountPaymentStatusAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="paymentStatus"/>
+        <constructor-arg name="targetAttributeName" value="paymentStatus"/>
+    </bean>
+
+    <alias name="defaultBillingAccountRatingTypeAttributeMapper" alias="baBillingAccountRatingTypeAttributeMapper"/>
+    <bean id="defaultBillingAccountRatingTypeAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.billingaccount.BillingAccountRatingTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="ratingType"/>
+        <constructor-arg name="targetAttributeName" value="ratingType"/>
+    </bean>
+
+    <alias name="defaultBillingAccountAccTypeAttributeMapper" alias="baBillingAccountAccTypeAttributeMapper"/>
+    <bean id="defaultBillingAccountAccTypeAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.billingaccount.BillingAccountAccTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="accountType"/>
+        <constructor-arg name="targetAttributeName" value="accountType"/>
+    </bean>
+
+    <alias name="defaultBillingAccountFinancialAccountAttributeMapper" alias="baBillingAccountFinancialAccountAttributeMapper"/>
+    <bean id="defaultBillingAccountFinancialAccountAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.billingaccount.BillingAccountFinancialAccountAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="financialAccount"/>
+        <constructor-arg name="targetAttributeName" value="financialAccount"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="baGenericService" ref="baGenericService"/>
+    </bean>
+
+    <alias name="defaultBillingAccountBillStructureAttributeMapper" alias="baBillingAccountBillStructureAttributeMapper"/>
+    <bean id="defaultBillingAccountBillStructureAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.billingaccount.BillingAccountBillStructureAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="billStructure"/>
+        <constructor-arg name="targetAttributeName" value="billStructure"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="baGenericService" ref="baGenericService"/>
+    </bean>
+
+    <alias name="defaultBillingAccountStateAttributeMapper" alias="baBillingAccountStateAttributeMapper"/>
+    <bean id="defaultBillingAccountStateAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.billingaccount.BillingAccountStateAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="state"/>
+        <constructor-arg name="targetAttributeName" value="state"/>
+    </bean>
+
+    <alias name="defaultBaBillingAccountRefDefaultPaymentMethodAttributeMapper"
+           alias="baBillingAccountRefDefaultPaymentMethodAttributeMapper"/>
+    <bean id="defaultBaBillingAccountRefDefaultPaymentMethodAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.billingaccount.BillingAccountRefDefaultPaymentMethodAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="referredDefaultPaymentMethod"/>
+        <constructor-arg name="targetAttributeName" value="defaultPaymentMethod"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="baGenericService" ref="baGenericService"/>
+    </bean>
+
+    <!-- ### END definition of attribute mappers for entity mapper baBillingAccountEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper baBillingPlanEntityMapperV1 ### -->
+
+    <alias name="defaultBaPaymentPlanPlanTypeAttributeMapper" alias="baPaymentPlanPlanTypeAttributeMapper"/>
+    <bean id="defaultBaPaymentPlanPlanTypeAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.paymentplan.PaymentPlanPlanTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="type"/>
+        <constructor-arg name="targetAttributeName" value="planType"/>
+    </bean>
+
+    <alias name="defaultBaPaymentPlanValidForAttributeMapper" alias="baPaymentPlanValidForAttributeMapper"/>
+    <bean id="defaultBaPaymentPlanValidForAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.paymentplan.PaymentPlanValidForAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="validFor"/>
+        <constructor-arg name="targetAttributeName" value="validFor"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultBaPaymentPlanTotalAmountAttributeMapper" alias="baPaymentPlanTotalAmountAttributeMapper"/>
+    <bean id="defaultBaPaymentPlanTotalAmountAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.paymentplan.PaymentPlanTotalAmountAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="totalAmount"/>
+        <constructor-arg name="targetAttributeName" value="totalAmount"/>
+        <constructor-arg name="commonI18NService" ref="commonI18NService"/>
+    </bean>
+
+    <alias name="defaultBaPaymentPlanPaymentFrequencyAttributeMapper" alias="baPaymentPlanPaymentFrequencyAttributeMapper"/>
+    <bean id="defaultBaPaymentPlanPaymentFrequencyAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.paymentplan.PaymentPlanPaymentFrequencyAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="paymentPeriod"/>
+        <constructor-arg name="targetAttributeName" value="paymentFrequency"/>
+    </bean>
+
+    <alias name="defaultBaPaymentPlanNumberOfPaymentAttributeMapper" alias="baPaymentPlanNumberOfPaymentAttributeMapper"/>
+    <bean id="defaultBaPaymentPlanNumberOfPaymentAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.paymentplan.PaymentPlanNumberOfPaymentAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="paymentPeriod"/>
+        <constructor-arg name="targetAttributeName" value="numberOfPayments"/>
+    </bean>
+
+    <alias name="defaultBaPaymentPlanPaymentMethodAttributeMapper" alias="baPaymentPlanPaymentMethodAttributeMapper"/>
+    <bean id="defaultBaPaymentPlanPaymentMethodAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.paymentplan.PaymentPlanPaymentMethodAttributeMapper">
+        <description>Deprecated since 2111</description>
+        <constructor-arg name="sourceAttributeName" value="paymentMethod"/>
+        <constructor-arg name="targetAttributeName" value="paymentMethod"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultBaPaymentPlanRefPaymentMethodAttributeMapper" alias="baPaymentPlanRefPaymentMethodAttributeMapper"/>
+    <bean id="defaultBaPaymentPlanRefPaymentMethodAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.paymentplan.PaymentPlanRefPaymentMethodAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="referredPaymentMethod"/>
+        <constructor-arg name="targetAttributeName" value="paymentMethod"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="baGenericService" ref="baGenericService"/>
+    </bean>
+
+    <alias name="defaultBaPaymentPlanSchemaLocationAttributeMapper" alias="baPaymentPlanSchemaLocationAttributeMapper"/>
+    <bean id="defaultBaPaymentPlanSchemaLocationAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.paymentplan.PaymentPlanSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+
+    <alias name="defaultBaPaymentPlanTypeAttributeMapper" alias="baPaymentPlanTypeAttributeMapper"/>
+    <bean id="defaultBaPaymentPlanTypeAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.paymentplan.PaymentPlanTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atType"/>
+    </bean>
+
+    <alias name="defaultBaPaymentPlanPaymentPeriodAttributeMapper" alias="baPaymentPlanPaymentPeriodAttributeMapper"/>
+    <bean id="defaultBaPaymentPlanPaymentPeriodAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.paymentplan.PaymentPlanPaymentPeriodAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="paymentFrequency"/>
+        <constructor-arg name="targetAttributeName" value="paymentPeriod"/>
+        <constructor-arg name="baGenericService" ref="baGenericService"/>
+    </bean>
+
+    <!-- ### END definition of attribute mappers for entity mapper baBillingPlanEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper baBillStructureEntityMapperV1 ### -->
+
+    <alias name="defaultBaBillStructureCycleSpecAttributeMapper" alias="baBillStructureCycleSpecAttributeMapper"/>
+    <bean id="defaultBaBillStructureCycleSpecAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.billstructure.BillStructureCycleSpecAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="cycleSpecification"/>
+        <constructor-arg name="targetAttributeName" value="cycleSpecification"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultBaBillStructurePresentationMediaAttributeMapper" alias="baBillStructurePresentationMediaAttributeMapper"/>
+    <bean id="defaultBaBillStructurePresentationMediaAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.billstructure.BillStructurePresentationMediaAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="presentationMedias"/>
+        <constructor-arg name="targetAttributeName" value="presentationMedia"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultBaBillStructureFormatAttributeMapper" alias="baBillStructureFormatAttributeMapper"/>
+    <bean id="defaultBaBillStructureFormatAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.billstructure.BillStructureFormatAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="format"/>
+        <constructor-arg name="targetAttributeName" value="format"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultBaBillStructureSchemaLocationAttributeMapper" alias="baBillStructureSchemaLocationAttributeMapper"/>
+    <bean id="defaultBaBillStructureSchemaLocationAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.billstructure.BillStructureSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="schemaLocation"/>
+    </bean>
+
+    <alias name="defaultBaBillStructureTypeAttributeMapper" alias="baBillStructureTypeAttributeMapper"/>
+    <bean id="defaultBaBillStructureTypeAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.billstructure.BillStructureTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atType"/>
+    </bean>
+
+    <!-- ### END definition of attribute mappers for entity mapper baBillStructureEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper baBillFormatEntityMapperV1 ### -->
+
+    <alias name="defaultBaBillFormatHrefAttributeMapper" alias="baBillFormatHrefAttributeMapper"/>
+    <bean id="defaultBaBillFormatHrefAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.billformat.BillFormatHrefAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultBaBillFormatReferredTypeAttributeMapper" alias="baBillFormatReferredTypeAttributeMapper"/>
+    <bean id="defaultBaBillFormatReferredTypeAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.billformat.BillFormatReferredTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="refferedType"/>
+    </bean>
+
+    <alias name="defaultBaBillFormatSchemaLocationAttributeMapper" alias="baBillFormatSchemaLocationAttributeMapper"/>
+    <bean id="defaultBaBillFormatSchemaLocationAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.billformat.BillFormatSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+
+    <!-- ### END definition of attribute mappers for entity mapper baBillFormatEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper baBillPresentationMediaEntityMapperV1 ### -->
+
+    <alias name="defaultBaBillPresentationMediaHrefAttributeMapper" alias="baBillPresentationMediaHrefAttributeMapper"/>
+    <bean id="defaultBaBillPresentationMediaHrefAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.billpresentationmedia.BillPresentationMediaHrefAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultBaBillPresentationMediaReferredTypeAttributeMapper"
+           alias="baBillPresentationMediaReferredTypeAttributeMapper"/>
+    <bean id="defaultBaBillPresentationMediaReferredTypeAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.billpresentationmedia.BillPresentationMediaReferredTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="refferedType"/>
+    </bean>
+
+    <alias name="defaultBaBillPresentationMediaSchemaLocationAttributeMapper"
+           alias="baBillPresentationMediaSchemaLocationAttributeMapper"/>
+    <bean id="defaultBaBillPresentationMediaSchemaLocationAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.billpresentationmedia.BillPresentationMediaSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+
+    <!-- ### END definition of attribute mappers for entity mapper baBillPresentationMediaEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper baBillingCycleSpecificationEntityMapperV1 ### -->
+
+    <alias name="defaultBaBillingCycleSpecValidForAttributeMapper" alias="baBillingCycleSpecValidForAttributeMapper"/>
+    <bean id="defaultBaBillingCycleSpecValidForAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.billingcyclespecification.BillingCycleSpecValidForAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="validFor"/>
+        <constructor-arg name="targetAttributeName" value="validFor"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultBaBillingCycleSpecHrefAttributeMapper" alias="baBillingCycleSpecHrefAttributeMapper"/>
+    <bean id="defaultBaBillingCycleSpecHrefAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.billingcyclespecification.BillingCycleSpecHrefAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultBaBillingCycleSpecReferredTypeAttributeMapper" alias="baBillingCycleSpecReferredTypeAttributeMapper"/>
+    <bean id="defaultBaBillingCycleSpecReferredTypeAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.billingcyclespecification.BillingCycleSpecReferredTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="refferedType"/>
+    </bean>
+
+    <alias name="defaultBaBillingCycleSpecSchemaLocationAttributeMapper" alias="baBillingCycleSpecSchemaLocationAttributeMapper"/>
+    <bean id="defaultBaBillingCycleSpecSchemaLocationAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.billingcyclespecification.BillingCycleSpecSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+
+    <alias name="defaultBaBillingCycleSpecAtTypeAttributeMapper" alias="baBillingCycleSpecAtTypeAttributeMapper"/>
+    <bean id="defaultBaBillingCycleSpecAtTypeAttributeMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.billingcyclespecification.BillingCycleSpecAtTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atType"/>
+    </bean>
+
+    <!-- ### END definition of attribute mappers for entity mapper baBillingCycleSpecificationEntityMapperV1 ### -->
+
+    <!-- ###################### -->
+    <!-- ### Entity Mappers ### -->
+    <!-- ###################### -->
+
+    <!-- Entity mapper for RelatedParty (from BaParty)-->
+    <alias name="defaultBaRelatedPartyEntityMapperV1" alias="baRelatedPartyEntityMapperV1"/>
+    <bean id="defaultBaRelatedPartyEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.BaEntityMapper">
+        <constructor-arg name="sourceClass"
+                         value="de.hybris.platform.billingaccountservices.model.BaPartyRoleModel"/>
+        <constructor-arg name="targetClass"
+                         value="de.hybris.platform.billingaccounttmfwebservices.v1.dto.RelatedParty"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="baRelatedPartyIdAttributeMapper"/>
+                <ref bean="baRelatedPartyHrefAttributeMapper"/>
+                <ref bean="baRelatedPartySchemaLocationAttributeMapper"/>
+                <ref bean="baRelatedPartyReferredTypeAttributeMapper"/>
+                <ref bean="baRelatedPartyNameAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for AccountBalance (from BaAccountBalance)-->
+    <alias name="defaultBaAccountBalanceEntityMapperV1" alias="baAccountBalanceEntityMapperV1"/>
+    <bean id="defaultBaAccountBalanceEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.BaEntityMapper">
+        <constructor-arg name="sourceClass"
+                         value="de.hybris.platform.billingaccountservices.model.BaAccountBalanceModel"/>
+        <constructor-arg name="targetClass"
+                         value="de.hybris.platform.billingaccounttmfwebservices.v1.dto.AccountBalance"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="baAccBalanceAmountAttributeMapper"/>
+                <ref bean="baAccBalanceValidForAttributeMapper"/>
+                <ref bean="baAccBalanceTypeAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for AccountTaxExemption (from BaAccountTaxExemption)-->
+    <alias name="defaultBaAccountTaxExemptionEntityMapperV1" alias="baAccountTaxExemptionEntityMapperV1"/>
+    <bean id="defaultBaAccountTaxExemptionEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.BaEntityMapper">
+        <constructor-arg name="sourceClass"
+                         value="de.hybris.platform.billingaccountservices.model.BaAccountTaxExemptionModel"/>
+        <constructor-arg name="targetClass"
+                         value="de.hybris.platform.billingaccounttmfwebservices.v1.dto.AccountTaxExemption"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="baAccTaxExemptionSchemaLocationAttributeMapper"/>
+                <ref bean="baAccTaxExemptionAtTypeAttributeMapper"/>
+                <ref bean="baAccTaxExemptionValidForAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for MediumCharacteristic (from BaMediumCharacteristic)-->
+    <alias name="defaultBaMediumCharacteristicEntityMapperV1" alias="baMediumCharacteristicEntityMapperV1"/>
+    <bean id="defaultBaMediumCharacteristicEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.BaEntityMapper">
+        <constructor-arg name="sourceClass"
+                         value="de.hybris.platform.billingaccountservices.model.BaMediumCharacteristicModel"/>
+        <constructor-arg name="targetClass"
+                         value="de.hybris.platform.billingaccounttmfwebservices.v1.dto.MediumCharacteristic"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="baMediumCharacteristicSchemaLocationAttributeMapper"/>
+                <ref bean="baMediumCharacteristicTypeAttributeMapper"/>
+                <ref bean="baMediumCharacteristicContactTypeAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for ContactMedium (from BaContactMedium)-->
+    <alias name="defaultBaContactMediumEntityMapperV1" alias="baContactMediumEntityMapperV1"/>
+    <bean id="defaultBaContactMediumEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.BaEntityMapper">
+        <constructor-arg name="sourceClass"
+                         value="de.hybris.platform.billingaccountservices.model.BaContactMediumModel"/>
+        <constructor-arg name="targetClass"
+                         value="de.hybris.platform.billingaccounttmfwebservices.v1.dto.ContactMedium"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="baContactMediumSchemaLocationAttributeMapper"/>
+                <ref bean="baContactMediumTypeAttributeMapper"/>
+                <ref bean="baContactMediumValidForAttributeMapper"/>
+                <ref bean="baContactMediumMedCharacContTypeAttributeMapper"/>
+                <ref bean="baContactMediumMedTypeAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for Contact (from BaContact)-->
+    <alias name="defaultBaContactEntityMapperV1" alias="baContactEntityMapperV1"/>
+    <bean id="defaultBaContactEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.BaEntityMapper">
+        <constructor-arg name="sourceClass"
+                         value="de.hybris.platform.billingaccountservices.model.BaContactModel"/>
+        <constructor-arg name="targetClass"
+                         value="de.hybris.platform.billingaccounttmfwebservices.v1.dto.Contact"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="baContactSchemaLocationAttributeMapper"/>
+                <ref bean="baContactTypeAttributeMapper"/>
+                <ref bean="baContactValidForAttributeMapper"/>
+                <ref bean="baContactContMediumAttributeMapper"/>
+                <ref bean="baContactContTypeAttributeMapper"/>
+                <ref bean="baContactRelatedPartyAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for PaymentMethodRef (from PaymentInfo)-->
+    <alias name="defaultBaPaymentMethodRefEntityMapperV1" alias="baPaymentMethodRefEntityMapperV1"/>
+    <bean id="defaultBaPaymentMethodRefEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.BaEntityMapper">
+        <description>Deprecated since 2111</description>
+        <constructor-arg name="sourceClass"
+                         value="de.hybris.platform.core.model.order.payment.PaymentInfoModel"/>
+        <constructor-arg name="targetClass"
+                         value="de.hybris.platform.billingaccounttmfwebservices.v1.dto.PaymentMethodRef"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="baPaymentMethodRefHrefAttributeMapper"/>
+                <ref bean="baPaymentMethodRefTypeAttributeMapper"/>
+                <ref bean="baPaymentMethodRefSchemaLocationAttributeMapper"/>
+                <ref bean="baPaymentMethodRefIdAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for PaymentMethodRef (from BaPaymentInfo)-->
+    <alias name="defaultBaPaymentMethodEntityMapperV1" alias="baPaymentMethodEntityMapperV1"/>
+    <bean id="defaultBaPaymentMethodEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.BaEntityMapper">
+        <constructor-arg name="sourceClass"
+                         value="de.hybris.platform.billingaccountservices.model.BaPaymentInfoModel"/>
+        <constructor-arg name="targetClass"
+                         value="de.hybris.platform.billingaccounttmfwebservices.v1.dto.PaymentMethodRef"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="baPaymentMethodHrefAttributeMapper"/>
+                <ref bean="baPaymentMethodTypeAttributeMapper"/>
+                <ref bean="baPaymentMethodSchemaLocationAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for AccountRef (from BaAccount)-->
+    <alias name="defaultBaAccountRefEntityMapperV1" alias="baAccountRefEntityMapperV1"/>
+    <bean id="defaultBaAccountRefEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.BaEntityMapper">
+        <constructor-arg name="sourceClass"
+                         value="de.hybris.platform.billingaccountservices.model.BaAccountModel"/>
+        <constructor-arg name="targetClass"
+                         value="de.hybris.platform.billingaccounttmfwebservices.v1.dto.AccountRef"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="baAccountRefHrefAttributeMapper"/>
+                <ref bean="baAccountRefReferredTypeAttributeMapper"/>
+                <ref bean="baAccountRefSchemaLocationAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for FinancialAccountRef (from BaFinancialAccount)-->
+    <alias name="defaultbaFinancialAccountRefEntityMapperV1" alias="baFinancialAccountRefEntityMapperV1"/>
+    <bean id="defaultbaFinancialAccountRefEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.BaEntityMapper">
+        <constructor-arg name="sourceClass"
+                         value="de.hybris.platform.billingaccountservices.model.BaFinancialAccountModel"/>
+        <constructor-arg name="targetClass"
+                         value="de.hybris.platform.billingaccounttmfwebservices.v1.dto.FinancialAccountRef"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="baFinancialAccountRefHrefAttributeMapper"/>
+                <ref bean="baFinancialAccountRefReferredTypeAttributeMapper"/>
+                <ref bean="baFinancialAccountRefSchemaLocationAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for AccountRelationship (from BaAccountRelationship)-->
+    <alias name="defaultBaAccountRelationshipEntityMapperV1" alias="baAccountRelationshipEntityMapperV1"/>
+    <bean id="defaultBaAccountRelationshipEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.BaEntityMapper">
+        <constructor-arg name="sourceClass"
+                         value="de.hybris.platform.billingaccountservices.model.BaAccountRelationshipModel"/>
+        <constructor-arg name="targetClass"
+                         value="de.hybris.platform.billingaccounttmfwebservices.v1.dto.AccountRelationship"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="baAccRelationshipSchemaLocationAttributeMapper"/>
+                <ref bean="baAccRelationshipTypeAttributeMapper"/>
+                <ref bean="baAccRelationshipAccountAttributeMapper"/>
+                <ref bean="baAccRelationshipValidForAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for BillingAccount (from BaBillingAccount)-->
+    <alias name="defaultBaBillingAccountEntityMapperV1" alias="baBillingAccountEntityMapperV1"/>
+    <bean id="defaultBaBillingAccountEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.BaEntityMapper">
+        <constructor-arg name="sourceClass"
+                         value="de.hybris.platform.billingaccountservices.model.BaBillingAccountModel"/>
+        <constructor-arg name="targetClass"
+                         value="de.hybris.platform.billingaccounttmfwebservices.v1.dto.BillingAccount"/>
+        <constructor-arg name="attributeMappers">
+            <list merge="true">
+                <ref bean="baBillingAccountHrefAttributeMapper"/>
+                <ref bean="baBillingAccountSchemaLocationAttributeMapper"/>
+                <ref bean="baBillingAccountAccBalanceAttributeMapper"/>
+                <ref bean="baBillingAccountTaxExemptionAttributeMapper"/>
+                <ref bean="baBillingAccountContactAttributeMapper"/>
+                <ref bean="baBillingAccountAccRelationshipAttributeMapper"/>
+                <ref bean="baBillingAccountRelatedPartyAttributeMapper"/>
+                <ref bean="baBillingAccountCreditLimitAttributeMapper"/>
+                <ref bean="baBillingAccountPaymentPlanAttributeMapper"/>
+                <ref bean="baBillingAccountLastModifiedAttibuteMapper"/>
+                <ref bean="baBillingAccountPaymentStatusAttributeMapper"/>
+                <ref bean="baBillingAccountRatingTypeAttributeMapper"/>
+                <ref bean="baBillingAccountAccTypeAttributeMapper"/>
+                <ref bean="baBillingAccountFinancialAccountAttributeMapper"/>
+                <ref bean="baBillingAccountBillStructureAttributeMapper"/>
+                <ref bean="baBillingAccountStateAttributeMapper"/>
+                <ref bean="baBillingAccountRefDefaultPaymentMethodAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for PaymentPlan (from BaPaymentPlan)-->
+    <alias name="defaultBaPaymentPlanEntityMapperV1" alias="baPaymentPlanEntityMapperV1"/>
+    <bean id="defaultBaPaymentPlanEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.BaEntityMapper">
+        <constructor-arg name="sourceClass"
+                         value="de.hybris.platform.billingaccountservices.model.BaPaymentPlanModel"/>
+        <constructor-arg name="targetClass"
+                         value="de.hybris.platform.billingaccounttmfwebservices.v1.dto.PaymentPlan"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="baPaymentPlanPlanTypeAttributeMapper"/>
+                <ref bean="baPaymentPlanValidForAttributeMapper"/>
+                <ref bean="baPaymentPlanTotalAmountAttributeMapper"/>
+                <ref bean="baPaymentPlanPaymentFrequencyAttributeMapper"/>
+                <ref bean="baPaymentPlanNumberOfPaymentAttributeMapper"/>
+                <ref bean="baPaymentPlanRefPaymentMethodAttributeMapper"/>
+                <ref bean="baPaymentPlanSchemaLocationAttributeMapper"/>
+                <ref bean="baPaymentPlanTypeAttributeMapper"/>
+                <ref bean="baPaymentPlanPaymentPeriodAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for BillStructure (from BaBillStructure)-->
+    <alias name="defaultBaBillStructureEntityMapperV1" alias="baBillStructureEntityMapperV1"/>
+    <bean id="defaultBaBillStructureEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.BaEntityMapper">
+        <constructor-arg name="sourceClass"
+                         value="de.hybris.platform.billingaccountservices.model.BaBillStructureModel"/>
+        <constructor-arg name="targetClass"
+                         value="de.hybris.platform.billingaccounttmfwebservices.v1.dto.BillStructure"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="baBillStructureCycleSpecAttributeMapper"/>
+                <ref bean="baBillStructurePresentationMediaAttributeMapper"/>
+                <ref bean="baBillStructureFormatAttributeMapper"/>
+                <ref bean="baBillStructureSchemaLocationAttributeMapper"/>
+                <ref bean="baBillStructureTypeAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for BillFormat (from BaBillFormat)-->
+    <alias name="defaultBaBillFormatEntityMapperV1" alias="baBillFormatEntityMapperV1"/>
+    <bean id="defaultBaBillFormatEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.BaEntityMapper">
+        <constructor-arg name="sourceClass"
+                         value="de.hybris.platform.billingaccountservices.model.BaBillFormatModel"/>
+        <constructor-arg name="targetClass"
+                         value="de.hybris.platform.billingaccounttmfwebservices.v1.dto.BillFormatRefOrValue"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="baBillFormatHrefAttributeMapper"/>
+                <ref bean="baBillFormatReferredTypeAttributeMapper"/>
+                <ref bean="baBillFormatSchemaLocationAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for BillPresentationMediaRefOrValue (from BaBillPresentationMedia)-->
+    <alias name="defaultBaBillPresentationMediaEntityMapperV1" alias="baBillPresentationMediaEntityMapperV1"/>
+    <bean id="defaultBaBillPresentationMediaEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.BaEntityMapper">
+        <constructor-arg name="sourceClass"
+                         value="de.hybris.platform.billingaccountservices.model.BaBillPresentationMediaModel"/>
+        <constructor-arg name="targetClass"
+                         value="de.hybris.platform.billingaccounttmfwebservices.v1.dto.BillPresentationMediaRefOrValue"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="baBillPresentationMediaHrefAttributeMapper"/>
+                <ref bean="baBillPresentationMediaReferredTypeAttributeMapper"/>
+                <ref bean="baBillPresentationMediaSchemaLocationAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for BillingCycleSpecificationRefOrValue (from BaBillingCycleSpecification)-->
+    <alias name="defaultBaBillingCycleSpecificationEntityMapperV1" alias="baBillingCycleSpecificationEntityMapperV1"/>
+    <bean id="defaultBaBillingCycleSpecificationEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.mappers.BaEntityMapper">
+        <constructor-arg name="sourceClass"
+                         value="de.hybris.platform.billingaccountservices.model.BaBillingCycleSpecificationModel"/>
+        <constructor-arg name="targetClass"
+                         value="de.hybris.platform.billingaccounttmfwebservices.v1.dto.BillingCycleSpecificationRefOrValue"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="baBillingCycleSpecValidForAttributeMapper"/>
+                <ref bean="baBillingCycleSpecHrefAttributeMapper"/>
+                <ref bean="baBillingCycleSpecReferredTypeAttributeMapper"/>
+                <ref bean="baBillingCycleSpecSchemaLocationAttributeMapper"/>
+                <ref bean="baBillingCycleSpecAtTypeAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+</beans>

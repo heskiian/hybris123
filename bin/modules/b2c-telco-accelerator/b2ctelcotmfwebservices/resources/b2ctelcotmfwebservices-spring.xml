@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <beans profile="tenant_junit">
+        <!-- Configuration needed for tests to run properly. -->
+        <util:list id="jaxbTypeAdaptersList">
+            <value>de.hybris.platform.webservicescommons.jaxb.adapters.DateAdapter</value>
+            <value>de.hybris.platform.webservicescommons.jaxb.adapters.VariableMapAdapter</value>
+            <value>de.hybris.platform.webservicescommons.jaxb.adapters.XSSStringAdapter</value>
+        </util:list>
+
+
+        <util:list id="jaxbContextClasses">
+            <value>java.lang.Long</value>
+            <value>java.lang.String</value>
+            <value>java.util.ArrayList</value>
+        </util:list>
+
+        <bean id="jaxbWrapperSupport" class="de.hybris.platform.webservicescommons.jaxb.wrapper.JaxbWrapperSupport">
+            <property name="wrapperFactories">
+                <list>
+                    <bean class="de.hybris.platform.webservicescommons.jaxb.wrapper.impl.JaxbStringWrapperFactory"/>
+                    <bean class="de.hybris.platform.webservicescommons.jaxb.wrapper.impl.JaxbLongWrapperFactory"/>
+                    <bean class="de.hybris.platform.webservicescommons.jaxb.wrapper.impl.JaxbDoubleWrapperFactory"/>
+                    <bean class="de.hybris.platform.webservicescommons.jaxb.wrapper.impl.JaxbListWrapperFactory"/>
+                    <bean class="de.hybris.platform.webservicescommons.jaxb.wrapper.impl.JaxbMapWrapperFactory"/>
+                </list>
+            </property>
+        </bean>
+    </beans>
+</beans>

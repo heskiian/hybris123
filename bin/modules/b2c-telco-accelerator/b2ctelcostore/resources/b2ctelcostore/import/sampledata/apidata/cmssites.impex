@@ -1,0 +1,46 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for Importing Sample Catalog Data
+
+#% impex.enableCodeExecution(true);
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE CMSSite; uid[unique = true]             ; name[lang = en]                                                 ; defaultCatalog(id)      ; contentCatalogs(id)    ; defaultPromotionGroup(Identifier)
+                     ; b2ctelcoPfp                    ; B2C Telco Product Fixed Price Site                              ; b2ctelcoProductCatalog  ; b2ctelcoContentCatalog ; b2ctelcoPfpPromoGrp
+                     ; b2ctelcoPpd                    ; B2C Telco Product Percentage Discount Site                      ; b2ctelcoProductCatalog  ; b2ctelcoContentCatalog ; b2ctelcoPpdPromoGrp
+                     ; b2ctelcoPfd                    ; B2C Telco Product Fixed Discount Site                           ; b2ctelcoProductCatalog  ; b2ctelcoContentCatalog ; b2ctelcoPfdPromoGrp
+                     ; b2ctelcoOtpd                   ; B2C Telco Order Threshold Percentage Discount Site              ; b2ctelcoProductCatalog  ; b2ctelcoContentCatalog ; b2ctelcoOtpdPromoGrp
+                     ; b2ctelcoOtfd                   ; B2C Telco Order Threshold Fixed Discount Site                   ; b2ctelcoProductCatalog  ; b2ctelcoContentCatalog ; b2ctelcoOtfdPromoGrp
+                     ; b2ctelcoOtpdp                  ; B2C Telco Order Threshold Percentage Discount Products Site     ; b2ctelcoProductCatalog  ; b2ctelcoContentCatalog ; b2ctelcoOtpdpPromoGrp
+                     ; b2ctelcoPpfp                   ; B2C Telco Perfect Partner Fixed Price Site                      ; b2ctelcoProductCatalog  ; b2ctelcoContentCatalog ; b2ctelcoPpfpPromoGrp
+                     ; b2ctelcoPppd                   ; B2C Telco Perfect Partner Percentage Discount Site              ; b2ctelcoProductCatalog  ; b2ctelcoContentCatalog ; b2ctelcoPppdPromoGrp
+                     ; b2ctelcoBxgyf                  ; B2C Telco Buy X Get Y Free Site                                 ; b2ctelcoProductCatalog  ; b2ctelcoContentCatalog ; b2ctelcoBxgyfPromoGrp
+                     ; b2ctelcoMultibuy               ; B2C Telco Multibuy Site                                         ; b2ctelcoProductCatalog  ; b2ctelcoContentCatalog ; b2ctelcoMultibuyPromoGrp
+                     ; b2ctelcoPbfp                   ; B2C Telco Product Bundle Fixed Price Site                       ; b2ctelcoProductCatalog  ; b2ctelcoContentCatalog ; b2ctelcoPbfpPromoGrp
+                     ; b2ctelcoPptfd                  ; B2C Telco Product Price Threshold Fixed Discount                ; b2ctelcoProductCatalog  ; b2ctelcoContentCatalog ; b2ctelcoPptfdPromoGrp
+                     ; b2ctelcoOtfpd                  ; B2C Telco Order Threshold Fixed Price Product Discount          ; b2ctelcoProductCatalog  ; b2ctelcoContentCatalog ; b2ctelcoOtfpdPromoGrp
+                     ; b2ctelcoTcpdc                  ; B2C Telco Customer specific percentage discount Site            ; b2ctelcoProductCatalog  ; b2ctelcoContentCatalog ; b2ctelcoTcpdcPromoGrp
+                     ; b2ctelcoCsfdot                 ; B2C Telco Customer Specific Fixed Discount Order Threshold Site ; b2ctelcoProductCatalog  ; b2ctelcoContentCatalog ; b2ctelcoCsfdotPromoGrp
+                     ; b2ctelcoFreeGift               ; B2C Telco Free Gift Site                                        ; b2ctelcoProductCatalog  ; b2ctelcoContentCatalog ; b2ctelcoFreeGiftPromoGrp
+                     ; b2ctelcoFreeGift2              ; B2C Telco Free Gift 2 Site                                      ; b2ctelcoProductCatalog  ; b2ctelcoContentCatalog ; b2ctelcoFreeGift2PromoGrp
+                     ; b2ctelcoFreeGift3              ; B2C Telco Free Gift 3 Site                                      ; b2ctelcoProductCatalog  ; b2ctelcoContentCatalog ; b2ctelcoFreeGift3PromoGrp
+                     ; b2ctelcoCcpd                   ; B2C Telco Coupon Code Percentage Discount                       ; b2ctelcoProductCatalog  ; b2ctelcoContentCatalog ; b2ctelcoCcpdPromoGrp
+                     ; b2ctelcoOrder5538              ; B2C Telco Order Coupon Discount                                 ; b2ctelcoProductCatalog  ; b2ctelcoContentCatalog ; b2ctelcoOrder5538PromoGrp
+                     ; b2ctelcoProductOrder           ; B2C Telco Produc Order Testing Site                             ; b2ctelcoProductCatalog  ; b2ctelcoContentCatalog ; b2ctelcoProductOrderPromoGrp
+                     ; b2ctelcoCcfd                   ; B2C Telco Coupon Code Fixed Discount                            ; b2ctelcoProductCatalog  ; b2ctelcoContentCatalog ; b2ctelcoCcfdPromoGrp
+                     ; b2ctelcoCcpdp                  ; B2C Telco Coupon Code Percentage Discount Product               ; b2ctelcoProductCatalog  ; b2ctelcoContentCatalog ; b2ctelcoCcpdpPromoGrp
+                     ; b2ctelcoPoExportSite           ; B2C Telco Product Export                                        ; b2ctelcoPoExportCatalog ;                        ;
+
+# composite pricing for price alteration and promotion tests
+                     ; b2ctelcoFixedPrice7968         ; B2C Telco Fixed Price 7968                                      ; b2ctelcoProductCatalog  ; b2ctelcoContentCatalog ; b2ctelcoFixedPrice7968PromoGrp
+                     ; b2ctelcoFixedDiscount7968      ; B2C Telco Fixed Discount 7968                                   ; b2ctelcoProductCatalog  ; b2ctelcoContentCatalog ; b2ctelcoFixedDiscount7968PromoGrp
+                     ; b2ctelcoPercentageDiscount7968 ; B2C Telco Percentage Discount 7968                              ; b2ctelcoProductCatalog  ; b2ctelcoContentCatalog ; b2ctelcoPercentageDiscount7968PromoGrp
+
+# Hierarchical Cart - Promotion
+                     ; b2ctelcoFixedDiscount9261      ; B2C Telco Fixed Discount 9261                                   ; b2ctelcoProductCatalog  ; b2ctelcoContentCatalog ; b2ctelcoFixedDiscount9261PromoGrp
+                     ; b2ctelcoPercentageDiscount9261 ; B2C Telco Percentage Discount 9261                              ; b2ctelcoProductCatalog  ; b2ctelcoContentCatalog ; b2ctelcoPercentageDiscount9261PromoGrp
+
+# Hierarchical Cart - E2E
+                     ; b2ctelcoFixedDiscount9610      ; B2C Telco Fixed Discount 9610                                   ; b2ctelcoProductCatalog  ; b2ctelcoContentCatalog ; b2ctelcoFixedDiscount9610PromoGrp

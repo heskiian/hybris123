@@ -1,0 +1,11 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for BillingPlans
+
+# Macros / Replacement Parameter definitions
+
+INSERT_UPDATE BillingFrequency; code[unique=true]; frequencyUnit ; frequencyValue
+                              ; monthly          ; 1             ; 4
+

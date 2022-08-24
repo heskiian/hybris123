@@ -1,0 +1,40 @@
+/*
+ * Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+ */
+package de.hybris.platform.b2ctelcocommercewebservicescommons.mappers.productofferingprice;
+
+import de.hybris.platform.b2ctelcofacades.data.TmaComponentProdOfferPriceData;
+import de.hybris.platform.b2ctelcofacades.mappers.TmaAttributeMapper;
+import de.hybris.platform.b2ctelcocommercewebservicescommons.dto.MoneyWsDTO;
+import de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductOfferingPriceWsDTO;
+
+import org.springframework.util.Assert;
+
+import ma.glasnost.orika.MappingContext;
+
+
+/**
+ * This attribute Mapper class maps data for price attribute between {@link TmaComponentProdOfferPriceData} and
+ * {@link ProductOfferingPriceWsDTO}
+ *
+ * @since 2007
+ */
+public class TmaPopPriceAttributeMapper extends TmaAttributeMapper<TmaComponentProdOfferPriceData, ProductOfferingPriceWsDTO>
+{
+	@Override
+	public void populateTargetAttributeFromSource(final TmaComponentProdOfferPriceData source, final ProductOfferingPriceWsDTO target,
+			final MappingContext context)
+	{
+		Assert.notNull(source, "Parameter source cannot be null.");
+		Assert.notNull(target, "Parameter target cannot be null.");
+
+		if (source.getValue() != null)
+		{
+			final MoneyWsDTO rcPrice = new MoneyWsDTO();
+			rcPrice.setCurrencyIso(source.getCurrency().getIsocode());
+			rcPrice.setValue(source.getValue().toString());
+
+			target.setPrice(rcPrice);
+		}
+	}
+}

@@ -1,0 +1,12 @@
+Invoking: se-packagr 
+
+Starting build for personalizationpromotionssmartedit
+Configuration read personalizationpromotionssmartedit
+Loading plugins personalizationpromotionssmartedit
+Generating bundle personalizationpromotionssmartedit
+(1): src/index.ts
+(2): SE-LEGACY-JAVASCRIPT
+(2): src/PersonalizationpromotionssmarteditApp.ts
+Bundle created personalizationpromotionssmartedit
+- Generated 4 files
+- Output folder ./dist

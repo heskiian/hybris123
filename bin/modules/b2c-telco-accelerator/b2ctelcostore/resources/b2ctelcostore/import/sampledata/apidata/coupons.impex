@@ -1,0 +1,30 @@
+#
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+#
+
+# ---------------------------------------------------------------------------
+## ---------------------------------------------------------------------------
+
+# ImpEx for Importing Sample Prices
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE SingleCodeCoupon; couponId[unique = true]; name; active[default = true]; maxRedemptionsPerCustomer[default = 1]; maxTotalRedemptions[default = 100]
+; Ccpd_single_coupon ; Coupon Code Percentage Discount ; true
+; test_coupon55381   ; Generic Coupon Test 1           ; true  ;
+; test_coupon55382   ; Generic Coupon Test 2           ; true  ;
+; test_coupon55383   ; Generic Coupon Test 3           ; false ;
+; test_coupon55384   ; Generic Coupon Test 4           ; true  ; 1
+; test_coupon55385   ; Generic Coupon Test 4           ; true  ;
+; Ccfd_single_coupon1  ; Coupon Code Fixed Discount 1      ; true
+; Ccfd_single_coupon2  ; Coupon Code Fixed Discount 2      ; true
+; Ccpdp_single_coupon1 ; Coupon Code Percentage Discount Product 1 ; true
+; Ccpdp_single_coupon2 ; Coupon Code Percentage Discount Product 2 ; true
+; Ccpdp_single_coupon3 ; Coupon Code Percentage Discount Product 3 ; true
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE CodeGenerationConfiguration; name[unique = true]; codeSeparator; couponPartCount; couponPartLength
+; Ccfd_configuration  ; - ; 4 ; 4
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE MultiCodeCoupon; couponId[unique = true]; name; active[default = true]; codeGenerationConfiguration(name); alphabet
+; Ccfd  ; Coupon Code Fixed Discount Multi Code              ; true ; Ccfd_configuration  ; 1

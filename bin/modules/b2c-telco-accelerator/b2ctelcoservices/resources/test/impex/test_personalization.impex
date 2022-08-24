@@ -1,0 +1,72 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+$contentCatalog=b2ctelcoContentCatalog
+$contentCatalogName=B2C Telco Content Catalog
+$contentCV=catalogVersion(CatalogVersion.catalog(Catalog.id[default=$contentCatalog]),CatalogVersion.version[default=Staged])[default=$contentCatalog:Staged]
+$picture=media(code, $contentCV);
+$siteResource=jar:de.hybris.platform.b2ctelcostore.constants.B2ctelcostoreConstants&/b2ctelcostore/import/sampledata/contentCatalogs/$contentCatalog
+$medias=medias(code, $contentCV);
+$lang=en
+$siteUid=b2ctelco
+
+#Creating Personalization Configuration
+INSERT_UPDATE CxConfig;code[unique=true];minAffinity;actionResultMaxRepeat;userChangedActions;ignoreRecalcForAnonymous[default=false]
+;b2ctelco;0.5;1;RECALCULATE,ASYNC_PROCESS;;
+
+INSERT_UPDATE BaseSite;uid[unique=true];cxConfig(code)
+;b2ctelco;b2ctelco;
+
+#Creating component
+INSERT_UPDATE SimpleBannerComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef;urlLink
+;;QuadPlayBannerComponent;QuadPlayBanner;QuadPlayBannerComponent;#
+
+INSERT_UPDATE Media;$contentCV[unique=true];code[unique=true];@media[translator=de.hybris.platform.impex.jalo.media.MediaDataTranslator];mime[default='image/jpeg'];folder(qualifier)[default='images'];altText
+;;QuadplaySample.jpg;$siteResource/images/banners/site/QuadplaySample.jpg;;;"Upgrade to quadplay"
+
+#Adding Media to Component
+UPDATE SimpleBannerComponent;$contentCV[unique=true];uid[unique=true];$picture[lang=$lang]
+;;QuadPlayBannerComponent;QuadplaySample.jpg
+
+#Creating User Segment
+INSERT_UPDATE CxSegment;code[unique=true];
+;MobileDeal_BPO1;
+
+#Adding User to Segment
+INSERT_UPDATE CxUserToSegment;segment(code)[unique=true];user(uid)[unique=true];affinity[default=1];baseSite(uid)[unique=true,default=$siteUid]
+;MobileDeal_BPO1;keenreviewer1@hybris.com;;
+
+INSERT_UPDATE CxCustomizationsGroup;code;$contentCV[unique=true]
+;telcoCustomizationGroup;;
+
+INSERT_UPDATE CxCustomization;code[unique=true];name;$contentCV[unique=true];group(code,$contentCV)[default='telcoCustomizationGroup'];status(code)[default=ENABLED]
+;Customization1;CustomizationToShowQuadPlay;;
+
+#Adding Customization to Customization Group
+UPDATE CxCustomizationsGroup;code[unique=true];$contentCV[unique=true];customizations(code,$contentCV)[mode=append]
+;telcoCustomizationGroup;;Customization1
+
+INSERT_UPDATE CxVariation;code[unique=true];name;$contentCV[unique=true];enabled[default=true];customization(code,$contentCV)[unique=true];status(code)[default=ENABLED]
+;Variation1HaveMobileDeal_BPO1;Variation1 HaveMobileDeal_BPO1;;;Customization1
+
+#Creating Segment Trigger
+INSERT_UPDATE CxSegmentTrigger;code[unique=true];variation(code,$contentCV)[unique=true];$contentCV[unique=true];segments(code);groupBy(code)[default='OR'];
+;trigger01;Variation1HaveMobileDeal_BPO1;;MobileDeal_BPO1;
+
+UPDATE CxCustomization;code[unique=true];name;$contentCV[unique=true];variations(code,$contentCV)
+;Customization1;CustomizationToShowQuadPlay;;Variation1HaveMobileDeal_BPO1
+
+#Removing old component from slot
+INSERT_UPDATE SimpleResponsiveBannerComponent;$contentCV[unique=true];uid[unique=true];slots
+;;PAYG_HomepageResponsiveBanner;;
+
+INSERT_UPDATE CxCmsComponentContainer;$contentCV[unique=true];uid[unique=true];sourceId;name;defaultCmsComponent(uid,$contentCV);slots(uid,$contentCV)
+;;ContainerID;ContainerID;ContainerID;PAYG_HomepageResponsiveBanner;Section2BSlot-Homepage
+
+INSERT_UPDATE CxCmsAction;$contentCV[unique=true];code[unique=true];variation(code,$contentCV)[unique=true];type(code)[default='PLAIN'];target[default='cxCmsActionPerformable'];containerId;componentId;componentCatalog[default=$contentCatalog];
+;;QuadPlayAction;Variation1HaveMobileDeal_BPO1;;;ContainerID;QuadPlayBannerComponent
+
+#Adding action to Variation
+UPDATE CxVariation;code[unique=true];name;&actionRef[mode=append];enabled[default=true];customization(code,$contentCV)[unique=true]
+;Variation1HaveMobileDeal_BPO1;Variation1 HaveMobileDeal_BPO1;QuadPlayAction;;Customization1

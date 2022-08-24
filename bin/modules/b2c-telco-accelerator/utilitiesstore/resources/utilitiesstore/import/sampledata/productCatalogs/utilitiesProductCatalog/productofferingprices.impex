@@ -1,0 +1,118 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+#% impex.setLocale( Locale.ENGLISH );
+
+$productCatalog = utilitiesProductCatalog
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Staged'])[unique = true, default = '$productCatalog:Staged']
+$priceEvent = priceEvent(code)[default = 'paynow']
+$priceEventRcUc = priceEvent(code)[default='monthly']
+$currency = currency(isocode)[default = USD]
+
+################################################
+###              Composite prices            ###
+################################################
+
+INSERT_UPDATE TmaCompositeProdOfferPrice; id[unique = true]                  ; name[lang = en]                  ; description[lang = en]          ; $catalogVersion; children(id, $catalogVersion)
+                                        ; pp_electric_plan_basic_pop         ; Electric Plan Basic Pop          ; Electric PlanBasic Pop          ;                ;
+                                        ; pp_electric_plan_basic_pla_pop     ; Electric Plan Basic Pla Pop      ; Electric PlanBasic Pla Pop      ;                ;
+                                        ; pp_electric_plan_plus_pop          ; Electric Plan Plus Pop           ; Electric PlanPlus Pop           ;                ;
+                                        ; pp_electric_plan_best_pop          ; Electric Plan Best Pop           ; Electric PlanBest Pop           ;                ;
+                                        ; pp_electric_plan_total_comfort_pop ; Electric Plan Total Comfort Pop  ; Electric PlanTotal Comfort Pop  ;                ;
+
+                                        ; pp_gas_plan_basic_pop              ; Gas Plan Basic Pop               ; Gas PlanBasic Pop               ;                ;
+                                        ; pp_gas_plan_plus_pop               ; Gas Plan Plus Pop                ; Gas Plan PlusPop                ;                ;
+                                        ; pp_gas_plan_best_pop               ; Gas Plan Best Pop                ; Gas Plan BestPop                ;                ;
+                                        ; pp_gas_plan_total_comfort_pop      ; Gas Plan Total Comfort Pop       ; Gas PlanTotal Comfort Pop       ;                ;
+
+                                        ; pp_home_warranty_pop               ; Home Warranty Pop                ; Home WarrantyPop                ;                ;
+                                        ; pp_home_warranty_pop_alw           ; Home Warranty Pop With Allowance ; Home WarrantyPop With Allowance ;                ;
+
+                                        ; pp_home_warranty_plus_pop          ; Home Warranty Plus Pop           ; Home WarrantyPlus Pop           ;                ;
+                                        ; pp_home_warranty_total_comfort_pop ; Home Warranty Total Comfort Pop  ; Home WarrantyTotal Comfort Pop  ;                ;
+
+                                        ; pp_electricityDeal_mid_acq_pop     ; Electricity Deal Mid Acq Pop     ; ElectricityDeal Mid Acq Pop     ;                ;
+                                        ; pp_electricityDeal_high_acq_pop    ; Electricity Deal High Acq Pop    ; ElectricityDeal Mid High Pop    ;                ;
+
+                                        ; pp_electricityDeal_basic_acq_pop   ; Electricity Deal Basic Acq Pop   ; ElectricityDeal Basic Acq Pop   ;                ;
+                                        ; pp_electricityDeal_basic_ret_pop   ; Electricity Deal Basic Ret Pop   ; ElectricityDeal Basic Ret Pop   ;                ;
+                                        ; pp_electricityDeal_basic_mnp_pop   ; Electricity Deal Basic Mnp Pop   ; ElectricityDeal Basic Mnp Pop   ;                ;
+
+                                        ; solar_panel_pop                    ; Electricity Deal Basic Mnp Pop   ; ElectricityDeal Basic Mnp Pop   ;                ;
+                                        ; pp_basic_electricity_Deal_pop      ; Basic Electricity Deal Pop       ; BasicElectricity Deal Pop       ;                ; electric_plan_basic_power_0_101, installation_electricity_otc, basic_electricity_deal_dsc
+
+
+#########################
+### RECURRING CHARGES ###
+#########################
+
+INSERT_UPDATE TmaRecurringProdOfferPriceCharge; id[unique = true]               ; value; cycleStart; cycleEnd; $priceEventRcUc; $currency; pricingLogicAlgorithm(id)            ; compositeProdOfferPrices(id, $catalogVersion); $catalogVersion
+                                              ; rce_plan_basic                  ; 30   ; 1         ;         ;                ;          ;                                      ; pp_electric_plan_basic_pop,pp_gas_plan_basic_pop,pp_home_warranty_pop, pp_home_warranty_pop_alw
+                                              ; rce_plan_plus                   ; 40   ; 1         ;         ;                ;          ;                                      ; pp_electric_plan_plus_pop,pp_gas_plan_plus_pop,pp_home_warranty_plus_pop
+                                              ; rce_plan_best                   ; 50   ; 1         ;         ;                ;          ;                                      ; pp_electric_plan_best_pop,pp_gas_plan_best_pop,pp_home_warranty_total_comfort_pop
+                                              ; rce_electric_plan_total_comfort ; 60   ; 1         ;         ;                ;          ;                                      ; pp_electric_plan_total_comfort_pop,pp_gas_plan_total_comfort_pop
+                                              ; rce_10_month_usd_base_charge    ;      ; 1         ;         ;                ;          ; base_charge_pla                      ; pp_electric_plan_basic_pla_pop
+                                              ; rce_5_month_usd_carbon_emission ;      ; 1         ;         ;                ;          ; carbon_emission_offset_surcharge_pla ; pp_electric_plan_basic_pla_pop
+
+#####################
+### USAGE CHARGES ###
+#####################
+
+INSERT_UPDATE TmaTierUsageChargeCompositePop; id[unique = true]                   ; name[lang = en]                 ; description[lang = en]         ; usageChargeType(code); $catalogVersion; compositeProdOfferPrices(id, $catalogVersion); productSpecCharacteristicValues(id, $catalogVersion)
+                                            ; electric_plan_basic_power_usage_pop ; Electric Plan Basic Power Usage ; ElectricPlan Basic Power Usage ; each_respective_tier ;                ; pp_electric_plan_basic_pop                   ; 200_kwh
+
+INSERT_UPDATE TmaUsageProdOfferPriceCharge; id[unique = true]                 ; value; tierStart; tierEnd; usageUnit(id); $currency; compositeProdOfferPrices(id, $catalogVersion); $catalogVersion; $priceEventRcUc; productUsageSpec(id, $catalogVersion); productSpecCharacteristicValues(id, $catalogVersion)
+                                          ; electric_plan_basic_power_101_200 ; 0,05 ; 101      ; 200    ; kwh          ;          ; electric_plan_basic_power_usage_pop          ;                ;                ; udr_electricity_spec
+                                          ; electric_plan_basic_power_201_300 ; 0,07 ; 201      ; 300    ; kwh          ;          ; electric_plan_basic_power_usage_pop          ;                ;                ; udr_electricity_spec
+                                          ; electric_plan_basic_power_overage ; 0,09 ; 301      ;        ; kwh          ;          ; electric_plan_basic_power_usage_pop          ;                ;                ; udr_electricity_spec
+                                          ; electric_plan_basic_power_0_101   ; 0,01 ; 0        ; 101    ; kwh          ;          ;                                              ;                ;                ;
+
+################################################
+###               ONE TIME CHARGES           ###
+################################################
+
+INSERT_UPDATE TmaOneTimeProdOfferPriceCharge; id[unique = true]                          ; value; $currency; $priceEvent; $catalogVersion; compositeProdOfferPrices(id, $catalogVersion)
+                                            ; lightbulb_energy_efficient_otc             ; 32   ;          ;            ;                ;
+                                            ; lightbulb_led_otc                          ; 24   ;          ;            ;                ;
+                                            ; lightbulb_led_multipack_otc                ; 40   ;          ;            ;                ;
+
+                                            ; electrical_cord_general_otc                ; 43   ;          ;            ;                ;
+                                            ; electrical_cord_double_ended_extension_otc ; 60   ;          ;            ;                ;
+                                            ; electrical_cord_slim_otc                   ; 20   ;          ;            ;                ;
+
+                                            ; solar_panel_otc                            ; 200  ;          ;            ;                ; solar_panel_pop
+                                            ; solar_panel_plus_otc                       ; 1190 ;          ;            ;                ;
+                                            ; solar_panel_premium_otc                    ; 2500 ;          ;            ;                ;
+
+                                            ; thermostat_basic_otc                       ; 100  ;          ;            ;                ;
+                                            ; thermostat_plus_otc                        ; 120  ;          ;            ;                ;
+                                            ; thermostat_premium_otc                     ; 240  ;          ;            ;                ;
+
+                                            ; installation_electricity_otc               ; 130  ;          ;            ;                ;
+                                            ; installation_gas_otc                       ; 200  ;          ;            ;                ;
+                                            ; installation_solar_panel_otc               ; 230  ;          ;            ;                ;
+
+                                            ; otce_lightbulb_energy_efficient_acq_mid    ; 12   ;          ;            ;                ; pp_electricityDeal_mid_acq_pop
+                                            ; otce_lightbulb_energy_efficient_acq_high   ; 8    ;          ;            ;                ; pp_electricityDeal_high_acq_pop
+
+                                            ; otce_lightbulb_energy_efficient_acq        ; 7    ;          ;            ;                ; pp_electricityDeal_basic_acq_pop
+                                            ; otce_lightbulb_energy_efficient_ret        ; 6    ;          ;            ;                ; pp_electricityDeal_basic_ret_pop
+                                            ; otce_lightbulb_energy_efficient_mnp        ; 5    ;          ;            ;                ; pp_electricityDeal_basic_mnp_pop
+
+################################################
+###              Discount alterations        ###
+################################################
+
+INSERT_UPDATE TmaDiscountProdOfferPriceAlteration; id[unique = true]             ; value; cycleStart; cycleEnd; $currency; $priceEvent; $catalogVersion; isPercentage[default = false]; compositeProdOfferPrices(id, $catalogVersion)
+                                                 ; solar_panel_dsc               ; 20   ;           ;         ;          ;            ;                ;                              ; solar_panel_pop
+                                                 ; rce_plan_basic_dsc            ; 30   ; 1         ; 3       ;          ; monthly    ;                ;                              ; pp_electric_plan_basic_pop,pp_gas_plan_basic_pop,pp_home_warranty_pop
+                                                 ; electric_plan_basic_power_dsc ; 50   ;           ;         ;          ; monthly    ;                ; true                         ; electric_plan_basic_power_usage_pop
+                                                 ; basic_electricity_deal_dsc    ; 10   ; 1         ; 6       ;          ; monthly    ;                ; true                         ;
+
+################################################
+###             Allowance alterations        ###
+################################################
+
+INSERT_UPDATE TmaAllowanceProdOfferPriceAlteration; id[unique = true]    ; value; $currency; $priceEvent; $catalogVersion; isPercentage[default = false]; type(code)[default = CREDIT]; compositeProdOfferPrices(id, $catalogVersion)
+                                                  ; pp_home_warranty_alw ; 5    ;          ;            ;                ;                              ;                             ; pp_home_warranty_pop_alw

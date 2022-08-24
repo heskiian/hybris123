@@ -1,0 +1,9 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE Discount; code[unique = true]; global[default = false]; value; currency(isocode); absolute[default = false];
+# composite pricing for price alteration and promotion tests
+                      ; discount7968       ;                        ; 0    ; USD              ;

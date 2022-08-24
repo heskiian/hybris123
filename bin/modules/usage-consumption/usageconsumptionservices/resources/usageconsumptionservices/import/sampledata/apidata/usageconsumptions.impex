@@ -1,0 +1,101 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+# ImpEx for Importing Address test Data
+
+#% impex.enableCodeExecution(true);
+$productCatalog=b2ctelcoProductCatalog
+$catalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Online'])[unique=true,default=$productCatalog:Online]
+$defaultPassword = 1234
+
+#Create ProductComponent
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE UcProductComponent ; id[unique = true]; name            ; usedBy(id)
+                                 ; smartPhone       ; Apple_iPhone6   ; etta.berg
+
+#Create NetworkProduct
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE UcNetworkProduct ; id[unique = true]; name            ; publicIdentifier ; usedBy(id)
+                               ; MSISDN1          ; networkProduct1 ; 1134600000       ; etta.berg
+                               ; MSISDN2          ; networkProduct2 ; 1134600001       ; tim.james
+                               ; MSISDN3          ; networkProduct3 ; 1134600002       ; tim.james
+                               ; MSISDN4          ; networkProduct4 ; 1134600003       ; sam.felt, etta.james
+                               ; MSISDN5          ; networkProduct5 ; 1134600004       ; etta.james
+
+#Create UsageVolumeBalance
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE UcUsageVolumeBalance ; id[unique = true]; remainingValue ; units ; startDate[dateformat = dd.MM.yyyy] ; endDate[dateformat = dd.MM.yyyy]
+                                   ; balance1         ; 0.0            ; mb    ; 1.1.2020 00:00:00                  ; 1.2.2020 00:00:00
+                                   ; balance2         ; 10.0           ; sms   ; 1.1.2020 00:00:00                  ; 1.2.2020 00:00:00
+                                   ; balance3         ; 500.0          ; mins  ; 1.1.2020 00:00:00                  ; 1.2.2020 00:00:00
+                                   ; balance4         ; 2500.0         ; mb    ; 1.1.2020 00:00:00                  ; 1.2.2020 00:00:00
+                                   ; balance5         ; 60.0           ; sms   ; 1.1.2020 00:00:00                  ; 1.2.2020 00:00:00
+                                   ; balance6         ; 0.0            ; mins  ; 1.1.2020 00:00:00                  ; 1.2.2020 00:00:00
+                                   ; balance7         ; 450.0          ; mb    ; 1.1.2020 00:00:00                  ; 1.2.2020 00:00:00
+                                   ; balance8         ; 1.0            ; sms   ; 1.1.2020 00:00:00                  ; 1.2.2020 00:00:00
+                                   ; balance9         ; 10.0           ; sms   ; 1.1.2020 00:00:00                  ; 1.2.2020 00:00:00
+                                   ; balance10        ; 30.0           ; sms   ; 1.1.2020 00:00:00                  ; 1.2.2020 00:00:00
+
+#Create UsageVolumeProductSpec
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE UcUsageVolumeProductSpec ; id[unique = true]; name                 ; isShared ; usageType
+                                       ; bkt001           ; Main Offer - data    ; false    ; data
+                                       ; bkt002           ; Main Offer - sms     ; true     ; sms
+                                       ; bkt003           ; Main Offer - minutes ; false    ; mins
+
+
+#Create UsageVolumeProduct
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE UcUsageVolumeProduct ; id[unique = true]; name     ; usageVolumeProductSpec(id) ; usedBy(id)             ; consumptionSummaries(id); networkProducts(id) ; UsageVolumeBalances(id)
+                                   ; VP1              ; VP1 name ; bkt001                     ; etta.berg   ; UCR001                  ; MSISDN1             ; balance1
+                                   ; VP2              ; VP2 name ; bkt002                     ; etta.berg   ; UCR002                  ; MSISDN1             ; balance2
+                                   ; VP3              ; VP3 name ; bkt003                     ; etta.berg   ; UCR003                  ; MSISDN1             ; balance3
+                                   ; VP4              ; VP4 name ; bkt001                     ; tim.james   ; UCR004                  ; MSISDN2             ; balance4
+                                   ; VP5              ; VP5 name ; bkt002                     ; tim.james   ; UCR005                  ; MSISDN2             ; balance5
+                                   ; VP6              ; VP6 name ; bkt003                     ; tim.james   ; UCR006                  ; MSISDN2             ; balance6
+                                   ; VP7              ; VP7 name ; bkt001                     ; tim.james   ; UCR007                  ; MSISDN3             ; balance7
+                                   ; VP8              ; VP8 name ; bkt002                     ; tim.james   ; UCR008                  ; MSISDN3             ; balance8
+                                   ; VP9              ; VP9 name ; bkt002                     ; sam.felt    ; UCR009                  ; MSISDN4             ; balance9
+                                   ; VP10             ; VP10 name; bkt002                     ; etta.james  ; UCR009                  ; MSISDN4             ; balance10
+
+
+
+
+#Create ConsumptionSummary
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE UcConsumptionSummary ; id[unique = true]; level(code)       ; value ; units ; consumptionStartDate[dateformat = dd.MM.yyyy] ; consumptionEndDate[dateformat = dd.MM.yyyy]; effectiveDate[dateformat = dd.MM.yyyy] ; networkProducts(id) ; partyRoles(id)
+                                   ; UCR001           ; DETAIL_BY_PRODUCT ; 5000.0; mb    ; 1.1.2019 00:00:00                             ; 1.1.2020 00:00:00                          ; 1.1.2020 00:00:00                      ; MSISDN1             ; etta.berg
+                                   ; UCR002           ; GLOBAL            ; 50.0  ; sms   ; 1.1.2019 00:00:00                             ; 1.1.2020 00:00:00                          ; 1.1.2020 00:00:00                      ; MSISDN1             ; etta.berg
+                                   ; UCR003           ; DETAIL_BY_USER    ; 1000.0; mins  ; 1.1.2019 00:00:00                             ; 1.1.2020 00:00:00                          ; 1.1.2020 00:00:00                      ; MSISDN1             ; etta.berg
+                                   ; UCR004           ; GLOBAL            ; 2500.0; mb    ; 1.1.2019 00:00:00                             ; 1.1.2020 00:00:00                          ; 1.1.2020 00:00:00                      ; MSISDN2             ; tim.james
+                                   ; UCR005           ; GLOBAL            ; 0.0   ; sms   ; 1.1.2019 00:00:00                             ; 1.1.2020 00:00:00                          ; 1.1.2020 00:00:00                      ; MSISDN2             ; tim.james
+                                   ; UCR006           ; DETAIL_BY_USER    ; 5000.0; mins  ; 1.1.2019 00:00:00                             ; 1.1.2020 00:00:00                          ; 1.1.2020 00:00:00                      ; MSISDN2             ; tim.james
+                                   ; UCR007           ; GLOBAL            ; 500.0 ; mb    ; 1.1.2019 00:00:00                             ; 1.1.2020 00:00:00                          ; 1.1.2020 00:00:00                      ; MSISDN3             ; tim.james
+                                   ; UCR008           ; GLOBAL            ; 99.0  ; sms   ; 1.1.2019 00:00:00                             ; 1.1.2020 00:00:00                          ; 1.1.2020 00:00:00                      ; MSISDN3             ; tim.james
+                                   ; UCR009           ; GLOBAL            ; 90.0  ; sms   ; 1.1.2019 00:00:00                             ; 1.1.2020 00:00:00                          ; 1.1.2020 00:00:00                      ; MSISDN4, MSISDN5    ; sam.felt
+                                   ; UCR010           ; GLOBAL            ; 70.0  ; sms   ; 1.1.2019 00:00:00                             ; 1.1.2020 00:00:00                          ; 1.1.2020 00:00:00                      ; MSISDN4             ; etta.james
+
+#Create Customer
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE User; uid[unique = true]   ; name      ; password[default = 1234]
+                  ; etta.berg@hybris.com ; Etta Berg ;
+                  ; tim.james@hybris.com ; Tim James ;
+                  ; sam.felt@hybris.com  ; Sam Felt  ;
+                  ; etta.james@hybris.com; Etta James;
+
+#Create SubscribedProductInventory Party
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE UcParty                        ; id[unique = true] ; name[lang = en] ; type(code)   ; principals(uid)
+                                             ; party_11346       ; etta berg       ; INDIVIDUAL   ; etta.berg@hybris.com
+                                             ; party_113461      ; tim james       ; ORGANIZATION ; tim.james@hybris.com
+                                             ; party_113462      ; sam felt        ; ORGANIZATION ; sam.felt@hybris.com
+                                             ; party_113463      ; etta james      ; INDIVIDUAL   ; etta.james@hybris.com
+
+
+#Create SubscribedProductInventory PartyRole
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE UcPartyRole                    ; id[unique = true] ; role     ; party(id)
+                                             ; etta.berg         ; customer ; party_11346
+                                             ; tim.james         ; employee ; party_113461
+                                             ; sam.felt          ; employee ; party_113462
+                                             ; etta.james        ; customer ; party_113463

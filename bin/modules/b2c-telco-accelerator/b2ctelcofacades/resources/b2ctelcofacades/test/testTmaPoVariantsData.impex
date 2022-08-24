@@ -1,0 +1,42 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+$catalog-id = testCatalog
+$catalog-version = Online
+$catalogversion = catalogversion(catalog(id[default = $catalog-id]), version[default = $catalog-version])[unique = true, default = $catalog-id:$catalog-version]
+$supercategories = supercategories(code, $catalogversion)
+$approved = approvalstatus(code)[default = 'approved']
+$allowedPrincipals = allowedPrincipals(uid)[default = 'customergroup']
+$lang = en
+
+INSERT_UPDATE Catalog; id[unique = true]
+; $catalog-id
+
+INSERT_UPDATE CatalogVersion; catalog(id)[unique = true]; version[unique = true]; active
+; $catalog-id ; $catalog-version ; true
+
+INSERT_UPDATE Category; code[unique = true]; name[lang = $lang]; $catalogversion
+; devices ; Devices ; ;
+
+INSERT_UPDATE VariantCategory; code[unique = true]; name[lang = $lang]; $supercategories; $catalogversion
+; color        ; Color        ;       ;
+; storage_size ; Storage Size ; color ;
+
+INSERT_UPDATE VariantValueCategory; code[unique = true]; name[lang = $lang]; $supercategories; sequence; $catalogversion
+; silver     ; Silver     ; color        ; 1 ;
+; space_grey ; Space Grey ; color        ; 2 ;
+; 16G        ; 16G        ; storage_size ; 1 ;
+; 32G        ; 32G        ; storage_size ; 2 ;
+; 128G       ; 128G       ; storage_size ; 3 ;
+
+# Base POs
+INSERT_UPDATE TmaSimpleProductOffering; code[unique = true]; $supercategories; variantType(code); $catalogversion
+; iPhone_x             ; devices, color, storage_size ; TmaPoVariant ;
+; iPhone_x_no_variants ; devices, color, storage_size ; TmaPoVariant ;
+
+# Variants
+INSERT_UPDATE TmaPoVariant; code[unique = true]; tmaBasePo(code, $catalogversion); $supercategories; $approved; $catalogversion
+; iPhone_x_space_grey_16g ; iPhone_x ; devices, space_grey, 16G ;
+; iPhone_x_space_grey_32g ; iPhone_x ; devices, space_grey, 32G ;
+; iPhone_x_silver_128g    ; iPhone_x ; devices, silver, 128G    ;

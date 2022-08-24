@@ -1,0 +1,16 @@
+Invoking: se-packagr 
+
+Starting build for personalizationsearchsmarteditcontainer
+Configuration read personalizationsearchsmarteditcontainer
+Loading plugins personalizationsearchsmarteditcontainer
+Generating bundle personalizationsearchsmarteditcontainer
+(1): src/index.ts
+(2): src/personalizationsearchsmarteditcontainerModule.ts
+(3): SE-LEGACY-JAVASCRIPT
+(6): ../styling/style.less
+(6): src/personalization/management/commerceCustomizationView/searchProfiles/personalizationsearchSearchProfilesView.js
+(6): src/service/personalizationsearchRestService.js
+(6): src/personalization/management/commerceCustomizationView/service/personalizationsearchSearchProfilesContextService.js
+Bundle created personalizationsearchsmarteditcontainer
+- Generated 4 files
+- Output folder ./dist

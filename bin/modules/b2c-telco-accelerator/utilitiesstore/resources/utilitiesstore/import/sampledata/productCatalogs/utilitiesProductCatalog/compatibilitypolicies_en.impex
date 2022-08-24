@@ -1,0 +1,18 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for Importing sample compatibility policies
+
+$productCatalog = utilitiesProductCatalog
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Staged'])[unique = true, default = $productCatalog:Staged]
+
+# Language
+$lang = en
+
+#####################################################################
+# Eligibility Policy1 (general acquisition policy):
+# A customer is eligible for ACQUISITION flow in all conditions     #
+#####################################################################
+INSERT_UPDATE TmaCompatibilityPolicy; code[unique = true]; name[lang = $lang]; $catalogVersion;description[lang = $lang]
+; acq_and_device_only_and_switch_service_provider_eligibility ; ACQ and DEVICE_ONLY and SWITCH_SERVICE_PROVIDER flow eligibility;;A customer is eligible for ACQUISITION flow in all conditions

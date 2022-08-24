@@ -1,0 +1,248 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for Importing Sample Payment Method Data
+
+#% impex.enableCodeExecution(true);
+
+$cart-site-store = b2ctelco
+$productCatalog = b2ctelcoProductCatalog
+$productCatalogName = B2C Telco Product Catalog
+$onlineCatalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Staged'])[unique = true, default = $productCatalog:Staged]
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE CreditCardPaymentInfo; code[unique = true]; user(uid)                               ; ccOwner                ; number           ; type(code); validToMonth; validToYear; saved; subscriptionId
+
+                                   ; 1111               ; selfserviceuser3@hybris.com             ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 1112               ; selfserviceuser4@hybris.com             ; JOHN HALE              ; 4444333322221111 ; visa      ; 10          ; 2023       ; TRUE ; 9111
+                                   ; 1116               ; selfserviceuser4@hybris.com             ; Bella Goth             ; 4321432143214321 ; master    ; 2           ; 2022       ; TRUE ; 9111
+                                   ; 1114               ; selfserviceuser2@hybris.com             ; ANNA DOE               ; 4321432143214321 ; master    ; 2           ; 2022       ; TRUE ; 9111
+                                   ; 2224               ; selfserviceuser20@hybris.com            ; Natalie Jenkin         ; ************5555 ; visa      ; 1           ; 2022       ; TRUE ; 9111
+                                   ; 2225               ; selfserviceuser20@hybris.com            ; Natalie Jenkin         ; ************5556 ; master    ; 1           ; 2023       ; TRUE ; 9111
+                                   ; 2226               ; selfserviceuser20@hybris.com            ; Natalie Jenkin         ; ************5557 ; maestro   ; 1           ; 2029       ; TRUE ; 9111
+                                   ; 5000               ; selfserviceuser50@hybris.com            ; Lucy Jenkin            ; ************5000 ; maestro   ; 5           ; 2022       ; TRUE ; 9111
+                                   ; 5001               ; selfserviceuser50@hybris.com            ; Lucy Jenkin            ; ************5001 ; master    ; 3           ; 2024       ; TRUE ; 9111
+                                   ; 5002               ; selfserviceuser51@hybris.com            ; Mike Pompeo            ; ************5002 ; visa      ; 10          ; 2022       ; TRUE ; 9111
+                                   ; 5003               ; selfserviceuser52@hybris.com            ; Oliver Pompeo          ; ************5003 ; visa      ; 11          ; 2025       ; TRUE ; 9111
+                                   ; 5004               ; selfserviceuser53@hybris.com            ; Mary Molly             ; ************5004 ; master    ; 10          ; 2026       ; TRUE ; 9111
+                                   ; 5234               ; selfserviceuser16@hybris.com            ; Jon Doe                ; ************5234 ; master    ; 10          ; 2026       ; TRUE ; 9111
+                                   ; 5105               ; selfserviceuser66@hybris.com            ; Jon Doe                ; ************5105 ; master    ; 10          ; 2026       ; TRUE ; 9111
+                                   ; 51051              ; selfserviceuser51051@hybris.com         ; Jon Doe                ; ************1051 ; master    ; 10          ; 2026       ; TRUE ; 9111
+                                   ; 55381              ; selfserviceuser6@hybris.com             ; Jon Doe                ; ************5381 ; master    ; 10          ; 2026       ; TRUE ; 9111
+                                   ; 1115               ; selfserviceuser5@hybris.com             ; Mortimer Goth          ; 4321432143214321 ; master    ; 2           ; 2022       ; TRUE ; 9111
+                                   ; 1116               ; selfserviceuser4@hybris.com             ; Bella Goth             ; 4321432143214321 ; master    ; 2           ; 2022       ; TRUE ; 9111
+#POTESTUser
+                                   ; 2081               ; occtestpouser1@hybris.com               ; occtest pouser1        ; ************1004 ; master    ; 2           ; 2081       ; TRUE ; 9111
+                                   ; 2082               ; occtestpouser2@hybris.com               ; occtest pouser2        ; ************2004 ; visa      ; 2           ; 2082       ; TRUE ; 9111
+                                   ; 2083               ; occtestpouser3@hybris.com               ; occtest pouser3        ; ************3004 ; maestro   ; 2           ; 2083       ; TRUE ; 9111
+                                   ; 2084               ; occtestpouser4@hybris.com               ; occtest pouser4        ; ************4004 ; master    ; 2           ; 2084       ; TRUE ; 9111
+                                   ; 2085               ; occtestpouser5@hybris.com               ; occtest pouser5        ; ************5004 ; visa      ; 2           ; 2085       ; TRUE ; 9111
+##PostOrderOCC
+                                   ; 56161              ; selfserviceuser56161@hybris.com         ; Jon Doe                ; ************6161 ; visa      ; 2           ; 2085       ; TRUE ; 9111
+##Subscribed products cancellation
+                                   ; 51131              ; tmuocc_cartactions5113order2@hybris.com ; Lucretia The Destroyer ; ************5113 ; visa      ; 2           ; 2085       ; TRUE ; 9111
+
+                                   ; 72341              ; selfserviceuser72341@hybris.com         ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 72342              ; selfserviceuser72342@hybris.com         ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 9           ; 2022       ; TRUE ; 9111
+                                   ; 72343              ; selfserviceuser65@hybris.com            ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 8252641            ; selfserviceuser64_1@hybris.com          ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 675601             ; selfserviceuser675601@hybris.com        ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 675602             ; selfserviceuser675602@hybris.com        ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 9           ; 2022       ; TRUE ; 9111
+                                   ; 675603             ; selfserviceuser675603@hybris.com        ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 9           ; 2022       ; TRUE ; 9111
+                                   ; 675604             ; selfserviceuser675604@hybris.com        ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 9           ; 2022       ; TRUE ; 9111
+                                   ; 675605             ; selfserviceuser675605@hybris.com        ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 9           ; 2022       ; TRUE ; 9111
+                                   ; 675606             ; selfserviceuser675606@hybris.com        ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 9           ; 2022       ; TRUE ; 9111
+                                   ; 675607             ; selfserviceuser675607@hybris.com        ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 9           ; 2022       ; TRUE ; 9111
+                                   ; 675608             ; selfserviceuser675608@hybris.com        ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 9           ; 2022       ; TRUE ; 9111
+                                   ; 675609             ; selfserviceuser675609@hybris.com        ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 9           ; 2022       ; TRUE ; 9111
+                                   ; 675610             ; selfserviceuser675610@hybris.com        ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 9           ; 2022       ; TRUE ; 9111
+                                   ; 675612             ; selfserviceuser675612@hybris.com        ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 9           ; 2022       ; TRUE ; 9111
+                                   ; 80411              ; selfserviceuser80411@hybris.com         ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 80412              ; selfserviceuser80412@hybris.com         ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 80413              ; selfserviceuser80413@hybris.com         ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 80414              ; selfserviceuser80414@hybris.com         ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 80415              ; selfserviceuser80415@hybris.com         ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 80416              ; selfserviceuser80416@hybris.com         ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 80417              ; selfserviceuser80417@hybris.com         ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 80418              ; selfserviceuser80418@hybris.com         ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 80419              ; selfserviceuser80419@hybris.com         ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 80410              ; selfserviceuser80419@hybris.com         ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+##GET orders with credits
+                                   ; 84451              ; selfserviceuser84451@hybris.com         ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 84452              ; selfserviceuser84452@hybris.com         ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 6           ; 2021       ; TRUE ; 9111
+                                   ; 84453              ; selfserviceuser84453@hybris.com         ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 7           ; 2021       ; TRUE ; 9111
+##End to End composite pricing
+                                   ; 74781              ; selfserviceuser74781@hybris.com         ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 74782              ; selfserviceuser74782@hybris.com         ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 84491              ; selfserviceuser84491@hybris.com         ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 84492              ; selfserviceuser84492@hybris.com         ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+## TMF Order APIs BaseSiteId
+                                   ; 98710001           ; selfserviceuser98711@hybris.com         ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2023       ; TRUE ; 9111
+                                   ; 98710004           ; selfserviceuser98714@hybris.com         ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2023       ; TRUE ; 9111
+
+## Order APIs - Fixed BPOs
+                                   ; 105001             ; selfserviceuser105001@hybris.com        ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 105002             ; selfserviceuser105002@hybris.com        ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 105003             ; selfserviceuser105003@hybris.com        ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 105004             ; selfserviceuser105004@hybris.com        ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 105005             ; selfserviceuser105005@hybris.com        ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 105006             ; selfserviceuser105006@hybris.com        ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 105007             ; selfserviceuser105007@hybris.com        ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 105008             ; selfserviceuser105008@hybris.com        ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 105009             ; selfserviceuser105009@hybris.com        ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 1050010            ; selfserviceuser1050010@hybris.com       ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 1050011            ; selfserviceuser1050011@hybris.com       ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 1050012            ; selfserviceuser1050012@hybris.com       ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 1050013            ; selfserviceuser1050013@hybris.com       ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 1050014            ; selfserviceuser1050014@hybris.com       ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 1050015            ; selfserviceuser1050015@hybris.com       ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 1050016            ; selfserviceuser1050016@hybris.com       ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 1050017            ; selfserviceuser1050017@hybris.com       ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 1050018            ; selfserviceuser1050018@hybris.com       ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 1050019            ; selfserviceuser1050019@hybris.com       ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 1050020            ; selfserviceuser1050020@hybris.com       ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 1050021            ; selfserviceuser1050021@hybris.com       ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 1050022            ; selfserviceuser1050022@hybris.com       ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 10505001           ; selfserviceuser105051@hybris.com        ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2023       ; TRUE
+                                   ; 10505002           ; selfserviceuser105052@hybris.com        ; ANNA DOE               ; 1111222233334444 ; master    ; 5           ; 2023       ; TRUE
+                                   ; 10505003           ; selfserviceuser105053@hybris.com        ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2023       ; TRUE
+                                   ; 10505004           ; selfserviceuser105054@hybris.com        ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2023       ; TRUE
+## Get Carts - Fixed BPOs
+                                   ; 105101             ; selfserviceuser105101@hybris.com        ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 105102             ; selfserviceuser105102@hybris.com        ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 105103             ; selfserviceuser105103@hybris.com        ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 105104             ; selfserviceuser105104@hybris.com        ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 105105             ; selfserviceuser105105@hybris.com        ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 105106             ; selfserviceuser105106@hybris.com        ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 105107             ; selfserviceuser105107@hybris.com        ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 105108             ; selfserviceuser105108@hybris.com        ; NATALIE JENKIN         ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE CreditCardPaymentInfo; code[unique = true]; user(uid) ; ccOwner   ; number           ; type(code); validToMonth; validToYear
+                                   ; 1113               ; anonymous ; LUCY ROSS ; 1234123412341234 ; master    ; 1           ; 2022 ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE CreditCardPaymentInfo; code[unique = true]; user(uid)                ; ccOwner       ; number           ; type(code); validToMonth; validToYear; saved;
+                                   ; 1000               ; tmuocctest100@hybris.com ; tmuocctest100 ; ************1234 ; visa      ; 12          ; 2029       ; TRUE
+                                   ; 1001               ; tmuocctest100@hybris.com ; tmuocctest    ; ************5678 ; master    ; 10          ; 2020       ; TRUE
+
+#OCC Get order
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE CreditCardPaymentInfo; code[unique = true]; user(uid)                    ; ccOwner        ; number           ; type(code); validToMonth; validToYear; saved
+                                   ; 123113             ; occgetorderuser1@hybris.com  ; NATALIE JENKIN ; 1111222233334443 ; master    ; 5           ; 2021       ; TRUE ;
+                                   ; 123114             ; occgetorderuser2@hybris.com  ; Jayesh         ; 1111222233334444 ; master    ; 5           ; 2023       ; TRUE ;
+#OCC GET Orders
+                                   ; 123115             ; occgetorderuser10@hybris.com ; OCC User10     ; 1111222233334445 ; master    ; 5           ; 2023       ; TRUE ;
+                                   ; 123116             ; occgetorderuser11@hybris.com ; OCC User11     ; 1111222233334446 ; master    ; 5           ; 2023       ; TRUE ;
+                                   ; 123117             ; occgetorderuser12@hybris.com ; Ketki Mujumdar ; 1111222233334447 ; master    ; 5           ; 2023       ; TRUE ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE CreditCardPaymentInfo; code[unique = true]; user(uid)                    ; ccOwner        ; number           ; type(code); validToMonth; validToYear; saved
+                                   ; 123118             ; occgetorderuser10@hybris.com ; Ketki Mujumdar ; 1111222233334448 ; master    ; 5           ; 2023       ; TRUE ;
+                                   ; 123119             ; occgetorderuser11@hybris.com ; Ketki Mujumdar ; 1111222233334449 ; master    ; 5           ; 2023       ; TRUE ;
+
+#### OCC POST Orders start ####
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE CreditCardPaymentInfo; code[unique = true]; user(uid)                               ; ccOwner        ; number           ; type(code); validToMonth; validToYear; saved; subscriptionId
+
+                                   ; 8001               ; tmuocctestorder01@hybris.com            ; NATALIE        ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 8002               ; tmuocctestorder02@hybris.com            ; NICK           ; 1111222233334444 ; master    ; 6           ; 2021       ; TRUE ; 9111
+                                   ; 8003               ; tmuocctestorder03@hybris.com            ; JAMES          ; 1111222233334444 ; master    ; 7           ; 2022       ; TRUE ; 9111
+                                   ; 8004               ; tmuocctestorder04@hybris.com            ; SMITH          ; 1111222233334444 ; master    ; 8           ; 2022       ; TRUE ; 9111
+                                   ; 8005               ; tmuocctestorder05@hybris.com            ; JOHN           ; 1111222233334444 ; master    ; 9           ; 2022       ; TRUE ; 9111
+                                   ; 8006               ; tmuocctestorder06@hybris.com            ; SAM            ; 1111222233334444 ; master    ; 9           ; 2022       ; TRUE ; 9111
+                                   ; 8007               ; tmuocctestorder07@hybris.com            ; RIYA           ; 1111222233334444 ; master    ; 10          ; 2022       ; TRUE ; 9111
+                                   ; 8008               ; tmuocctestorder08@hybris.com            ; LISA           ; 1111222233334444 ; master    ; 11          ; 2022       ; TRUE ; 9111
+                                   ; 8009               ; anonymous                               ; SEENTI         ; 1111222233334444 ; master    ; 12          ; 2022       ; TRUE ; 9111
+                                   ; 8011               ; tmuocctestorder0@hybris.com             ; NATALIE        ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 8012               ; tmuocctestorder12@hybris.com            ; HERR           ; 1111222233334444 ; master    ; 1           ; 2022       ; TRUE ; 9111
+                                   ; 8013               ; tmuocctestorder13@hybris.com            ; NICKY          ; 1111222233334444 ; master    ; 1           ; 2022       ; TRUE ; 9111
+                                   ; 8014               ; tmuocctestorder14@hybris.com            ; NICKY          ; 1111222233334444 ; master    ; 1           ; 2022       ; TRUE ; 9111
+                                   ; 8015               ; tmuocctestorder15@hybris.com            ; NICKY          ; 1111222233334444 ; master    ; 1           ; 2022       ; TRUE ; 9111
+                                   ; 8016               ; tmuocctestorder16@hybris.com            ; JOHN           ; 1111222233334444 ; master    ; 4           ; 2025       ; TRUE ; 9111
+                                   ; 8017               ; tmuocctestorder17@hybris.com            ; TMU            ; 1111222233334444 ; master    ; 4           ; 2025       ; TRUE ; 9111
+                                   ; 8018               ; tmuocctestorder18@hybris.com            ; TMU            ; 1111222233334444 ; master    ; 4           ; 2025       ; TRUE ; 9111
+                                   ; 8019               ; tmuocctestorder19@hybris.com            ; TMU            ; 1111222233334444 ; master    ; 4           ; 2025       ; TRUE ; 9111
+                                   ; 8020               ; tmuocctestorder20@hybris.com            ; TMU            ; 1111222233334444 ; master    ; 4           ; 2025       ; TRUE ; 9111
+                                   ; 8021               ; tmuocctestorder21@hybris.com            ; TMU            ; 1111222233334444 ; master    ; 4           ; 2025       ; TRUE ; 9111
+                                   ; 8022               ; tmuocctestorder22@hybris.com            ; TMU            ; 1111222233334444 ; master    ; 4           ; 2025       ; TRUE ; 9111
+                                   ; 8023               ; tmuocctestorder23@hybris.com            ; TMU            ; 1111222233334444 ; master    ; 4           ; 2025       ; TRUE ; 9111
+                                   ; 8024               ; tmuocctestorder24@hybris.com            ; TMU            ; 1111222233334444 ; master    ; 4           ; 2025       ; TRUE ; 9111
+                                   ; 8025               ; tmuocctestorder25@hybris.com            ; TMU            ; 1111222233334444 ; master    ; 4           ; 2025       ; TRUE ; 9111
+                                   ; 8026               ; tmuocctestorder26@hybris.com            ; TMU            ; 1111222233334444 ; master    ; 4           ; 2025       ; TRUE ; 9111
+                                   ; 8027               ; tmuocctestorder27@hybris.com            ; TMU            ; 1111222233334444 ; master    ; 4           ; 2025       ; TRUE ; 9111
+                                   ; 8028               ; tmuocctestorder28@hybris.com            ; TMU            ; 1111222233334444 ; master    ; 4           ; 2025       ; TRUE ; 9111
+                                   ; 8029               ; tmuocctestorder29@hybris.com            ; TMU            ; 1111222233334444 ; master    ; 4           ; 2025       ; TRUE ; 9111
+                                   ; 8030               ; tmuocctestorder30@hybris.com            ; TMU            ; 1111222233334444 ; master    ; 4           ; 2025       ; TRUE ; 9111
+                                   ; 8031               ; tmuocctestorder31@hybris.com            ; TMU            ; 1111222233334444 ; master    ; 4           ; 2025       ; TRUE ; 9111
+                                   ; 8032               ; tmuocctestorder32@hybris.com            ; TMU            ; 1111222233334444 ; master    ; 4           ; 2025       ; TRUE ; 9111
+                                   ; 8033               ; tmuocctestorder33@hybris.com            ; TMU            ; 1111222233334444 ; master    ; 4           ; 2025       ; TRUE ; 9111
+                                   ; 8034               ; tmuocctestorder34@hybris.com            ; TMU            ; 1111222233334444 ; master    ; 4           ; 2025       ; TRUE ; 9111
+                                   ; 8035               ; tmuocctestorder35@hybris.com            ; TMU            ; 1111222233334444 ; master    ; 4           ; 2025       ; TRUE ; 9111
+                                   ; 8036               ; tmuocctestorder36@hybris.com            ; NATALIE        ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 8037               ; tmuocc_cartactions5113order1@hybris.com ; SRI            ; 1111222233334444 ; master    ; 4           ; 2025       ; TRUE ; 9111
+                                   ; 8038               ; tmuocc_cartactions5113order2@hybris.com ; SRI            ; 1111222233334444 ; master    ; 4           ; 2025       ; TRUE ; 9111
+#### OCC POST Orders end ####
+                                   ; 74841              ; selfserviceuser72341@hybris.com         ; NATALIE JENKIN ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 74842              ; selfserviceuser72342@hybris.com         ; NATALIE JENKIN ; 1111222233334444 ; master    ; 9           ; 2022       ; TRUE ; 9111
+                                   ; 67347948           ; selfserviceuser16@hybris.com            ; TMU            ; 1111222233334444 ; master    ; 10          ; 2022       ; TRUE ; 9111
+## Price overrides priority while placing an order testing
+                                   ; 75461              ; selfserviceuser75461@hybris.com         ; Natalia Nobody ; 1111222233334444 ; master    ; 9           ; 2022       ; TRUE ; 9111
+                                   ; 75462              ; selfserviceuser75462@hybris.com         ; Natalia Nobody ; 1111222233334444 ; master    ; 9           ; 2022       ; TRUE ; 9111
+                                   ; 75463              ; selfserviceuser75463@hybris.com         ; Natalia Nobody ; 1111222233334444 ; master    ; 9           ; 2022       ; TRUE ; 9111
+                                   ; 75464              ; selfserviceuser75464@hybris.com         ; Natalia Nobody ; 1111222233334444 ; master    ; 9           ; 2022       ; TRUE ; 9111
+                                   ; 75465              ; selfserviceuser75465@hybris.com         ; Natalia Nobody ; 1111222233334444 ; master    ; 9           ; 2022       ; TRUE ; 9111
+                                   ; 75467              ; selfserviceuser75467@hybris.com         ; Natalia Nobody ; 1111222233334444 ; master    ; 9           ; 2022       ; TRUE ; 9111
+                                   ; 75468              ; selfserviceuser75468@hybris.com         ; Natalia Nobody ; 1111222233334444 ; master    ; 9           ; 2022       ; TRUE ; 9111
+                                   ; 75469              ; selfserviceuser75469@hybris.com         ; Natalia Nobody ; 1111222233334444 ; master    ; 9           ; 2022       ; TRUE ; 9111
+##POST Order with credits
+                                   ; 84381              ; selfserviceuser84381@hybris.com         ; NATALIE JENKIN ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 84382              ; selfserviceuser84381@hybris.com         ; NATALIE JENKIN ; 1111222233334444 ; master    ; 6           ; 2021       ; TRUE ; 9111
+                                   ; 84383              ; selfserviceuser84381@hybris.com         ; NATALIE JENKIN ; 1111222233334444 ; master    ; 7           ; 2021       ; TRUE ; 9111
+                                   ; 84384              ; selfserviceuser84381@hybris.com         ; NATALIE JENKIN ; 1111222233334444 ; master    ; 7           ; 2021       ; TRUE ; 9111
+                                   ; 84385              ; selfserviceuser84382@hybris.com         ; NATALIE JENKIN ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 84386              ; selfserviceuser84383@hybris.com         ; NATALIE JENKIN ; 1111222233334444 ; master    ; 9           ; 2022       ; TRUE ; 9111
+                                   ; 84387              ; selfserviceuser84384@hybris.com         ; NATALIE JENKIN ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 84388              ; selfserviceuser84385@hybris.com         ; NATALIE JENKIN ; 1111222233334444 ; master    ; 9           ; 2022       ; TRUE ; 9111
+                                   ; 84389              ; selfserviceuser84386@hybris.com         ; NATALIE JENKIN ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 843810             ; selfserviceuser84387@hybris.com         ; NATALIE JENKIN ; 1111222233334444 ; master    ; 9           ; 2022       ; TRUE ; 9111
+                                   ; 843811             ; selfserviceuser84388@hybris.com         ; NATALIE JENKIN ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+                                   ; 843812             ; selfserviceuser84389@hybris.com         ; NATALIE JENKIN ; 1111222233334444 ; master    ; 9           ; 2022       ; TRUE ; 9111
+
+#Price Alteration Post order
+                                   ; 79671              ; selfserviceuser79671@hybris.com         ; NATALIE JENKIN ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 79671
+                                   ; 79672              ; selfserviceuser79672@hybris.com         ; NATALIE JENKIN ; 1111222233334444 ; master    ; 9           ; 2022       ; TRUE ; 79672
+                                   ; 79673              ; selfserviceuser79673@hybris.com         ; NATALIE JENKIN ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 79673
+                                   ; 79674              ; selfserviceuser79674@hybris.com         ; NATALIE JENKIN ; 1111222233334444 ; master    ; 9           ; 2022       ; TRUE ; 79674
+                                   ; 79675              ; selfserviceuser79675@hybris.com         ; NATALIE JENKIN ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 79675
+                                   ; 79676              ; selfserviceuser79676@hybris.com         ; NATALIE JENKIN ; 1111222233334444 ; master    ; 9           ; 2022       ; TRUE ; 79676
+                                   ; 79677              ; selfserviceuser79677@hybris.com         ; NATALIE JENKIN ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 79677
+                                   ; 79678              ; selfserviceuser79678@hybris.com         ; NATALIE JENKIN ; 1111222233334444 ; master    ; 9           ; 2022       ; TRUE ; 79678
+                                   ; 79679              ; selfserviceuser79679@hybris.com         ; NATALIE JENKIN ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 79679
+
+# BPO cardinality - Place Order
+                                   ; 89420              ; selfserviceuser89420@hybris.com         ; NATALIE JENKIN ; 1111222233334444 ; master    ; 5           ; 2022       ; TRUE ; 9111
+                                   ; 89421              ; selfserviceuser89421@hybris.com         ; NATALIE JENKIN ; 1111222233334444 ; master    ; 5           ; 2022       ; TRUE ; 9111
+                                   ; 89422              ; selfserviceuser89422@hybris.com         ; NATALIE JENKIN ; 1111222233334444 ; master    ; 5           ; 2022       ; TRUE ; 9111
+
+# BPO cardinality - Retrieve Carts
+                                   ; 89841              ; selfserviceuser89841@hybris.com         ; NATALIE JENKIN ; 1111222233334444 ; master    ; 5           ; 2022       ; TRUE ; 9111
+                                   ; 89842              ; selfserviceuser89842@hybris.com         ; NATALIE JENKIN ; 1111222233334444 ; master    ; 5           ; 2022       ; TRUE ; 9111
+
+# Hierarchical Cart - Order
+                                   ; 9798               ; selfserviceuser9798@hybris.com          ; NATALIE JENKIN ; 1111222233334444 ; master    ; 5           ; 2022       ; TRUE ; 9798
+
+# Hierarchical Cart - E2E
+                                   ; 96100              ; test9610@hybris.com                     ; NATALIE JENKIN ; 1111222233334444 ; master    ; 5           ; 2022       ; TRUE ; 96100
+
+## fixed BPOs E2E
+                                   ; 11429              ; selfserviceuser11429@hybris.com         ; NATALIE JENKIN ; 1111222233334444 ; master    ; 5           ; 2030       ; TRUE ; 9111     
+
+# Create Sample Payment Method for TMF Get Order by Id
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE CreditCardPaymentInfo; code[unique = true]; user(uid)                   ; ccOwner         ; number           ; type(code); validToMonth; validToYear; saved
+                                   ; 97312004           ; tmfgetorderuser1@hybris.com ; tmftest pouser1 ; ************2029 ; master    ; 5           ; 2023       ; TRUE
+                                   ; 97312008           ; tmfgetorderuser2@hybris.com ; tmftest pouser2 ; ************2212 ; master    ; 5           ; 2023       ; TRUE
+                                   ; 97311605           ; tmfgetorderuser3@hybris.com ; tmftest pouser3 ; ************1605 ; master    ; 5           ; 2023       ; TRUE
+                                   ; 97311506           ; tmfgetorderuser4@hybris.com ; tmftest pouser4 ; ************1506 ; master    ; 5           ; 2023       ; TRUE

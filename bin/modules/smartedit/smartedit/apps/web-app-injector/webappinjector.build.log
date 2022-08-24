@@ -1,0 +1,23 @@
+Invoking: webpack --config=webpack.conf.js 
+
+Hash: 43fe0c0733f0659afed9
+Version: webpack 4.44.1
+Time: 15249ms
+Built at: 12/16/2021 6:22:41 PM
+                    Asset      Size  Chunks             Chunk Names
+webApplicationInjector.js  7.66 KiB       0  [emitted]  main
+Entrypoint main = webApplicationInjector.js
+[0] ./src/web-utils.ts 2.57 KiB {0} [built]
+    cjs require ./web-utils [1] ./src/webapp-injector.ts 4:18-40
+    cjs require ./web-utils [4] ./src/whitelisting-utils.ts 6:18-40
+[1] ./src/webapp-injector.ts 4.46 KiB {0} [built]
+    single entry ./src/webapp-injector.ts  main
+[2] ./src/heartbeat.ts 1.17 KiB {0} [built]
+    cjs require ./heartbeat [1] ./src/webapp-injector.ts 3:18-40
+[4] ./src/whitelisting-utils.ts 3.91 KiB {0} [built]
+    cjs require ./whitelisting-utils [1] ./src/webapp-injector.ts 5:27-58
+    + 1 hidden module
+
+WARNING in configuration
+The 'mode' option has not been set, webpack will fallback to 'production' for this value. Set 'mode' option to 'development' or 'production' to enable defaults for each environment.
+You can also set it to 'none' to disable any default behavior. Learn more: https://webpack.js.org/configuration/mode/

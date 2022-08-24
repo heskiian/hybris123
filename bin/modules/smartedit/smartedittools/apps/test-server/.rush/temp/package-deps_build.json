@@ -1,0 +1,10 @@
+{
+  "files": {
+    "apps/test-server/README.md": "34bef5d60b6a405b89417b8b31c9e395d87aadd4",
+    "apps/test-server/package.json": "b553092af0965b3daf248558dbc9707221d11b34",
+    "apps/test-server/src/index.ts": "84989302f074a50c55dda960420d7de7c5dadd4c",
+    "apps/test-server/tsconfig.json": "9a07906547320d2ec448052119c6050fddab3901",
+    "apps/test-server/.rush/temp/shrinkwrap-deps.json": "6b5d800f1f55cdbde1ac3ebde93e8b6b9d74fc12"
+  },
+  "arguments": "tsc -p ./tsconfig.json "
+}

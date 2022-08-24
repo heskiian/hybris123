@@ -1,0 +1,56 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for Importing Products stock levels into B2B Telco Store
+
+# Macros / Replacement Parameter definitions
+$productCatalog = b2btelcoProductCatalog
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Staged'])[unique = true, default = $productCatalog:Staged]
+
+###########################################
+### Importing Bundled Product Offerings ###
+###########################################
+
+INSERT_UPDATE StockLevel; productCode[unique = true]; available[default = 10]; warehouse(code)[unique = true, default = 'warehouse_b2btelco']; inStockStatus(code)[default = forceInStock]; maxPreOrder[default = 0]; maxStockLevelHistoryCount[default = -1]; overSelling[default = 0]; preOrder[default = 0]; reserved[default = 0]
+                        ; satellite_connectivity_deal
+                        ; satellite_connectivity_service
+                        ; satellite_connectivity_speed_plans
+                        ; satellite_terminals
+                        ; satellite_connectivity_addons
+
+##############################
+### Importing ServicePlans ###
+##############################
+
+INSERT_UPDATE StockLevel; productCode[unique = true]; available[default = 10]; warehouse(code)[unique = true, default = 'warehouse_b2btelco']; inStockStatus(code)[default = forceInStock]; maxPreOrder[default = 0]; maxStockLevelHistoryCount[default = -1]; overSelling[default = 0]; preOrder[default = 0]; reserved[default = 0]
+                        ; connectivity_service_plan
+                        ; basic_speed_plan
+                        ; std_speed_plan
+                        ; premium_speed_plan
+                        ; ha_speed_plan
+                        ; high_speed_plan
+                        ; sf_speed_plan
+                        ; connect_50
+                        ; connect_100
+                        ; connect_x
+                        ; mobility_connect_100
+                        ; mobility_connect_x
+                        ; bgan_backup_addon
+                        ; gx_voice_addon
+
+INSERT_UPDATE TmaSimpleProductOffering; code[unique = true]       ; stockLevels(productCode, warehouse(code[default = warehouse_b2btelco])); $catalogVersion
+                                      ; connectivity_service_plan ; connectivity_service_plan
+                                      ; basic_speed_plan          ; basic_speed_plan
+                                      ; std_speed_plan            ; std_speed_plan
+                                      ; premium_speed_plan        ; premium_speed_plan
+                                      ; ha_speed_plan             ; ha_speed_plan
+                                      ; high_speed_plan           ; high_speed_plan
+                                      ; sf_speed_plan             ; sf_speed_plan
+                                      ; connect_50                ; connect_50
+                                      ; connect_100               ; connect_100
+                                      ; connect_x                 ; connect_x
+                                      ; mobility_connect_100      ; mobility_connect_100
+                                      ; mobility_connect_x        ; mobility_connect_x
+                                      ; bgan_backup_addon         ; bgan_backup_addon
+                                      ; gx_voice_addon            ; gx_voice_addon

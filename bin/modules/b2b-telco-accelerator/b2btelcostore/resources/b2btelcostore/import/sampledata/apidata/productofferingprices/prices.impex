@@ -1,0 +1,55 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for Importing Sample Prices
+
+$catalog-id = b2btelcoProductCatalog
+$catalog-version = Online
+$catalogVersion = catalogversion(catalog(id[default = $catalog-id]), version[default = $catalog-version])[unique = true, default = $catalog-id:$catalog-version]
+$regions = regions(isocode)
+$processTypes = processTypes(code)
+$subscriptionTerms = subscriptionTerms(id)[unique = true]
+$distributionChannels = distributionChannels(code)
+
+$currency = currency(isocode)[default = USD]
+$unit = unit(code)[default = pieces]
+$product = product(code, $catalogVersion)[unique = true]
+$price = price(code)[default = '0.0']
+$priority = priority[default=0]
+
+###########################################
+########### STANDALONE PRICES #############
+###########################################
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PriceRow; code[unique = true] ; product(code, $catalogVersion)[unique = true]; $price; $processTypes[unique = true]; $subscriptionTerms; $catalogVersion; currency(isocode)[default = USD, unique = true]; unit(code)[default = pieces]; $regions; productOfferingPrice(id, $catalogVersion); user(uid); $distributionChannels; $priority; affectedProductOffering(code, $catalogVersion); requiredProductOfferings(code, $catalogVersion)[unique = true]; requiredProductClasses(id)[unique = true];
+                      ; PR_SPO1_ 10884      ; gsm_10884                                    ;       ; ACQUISITION                 ;                   ;                ;                                                ;                             ;         ; rce_gsm_10884
+                      ; PR_SPO2_ 10884      ; sattelite_10884                              ;       ; ACQUISITION                 ;                   ;                ;                                                ;                             ;         ; rce_sattelite_10884
+                      ; PR_SPO3_ 10884      ; sattelite_Bandwidth_10884                    ;       ; ACQUISITION                 ;                   ;                ;                                                ;                             ;         ; rce_sattelite_Bandwidth_10884
+                      ; PR_SPO4_ 10884      ; sattelite_TerminalType_10884                 ;       ; ACQUISITION                 ;                   ;                ;                                                ;                             ;         ; rce_sattelite_TerminalType_10884
+                      ; PR_SPO5_ 10884      ; sattelite_TerminalType_config_10884          ;       ; ACQUISITION                 ;                   ;                ;                                                ;                             ;         ; rce_TerminalType_config_10884
+# e2e 10862
+                      ; PR_SPO2_ 10862      ; sattelite_10862                              ;       ; ACQUISITION                 ;                   ;                ;                                                ;                             ;         ; rce_sattelite_10862
+# PO Permissions
+                      ; PR_SPO1_ 10895      ; iPhone_10895                                 ;       ; ACQUISITION                 ;                   ;                ;                                                ;                             ;         ; OTC_iPhone_10895
+                      ; PR_SPO2_ 10895      ; Samsung_10895                                ;       ; ACQUISITION                 ;                   ;                ;                                                ;                             ;         ; rce_Samsung_10895
+                      ; PR_SPO3_ 10895      ; unlimitedPremiumPlan_10895                   ;       ; ACQUISITION                 ;                   ;                ;                                                ;                             ;         ; rce_unlimitedPremiumPlan_10895
+                      ; PR_SPO4_ 10895      ; Fiberlink_10895                              ;       ; ACQUISITION                 ;                   ;                ;                                                ;                             ;         ; rce_Fiberlink_10895
+                      ; PR_SPO5_ 10895      ; iPhone6_10895                                ;       ; ACQUISITION                 ;                   ;                ;                                                ;                             ;         ; OTC_iPhone6_10895
+                      ; PR_SPO6_ 10895      ; iPhone7_10895                                ;       ; ACQUISITION                 ;                   ;                ;                                                ;                             ;         ; OTC_iPhone7_10895
+                      ; PR_SPO7_ 10895      ; unlimitedBasicPlan_10895                     ;       ; ACQUISITION                 ;                   ;                ;                                                ;                             ;         ; rce_unlimitedBasicPlan_10895
+
+# PO Permissions E2E
+                      ; PR_SPO1_ 10894      ; iPhone_10894                                 ;       ; ACQUISITION                 ;                   ;                ;                                                ;                             ;         ; OTC_iPhone_10894
+                      ; PR_SPO2_ 10894      ; Samsung_10894                                ;       ; ACQUISITION                 ;                   ;                ;                                                ;                             ;         ; rce_Samsung_10894
+                      ; PR_SPO3_ 10894      ; unlimitedPremiumPlan_10894                   ;       ; ACQUISITION                 ;                   ;                ;                                                ;                             ;         ; rce_unlimitedPremiumPlan_10894
+                      ; PR_SPO4_ 10894      ; Fiberlink_10894                              ;       ; ACQUISITION                 ;                   ;                ;                                                ;                             ;         ; rce_Fiberlink_10894
+                      ; PR_SPO5_ 10894      ; iPhone6_10894                                ;       ; ACQUISITION                 ;                   ;                ;                                                ;                             ;         ; OTC_iPhone6_10894
+                      ; PR_SPO6_ 10894      ; iPhone7_10894                                ;       ; ACQUISITION                 ;                   ;                ;                                                ;                             ;         ; OTC_iPhone7_10894
+                      ; PR_SPO7_ 10894      ; unlimitedBasicPlan_10894                     ;       ; ACQUISITION                 ;                   ;                ;                                                ;                             ;         ; rce_unlimitedBasicPlan_10894
+
+# Order Apporval - POST
+                      ; pr_connect_50_11038 ; connect_50_11038                             ;       ; ACQUISITION                 ;                   ;                ;                                                ;                             ;         ; rce_connect_50_11038
+
+# Order Apporval - E2E
+                      ; pr_connect_50_11037 ; connect_50_11037                             ;       ; ACQUISITION                 ;                   ;                ;                                                ;                             ;         ; rce_connect_50_11037

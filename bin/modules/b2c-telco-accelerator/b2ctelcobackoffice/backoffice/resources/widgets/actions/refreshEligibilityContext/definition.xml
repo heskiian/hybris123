@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<action-definition id="de.hybris.platform.b2ctelcobackoffice.action.refresheligibilitycontext"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:noNamespaceSchemaLocation="http://www.hybris.com/schema/cockpitng/action-definition.xsd">
+
+    <name>Refresh eligibility context of customer</name>
+    <description>Refresh eligibility context of customer and display in editor area</description>
+    <author>hybris</author>
+    <version>1.0</version>
+
+    <actionClassName>de.hybris.platform.b2ctelcobackoffice.actions.refresh.RefreshEligibilityContextAction</actionClassName>
+
+    <inputType>de.hybris.platform.core.model.user.CustomerModel</inputType>
+    <sockets>
+        <output id="eligibilitycontext" type="java.lang.Object"/>
+    </sockets>
+
+     <settings>
+        <setting key="viewMode" default-value="iconOnly"/>
+        <setting key="referenceAdvancedSearchEnabled" default-value="true" type="Boolean" />
+    </settings>
+
+    <iconUri>icons/icon_action_refresh_eligibility_context.png</iconUri>
+
+</action-definition>

@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <alias name="defaultTmaEventIdGenerator" alias="tmaEventIdGenerator"/>
+    <bean id="defaultTmaEventIdGenerator"
+          class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.tmaEventIdGenerator.id.name}"/>
+        <property name="digits" value="${keygen.tmaEventIdGenerator.id.digits}"/>
+        <property name="start" value="${keygen.tmaEventIdGenerator.id.start}"/>
+        <property name="type" value="${keygen.tmaEventIdGenerator.id.type}"/>
+        <property name="template" value="${keygen.tmaEventIdGenerator.id.template}"/>
+    </bean>
+
+    <!-- ######################### -->
+    <!-- ### Attribute Mappers ### -->
+    <!-- ######################### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper tmaAbstractEventEntityMapperV1 ### -->
+    <alias name="defaultTmaEventIdAttributeMapperV1" alias="tmaEventIdAttributeMapperV1"/>
+    <bean id="defaultTmaEventIdAttributeMapperV1"
+          class="de.hybris.platform.b2ctelcotmfevents.v1.mappers.event.EventIdAttributeMapper">
+        <property name="sourceAttributeName" value="generatedId"/>
+        <property name="targetAttributeName" value="eventId"/>
+        <constructor-arg name="tmaEventIdGenerator" ref="tmaEventIdGenerator"/>
+    </bean>
+
+    <alias name="defaultTmaEventAttypeAttributeMapperV1" alias="tmaEventAttypeAttributeMapperV1"/>
+    <bean id="defaultTmaEventAttypeAttributeMapperV1"
+          class="de.hybris.platform.b2ctelcotmfevents.v1.mappers.event.EventAttypeAttributeMapper">
+        <property name="sourceAttributeName" value="simpleClassName"/>
+        <property name="targetAttributeName" value="atType"/>
+    </bean>
+
+    <alias name="defaultTmaEventHrefAttributeMapperV1" alias="tmaEventHrefAttributeMapperV1"/>
+    <bean id="defaultTmaEventHrefAttributeMapperV1"
+          class="de.hybris.platform.b2ctelcotmfevents.v1.mappers.event.EventHrefAttributeMapper">
+        <property name="sourceAttributeName" value="eventId"/>
+        <property name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultTmaEventSchemaLocationAttributeMapperV1" alias="tmaEventSchemaLocationAttributeMapperV1"/>
+    <bean id="defaultTmaEventSchemaLocationAttributeMapperV1"
+          class="de.hybris.platform.b2ctelcotmfevents.v1.mappers.event.EventSchemaLocationAttributeMapper">
+        <property name="sourceAttributeName" value="source"/>
+        <property name="targetAttributeName" value="atSchemaLocation"/>
+    </bean>
+    <!-- ### END definition of attribute mappers for entity mapper tmaAbstractEventEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper tmaOfferingEventEntityMapperV1 ### -->
+    <alias name="defaultTmaPoEventAttributeMapperV1" alias="tmaPoEventAttributeMapperV1"/>
+    <bean id="defaultTmaPoEventAttributeMapperV1"
+          class="de.hybris.platform.b2ctelcotmfevents.v1.mappers.event.PoEventAttributeMapper">
+        <property name="sourceAttributeName" value="offering"/>
+        <property name="targetAttributeName" value="event"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultTmaEventPoSourceAttributeMapperV1" alias="tmaEventPoSourceAttributeMapperV1"/>
+    <bean id="defaultTmaEventPoSourceAttributeMapperV1"
+          class="de.hybris.platform.b2ctelcotmfevents.v1.mappers.event.EventPoSourceAttributeMapper">
+        <property name="sourceAttributeName" value="offering"/>
+        <property name="targetAttributeName" value="source"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultTmaPoEventTypeAttributeMapperV1" alias="tmaPoEventTypeAttributeMapperV1"/>
+    <bean id="defaultTmaPoEventTypeAttributeMapperV1"
+          class="de.hybris.platform.b2ctelcotmfevents.v1.mappers.event.PoEventTypeAttributeMapper">
+        <property name="sourceAttributeName" value="eventType"/>
+        <property name="targetAttributeName" value="eventType"/>
+    </bean>
+    <!-- ### END definition of attribute mappers for entity mapper tmaOfferingEventEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper tmaPopEventEntityMapperV1 ### -->
+    <alias name="defaultTmaPopEventAttributeMapperV1" alias="tmaPopEventAttributeMapperV1"/>
+    <bean id="defaultTmaPopEventAttributeMapperV1"
+          class="de.hybris.platform.b2ctelcotmfevents.v1.mappers.event.PopEventAttributeMapper">
+        <property name="sourceAttributeName" value="productOfferingPrice"/>
+        <property name="targetAttributeName" value="event"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultTmaEventPopSourceAttributeMapperV1" alias="tmaEventPopSourceAttributeMapperV1"/>
+    <bean id="defaultTmaEventPopSourceAttributeMapperV1"
+          class="de.hybris.platform.b2ctelcotmfevents.v1.mappers.event.EventPopSourceAttributeMapper">
+        <property name="sourceAttributeName" value="productOfferingPrice"/>
+        <property name="targetAttributeName" value="source"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultTmaPopEventTypeAttributeMapperV1" alias="tmaPopEventTypeAttributeMapperV1"/>
+    <bean id="defaultTmaPopEventTypeAttributeMapperV1"
+          class="de.hybris.platform.b2ctelcotmfevents.v1.mappers.event.PopEventTypeAttributeMapper">
+        <property name="sourceAttributeName" value="eventType"/>
+        <property name="targetAttributeName" value="eventType"/>
+    </bean>
+    <!-- ### END definition of attribute mappers for entity mapper tmaPopEventEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper tmaProductOrderEventEntityMapperV1 ### -->
+    <alias name="defaultTmaProductOrderEventAttributeMapperV1" alias="tmaProductOrderEventAttributeMapperV1"/>
+    <bean id="defaultTmaProductOrderEventAttributeMapperV1"
+          class="de.hybris.platform.b2ctelcotmfevents.v1.mappers.event.ProductOrderEventAttributeMapper">
+        <property name="sourceAttributeName" value="order"/>
+        <property name="targetAttributeName" value="event"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultTmaEventProductOrderSourceAttributeMapperV1" alias="tmaEventProductOrderSourceAttributeMapperV1"/>
+    <bean id="defaultTmaEventProductOrderSourceAttributeMapperV1"
+          class="de.hybris.platform.b2ctelcotmfevents.v1.mappers.event.EventProductOrderSourceAttributeMapper">
+        <property name="sourceAttributeName" value="order"/>
+        <property name="targetAttributeName" value="source"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultTmaProductOrderEventTypeAttributeMapperV1" alias="tmaProductOrderEventTypeAttributeMapperV1"/>
+    <bean id="defaultTmaProductOrderEventTypeAttributeMapperV1"
+          class="de.hybris.platform.b2ctelcotmfevents.v1.mappers.event.ProductOrderEventTypeAttributeMapper">
+        <property name="sourceAttributeName" value="eventType"/>
+        <property name="targetAttributeName" value="eventType"/>
+    </bean>
+    <!-- ### END definition of attribute mappers for entity mapper tmaProductOrderEventEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper tmaProductOrderEventPayloadEntityMapperV1 ### -->
+    <alias name="defaultTmaProductOrderRefAttributeMapperV1" alias="tmaProductOrderRefAttributeMapperV1"/>
+    <bean id="defaultTmaProductOrderRefAttributeMapperV1"
+          class="de.hybris.platform.b2ctelcotmfevents.v1.mappers.event.ProductOrderRefAttributeMapper">
+        <property name="sourceAttributeName" value="order"/>
+        <property name="targetAttributeName" value="productOrderRef"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+    <!-- ### END definition of attribute mappers for entity mapper tmaProductOrderEventPayloadEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper tmaPopEventPayloadEntityMapperV1 ### -->
+    <alias name="defaultTmaProductOfferingPriceRefAttributeMapperV1" alias="tmaProductOfferingPriceRefAttributeMapperV1"/>
+    <bean id="defaultTmaProductOfferingPriceRefAttributeMapperV1"
+          class="de.hybris.platform.b2ctelcotmfevents.v1.mappers.event.ProductOfferingPriceRefAttributeMapper">
+        <property name="sourceAttributeName" value="productOfferingPrice"/>
+        <property name="targetAttributeName" value="productOfferingPriceRef"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+    <!-- ### END definition of attribute mappers for entity mapper tmaPopEventPayloadEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper tmaPoEventPayloadEntityMapperV1 ### -->
+    <alias name="defaultTmaProductOfferingRefAttributeMapperV1" alias="tmaProductOfferingRefAttributeMapperV1"/>
+    <bean id="defaultTmaProductOfferingRefAttributeMapperV1"
+          class="de.hybris.platform.b2ctelcotmfevents.v1.mappers.event.ProductOfferingRefAttributeMapper">
+        <property name="sourceAttributeName" value="offering"/>
+        <property name="targetAttributeName" value="productOfferingRef"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+    <!-- ### END definition of attribute mappers for entity mapper tmaPoEventPayloadEntityMapperV1 ### -->
+
+    <!-- ###################### -->
+    <!-- ### Entity Mappers ### -->
+    <!-- ###################### -->
+
+    <!--     Entity mapper for Event (from TmaAbstractEvent)-->
+    <alias name="defaultTmaAbstractEventEntityMapperV1" alias="tmaAbstractEventEntityMapperV1"/>
+    <bean id="defaultTmaAbstractEventEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper" abstract="true">
+        <property name="sourceClass" value="de.hybris.platform.b2ctelcotmfevents.data.TmaAbstractEventPayload"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcotmfresources.v1.dto.Event"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaEventIdAttributeMapperV1"/>
+                <ref bean="tmaEventAttypeAttributeMapperV1"/>
+                <ref bean="tmaEventSchemaLocationAttributeMapperV1"/>
+                <ref bean="tmaEventHrefAttributeMapperV1"/>
+            </list>
+        </property>
+    </bean>
+
+    <!--     Entity mapper for Event (from TmaOfferingEvent)-->
+    <alias name="defaultTmaOfferingEventEntityMapperV1" alias="tmaOfferingEventEntityMapperV1"/>
+    <bean id="defaultTmaOfferingEventEntityMapperV1" parent="tmaAbstractEventEntityMapperV1"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.b2ctelcotmfevents.data.TmaProductOfferingEventPayload"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcotmfresources.v1.dto.Event"/>
+        <property name="attributeMappers">
+            <list merge="true">
+                <ref bean="tmaPoEventAttributeMapperV1"/>
+                <ref bean="tmaEventPoSourceAttributeMapperV1"/>
+                <ref bean="tmaPoEventTypeAttributeMapperV1"/>
+            </list>
+        </property>
+    </bean>
+
+    <!--     Entity mapper for Event (from TmaOfferingPriceEvent)-->
+    <alias name="defaultTmaPopEventEntityMapperV1" alias="tmaPopEventEntityMapperV1"/>
+    <bean id="defaultTmaPopEventEntityMapperV1" parent="tmaAbstractEventEntityMapperV1"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.b2ctelcotmfevents.data.TmaProductOfferingPriceEventPayload"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcotmfresources.v1.dto.Event"/>
+        <property name="attributeMappers">
+            <list merge="true">
+                <ref bean="tmaPopEventAttributeMapperV1"/>
+                <ref bean="tmaEventPopSourceAttributeMapperV1"/>
+                <ref bean="tmaPopEventTypeAttributeMapperV1"/>
+            </list>
+        </property>
+    </bean>
+
+    <!--     Entity mapper for Event (from TmaOrderEventPayload)-->
+    <alias name="defaultTmaProductOrderEventEntityMapperV1" alias="tmaProductOrderEventEntityMapperV1"/>
+    <bean id="defaultTmaProductOrderEventEntityMapperV1" parent="tmaAbstractEventEntityMapperV1"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.b2ctelcotmfevents.data.TmaOrderEventPayload"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcotmfresources.v1.dto.Event"/>
+        <property name="attributeMappers">
+            <list merge="true">
+                <ref bean="tmaProductOrderEventAttributeMapperV1"/>
+                <ref bean="tmaEventProductOrderSourceAttributeMapperV1"/>
+                <ref bean="tmaProductOrderEventTypeAttributeMapperV1"/>
+            </list>
+        </property>
+    </bean>
+
+    <!--     Entity mapper for TmaProductOrderEvent (from TmaOrderEventPayload)-->
+    <alias name="defaultTmaProductOrderEventPayloadEntityMapperV1" alias="tmaProductOrderEventPayloadEntityMapperV1"/>
+    <bean id="defaultTmaProductOrderEventPayloadEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.b2ctelcotmfevents.data.TmaOrderEventPayload"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcotmfresources.v1.dto.ProductOrderEvent"/>
+        <property name="attributeMappers">
+            <list merge="true">
+                <ref bean="tmaProductOrderRefAttributeMapperV1"/>
+            </list>
+        </property>
+    </bean>
+
+    <!--     Entity mapper for TmaProductOfferingPriceEvent (from TmaProductOfferingPriceEventPayload)-->
+    <alias name="defaultTmaPopEventPayloadEntityMapperV1"
+           alias="tmaPopEventPayloadEntityMapperV1"/>
+    <bean id="defaultTmaPopEventPayloadEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.b2ctelcotmfevents.data.TmaProductOfferingPriceEventPayload"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcotmfresources.v1.dto.ProductOfferingPriceEvent"/>
+        <property name="attributeMappers">
+            <list merge="true">
+                <ref bean="tmaProductOfferingPriceRefAttributeMapperV1"/>
+            </list>
+        </property>
+    </bean>
+
+    <!--     Entity mapper for TmaProductOfferingEvent (from TmaProductOfferingEventPayload)-->
+    <alias name="defaultTmaPoEventPayloadEntityMapperV1"
+           alias="tmaPoEventPayloadEntityMapperV1"/>
+    <bean id="defaultTmaPoEventPayloadEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.b2ctelcotmfevents.data.TmaProductOfferingEventPayload"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcotmfresources.v1.dto.ProductOfferingEvent"/>
+        <property name="attributeMappers">
+            <list merge="true">
+                <ref bean="tmaProductOfferingRefAttributeMapperV1"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>
+

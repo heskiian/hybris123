@@ -1,0 +1,6 @@
+{
+  "files": {
+    "../smartedit/apps/web-app-injector/.rush/temp/shrinkwrap-deps.json": "f2ce9228506a386326aae20790aacfe9feabbab5"
+  },
+  "arguments": "webpack --config=webpack.conf.js "
+}

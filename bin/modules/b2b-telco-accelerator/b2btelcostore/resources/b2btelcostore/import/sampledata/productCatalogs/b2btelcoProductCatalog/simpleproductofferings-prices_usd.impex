@@ -1,0 +1,34 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+$productCatalog = b2btelcoProductCatalog
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Staged'])[unique = true, default = '$productCatalog:Staged']
+$currency = currency(isocode)[default = USD]
+$price = price[default = 0.0]
+$processTypes = processTypes(code)
+$regions = regions(isocode)
+$subscriptionTerms = subscriptionTerms(id)
+$priority = priority[default = 50]
+
+################################################
+###                   Prices                 ###
+################################################
+
+INSERT_UPDATE PriceRow; $price; code[unique = true]                 ; product(code, $catalogVersion)[unique = true]; $processTypes[unique = true]; $subscriptionTerms; $catalogVersion; $currency; unit(code)[default = pieces]; $regions; ug(code); productOfferingPrice(id, $catalogVersion); startTime[dateformat = dd-MM-yyyy]; endTime[dateformat = dd-MM-yyyy]; $priority;
+                      ;       ; pr_connect_50_global                ; connect_50                                   ;                             ;                   ;                ;          ;                             ;         ;         ; OTC_2362_22_USD_OFB                      ;                                   ;                                 ; 0        ;
+                      ;       ; pr_connect_100_global               ; connect_100                                  ;                             ;                   ;                ;          ;                             ;         ;         ; OTC_2409_33_USD_OFB                      ;                                   ;                                 ; 0        ;
+                      ;       ; pr_connect_x_global                 ; connect_x                                    ;                             ;                   ;                ;          ;                             ;         ;         ; OTC_2499_71_USD_OFB                      ;                                   ;                                 ; 0        ;
+                      ;       ; pr_mobility_connect_100_global      ; mobility_connect_100                         ;                             ;                   ;                ;          ;                             ;         ;         ; OTC_2549_56_USD_OFB                      ;                                   ;                                 ; 0        ;
+                      ;       ; pr_mobility_connect_x_global        ; mobility_connect_x                           ;                             ;                   ;                ;          ;                             ;         ;         ; OTC_2689_49_USD_OFB                      ;                                   ;                                 ; 0        ;
+
+                      ;       ; pr_connectivity_service_plan_global ; connectivity_service_plan                    ;                             ;                   ;                ;          ;                             ;         ;         ; connectivity_service_plan_USD_pop        ;                                   ;                                 ; 0        ;
+                      ;       ; pr_basic_speed_plan_global          ; basic_speed_plan                             ;                             ;                   ;                ;          ;                             ;         ;         ; RC_3045_54_USD_start_1                   ;                                   ;                                 ; 0        ;
+                      ;       ; pr_std_speed_plan_global            ; std_speed_plan                               ;                             ;                   ;                ;          ;                             ;         ;         ; RC_10512_62_USD_start_1                  ;                                   ;                                 ; 0        ;
+                      ;       ; pr_premium_speed_plan_global        ; premium_speed_plan                           ;                             ;                   ;                ;          ;                             ;         ;         ; RC_27125_24_USD_start_1                  ;                                   ;                                 ; 0        ;
+                      ;       ; pr_ha_speed_plan_global             ; ha_speed_plan                                ;                             ;                   ;                ;          ;                             ;         ;         ; RC_38125_42_USD_start_1                  ;                                   ;                                 ; 0        ;
+                      ;       ; pr_high_speed_plan_global           ; high_speed_plan                              ;                             ;                   ;                ;          ;                             ;         ;         ; RC_44128_54_USD_start_1                  ;                                   ;                                 ; 0        ;
+                      ;       ; pr_sf_speed_plan_global             ; sf_speed_plan                                ;                             ;                   ;                ;          ;                             ;         ;         ; RC_50125_12_USD_start_1                  ;                                   ;                                 ; 0        ;
+
+                      ;       ; pr_bgan_backup_addon_global         ; bgan_backup_addon                            ;                             ;                   ;                ;          ;                             ;         ;         ; OTC_2387_22_USD_OFB                      ;                                   ;                                 ; 0        ;
+                      ;       ; pr_gx_voice_addon_global            ; gx_voice_addon                               ;                             ;                   ;                ;          ;                             ;         ;         ; OTC_2397_23_USD_OFB                      ;                                   ;                                 ; 0        ;

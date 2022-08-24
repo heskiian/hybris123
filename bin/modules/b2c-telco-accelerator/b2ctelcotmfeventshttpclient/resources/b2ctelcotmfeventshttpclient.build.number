@@ -1,0 +1,11 @@
+#Ant properties
+#Mon Nov 02 17:55:53 UTC 2020
+version.api=2105
+vendor=hybris
+group.id=de.hybris.platform
+name=b2ctelcotmfeventshttpclient
+description=b2ctelcotmfeventshttpclient
+builddate=20201102 1754
+releasedate=20201102 1754
+version=2105.0
+module.name=platform-module

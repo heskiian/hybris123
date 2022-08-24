@@ -1,0 +1,476 @@
+#Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+
+#% impex.enableCodeExecution(true)
+
+$catalog-id = testCatalog
+$catalog-version = Online
+$catalogVersion = catalogversion(catalog(id[default = $catalog-id]), version[default = $catalog-version])[unique = true, default = $catalog-id:$catalog-version]
+$approved = approvalstatus(code)[default = 'approved']
+$lang = en
+$prices = europe1prices[translator=de.hybris.platform.europe1.jalo.impex.Europe1PricesTranslator]
+$price = price(code)[default = '0.0']
+$processTypes = processTypes(code)
+$subscriptionTerms = subscriptionTerms(id)[unique = true]
+$priority = priority[default=0]
+$currency = currency(isocode)[default = USD]
+$priceEvent = priceEvent(code)[default='paynow']
+
+INSERT_UPDATE Language; isocode[unique = true]; active; name[lang = en]
+                      ; en                    ; true  ; English
+
+INSERT_UPDATE Currency; isocode[unique = true]; active; conversion; digits; symbol
+                      ; USD                   ; true  ; 1.5       ; 2     ; "$"
+
+INSERT_UPDATE Catalog; id[unique = true]; name[lang = en]; defaultCatalog
+                     ; $catalog-id      ; $catalog-id    ; true ;
+
+INSERT_UPDATE CatalogVersion; catalog(id)[unique = true]; version[unique = true]; active; defaultCurrency(isocode); languages(isocode)
+                            ; $catalog-id               ; $catalog-version      ; true  ; USD                     ; en ;
+
+INSERT_UPDATE BillingEvent; code[unique = true]; order; cartAware[default = true]
+                          ; paynow             ; 1
+
+INSERT_UPDATE Unit; unitType[unique = true]; code[unique = true]; conversion
+                  ; pieces                 ; pieces             ; 1
+
+INSERT_UPDATE UserGroup; uid[unique = true]; groups(uid);
+                       ; customergroup     ;            ;
+
+INSERT_UPDATE Customer; uid[unique = true]; customerID; name       ; description; sessionLanguage(isocode); sessionCurrency(isocode); groups(uid)   ; password; ;
+                      ; user1@hybris.com  ; U007      ; James Bond ;            ; en                      ; USD                     ; customergroup ; 1234    ; ;
+                      ; user2@hybris.com  ; U007      ; James Bond ;            ; en                      ; USD                     ; customergroup ; 1234    ; ;
+
+INSERT_UPDATE TmaBundledProductOffering; code[unique = true]         ; name[lang = en]               ; parents(code, $catalogVersion); $approved; $catalogVersion
+                                       ; quadPlay                    ; Quad Play Deal                ;
+                                       ; homeDeal                    ; Home Deal                     ; quadPlay
+                                       ; mobileDeal                  ; Mobile Deal                   ; quadPlay
+                                       ; internet                    ; Internet Deal                 ; homeDeal
+                                       ; ipTvDeal                    ; Ip TV Deal                    ; homeDeal
+                                       ; landline                    ; Landline Deal                 ; homeDeal
+                                       ; starterHomeDeal             ; Starter Home Deal             ;
+
+# Comple BPO Structure
+                                       ; quadPlay_complex            ; Quad Play Deal Complex        ;
+                                       ; homeDeal_complex            ; Home Deal Complex             ; quadPlay_complex
+                                       ; youngSpecial_complex        ; Young Special Deal Complex    ; homeDeal_complex
+                                       ; internet_complex            ; Internet Deal Complex         ; youngSpecial_complex
+                                       ; homeInternetPackage_complex ; Home Internet Package Complex ; internet_complex
+
+# Same SPO in two BPOs
+                                       ; quadPlay_two                ; Quad Play Deal Two            ;
+                                       ; internet_two                ; Internet Deal Two             ; quadPlay_two
+                                       ; homeInternetPackage_two     ; Home Internet Package Two     ; quadPlay_two
+
+
+INSERT_UPDATE TmaSimpleProductOffering; code[unique = true]  ; $catalogVersion; name[lang = en]        ; parents(code, $catalogVersion)                          ; approvalStatus(code)
+# Mobile Deal
+                                      ; unlimitedPremiumPlan ;                ; Unlimited Premium Plan ; mobileDeal, youngSpecial_complex                        ; approved ;
+                                      ; Apple_iPhone_6       ;                ; Apple iPhone 6         ; mobileDeal, youngSpecial_complex                        ; approved ;
+
+# Internet Deal
+                                      ; int_100              ;                ; Fiberlink 100          ; internet, internet_two                                  ; approved ;
+                                      ; int_500              ;                ; Fiberlink 500          ; internet, internet_complex                              ; approved ;
+                                      ; int_1000             ;                ; Fiberlink 1000         ; internet, homeInternetPackage_two                       ; approved ;
+
+# Ip TV Deal
+                                      ; tv_L                 ;                ; TV L                   ; ipTvDeal                                                ; approved ;
+                                      ; sports               ;                ; Sports                 ; ipTvDeal                                                ; approved ;
+
+# Landline Deal
+                                      ; ll_pots              ;                ; Landline POTS          ; landline                                                ; approved ;
+                                      ; ll_voip              ;                ; Landline VOIP          ; landline                                                ; approved ;
+
+# Starter Home Deal
+                                      ; tv_S                 ;                ; TV S                   ; starterHomeDeal, homeDeal_complex                       ; approved ;
+                                      ; netflix              ;                ; Netflix                ; starterHomeDeal, homeDeal_complex                       ; approved ;
+# Comple BPO Structure
+                                      ; router               ;                ; Router                 ; internet_complex, internet_two, homeInternetPackage_two ; approved ;
+                                      ; freeInternetAtNight  ;                ; Free Internet at Night ; homeInternetPackage_complex                             ; approved ;
+                                      ; laptop               ;                ; Laptop                 ; homeInternetPackage_complex                             ; approved ;
+
+
+INSERT_UPDATE TmaBundledProductOffering; code[unique = true]         ; $catalogVersion; children(code, $catalogVersion)                        ;
+                                       ; quadPlay                    ;                ; homeDeal, mobileDeal                                   ;
+                                       ; homeDeal                    ;                ; internet, ipTvDeal, landline                           ;
+                                       ; mobileDeal                  ;                ; unlimitedPremiumPlan, Apple_iPhone_6                   ;
+                                       ; internet                    ;                ; int_100, int_500, int_1000                             ;
+                                       ; ipTvDeal                    ;                ; tv_L, sports                                           ;
+                                       ; landline                    ;                ; ll_pots, ll_voip                                       ;
+                                       ; starterHomeDeal             ;                ; tv_S, netflix                                          ;
+
+# Comple BPO Structure
+                                       ; quadPlay_complex            ;                ; homeDeal_complex                                       ;
+                                       ; homeDeal_complex            ;                ; youngSpecial_complex, tv_S, netflix                    ;
+                                       ; youngSpecial_complex        ;                ; internet_complex, unlimitedPremiumPlan, Apple_iPhone_6 ;
+                                       ; internet_complex            ;                ; homeInternetPackage_complex, int_500, router           ;
+                                       ; homeInternetPackage_complex ;                ; freeInternetAtNight, laptop                            ;
+
+# Same SPO in two BPOs
+                                       ; quadPlay_two                ;                ; internet_two, homeInternetPackage_two                  ;
+                                       ; internet_two                ;                ; int_100, router                                        ;
+                                       ; homeInternetPackage_two     ;                ; int_1000, router                                       ;
+
+
+INSERT_UPDATE TmaOneTimeProdOfferPriceCharge; id[unique = true]; name            ; description                 ; $catalogVersion; value; $priceEvent; $currency
+                                            ; generic_otc_pop  ; Generic OTC POP ; Generic OTC POP Description ;                ; 4.0  ;
+
+INSERT_UPDATE PriceRow; code[unique = true]        ; product(code, $catalogVersion)[unique = true]; $price; $processTypes[unique = true]; $subscriptionTerms; $catalogVersion; currency(isocode)[default = USD, unique = true]; unit(code)[default = pieces]; productOfferingPrice(id, $catalogVersion); $priority
+                      ; unlimitedPremiumPlan_price ; unlimitedPremiumPlan                         ;       ; ACQUISITION                 ;                   ;                ;                                                ;                             ; generic_otc_pop
+                      ; Apple_iPhone_6_price       ; Apple_iPhone_6                               ;       ; ACQUISITION                 ;                   ;                ;                                                ;                             ; generic_otc_pop
+                      ; int_100_price              ; int_100                                      ;       ; ACQUISITION                 ;                   ;                ;                                                ;                             ; generic_otc_pop
+                      ; int_500_price              ; int_500                                      ;       ; ACQUISITION                 ;                   ;                ;                                                ;                             ; generic_otc_pop
+                      ; int_1000_price             ; int_1000                                     ;       ; ACQUISITION                 ;                   ;                ;                                                ;                             ; generic_otc_pop
+                      ; tv_L_price                 ; tv_L                                         ;       ; ACQUISITION                 ;                   ;                ;                                                ;                             ; generic_otc_pop
+                      ; sports_price               ; sports                                       ;       ; ACQUISITION                 ;                   ;                ;                                                ;                             ; generic_otc_pop
+                      ; ll_pots_price              ; ll_pots                                      ;       ; ACQUISITION                 ;                   ;                ;                                                ;                             ; generic_otc_pop
+                      ; ll_voip_price              ; ll_voip                                      ;       ; ACQUISITION                 ;                   ;                ;                                                ;                             ; generic_otc_pop
+                      ; tv_S_price                 ; tv_S                                         ;       ; ACQUISITION                 ;                   ;                ;                                                ;                             ; generic_otc_pop
+                      ; netflix_price              ; netflix                                      ;       ; ACQUISITION                 ;                   ;                ;                                                ;                             ; generic_otc_pop
+                      ; router_price               ; router                                       ;       ; ACQUISITION                 ;                   ;                ;                                                ;                             ; generic_otc_pop
+                      ; freeInternetAtNight_price  ; freeInternetAtNight                          ;       ; ACQUISITION                 ;                   ;                ;                                                ;                             ; generic_otc_pop
+                      ; laptop_price               ; laptop                                       ;       ; ACQUISITION                 ;                   ;                ;                                                ;                             ; generic_otc_pop
+
+INSERT_UPDATE TmaBundledProdOfferOption; bundledProductOffering(code, $catalogVersion)[unique = true]; productOffering(code, $catalogVersion)[unique = true]; $catalogVersion; lowerLimit; upperLimit; default
+                                       ; quadPlay                                                    ; homeDeal                                             ;                ; 1         ; 1         ; 1
+                                       ; homeDeal                                                    ; ipTvDeal                                             ;                ; 0         ; 1         ; 0
+                                       ; homeDeal                                                    ; landline                                             ;                ; 1         ; 1         ; 1
+                                       ; internet                                                    ; int_100                                              ;                ; 1         ;           ; 1
+                                       ; ipTvDeal                                                    ; tv_L                                                 ;                ; 1         ; 1         ; 1
+                                       ; landline                                                    ; ll_pots                                              ;                ; 0         ; 1         ; 0
+                                       ; mobileDeal                                                  ; Apple_iPhone_6                                       ;                ; 0         ; 1         ; 0
+                                       ; mobileDeal                                                  ; unlimitedPremiumPlan                                 ;                ; 1         ; 1         ; 1
+                                       ; starterHomeDeal                                             ; tv_S                                                 ;                ; 2         ; 2         ; 2
+
+# Complex BPO Structure
+                                       ; quadPlay_complex                                            ; homeDeal_complex                                     ;                ; 1         ; 1         ; 1
+                                       ; homeDeal_complex                                            ; youngSpecial_complex                                 ;                ; 0         ; 1         ; 0
+                                       ; homeDeal_complex                                            ; netflix                                              ;                ; 0         ; 1         ; 0
+                                       ; homeDeal_complex                                            ; tv_S                                                 ;                ; 1         ; 1         ; 1
+                                       ; youngSpecial_complex                                        ; internet_complex                                     ;                ; 1         ; 1         ; 1
+                                       ; youngSpecial_complex                                        ; Apple_iPhone_6                                       ;                ; 0         ; 1         ; 0
+                                       ; youngSpecial_complex                                        ; unlimitedPremiumPlan                                 ;                ; 1         ; 1         ; 1
+                                       ; internet_complex                                            ; homeInternetPackage_complex                          ;                ; 0         ; 1         ; 0
+                                       ; internet_complex                                            ; router                                               ;                ; 0         ; 1         ; 0
+                                       ; internet_complex                                            ; int_500                                              ;                ; 1         ; 1         ; 1
+                                       ; homeInternetPackage_complex                                 ; freeInternetAtNight                                  ;                ; 0         ; 1         ; 0
+                                       ; homeInternetPackage_complex                                 ; laptop                                               ;                ; 1         ; 1         ; 1
+
+# Same SPO in two BPOs
+                                       ; internet_two                                                ; router                                               ;                ; 0         ; 1         ; 0
+                                       ; internet_two                                                ; int_100                                              ;                ; 1         ; 1         ; 1
+                                       ; homeInternetPackage_two                                     ; router                                               ;                ; 0         ; 1         ; 0
+                                       ; homeInternetPackage_two                                     ; int_1000                                             ;                ; 1         ; 1         ; 1
+
+## Deprected since 2012 ##
+INSERT_UPDATE Cart; user(uid)        ; code[unique = true]; currency(isocode); date[dateformat = dd.MM.yyyy HH:mm:ss]; net   ; calculated; site(uid); store(uid); guid
+# User 1 Carts
+                  ; user1@hybris.com ; user1Cart          ; USD              ; 01.10.2020 00:00:00                   ; false ; false     ;          ;           ; ;
+                  ; user1@hybris.com ; user1Cart2         ; USD              ; 01.10.2020 00:00:00                   ; false ; false     ;          ;           ; ;
+                  ; user1@hybris.com ; user1Cart3         ; USD              ; 01.10.2020 00:00:00                   ; false ; false     ;          ;           ; ;
+                  ; user1@hybris.com ; user1Cart4         ; USD              ; 01.10.2020 00:00:00                   ; false ; false     ;          ;           ; ;
+                  ; user1@hybris.com ; user1Cart5         ; USD              ; 01.10.2020 00:00:00                   ; false ; false     ;          ;           ; ;
+                  ; user1@hybris.com ; user1Cart6         ; USD              ; 01.10.2020 00:00:00                   ; false ; false     ;          ;           ; ;
+                  ; user1@hybris.com ; user1Cart7         ; USD              ; 01.10.2020 00:00:00                   ; false ; false     ;          ;           ; ;
+                  ; user1@hybris.com ; user1Cart8         ; USD              ; 01.10.2020 00:00:00                   ; false ; false     ;          ;           ; ;
+                  ; user1@hybris.com ; user1Cart9         ; USD              ; 01.10.2020 00:00:00                   ; false ; false     ;          ;           ; ;
+                  ; user1@hybris.com ; user1Cart10        ; USD              ; 01.10.2020 00:00:00                   ; false ; false     ;          ;           ; ;
+                  ; user1@hybris.com ; user1Cart11        ; USD              ; 01.10.2020 00:00:00                   ; false ; false     ;          ;           ; ;
+                  ; user1@hybris.com ; user1Cart12        ; USD              ; 01.10.2020 00:00:00                   ; false ; false     ;          ;           ; ;
+                  ; user1@hybris.com ; user1Cart13        ; USD              ; 01.10.2020 00:00:00                   ; false ; false     ;          ;           ; ;
+                  ; user1@hybris.com ; user1Cart14        ; USD              ; 01.10.2020 00:00:00                   ; false ; false     ;          ;           ; ;
+                  ; user1@hybris.com ; user1Cart15        ; USD              ; 01.10.2020 00:00:00                   ; false ; false     ;          ;           ; ;
+                  ; user1@hybris.com ; user1Cart16        ; USD              ; 01.10.2020 00:00:00                   ; false ; false     ;          ;           ; ;
+                  ; user1@hybris.com ; user1Cart17        ; USD              ; 01.10.2020 00:00:00                   ; false ; false     ;          ;           ; ;
+                  ; user1@hybris.com ; user1Cart18        ; USD              ; 01.10.2020 00:00:00                   ; false ; false     ;          ;           ; ;
+
+## Deprected since 2012 ##
+INSERT_UPDATE CartEntry; entryNumber[unique = true]; product(code, $catalogVersion); quantity; unit(code); order(code) ; bpo(code, $catalogVersion); entryGroupNumbers; processType(code);
+# User 1 Cart 1
+                       ; -1                        ; int_100                       ; 1       ; pieces    ; user1Cart   ; quadPlay                  ; 1                ; ACQUISITION
+                       ; -1                        ; int_500                       ; 1       ; pieces    ; user1Cart   ; quadPlay                  ; 1                ; ACQUISITION
+                       ; -1                        ; int_1000                      ; 1       ; pieces    ; user1Cart   ; quadPlay                  ; 1                ; ACQUISITION
+                       ; -1                        ; tv_L                          ; 1       ; pieces    ; user1Cart   ; quadPlay                  ; 1                ; ACQUISITION
+                       ; -1                        ; sports                        ; 1       ; pieces    ; user1Cart   ; quadPlay                  ; 1                ; ACQUISITION
+                       ; -1                        ; ll_pots                       ; 1       ; pieces    ; user1Cart   ; quadPlay                  ; 1                ; ACQUISITION
+                       ; -1                        ; ll_voip                       ; 1       ; pieces    ; user1Cart   ; quadPlay                  ; 1                ; ACQUISITION
+                       ; -1                        ; Apple_iPhone_6                ; 1       ; pieces    ; user1Cart   ; quadPlay                  ; 1                ; ACQUISITION
+                       ; -1                        ; unlimitedPremiumPlan          ; 1       ; pieces    ; user1Cart   ; quadPlay                  ; 1                ; ACQUISITION
+
+# User 1 Cart 2
+                       ; -1                        ; int_100                       ; 1       ; pieces    ; user1Cart2  ; quadPlay                  ; 1                ; ACQUISITION
+                       ; -1                        ; int_500                       ; 1       ; pieces    ; user1Cart2  ; quadPlay                  ; 1                ; ACQUISITION
+                       ; -1                        ; int_1000                      ; 1       ; pieces    ; user1Cart2  ; quadPlay                  ; 1                ; ACQUISITION
+                       ; -1                        ; tv_L                          ; 1       ; pieces    ; user1Cart2  ; quadPlay                  ; 1                ; ACQUISITION
+                       ; -1                        ; ll_voip                       ; 1       ; pieces    ; user1Cart2  ; quadPlay                  ; 1                ; ACQUISITION
+
+# User 1 Cart 3
+                       ; -1                        ; tv_L                          ; 1       ; pieces    ; user1Cart3  ; homeDeal                  ; 1                ; ACQUISITION
+                       ; -1                        ; ll_voip                       ; 1       ; pieces    ; user1Cart3  ; homeDeal                  ; 1                ; ACQUISITION
+
+# User 1 Cart 4
+                       ; -1                        ; int_500                       ; 1       ; pieces    ; user1Cart4  ; homeDeal                  ; 1                ; ACQUISITION
+                       ; -1                        ; sports                        ; 1       ; pieces    ; user1Cart4  ; homeDeal                  ; 1                ; ACQUISITION
+
+# User 1 Cart 5
+                       ; -1                        ; Apple_iPhone_6                ; 1       ; pieces    ; user1Cart5  ; mobileDeal                ; 1                ; ACQUISITION
+
+# User 1 Cart 6
+                       ; -1                        ; tv_L                          ; 1       ; pieces    ; user1Cart6  ; homeDeal                  ; 1                ; ACQUISITION
+
+# User 1 Cart 7
+                       ; -1                        ; Apple_iPhone_6                ; 2       ; pieces    ; user1Cart7  ; homeDeal                  ; 1                ; ACQUISITION
+                       ; -1                        ; unlimitedPremiumPlan          ; 2       ; pieces    ; user1Cart7  ; homeDeal                  ; 1                ; ACQUISITION
+
+# User 1 Cart 8
+                       ; -1                        ; int_100                       ; 4       ; pieces    ; user1Cart8  ; internet                  ; 1                ; ACQUISITION
+
+# User 1 Cart 9
+                       ; -1                        ; tv_S                          ; 1       ; pieces    ; user1Cart9  ; starterHomeDeal           ; 1                ; ACQUISITION
+
+# User 1 Cart 10
+                       ; -1                        ; tv_S                          ; 1       ; pieces    ; user1Cart10 ; quadPlay_complex          ; 1                ; ACQUISITION
+
+# User 1 Cart 11
+                       ; -1                        ; tv_S                          ; 1       ; pieces    ; user1Cart11 ; quadPlay_complex          ; 1                ; ACQUISITION
+                       ; -1                        ; freeInternetAtNight           ; 1       ; pieces    ; user1Cart11 ; quadPlay_complex          ; 1                ; ACQUISITION
+
+# User 1 Cart 12
+                       ; -1                        ; int_100                       ; 1       ; pieces    ; user1Cart12 ; quadPlay_two              ; 1                ; ACQUISITION
+                       ; -1                        ; int_1000                      ; 1       ; pieces    ; user1Cart12 ; quadPlay_two              ; 1                ; ACQUISITION
+
+# User 1 Cart 13
+                       ; -1                        ; router                        ; 1       ; pieces    ; user1Cart13 ; quadPlay_two              ; 1                ; ACQUISITION
+
+# User 1 Cart 14
+                       ; -1                        ; int_500                       ; 1       ; pieces    ; user1Cart14 ; homeDeal                  ; 1                ; ACQUISITION
+                       ; -1                        ; sports                        ; 1       ; pieces    ; user1Cart14 ; homeDeal                  ; 1                ; ACQUISITION
+
+                       ; -1                        ; int_100                       ; 1       ; pieces    ; user1Cart14 ; quadPlay                  ; 2                ; ACQUISITION
+                       ; -1                        ; int_500                       ; 1       ; pieces    ; user1Cart14 ; quadPlay                  ; 2                ; ACQUISITION
+                       ; -1                        ; int_1000                      ; 1       ; pieces    ; user1Cart14 ; quadPlay                  ; 2                ; ACQUISITION
+                       ; -1                        ; tv_L                          ; 1       ; pieces    ; user1Cart14 ; quadPlay                  ; 2                ; ACQUISITION
+                       ; -1                        ; ll_voip                       ; 1       ; pieces    ; user1Cart14 ; quadPlay                  ; 2                ; ACQUISITION
+
+                       ; -1                        ; tv_S                          ; 1       ; pieces    ; user1Cart14 ; starterHomeDeal           ; 3                ; ACQUISITION
+
+# User 1 Cart 15
+                       ; -1                        ; Apple_iPhone_6                ; 1       ; pieces    ; user1Cart15 ; homeDeal                  ; 1                ; ACQUISITION
+
+# User 1 Cart 16
+                       ; -1                        ; Apple_iPhone_6                ; 3       ; pieces    ; user1Cart16 ; homeDeal                  ; 1                ; ACQUISITION
+
+
+## Deprected since 2012 ##
+# User 1 Cart 17
+
+#%userService = de.hybris.platform.core.Registry.getApplicationContext().getBean("userService");
+#%commerceCartService = de.hybris.platform.core.Registry.getApplicationContext().getBean("commerceCartService");
+#%user=userService.getUserForUID("user1@hybris.com");
+#%cart=commerceCartService.getCartForCodeAndUser("user1Cart17", user);
+#%entryGroup = new de.hybris.platform.core.order.EntryGroup();
+#%entryGroup.setErroneous(Boolean.TRUE);
+#%entryGroup.setGroupNumber(1);
+#%cartGroupValidation1 = new de.hybris.platform.b2ctelcoservices.model.TmaCartValidationModel();
+#%cartGroupValidation1.setCode("COMPATIBILITY");
+#%cartGroupValidation1.setMessage("Compatibility error message.");
+#%cartGroupValidation1.setId("user1Cart17_1");
+#%cartGroupValidation2 = new de.hybris.platform.b2ctelcoservices.model.TmaCartValidationModel();
+#%cartGroupValidation2.setCode("CARDINALITY");
+#%cartGroupValidation2.setMessage("Cardinality error message.");
+#%cartGroupValidation2.setId("user1Cart17_2");
+#%de.hybris.platform.core.Registry.getApplicationContext().getBean("modelService").save(cartGroupValidation1);
+#%de.hybris.platform.core.Registry.getApplicationContext().getBean("modelService").save(cartGroupValidation2);
+#%validation = new HashSet();
+#%validation.add(cartGroupValidation1);
+#%validation.add(cartGroupValidation2);
+#%entryGroup.setValidationMessages(validation);
+#%cartGroups = new ArrayList();
+#%cartGroups.add(entryGroup);
+#%cart.setEntryGroups(cartGroups);
+#%de.hybris.platform.core.Registry.getApplicationContext().getBean("modelService").save(cart);
+
+## Deprected since 2012 ##
+# User 1 Cart 18
+
+#%userService = de.hybris.platform.core.Registry.getApplicationContext().getBean("userService");
+#%commerceCartService = de.hybris.platform.core.Registry.getApplicationContext().getBean("commerceCartService");
+#%user=userService.getUserForUID("user1@hybris.com");
+#%cart=commerceCartService.getCartForCodeAndUser("user1Cart18", user);
+#%entryGroup = new de.hybris.platform.core.order.EntryGroup();
+#%entryGroup.setErroneous(Boolean.TRUE);
+#%entryGroup.setGroupNumber(1);
+#%cartGroupValidation = new de.hybris.platform.b2ctelcoservices.model.TmaCartValidationModel();
+#%cartGroupValidation.setCode("CARDINALITY");
+#%cartGroupValidation.setMessage("Cardinality error message.");
+#%cartGroupValidation.setId("user1Cart18_2");
+#%de.hybris.platform.core.Registry.getApplicationContext().getBean("modelService").save(cartGroupValidation);
+#%validation = new HashSet();
+#%validation.add(cartGroupValidation);
+#%entryGroup.setValidationMessages(validation);
+#%cartGroups = new ArrayList();
+#%cartGroups.add(entryGroup);
+#%cart.setEntryGroups(cartGroups);
+#%de.hybris.platform.core.Registry.getApplicationContext().getBean("modelService").save(cart);
+
+INSERT_UPDATE Cart; user(uid)        ; code[unique = true]; currency(isocode); date[dateformat = dd.MM.yyyy HH:mm:ss]; net   ; calculated; site(uid); store(uid); guid
+# User 2 Carts
+                  ; user2@hybris.com ; user2Cart          ; USD              ; 01.10.2020 00:00:00                   ; false ; false     ;          ;           ; ;
+                  ; user2@hybris.com ; user2Cart2         ; USD              ; 01.10.2020 00:00:00                   ; false ; false     ;          ;           ; ;
+                  ; user2@hybris.com ; user2Cart3         ; USD              ; 01.10.2020 00:00:00                   ; false ; false     ;          ;           ; ;
+                  ; user2@hybris.com ; user2Cart4         ; USD              ; 01.10.2020 00:00:00                   ; false ; false     ;          ;           ; ;
+                  ; user2@hybris.com ; user2Cart5         ; USD              ; 01.10.2020 00:00:00                   ; false ; false     ;          ;           ; ;
+                  ; user2@hybris.com ; user2Cart6         ; USD              ; 01.10.2020 00:00:00                   ; false ; false     ;          ;           ; ;
+                  ; user2@hybris.com ; user2Cart7         ; USD              ; 01.10.2020 00:00:00                   ; false ; false     ;          ;           ; ;
+                  ; user2@hybris.com ; user2Cart8         ; USD              ; 01.10.2020 00:00:00                   ; false ; false     ;          ;           ; ;
+                  ; user2@hybris.com ; user2Cart9         ; USD              ; 01.10.2020 00:00:00                   ; false ; false     ;          ;           ; ;
+                  ; user2@hybris.com ; user2Cart10        ; USD              ; 01.10.2020 00:00:00                   ; false ; false     ;          ;           ; ;
+                  ; user2@hybris.com ; user2Cart11        ; USD              ; 01.10.2020 00:00:00                   ; false ; false     ;          ;           ; ;
+                  ; user2@hybris.com ; user2Cart12        ; USD              ; 01.10.2020 00:00:00                   ; false ; false     ;          ;           ; ;
+                  ; user2@hybris.com ; user2Cart13        ; USD              ; 01.10.2020 00:00:00                   ; false ; false     ;          ;           ; ;
+                  ; user2@hybris.com ; user2Cart14        ; USD              ; 01.10.2020 00:00:00                   ; false ; false     ;          ;           ; ;
+                  ; user2@hybris.com ; user2Cart15        ; USD              ; 01.10.2020 00:00:00                   ; false ; false     ;          ;           ; ;
+                  ; user2@hybris.com ; user2Cart16        ; USD              ; 01.10.2020 00:00:00                   ; false ; false     ;          ;           ; ;
+                  ; user2@hybris.com ; user2Cart17        ; USD              ; 01.10.2020 00:00:00                   ; false ; false     ;          ;           ; ;
+                  ; user2@hybris.com ; user2Cart18        ; USD              ; 01.10.2020 00:00:00                   ; false ; false     ;          ;           ; ;
+                  ; user2@hybris.com ; user2Cart19        ; USD              ; 01.10.2020 00:00:00                   ; false ; false     ;          ;           ; ;
+                  ; user2@hybris.com ; user2Cart20        ; USD              ; 01.10.2020 00:00:00                   ; false ; false     ;          ;           ; ;
+
+INSERT_UPDATE TmaCartValidation; id[unique = true]; code            ; message
+                               ; user2Cart17_1    ; "COMPATIBILITY" ; "Compatibility error message."
+                               ; user2Cart17_2    ; "CARDINALITY"   ; "Cardinality error message."
+                               ; user2Cart18_1    ; "CARDINALITY"   ; "Cardinality error message."
+
+INSERT_UPDATE CartEntry; entryNumber[unique = true]; product(code, $catalogVersion); quantity; unit(code); order(code)[unique = true]; masterEntry(order(code), entryNumber); processType(code); cartEntryValidations(id)
+# User 2 Cart 1
+                       ; 0                         ; quadPlay                      ; 1       ; pieces    ; user2Cart                 ;                                      ; ACQUISITION      ;
+                       ; 1                         ; homeDeal                      ; 1       ; pieces    ; user2Cart                 ; user2Cart:0                          ; ACQUISITION      ;
+                       ; 2                         ; mobileDeal                    ; 1       ; pieces    ; user2Cart                 ; user2Cart:0                          ; ACQUISITION      ;
+                       ; 3                         ; internet                      ; 1       ; pieces    ; user2Cart                 ; user2Cart:1                          ; ACQUISITION      ;
+                       ; 4                         ; ipTvDeal                      ; 1       ; pieces    ; user2Cart                 ; user2Cart:1                          ; ACQUISITION      ;
+                       ; 5                         ; landline                      ; 1       ; pieces    ; user2Cart                 ; user2Cart:1                          ; ACQUISITION      ;
+                       ; 6                         ; int_100                       ; 1       ; pieces    ; user2Cart                 ; user2Cart:3                          ; ACQUISITION      ;
+                       ; 7                         ; int_500                       ; 1       ; pieces    ; user2Cart                 ; user2Cart:3                          ; ACQUISITION      ;
+                       ; 8                         ; int_1000                      ; 1       ; pieces    ; user2Cart                 ; user2Cart:3                          ; ACQUISITION      ;
+                       ; 9                         ; tv_L                          ; 1       ; pieces    ; user2Cart                 ; user2Cart:4                          ; ACQUISITION      ;
+                       ; 10                        ; sports                        ; 1       ; pieces    ; user2Cart                 ; user2Cart:4                          ; ACQUISITION      ;
+                       ; 11                        ; ll_pots                       ; 1       ; pieces    ; user2Cart                 ; user2Cart:5                          ; ACQUISITION      ;
+                       ; 12                        ; ll_voip                       ; 1       ; pieces    ; user2Cart                 ; user2Cart:5                          ; ACQUISITION      ;
+                       ; 13                        ; Apple_iPhone_6                ; 1       ; pieces    ; user2Cart                 ; user2Cart:2                          ; ACQUISITION      ;
+                       ; 14                        ; unlimitedPremiumPlan          ; 1       ; pieces    ; user2Cart                 ; user2Cart:2                          ; ACQUISITION      ;
+
+# User 2 Cart 2
+                       ; 0                         ; quadPlay                      ; 1       ; pieces    ; user2Cart2                ;                                      ; ACQUISITION      ;
+                       ; 1                         ; homeDeal                      ; 1       ; pieces    ; user2Cart2                ; user2Cart2:0                         ; ACQUISITION      ;
+                       ; 2                         ; internet                      ; 1       ; pieces    ; user2Cart2                ; user2Cart2:1                         ; ACQUISITION      ;
+                       ; 3                         ; ipTvDeal                      ; 1       ; pieces    ; user2Cart2                ; user2Cart2:1                         ; ACQUISITION      ;
+                       ; 4                         ; landline                      ; 1       ; pieces    ; user2Cart2                ; user2Cart2:1                         ; ACQUISITION      ;
+                       ; 5                         ; int_100                       ; 1       ; pieces    ; user2Cart2                ; user2Cart2:2                         ; ACQUISITION      ;
+                       ; 6                         ; int_500                       ; 1       ; pieces    ; user2Cart2                ; user2Cart2:2                         ; ACQUISITION      ;
+                       ; 7                         ; int_1000                      ; 1       ; pieces    ; user2Cart2                ; user2Cart2:2                         ; ACQUISITION      ;
+                       ; 8                         ; tv_L                          ; 1       ; pieces    ; user2Cart2                ; user2Cart2:3                         ; ACQUISITION      ;
+                       ; 9                         ; ll_voip                       ; 1       ; pieces    ; user2Cart2                ; user2Cart2:4                         ; ACQUISITION      ;
+
+# User 2 Cart 3
+                       ; 0                         ; homeDeal                      ; 1       ; pieces    ; user2Cart3                ;                                      ; ACQUISITION      ;
+                       ; 1                         ; ipTvDeal                      ; 1       ; pieces    ; user2Cart3                ; user2Cart3:0                         ; ACQUISITION      ;
+                       ; 2                         ; landline                      ; 1       ; pieces    ; user2Cart3                ; user2Cart3:0                         ; ACQUISITION      ;
+                       ; 3                         ; tv_L                          ; 1       ; pieces    ; user2Cart3                ; user2Cart3:1                         ; ACQUISITION      ;
+                       ; 4                         ; ll_voip                       ; 1       ; pieces    ; user2Cart3                ; user2Cart3:2                         ; ACQUISITION      ;
+
+# User 2 Cart 4
+                       ; 0                         ; homeDeal                      ; 1       ; pieces    ; user2Cart4                ;                                      ; ACQUISITION      ;
+                       ; 1                         ; internet                      ; 1       ; pieces    ; user2Cart4                ; user2Cart4:0                         ; ACQUISITION      ;
+                       ; 2                         ; ipTvDeal                      ; 1       ; pieces    ; user2Cart4                ; user2Cart4:0                         ; ACQUISITION      ;
+                       ; 3                         ; landline                      ; 1       ; pieces    ; user2Cart4                ; user2Cart4:0                         ; ACQUISITION      ;
+                       ; 4                         ; int_500                       ; 1       ; pieces    ; user2Cart4                ; user2Cart4:1                         ; ACQUISITION      ;
+                       ; 5                         ; sports                        ; 1       ; pieces    ; user2Cart4                ; user2Cart4:2                         ; ACQUISITION      ;
+
+# User 2 Cart 5
+                       ; 0                         ; mobileDeal                    ; 1       ; pieces    ; user2Cart5                ;                                      ; ACQUISITION      ;
+                       ; 1                         ; Apple_iPhone_6                ; 1       ; pieces    ; user2Cart5                ; user2Cart5:0                         ; ACQUISITION      ;
+
+# User 2 Cart 6
+                       ; 0                         ; homeDeal                      ; 1       ; pieces    ; user2Cart6                ;                                      ; ACQUISITION      ;
+                       ; 1                         ; ipTvDeal                      ; 1       ; pieces    ; user2Cart6                ; user2Cart6:0                         ; ACQUISITION      ;
+                       ; 2                         ; landline                      ; 1       ; pieces    ; user2Cart6                ; user2Cart6:0                         ; ACQUISITION      ;
+                       ; 3                         ; tv_L                          ; 1       ; pieces    ; user2Cart6                ; user2Cart6:1                         ; ACQUISITION      ;
+
+# User 2 Cart 7
+                       ; 0                         ; mobileDeal                    ; 1       ; pieces    ; user2Cart7                ;                                      ; ACQUISITION      ;
+                       ; 1                         ; Apple_iPhone_6                ; 2       ; pieces    ; user2Cart7                ; user2Cart7:0                         ; ACQUISITION      ;
+                       ; 2                         ; unlimitedPremiumPlan          ; 2       ; pieces    ; user2Cart7                ; user2Cart7:0                         ; ACQUISITION      ;
+
+# User 2 Cart 8
+                       ; 0                         ; internet                      ; 1       ; pieces    ; user2Cart8                ;                                      ; ACQUISITION      ;
+                       ; 1                         ; int_100                       ; 4       ; pieces    ; user2Cart8                ; user2Cart8:0                         ; ACQUISITION      ;
+
+# User 2 Cart 9
+                       ; 0                         ; starterHomeDeal               ; 1       ; pieces    ; user2Cart9                ;                                      ; ACQUISITION      ;
+                       ; 1                         ; tv_S                          ; 1       ; pieces    ; user2Cart9                ; user2Cart9:0                         ; ACQUISITION      ;
+
+# User 2 Cart 10
+                       ; 0                         ; quadPlay_complex              ; 1       ; pieces    ; user2Cart10               ;                                      ; ACQUISITION      ;
+                       ; 1                         ; homeDeal_complex              ; 1       ; pieces    ; user2Cart10               ; user2Cart10:0                        ; ACQUISITION      ;
+                       ; 2                         ; tv_S                          ; 1       ; pieces    ; user2Cart10               ; user2Cart10:1                        ; ACQUISITION      ;
+
+# User 2 Cart 11
+                       ; 0                         ; quadPlay_complex              ; 1       ; pieces    ; user2Cart11               ;                                      ; ACQUISITION      ;
+                       ; 1                         ; homeDeal_complex              ; 1       ; pieces    ; user2Cart11               ; user2Cart11:0                        ; ACQUISITION      ;
+                       ; 2                         ; youngSpecial_complex          ; 1       ; pieces    ; user2Cart11               ; user2Cart11:1                        ; ACQUISITION      ;
+                       ; 3                         ; internet_complex              ; 1       ; pieces    ; user2Cart11               ; user2Cart11:2                        ; ACQUISITION      ;
+                       ; 4                         ; homeInternetPackage_complex   ; 1       ; pieces    ; user2Cart11               ; user2Cart11:3                        ; ACQUISITION      ;
+                       ; 5                         ; tv_S                          ; 1       ; pieces    ; user2Cart11               ; user2Cart11:1                        ; ACQUISITION      ;
+                       ; 6                         ; freeInternetAtNight           ; 1       ; pieces    ; user2Cart11               ; user2Cart11:4                        ; ACQUISITION      ;
+
+# User 2 Cart 12
+                       ; 0                         ; quadPlay_two                  ; 1       ; pieces    ; user2Cart12               ;                                      ; ACQUISITION      ;
+                       ; 1                         ; internet_two                  ; 1       ; pieces    ; user2Cart12               ; user2Cart12:0                        ; ACQUISITION      ;
+                       ; 2                         ; homeInternetPackage_two       ; 1       ; pieces    ; user2Cart12               ; user2Cart12:0                        ; ACQUISITION      ;
+                       ; 3                         ; int_100                       ; 1       ; pieces    ; user2Cart12               ; user2Cart12:1                        ; ACQUISITION      ;
+                       ; 4                         ; int_1000                      ; 1       ; pieces    ; user2Cart12               ; user2Cart12:2                        ; ACQUISITION      ;
+
+# User 2 Cart 13
+                       ; 0                         ; quadPlay_two                  ; 1       ; pieces    ; user2Cart13               ;                                      ; ACQUISITION      ;
+                       ; 1                         ; internet_two                  ; 1       ; pieces    ; user2Cart13               ; user2Cart13:0                        ; ACQUISITION      ;
+                       ; 2                         ; homeInternetPackage_two       ; 1       ; pieces    ; user2Cart13               ; user2Cart13:0                        ; ACQUISITION      ;
+                       ; 3                         ; router                        ; 1       ; pieces    ; user2Cart13               ; user2Cart13:1                        ; ACQUISITION      ;
+                       ; 4                         ; router                        ; 1       ; pieces    ; user2Cart13               ; user2Cart13:2                        ; ACQUISITION      ;
+
+# User 2 Cart 14
+                       ; 0                         ; homeDeal                      ; 1       ; pieces    ; user2Cart14               ;                                      ; ACQUISITION      ;
+                       ; 1                         ; internet                      ; 1       ; pieces    ; user2Cart14               ; user2Cart14:0                        ; ACQUISITION      ;
+                       ; 2                         ; ipTvDeal                      ; 1       ; pieces    ; user2Cart14               ; user2Cart14:0                        ; ACQUISITION      ;
+                       ; 3                         ; landline                      ; 1       ; pieces    ; user2Cart14               ; user2Cart14:0                        ; ACQUISITION      ;
+                       ; 4                         ; int_500                       ; 1       ; pieces    ; user2Cart14               ; user2Cart14:1                        ; ACQUISITION      ;
+                       ; 5                         ; sports                        ; 1       ; pieces    ; user2Cart14               ; user2Cart14:2                        ; ACQUISITION      ;
+
+                       ; 6                         ; quadPlay                      ; 1       ; pieces    ; user2Cart14               ;                                      ; ACQUISITION      ;
+                       ; 7                         ; homeDeal                      ; 1       ; pieces    ; user2Cart14               ; user2Cart14:6                        ; ACQUISITION      ;
+                       ; 8                         ; internet                      ; 1       ; pieces    ; user2Cart14               ; user2Cart14:7                        ; ACQUISITION      ;
+                       ; 9                         ; ipTvDeal                      ; 1       ; pieces    ; user2Cart14               ; user2Cart14:7                        ; ACQUISITION      ;
+                       ; 10                        ; landline                      ; 1       ; pieces    ; user2Cart14               ; user2Cart14:7                        ; ACQUISITION      ;
+                       ; 11                        ; int_100                       ; 1       ; pieces    ; user2Cart14               ; user2Cart14:8                        ; ACQUISITION      ;
+                       ; 12                        ; int_500                       ; 1       ; pieces    ; user2Cart14               ; user2Cart14:8                        ; ACQUISITION      ;
+                       ; 13                        ; int_1000                      ; 1       ; pieces    ; user2Cart14               ; user2Cart14:8                        ; ACQUISITION      ;
+                       ; 14                        ; tv_L                          ; 1       ; pieces    ; user2Cart14               ; user2Cart14:9                        ; ACQUISITION      ;
+                       ; 15                        ; ll_voip                       ; 1       ; pieces    ; user2Cart14               ; user2Cart14:10                       ; ACQUISITION      ;
+
+                       ; 16                         ; starterHomeDeal               ; 1       ; pieces    ; user2Cart14               ;                                      ; ACQUISITION      ;
+                       ; 17                         ; tv_S                          ; 1       ; pieces    ; user2Cart14               ; user2Cart14:16                       ; ACQUISITION      ;
+
+# User 2 Cart 15
+                       ; 0                         ; mobileDeal                    ; 1       ; pieces    ; user2Cart15               ;                                      ; ACQUISITION      ;
+                       ; 1                         ; Apple_iPhone_6                ; 1       ; pieces    ; user2Cart15               ; user2Cart15:0                        ; ACQUISITION      ;
+
+# User 2 Cart 16
+                       ; 0                         ; mobileDeal                    ; 1       ; pieces    ; user2Cart16               ;                                      ; ACQUISITION      ;
+                       ; 1                         ; Apple_iPhone_6                ; 3       ; pieces    ; user2Cart16               ; user2Cart16:0                        ; ACQUISITION      ;
+
+# User 2 Cart 17
+                       ; 0                         ; mobileDeal                    ; 1       ; pieces    ; user2Cart17               ;                                      ; ACQUISITION      ; user2Cart17_1, user2Cart17_2
+
+# User 2 Cart 18
+                       ; 0                         ; mobileDeal                    ; 1       ; pieces    ; user2Cart18               ;                                      ; ACQUISITION      ; user2Cart18_1
+
+# User 2 Cart 20
+                       ; 0                         ; mobileDeal                    ; 1       ; pieces    ; user2Cart20               ;                                      ; ACQUISITION      ;

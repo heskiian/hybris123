@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+			  http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- Field mapping configuration -->
+    <bean id="dataMapper"
+          class="de.hybris.platform.webservicescommons.mapping.impl.DefaultDataMapper">
+        <property name="fieldSetBuilder" ref="fieldSetBuilder"/>
+    </bean>
+
+    <bean id="fieldSetBuilder"
+          class="de.hybris.platform.webservicescommons.mapping.impl.DefaultFieldSetBuilder">
+        <property name="defaultRecurrencyLevel" value="4"/>
+        <property name="defaultMaxFieldSetSize" value="50000"/>
+        <property name="fieldSetLevelHelper" ref="fieldSetLevelHelper"/>
+    </bean>
+
+    <alias alias="fieldSetLevelHelper" name="defaultFieldSetLevelHelper"/>
+    <bean id="defaultFieldSetLevelHelper"
+          class="de.hybris.platform.webservicescommons.mapping.impl.DefaultFieldSetLevelHelper">
+    </bean>
+
+    <bean class="de.hybris.platform.webservicescommons.mapping.filters.GeneralFieldFilter">
+        <property name="fieldSelectionStrategy" ref="fieldSelectionStrategy"/>
+    </bean>
+
+    <!-- Destination Object factory-->
+    <bean id="spiBillingAccountModelFactory"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.objectfactory.SpiObjectFactory">
+        <constructor-arg name="spiGenericService" ref="spiGenericService"/>
+        <property name="baseType" value="de.hybris.platform.subscribedproductservices.model.SpiBillingAccountModel"/>
+    </bean>
+
+    <bean id="spiProductOfferingModelFactory"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.objectfactory.SpiObjectFactory">
+        <constructor-arg name="spiGenericService" ref="spiGenericService"/>
+        <property name="baseType" value="de.hybris.platform.subscribedproductservices.model.SpiProductOfferingModel"/>
+    </bean>
+
+    <bean id="spiProductSpecificationModelFactory"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.objectfactory.SpiObjectFactory">
+        <constructor-arg name="spiGenericService" ref="spiGenericService"/>
+        <property name="baseType" value="de.hybris.platform.subscribedproductservices.model.SpiProductSpecificationModel"/>
+    </bean>
+
+    <bean id="spiServiceModelFactory"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.objectfactory.SpiObjectFactory">
+        <constructor-arg name="spiGenericService" ref="spiGenericService"/>
+        <property name="baseType" value="de.hybris.platform.subscribedproductservices.model.SpiServiceModel"/>
+    </bean>
+
+    <bean id="spiResourceModelFactory"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.objectfactory.SpiObjectFactory">
+        <constructor-arg name="spiGenericService" ref="spiGenericService"/>
+        <property name="baseType" value="de.hybris.platform.subscribedproductservices.model.SpiResourceModel"/>
+    </bean>
+
+    <bean id="spiRelatedPlaceModelFactory"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.objectfactory.SpiObjectFactory">
+        <constructor-arg name="spiGenericService" ref="spiGenericService"/>
+        <property name="baseType" value="de.hybris.platform.subscribedproductservices.model.SpiRelatedPlaceModel"/>
+    </bean>
+
+    <bean id="spiRelatedProductOrderItemModelFactory"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.objectfactory.SpiObjectFactory">
+        <constructor-arg name="spiGenericService" ref="spiGenericService"/>
+        <property name="baseType" value="de.hybris.platform.subscribedproductservices.model.SpiRelatedProductOrderItemModel"/>
+    </bean>
+
+    <bean id="spiAgreementItemModelFactory"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.objectfactory.SpiObjectFactory">
+        <constructor-arg name="spiGenericService" ref="spiGenericService"/>
+        <property name="baseType" value="de.hybris.platform.subscribedproductservices.model.SpiAgreementItemModel"/>
+    </bean>
+
+    <bean id="spiProductModelFactory"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.objectfactory.SpiObjectFactory">
+        <constructor-arg name="spiGenericService" ref="spiGenericService"/>
+        <property name="baseType" value="de.hybris.platform.subscribedproductservices.model.SpiProductModel"/>
+    </bean>
+
+    <bean id="spiPartyRoleModelFactory"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.objectfactory.SpiObjectFactory">
+        <constructor-arg name="spiGenericService" ref="spiGenericService"/>
+        <property name="baseType" value="de.hybris.platform.subscribedproductservices.model.SpiPartyRoleModel"/>
+    </bean>
+
+    <bean id="spiProductRelationshipModelFactory"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.objectfactory.SpiObjectFactory">
+        <constructor-arg name="spiGenericService" ref="spiGenericService"/>
+        <property name="baseType" value="de.hybris.platform.subscribedproductservices.model.SpiProductRelationshipModel"/>
+    </bean>
+
+    <bean id="spiProductOfferingPriceModelFactory"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.objectfactory.SpiObjectFactory">
+        <constructor-arg name="spiGenericService" ref="spiGenericService"/>
+        <property name="baseType" value="de.hybris.platform.subscribedproductservices.model.SpiProductOfferingPriceModel"/>
+    </bean>
+
+    <bean id="spiMoneyFactory"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.objectfactory.SpiMoneyFactory">
+        <property name="baseType" value="java.lang.Double"/>
+    </bean>
+
+</beans>

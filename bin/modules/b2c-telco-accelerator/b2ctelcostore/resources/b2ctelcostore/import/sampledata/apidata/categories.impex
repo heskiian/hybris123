@@ -1,0 +1,60 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+#% impex.enableCodeExecution(true);
+
+$catalog-id = b2ctelcoProductCatalog
+$catalog-version = Online
+$catalogVersion = catalogversion(catalog(id[default = $catalog-id]), version[default = $catalog-version])[unique = true, default = $catalog-id:$catalog-version]
+$lang = en
+
+$supercategories = source(code, $catalogVersion)[unique=true]
+$allowedPrincipals = allowedPrincipals(uid)[default = 'customergroup']
+$categories = target(code, $catalogVersion)[unique=true]
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE Category; code[unique = true]                                              ; name[lang = $lang]                                                 ; $catalogVersion
+                      ; product_fixed_discount_promotion_category                        ; "Product Fixed Discount Promotion Category"                        ; ;
+                      ; product_percenatge_discount_promotion_category                   ; "Product Percentage Discount Promotion Category"                   ; ;
+                      ; product_fixed_price_promotion_category                           ; "Product Fixed Price Promotion Category"                           ; ;
+                      ; product_percentage_discount_cart_promotion_category              ; "Product Percentage Discount Cart Promotion Category"              ; ;
+                      ; product_perfect_partner_fixed_price_promotion_category_1         ; "Product Perfect Partner Fixed Price Promotion Category 1"         ; ;
+                      ; product_perfect_partner_fixed_price_promotion_category_2         ; "Product Perfect Partner Fixed Price Promotion Category 2"         ; ;
+                      ; product_perfect_partner_percentage_discount_promotion_category_1 ; "Product Perfect Partner Percentage Discount Promotion Category 1" ; ;
+                      ; product_perfect_partner_percentage_discount_promotion_category_2 ; "Product Perfect Partner Percentage Discount Promotion Category 2" ; ;
+                      ; product_simpe_x_buy_x_get_y_free_category                        ; "Simple X Buy X Get Y Free Category"                               ; ;
+                      ; product_simpe_y_buy_x_get_y_free_category                        ; "Simple Y Buy X Get Y Free Category"                               ; ;
+                      ; product_multibuy_fixed_price_category_1                          ; "Product Multibuy Fixed Price Category 1"                          ; ;
+                      ; product_multibuy_fixed_price_category_2                          ; "Product Multibuy Fixed Price Category 2"                          ; ;
+                      ; product_multibuy_fixed_price_category_3                          ; "Product Multibuy Fixed Price Category 3"                          ; ;
+                      ; product_simple_bundle_fixed_price_promotion_category_1           ; "Simple Bundle Fixed Price Promotion Category"                     ; ;
+                      ; product_simple_bundle_fixed_price_promotion_category_2           ; "Simple Bundle Fixed Price Promotion Category"                     ; ;
+                      ; product_simple_bundle_fixed_price_promotion_category_3           ; "Simple Bundle Fixed Price Promotion Category"                     ; ;
+                      ; product_simple_threshold_fixed_discount_category                 ; "Simple Threshold Fixed Discount On Product Category"              ; ;
+                      ; product_simple_order_threshold_free_gift_category                ; "Simple Order Threshold Free Gift Category"                        ; ;
+                      ; product_coupon_code_percentage_discount_category                 ; "Simple Coupon Code Percentage Discount On Product"                ; ;
+
+###categories.impex
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE Category; code[unique = true]; $allowedPrincipals; $catalogVersion
+                      ; tapasplans
+                      ; salsaplans
+                      ; sombreroplans
+
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE CategoryCategoryRelation; $categories   ; $supercategories
+                                      ; tapasplans    ; plans
+                                      ; salsaplans    ; plans
+                                      ; sombreroplans ; plans
+                                      ; plans_test    ; 1
+
+###categories_en.impex
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE Category; code[unique = true]; name[lang = $lang]; description[lang = $lang]; $catalogVersion
+                      ; tapasplans         ; Tapas Plans
+                      ; salsaplans         ; Salsa Plans
+                      ; sombreroplans      ; Sombrero Plans
+                      ; plans_test         ; testPlans

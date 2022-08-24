@@ -1,0 +1,23 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for Importing Sample Payment Method Data
+
+#% impex.enableCodeExecution(true);
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE CreditCardPaymentInfo; code[unique = true]; user(uid)                                      ; ccOwner        ; number           ; type(code); validToMonth; validToYear; saved; subscriptionId;
+# Order Apporval - POST
+                                   ; 11038001           ; selfserviceuser11038001@hybris.com             ; NATALIE JENKIN ; 1111222233334444 ; master    ; 5           ; 2030       ; TRUE ; 9111          ;
+                                   ; 11038002           ; selfserviceuser11038002@hybris.com             ; NATALIE JENKIN ; 1111222233334444 ; master    ; 5           ; 2030       ; TRUE ; 9111          ;
+                                   ; 11038003           ; selfserviceuser11038003@hybris.com             ; NATALIE JENKIN ; 1111222233334444 ; master    ; 5           ; 2030       ; TRUE ; 9111          ;
+
+# Order Apporval - E2E
+                                   ; 110371             ; b2bcustomer_a_requiresapproval11037@hybris.com ; Test User      ; 1111222233334444 ; master    ; 5           ; 2030       ; TRUE ; 9111
+                                   ; 110372             ; b2bcustomer_b11037@hybris.com                  ; Test User      ; 1111222233334444 ; master    ; 5           ; 2030       ; TRUE ; 9111
+                                   ; 110373             ; b2bcustomer_requiresapproval11037@hybris.com   ; Test User      ; 1111222233334444 ; master    ; 5           ; 2030       ; TRUE ; 9111
+                                   ; 110374             ; b2bapprover_a11037@hybris.com                  ; Test User      ; 1111222233334444 ; master    ; 5           ; 2030       ; TRUE ; 9111
+                                   ; 110375             ; customer11037@hybris.com                       ; Test User      ; 1111222233334444 ; master    ; 5           ; 2030       ; TRUE ; 9111
+## fixed BPOs E2E
+                                   ; 11429              ; selfserviceuser11429@hybris.com                ; NATALIE JENKIN ; 1111222233334444 ; master    ; 5           ; 2030       ; TRUE ; 9111          ;

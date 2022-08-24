@@ -1,0 +1,229 @@
+#
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+#
+
+# ---------------------------------------------------------------------------
+## ---------------------------------------------------------------------------
+
+# ImpEx for Importing Address test Data
+
+#% impex.enableCodeExecution(true);
+
+$cart-site-store = b2ctelco
+$productCatalog = b2ctelcoProductCatalog
+$productCatalogName = B2C Telco Product Catalog
+$onlineCatalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Staged'])[unique = true, default = $productCatalog:Staged]
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE Address; id[unique = true]; owner(Customer.uid)             ; streetname            ; streetnumber; postalcode ; town          ; country(isocode); installationAddress[default = false]; billingAddress[default = false]; shippingAddress[default = false]; region(isocode)
+                     ; 10017            ; selfserviceuser3@hybris.com     ; East 42nd Street      ; 140         ; 10017      ; New York      ; US              ;
+                     ; 94103            ; selfserviceuser71@hybris.com    ; Market Street         ; 860         ; 94103      ; San Francisco ; US              ; true
+                     ; 94162            ; selfserviceuser4@hybris.com     ; Market Street         ; 860         ; 94103      ; San Francisco ; US              ; true                                ; true                           ; true
+                     ; 70130            ; selfserviceuser5@hybris.com     ; Poydras Street        ; 2           ; 70130      ; New Orleans   ; US              ; true
+                     ; 701301           ; selfserviceuser5_1@hybris.com   ; Poydras Street        ; 2           ; 701301     ; New Orleans   ; US              ; true
+                     ; 94104            ; anonymous                       ; Market Street         ; 863         ; 94103      ; San Francisco ; US              ;
+                     ; 4000             ; selfserviceuser40@hybris.com    ; Main Street           ; 2           ; 10017      ; Chicago       ; US              ; true                                ;                                ;                                 ; US-IL
+                     ; 4001             ; selfserviceuser41@hybris.com    ; Main Street           ; 7           ; 10017      ; New Jersey    ; US              ; true
+                     ; 4002             ; selfserviceuser41@hybris.com    ; Main Street           ; 7           ; 10017      ; Richmond      ; US              ;                                     ; true
+                     ; 5001             ; selfserviceuser3@hybris.com     ; East 42nd Street      ; 141         ; 10017      ; New York      ; US              ; true
+                     ; 321654987        ; selfserviceuser6@hybris.com     ; Premium Outlets Blvd. ; 1650        ; 60504      ; Beijing       ; US              ; true
+                     ; 321654998        ; selfserviceuser6@hybris.com     ; Address street        ; 1651        ; 61507      ; Sydney        ; AU              ; true
+                     ; 321654925        ; selfserviceuser18@hybris.com    ; Uhulala New street    ; 1652        ; 61508      ; Montana       ; US              ; true
+                     ; 321654945        ; selfserviceuser8@hybris.com     ; Main Street           ; 232434      ; 2444       ; New York      ; US              ; true
+                     ; 321654949        ; selfserviceuser8@hybris.com     ; Premium Main Street   ; 12          ; 452        ; Chicago       ; US              ; true
+                     ; 321678990        ; selfserviceuser9@hybris.com     ; West Premium Street   ; 78          ; 5657       ; Miami         ; US              ; true
+                     ; 321679455        ; selfserviceuser6@hybris.com     ; Dummy Address         ; 123         ; 567890     ; New York      ; US              ;
+                     ; 5000             ; selfserviceuser54@hybris.com    ; South Street          ; 54          ; 5066       ; Los Angeles   ; US              ;                                     ;                                ; true
+                     ; 5005             ; selfserviceuser56@hybris.com    ; Lee Street            ; 56          ; 5067       ; Seattle       ; US              ;                                     ; true
+                     ; 5006             ; selfserviceuser50@hybris.com    ; Main Street           ; 50          ; 5068       ; Portland      ; US              ;
+                     ; 5008             ; selfserviceuser8@hybris.com     ; Main Street           ; 232434      ; 5008       ; New York      ; US              ;
+                     ; 5003             ; selfserviceuser50@hybris.com    ; Venus Street          ; 122         ; 5069       ; Atlanta       ; US              ;                                     ; true                           ; true
+                     ; 5004             ; selfserviceuser58@hybris.com    ; Heat Street           ; 1           ; 5070       ; Ohio          ; US              ;                                     ; true                           ; true
+                     ; 6001             ; selfserviceuser4@hybris.com     ;                       ; 860         ; 94103      ;               ;                 ;
+                     ; 6002             ; anonymous                       ;                       ; 863         ; 94103      ;               ;                 ;
+                     ; 5002             ; selfserviceuser16@hybris.com    ; Rasaritului           ; 73          ; 400111     ; New York      ; US              ; true                                ; true                           ; true
+                     ; 5069             ; selfserviceuser50@hybris.com    ;                       ; 122         ; 5069       ;               ;                 ;                                     ; true                           ; true
+                     ; 606060           ; selfserviceuser60@hybris.com    ;                       ; 1561        ; 606060     ;               ; US              ;                                     ;                                ; true
+                     ; 626262           ; selfserviceuser62@hybris.com    ;                       ; 1561        ; 626262     ;               ; IT              ;                                     ;                                ; true
+                     ; 825265           ; selfserviceuser62@hybris.com    ;                       ; 1561        ; 825265     ;               ; IT              ;                                     ;                                ; true
+                     ; 8252641          ; selfserviceuser64_1@hybris.com  ;                       ; 1561        ; 8252641    ;               ; IT              ;                                     ;                                ; true
+                     ; 51051            ; selfserviceuser51051@hybris.com ;                       ; 1           ; 51051      ;               ; US              ; true                                ; true                           ; true
+                     ; 5642             ; selfserviceuser5642@hybris.com  ; Main Street           ; 1           ; 5642       ;               ; US              ; true                                ; true                           ; true
+                     ; 55381            ; selfserviceuser6@hybris.com     ; Main Street           ; 1           ; 55381      ;               ; US              ; true                                ; true                           ; true
+
+##Journey checklist occ apis
+                     ; 564402           ; tmuocc_journey564402@hybris.com ; Main Street           ; 1           ; 564402     ; New York      ; US              ; true                                ; true                           ; true
+                     ; 564407           ; tmuocc_journey564407@hybris.com ; Main Street           ; 1           ; 564407     ; New York      ; US              ; true                                ; true                           ; true
+                     ; 564410           ; tmuocc_journey564410@hybris.com ; Main Street           ; 1           ; 564410     ; New York      ; US              ; true                                ; true                           ; true
+                     ; 5644101          ; tmuocc_journey564410@hybris.com ; Main Street           ; 1           ; 564410     ; New York      ; US              ; true                                ; true                           ; true
+                     ; 564413           ; tmuocc_journey564413@hybris.com ; Main Street           ; 1           ; 564413     ; New York      ; US              ; true                                ; true                           ; true
+                     ; 5645148899       ; tmuocc_jc56451@hybris.com       ; Main Street           ; 1           ; 5645148899 ; New York      ; US              ; true                                ; true                           ; true
+                     ; 5645147799       ; tmuocc_jc56451@hybris.com       ; Main Street           ; 1           ; 5645147799 ; New York      ; US              ; true                                ; true                           ; true
+                     ; 5645146699       ; tmuocc_jc56451@hybris.com       ; Main Street           ; 1           ; 5645146699 ; New York      ; US              ; true                                ; true                           ; true
+                     ; 5645145599       ; tmuocc_jc56451@hybris.com       ; Main Street           ; 1           ; 5645145599 ; New York      ; US              ; true                                ; true                           ; true
+                     ; 5645144499       ; tmuocc_jc56451@hybris.com       ; Main Street           ; 1           ; 5645144499 ; New York      ; US              ; true                                ; true                           ; true
+
+##PostOrderOCC
+                     ; 56161            ; selfserviceuser56161@hybris.com ;                       ; 1           ; 56161      ;               ; US              ; true                                ; true                           ; true
+                     ; 56371            ; tmuoccuser563701@hybris.com     ;                       ; 1           ; 56371      ;               ; US              ; true                                ; true                           ; true
+                     ; 56461            ; tmuoccuser564601@hybris.com     ;                       ; 1           ; 564601     ;               ; US              ; true                                ; true                           ; true
+                     ; 56471            ; tmuoccuser564601@hybris.com     ;                       ; 1           ; 564701     ;               ; US              ; true                                ; true                           ; true
+
+#Price Alteration Post order
+                     ; 79671            ; selfserviceuser79671@hybris.com ; East 42nd Street      ; 140         ; 10017      ; New York      ; US              ;
+                     ; 79672            ; selfserviceuser79672@hybris.com ; East 42nd Street      ; 140         ; 10017      ; New York      ; US              ;
+                     ; 79673            ; selfserviceuser79673@hybris.com ; East 42nd Street      ; 140         ; 10017      ; New York      ; US              ;
+                     ; 79674            ; selfserviceuser79674@hybris.com ; East 42nd Street      ; 140         ; 10017      ; New York      ; US              ;
+                     ; 79675            ; selfserviceuser79675@hybris.com ; East 42nd Street      ; 140         ; 10017      ; New York      ; US              ;
+                     ; 79676            ; selfserviceuser79676@hybris.com ; East 42nd Street      ; 140         ; 10017      ; New York      ; US              ;
+                     ; 79677            ; selfserviceuser79677@hybris.com ; East 42nd Street      ; 140         ; 10017      ; New York      ; US              ;
+                     ; 79678            ; selfserviceuser79678@hybris.com ; East 42nd Street      ; 140         ; 10017      ; New York      ; US              ;
+                     ; 79679            ; selfserviceuser79679@hybris.com ; East 42nd Street      ; 140         ; 10017      ; New York      ; US              ;
+
+# Hierarchical Cart - Order
+                     ; 9798             ; selfserviceuser9798@hybris.com  ; East 42nd Street      ; 140         ; 10017      ; New York      ; US              ;                                     ;                                ; true
+
+# Hierarchical Cart - E2E
+                     ; 96101            ; test9610@hybris.com             ; East 42nd Street      ; 140         ; 10017      ; New York      ; US              ;                                     ; true                           ; true
+
+
+##GETOrderOCC
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE Address; id[unique = true]; owner(Customer.uid)          ; streetname       ; streetnumber; postalcode; town     ; country(isocode); installationAddress[default = false]; billingAddress[default = false]; shippingAddress[default = false]
+                     ; 1123173          ; occgetorderuser1@hybris.com  ; East 42nd Street ; 140         ; 10017     ; New York ; US              ;
+                     ; 1123174          ; occgetorderuser2@hybris.com  ; East 42nd Street ; 140         ; 10017     ; New York ; US              ;
+#OCC GET Orders
+                     ; 1123175          ; occgetorderuser10@hybris.com ; East 42nd Street ; 140         ; 10017     ; New York ; US              ;
+                     ; 1123176          ; occgetorderuser11@hybris.com ; East 42nd Street ; 140         ; 10017     ; New York ; US              ;
+                     ; 1123177          ; occgetorderuser11@hybris.com ; East 42nd Street ; 140         ; 10017     ; New York ; US              ;
+                     ; 1123178          ; occgetorderuser10@hybris.com ; East 42nd Street ; 140         ; 10017     ; New York ; US              ;
+                     ; 1123179          ; occgetorderuser11@hybris.com ; East 42nd Street ; 140         ; 10017     ; New York ; US              ;
+
+#### OCC POST Orders start ####
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE Address; id[unique = true]; owner(Customer.uid)                     ; streetname           ; streetnumber; postalcode; town     ; country(isocode); installationAddress[default = false]; billingAddress[default = false]; shippingAddress[default = false]
+                     ; 7001             ; tmuocctestorder01@hybris.com            ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 7002             ; tmuocctestorder02@hybris.com            ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 7003             ; tmuocctestorder03@hybris.com            ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 7004             ; tmuocctestorder04@hybris.com            ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 7005             ; tmuocctestorder05@hybris.com            ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 7006             ; tmuocctestorder06@hybris.com            ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 7007             ; tmuocctestorder07@hybris.com            ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 7008             ; tmuocctestorder08@hybris.com            ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 7009             ; anonymous                               ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 7010             ; tmuocctestorder10@hybris.com            ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 7011             ; tmuocctestorder0@hybris.com             ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 7012             ; tmuocctestorder12@hybris.com            ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 7013             ; tmuocctestorder13@hybris.com            ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 7014             ; tmuocctestorder14@hybris.com            ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 7015             ; tmuocctestorder15@hybris.com            ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 7016             ; tmuocctestorder16@hybris.com            ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 7017             ; tmuocctestorder17@hybris.com            ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 7018             ; tmuocctestorder18@hybris.com            ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 7019             ; tmuocctestorder19@hybris.com            ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 7020             ; tmuocctestorder20@hybris.com            ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 7021             ; tmuocctestorder21@hybris.com            ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 7022             ; tmuocctestorder22@hybris.com            ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 7023             ; tmuocctestorder23@hybris.com            ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 7024             ; tmuocctestorder24@hybris.com            ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 7025             ; tmuocctestorder25@hybris.com            ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 7026             ; tmuocctestorder26@hybris.com            ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 7027             ; tmuocctestorder27@hybris.com            ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 7028             ; tmuocctestorder28@hybris.com            ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 7029             ; tmuocctestorder29@hybris.com            ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 7030             ; tmuocctestorder30@hybris.com            ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 7031             ; tmuocctestorder31@hybris.com            ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 7032             ; tmuocctestorder32@hybris.com            ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 7033             ; tmuocctestorder33@hybris.com            ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 7034             ; tmuocctestorder34@hybris.com            ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 7035             ; tmuocctestorder35@hybris.com            ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 7036             ; tmuocctestorder36@hybris.com            ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 7037             ; tmuocc_cartactions5113order1@hybris.com ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 7038             ; tmuocc_cartactions5113order2@hybris.com ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+
+                     ; 75461            ; selfserviceuser75461@hybris.com         ; Street Of Libertatee ; 420         ; 102938    ; Radauti  ; US              ;
+                     ; 75462            ; selfserviceuser75462@hybris.com         ; Street Of Libertatee ; 420         ; 102938    ; Radauti  ; US              ;
+                     ; 75463            ; selfserviceuser75463@hybris.com         ; Street Of Libertatee ; 420         ; 102938    ; Radauti  ; US              ;
+                     ; 75464            ; selfserviceuser75464@hybris.com         ; Street Of Libertatee ; 420         ; 102938    ; Radauti  ; US              ;
+                     ; 75465            ; selfserviceuser75465@hybris.com         ; Street Of Libertatee ; 420         ; 102938    ; Radauti  ; US              ;
+                     ; 75467            ; selfserviceuser75467@hybris.com         ; Street Of Libertatee ; 420         ; 102938    ; Radauti  ; US              ;
+                     ; 75468            ; selfserviceuser75468@hybris.com         ; Street Of Libertatee ; 420         ; 102938    ; Radauti  ; US              ;
+                     ; 75469            ; selfserviceuser75469@hybris.com         ; Street Of Libertatee ; 420         ; 102938    ; Radauti  ; US              ;
+##POST order with credits
+                     ; 84381            ; selfserviceuser84381@hybris.com         ; Street Of Libertatee ; 420         ; 102938    ; Radauti  ; US              ;
+                     ; 84382            ; selfserviceuser84382@hybris.com         ; Street Of Libertatee ; 420         ; 102938    ; Radauti  ; US              ;
+                     ; 84383            ; selfserviceuser84383@hybris.com         ; Street Of Libertatee ; 420         ; 102938    ; Radauti  ; US              ;
+                     ; 84384            ; selfserviceuser84384@hybris.com         ; Street Of Libertatee ; 420         ; 102938    ; Radauti  ; US              ;
+                     ; 84385            ; selfserviceuser84385@hybris.com         ; Street Of Libertatee ; 420         ; 102938    ; Radauti  ; US              ;
+                     ; 84386            ; selfserviceuser84386@hybris.com         ; Street Of Libertatee ; 420         ; 102938    ; Radauti  ; US              ;
+                     ; 84387            ; selfserviceuser84387@hybris.com         ; Street Of Libertatee ; 420         ; 102938    ; Radauti  ; US              ;
+                     ; 84388            ; selfserviceuser84388@hybris.com         ; Street Of Libertatee ; 420         ; 102938    ; Radauti  ; US              ;
+                     ; 84389            ; selfserviceuser84389@hybris.com         ; Street Of Libertatee ; 420         ; 102938    ; Radauti  ; US              ;
+
+# BPO cardinality - Place Order
+                     ; 89420            ; selfserviceuser89420@hybris.com         ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 89421            ; selfserviceuser89421@hybris.com         ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 89422            ; selfserviceuser89422@hybris.com         ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+
+# BPO cardinality - Retrieve Carts
+                     ; 89841            ; selfserviceuser89841@hybris.com         ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 89842            ; selfserviceuser89842@hybris.com         ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+## TMF Order APIs baseSiteId
+                     ; 98711            ; selfserviceuser98711@hybris.com         ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ; true                                ; true                           ; true
+                     ; 98714            ; selfserviceuser98714@hybris.com         ; East 42nd Street     ; 143         ; 10017     ; New York ; US              ; true                                ; true                           ; true
+## Order APIs - Fixed BPOs
+                     ; 105001           ; selfserviceuser105001@hybris.com        ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 105002           ; selfserviceuser105002@hybris.com        ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 105003           ; selfserviceuser105003@hybris.com        ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 105004           ; selfserviceuser105004@hybris.com        ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 105005           ; selfserviceuser105005@hybris.com        ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 105006           ; selfserviceuser105006@hybris.com        ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 105007           ; selfserviceuser105007@hybris.com        ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 105008           ; selfserviceuser105008@hybris.com        ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 105009           ; selfserviceuser105009@hybris.com        ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 1050010          ; selfserviceuser1050010@hybris.com       ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 1050011          ; selfserviceuser1050011@hybris.com       ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 1050012          ; selfserviceuser1050012@hybris.com       ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 1050013          ; selfserviceuser1050013@hybris.com       ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 1050014          ; selfserviceuser1050014@hybris.com       ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 1050015          ; selfserviceuser1050015@hybris.com       ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 1050016          ; selfserviceuser1050016@hybris.com       ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 1050017          ; selfserviceuser1050017@hybris.com       ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 1050018          ; selfserviceuser1050018@hybris.com       ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 1050019          ; selfserviceuser1050019@hybris.com       ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 1050020          ; selfserviceuser1050020@hybris.com       ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 1050021          ; selfserviceuser1050021@hybris.com       ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 1050022          ; selfserviceuser1050022@hybris.com       ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 105051           ; selfserviceuser105051@hybris.com        ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ; true                                ; true                           ; true
+                     ; 105052           ; selfserviceuser105052@hybris.com        ; East 42nd Street     ; 141         ; 10017     ; New York ; US              ; true                                ; true                           ; true
+                     ; 105053           ; selfserviceuser105053@hybris.com        ; East 42nd Street     ; 142         ; 10017     ; New York ; US              ; true                                ; true                           ; true
+                     ; 105054           ; selfserviceuser105054@hybris.com        ; East 42nd Street     ; 143         ; 10017     ; New York ; US              ; true                                ; true                           ; true
+## Get carts - Fixed BPOs
+                     ; 105101           ; selfserviceuser105101@hybris.com        ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 105102           ; selfserviceuser105102@hybris.com        ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 105103           ; selfserviceuser105103@hybris.com        ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 105104           ; selfserviceuser105104@hybris.com        ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 105105           ; selfserviceuser105105@hybris.com        ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 105106           ; selfserviceuser105106@hybris.com        ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 105107           ; selfserviceuser105107@hybris.com        ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+                     ; 105108           ; selfserviceuser105108@hybris.com        ; East 42nd Street     ; 140         ; 10017     ; New York ; US              ;
+
+
+#### TMF Geographic Sub Address ####
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE Address; id[unique = true]; owner(Customer.uid)         ; streetname       ; streetnumber; postalcode; town     ; country(isocode); appartment; building    ; installationAddress[default = false]; billingAddress[default = false]; shippingAddress[default = false]
+                     ; 8001             ; tmfaddressuser10@hybris.com ; East 42nd Street ; 140         ; 10017     ; New York ; US              ; A 80      ; One World
+                     ; 8002             ; tmfaddressuser10@hybris.com ; East 42nd Street ; 140         ; 10017     ; New York ; US              ; B 80      ; Two World
+                     ; 8003             ; tmfaddressuser10@hybris.com ; East 42nd Street ; 140         ; 10017     ; New York ; US              ;           ;
+                     ; 8004             ; tmfaddressuser11@hybris.com ; East 42nd Street ; 140         ; 10017     ; New York ; US              ; D 80      ; Four World
+                     ; 8005             ; tmfaddressuser11@hybris.com ; East 42nd Street ; 140         ; 10017     ; New York ; US              ; E 80      ; Five World
+                     ; 8006             ; tmfaddressuser10@hybris.com ; East 42nd Street ; 140         ; 10017     ; New York ; US              ; F         ; Six World   ;
+                     ; 8007             ; tmfaddressuser10@hybris.com ; East 42nd Street ; 140         ; 10017     ; New York ; US              ; G 80      ; Seven World ;
+
+# Create Sample Geographic address for TMF Get Order by Id
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE Address; id[unique = true]; owner(Customer.uid)         ; streetname  ; streetnumber; postalcode; town     ; country(isocode); installationAddress[default = false]; billingAddress[default = false]; shippingAddress[default = false]; region(isocode)
+                     ; 97310            ; tmfgetorderuser1@hybris.com ; Rasaritului ; 73          ; 400111    ; New York ; US              ; true                                ; true                           ; true
+                     ; 97311            ; tmfgetorderuser2@hybris.com ; Rasaritului ; 73          ; 400111    ; New York ; US              ; true                                ; true                           ; true
+                     ; 97312            ; tmfgetorderuser3@hybris.com ; Rasaritului ; 73          ; 400111    ; New York ; US              ; true                                ; true                           ; true
+                     ; 97313            ; tmfgetorderuser4@hybris.com ; Rasaritului ; 73          ; 400111    ; New York ; US              ; true                                ; true                           ; true

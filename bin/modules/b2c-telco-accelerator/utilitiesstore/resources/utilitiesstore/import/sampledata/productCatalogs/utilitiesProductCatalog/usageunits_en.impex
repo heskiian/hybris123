@@ -1,0 +1,18 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for Importing Usage Unit Localisations
+
+# Language
+$lang = en
+
+UPDATE UsageUnit; id[unique = true]; name[lang = $lang]; namePlural[lang = $lang]
+                ; unit             ; unit              ; units
+                ; kwh              ; kWh               ; kWhs
+                ; cubic_metre      ; Cubic metre       ; Cubic metres
+                ; waveform         ; Waveform          ; Waveform
+                ; month            ; Month             ; Months
+                ; years            ; Years             ; Years
+                ; hours            ; Hours             ; Hours
+                ; USD              ; USD               ; USD

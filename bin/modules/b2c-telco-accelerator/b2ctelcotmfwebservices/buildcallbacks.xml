@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<!--
+ All hybris buildcallbacks.xml macrodefinitions:
+ 
+ Build/Documentation
+ 
+	 before/after ant macro "clean"
+		 <macrodef name="b2ctelcotmfwebservices_before_clean"/>
+		 <macrodef name="b2ctelcotmfwebservices_after_clean"/>
+	 
+	 before/after ant macro "build"
+		 <macrodef name="b2ctelcotmfwebservices_before_build"/>
+		 <macrodef name="b2ctelcotmfwebservices_after_build"/>
+		 
+	 before/after ant macro "compile_core" - the core module of the extension
+		 <macrodef name="b2ctelcotmfwebservices_before_compile_core">
+		 <macrodef name="b2ctelcotmfwebservices_after_compile_core">
+	 
+	 before/after ant macro "compile_web" - the web module of the extension
+		 <macrodef name="b2ctelcotmfwebservices_before_compile_web" />
+		 <macrodef name="b2ctelcotmfwebservices_after_compile_web" />
+	 
+	 before/after ant macro "compile_hmc" - the hmc module of the extension
+		 <macrodef name="b2ctelcotmfwebservices_before_compile_hmc" />
+		 <macrodef name="b2ctelcotmfwebservices_after_compile_hmc" />
+ 
+ Preparing extension
+ 
+	 will be called in the beginning of the ant call and only once (also when using multiple 
+	 ant targets e.g. ant build yunittest)	
+		 <macrodef name="b2ctelcotmfwebservices_only_once_prepare"/>
+ 
+ Creating ear module/production
+ 
+	 before/after ant macro "ear"
+		 <macrodef name="b2ctelcotmfwebservices_before_ear"/>
+		 <macrodef name="b2ctelcotmfwebservices_after_ear"/>
+
+	 before/after ant macro "production" - for hybris server only
+		 <macrodef name="b2ctelcotmfwebservices_before_production" />
+		 <macrodef name="b2ctelcotmfwebservices_after_production" />
+ 
+ JUnit Test
+ 
+	 before/after ant macro "yunitinit" 
+		 <macrodef name="b2ctelcotmfwebservices_before_yunitinit" />
+		 <macrodef name="b2ctelcotmfwebservices_after_yunitinit" />
+	 
+	 before/after ant macro "yunit"
+		 <macrodef name="b2ctelcotmfwebservices_before_yunit" />
+		 <macrodef name="b2ctelcotmfwebservices_after_yunit" /> 
+		 
+ Distribution package
+ 
+ 	 before/after ant macro "dist" - internal target; only for use when platform is available in source code
+		 <macrodef name="b2ctelcotmfwebservices_after_dist"/>
+		 <macrodef name="b2ctelcotmfwebservices_before_dist"/>
+	 
+	 before/after ant macro "dist_copy" - internal target; only for use when platform is available in source code
+		 <macrodef name="b2ctelcotmfwebservices_before_dist_copy"/>
+		 <macrodef name="b2ctelcotmfwebservices_after_dist_copy"/>
+		  
+ 	 With these filters you can override the default extension filters defined in platform/resources/ant/dist/filtersets.xml
+ 	  	 <patternset id="extension.b2ctelcotmfwebservices.binary.filter">
+ 	  	  	 <patternset refid="extension.filter" />
+ 	  	  	 <exclude name="**/*-source.jar" />
+ 	  	 </patternset>
+ 	  	 <patternset id="extension.b2ctelcotmfwebservices.source.filter">
+ 	  	  	 <exclude name="**/bin/**" />
+ 	  	 </patternset>
+ 
+-->
+<project name="b2ctelcotmfwebservices_buildcallbacks">
+
+  <!--OVERRIDING the default macro definition-->
+  <macrodef name="extension_build_number">
+    <attribute name="extname"/>
+    <attribute name="destdir"/>
+
+    <sequential>
+      <!-- Just leave the file as it is declared into the custom extension-->
+    </sequential>
+  </macrodef>
+
+  <macrodef name="b2ctelcotmfwebservices_before_build">
+    <!--<attribute name="extname"/>-->
+    <!--<attribute name="destdir"/>-->
+
+    <sequential>
+      <compile_swagger_custom_class/>
+      <generate_swagger_dtos/>
+    </sequential>
+  </macrodef>
+
+  <!--
+      Called whenever 'ant ear' is used. this callback can be used to modify the content of the ear file
+
+       ${ear.path}: 			path to ear
+   -->
+  <macrodef name="b2ctelcotmfwebservices_before_ear">
+    <sequential>
+
+      <!-- you can do anything before the EAR file is being packed -->
+
+    </sequential>
+  </macrodef>
+
+  <macrodef name="compile_swagger_custom_class">
+    <attribute name="baseDir" default="${ext.b2ctelcotmfwebservices.path}"/>
+    <sequential>
+      <if>
+        <not>
+          <available file="@{baseDir}/lib/swagger-custom-codegen.jar"/>
+        </not>
+        <then>
+          <if>
+            <not>
+              <available file="@{baseDir}/lib/swagger"/>
+            </not>
+            <then>
+              <mkdir dir="@{baseDir}/lib/swagger"/>
+            </then>
+          </if>
+          <javacompile destdir="@{baseDir}/lib/swagger">
+            <additionalclasspath>
+              <path>
+                <fileset dir="@{baseDir}/lib">
+                  <include name="swagger-codegen-cli-*.jar"/>
+                </fileset>
+              </path>
+            </additionalclasspath>
+            <source>
+              <pathelement path="@{baseDir}/src/de/hybris/platform/b2ctelcotmfwebservices/swagger/"/>
+            </source>
+          </javacompile>
+
+          <path id="build.classpath">
+            <fileset dir="@{baseDir}/lib">
+              <include name="swagger-codegen-cli-*.jar"/>
+            </fileset>
+          </path>
+
+          <pathconvert property="manifest.classpath" pathsep=" ">
+            <path refid="build.classpath"/>
+            <mapper>
+              <chainedmapper>
+                <flattenmapper/>
+              </chainedmapper>
+            </mapper>
+          </pathconvert>
+
+          <jar destfile="@{baseDir}/lib/swagger-custom-codegen.jar">
+            <fileset dir="@{baseDir}/lib/swagger" includes="**/*.class"/>
+            <manifest>
+              <attribute name="Main-Class" value="io.swagger.codegen.SwaggerCodegen"/>
+              <attribute name="Class-Path" value="${manifest.classpath}"/>
+            </manifest>
+          </jar>
+        </then>
+      </if>
+    </sequential>
+  </macrodef>
+
+  <target name="generate_swagger" description="Generates swagger dtos" >
+    <generate_swagger_dtos forced="true" />
+  </target>
+
+  <macrodef name="generate_swagger_dtos">
+    <attribute name="baseDir" default="${ext.b2ctelcotmfwebservices.path}"/>
+    <attribute name="templateDir" default="${ext.b2ctelcotmfwebservices.path}/resources/tmfapis"/>
+    <attribute name="forced" default="false" />
+    <sequential>
+      <if>
+        <or>
+          <equals arg1="@{forced}" arg2="true"/>
+          <not>
+            <available file="@{baseDir}/gensrc/.swagger-codegen/VERSION"/>
+          </not>
+        </or>
+        <then>
+          <dirset id="tmfVersions" dir="@{templateDir}" includes="*"/>
+          <property name="tmfVersions" refid="tmfVersions"/>
+          <for param="tmfVersion" list="${tmfVersions}" delimiter=";">
+            <sequential>
+              <fileset id="swaggerFiles" dir="@{templateDir}/@{tmfVersion}" includes="*.json"/>
+              <property name="swaggerFiles" refid="swaggerFiles"/>
+              <for param="file" list="${swaggerFiles}" delimiter=";">
+                <sequential>
+                  <generate_api templateDir="@{templateDir}" version="@{tmfVersion}" file="@{file}"/>
+                </sequential>
+              </for>
+            </sequential>
+          </for>
+        </then>
+        <else>
+          <echo message="Skipping swagger apis generation"/>
+        </else>
+      </if>
+    </sequential>
+  </macrodef>
+
+  <macrodef name="generate_api">
+    <attribute name="file"/>
+    <attribute name="templateDir"/>
+    <attribute name="version"/>
+    <attribute name="defaultPackage" default="de.hybris.platform.b2ctelcotmfwebservices"/>
+    <attribute name="baseDir" default="${ext.b2ctelcotmfwebservices.path}"/>
+    <sequential>
+      <path id="telco_custom">
+        <fileset dir="@{baseDir}/lib" includes="*"/>
+      </path>
+      <property name="classpath" refid="telco_custom"/>
+      <java jar="@{baseDir}/lib/swagger-custom-codegen.jar" fork="true" failonerror="true">
+        <arg line="generate"/>
+        <arg line="-l de.hybris.platform.b2ctelcotmfwebservices.swagger.TelcoCodegen"/>
+        <arg line="-i @{templateDir}/@{version}/@{file}"/>
+        <arg line="-o @{baseDir}/gensrc/"/>
+        <arg line="-c @{baseDir}/resources/swaggerconfig/@{version}/swagger-generator-config.json"/>
+        <arg line="--model-package @{defaultPackage}.@{version}.dto"/>
+        <arg line="--api-package @{defaultPackage}.@{version}.api"/>
+      </java>
+      <move file="@{baseDir}/gensrc/src/main/java" tofile="@{baseDir}/gensrc" overwrite="true" failonerror="true" />
+      <delete includeEmptyDirs="true">
+        <fileset dir="@{baseDir}/gensrc/src"/>
+      </delete>
+    </sequential>
+  </macrodef>
+
+  <macrodef name="b2ctelcotmfwebservices_after_build">
+    <sequential>
+      <echo message="b2ctelcotmfwebservices_after_build"/>
+      <containsExact string="${extension.names}" substring="addonsupport" separator=";">
+        <do>
+          <foreachext>
+            <do>
+              <for list="${addon.folder}" param="addOnFile" delimiter=";">
+                <sequential>
+                  <if>
+                    <available file="${ext.@{extname}.path}/acceleratoraddon/@{addOnFile}"/>
+                    <then>
+                      <echo message="Found addon:  @{extname}"/>
+                      <echo message="addOnFile test:  @{addOnFile}"/>
+                      <copyAddOnToExtension addonextension="@{extname}" addonresource="@{addOnFile}" target="b2ctelcotmfwebservices"/>
+                    </then>
+                  </if>
+                </sequential>
+              </for>
+            </do>
+          </foreachext>
+        </do>
+      </containsExact>
+    </sequential>
+  </macrodef>
+
+  <patternset id="extension.b2ctelcotmfwebservices.production.filter">
+    <patternset refid="extension.production.filter"/>
+    <exclude name="web/addonsrc/**"/>
+  </patternset>
+
+</project>

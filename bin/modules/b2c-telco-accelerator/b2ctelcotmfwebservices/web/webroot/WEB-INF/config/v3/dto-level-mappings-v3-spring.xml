@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~  Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- ProductOffering API -->
+
+    <bean parent="fieldSetLevelMapping" id="tmaProductOfferingFieldSetLevelMappingV3">
+        <property name="dtoClass"
+                  value="de.hybris.platform.b2ctelcotmfwebservices.v3.dto.ProductOffering"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="FULL"
+                       value="id,name,href,description,isBundle,lastUpdate,lifecycleStatus,validFor(FULL),version,attype,
+			                             atbaseType,atschemaLocation,isSellable,place,serviceLevelAgreement,productSpecification(FULL),
+			                             serviceCandidate,attachment(FULL),category(FULL),resourceCandidate,
+			                             marketSegment,productOfferingPrice(FULL),agreement(FULL),bundledProductOffering(FULL),
+			                             prodSpecCharValueUse(FULL),offeringGroup(FULL),parentBundleProductOffering(FULL),baseProduct(FULL),variantOption,variantProductOffering(FULL)"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="tmaProductOfferingPriceFieldSetLevelMappingV3">
+        <property name="dtoClass"
+                  value="de.hybris.platform.b2ctelcotmfwebservices.v3.dto.ProductOfferingPrice"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="FULL" value="id,name,href,description,validFor(FULL),priceType,version,unitOfMeasure(FULL),
+				                         price(FULL),isBundle,recurringChargePeriodType,recurringChargePeriodLength,attype,
+				                         atbaseType,atschemaLocation,lastUpdate,lifecycleStatus,percentage,tax,prodSpecCharValueUse,
+				                         productOfferingTerm(FULL),constraint,bundledPop(FULL)"/>
+            </map>
+        </property>
+    </bean>
+    
+    <bean parent="fieldSetLevelMapping" id="tmaRelatedPartyFieldSetLevelMappingV3">
+        <property name="dtoClass"
+                  value="de.hybris.platform.b2ctelcotmfwebservices.v2.dto.RelatedParty"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="FULL" value="id,name,href,atreferredType,role"/>
+            </map>
+        </property>
+    </bean>
+    
+    <bean parent="fieldSetLevelMapping" id="tmaRelatedProductOrderFieldSetLevelMappingV3">
+		<property name="dtoClass" value="de.hybris.platform.b2ctelcotmfwebservices.v3.dto.RelatedProductOrderItem" />
+		<property name="levelMapping">
+			<map>
+				<entry key="FULL"
+					value="orderItemAction,orderItemId,productOrderHref,productOrderId,role,atreferredType,atbaseType,atschemaLocation,attype"/>
+			</map>
+		</property>
+	</bean>
+    
+    <bean parent="fieldSetLevelMapping" id="tmaProductFieldSetLevelMappingV3">
+        <property name="dtoClass"
+                  value="de.hybris.platform.b2ctelcotmfwebservices.v3.dto.Product"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="FULL" value="id,name,href,description,isCustomerVisible,orderDate,productSerialNumber,startDate,terminationDate,relatedParty(FULL),status,attype,
+				                         atbaseType,atschemaLocation,productOrderItem(FULL)"/>
+            </map>
+        </property>
+    </bean>
+</beans>

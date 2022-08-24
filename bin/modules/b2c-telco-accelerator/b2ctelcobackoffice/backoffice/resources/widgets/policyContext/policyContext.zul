@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?link href="/policyContext.css" rel="stylesheet/scss" type="text/css"?>
+
+<widget id="policyContextWidget"
+	xmlns="http://www.zkoss.org/2005/zul"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.hybris.com/schema/cockpitng/zul/zul.xsd"
+	sclass="yw-de_hybris_platform_b2ctelcobackoffice_widgets_policyContext">
+
+	<tablelayout sclass="yas-policy-table-style" id="tableLayoutPolicySearch" columns="2" width="100%">
+		
+		<tablechildren sclass="yas-policy-table-col-1">
+			<label value="${labels.catalogVersion}" />
+		</tablechildren>
+		<tablechildren sclass="yas-policy-table-col-2">
+			<combobox id="catalogVersionCombobox" width="100%" model="@load(vm.catalogVersionCombobox)" visible="true"/>
+		</tablechildren>
+
+		<tablechildren sclass="yas-policy-table-col-1">
+			<label id="productOfferingLabel" value="${labels.productOffering}" visible="false"/>
+		</tablechildren>
+		<tablechildren sclass="yas-policy-table-col-2"  >
+			<chosenbox id="productOfferingChosenbox" width="100%" model="@load(vm.productOfferingCombobox)" visible="false"/>
+		</tablechildren>
+		
+		<tablechildren sclass="yas-policy-table-col-1"  >
+			<label id="policyTypeLabel" value="${labels.policyType}" visible="false"/>
+		</tablechildren>
+		<tablechildren sclass="yas-policy-table-col-2">
+			<chosenbox id="policyTypeChosenBox" width="100%" model="@load(vm.policyTypeChosenBox)" visible="false"/>
+		</tablechildren>
+		
+		<tablechildren sclass="yas-policy-table-col-1"  >
+			<label id="quantityLabel" value="${labels.quantity}" visible="false"/>
+		</tablechildren>
+		<tablechildren sclass="yas-policy-table-col-2"  >
+			<textbox sclass="yas-policy-text" id="quantity" constraint="${labels.validQuantity}" visible="false"/>
+		</tablechildren>
+		
+	</tablelayout> 
+	
+	<tablelayout columns="2" width="100%"> 
+		<tablechildren sclass="yas-policy-table-col-1 ">
+			<label id="contextLabel" value="Policy context attribute" visible="false"/>
+			<div width="55%"
+				viewModel="@id('vm') @init('de.hybris.platform.b2ctelcobackoffice.widget.controller.SearchPolicyInContextController')">
+				<hbox pack="center" spacing="2.3em">
+					<vlayout>
+						<combobox id="cmbNewComponent" visible="false"/>
+					</vlayout>
+				</hbox>
+			</div>
+		</tablechildren>
+		<tablechildren sclass="yas-policy-table-col">
+			<button id="plus" label="+" width="100px" height="30px" visible="false" disabled="true"/>
+		</tablechildren>
+		
+		<tablechildren colspan="2" sclass="yas-policy-table-col text-center">
+			<button id="submit" label="Submit" width="100px" height="30px" visible="false"/>
+		</tablechildren>
+	</tablelayout>
+</widget>

@@ -1,0 +1,1024 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <!-- Field mapping configuration -->
+    <alias alias="fieldSetBuilder" name="defaultFieldSetBuilder"/>
+    <bean id="defaultFieldSetBuilder"
+          class="de.hybris.platform.webservicescommons.mapping.impl.DefaultFieldSetBuilder">
+        <property name="defaultRecurrencyLevel" value="10"/>
+        <property name="defaultMaxFieldSetSize" value="500000"/>
+        <property name="fieldSetLevelHelper" ref="fieldSetLevelHelper"/>
+    </bean>
+
+    <alias alias="fieldSetLevelHelper" name="defaultFieldSetLevelHelper"/>
+    <bean id="defaultFieldSetLevelHelper"
+          class="de.hybris.platform.webservicescommons.mapping.impl.DefaultFieldSetLevelHelper">
+    </bean>
+
+    <alias alias="dataMapper" name="defaultDataMapper"/>
+    <bean id="defaultDataMapper"
+          class="de.hybris.platform.webservicescommons.mapping.impl.DefaultDataMapper">
+        <property name="fieldSetBuilder" ref="fieldSetBuilder"/>
+    </bean>
+
+    <!-- ######################### -->
+    <!-- ### Attribute Mappers ### -->
+    <!-- ######################### -->
+
+    <alias name="defaultSpiAgreementItemRefHrefAttributeMapper" alias="spiAgreementItemRefHrefAttributeMapper"/>
+    <bean id="defaultSpiAgreementItemRefHrefAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.agreementitemref.AgreementItemRefHrefAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultSpiAgreementItemRefSchemaLocationAttributeMapper"
+           alias="spiAgreementItemRefSchemaLocationAttributeMapper"/>
+    <bean id="defaultSpiAgreementItemRefSchemaLocationAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.agreementitemref.AgreementItemRefSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atSchemaLocation"/>
+    </bean>
+
+    <alias name="defaultSpiAgreementItemRefTypeAttributeMapper" alias="spiAgreementItemRefTypeAttributeMapper"/>
+    <bean id="defaultSpiAgreementItemRefTypeAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.agreementitemref.AgreementItemRefTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atReferredType"/>
+    </bean>
+
+    <alias name="defaultSpiProductIsBundleAttributeMapper" alias="spiProductIsBundleAttributeMapper"/>
+    <bean id="defaultSpiProductIsBundleAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.product.ProductIsBundleAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="isBundle"/>
+    </bean>
+
+    <alias name="defaultSpiProductOfferingAttributeMapper" alias="spiProductOfferingAttributeMapper"/>
+    <bean id="defaultSpiProductOfferingAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.product.ProductOfferingAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="productOffering"/>
+        <constructor-arg name="targetAttributeName" value="productOffering"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="spiGenericService" ref="spiGenericService"/>
+    </bean>
+
+    <alias name="defaultSpiProductAgreementAttributeMapper" alias="spiProductAgreementAttributeMapper"/>
+    <bean id="defaultSpiProductAgreementAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.product.ProductAgreementAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="agreementItems"/>
+        <constructor-arg name="targetAttributeName" value="agreement"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="spiGenericService" ref="spiGenericService"/>
+    </bean>
+
+    <alias name="defaultSpiProductBillingAccountAttributeMapper" alias="spiProductBillingAccountAttributeMapper"/>
+    <bean id="defaultSpiProductBillingAccountAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.product.ProductBillingAccountAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="billingAccount"/>
+        <constructor-arg name="targetAttributeName" value="billingAccount"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="spiGenericService" ref="spiGenericService"/>
+    </bean>
+
+    <alias name="defaultSpiProductPlaceAttributeMapper" alias="spiProductPlaceAttributeMapper"/>
+    <bean id="defaultSpiProductPlaceAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.product.ProductPlaceAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="relatedPlaces"/>
+        <constructor-arg name="targetAttributeName" value="place"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="spiGenericService" ref="spiGenericService"/>
+    </bean>
+
+    <alias name="defaultSpiProductChildrenAttributeMapper" alias="spiProductChildrenAttributeMapper"/>
+    <bean id="defaultSpiProductChildrenAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.product.ProductChildrenAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="products"/>
+        <constructor-arg name="targetAttributeName" value="product"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="spiGenericService" ref="spiGenericService"/>
+    </bean>
+
+    <alias name="defaultSpiProductCharacteristicAttributeMapper" alias="spiProductCharacteristicAttributeMapper"/>
+    <bean id="defaultSpiProductCharacteristicAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.product.ProductCharacteristicAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="characteristics"/>
+        <constructor-arg name="targetAttributeName" value="productCharacteristic"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="spiGenericService" ref="spiGenericService"/>
+    </bean>
+
+    <alias name="defaultSpiProductOrderItemAttributeMapper" alias="spiProductOrderItemAttributeMapper"/>
+    <bean id="defaultSpiProductOrderItemAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.product.ProductOrderItemAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="relatedProductOrderItems"/>
+        <constructor-arg name="targetAttributeName" value="productOrderItem"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="spiGenericService" ref="spiGenericService"/>
+    </bean>
+
+    <alias name="defaultSpiProductPriceAttributeMapper" alias="spiProductPriceAttributeMapper"/>
+    <bean id="defaultSpiProductPriceAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.product.ProductPriceAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="productPrices"/>
+        <constructor-arg name="targetAttributeName" value="productPrice"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="spiGenericService" ref="spiGenericService"/>
+    </bean>
+
+    <alias name="defaultSpiProductTermAttributeMapper" alias="spiProductTermAttributeMapper"/>
+    <bean id="defaultSpiProductTermAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.product.ProductTermAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="productTerms"/>
+        <constructor-arg name="targetAttributeName" value="productTerm"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="spiGenericService" ref="spiGenericService"/>
+    </bean>
+
+    <alias name="defaultSpiProductRealizingResourceAttributeMapper" alias="spiProductRealizingResourceAttributeMapper"/>
+    <bean id="defaultSpiProductRealizingResourceAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.product.ProductRealizingResourceAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="resources"/>
+        <constructor-arg name="targetAttributeName" value="realizingResource"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="spiGenericService" ref="spiGenericService"/>
+    </bean>
+
+    <alias name="defaultSpiProductRealizingServiceAttributeMapper" alias="spiProductRealizingServiceAttributeMapper"/>
+    <bean id="defaultSpiProductRealizingServiceAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.product.ProductRealizingServiceAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="services"/>
+        <constructor-arg name="targetAttributeName" value="realizingService"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="spiGenericService" ref="spiGenericService"/>
+    </bean>
+
+    <alias name="defaultSpiProductRelatedPartyAttributeMapper" alias="spiProductRelatedPartyAttributeMapper"/>
+    <bean id="defaultSpiProductRelatedPartyAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.product.ProductRelatedPartyAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="partyRoles"/>
+        <constructor-arg name="targetAttributeName" value="relatedParty"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="spiGenericService" ref="spiGenericService"/>
+    </bean>
+
+    <alias name="defaultSpiProductRelationshipAttributeMapper" alias="spiProductRelationshipAttributeMapper"/>
+    <bean id="defaultSpiProductRelationshipAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.product.ProductRelationshipAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="productReferences"/>
+        <constructor-arg name="targetAttributeName" value="productRelationship"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="spiGenericService" ref="spiGenericService"/>
+    </bean>
+
+    <alias name="defaultSpiProductSpecificationAttributeMapper" alias="spiProductSpecificationAttributeMapper"/>
+    <bean id="defaultSpiProductSpecificationAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.product.ProductSpecificationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="productSpecification"/>
+        <constructor-arg name="targetAttributeName" value="productSpecification"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="spiGenericService" ref="spiGenericService"/>
+    </bean>
+
+    <alias name="defaultSpiProductStatusAttributeMapper" alias="spiProductStatusAttributeMapper"/>
+    <bean id="defaultSpiProductStatusAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.product.ProductStatusAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="status"/>
+        <constructor-arg name="targetAttributeName" value="status"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultSpiProductHrefAttributeMapper" alias="spiProductHrefAttributeMapper"/>
+    <bean id="defaultSpiProductHrefAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.product.ProductHrefAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultSpiProductSchemaLocationAttributeMapper" alias="spiProductSchemaLocationAttributeMapper"/>
+    <bean id="defaultSpiProductSchemaLocationAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.product.ProductSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atSchemaLocation"/>
+    </bean>
+
+    <alias name="defaultSpiProductTypeAttributeMapper" alias="spiProductTypeAttributeMapper"/>
+    <bean id="defaultSpiProductTypeAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.product.ProductTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atType"/>
+    </bean>
+
+    <alias name="defaultSpiBillingAccountRefHrefAttributeMapper" alias="spiBillingAccountRefHrefAttributeMapper"/>
+    <bean id="defaultSpiBillingAccountRefHrefAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.billingaccountref.BillingAccountRefHrefAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultSpiBillingAccountRefSchemaLocationAttributeMapper"
+           alias="spiBillingAccountRefSchemaLocationAttributeMapper"/>
+    <bean id="defaultSpiBillingAccountRefSchemaLocationAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.billingaccountref.BillingAccountRefSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atSchemaLocation"/>
+    </bean>
+
+    <alias name="defaultSpiBillingAccountRefTypeAttributeMapper" alias="spiBillingAccountRefTypeAttributeMapper"/>
+    <bean id="defaultSpiBillingAccountRefTypeAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.billingaccountref.BillingAccountRefTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atReferredType"/>
+    </bean>
+
+    <alias name="defaultSpiCharacteristicSchemaLocationAttributeMapper" alias="spiCharacteristicSchemaLocationAttributeMapper"/>
+    <bean id="defaultSpiCharacteristicSchemaLocationAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.characteristic.CharacteristicSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atSchemaLocation"/>
+    </bean>
+
+    <alias name="defaultSpiCharacteristicTypeAttributeMapper" alias="spiCharacteristicTypeAttributeMapper"/>
+    <bean id="defaultSpiCharacteristicTypeAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.characteristic.CharacteristicTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atType"/>
+    </bean>
+
+    <alias name="defaultSpiProductOfferingRefHrefAttributeMapper" alias="spiProductOfferingRefHrefAttributeMapper"/>
+    <bean id="defaultSpiProductOfferingRefHrefAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.productofferingref.ProductOfferingRefHrefAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultSpiProductOfferingRefSchemaLocationAttributeMapper"
+           alias="spiProductOfferingRefSchemaLocationAttributeMapper"/>
+    <bean id="defaultSpiProductOfferingRefSchemaLocationAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.productofferingref.ProductOfferingRefSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atSchemaLocation"/>
+    </bean>
+
+    <alias name="defaultSpiProductOfferingRefReferredTypeAttributeMapper"
+           alias="spiProductOfferingRefReferredTypeAttributeMapper"/>
+    <bean id="defaultSpiProductOfferingRefReferredTypeAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.productofferingref.ProductOfferingRefReferredTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atReferredType"/>
+    </bean>
+
+    <alias name="defaultSpiRelatedProductOrderItemActionAttributeMapper" alias="spiRelatedProductOrderItemActionAttributeMapper"/>
+    <bean id="defaultSpiRelatedProductOrderItemActionAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.relatedproductorderitem.RelatedProductOrderItemActionAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="orderItemAction"/>
+        <constructor-arg name="targetAttributeName" value="orderItemAction"/>
+    </bean>
+
+    <alias name="defaultSpiRelatedProductOrderItemHrefAttributeMapper" alias="spiRelatedProductOrderItemHrefAttributeMapper"/>
+    <bean id="defaultSpiRelatedProductOrderItemHrefAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.relatedproductorderitem.RelatedProductOrderItemHrefAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="productOrderHref"/>
+    </bean>
+
+    <alias name="defaultSpiRelatedProductOrderItemSchemaLocationAttributeMapper"
+           alias="spiRelatedProductOrderItemSchemaLocationAttributeMapper"/>
+    <bean id="defaultSpiRelatedProductOrderItemSchemaLocationAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.relatedproductorderitem.RelatedProductOrderItemSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atSchemaLocation"/>
+    </bean>
+
+    <alias name="defaultSpiRelatedProductOrderItemTypeAttributeMapper"
+           alias="spiRelatedProductOrderItemTypeAttributeMapper"/>
+    <bean id="defaultSpiRelatedProductOrderItemTypeAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.relatedproductorderitem.RelatedProductOrderItemTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atType"/>
+    </bean>
+
+    <alias name="defaultSpiProductSpecificationRefHrefAttributeMapper" alias="spiProductSpecificationRefHrefAttributeMapper"/>
+    <bean id="defaultSpiProductSpecificationRefHrefAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.productspecificationref.ProductSpecificationRefHrefAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultSpiProductSpecificationRefSchemaLocationAttributeMapper"
+           alias="spiProductSpecificationRefSchemaLocationAttributeMapper"/>
+    <bean id="defaultSpiProductSpecificationRefSchemaLocationAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.productspecificationref.ProductSpecificationRefSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atSchemaLocation"/>
+    </bean>
+
+    <alias name="defaultSpiProductSpecificationRefReferredTypeAttributeMapper"
+           alias="spiProductSpecificationRefReferredTypeAttributeMapper"/>
+    <bean id="defaultSpiProductSpecificationRefReferredTypeAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.productspecificationref.ProductSpecificationRefRefferedTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atReferredType"/>
+    </bean>
+
+    <alias name="defaultSpiProductTermSchemaLocationAttributeMapper" alias="spiProductTermSchemaLocationAttributeMapper"/>
+    <bean id="defaultSpiProductTermSchemaLocationAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.productterm.ProductTermSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atSchemaLocation"/>
+    </bean>
+
+    <alias name="defaultSpiProductTermTypeAttributeMapper"
+           alias="spiProductTermTypeAttributeMapper"/>
+    <bean id="defaultSpiProductTermTypeAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.productterm.ProductTermTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atType"/>
+    </bean>
+
+    <alias name="defaultSpiProductTermDurationAttributeMapper" alias="spiProductTermDurationAttributeMapper"/>
+    <bean id="defaultSpiProductTermDurationAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.productterm.ProductTermDurationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="duration"/>
+        <constructor-arg name="targetAttributeName" value="duration"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultSpiProductTermValidForAttributeMapper" alias="spiProductTermValidForAttributeMapper"/>
+    <bean id="defaultSpiProductTermValidForAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.productterm.ProductTermValidForAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="validFor"/>
+        <constructor-arg name="targetAttributeName" value="validFor"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultSpiProductTermUnitsAttributeMapper" alias="spiProductTermUnitsAttributeMapper"/>
+    <bean id="defaultSpiProductTermUnitsAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.productterm.ProductTermUnitsAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="duration"/>
+        <constructor-arg name="targetAttributeName" value="units"/>
+    </bean>
+
+    <alias name="defaultSpiSpiProductTermAmountAttributeMapper" alias="spiSpiProductTermAmountAttributeMapper"/>
+    <bean id="defaultSpiSpiProductTermAmountAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.productterm.SpiProductTermAmountAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="duration"/>
+        <constructor-arg name="targetAttributeName" value="amount"/>
+    </bean>
+
+    <alias name="defaultSpiResourceRefHrefAttributeMapper" alias="spiResourceRefHrefAttributeMapper"/>
+    <bean id="defaultSpiResourceRefHrefAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.resourceref.ResourceRefHrefAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultSpiResourceRefSchemaLocationAttributeMapper"
+           alias="spiResourceRefSchemaLocationAttributeMapper"/>
+    <bean id="defaultSpiResourceRefSchemaLocationAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.resourceref.ResourceRefSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atSchemaLocation"/>
+    </bean>
+
+    <alias name="defaultSpiResourceRefReferredTypeAttributeMapper"
+           alias="spiResourceRefReferredTypeAttributeMapper"/>
+    <bean id="defaultSpiResourceRefReferredTypeAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.resourceref.ResourceRefReferredTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atReferredType"/>
+    </bean>
+
+    <alias name="defaultSpiServiceRefHrefAttributeMapper" alias="spiServiceRefHrefAttributeMapper"/>
+    <bean id="defaultSpiServiceRefHrefAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.serviceref.ServiceRefHrefAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultSpiServiceRefSchemaLocationAttributeMapper" alias="spiServiceRefSchemaLocationAttributeMapper"/>
+    <bean id="defaultSpiServiceRefSchemaLocationAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.serviceref.ServiceRefSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atSchemaLocation"/>
+    </bean>
+
+    <alias name="defaultSpiServiceRefReferredTypeAttributeMapper" alias="spiServiceRefReferredTypeAttributeMapper"/>
+    <bean id="defaultSpiServiceRefReferredTypeAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.serviceref.ServiceRefReferredTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atReferredType"/>
+    </bean>
+
+    <alias name="defaultSpiRelatedPartyHrefAttributeMapper" alias="spiRelatedPartyHrefAttributeMapper"/>
+    <bean id="defaultSpiRelatedPartyHrefAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.relatedparty.RelatedPartyHrefAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultSpiRelatedPartySchemaLocationAttributeMapper" alias="spiRelatedPartySchemaLocationAttributeMapper"/>
+    <bean id="defaultSpiRelatedPartySchemaLocationAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.relatedparty.RelatedPartySchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atSchemaLocation"/>
+    </bean>
+
+    <alias name="defaultSpiRelatedPartyTypeAttributeMapper" alias="spiRelatedPartyTypeAttributeMapper"/>
+    <bean id="defaultSpiRelatedPartyTypeAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.relatedparty.RelatedPartyTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atType"/>
+    </bean>
+
+    <alias name="defaultSpiRelatedPlaceRefOrValueHrefAttributeMapper" alias="spiRelatedPlaceRefOrValueHrefAttributeMapper"/>
+    <bean id="defaultSpiRelatedPlaceRefOrValueHrefAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.relatedplacereforvalue.RelatedPlaceRefOrValueHrefAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultSpiRelatedPlaceRefOrValueSchemaLocationAttributeMapper"
+           alias="spiRelatedPlaceRefOrValueSchemaLocationAttributeMapper"/>
+    <bean id="defaultSpiRelatedPlaceRefOrValueSchemaLocationAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.relatedplacereforvalue.RelatedPlaceRefOrValueSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atSchemaLocation"/>
+    </bean>
+
+    <alias name="defaultSpiRelatedPlaceRefOrValueReferredTypeAttributeMapper"
+           alias="spiRelatedPlaceRefOrValueReferredTypeAttributeMapper"/>
+    <bean id="defaultSpiRelatedPlaceRefOrValueReferredTypeAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.relatedplacereforvalue.RelatedPlaceRefOrValueReferredTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atReferredType"/>
+    </bean>
+
+    <alias name="defaultSpiProductPricePriceTypeAttributeMapper" alias="spiProductPricePriceTypeAttributeMapper"/>
+    <bean id="defaultSpiProductPricePriceTypeAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.productprice.ProductPricePriceTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="priceType"/>
+        <constructor-arg name="targetAttributeName" value="priceType"/>
+    </bean>
+
+    <alias name="defaultSpiProductPricePriceAttributeMapper" alias="spiProductPricePriceAttributeMapper"/>
+    <bean id="defaultSpiProductPricePriceAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.productprice.ProductPricePriceAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="price"/>
+        <constructor-arg name="targetAttributeName" value="price"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultSpiProductPriceBillingAccountAttributeMapper" alias="spiProductPriceBillingAccountAttributeMapper"/>
+    <bean id="defaultSpiProductPriceBillingAccountAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.productprice.ProductPriceBillingAccountAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="billingAccount"/>
+        <constructor-arg name="targetAttributeName" value="billingAccount"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="spiGenericService" ref="spiGenericService"/>
+    </bean>
+
+    <alias name="defaultSpiProductPriceProductOfferingPriceAttributeMapper"
+           alias="spiProductPriceProductOfferingPriceAttributeMapper"/>
+    <bean id="defaultSpiProductPriceProductOfferingPriceAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.productprice.ProductPriceProductOfferingPriceAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="productOfferingPrice"/>
+        <constructor-arg name="targetAttributeName" value="productOfferingPrice"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="spiGenericService" ref="spiGenericService"/>
+    </bean>
+
+    <alias name="defaultSpiProductPriceSchemaLocationAttributeMapper" alias="spiProductPriceSchemaLocationAttributeMapper"/>
+    <bean id="defaultSpiProductPriceSchemaLocationAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.productprice.ProductPriceSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atSchemaLocation"/>
+    </bean>
+
+    <alias name="defaultSpiProductPriceTypeAttributeMapper" alias="spiProductPriceTypeAttributeMapper"/>
+    <bean id="defaultSpiProductPriceTypeAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.productprice.ProductPriceTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atType"/>
+    </bean>
+
+    <alias name="defaultSpiPriceDutyFreeAmountAttributeMapper" alias="spiPriceDutyFreeAmountAttributeMapper"/>
+    <bean id="defaultSpiPriceDutyFreeAmountAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.price.PriceDutyFreeAmountAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="dutyFreeAmount"/>
+        <constructor-arg name="targetAttributeName" value="dutyFreeAmount"/>
+        <constructor-arg name="commonI18NService" ref="commonI18NService"/>
+    </bean>
+
+    <alias name="defaultSpiPriceTaxIncludedAmountAttributeMapper" alias="spiPriceTaxIncludedAmountAttributeMapper"/>
+    <bean id="defaultSpiPriceTaxIncludedAmountAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.price.PriceTaxIncludedAmountAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="taxIncludedAmount"/>
+        <constructor-arg name="targetAttributeName" value="taxIncludedAmount"/>
+    </bean>
+
+    <alias name="defaultSpiPriceTaxRateAttributeMapper" alias="spiPriceTaxRateAttributeMapper"/>
+    <bean id="defaultSpiPriceTaxRateAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.price.PriceTaxRateAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="taxRate"/>
+        <constructor-arg name="targetAttributeName" value="taxRate"/>
+    </bean>
+
+    <alias name="defaultSpiPriceSchemaLocationAttributeMapper" alias="spiPriceSchemaLocationAttributeMapper"/>
+    <bean id="defaultSpiPriceSchemaLocationAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.price.PriceSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atSchemaLocation"/>
+    </bean>
+
+    <alias name="defaultSpiPriceTypeAttributeMapper" alias="spiPriceTypeAttributeMapper"/>
+    <bean id="defaultSpiPriceTypeAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.price.PriceTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atType"/>
+    </bean>
+
+    <alias name="defaultSpiPricePercentageAttributeMapper" alias="spiPricePercentageAttributeMapper"/>
+    <bean id="defaultSpiPricePercentageAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.price.PricePercentageAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="percentage"/>
+        <constructor-arg name="targetAttributeName" value="percentage"/>
+    </bean>
+
+    <alias name="defaultSpiPriceAlterationProductOfferingPriceAttributeMapper"
+           alias="spiPriceAlterationProductOfferingPriceAttributeMapper"/>
+    <bean id="defaultSpiPriceAlterationProductOfferingPriceAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.pricealteration.PriceAlterationProductOfferingPriceAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="productOfferingPrice"/>
+        <constructor-arg name="targetAttributeName" value="productOfferingPrice"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="spiGenericService" ref="spiGenericService"/>
+    </bean>
+
+    <alias name="defaultSpiPriceAlterationBaseTypeAttributeMapper" alias="spiPriceAlterationBaseTypeAttributeMapper"/>
+    <bean id="defaultSpiPriceAlterationBaseTypeAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.pricealteration.PriceAlterationBaseTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atBaseType"/>
+    </bean>
+
+    <alias name="defaultSpiPriceAlterationSchemaLocationAttributeMapper" alias="spiPriceAlterationSchemaLocationAttributeMapper"/>
+    <bean id="defaultSpiPriceAlterationSchemaLocationAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.pricealteration.PriceAlterationSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atSchemaLocation"/>
+    </bean>
+
+    <alias name="defaultSpiPriceAlterationTypeAttributeMapper" alias="spiPriceAlterationTypeAttributeMapper"/>
+    <bean id="defaultSpiPriceAlterationTypeAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.pricealteration.PriceAlterationTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atType"/>
+    </bean>
+
+    <alias name="defaultSpiPriceAlterationPriceAttributeMapper" alias="spiPriceAlterationPriceAttributeMapper"/>
+    <bean id="defaultSpiPriceAlterationPriceAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.pricealteration.PriceAlterationPriceAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="price"/>
+        <constructor-arg name="targetAttributeName" value="price"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultSpiProductOfferingPriceRefHrefAttributeMapper" alias="spiProductOfferingPriceRefHrefAttributeMapper"/>
+    <bean id="defaultSpiProductOfferingPriceRefHrefAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.productofferingpriceref.ProductOfferingPriceRefHrefAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultSpiProductOfferingPriceRefSchemaLocationAttributeMapper"
+           alias="spiProductOfferingPriceRefSchemaLocationAttributeMapper"/>
+    <bean id="defaultSpiProductOfferingPriceRefSchemaLocationAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.productofferingpriceref.ProductOfferingPriceRefSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atSchemaLocation"/>
+    </bean>
+
+    <alias name="defaultSpiProductOfferingPriceRefReferredTypeAttributeMapper"
+           alias="spiProductOfferingPriceRefReferredTypeAttributeMapper"/>
+    <bean id="defaultSpiProductOfferingPriceRefReferredTypeAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.productofferingpriceref.ProductOfferingPriceRefReferredTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atReferredType"/>
+    </bean>
+
+    <alias name="defaultSpiProductRelationshipTypeAttributeMapper" alias="spiProductRelationshipTypeAttributeMapper"/>
+    <bean id="defaultSpiProductRelationshipTypeAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.productrelationship.ProductRelationshipTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atType"/>
+    </bean>
+
+    <alias name="defaultSpiProductRelationshipSchemaLocationAttributeMapper"
+           alias="spiProductRelationshipSchemaLocationAttributeMapper"/>
+    <bean id="defaultSpiProductRelationshipSchemaLocationAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.productrelationship.ProductRelationshipSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atSchemaLocation"/>
+    </bean>
+
+    <alias name="defaultSpiProductRelationshipProductAttributeMapper"
+           alias="spiProductRelationshipProductAttributeMapper"/>
+    <bean id="defaultSpiProductRelationshipProductAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.productrelationship.ProductRelationshipProductAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="product"/>
+        <constructor-arg name="targetAttributeName" value="product"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="spiGenericService" ref="spiGenericService"/>
+    </bean>
+
+    <alias name="defaultSpiRelationshipTypeAttributeMapper" alias="spiRelationshipTypeAttributeMapper"/>
+    <bean id="defaultSpiRelationshipTypeAttributeMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.productrelationship.RelationshipTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="type"/>
+        <constructor-arg name="targetAttributeName" value="relationshipType"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <!-- ###################### -->
+    <!-- ### Entity Mappers ### -->
+    <!-- ###################### -->
+
+    <!-- Entity mapper for AgreementItemRef (from SpiAgreementItem)-->
+    <alias name="defaultSpiAgreementItemRefEntityMapperV1" alias="spiAgreementItemRefEntityMapperV1"/>
+    <bean id="defaultSpiAgreementItemRefEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.SpiEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.subscribedproductservices.model.SpiAgreementItemModel"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.subscribedproducttmfwebservices.v1.dto.AgreementItemRef"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="spiAgreementItemRefHrefAttributeMapper"/>
+                <ref bean="spiAgreementItemRefSchemaLocationAttributeMapper"/>
+                <ref bean="spiAgreementItemRefTypeAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for Product (from SpiProductModel)-->
+    <alias name="defaultSpiProductEntityMapperV1" alias="spiProductEntityMapperV1"/>
+    <bean id="defaultSpiProductEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.SpiEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.subscribedproductservices.model.SpiProductModel"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.subscribedproducttmfwebservices.v1.dto.Product"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="spiProductIsBundleAttributeMapper"/>
+                <ref bean="spiProductAgreementAttributeMapper"/>
+                <ref bean="spiProductBillingAccountAttributeMapper"/>
+                <ref bean="spiProductSpecificationAttributeMapper"/>
+                <ref bean="spiProductOfferingAttributeMapper"/>
+                <ref bean="spiProductStatusAttributeMapper"/>
+                <ref bean="spiProductPlaceAttributeMapper"/>
+                <ref bean="spiProductCharacteristicAttributeMapper"/>
+                <ref bean="spiProductOrderItemAttributeMapper"/>
+                <ref bean="spiProductPriceAttributeMapper"/>
+                <ref bean="spiProductTermAttributeMapper"/>
+                <ref bean="spiProductRealizingResourceAttributeMapper"/>
+                <ref bean="spiProductRealizingServiceAttributeMapper"/>
+                <ref bean="spiProductRelatedPartyAttributeMapper"/>
+                <ref bean="spiProductRelationshipAttributeMapper"/>
+                <ref bean="spiProductHrefAttributeMapper"/>
+                <ref bean="spiProductSchemaLocationAttributeMapper"/>
+                <ref bean="spiProductTypeAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for Product (from SpiProductBundleModel)-->
+    <alias name="defaultSpiBundleProductEntityMapperV1" alias="spiBundleProductEntityMapperV1"/>
+    <bean id="defaultSpiBundleProductEntityMapperV1" parent="spiProductEntityMapperV1"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.SpiEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.subscribedproductservices.model.SpiProductBundleModel"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.subscribedproducttmfwebservices.v1.dto.Product"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="spiProductChildrenAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for BillingAccountRef (from SpiBillingAccountModel)-->
+    <alias name="defaultSpiBillingAccountRefEntityMapperV1" alias="spiBillingAccountRefEntityMapperV1"/>
+    <bean id="defaultSpiBillingAccountRefEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.SpiEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.subscribedproductservices.model.SpiBillingAccountModel"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.subscribedproducttmfwebservices.v1.dto.BillingAccountRef"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="spiBillingAccountRefHrefAttributeMapper"/>
+                <ref bean="spiBillingAccountRefSchemaLocationAttributeMapper"/>
+                <ref bean="spiBillingAccountRefTypeAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for Characteristic (from SpiCharacteristicModel)-->
+    <alias name="defaultSpiCharacteristicEntityMapperV1" alias="spiCharacteristicEntityMapperV1"/>
+    <bean id="defaultSpiCharacteristicEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.SpiEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.subscribedproductservices.model.SpiCharacteristicModel"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.subscribedproducttmfwebservices.v1.dto.Characteristic"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="spiCharacteristicSchemaLocationAttributeMapper"/>
+                <ref bean="spiCharacteristicTypeAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for ProductOfferingRef (from SpiProductOfferingModel)-->
+    <alias name="defaultSpiProductOfferingRefEntityMapperV1" alias="spiProductOfferingRefEntityMapperV1"/>
+    <bean id="defaultSpiProductOfferingRefEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.SpiEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.subscribedproductservices.model.SpiProductOfferingModel"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.subscribedproducttmfwebservices.v1.dto.ProductOfferingRef"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="spiProductOfferingRefHrefAttributeMapper"/>
+                <ref bean="spiProductOfferingRefSchemaLocationAttributeMapper"/>
+                <ref bean="spiProductOfferingRefReferredTypeAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for RelatedProductOrderItem (from SpiRelatedProductOrderItemModel)-->
+    <alias name="defaultSpiRelatedProductOrderItemEntityMapperV1" alias="spiRelatedProductOrderItemEntityMapperV1"/>
+    <bean id="defaultSpiRelatedProductOrderItemEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.SpiEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.subscribedproductservices.model.SpiRelatedProductOrderItemModel"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.subscribedproducttmfwebservices.v1.dto.RelatedProductOrderItem"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="spiRelatedProductOrderItemActionAttributeMapper"/>
+                <ref bean="spiRelatedProductOrderItemHrefAttributeMapper"/>
+                <ref bean="spiRelatedProductOrderItemSchemaLocationAttributeMapper"/>
+                <ref bean="spiRelatedProductOrderItemTypeAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for RelatedPlaceRefOrValue (from SpiRelatedPlaceModel)-->
+    <alias name="defaultSpiRelatedPlaceRefOrValueEntityMapperV1" alias="spiRelatedPlaceRefOrValueEntityMapperV1"/>
+    <bean id="defaultSpiRelatedPlaceRefOrValueEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.SpiEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.subscribedproductservices.model.SpiRelatedPlaceModel"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.subscribedproducttmfwebservices.v1.dto.RelatedPlaceRefOrValue"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="spiRelatedPlaceRefOrValueHrefAttributeMapper"/>
+                <ref bean="spiRelatedPlaceRefOrValueSchemaLocationAttributeMapper"/>
+                <ref bean="spiRelatedPlaceRefOrValueReferredTypeAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for ProductSpecificationRef (from SpiProductSpecificationModel)-->
+    <alias name="defaultSpiProductSpecificationRefEntityMapperV1" alias="spiProductSpecificationRefEntityMapperV1"/>
+    <bean id="defaultSpiProductSpecificationRefEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.SpiEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.subscribedproductservices.model.SpiProductSpecificationModel"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.subscribedproducttmfwebservices.v1.dto.ProductSpecificationRef"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="spiProductSpecificationRefHrefAttributeMapper"/>
+                <ref bean="spiProductSpecificationRefSchemaLocationAttributeMapper"/>
+                <ref bean="spiProductSpecificationRefReferredTypeAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for ProductTerm (from SpiProductTermModel)-->
+    <alias name="defaultSpiProductTermEntityMapperV1" alias="spiProductTermEntityMapperV1"/>
+    <bean id="defaultSpiProductTermEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.SpiEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.subscribedproductservices.model.SpiProductTermModel"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.subscribedproducttmfwebservices.v1.dto.ProductTerm"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="spiProductTermSchemaLocationAttributeMapper"/>
+                <ref bean="spiProductTermTypeAttributeMapper"/>
+                <ref bean="spiProductTermDurationAttributeMapper"/>
+                <ref bean="spiProductTermValidForAttributeMapper"/>
+                <ref bean="spiProductTermUnitsAttributeMapper"/>
+                <ref bean="spiSpiProductTermAmountAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for ResourceRef (from SpiResourceModel)-->
+    <alias name="defaultSpiResourceRefEntityMapperV1" alias="spiResourceRefEntityMapperV1"/>
+    <bean id="defaultSpiResourceRefEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.SpiEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.subscribedproductservices.model.SpiResourceModel"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.subscribedproducttmfwebservices.v1.dto.ResourceRef"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="spiResourceRefHrefAttributeMapper"/>
+                <ref bean="spiResourceRefSchemaLocationAttributeMapper"/>
+                <ref bean="spiResourceRefReferredTypeAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for ServiceRef (from SpiServiceModel)-->
+    <alias name="defaultSpiServiceRefEntityMapperV1" alias="spiServiceRefEntityMapperV1"/>
+    <bean id="defaultSpiServiceRefEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.SpiEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.subscribedproductservices.model.SpiServiceModel"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.subscribedproducttmfwebservices.v1.dto.ServiceRef"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="spiServiceRefHrefAttributeMapper"/>
+                <ref bean="spiServiceRefSchemaLocationAttributeMapper"/>
+                <ref bean="spiServiceRefReferredTypeAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for RelatedParty (from SpiRelatedPartyModel)-->
+    <alias name="defaultSpiRelatedPartyEntityMapperV1" alias="spiRelatedPartyEntityMapperV1"/>
+    <bean id="defaultSpiRelatedPartyEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.SpiEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.subscribedproductservices.model.SpiPartyModel"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.subscribedproducttmfwebservices.v1.dto.RelatedParty"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="spiRelatedPartyHrefAttributeMapper"/>
+                <ref bean="spiRelatedPartySchemaLocationAttributeMapper"/>
+                <ref bean="spiRelatedPartyTypeAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for ProductPrice (from SpiProductPriceModel)-->
+    <alias name="defaultSpiProductPriceEntityMapperV1" alias="spiProductPriceEntityMapperV1"/>
+    <bean id="defaultSpiProductPriceEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.SpiEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.subscribedproductservices.model.SpiProductPriceModel"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.subscribedproducttmfwebservices.v1.dto.ProductPrice"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="spiProductPriceBillingAccountAttributeMapper"/>
+                <ref bean="spiProductPriceProductOfferingPriceAttributeMapper"/>
+                <ref bean="spiProductPriceSchemaLocationAttributeMapper"/>
+                <ref bean="spiProductPriceTypeAttributeMapper"/>
+                <ref bean="spiProductPricePriceAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for ProductPrice (from SpiComponentProdPriceModel)-->
+    <alias name="defaultSpiProductComponentPriceEntityMapperV1" alias="spiProductComponentPriceEntityMapperV1"/>
+    <bean id="defaultSpiProductComponentPriceEntityMapperV1" parent="spiProductPriceEntityMapperV1"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.SpiEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.subscribedproductservices.model.SpiComponentProdPriceModel"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.subscribedproducttmfwebservices.v1.dto.ProductPrice"/>
+    </bean>
+
+    <!-- Entity mapper for ProductPrice (from SpiProdPriceCharge)-->
+    <alias name="defaultspiProductChargePriceEntityMapperV1" alias="spiProductChargePriceEntityMapperV1"/>
+    <bean id="defaultspiProductChargePriceEntityMapperV1" parent="spiProductPriceEntityMapperV1"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.SpiEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.subscribedproductservices.model.SpiProdPriceChargeModel"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.subscribedproducttmfwebservices.v1.dto.ProductPrice"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="spiProductPricePriceTypeAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for Price (from SpiComponentProdPriceModel)-->
+    <alias name="defaultSpiPriceEntityMapperV1" alias="spiPriceEntityMapperV1"/>
+    <bean id="defaultSpiPriceEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.SpiEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.subscribedproductservices.model.SpiComponentProdPriceModel"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.subscribedproducttmfwebservices.v1.dto.Price"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="spiPriceDutyFreeAmountAttributeMapper"/>
+                <ref bean="spiPriceTaxIncludedAmountAttributeMapper"/>
+                <ref bean="spiPriceSchemaLocationAttributeMapper"/>
+                <ref bean="spiPriceTypeAttributeMapper"/>
+                <ref bean="spiPriceTaxRateAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for Price (from SpiPriceAlterationModel)-->
+    <alias name="defaultSpiPriceFromAlterationEntityMapperV1" alias="spiPriceFromAlterationEntityMapperV1"/>
+    <bean id="defaultSpiPriceFromAlterationEntityMapperV1" parent="spiPriceEntityMapperV1"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.SpiEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.subscribedproductservices.model.SpiPriceAlterationModel"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.subscribedproducttmfwebservices.v1.dto.Price"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="spiPricePercentageAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for PriceAlteration (from SpiPriceAlterationModel)-->
+    <alias name="defaultSpiPriceAlterationEntityMapperV1" alias="spiPriceAlterationEntityMapperV1"/>
+    <bean id="defaultSpiPriceAlterationEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.SpiEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.subscribedproductservices.model.SpiPriceAlterationModel"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.subscribedproducttmfwebservices.v1.dto.PriceAlteration"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="spiPriceAlterationProductOfferingPriceAttributeMapper"/>
+                <ref bean="spiPriceAlterationBaseTypeAttributeMapper"/>
+                <ref bean="spiPriceAlterationSchemaLocationAttributeMapper"/>
+                <ref bean="spiPriceAlterationTypeAttributeMapper"/>
+                <ref bean="spiPriceAlterationPriceAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for ProductOfferingPriceRef (from SpiProductOfferingPriceModel)-->
+    <alias name="defaultSpiProductOfferingPriceRefAlterationEntityMapperV1"
+           alias="spiProductOfferingPriceRefAlterationEntityMapperV1"/>
+    <bean id="defaultSpiProductOfferingPriceRefAlterationEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.SpiEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.subscribedproductservices.model.SpiProductOfferingPriceModel"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.subscribedproducttmfwebservices.v1.dto.ProductOfferingPriceRef"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="spiProductOfferingPriceRefHrefAttributeMapper"/>
+                <ref bean="spiProductOfferingPriceRefSchemaLocationAttributeMapper"/>
+                <ref bean="spiProductOfferingPriceRefReferredTypeAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for ProductRelationship (from SpiProductRelationshipModel)-->
+    <alias name="defaultSpiProductRelationshipEntityMapperV1" alias="spiProductRelationshipEntityMapperV1"/>
+    <bean id="defaultSpiProductRelationshipEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.subscribedproducttmfwebservices.v1.mappers.SpiEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.subscribedproductservices.model.SpiProductRelationshipModel"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.subscribedproducttmfwebservices.v1.dto.ProductRelationship"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="spiProductRelationshipTypeAttributeMapper"/>
+                <ref bean="spiProductRelationshipSchemaLocationAttributeMapper"/>
+                <ref bean="spiProductRelationshipProductAttributeMapper"/>
+                <ref bean="spiRelationshipTypeAttributeMapper"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

@@ -1,0 +1,482 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+$productCatalog = b2ctelcoProductCatalog
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Staged'])[unique = true, default = '$productCatalog:Staged']
+$currency = currency(isocode)[default = USD]
+$priceEvent = priceEvent(code)[default='paynow']
+$priceEventRcUc = priceEvent(code)[default='monthly']
+
+################################################
+###            One time charges              ###
+################################################
+
+INSERT_UPDATE TmaOneTimeProdOfferPriceCharge; id[unique = true]; $catalogVersion; value  ; $priceEvent; $currency
+                                            ; OTC_0_61_USD     ;                ; 0.61   ;
+                                            ; OTC_3_11_USD     ;                ; 3.11   ;
+                                            ; OTC_4_USD        ;                ; 4.0    ;
+                                            ; OTC_5_81_USD     ;                ; 5.81   ;
+                                            ; OTC_6_37_USD     ;                ; 6.37   ;
+                                            ; OTC_6_65_USD     ;                ; 6.65   ;
+                                            ; OTC_6_76_USD     ;                ; 6.76   ;
+                                            ; OTC_8_2_USD      ;                ; 8.2    ;
+                                            ; OTC_8_89_USD     ;                ; 8.89   ;
+                                            ; OTC_9_14_USD     ;                ; 9.14   ;
+                                            ; OTC_9_25_USD     ;                ; 9.25   ;
+                                            ; OTC_9_72_USD     ;                ; 9.72   ;
+                                            ; OTC_9_84_USD     ;                ; 9.84   ;
+                                            ; OTC_10_USD       ;                ; 10.0   ;
+                                            ; OTC_10_35_USD    ;                ; 10.35  ;
+                                            ; OTC_10_43_USD    ;                ; 10.43  ;
+                                            ; OTC_10_75_USD    ;                ; 10.75  ;
+                                            ; OTC_11_USD       ;                ; 11.0   ;
+                                            ; OTC_11_94_USD    ;                ; 11.94  ;
+                                            ; OTC_11_95_USD    ;                ; 11.95  ;
+                                            ; OTC_12_USD       ;                ; 12.0   ;
+                                            ; OTC_12_66_USD    ;                ; 12.66  ;
+                                            ; OTC_13_USD       ;                ; 13.0   ;
+                                            ; OTC_13_91_USD    ;                ; 13.91  ;
+                                            ; OTC_14_USD       ;                ; 14.0   ;
+                                            ; OTC_14_9_USD     ;                ; 14.9   ;
+                                            ; OTC_15_USD       ;                ; 15.0   ;
+                                            ; OTC_15_USD_OFB   ;                ; 15.0   ; onfirstbill
+                                            ; OTC_16_USD       ;                ; 16.0   ;
+                                            ; OTC_16_41_USD    ;                ; 16.41  ;
+                                            ; OTC_16_66_USD    ;                ; 16.66  ;
+                                            ; OTC_17_USD       ;                ; 17.0   ;
+                                            ; OTC_17_23_USD    ;                ; 17.23  ;
+                                            ; OTC_18_62_USD    ;                ; 18.62  ;
+                                            ; OTC_19_USD       ;                ; 19.0   ;
+                                            ; OTC_19_01_USD    ;                ; 19.01  ;
+                                            ; OTC_19_04_USD    ;                ; 19.04  ;
+                                            ; OTC_19_64_USD    ;                ; 19.64  ;
+                                            ; OTC_20_USD       ;                ; 20.0   ;
+                                            ; OTC_21_USD       ;                ; 21.0   ;
+                                            ; OTC_21_58_USD    ;                ; 21.58  ;
+                                            ; OTC_22_USD       ;                ; 22.0   ;
+                                            ; OTC_22_26_USD    ;                ; 22.26  ;
+                                            ; OTC_21_38_USD    ;                ; 21.38  ;
+                                            ; OTC_22_85_USD    ;                ; 22.85  ;
+                                            ; OTC_23_USD       ;                ; 23.0   ;
+                                            ; OTC_24_USD       ;                ; 25.0   ;
+                                            ; OTC_24_55_USD    ;                ; 24.55  ;
+                                            ; OTC_24_92_USD    ;                ; 24.92  ;
+                                            ; OTC_25_USD       ;                ; 25.0   ;
+                                            ; OTC_25_92_USD    ;                ; 25.92  ;
+                                            ; OTC_24_94_USD    ;                ; 25.94  ;
+                                            ; OTC_25_95_USD    ;                ; 25.95  ;
+                                            ; OTC_26_USD       ;                ; 26.0   ;
+                                            ; OTC_27_79_USD    ;                ; 27.79  ;
+                                            ; OTC_27_USD       ;                ; 27.0   ;
+                                            ; OTC_28_USD       ;                ; 28.0   ;
+                                            ; OTC_28_52_USD    ;                ; 28.52  ;
+                                            ; OTC_29_USD       ;                ; 29.0   ;
+                                            ; OTC_29_96_USD    ;                ; 29.96  ;
+                                            ; OTC_30_USD       ;                ; 30.0   ;
+                                            ; OTC_31_USD       ;                ; 31.0   ;
+                                            ; OTC_32_USD       ;                ; 32.0   ;
+                                            ; OTC_32_13_USD    ;                ; 32.13  ;
+                                            ; OTC_32_65_USD    ;                ; 32.65  ;
+                                            ; OTC_33_USD       ;                ; 33.0   ;
+                                            ; OTC_33_11_USD    ;                ; 33.11  ;
+                                            ; OTC_33_67_USD    ;                ; 33.67  ;
+                                            ; OTC_34_USD       ;                ; 34.0   ;
+                                            ; OTC_34_95_USD    ;                ; 34.95  ;
+                                            ; OTC_35_USD       ;                ; 35.0   ;
+                                            ; OTC_35_5_USD     ;                ; 35.5   ;
+                                            ; OTC_35_95_USD    ;                ; 35.95  ;
+                                            ; OTC_36_USD       ;                ; 36.0   ;
+                                            ; OTC_37_USD       ;                ; 37.0   ;
+                                            ; OTC_38_USD       ;                ; 38.0   ;
+                                            ; OTC_38_95_USD    ;                ; 38.95  ;
+                                            ; OTC_39_USD       ;                ; 39.0   ;
+                                            ; OTC_40_USD       ;                ; 40.0   ;
+                                            ; OTC_40_28_USD    ;                ; 40.28  ;
+                                            ; OTC_40_95_USD    ;                ; 40.95  ;
+                                            ; OTC_41_USD       ;                ; 41.0   ;
+                                            ; OTC_42_USD       ;                ; 42.0   ;
+                                            ; OTC_43_USD       ;                ; 43.0   ;
+                                            ; OTC_44_USD       ;                ; 44.0   ;
+                                            ; OTC_45_USD       ;                ; 45.0   ;
+                                            ; OTC_45_12_USD    ;                ; 45.12  ;
+                                            ; OTC_45_71_USD    ;                ; 45.71  ;
+                                            ; OTC_45_78_USD    ;                ; 45.78  ;
+                                            ; OTC_46_USD       ;                ; 46.0   ;
+                                            ; OTC_47_USD       ;                ; 47.0   ;
+                                            ; OTC_48_USD       ;                ; 48.0   ;
+                                            ; OTC_49_USD       ;                ; 49.0   ;
+                                            ; OTC_49_9_USD     ;                ; 49.9   ;
+                                            ; OTC_50_USD       ;                ; 50.0   ;
+                                            ; OTC_68_9_USD     ;                ; 68.9   ;
+                                            ; OTC_86_16_USD    ;                ; 86.16  ;
+                                            ; OTC_89_76_USD    ;                ; 89.76  ;
+                                            ; OTC_96_USD       ;                ; 96.0   ;
+                                            ; OTC_98_44_USD    ;                ; 98.44  ;
+                                            ; OTC_100_USD      ;                ; 100.0  ;
+                                            ; OTC_104_USD      ;                ; 104.0  ;
+                                            ; OTC_107_USD      ;                ; 107.0  ;
+                                            ; OTC_108_USD      ;                ; 108.0  ;
+                                            ; OTC_109_USD      ;                ; 109.0  ;
+                                            ; OTC_111_USD      ;                ; 111.0  ;
+                                            ; OTC_112_USD      ;                ; 112.0  ;
+                                            ; OTC_116_USD      ;                ; 116.0  ;
+                                            ; OTC_117_25_USD   ;                ; 117.25 ;
+                                            ; OTC_119_USD      ;                ; 119.0  ;
+                                            ; OTC_120_78_USD   ;                ; 120.78 ;
+                                            ; OTC_121_USD      ;                ; 121.0  ;
+                                            ; OTC_122_USD      ;                ; 122.0  ;
+                                            ; OTC_122_9_USD    ;                ; 122.9  ;
+                                            ; OTC_122_22_USD   ;                ; 122.22 ;
+                                            ; OTC_122_68_USD   ;                ; 122.68 ;
+                                            ; OTC_122_89_USD   ;                ; 122.89 ;
+                                            ; OTC_123_USD      ;                ; 123.0  ;
+                                            ; OTC_127_37_USD   ;                ; 127.37 ;
+                                            ; OTC_136_USD      ;                ; 136.0  ;
+                                            ; OTC_136_98_USD   ;                ; 136.98 ;
+                                            ; OTC_137_USD      ;                ; 137.0  ;
+                                            ; OTC_139_USD      ;                ; 139.0  ;
+                                            ; OTC_143_USD      ;                ; 143.0  ;
+                                            ; OTC_144_USD      ;                ; 144.0  ;
+                                            ; OTC_145_USD      ;                ; 145.0  ;
+                                            ; OTC_147_USD      ;                ; 147.0  ;
+                                            ; OTC_148_USD      ;                ; 148.0  ;
+                                            ; OTC_149_USD      ;                ; 149.0  ;
+                                            ; OTC_154_USD      ;                ; 154.0  ;
+                                            ; OTC_155_USD      ;                ; 155.0  ;
+                                            ; OTC_156_USD      ;                ; 156.0  ;
+                                            ; OTC_157_USD      ;                ; 157.0  ;
+                                            ; OTC_158_USD      ;                ; 158.0  ;
+                                            ; OTC_159_USD      ;                ; 159.0  ;
+                                            ; OTC_160_USD      ;                ; 160.0  ;
+                                            ; OTC_165_USD      ;                ; 165.0  ;
+                                            ; OTC_166_USD      ;                ; 166.0  ;
+                                            ; OTC_171_USD      ;                ; 171.0  ;
+                                            ; OTC_177_USD      ;                ; 177.0  ;
+                                            ; OTC_178_USD      ;                ; 178.0  ;
+                                            ; OTC_179_USD      ;                ; 179.0  ;
+                                            ; OTC_179_49_USD   ;                ; 179.49 ;
+                                            ; OTC_180_USD      ;                ; 180.0  ;
+                                            ; OTC_181_USD      ;                ; 181.0  ;
+                                            ; OTC_182_USD      ;                ; 182.0  ;
+                                            ; OTC_183_USD      ;                ; 183.0  ;
+                                            ; OTC_184_USD      ;                ; 184.0  ;
+                                            ; OTC_185_USD      ;                ; 185.0  ;
+                                            ; OTC_186_USD      ;                ; 186.0  ;
+                                            ; OTC_187_USD      ;                ; 187.0  ;
+                                            ; OTC_188_USD      ;                ; 188.0  ;
+                                            ; OTC_189_USD      ;                ; 189.0  ;
+                                            ; OTC_190_USD      ;                ; 190.0  ;
+                                            ; OTC_191_USD      ;                ; 191.0  ;
+                                            ; OTC_192_USD      ;                ; 192.0  ;
+                                            ; OTC_193_USD      ;                ; 193.0  ;
+                                            ; OTC_198_USD      ;                ; 198.0  ;
+                                            ; OTC_199_USD      ;                ; 199.0  ;
+                                            ; OTC_200_USD      ;                ; 200.0  ;
+                                            ; OTC_202_USD      ;                ; 202.0  ;
+                                            ; OTC_211_USD      ;                ; 211.0  ;
+                                            ; OTC_212_USD      ;                ; 212.0  ;
+                                            ; OTC_213_USD      ;                ; 213.0  ;
+                                            ; OTC_214_USD      ;                ; 214.0  ;
+                                            ; OTC_216_USD      ;                ; 216.0  ;
+                                            ; OTC_217_USD      ;                ; 217.0  ;
+                                            ; OTC_218_USD      ;                ; 218.0  ;
+                                            ; OTC_221_USD      ;                ; 221.0  ;
+                                            ; OTC_222_USD      ;                ; 222.0  ;
+                                            ; OTC_231_USD      ;                ; 231.0  ;
+                                            ; OTC_233_USD      ;                ; 233.0  ;
+                                            ; OTC_239_USD      ;                ; 239.0  ;
+                                            ; OTC_243_USD      ;                ; 243.0  ;
+                                            ; OTC_248_USD      ;                ; 248.0  ;
+                                            ; OTC_263_34_USD   ;                ; 263.34 ;
+                                            ; OTC_274_89_USD   ;                ; 274.89 ;
+                                            ; OTC_280_USD      ;                ; 280.0  ;
+                                            ; OTC_299_USD      ;                ; 299.0  ;
+                                            ; OTC_300_USD      ;                ; 300.0  ;
+                                            ; OTC_300_67_USD   ;                ; 300.67 ;
+                                            ; OTC_322_USD      ;                ; 322.0  ;
+                                            ; OTC_331_USD      ;                ; 331.0  ;
+                                            ; OTC_332_USD      ;                ; 332.0  ;
+                                            ; OTC_333_USD      ;                ; 333.0  ;
+                                            ; OTC_341_USD      ;                ; 341.0  ;
+                                            ; OTC_342_USD      ;                ; 342.0  ;
+                                            ; OTC_342_31_USD   ;                ; 342.31 ;
+                                            ; OTC_343_USD      ;                ; 343.0  ;
+                                            ; OTC_345_USD      ;                ; 345.0  ;
+                                            ; OTC_345_44_USD   ;                ; 345.44 ;
+                                            ; OTC_352_62_USD   ;                ; 352.62 ;
+                                            ; OTC_399_USD      ;                ; 399.0  ;
+                                            ; OTC_402_16_USD   ;                ; 402.16 ;
+                                            ; OTC_433_USD      ;                ; 433.0  ;
+                                            ; OTC_449_USD      ;                ; 449.0  ;
+                                            ; OTC_456_USD      ;                ; 456.0  ;
+                                            ; OTC_491_23_USD   ;                ; 491.23 ;
+                                            ; OTC_505_78_USD   ;                ; 505.78 ;
+                                            ; OTC_527_04_USD   ;                ; 527.04 ;
+                                            ; OTC_549_USD      ;                ; 549.0  ;
+                                            ; OTC_579_USD      ;                ; 579.0  ;
+                                            ; OTC_599_USD      ;                ; 599.0  ;
+                                            ; OTC_649_USD      ;                ; 649.0  ;
+                                            ; OTC_699_USD      ;                ; 699.0  ;
+                                            ; OTC_709_USD      ;                ; 709.0  ;
+                                            ; OTC_724_99_USD   ;                ; 724.99 ;
+                                            ; OTC_749_USD      ;                ; 749.0  ;
+                                            ; OTC_770_59_USD   ;                ; 770.59 ;
+                                            ; OTC_789_USD      ;                ; 789.0  ;
+                                            ; OTC_799_USD      ;                ; 799.0  ;
+                                            ; OTC_809_USD      ;                ; 809.0  ;
+                                            ; OTC_849_USD      ;                ; 849.0  ;
+                                            ; OTC_949_USD      ;                ; 949.0  ;
+                                            ; OTC_999_USD      ;                ; 999.0  ;
+                                            ; OTC_1149_USD     ;                ; 1149.0 ;
+                                            ; OTC_150_USD      ;                ; 150.0  ;
+                                            ; OTC_85_USD       ;                ; 85.0   ;
+
+################################################
+###              Recurring charges           ###
+################################################
+
+INSERT_UPDATE TmaRecurringProdOfferPriceCharge; id[unique = true]        ; name                          ; $catalogVersion; value; $currency; $priceEventRcUc; cycleStart; cycleEnd
+                                              ; RC_0_USD_start_1_end_1   ; RC_0_USD_start_1_end_1 Name   ;                ; 0.0  ;          ;                ; 1         ; 1
+                                              ; RC_2_USD_start_1         ; RC_2_USD_start_1 Name         ;                ; 2.0  ;          ;                ; 1         ;
+                                              ; RC_3_USD_start_1         ; RC_3_USD_start_1 Name         ;                ; 3.0  ;          ;                ; 1         ;
+                                              ; RC_5_USD_start_1         ; RC_5_USD_start_1 Name         ;                ; 5.0  ;          ;                ; 1         ;
+                                              ; RC_10_USD_start_1        ; RC_10_USD_start_1 Name        ;                ; 10.0 ;          ;                ; 1         ;
+                                              ; RC_10_USD_start_1_end_3  ; RC_10_USD_start_1_end_3 Name  ;                ; 10.0 ;          ;                ; 1         ; 3
+                                              ; RC_15_USD_start_1        ; RC_15_USD_start_1 Name        ;                ; 15.0 ;          ;                ; 1         ;
+                                              ; RC_15_USD_start_3        ; RC_15_USD_start_3 Name        ;                ; 15.0 ;          ;                ; 3         ;
+                                              ; RC_16_USD_start_3        ; RC_16_USD_start_3 Name        ;                ; 16.0 ;          ;                ; 3         ;
+                                              ; RC_17_USD_start_3        ; RC_17_USD_start_3 Name        ;                ; 17.0 ;          ;                ; 3         ;
+                                              ; RC_18_USD_start_3        ; RC_18_USD_start_3 Name        ;                ; 18.0 ;          ;                ; 3         ;
+                                              ; RC_20_USD_start_1        ; RC_20_USD_start_1 Name        ;                ; 20.0 ;          ;                ; 1         ;
+                                              ; RC_20_USD_start_4        ; RC_20_USD_start_4 Name        ;                ; 20.0 ;          ;                ; 4         ;
+                                              ; RC_25_USD_start_1        ; RC_25_USD_start_1 Name        ;                ; 25.0 ;          ;                ; 1         ;
+                                              ; RC_25_USD_start_3        ; RC_25_USD_start_3 Name        ;                ; 25.0 ;          ;                ; 3         ;
+                                              ; RC_26_USD_start_3        ; RC_26_USD_start_3 Name        ;                ; 26.0 ;          ;                ; 3         ;
+                                              ; RC_27_USD_start_3        ; RC_27_USD_start_3 Name        ;                ; 27.0 ;          ;                ; 3         ;
+                                              ; RC_28_USD_start_1        ; RC_28_USD_start_1 Name        ;                ; 28.0 ;          ;                ; 1         ;
+                                              ; RC_28_USD_start_3        ; RC_28_USD_start_3 Name        ;                ; 28.0 ;          ;                ; 3         ;
+                                              ; RC_29_USD_start_1_end_3  ; RC_29_USD_start_1_end_3 Name  ;                ; 29.0 ;          ;                ; 1         ; 3
+                                              ; RC_29_USD_start_2        ; RC_29_USD_start_2 Name        ;                ; 29.0 ;          ;                ; 2         ;
+                                              ; RC_30_USD_start_1        ; RC_30_USD_start_1 Name        ;                ; 30.0 ;          ;                ; 1         ;
+                                              ; RC_30_USD_start_4        ; RC_30_USD_start_4 Name        ;                ; 30.0 ;          ;                ; 4         ;
+                                              ; RC_35_USD_start_1        ; RC_35_USD_start_1 Name        ;                ; 35.0 ;          ;                ; 1         ;
+                                              ; RC_35_USD_start_3        ; RC_35_USD_start_3 Name        ;                ; 35.0 ;          ;                ; 3         ;
+                                              ; RC_36_USD_start_3        ; RC_36_USD_start_3 Name        ;                ; 36.0 ;          ;                ; 3         ;
+                                              ; RC_37_USD_start_3        ; RC_37_USD_start_3 Name        ;                ; 37.0 ;          ;                ; 3         ;
+                                              ; RC_38_USD_start_1        ; RC_38_USD_start_1 Name        ;                ; 38.0 ;          ;                ; 1         ;
+                                              ; RC_38_USD_start_3        ; RC_38_USD_start_3 Name        ;                ; 38.0 ;          ;                ; 3         ;
+                                              ; RC_40_USD_start_1        ; RC_40_USD_start_1 Name        ;                ; 40.0 ;          ;                ; 1         ;
+                                              ; RC_40_USD_start_4        ; RC_40_USD_start_4 Name        ;                ; 40.0 ;          ;                ; 4         ;
+                                              ; RC_45_USD_start_1        ; RC_45_USD_start_1 Name        ;                ; 45.0 ;          ;                ; 1         ;
+                                              ; RC_45_USD_start_1_end_3  ; RC_45_USD_start_1_end_3 Name  ;                ; 45.0 ;          ;                ; 1         ; 3
+                                              ; RC_45_USD_start_4        ; RC_45_USD_start_4 Name        ;                ; 45.0 ;          ;                ; 4         ;
+                                              ; RC_45_USD_start_4_end_6  ; RC_45_USD_start_4_end_6 Name  ;                ; 45.0 ;          ;                ; 4         ; 6
+                                              ; RC_48_USD_start_1        ; RC_48_USD_start_1 Name        ;                ; 48.0 ;          ;                ; 1         ;
+                                              ; RC_50_USD_start_1        ; RC_50_USD_start_1 Name        ;                ; 50.0 ;          ;                ; 1         ;
+                                              ; RC_55_USD_start_1        ; RC_55_USD_start_1 Name        ;                ; 55.0 ;          ;                ; 1         ;
+                                              ; RC_58_USD_start_1        ; RC_58_USD_start_1 Name        ;                ; 58.0 ;          ;                ; 1         ;
+                                              ; RC_60_USD_start_4_end_6  ; RC_60_USD_start_4_end_6 Name  ;                ; 60.0 ;          ;                ; 4         ; 6
+                                              ; RC_60_USD_start_7        ; RC_60_USD_start_7 Name        ;                ; 60.0 ;          ;                ; 7         ;
+                                              ; RC_85_USD_start_7        ; RC_85_USD_start_7 Name        ;                ; 85.0 ;          ;                ; 7         ;
+                                              ; RC_95_USD_start_1_end_18 ; RC_95_USD_start_1_end_18 Name ;                ; 85.0 ;          ;                ; 1         ; 18
+                                              ; RC_7_USD_start_1         ; RC_7_USD_start_1              ;                ; 7.0  ;          ;                ; 1         ;
+
+################################################
+###              Usage charges               ###
+################################################
+
+INSERT_UPDATE TmaUsageProdOfferPriceCharge; id[unique = true]                                    ; name                                                      ; value; tierStart; tierEnd; usageUnit(id)           ; productUsageSpec(id, $catalogVersion); pricingLogicAlgorithm(id); $catalogVersion; $currency; $priceEventRcUc;
+                                          ; UC_0_05_tierStart_101_end_200_USD                    ; UC_0_05_tierStart_101_end_200_USD Name                    ; 0.05 ; 101      ; 200    ; phone_minutes           ; cdr_voice_spec                       ;                          ;                ;          ;
+                                          ; UC_0_07_tierStart_201_end_300_USD                    ; UC_0_07_tierStart_201_end_300_USD Name                    ; 0.07 ; 201      ; 300    ; phone_minutes           ; cdr_voice_spec                       ;                          ;                ;          ;
+                                          ; UC_0_09_tierStart_301_USD                            ; UC_0_09_tierStart_301_USD Name                            ; 0.09 ; 301      ;        ; phone_minutes           ; cdr_voice_spec                       ;                          ;                ;          ;
+                                          ; UC_0_11_tierStart_101_end_200_USD                    ; UC_0_11_tierStart_101_end_200_USD Name                    ; 0.11 ; 101      ; 200    ; phone_minutes           ;                                      ;                          ;                ;          ;
+                                          ; UC_0_13_tierStart_201_end_300_USD                    ; UC_0_13_tierStart_201_end_300_USD Name                    ; 0.13 ; 201      ; 300    ; phone_minutes           ;                                      ;                          ;                ;          ;
+                                          ; UC_0_15_tierStart_301_USD                            ; UC_0_15_tierStart_301_USD Name                            ; 0.15 ; 301      ;        ; phone_minutes           ;                                      ;                          ;                ;          ;
+                                          ; UC_0_09_tierStart_1_minutes_USD                      ; UC_0_09_tierStart_1_minutes_USD Name                      ; 0.09 ; 1        ;        ; phone_minutes           ; cdr_voice_spec                       ;                          ;                ;          ;
+                                          ; UC_0_09_tierStart_1_sms_USD                          ; UC_0_09_tierStart_1_sms_USD Name                          ; 0.09 ; 1        ;        ; sms                     ; cdr_sms_spec                         ;                          ;                ;          ;
+                                          ; UC_0_09_tierStart_1_data_USD                         ; UC_0_09_tierStart_1_data_USD Name                         ; 0.09 ; 1        ;        ; mb                      ; udr_data_spec                        ;                          ;                ;          ;
+                                          ; UC_0_11_tierStart_1_minutes_USD                      ; UC_0_11_tierStart_1_minutes_USD Name                      ; 0.11 ; 1        ;        ; phone_minutes           ; cdr_voice_spec                       ;                          ;                ;          ;
+                                          ; UC_0_11_tierStart_1_sms_USD                          ; UC_0_11_tierStart_1_sms_USD Name                          ; 0.11 ; 1        ;        ; sms                     ; cdr_sms_spec                         ;                          ;                ;          ;
+                                          ; UC_0_11_tierStart_1_data_USD                         ; UC_0_11_tierStart_1_data_USD Name                         ; 0.11 ; 1        ;        ; mb                      ; udr_data_spec                        ;                          ;                ;          ;
+
+                                          ; UC_3_documentaries_on_demand_USD                     ; UC_3_documentaries_on_demand_USD Name                     ; 3.0  ; 1        ;        ; documentaries_on_demand ; ipdr_iptv_spec                       ;                          ;                ;          ;
+                                          ; UC_4_movies_on_demand_USD                            ; UC_4_movies_on_demand_USD Name                            ; 4.0  ; 1        ;        ; movies_on_demand        ; ipdr_iptv_spec                       ;                          ;                ;          ;
+                                          ; UC_5_blockbusters_on_demand_USD                      ; UC_5_blockbusters_on_demand_USD Name                      ; 5.0  ; 1        ;        ; blockbusters_on_demand  ; ipdr_iptv_spec                       ;                          ;                ;          ;
+
+                                          ; UC_2_documentaries_on_demand_USD                     ; UC_2_documentaries_on_demand_USD Name                     ; 2.0  ; 1        ;        ; documentaries_on_demand ; ipdr_iptv_spec                       ;                          ;                ;          ;
+                                          ; UC_3_movies_on_demand_USD                            ; UC_3_movies_on_demand_USD Name                            ; 3.0  ; 1        ;        ; movies_on_demand        ; ipdr_iptv_spec                       ;                          ;                ;          ;
+                                          ; UC_4_blockbusters_on_demand_USD                      ; UC_4_blockbusters_on_demand_USD Name                      ; 4.0  ; 1        ;        ; blockbusters_on_demand  ; ipdr_iptv_spec                       ;                          ;                ;          ;
+
+                                          ; UC_1_20_documentaries_on_demand_USD                  ; UC_1_20_documentaries_on_demand_USD Name                  ; 1.20 ; 1        ;        ; documentaries_on_demand ; ipdr_iptv_spec                       ;                          ;                ;          ;
+                                          ; UC_1_50_movies_on_demand_USD                         ; UC_1_50_movies_on_demand_USD Name                         ; 1.50 ; 1        ;        ; movies_on_demand        ; ipdr_iptv_spec                       ;                          ;                ;          ;
+                                          ; UC_2_50_blockbusters_on_demand_USD                   ; UC_2_50_blockbusters_on_demand_USD Name                   ; 2.50 ; 1        ;        ; blockbusters_on_demand  ; ipdr_iptv_spec                       ;                          ;                ;          ;
+
+                                          ; UC_0_30_movies_on_demand_USD                         ; UC_0_30_movies_on_demand_USD Name                         ; 0.30 ; 1        ;        ; movies_on_demand        ; ipdr_iptv_spec                       ;                          ;                ;          ;
+                                          ; UC_1_blockbusters_on_demand_USD                      ; UC_1_blockbusters_on_demand_USD Name                      ; 1.0  ; 1        ;        ; blockbusters_on_demand  ; ipdr_iptv_spec                       ;                          ;                ;          ;
+
+                                          ; UC_3_tierStart_1_end_5_documentaries_on_demand_USD   ; UC_3_tierStart_1_end_5_documentaries_on_demand_USD Name   ; 3.0  ; 1        ; 5      ; documentaries_on_demand ; ipdr_iptv_spec                       ;                          ;                ;          ;
+                                          ; UC_4_tierStart_1_end_5__movies_on_demand_USD         ; UC_4_tierStart_1_end_5__movies_on_demand_USD Name         ; 4.0  ; 1        ; 5      ; movies_on_demand        ; ipdr_iptv_spec                       ;                          ;                ;          ;
+                                          ; UC_5_tierStart_1_end_5__blockbusters_on_demand_USD   ; UC_5_tierStart_1_end_5__blockbusters_on_demand_USD Name   ; 5.0  ; 1        ; 5      ; blockbusters_on_demand  ; ipdr_iptv_spec                       ;                          ;
+
+                                          ; UC_1_5_tierStart_1_end_5_documentaries_on_demand_USD ; UC_1_5_tierStart_1_end_5_documentaries_on_demand_USD Name ; 1.5  ; 1        ; 5      ; documentaries_on_demand ; ipdr_iptv_spec                       ;                          ;                ;
+                                          ; UC_2_tierStart_1_end_5__movies_on_demand_USD         ; UC_2_tierStart_1_end_5__movies_on_demand_USD Name         ; 2.0  ; 1        ; 5      ; movies_on_demand        ; ipdr_iptv_spec                       ;                          ;                ;
+                                          ; UC_3_tierStart_1_end_5__blockbusters_on_demand_USD   ; UC_3_tierStart_1_end_5__blockbusters_on_demand_USD Name   ; 3.0  ; 1        ; 5      ; blockbusters_on_demand  ; ipdr_iptv_spec                       ;                          ;                ;
+
+                                          ; UC_0_05_tierStart_1_USD                              ; UC_0_05_tierStart_1_USD Name                              ; 0.05 ; 1        ;        ; phone_minutes           ; cdr_voice_spec                       ;                          ;                ;
+                                          ; UC_0_3_tierStart_1_data_USD                          ; UC_0_3_tierStart_1_data_USD Name                          ; 0.3  ; 1        ;        ; mb                      ; udr_data_spec                        ;                          ;                ;
+
+                                          ; UC_0_15_tierStart_1_minutes_USD_student_peak         ; UC_0_15_tierStart_1_minutes_USD_student_peak Name         ; 0.15 ; 1        ;        ; phone_minutes           ; cdr_voice_spec                       ; student_peak_pla         ;                ;
+                                          ; UC_0_10_tierStart_1_minutes_USD_student_off_peak     ; UC_0_10_tierStart_1_minutes_USD_student_off_peak Name     ; 0.10 ; 1        ;        ; phone_minutes           ; cdr_voice_spec                       ; student_off_peak_pla     ;                ;
+                                          ; UC_0_20_tierStart_1_minutes_USD_normal_peak          ; UC_0_20_tierStart_1_minutes_USD_normal_peak Name          ; 0.20 ; 1        ;        ; phone_minutes           ; cdr_voice_spec                       ; normal_peak_pla          ;                ;
+                                          ; UC_0_12_tierStart_1_minutes_USD_normal_off_peak      ; UC_0_12_tierStart_1_minutes_USD_normal_off_peak Name      ; 0.12 ; 1        ;        ; phone_minutes           ; cdr_voice_spec                       ; normal_off_peak_pla      ;                ;
+                                          ; UC_0_10_tierStart_1_minutes_USD_vip_peak             ; UC_0_10_tierStart_1_minutes_USD_vip_peak Name             ; 0.10 ; 1        ;        ; phone_minutes           ; cdr_voice_spec                       ; vip_peak_pla             ;                ;
+                                          ; UC_0_tierStart_1_minutes_USD_vip_off_peak            ; UC_0_tierStart_1_minutes_USD_vip_off_peak Name            ; 0    ; 1        ;        ; phone_minutes           ; cdr_voice_spec                       ; vip_off_peak_pla         ;                ;
+
+                                          ; UC_0_30_tierStart_1_minutes_USD_call_duration        ; UC_0_30_tierStart_1_minutes_USD_call_duration Name        ; 0.30 ; 1        ;        ; phone_minutes           ; cdr_voice_spec                       ; call_duration_pla        ;                ;
+
+INSERT_UPDATE TmaTierUsageChargeCompositePop; id[unique = true]                             ; name                                               ; usageChargeType(code)   ; children(id, $catalogVersion)                                                                                                                                                                                                                                ; $catalogVersion
+                                            ; essentialsUnlimitedPlan_minutes_usage_USD_pop ; essentialsUnlimitedPlan_minutes_usage_USD_pop Name ; each_respective_tier    ; UC_0_05_tierStart_101_end_200_USD, UC_0_07_tierStart_201_end_300_USD,UC_0_09_tierStart_301_USD                                                                                                                                                               ;
+                                            ; extraUnlimitedPlan_minutes_usage_USD_pop      ; extraUnlimitedPlan_minutes_usage_USD_pop Name      ; each_respective_tier    ; UC_0_11_tierStart_101_end_200_USD, UC_0_13_tierStart_201_end_300_USD,UC_0_15_tierStart_301_USD                                                                                                                                                               ;
+                                            ; tv_S_USD_usage_pop                            ; tv_S_USD_usage_pop Name                            ; each_respective_tier    ; UC_3_documentaries_on_demand_USD, UC_4_movies_on_demand_USD, UC_5_blockbusters_on_demand_USD                                                                                                                                                                 ;
+                                            ; tv_M_USD_usage_pop                            ; tv_M_USD_usage_pop Name                            ; each_respective_tier    ; UC_3_tierStart_1_end_5_documentaries_on_demand_USD,UC_4_tierStart_1_end_5__movies_on_demand_USD, UC_5_tierStart_1_end_5__blockbusters_on_demand_USD, UC_2_documentaries_on_demand_USD, UC_3_movies_on_demand_USD, UC_4_blockbusters_on_demand_USD            ;
+                                            ; tv_L_USD_usage_pop                            ; tv_L_USD_usage_pop Name                            ; highest_applicable_tier ; UC_1_5_tierStart_1_end_5_documentaries_on_demand_USD, UC_2_tierStart_1_end_5__movies_on_demand_USD, UC_3_tierStart_1_end_5__blockbusters_on_demand_USD,UC_1_20_documentaries_on_demand_USD, UC_1_50_movies_on_demand_USD, UC_2_50_blockbusters_on_demand_USD ;
+
+                                            ; BASIC_TV_USD_usage_pop                        ; BASIC_TV_USD_usage_pop Name                        ; each_respective_tier    ; UC_3_documentaries_on_demand_USD, UC_4_movies_on_demand_USD, UC_5_blockbusters_on_demand_USD                                                                                                                                                                 ;
+                                            ; BIG_TV_USD_usage_pop                          ; BIG_TV_USD_usage_pop Name                          ; each_respective_tier    ; UC_2_documentaries_on_demand_USD, UC_3_movies_on_demand_USD, UC_4_blockbusters_on_demand_USD                                                                                                                                                                 ;
+                                            ; PREMIUM_TV_USD_usage_pop                      ; PREMIUM_TV_USD_usage_pop Name                      ; highest_applicable_tier ; UC_1_20_documentaries_on_demand_USD, UC_1_50_movies_on_demand_USD, UC_2_50_blockbusters_on_demand_USD                                                                                                                                                        ;
+                                            ; DELUXE_TV_USD_usage_pop                       ; DELUXE_TV_USD_usage_pop Name                       ; each_respective_tier    ; UC_0_30_movies_on_demand_USD, UC_1_blockbusters_on_demand_USD                                                                                                                                                                                                ;
+
+################################################
+###              Discount alterations        ###
+################################################
+
+INSERT_UPDATE TmaDiscountProdOfferPriceAlteration; id[unique = true]                         ; value; cycleStart; cycleEnd; $currency; $priceEvent; $catalogVersion; isPercentage[default = false];
+                                                 ; DELUXE_TV_USD_promo_dsc                   ; 20   ;           ;         ;          ;            ;                ; true                         ;
+                                                 ; standardmobiledeal_dsc                    ; 30   ;           ;         ;          ;            ;                ; true                         ;
+                                                 ; unlimitedStarterPlan_charging_otc_USD_dsc ; 10   ;           ;         ;          ;            ;                ; true                         ;
+                                                 ; unlimitedStarterPlan_charging_rc_USD_dsc  ; 10   ; 1         ; 6       ;          ; monthly    ;                ;                              ;
+                                                 ; unlimitedStarterPlan_charging_uc_USD_dsc  ; 0.1  ;           ;         ;          ; monthly    ;                ;                              ;
+                                                 ; unlimited5GPlan_otc_USD_dsc               ; 10   ;           ;         ;          ;            ;                ; true                         ;
+                                                 ; unlimited5GPlan_rc_USD_dsc                ; 10   ; 1         ; 6       ;          ; monthly    ;                ;                              ;
+                                                 ; unlimited5GPlan_uc_USD_dsc                ; 0.1  ; 1         ; 6       ;          ; monthly    ;                ;                              ;
+                                                 ; 2093587_rc_USD_dsc                        ; 50   ; 1         ; 6       ;          ; monthly    ;                ; true                         ;
+                                                 ; unlimitedStarterPlan_rc_USD_dsc           ; 10   ; 1         ; 6       ;          ; monthly    ;                ;                              ;
+
+################################################
+###              Composite prices            ###
+################################################
+
+INSERT_UPDATE TmaCompositeProdOfferPrice; id[unique = true]                             ; $catalogVersion; children(id, $catalogVersion)
+                                        ; tv_S_USD_pop                                  ;                ; OTC_4_USD, RC_10_USD_start_1_end_3, RC_20_USD_start_4, tv_S_USD_usage_pop
+                                        ; tv_S_USD_promo_pop                            ;                ; OTC_0_61_USD, RC_10_USD_start_1_end_3, RC_20_USD_start_4, tv_S_USD_usage_pop
+                                        ; tv_M_USD_pop                                  ;                ; OTC_4_USD,RC_10_USD_start_1_end_3, RC_30_USD_start_4, tv_M_USD_usage_pop
+                                        ; tv_L_USD_pop                                  ;                ; OTC_4_USD,RC_10_USD_start_1_end_3, RC_40_USD_start_4, tv_L_USD_usage_pop
+                                        ; BASIC_TV_USD_pop                              ;                ; OTC_25_USD,RC_0_USD_start_1_end_1, RC_29_USD_start_2, BASIC_TV_USD_usage_pop
+                                        ; BIG_TV_USD_pop                                ;                ; OTC_15_USD_OFB, RC_29_USD_start_1_end_3, RC_45_USD_start_4, BIG_TV_USD_usage_pop
+                                        ; PREMIUM_TV_USD_pop                            ;                ; OTC_15_USD_OFB, RC_29_USD_start_1_end_3, RC_45_USD_start_4_end_6, RC_60_USD_start_7, PREMIUM_TV_USD_usage_pop
+                                        ; DELUXE_TV_USD_pop                             ;                ; RC_45_USD_start_1_end_3, RC_60_USD_start_4_end_6, RC_85_USD_start_7, DELUXE_TV_USD_usage_pop
+                                        ; DELUXE_TV_USD_promo_pop                       ;                ; RC_45_USD_start_1_end_3, RC_60_USD_start_4_end_6, RC_85_USD_start_7, DELUXE_TV_USD_usage_pop, DELUXE_TV_USD_promo_dsc
+                                        ; int_100_USD_pop                               ;                ; OTC_4_USD, RC_10_USD_start_1
+                                        ; int_500_USD_pop                               ;                ; OTC_4_USD, RC_20_USD_start_1
+                                        ; int_1000_USD_pop                              ;                ; OTC_4_USD, RC_30_USD_start_1
+                                        ; copper_internet_USD_pop                       ;                ; OTC_4_USD, RC_10_USD_start_1
+                                        ; fiber_internet_USD_pop                        ;                ; OTC_4_USD, RC_20_USD_start_1
+                                        ; 5g_internet_USD_pop                           ;                ; OTC_4_USD, RC_30_USD_start_1
+
+                                        ; landline_voip_USD_pop                         ;                ; OTC_4_USD, RC_5_USD_start_1
+
+                                        ; essentialsUnlimitedPlan_USD_pop               ;                ; essentialsUnlimitedPlan_minutes_usage_USD_pop, RC_10_USD_start_1, UC_0_09_tierStart_1_minutes_USD, UC_0_09_tierStart_1_sms_USD
+                                        ; extraUnlimitedPlan_USD_pop                    ;                ; extraUnlimitedPlan_minutes_usage_USD_pop, RC_10_USD_start_1, UC_0_11_tierStart_1_minutes_USD, UC_0_11_tierStart_1_sms_USD
+                                        ; essentialsUnlimitedPlan_USD_pla_pop           ;                ; UC_0_30_tierStart_1_minutes_USD_call_duration
+                                        ; signatureUnlimitedPlan_USD_pop                ;                ; RC_20_USD_start_1, UC_0_09_tierStart_1_minutes_USD, UC_0_09_tierStart_1_sms_USD
+                                        ; premiumUnlimitedPlan_USD_pop                  ;                ; RC_30_USD_start_1, UC_0_09_tierStart_1_minutes_USD, UC_0_09_tierStart_1_sms_USD
+
+                                        ; unlimitedStarterPlan_USD_acq_pop              ;                ; RC_30_USD_start_1, UC_0_09_tierStart_1_minutes_USD, UC_0_09_tierStart_1_sms_USD, UC_0_09_tierStart_1_data_USD
+                                        ; unlimitedStarterPlan_USD_acq_pop_promo        ;                ; RC_20_USD_start_1, UC_0_09_tierStart_1_minutes_USD, UC_0_09_tierStart_1_sms_USD, UC_0_09_tierStart_1_data_USD
+                                        ; unlimitedBasicPlan_USD_acq_pop                ;                ; RC_40_USD_start_1, UC_0_09_tierStart_1_minutes_USD, UC_0_09_tierStart_1_sms_USD, UC_0_09_tierStart_1_data_USD
+                                        ; unlimitedPlusPlan_USD_acq_pop                 ;                ; RC_50_USD_start_1, UC_0_09_tierStart_1_minutes_USD, UC_0_09_tierStart_1_sms_USD, UC_0_09_tierStart_1_data_USD
+
+                                        ; unlimitedStarterPlan_otc_USD_pop              ;                ; OTC_50_USD
+                                        ; unlimitedStarterPlan_rc_USD_pop               ;                ; RC_30_USD_start_1, unlimitedStarterPlan_rc_USD_dsc
+                                        ; unlimitedStarterPlan_uc_USD_pop               ;                ; UC_0_09_tierStart_1_data_USD
+                                        ; unlimitedStarterPlan_USD_acq_pop_alwnc        ;                ; unlimitedStarterPlan_otc_USD_pop, unlimitedStarterPlan_rc_USD_pop, UC_0_05_tierStart_1_USD, unlimitedStarterPlan_uc_USD_pop
+
+                                        ; unlimitedStarterPlan_USD_mnp_pop              ;                ; RC_25_USD_start_1, UC_0_09_tierStart_1_minutes_USD, UC_0_09_tierStart_1_sms_USD, UC_0_09_tierStart_1_data_USD
+                                        ; unlimitedBasicPlan_USD_mnp_pop                ;                ; RC_35_USD_start_1, UC_0_09_tierStart_1_minutes_USD, UC_0_09_tierStart_1_sms_USD, UC_0_09_tierStart_1_data_USD
+                                        ; unlimitedPlusPlan_USD_mnp_pop                 ;                ; RC_45_USD_start_1, UC_0_09_tierStart_1_minutes_USD, UC_0_09_tierStart_1_sms_USD, UC_0_09_tierStart_1_data_USD
+
+                                        ; unlimitedStarterPlan_USD_ret_pop              ;                ; RC_28_USD_start_1, UC_0_09_tierStart_1_minutes_USD, UC_0_09_tierStart_1_sms_USD, UC_0_09_tierStart_1_data_USD
+                                        ; unlimitedBasicPlan_USD_ret_pop                ;                ; RC_38_USD_start_1, UC_0_09_tierStart_1_minutes_USD, UC_0_09_tierStart_1_sms_USD, UC_0_09_tierStart_1_data_USD
+                                        ; unlimitedPlusPlan_USD_ret_pop                 ;                ; RC_48_USD_start_1, UC_0_09_tierStart_1_minutes_USD, UC_0_09_tierStart_1_sms_USD, UC_0_09_tierStart_1_data_USD
+
+                                        ; starterNoLimit5GPlan_USD_pop                  ;                ; RC_5_USD_start_1, UC_0_09_tierStart_1_data_USD
+                                        ; streamMoreNoLimit5GPlan_USD_pop               ;                ; RC_10_USD_start_1, UC_0_09_tierStart_1_data_USD
+                                        ; doMoreNoLimit5GPlan_USD_pop                   ;                ; RC_15_USD_start_1, UC_0_09_tierStart_1_data_USD
+
+                                        ; homeDeal_override_ret_int500_1_pop            ;                ; RC_10_USD_start_1_end_3, RC_18_USD_start_3
+                                        ; homeDeal_override_ret_int500_2_pop            ;                ; RC_10_USD_start_1_end_3, RC_18_USD_start_3
+                                        ; homeDeal_override_ret_int500_3_pop            ;                ; RC_10_USD_start_1_end_3, RC_16_USD_start_3
+                                        ; homeDeal_override_ret_int500_4_pop            ;                ; RC_10_USD_start_1_end_3, RC_16_USD_start_3
+
+                                        ; homeDeal_override_ret_int1000_1_pop           ;                ; RC_10_USD_start_1_end_3, RC_28_USD_start_3
+                                        ; homeDeal_override_ret_int1000_2_pop           ;                ; RC_10_USD_start_1_end_3, RC_28_USD_start_3
+                                        ; homeDeal_override_ret_int1000_3_pop           ;                ; RC_10_USD_start_1_end_3, RC_26_USD_start_3
+                                        ; homeDeal_override_ret_int1000_4_pop           ;                ; RC_10_USD_start_1_end_3, RC_26_USD_start_3
+
+                                        ; homeDeal_override_ret_tv300_1_pop             ;                ; RC_10_USD_start_1_end_3, RC_28_USD_start_3
+                                        ; homeDeal_override_ret_tv300_2_pop             ;                ; RC_10_USD_start_1_end_3, RC_28_USD_start_3
+                                        ; homeDeal_override_ret_tv300_3_pop             ;                ; RC_10_USD_start_1_end_3, RC_26_USD_start_3
+                                        ; homeDeal_override_ret_tv300_4_pop             ;                ; RC_10_USD_start_1_end_3, RC_26_USD_start_3
+
+                                        ; homeDeal_override_ret_tv400_1_pop             ;                ; RC_10_USD_start_1_end_3, RC_38_USD_start_3
+                                        ; homeDeal_override_ret_tv400_2_pop             ;                ; RC_10_USD_start_1_end_3, RC_38_USD_start_3
+                                        ; homeDeal_override_ret_tv400_3_pop             ;                ; RC_10_USD_start_1_end_3, RC_36_USD_start_3
+                                        ; homeDeal_override_ret_tv400_4_pop             ;                ; RC_10_USD_start_1_end_3, RC_36_USD_start_3
+
+                                        ; homeDeal_override_upg_int500_1_pop            ;                ; RC_10_USD_start_1_end_3, RC_17_USD_start_3
+                                        ; homeDeal_override_upg_int500_2_pop            ;                ; RC_10_USD_start_1_end_3, RC_17_USD_start_3
+                                        ; homeDeal_override_upg_int500_3_pop            ;                ; RC_10_USD_start_1_end_3, RC_15_USD_start_3
+                                        ; homeDeal_override_upg_int500_4_pop            ;                ; RC_10_USD_start_1_end_3, RC_15_USD_start_3
+
+                                        ; homeDeal_override_upg_int1000_1_pop           ;                ; RC_10_USD_start_1_end_3, RC_27_USD_start_3
+                                        ; homeDeal_override_upg_int1000_2_pop           ;                ; RC_10_USD_start_1_end_3, RC_27_USD_start_3
+                                        ; homeDeal_override_upg_int1000_3_pop           ;                ; RC_10_USD_start_1_end_3, RC_25_USD_start_3
+                                        ; homeDeal_override_upg_int1000_4_pop           ;                ; RC_10_USD_start_1_end_3, RC_25_USD_start_3
+
+                                        ; homeDeal_override_upg_tv300_1_pop             ;                ; RC_10_USD_start_1_end_3, RC_27_USD_start_3
+                                        ; homeDeal_override_upg_tv300_2_pop             ;                ; RC_10_USD_start_1_end_3, RC_27_USD_start_3
+                                        ; homeDeal_override_upg_tv300_3_pop             ;                ; RC_10_USD_start_1_end_3, RC_25_USD_start_3
+                                        ; homeDeal_override_upg_tv300_4_pop             ;                ; RC_10_USD_start_1_end_3, RC_25_USD_start_3
+
+                                        ; homeDeal_override_upg_tv400_1_pop             ;                ; RC_10_USD_start_1_end_3, RC_37_USD_start_3
+                                        ; homeDeal_override_upg_tv400_2_pop             ;                ; RC_10_USD_start_1_end_3, RC_37_USD_start_3
+                                        ; homeDeal_override_upg_tv400_3_pop             ;                ; RC_10_USD_start_1_end_3, RC_35_USD_start_3
+                                        ; homeDeal_override_upg_tv400_4_pop             ;                ; RC_10_USD_start_1_end_3, RC_35_USD_start_3
+
+                                        ; unlimitedStarterPlan_charging_otc_USD_pop     ;                ; OTC_50_USD, unlimitedStarterPlan_charging_otc_USD_dsc
+                                        ; unlimitedStarterPlan_charging_rc_USD_pop      ;                ; RC_50_USD_start_1, unlimitedStarterPlan_charging_rc_USD_dsc
+                                        ; unlimitedStarterPlan_charging_uc_USD_pop      ;                ; UC_0_09_tierStart_1_data_USD, unlimitedStarterPlan_charging_uc_USD_dsc
+                                        ; unlimitedStarterPlan_charging_USD_pop         ;                ; unlimitedStarterPlan_charging_otc_USD_pop, unlimitedStarterPlan_charging_rc_USD_pop, UC_0_05_tierStart_1_USD, unlimitedStarterPlan_charging_uc_USD_pop
+
+                                        ; unlimited5GPlan_otc_USD_pop                   ;                ; OTC_50_USD, unlimited5GPlan_otc_USD_dsc
+                                        ; unlimited5GPlan_rc_USD_pop                    ;                ; RC_50_USD_start_1, unlimited5GPlan_rc_USD_dsc
+                                        ; unlimited5GPlan_uc_USD_pop                    ;                ; UC_0_3_tierStart_1_data_USD, unlimited5GPlan_uc_USD_dsc
+                                        ; unlimited5GPlan_USD_pop                       ;                ; unlimited5GPlan_otc_USD_pop, unlimited5GPlan_rc_USD_pop, UC_0_05_tierStart_1_USD, unlimited5GPlan_uc_USD_pop
+
+                                        ; 2093587_USD_promo_rc_pop                      ;                ; RC_95_USD_start_1_end_18, 2093587_rc_USD_dsc
+                                        ; 2093587_USD_promo_pop                         ;                ; OTC_50_USD, 2093587_USD_promo_rc_pop
+
+                                        ; unlimitedSocialMediaPlan_acq_usd_pop          ;                ; RC_10_USD_start_1_end_3, RC_37_USD_start_3
+                                        ; unlimitedSocialMediaPlan_override_acq_usd_pop ;                ; RC_10_USD_start_1_end_3, RC_15_USD_start_3
+
+                                        ; hotspot_USD_pop                               ;                ; RC_3_USD_start_1
+                                        ; unlimited5GPlan_USD_student_pop               ;                ; UC_0_15_tierStart_1_minutes_USD_student_peak, UC_0_10_tierStart_1_minutes_USD_student_off_peak
+                                        ; unlimited5GPlan_USD_normal_pop                ;                ; UC_0_20_tierStart_1_minutes_USD_normal_peak, UC_0_12_tierStart_1_minutes_USD_normal_off_peak
+                                        ; unlimited5GPlan_USD_vip_pop                   ;                ; UC_0_10_tierStart_1_minutes_USD_vip_peak, UC_0_tierStart_1_minutes_USD_vip_off_peak
+                                        ; standardmobiledeal_usd_ret_pop                ;                ; RC_28_USD_start_1, UC_0_11_tierStart_1_minutes_USD, UC_0_11_tierStart_1_sms_USD, UC_0_11_tierStart_1_data_USD
+                                        ; standardmobiledeal_usd_pop                    ;                ; extraUnlimitedPlan_USD_pop, OTC_150_USD
+                                        ; standardmobiledeal_usd_pop_24months           ;                ; extraUnlimitedPlan_USD_pop, OTC_150_USD, standardmobiledeal_dsc
+                                        ; winterdeal_usd_ret_pop                        ;                ; RC_38_USD_start_1, UC_0_11_tierStart_1_minutes_USD, UC_0_11_tierStart_1_sms_USD, UC_0_11_tierStart_1_data_USD
+                                        ; winterdeal_usd_pop                            ;                ; standardmobiledeal_usd_pop,  UC_0_11_tierStart_1_data_USD, RC_15_USD_start_1
+                                        ; winterdeal_usd_pop_24months                   ;                ; standardmobiledeal_usd_pop,  UC_0_11_tierStart_1_data_USD, RC_15_USD_start_1, standardmobiledeal_dsc

@@ -1,0 +1,29 @@
+#
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+#
+
+# ---------------------------------------------------------------------------
+## ---------------------------------------------------------------------------
+
+# ImpEx for Setting Solr configurations
+
+#% impex.enableCodeExecution(true);
+
+#######################
+# used as import data #
+#######################
+$productCatalog = b2ctelcoProductCatalog
+$catalogVersions = catalogVersions(catalog(id), version);
+
+$facetSearchCfg = telcoIndex
+
+$indexLanguages = en, de
+
+###################
+# used in headers #
+###################
+$hName = name[unique = true]
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE SolrFacetSearchConfig; $hName; $catalogVersions; languages(isocode);
+; $facetSearchCfg ; $productCatalog:Online ; $indexLanguages

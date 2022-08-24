@@ -1,0 +1,22 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for Importing Sample Product Offerings
+
+#% impex.enableCodeExecution(true);
+
+$catalog-id = utilitiesProductCatalog
+$approved = approvalstatus(code)[default = 'approved']
+$catalog-version = Staged
+$catalogVersion = catalogversion(catalog(id[default = $catalog-id]), version[default = $catalog-version])[unique = true, default = $catalog-id:$catalog-version]
+$basePo = tmaBasePo(code, $catalogVersion)
+$supercategories = supercategories(code, $catalogVersion)
+$defaultUnit = unit(code)[default=pieces]
+
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaSimpleProductOffering; code[unique = true]   ; parents(code, $catalogVersion); productSpecification(id, $catalogVersion); $supercategories; soldIndividually[default = true]; unit(code)[default = pieces]; $approved; $catalogVersion
+                                      ; electric_plan_best_PT ;                               ;                                          ;                 ;                                 ;                             ;          ; ;
+                                      ; gas_plan_best_PT      ;                               ;                                          ;                 ;                                 ;                             ;          ; ;
+                                      ; gas_plan_plus_PT      ;                               ;                                          ;                 ;                                 ;                             ;          ; ;

@@ -1,0 +1,7 @@
+#**********************************************************
+#*** TUA Inbound SimpleProductOffering Integration User ***
+#**********************************************************
+$defaultPassword = 1234
+ 
+INSERT_UPDATE User ; UID[unique = true]                  ; name                                   ; groups(uid)[mode = append]                                 ; password[default = $defaultPassword] ; loginDisabled ;  
+                   ; tuaInboundSimpleProductOfferingUser ; TUA Inbound SimpleProductOffering User ; tuaInboundSimpleProductOfferingGroup,integrationadmingroup ; FALSE                                ;               

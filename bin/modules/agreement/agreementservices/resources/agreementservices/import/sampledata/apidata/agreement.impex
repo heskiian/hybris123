@@ -1,0 +1,686 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+# ImpEx for Importing Address test Data
+
+INSERT_UPDATE OAuthClientDetails; clientId[unique = true]; resourceIds; scope    ; authorizedGrantTypes                                         ; authorities         ; clientSecret; registeredRedirectUri
+                                ; trusted_client         ; hybris     ; extended ; authorization_code,refresh_token,password,client_credentials ; ROLE_TRUSTED_CLIENT ; secret      ; ;
+                                ; spa_client             ; hybris     ; basic    ; password,client_credentials                                  ; ROLE_CLIENT         ; secret      ; ;
+
+$defaultPassword = 1234
+
+
+#Create AgreementAuthorization
+
+INSERT_UPDATE AgrAgreementAuthorization; id[unique = true]  ; date[dateformat = dd.MM.yyyy]; signatureRepresentation; state;
+                                       ; agr_auth1          ; 1.1.2021                     ; Dr Mabuse              ; approved
+                                       ; agr_auth2          ; 1.1.2021                     ; Mr James               ; approved
+                                       ; agr_auth3          ; 1.1.2021                     ; Ms Sunday              ; approved
+                                       ; agr_auth4          ; 1.1.2021                     ; Dr Berg                ; approved
+                                       ; agr_auth_etta_berg ; 1.1.2021                     ; Etta Berg              ; approved
+                                       ; agr_auth5          ; 1.1.2021                     ; Dr Ram                 ; approved
+                                       ; agr_auth6          ; 1.1.2021                     ; Mr Ben                 ; approved
+                                       ; agr_auth7          ; 1.1.2021                     ; Mr Tom                 ; approved
+
+## Update agreement attributes event
+                                       ; agr_auth119301     ; 1.1.2021                     ; Dr Mabuse              ; approved
+                                       ; agr_auth119302     ; 1.1.2021                     ; Dr James               ; approved
+                                       ; agr_auth119303     ; 1.1.2021                     ; Mr Sunday              ; approved
+                                       ; agr_auth119304     ; 1.1.2021                     ; Mr Ram                 ; approved
+                                       ; agr_auth119305     ; 1.1.2021                     ; Dr Berg                ; approved
+                                       ; agr_auth119306     ; 1.1.2021                     ; Dr Dan                 ; approved
+
+## Update agreement state event
+                                       ; agr_auth119431     ; 1.1.2021                     ; Dr Mabuse              ; approved
+                                       ; agr_auth119432     ; 1.1.2021                     ; Dr James               ; approved
+## delete agreement event
+                                       ; agr_auth119471     ; 1.1.2021                     ; Mr Sunday              ; approved
+## Patch agreement
+                                       ; agr_auth431        ; 1.1.2021                     ; Dr Mabuse              ; approved
+                                       ; agr_auth432        ; 1.1.2021                     ; Dr James               ; approved
+                                       ; agr_auth433        ; 1.1.2021                     ; Mr Sunday              ; approved
+                                       ; agr_auth434        ; 1.1.2021                     ; Mr Ram                 ; approved
+                                       ; agr_auth435        ; 1.1.2021                     ; Dr Berg                ; approved
+                                       ; agr_auth436        ; 1.1.2021                     ; Dr Dan                 ; approved
+## Delete agreement
+                                       ; agr_auth471        ; 1.1.2021                     ; Mr Sunday              ; approved
+
+#Create AgreementSpecCharValueUse
+
+INSERT_UPDATE AgrAgreementSpecCharValueUse; id[unique = true]; agreementSpecCharValue(id);
+                                          ; ascvUse1         ; 20_colors
+                                          ; ascvUse2         ; 10_colors
+                                          ; ascvUse3         ; 5_inches
+                                          ; ascvUse4         ; 3_inches
+                                          ; ascvUse5         ; 2_inches
+                                          ; ascvUse6         ; 30_colors
+                                          ; ascvUse7         ; 40_colors
+                                          ; cancellation_fee ; cancellation_fee_vip_customers
+                                          ; notice_period    ; notice_period_vip_customers
+
+## Update agreement attribute event
+                                          ; ascvUse119301    ; 20_colors11930
+                                          ; ascvUse119302    ; 10_colors11930
+                                          ; ascvUse119303    ; 5_inches11930
+                                          ; ascvUse119304    ; 3_inches11930
+                                          ; ascvUse119305    ; 2_inches11930
+                                          ; ascvUse119306    ; 6_inches11930
+## Update agreement state event
+                                          ; ascvUse119431    ; 20_colors11943
+                                          ; ascvUse119432    ; 5_inches11943
+
+## delete agreement event
+                                          ; ascvUse119471    ; 10_colors11947
+## Patch agreement
+                                          ; ascvUse431       ; 20_colors43
+                                          ; ascvUse432       ; 10_colors43
+                                          ; ascvUse433       ; 5_inches43
+                                          ; ascvUse434       ; 3_inches43
+                                          ; ascvUse435       ; 2_inches43
+                                          ; ascvUse436       ; 6_inches43
+## delete agreement
+                                          ; ascvUse471       ; 10_colors47
+## Update agreement specification attribute event
+                                          ; ascvUse691       ; 20_colors69
+                                          ; ascvUse692       ; 10_colors69
+                                          ; ascvUse693       ; 5_inches69
+                                          ; ascvUse694       ; 3_inches69
+                                          ; ascvUse695       ; 2_inches69
+## Update agreement specification state event
+                                          ; ascvUse741       ; 20_colors74
+                                          ; ascvUse742       ; 5_inches74
+
+## delete agreement specification event
+                                          ; ascvUse771       ; 10_colors77
+## Patch agreement specification
+                                          ; ascvUse991       ; 20_colors99
+                                          ; ascvUse992       ; 10_colors99
+                                          ; ascvUse993       ; 5_inches99
+                                          ; ascvUse994       ; 3_inches99
+                                          ; ascvUse995       ; 2_inches99
+
+## delete agreement specification
+                                          ; ascvUse1051      ; 10_colors105
+
+#Create AgreementSpecCharacteristicValue
+
+INSERT_UPDATE AgrAgreementSpecCharacteristicValue; id[unique = true]                  ; value  ; valueType(code); valueFrom; valueTo; startDateTime[dateformat = dd.MM.yyyy]; endDateTime[dateformat = dd.MM.yyyy]; unitOfMeasure; default
+                                                 ; 20_colors                          ; yellow ; STRING         ; 10       ; 20     ; 1.1.2020                              ; 1.1.2022                            ; Hz           ; false
+                                                 ; 10_colors                          ; red    ; STRING         ; 5        ; 15     ; 1.1.2020                              ; 1.1.2022                            ; Hz           ; false
+                                                 ; 5_inches                           ; 5      ; NUMERIC        ; 4        ; 5      ; 1.1.2020                              ; 1.1.2022                            ; INCHES       ; true
+                                                 ; 3_inches                           ; 3      ; NUMERIC        ; 1        ; 3      ; 1.1.2020                              ; 1.1.2022                            ; INCHES       ; true
+                                                 ; 2_inches                           ; 2      ; NUMERIC        ; 1        ; 2      ; 1.1.2020                              ; 1.1.2022                            ; INCHES       ; true
+                                                 ; 30_colors                          ; black  ; STRING         ; 10       ; 30     ; 1.1.2020                              ; 1.1.2022                            ; Hz           ; false
+                                                 ; 40_colors                          ; blue   ; STRING         ; 10       ; 40     ; 1.1.2020                              ; 1.1.2022                            ; Hz           ; false
+                                                 ; cancellation_fee_vip_customers     ; 10     ; NUMERIC        ; 10       ; 10     ; 1.1.2020                              ; 1.1.2022                            ; USD          ; false
+                                                 ; cancellation_fee_regular_customers ; 20     ; NUMERIC        ; 20       ; 20     ; 1.1.2020                              ; 1.1.2022                            ; USD          ; true
+                                                 ; notice_period_vip_customers        ; 15     ; NUMERIC        ; 15       ; 15     ; 1.1.2020                              ; 1.1.2022                            ; days         ; false
+                                                 ; notice_period_regular_customers    ; 30     ; NUMERIC        ; 30       ; 30     ; 1.1.2020                              ; 1.1.2022                            ; days         ; true
+## Update agreement attribute event
+                                                 ; 20_colors11930                     ; yellow ; STRING         ; 10       ; 20     ; 1.1.2020                              ; 1.1.2022                            ; Hz           ; false
+                                                 ; 10_colors11930                     ; red    ; STRING         ; 5        ; 15     ; 1.1.2020                              ; 1.1.2022                            ; Hz           ; false
+                                                 ; 5_inches11930                      ; 5      ; NUMERIC        ; 4        ; 5      ; 1.1.2020                              ; 1.1.2022                            ; INCHES       ; true
+                                                 ; 3_inches11930                      ; 3      ; NUMERIC        ; 1        ; 3      ; 1.1.2020                              ; 1.1.2022                            ; INCHES       ; true
+                                                 ; 2_inches11930                      ; 2      ; NUMERIC        ; 1        ; 2      ; 1.1.2020                              ; 1.1.2022                            ; INCHES       ; true
+                                                 ; 6_inches11930                      ; 6      ; NUMERIC        ; 1        ; 6      ; 1.1.2020                              ; 1.1.2022                            ; INCHES       ; true
+
+## Update agreement state event
+                                                 ; 20_colors11943                     ; yellow ; STRING         ; 10       ; 20     ; 1.1.2020                              ; 1.1.2022                            ; Hz           ; false
+                                                 ; 5_inches11943                      ; 5      ; NUMERIC        ; 4        ; 5      ; 1.1.2020                              ; 1.1.2022                            ; INCHES       ; true
+## delete agreement event
+                                                 ; 10_colors11947                     ; red    ; STRING         ; 5        ; 15     ; 1.1.2020                              ; 1.1.2022                            ; Hz           ; false
+## Patch agreement
+                                                 ; 20_colors43                        ; yellow ; STRING         ; 10       ; 20     ; 1.1.2020                              ; 1.1.2022                            ; Hz           ; false
+                                                 ; 10_colors43                        ; red    ; STRING         ; 5        ; 15     ; 1.1.2020                              ; 1.1.2022                            ; Hz           ; false
+                                                 ; 5_inches43                         ; 5      ; NUMERIC        ; 4        ; 5      ; 1.1.2020                              ; 1.1.2022                            ; INCHES       ; true
+                                                 ; 3_inches43                         ; 3      ; NUMERIC        ; 1        ; 3      ; 1.1.2020                              ; 1.1.2022                            ; INCHES       ; true
+                                                 ; 2_inches43                         ; 2      ; NUMERIC        ; 1        ; 2      ; 1.1.2020                              ; 1.1.2022                            ; INCHES       ; true
+                                                 ; 6_inches43                         ; 6      ; NUMERIC        ; 1        ; 6      ; 1.1.2020                              ; 1.1.2022                            ; INCHES       ; true
+## delete agreement
+                                                 ; 10_colors47                        ; red    ; STRING         ; 5        ; 15     ; 1.1.2020                              ; 1.1.2022                            ; Hz           ; false
+## Update agreement specification attribute event
+                                                 ; 20_colors69                        ; yellow ; STRING         ; 10       ; 20     ; 1.1.2020                              ; 1.1.2022                            ; Hz           ; false
+                                                 ; 10_colors69                        ; red    ; STRING         ; 5        ; 15     ; 1.1.2020                              ; 1.1.2022                            ; Hz           ; false
+                                                 ; 5_inches69                         ; 5      ; NUMERIC        ; 4        ; 5      ; 1.1.2020                              ; 1.1.2022                            ; INCHES       ; true
+                                                 ; 3_inches69                         ; 3      ; NUMERIC        ; 1        ; 3      ; 1.1.2020                              ; 1.1.2022                            ; INCHES       ; true
+                                                 ; 2_inches69                         ; 2      ; NUMERIC        ; 1        ; 2      ; 1.1.2020                              ; 1.1.2022                            ; INCHES       ; true
+## Update agreement specification state event
+                                                 ; 20_colors74                        ; yellow ; STRING         ; 10       ; 20     ; 1.1.2020                              ; 1.1.2022                            ; Hz           ; false
+                                                 ; 5_inches74                         ; 5      ; NUMERIC        ; 4        ; 5      ; 1.1.2020                              ; 1.1.2022                            ; INCHES       ; true
+## delete agreement specification event
+                                                 ; 10_colors77                        ; red    ; STRING         ; 5        ; 15     ; 1.1.2020                              ; 1.1.2022                            ; Hz           ; false
+## Patch agreement specification
+                                                 ; 20_colors99                        ; yellow ; STRING         ; 10       ; 20     ; 1.1.2020                              ; 1.1.2022                            ; Hz           ; false
+                                                 ; 10_colors99                        ; red    ; STRING         ; 5        ; 15     ; 1.1.2020                              ; 1.1.2022                            ; Hz           ; false
+                                                 ; 5_inches99                         ; 5      ; NUMERIC        ; 4        ; 5      ; 1.1.2020                              ; 1.1.2022                            ; INCHES       ; true
+                                                 ; 3_inches99                         ; 3      ; NUMERIC        ; 1        ; 3      ; 1.1.2020                              ; 1.1.2022                            ; INCHES       ; true
+                                                 ; 2_inches99                         ; 2      ; NUMERIC        ; 1        ; 2      ; 1.1.2020                              ; 1.1.2022                            ; INCHES       ; true
+## delete agreement specification
+                                                 ; 10_colors105                       ; red    ; STRING         ; 5        ; 15     ; 1.1.2020                              ; 1.1.2022                            ; Hz           ; false
+
+#Create AgreementSpecCharacteristic
+
+INSERT_UPDATE AgrAgreementSpecCharacteristic; id[unique = true]  ; name             ; description                                                   ; configurable; valueType; startDateTime[dateformat = dd.MM.yyyy]; endDateTime[dateformat = dd.MM.yyyy]; agreementSpecCharacteristicValues(id)
+                                            ; phone_colour       ; phoneColour      ; ColorCharacteristics                                          ; true        ; STRING   ; 1.1.2020                              ; 1.1.2022                            ; 20_colors, 10_colors
+                                            ; phone_size         ; phoneSize        ; SizeCharacteristics                                           ; true        ; STRING   ; 1.1.2020                              ; 1.1.2022                            ; 5_inches
+                                            ; phone_colour1      ; phoneColour      ; ColorCharacteristics                                          ; true        ; STRING   ; 1.1.2020                              ; 1.1.2022                            ;
+                                            ; cancellation_fee   ; cancellation_fee ; Applicable fees if customers cancel their subscription        ; true        ; STRING   ; 1.1.2020                              ; 1.1.2022                            ; cancellation_fee_vip_customers, cancellation_fee_regular_customers
+                                            ; notice_period      ; notice_period    ; Period of time (days) during which a termination is accepted. ; true        ; STRING   ; 1.1.2020                              ; 1.1.2022                            ; notice_period_vip_customers, notice_period_regular_customers
+
+## Update agreement attribute event
+                                            ; phone_colour11930  ; phoneColour      ; ColorCharacteristics                                          ; true        ; STRING   ; 1.1.2020                              ; 1.1.2022                            ; 20_colors11930
+                                            ; phone_size11930    ; phoneSize        ; SizeCharacteristics                                           ; true        ; STRING   ; 1.1.2020                              ; 1.1.2022                            ; 5_inches11930
+                                            ; phone_colour119301 ; phoneColour      ; ColorCharacteristics                                          ; true        ; STRING   ; 1.1.2020                              ; 1.1.2022                            ; 10_colors11930
+                                            ; phone_size119301   ; phoneSize        ; SizeCharacteristics                                           ; true        ; STRING   ; 1.1.2020                              ; 1.1.2022                            ; 3_inches11930
+                                            ; phone_size119302   ; phoneSize        ; SizeCharacteristics                                           ; true        ; STRING   ; 1.1.2020                              ; 1.1.2022                            ; 2_inches11930
+                                            ; phone_size119303   ; phoneSize        ; SizeCharacteristics                                           ; true        ; STRING   ; 1.1.2020                              ; 1.1.2022                            ; 6_inches11930
+
+## Update agreement state event
+                                            ; phone_colour11943  ; phoneColour      ; ColorCharacteristics                                          ; true        ; STRING   ; 1.1.2020                              ; 1.1.2022                            ; 20_colors11943
+                                            ; phone_size11943    ; phoneSize        ; SizeCharacteristics                                           ; true        ; STRING   ; 1.1.2020                              ; 1.1.2022                            ; 5_inches11943
+## delete agreement event
+                                            ; phone_colour11947  ; phoneColour      ; ColorCharacteristics                                          ; true        ; STRING   ; 1.1.2020                              ; 1.1.2022                            ; 10_colors11947
+## Patch agreement
+                                            ; phone_colour43     ; phoneColour      ; ColorCharacteristics                                          ; true        ; STRING   ; 1.1.2020                              ; 1.1.2022                            ; 20_colors43
+                                            ; phone_size43       ; phoneSize        ; SizeCharacteristics                                           ; true        ; STRING   ; 1.1.2020                              ; 1.1.2022                            ; 5_inches43
+                                            ; phone_colour431    ; phoneColour      ; ColorCharacteristics                                          ; true        ; STRING   ; 1.1.2020                              ; 1.1.2022                            ; 10_colors43
+                                            ; phone_size431      ; phoneSize        ; SizeCharacteristics                                           ; true        ; STRING   ; 1.1.2020                              ; 1.1.2022                            ; 3_inches43
+                                            ; phone_size432      ; phoneSize        ; SizeCharacteristics                                           ; true        ; STRING   ; 1.1.2020                              ; 1.1.2022                            ; 2_inches43
+                                            ; phone_size433      ; phoneSize        ; SizeCharacteristics                                           ; true        ; STRING   ; 1.1.2020                              ; 1.1.2022                            ; 6_inches43
+
+## delete agreement
+                                            ; phone_colour47     ; phoneColour      ; ColorCharacteristics                                          ; true        ; STRING   ; 1.1.2020                              ; 1.1.2022                            ; 10_colors47
+## Update agreement specification attribute event
+                                            ; phone_colour69     ; phoneColour      ; ColorCharacteristics                                          ; true        ; STRING   ; 1.1.2020                              ; 1.1.2022                            ; 20_colors69
+                                            ; phone_size69       ; phoneSize        ; SizeCharacteristics                                           ; true        ; STRING   ; 1.1.2020                              ; 1.1.2022                            ; 5_inches69
+                                            ; phone_colour691    ; phoneColour      ; ColorCharacteristics                                          ; true        ; STRING   ; 1.1.2020                              ; 1.1.2022                            ; 10_colors69
+                                            ; phone_size691      ; phoneSize        ; SizeCharacteristics                                           ; true        ; STRING   ; 1.1.2020                              ; 1.1.2022                            ; 3_inches69
+                                            ; phone_size692      ; phoneSize        ; SizeCharacteristics                                           ; true        ; STRING   ; 1.1.2020                              ; 1.1.2022                            ; 2_inches69
+## Update agreement specification state event
+                                            ; phone_colour74     ; phoneColour      ; ColorCharacteristics                                          ; true        ; STRING   ; 1.1.2020                              ; 1.1.2022                            ; 20_colors74
+                                            ; phone_size74       ; phoneSize        ; SizeCharacteristics                                           ; true        ; STRING   ; 1.1.2020                              ; 1.1.2022                            ; 5_inches74
+## delete agreement specification event
+                                            ; phone_colour77     ; phoneColour      ; ColorCharacteristics                                          ; true        ; STRING   ; 1.1.2020                              ; 1.1.2022                            ; 10_colors77
+## Patch agreement specification
+                                            ; phone_colour99     ; phoneColour      ; ColorCharacteristics                                          ; true        ; STRING   ; 1.1.2020                              ; 1.1.2022                            ; 20_colors99
+                                            ; phone_size99       ; phoneSize        ; SizeCharacteristics                                           ; true        ; STRING   ; 1.1.2020                              ; 1.1.2022                            ; 5_inches99
+                                            ; phone_colour991    ; phoneColour      ; ColorCharacteristics                                          ; true        ; STRING   ; 1.1.2020                              ; 1.1.2022                            ; 10_colors99
+                                            ; phone_size991      ; phoneSize        ; SizeCharacteristics                                           ; true        ; STRING   ; 1.1.2020                              ; 1.1.2022                            ; 3_inches99
+                                            ; phone_size992      ; phoneSize        ; SizeCharacteristics                                           ; true        ; STRING   ; 1.1.2020                              ; 1.1.2022                            ; 2_inches99
+## delete agreement specification event
+                                            ; phone_colour105    ; phoneColour      ; ColorCharacteristics                                          ; true        ; STRING   ; 1.1.2020                              ; 1.1.2022                            ; 10_colors105
+
+
+#Create AgreementRelationship
+
+INSERT_UPDATE AgrAgreementRelationship; id[unique = true] ; name                   ; relationshipType; startDateTime[dateformat = dd.MM.yyyy]; endDateTime[dateformat = dd.MM.yyyy]; sourceAgreementSpecification(id); targetAgreementSpecification(id)
+                                      ; agr_relation1     ; agreement relationship ; dependency      ; 1.1.2020                              ; 1.1.2022                            ; home_deal_2021_agreement_spec   ; internet_agreement_spec
+                                      ; agr_relation2     ; agreement relationship ; dependency      ; 1.1.2020                              ; 1.1.2022                            ; home_deal_2021_agreement_spec   ; router_agreement_spec
+                                      ; agr_relation11930 ; agreement relationship ; dependency      ; 1.1.2020                              ; 1.1.2022                            ; agr_spec119306                  ; agr_spec119301
+                                      ; agr_relation43    ; agreement relationship ; dependency      ; 1.1.2020                              ; 1.1.2022                            ; agr_spec436                     ; agr_spec431
+                                      ; agr_relation69    ; agreement relationship ; dependency      ; 1.1.2020                              ; 1.1.2022                            ; agr_spec695                     ; agr_spec691
+                                      ; agr_relation74    ; agreement relationship ; dependency      ; 1.1.2020                              ; 1.1.2022                            ; agr_spec742                     ; agr_spec741
+                                      ; agr_relation99    ; agreement relationship ; dependency      ; 1.1.2020                              ; 1.1.2022                            ; agr_spec995                     ; agr_spec991
+
+
+INSERT_UPDATE CatalogUnawareMedia; code[unique = true]     ; realfilename       ; @media[translator = de.hybris.platform.impex.jalo.media.MediaDataTranslator]; mime[default = 'text/plain']; downloadURL                                             ; size; URL
+                                 ; b2btelco-siteMapMedia   ; siteMapTemplate.vm ;                                                                             ; text/csv                    ; medias/__secure__?mediaPK=8797581770782&attachment=true ; 100 ; medias/__secure__?mediaPK=8797581770782
+                                 ; b2ctelco-siteMapMedia   ; siteMapTemplate.vm ;                                                                             ; text/csv                    ; medias/__secure__?mediaPK=8797581770782&attachment=true ; 100 ; medias/__secure__?mediaPK=8797581770782
+                                 ; b2ctelco-siteMapMedia69 ; siteMapTemplate.vm ;                                                                             ; text/csv                    ; medias/__secure__?mediaPK=8797581770782&attachment=true ; 100 ; medias/__secure__?mediaPK=8797581770782
+                                 ; b2ctelco-siteMapMedia99 ; siteMapTemplate.vm ;                                                                             ; text/csv                    ; medias/__secure__?mediaPK=8797581770782&attachment=true ; 100 ; medias/__secure__?mediaPK=8797581770782
+
+#Create AgreementSpecCharacteristic
+INSERT_UPDATE AgrAgreementSpecification; id[unique = true]             ; name                                     ; description                                                                                             ; isBundle; lifeCycleStatus(code); startDateTime[dateformat = dd.MM.yyyy HH:mm:ss]; endDateTime[dateformat = dd.MM.yyyy HH:mm:ss]; version; serviceCategory(id); agreementSpecCharReferences(id); agreementSpecCharacteristics(id); attachments(code)       ; partyRoles(id)
+                                       ; agr_spec1                     ; agr Specification1                       ; agr spec1 description                                                                                   ; false   ; APPROVED             ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; 2.0    ; category1          ;                                ; phone_colour                    ; b2btelco-siteMapMedia   ; user10853
+                                       ; agr_spec2                     ; agr Specification2                       ; agr spec2 description                                                                                   ; false   ; APPROVED             ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; 2.0    ; category2          ;                                ;                                 ;                         ; user108531
+                                       ; agr_spec3                     ; agr Specification3                       ; agr spec3 description                                                                                   ; false   ; INITIALIZED          ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; 1.0    ; category3          ;                                ; phone_colour, phone_size        ;                         ; user108532
+                                       ; agr_spec4                     ; agr Specification4                       ; agr spec4 description                                                                                   ; true    ; INITIALIZED          ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; 1.0    ; category4          ;                                ; phone_colour1                   ;                         ; user108533
+                                       ; home_deal_2021_agreement_spec ; General HomeDeal Agreement Specification ; Thisagreement specification defines the rules to be followed by involved parties for HomeDeal offerings ; true    ; APPROVED             ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; 1.0    ; homeDealCategory   ; agr_relation1, agr_relation2   ; cancellation_fee, notice_period ;                         ; ettaBergPR
+                                       ; internet_agreement_spec       ; Internet Agreement Specification         ; Internet Agreement Specification                                                                        ; false   ; APPROVED             ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; 1.0    ;                    ;                                ;                                 ;                         ; ettaBergPR
+                                       ; router_agreement_spec         ; Router Agreement Specification           ; Router Agreement Specification                                                                          ; false   ; APPROVED             ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; 1.0    ;                    ;                                ;                                 ;                         ; ettaBergPR
+                                       ; agr_spec5                     ; agr Specification5                       ; agr spec5 description                                                                                   ; false   ; INITIALIZED          ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; 1.0    ; category5          ;                                ; phone_size                      ;                         ; user108534
+
+## Update agreement attribute event
+                                       ; agr_spec119301                ; agr Specification1                       ; agr spec1 description                                                                                   ; false   ; APPROVED             ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; 2.0    ; category119301     ;                                ; phone_colour11930               ;                         ; user119301
+                                       ; agr_spec119302                ; agr Specification2                       ; agr spec2 description                                                                                   ; false   ; APPROVED             ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; 2.0    ; category119302     ;                                ; phone_size119302                ;                         ; user119302
+                                       ; agr_spec119303                ; agr Specification3                       ; agr spec3 description                                                                                   ; false   ; INITIALIZED          ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; 1.0    ; category119303     ;                                ; phone_size11930                 ;                         ; user119303
+                                       ; agr_spec119304                ; agr Specification4                       ; agr spec4 description                                                                                   ; true    ; INITIALIZED          ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; 1.0    ; category119304     ;                                ; phone_colour119301              ;                         ; user119304
+                                       ; agr_spec119305                ; agr Specification5                       ; agr spec5 description                                                                                   ; false   ; INITIALIZED          ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; 1.0    ; category119305     ;                                ; phone_size119301                ;                         ; user119305
+                                       ; agr_spec119306                ; agr Specification6                       ; agr spec6 description                                                                                   ; false   ; INITIALIZED          ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; 1.0    ; category119306     ; agr_relation11930              ; phone_size119303                ; b2ctelco-siteMapMedia   ; user119306
+## Update agreement state event
+                                       ; agr_spec119431                ; agr Specification1                       ; agr spec1 description                                                                                   ; false   ; APPROVED             ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; 2.0    ; category119431     ;                                ; phone_colour11943               ;                         ; user119431
+                                       ; agr_spec119432                ; agr Specification2                       ; agr spec2 description                                                                                   ; false   ; APPROVED             ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; 2.0    ; category119432     ;                                ; phone_size11943                 ;                         ; user119432
+## delete agreement event
+                                       ; agr_spec119471                ; agr Specification3                       ; agr spec3 description                                                                                   ; false   ; INITIALIZED          ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; 1.0    ; category119471     ;                                ; phone_colour11947               ;                         ; user119471
+## Patch agreement
+                                       ; agr_spec431                   ; agr Specification1                       ; agr spec1 description                                                                                   ; false   ; APPROVED             ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; 2.0    ; category431        ;                                ; phone_colour43                  ;                         ; user431
+                                       ; agr_spec432                   ; agr Specification2                       ; agr spec2 description                                                                                   ; false   ; APPROVED             ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; 2.0    ; category432        ;                                ; phone_size432                   ;                         ; user432
+                                       ; agr_spec433                   ; agr Specification3                       ; agr spec3 description                                                                                   ; false   ; INITIALIZED          ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; 1.0    ; category433        ;                                ; phone_size43                    ;                         ; user433
+                                       ; agr_spec434                   ; agr Specification4                       ; agr spec4 description                                                                                   ; true    ; INITIALIZED          ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; 1.0    ; category434        ;                                ; phone_colour431                 ;                         ; user434
+                                       ; agr_spec435                   ; agr Specification5                       ; agr spec5 description                                                                                   ; false   ; INITIALIZED          ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; 1.0    ; category435        ;                                ; phone_size431                   ;                         ; user435
+                                       ; agr_spec436                   ; agr Specification6                       ; agr spec6 description                                                                                   ; false   ; INITIALIZED          ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; 1.0    ; category436        ; agr_relation43                 ; phone_size433                   ;                         ; user436
+## delete agreement
+                                       ; agr_spec471                   ; agr Specification3                       ; agr spec3 description                                                                                   ; false   ; INITIALIZED          ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; 1.0    ; category471        ;                                ; phone_colour47                  ;                         ; user471
+
+## Update agreement specification attribute event
+                                       ; agr_spec691                   ; agr Specification1                       ; agr spec1 description                                                                                   ; false   ; APPROVED             ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; 2.0    ;                    ;                                ; phone_colour69                  ;                         ;
+                                       ; agr_spec692                   ; agr Specification2                       ; agr spec2 description                                                                                   ; false   ; APPROVED             ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; 2.0    ; category692        ;                                ;                                 ;                         ; user692
+                                       ; agr_spec693                   ; agr Specification3                       ; agr spec3 description                                                                                   ; false   ; INITIALIZED          ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; 1.0    ; category693        ;                                ; phone_size69                    ;                         ; user693
+                                       ; agr_spec694                   ; agr Specification4                       ; agr spec4 description                                                                                   ; true    ; INITIALIZED          ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; 1.0    ; category694        ;                                ; phone_colour691                 ;                         ; user694
+                                       ; agr_spec695                   ; agr Specification5                       ; agr spec5 description                                                                                   ; false   ; INITIALIZED          ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; 1.0    ; category695        ; agr_relation69                 ; phone_size691                   ; b2ctelco-siteMapMedia69 ; user695
+## Update agreement specification state event
+                                       ; agr_spec741                   ; agr Specification1                       ; agr spec1 description                                                                                   ; false   ;                      ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; 2.0    ; category741        ;                                ; phone_colour74                  ;                         ; user741
+                                       ; agr_spec742                   ; agr Specification2                       ; agr spec2 description                                                                                   ; false   ; APPROVED             ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; 2.0    ; category742        ; agr_relation74                 ; phone_size74                    ;                         ; user742
+## delete agreement specification event
+                                       ; agr_spec771                   ; agr Specification3                       ; agr spec3 description                                                                                   ; false   ; INITIALIZED          ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; 1.0    ; category771        ;                                ; phone_colour77                  ;                         ; user771
+## Patch agreement specification
+                                       ; agr_spec991                   ; agr Specification1                       ; agr spec1 description                                                                                   ; false   ; APPROVED             ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; 2.0    ;                    ;                                ; phone_colour99                  ;                         ;
+                                       ; agr_spec992                   ; agr Specification2                       ; agr spec2 description                                                                                   ; false   ; APPROVED             ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; 2.0    ; category992        ;                                ;                                 ;                         ; user992
+                                       ; agr_spec993                   ; agr Specification3                       ; agr spec3 description                                                                                   ; false   ; INITIALIZED          ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; 1.0    ; category993        ;                                ; phone_size99                    ;                         ; user993
+                                       ; agr_spec994                   ; agr Specification4                       ; agr spec4 description                                                                                   ; true    ; INITIALIZED          ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; 1.0    ; category994        ;                                ; phone_colour991                 ;                         ; user994
+                                       ; agr_spec995                   ; agr Specification5                       ; agr spec5 description                                                                                   ; false   ; INITIALIZED          ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; 1.0    ; category995        ; agr_relation99                 ; phone_size991                   ; b2ctelco-siteMapMedia99 ; user995
+## delete agreement specification
+                                       ; agr_spec1051                  ; agr Specification3                       ; agr spec3 description                                                                                   ; false   ; INITIALIZED          ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; 1.0    ; category1051       ;                                ; phone_colour105                 ;                         ; user1051
+
+INSERT_UPDATE AgrAgreementItem; id[unique = true]; productOfferings(id); agreementTermsOrConditions(id); products(id);
+                              ; agrItem1         ; po_tapas1           ; condition1                    ; p_service1
+                              ; agrItem2         ; po_tapas2           ; condition2                    ; p_service2
+                              ; agrItem3         ; po_tapas3           ; condition3                    ; p_service3
+                              ; agrItem4         ; po_tapas4           ; condition4                    ; p_service4
+                              ; agrItem5         ; po_tapas5           ; condition5                    ; p_service5
+                              ; agrItem6         ; po_tapas6           ; condition6, condition7        ; p_service6
+                              ; agrItemHomeDeal  ; po_homeDeal         ; condition6, condition7        ; p_service_home_deal
+
+## Update agreement attribute event
+                              ; agrItem119301    ; po_tapas119301      ; condition119301               ; p_service119301
+                              ; agrItem119302    ; po_tapas119302      ; condition119302               ; p_service119302
+                              ; agrItem119303    ; po_tapas119303      ; condition119303               ; p_service119303
+                              ; agrItem119304    ; po_tapas119304      ; condition119304               ; p_service119304
+                              ; agrItem119305    ; po_tapas119305      ; condition119305               ; p_service119305
+                              ; agrItem119306    ; po_tapas119306      ; condition119306               ; p_service119306
+
+## Update agreement state event
+                              ; agrItem119431    ; po_tapas119431      ; condition119431               ; p_service119431
+                              ; agrItem119432    ; po_tapas119432      ; condition119432               ; p_service119432
+## delete agreement event
+                              ; agrItem119471    ; po_tapas119471      ; condition119471               ; p_service119471
+
+## Patch agreement
+                              ; agrItem431       ; po_tapas431         ; condition431                  ; p_service431
+                              ; agrItem432       ; po_tapas432         ; condition432                  ; p_service432
+                              ; agrItem433       ; po_tapas433         ; condition433                  ; p_service433
+                              ; agrItem434       ; po_tapas434         ; condition434                  ; p_service434
+                              ; agrItem435       ; po_tapas435         ; condition435                  ; p_service435
+                              ; agrItem436       ; po_tapas436         ; condition436                  ; p_service436
+
+## delete agreement
+                              ; agrItem471       ; po_tapas471         ; condition471                  ; p_service471
+
+#Create ProductOffering
+
+INSERT_UPDATE AgrProductOffering; id[unique = true]; name
+                                ; po_tapas1        ; ProductOfferingTapas1
+                                ; po_tapas2        ; ProductOfferingTapas2
+                                ; po_tapas3        ; ProductOfferingTapas3
+                                ; po_tapas4        ; ProductOfferingTapas4
+                                ; po_tapas5        ; ProductOfferingTapas5
+                                ; po_tapas6        ; ProductOfferingTapas6
+                                ; po_homeDeal      ; ProductOffering HomeDeal
+## Update agreement attribute event
+                                ; po_tapas119301   ; ProductOfferingTapas1
+                                ; po_tapas119302   ; ProductOfferingTapas2
+                                ; po_tapas119303   ; ProductOfferingTapas3
+                                ; po_tapas119304   ; ProductOfferingTapas4
+                                ; po_tapas119305   ; ProductOfferingTapas5
+                                ; po_tapas119306   ; ProductOfferingTapas6
+
+## Update agreement state event
+                                ; po_tapas119431   ; ProductOfferingTapas1
+                                ; po_tapas119432   ; ProductOfferingTapas2
+## delete agreement event
+                                ; po_tapas119471   ; ProductOfferingTapas3
+## Patch agreement
+                                ; po_tapas431      ; ProductOfferingTapas1
+                                ; po_tapas432      ; ProductOfferingTapas2
+                                ; po_tapas433      ; ProductOfferingTapas3
+                                ; po_tapas434      ; ProductOfferingTapas4
+                                ; po_tapas435      ; ProductOfferingTapas5
+                                ; po_tapas436      ; ProductOfferingTapas6
+
+## delete agreement
+                                ; po_tapas471      ; ProductOfferingTapas3
+
+#Create ProductOffering
+
+INSERT_UPDATE AgrAgreementTermOrCondition; id[unique = true]; description                       ; startDateTime[dateformat = dd.MM.yyyy]; endDateTime[dateformat = dd.MM.yyyy]
+                                         ; condition1       ; Delivery should be done in France ; 1.1.2020                              ; 1.1.2022
+                                         ; condition2       ; Delivery should be done in USA    ; 1.1.2020                              ; 1.1.2022
+                                         ; condition3       ; Delivery should be done in INDIA  ; 1.1.2020                              ; 1.1.2022
+                                         ; condition4       ; Delivery should be done in CHINA  ; 1.1.2020                              ; 1.1.2022
+                                         ; condition5       ; Delivery should be done in JAPAN  ; 1.1.2020                              ; 1.1.2022
+                                         ; condition6       ; Pickup should be done in JAPAN    ; 1.1.2020                              ; 1.1.2022
+                                         ; condition7       ; Pickup should be done in France   ; 1.1.2020                              ; 1.1.2022
+
+## Update agreement attribute event
+                                         ; condition119301  ; Delivery should be done in France ; 1.1.2020                              ; 1.1.2022
+                                         ; condition119302  ; Delivery should be done in USA    ; 1.1.2020                              ; 1.1.2022
+                                         ; condition119303  ; Delivery should be done in INDIA  ; 1.1.2020                              ; 1.1.2022
+                                         ; condition119304  ; Delivery should be done in CHINA  ; 1.1.2020                              ; 1.1.2022
+                                         ; condition119305  ; Delivery should be done in JAPAN  ; 1.1.2020                              ; 1.1.2022
+                                         ; condition119306  ; Delivery should be done in JAPAN  ; 1.1.2020                              ; 1.1.2022
+## Update agreement state event
+                                         ; condition119431  ; Delivery should be done in France ; 1.1.2020                              ; 1.1.2022
+                                         ; condition119432  ; Delivery should be done in USA    ; 1.1.2020                              ; 1.1.2022
+## delete agreement event
+                                         ; condition119471  ; Delivery should be done in INDIA  ; 1.1.2020                              ; 1.1.2022
+
+## Patch agreement
+                                         ; condition431     ; Delivery should be done in France ; 1.1.2020                              ; 1.1.2022
+                                         ; condition432     ; Delivery should be done in USA    ; 1.1.2020                              ; 1.1.2022
+                                         ; condition433     ; Delivery should be done in INDIA  ; 1.1.2020                              ; 1.1.2022
+                                         ; condition434     ; Delivery should be done in CHINA  ; 1.1.2020                              ; 1.1.2022
+                                         ; condition435     ; Delivery should be done in JAPAN  ; 1.1.2020                              ; 1.1.2022
+                                         ; condition436     ; Delivery should be done in JAPAN  ; 1.1.2020                              ; 1.1.2022
+## delete agreement event
+                                         ; condition471     ; Delivery should be done in INDIA  ; 1.1.2020                              ; 1.1.2022
+
+#Create Product
+
+INSERT_UPDATE AgrProduct; id[unique = true]   ; name
+                        ; p_service1          ; ProductService1
+                        ; p_service2          ; ProductService2
+                        ; p_service3          ; ProductService3
+                        ; p_service4          ; ProductService4
+                        ; p_service5          ; ProductService5
+                        ; p_service6          ; ProductService6
+                        ; p_service_home_deal ; ProductService HomeDeal
+
+## Update agreement attribute event
+                        ; p_service119301     ; ProductService1
+                        ; p_service119302     ; ProductService2
+                        ; p_service119303     ; ProductService3
+                        ; p_service119304     ; ProductService4
+                        ; p_service119305     ; ProductService5
+                        ; p_service119306     ; ProductService6
+
+## Update agreement state event
+                        ; p_service119431     ; ProductService1
+                        ; p_service119432     ; ProductService2
+## delete agreement event
+                        ; p_service119471     ; ProductService3
+## Patch agreement
+                        ; p_service431        ; ProductService1
+                        ; p_service432        ; ProductService2
+                        ; p_service433        ; ProductService3
+                        ; p_service434        ; ProductService4
+                        ; p_service435        ; ProductService5
+                        ; p_service436        ; ProductService6
+
+## delete agreement
+                        ; p_service471        ; ProductService3
+
+#Create PartyRole
+
+INSERT_UPDATE AgrPartyRole; id[unique = true]; role     ; party(id)
+                          ; user10853        ; customer ; 10853
+                          ; user108531       ; employee ; 108531
+                          ; user108532       ; employee ; 108532
+                          ; user108533       ; employee ; 108533
+                          ; user108534       ; employee ; 108534
+                          ; ettaBergPR       ; employee ; ettaBerg
+## Update agreement attribute event
+                          ; user119301       ; employee ; 119301
+                          ; user119302       ; employee ; 119302
+                          ; user119303       ; employee ; 119303
+                          ; user119304       ; employee ; 119304
+                          ; user119305       ; employee ; 119305
+                          ; user119306       ; employee ; 119306
+
+## Update agreement state event
+                          ; user119431       ; employee ; 119431
+                          ; user119432       ; employee ; 119432
+## delete agreement event
+                          ; user119471       ; employee ; 119471
+## Patch agreement
+                          ; user431          ; employee ; 431
+                          ; user432          ; employee ; 432
+                          ; user433          ; employee ; 433
+                          ; user434          ; employee ; 434
+                          ; user435          ; employee ; 435
+                          ; user436          ; employee ; 436
+
+## delete agreement
+                          ; user471          ; employee ; 471
+## Update agreement specification attribute event
+                          ; user691          ; employee ; 691
+                          ; user692          ; employee ; 692
+                          ; user693          ; employee ; 693
+                          ; user694          ; employee ; 694
+                          ; user695          ; employee ; 695
+## Update agreement specification state event
+                          ; user741          ; employee ; 741
+                          ; user742          ; employee ; 742
+## delete agreement specification event
+                          ; user771          ; employee ; 771
+## Patch agreement specification
+                          ; user991          ; employee ; 991
+                          ; user992          ; employee ; 992
+                          ; user993          ; employee ; 993
+                          ; user994          ; employee ; 994
+                          ; user995          ; employee ; 995
+## delete agreement specification
+                          ; user1051         ; employee ; 1051
+
+#Create Party
+INSERT_UPDATE AgrParty; id[unique = true]; name              ; type(code)   ; partyUsers(uid)
+                      ; 10853            ; ServiceUser10853  ; INDIVIDUAL   ; user10853@hybris.com
+                      ; 108531           ; ServiceUser108531 ; ORGANIZATION ; user108531@hybris.com
+                      ; 108532           ; ServiceUser108532 ; ORGANIZATION ; user108532@hybris.com
+                      ; 108533           ; ServiceUser108533 ; ORGANIZATION ; user108533@hybris.com
+                      ; 108534           ; ServiceUser108534 ; ORGANIZATION ; user108534@hybris.com
+                      ; 108535           ; ServiceUser108535 ; ORGANIZATION ; user108535@hybris.com
+                      ; ettaBerg         ; ServiceUser108535 ; ORGANIZATION ; etta.berg@hybris.com
+## Update agreement attribute event
+                      ; 119301           ; ServiceUser119301 ; ORGANIZATION ; user119301@hybris.com
+                      ; 119302           ; ServiceUser119302 ; ORGANIZATION ; user119302@hybris.com
+                      ; 119303           ; ServiceUser119303 ; ORGANIZATION ; user119303@hybris.com
+                      ; 119304           ; ServiceUser119304 ; ORGANIZATION ; user119304@hybris.com
+                      ; 119305           ; ServiceUser119305 ; ORGANIZATION ; user119305@hybris.com
+                      ; 119306           ; ServiceUser119306 ; ORGANIZATION ; user119306@hybris.com
+
+## Update agreement state event
+                      ; 119431           ; ServiceUser119431 ; ORGANIZATION ; user119431@hybris.com
+                      ; 119432           ; ServiceUser119432 ; ORGANIZATION ; user119432@hybris.com
+## delete agreement event
+                      ; 119471           ; ServiceUser119471 ; ORGANIZATION ; user119471@hybris.com
+## Patch agreement
+                      ; 431              ; ServiceUser431    ; ORGANIZATION ; user431@hybris.com
+                      ; 432              ; ServiceUser432    ; ORGANIZATION ; user432@hybris.com
+                      ; 433              ; ServiceUser433    ; ORGANIZATION ; user433@hybris.com
+                      ; 434              ; ServiceUser434    ; ORGANIZATION ; user434@hybris.com
+                      ; 435              ; ServiceUser435    ; ORGANIZATION ; user435@hybris.com
+                      ; 436              ; ServiceUser436    ; ORGANIZATION ; user436@hybris.com
+
+## delete agreement
+                      ; 471              ; ServiceUser471    ; ORGANIZATION ; user471@hybris.com
+
+## Update agreement specification attribute event
+                      ; 691              ; ServiceUser691    ; ORGANIZATION ; user691@hybris.com
+                      ; 692              ; ServiceUser692    ; ORGANIZATION ; user692@hybris.com
+                      ; 693              ; ServiceUser693    ; ORGANIZATION ; user693@hybris.com
+                      ; 694              ; ServiceUser694    ; ORGANIZATION ; user694@hybris.com
+                      ; 695              ; ServiceUser695    ; ORGANIZATION ; user695@hybris.com
+## Update agreement specification state event
+                      ; 741              ; ServiceUser741    ; ORGANIZATION ; user741@hybris.com
+                      ; 742              ; ServiceUser742    ; ORGANIZATION ; user742@hybris.com
+## delete agreement specification event
+                      ; 771              ; ServiceUser771    ; ORGANIZATION ; user771@hybris.com
+## Patch agreement specification
+                      ; 991              ; ServiceUser991    ; ORGANIZATION ; user991@hybris.com
+                      ; 992              ; ServiceUser992    ; ORGANIZATION ; user992@hybris.com
+                      ; 993              ; ServiceUser993    ; ORGANIZATION ; user993@hybris.com
+                      ; 994              ; ServiceUser994    ; ORGANIZATION ; user994@hybris.com
+                      ; 995              ; ServiceUser995    ; ORGANIZATION ; user995@hybris.com
+## delete agreement specification
+                      ; 1051             ; ServiceUser1051   ; ORGANIZATION ; user1051@hybris.com
+
+#Create Customer
+
+INSERT_UPDATE Customer; originalUid[unique = true]; uid[unique = true]    ; customerID            ; name       ; groups(uid)   ; password[default = $defaultPassword]; Europe1PriceFactory_UPG(code)
+                      ; user10853@hybris.com      ; user10853@hybris.com  ; user10853@hybris.com  ; user10853  ; customergroup ;
+                      ; user108531@hybris.com     ; user108531@hybris.com ; user108531@hybris.com ; user108531 ; customergroup ;
+                      ; user108532@hybris.com     ; user108532@hybris.com ; user108532@hybris.com ; user108532 ; customergroup ;
+                      ; user108533@hybris.com     ; user108533@hybris.com ; user108533@hybris.com ; user108533 ; customergroup ;
+                      ; user108534@hybris.com     ; user108534@hybris.com ; user108534@hybris.com ; user108534 ; customergroup ;
+                      ; user108535@hybris.com     ; user108535@hybris.com ; user108535@hybris.com ; user108535 ; customergroup ;
+                      ; etta.berg@hybris.com      ; etta.berg@hybris.com  ; etta.berg@hybris.com  ; etta berg  ; customergroup ;
+## Update agreement attribute event
+                      ; user119301@hybris.com     ; user119301@hybris.com ; user119301@hybris.com ; user119301 ; customergroup ;
+                      ; user119302@hybris.com     ; user119302@hybris.com ; user119302@hybris.com ; user119302 ; customergroup ;
+                      ; user119303@hybris.com     ; user119303@hybris.com ; user119303@hybris.com ; user119303 ; customergroup ;
+                      ; user119304@hybris.com     ; user119304@hybris.com ; user119304@hybris.com ; user119304 ; customergroup ;
+                      ; user119305@hybris.com     ; user119305@hybris.com ; user119305@hybris.com ; user119305 ; customergroup ;
+                      ; user119306@hybris.com     ; user119306@hybris.com ; user119306@hybris.com ; user119306 ; customergroup ;
+## Update agreement state event
+                      ; user119431@hybris.com     ; user119431@hybris.com ; user119431@hybris.com ; user119431 ; customergroup ;
+                      ; user119432@hybris.com     ; user119432@hybris.com ; user119432@hybris.com ; user119432 ; customergroup ;
+## delete agreement event
+                      ; user119471@hybris.com     ; user119471@hybris.com ; user119471@hybris.com ; user119471 ; customergroup ;
+## Patch agreement
+                      ; user431@hybris.com        ; user431@hybris.com    ; user431@hybris.com    ; user431    ; customergroup ;
+                      ; user432@hybris.com        ; user432@hybris.com    ; user432@hybris.com    ; user432    ; customergroup ;
+                      ; user433@hybris.com        ; user433@hybris.com    ; user433@hybris.com    ; user433    ; customergroup ;
+                      ; user434@hybris.com        ; user434@hybris.com    ; user434@hybris.com    ; user434    ; customergroup ;
+                      ; user435@hybris.com        ; user435@hybris.com    ; user435@hybris.com    ; user435    ; customergroup ;
+                      ; user436@hybris.com        ; user436@hybris.com    ; user436@hybris.com    ; user436    ; customergroup ;
+## delete agreement event
+                      ; user471@hybris.com        ; user471@hybris.com    ; user471@hybris.com    ; user471    ; customergroup ;
+## Update agreement specification attribute event
+                      ; user691@hybris.com        ; user691@hybris.com    ; user691@hybris.com    ; user691    ; customergroup ;
+                      ; user692@hybris.com        ; user692@hybris.com    ; user692@hybris.com    ; user692    ; customergroup ;
+                      ; user693@hybris.com        ; user693@hybris.com    ; user693@hybris.com    ; user693    ; customergroup ;
+                      ; user694@hybris.com        ; user694@hybris.com    ; user694@hybris.com    ; user694    ; customergroup ;
+                      ; user695@hybris.com        ; user695@hybris.com    ; user695@hybris.com    ; user695    ; customergroup ;
+## Update agreement specification state event
+                      ; user741@hybris.com        ; user741@hybris.com    ; user741@hybris.com    ; user741    ; customergroup ;
+                      ; user742@hybris.com        ; user742@hybris.com    ; user742@hybris.com    ; user742    ; customergroup ;
+## delete agreement specification event
+                      ; user771@hybris.com        ; user771@hybris.com    ; user771@hybris.com    ; user771    ; customergroup ;
+## Patch agreement specification
+                      ; user991@hybris.com        ; user991@hybris.com    ; user991@hybris.com    ; user991    ; customergroup ;
+                      ; user992@hybris.com        ; user992@hybris.com    ; user992@hybris.com    ; user992    ; customergroup ;
+                      ; user993@hybris.com        ; user993@hybris.com    ; user993@hybris.com    ; user993    ; customergroup ;
+                      ; user994@hybris.com        ; user994@hybris.com    ; user994@hybris.com    ; user994    ; customergroup ;
+                      ; user995@hybris.com        ; user995@hybris.com    ; user995@hybris.com    ; user995    ; customergroup ;
+## delete agreement specification
+                      ; user1051@hybris.com       ; user1051@hybris.com   ; user1051@hybris.com   ; user1051   ; customergroup ;
+
+#Create Agreement
+
+INSERT_UPDATE AgrAgreement; id[unique = true]            ; name                ; description                                                             ; status(code); version; agreementType(code); agreementStartDateTime[dateformat = dd.MM.yyyy]; agreementEndDateTime[dateformat = dd.MM.yyyy]; initialDate[dateformat = dd.MM.yyyy]; completionStartDateTime[dateformat = dd.MM.yyyy]; completionEndDateTime[dateformat = dd.MM.yyyy]; documentNumber; statementOfIntent           ; agreementSpecification(id)    ; agreementAuthorizations(id); agreementSpecCharacteristicValues(id); agreementItems(id) ; associatedAgreements(id); partyRoles(id)
+                          ; agreement1                   ; agreementName1      ; agreementDescription1                                                   ; IN_PROCESS  ; 1.5    ; COMMERCIAL         ; 1.1.2020                                       ; 1.1.2022                                     ; 1.1.2020                            ; 1.1.2022                                        ; 2.1.2022                                      ; 11            ; Agreement on minimum prices ; agr_spec1                     ; agr_auth1                  ; ascvUse1                             ; agrItem1           ;                         ; user10853
+                          ; agreement2                   ; agreementName2      ; agreementDescription2                                                   ; APPROVED    ; 1.0    ; COMMERCIAL         ; 1.1.2020                                       ; 1.1.2022                                     ; 1.1.2020                            ; 1.1.2022                                        ; 2.1.2022                                      ; 12            ; Agreement on maximum prices ; agr_spec2                     ; agr_auth2                  ; ascvUse2                             ; agrItem2           ; agreement4, agreement3  ; user108531
+                          ; agreement3                   ; agreementName3      ; agreementDescription3                                                   ; REJECTED    ; 1.5    ; COMMERCIAL         ; 1.1.2020                                       ; 1.1.2022                                     ; 1.1.2020                            ; 1.1.2022                                        ; 2.1.2022                                      ; 13            ; Agreement on minimum prices ; agr_spec3                     ; agr_auth3                  ; ascvUse3                             ; agrItem3, agrItem4 ;                         ; user108532
+                          ; agreement4                   ; agreementName4      ; agreementDescription4                                                   ; APPROVED    ; 1.5    ; COMMERCIAL         ; 1.1.2020                                       ; 1.1.2022                                     ; 1.1.2020                            ; 1.1.2022                                        ; 2.1.2022                                      ; 14            ; Agreement on minimum prices ; agr_spec4                     ; agr_auth4                  ; ascvUse4, ascvUse5                   ; agrItem5           ;                         ; user108533
+                          ; home_deal_ettaberg_agreement ; Home Deal Agreement ; This agreement describes the terms and conditions for Home Deal product ; APPROVED    ; 1.5    ; COMMERCIAL         ; 1.1.2020                                       ; 1.1.2022                                     ; 1.1.2020                            ; 1.1.2022                                        ; 2.1.2022                                      ; 14            ; Agreement on minimum prices ; home_deal_2021_agreement_spec ; agr_auth_etta_berg         ; cancellation_fee, notice_period      ; agrItemHomeDeal    ;                         ; ettaBergPR
+                          ; agreement5                   ; agreementName5      ; agreementDescription5                                                   ; APPROVED    ; 1.5    ; COMMERCIAL         ; 1.1.2020                                       ; 1.1.2022                                     ; 1.1.2020                            ; 1.1.2022                                        ; 2.1.2022                                      ; 15            ; Agreement on maximum prices ; agr_spec5                     ; agr_auth5, agr_auth6       ; ascvUse6                             ; agrItem6           ;                         ; user108534
+## Update agreement attribute event
+                          ; agreement119301              ; agreementName1      ; agreementDescription1                                                   ; IN_PROCESS  ; 1.5    ; COMMERCIAL         ; 1.1.2020                                       ; 1.1.2022                                     ; 1.1.2020                            ; 1.1.2022                                        ; 2.1.2022                                      ; 11            ; Agreement on minimum prices ; agr_spec119301                ;                            ; ascvUse119301                        ;                    ;                         ; user119301
+                          ; agreement119302              ; agreementName2      ; agreementDescription2                                                   ; APPROVED    ; 1.0    ; COMMERCIAL         ; 1.1.2020                                       ; 1.1.2022                                     ; 1.1.2020                            ; 1.1.2022                                        ; 2.1.2022                                      ; 12            ; Agreement on maximum prices ;                               ; agr_auth119302             ; ascvUse119302                        ; agrItem119302      ; agreement119301         ; user119302
+                          ; agreement119303              ; agreementName3      ; agreementDescription3                                                   ; REJECTED    ; 1.5    ; COMMERCIAL         ; 1.1.2020                                       ; 1.1.2022                                     ; 1.1.2020                            ; 1.1.2022                                        ; 2.1.2022                                      ; 13            ; Agreement on minimum prices ; agr_spec119303                ; agr_auth119303             ;                                      ; agrItem119303      ;                         ; user119303
+                          ; agreement119304              ; agreementName4      ; agreementDescription4                                                   ; APPROVED    ; 1.5    ; COMMERCIAL         ; 1.1.2020                                       ; 1.1.2022                                     ; 1.1.2020                            ; 1.1.2022                                        ; 2.1.2022                                      ; 14            ; Agreement on minimum prices ; agr_spec119304                ; agr_auth119304             ; ascvUse119304                        ; agrItem119304      ;                         ; user119304
+                          ; agreement119305              ; agreementName5      ; agreementDescription5                                                   ; APPROVED    ; 1.5    ; COMMERCIAL         ; 1.1.2020                                       ; 1.1.2022                                     ; 1.1.2020                            ; 1.1.2022                                        ; 2.1.2022                                      ; 15            ; Agreement on maximum prices ; agr_spec119305                ; agr_auth119305             ; ascvUse119305                        ; agrItem119305      ;                         ; user119305
+                          ; agreement119306              ; agreementName6      ; agreementDescription6                                                   ; APPROVED    ; 1.5    ; COMMERCIAL         ; 1.1.2020                                       ; 1.1.2022                                     ; 1.1.2020                            ; 1.1.2022                                        ; 2.1.2022                                      ; 16            ; Agreement on maximum prices ; agr_spec119306                ; agr_auth119306             ; ascvUse119306                        ; agrItem119306      ; agreement119302         ; user119306
+## Update agreement state event
+                          ; agreement119431              ; agreementName1      ; agreementDescription1                                                   ;             ; 1.5    ; COMMERCIAL         ; 1.1.2020                                       ; 1.1.2022                                     ; 1.1.2020                            ; 1.1.2022                                        ; 2.1.2022                                      ; 11            ; Agreement on minimum prices ; agr_spec119431                ; agr_auth119431             ; ascvUse119431                        ; agrItem119431      ;                         ; user119431
+                          ; agreement119432              ; agreementName2      ; agreementDescription2                                                   ; APPROVED    ; 1.0    ; COMMERCIAL         ; 1.1.2020                                       ; 1.1.2022                                     ; 1.1.2020                            ; 1.1.2022                                        ; 2.1.2022                                      ; 12            ; Agreement on maximum prices ; agr_spec119432                ; agr_auth119432             ; ascvUse119432                        ; agrItem119432      ; agreement119431         ; user119432
+## delete agreement event
+                          ; agreement119471              ; agreementName3      ; agreementDescription3                                                   ; REJECTED    ; 1.5    ; COMMERCIAL         ; 1.1.2020                                       ; 1.1.2022                                     ; 1.1.2020                            ; 1.1.2022                                        ; 2.1.2022                                      ; 13            ; Agreement on minimum prices ; agr_spec119471                ; agr_auth119471             ; ascvUse119471                        ; agrItem119471      ;                         ; user119471
+## Patch agreement
+                          ; agreement431                 ; agreementName1      ; agreementDescription1                                                   ; IN_PROCESS  ; 1.5    ; COMMERCIAL         ; 1.1.2020                                       ; 1.1.2022                                     ; 1.1.2020                            ; 1.1.2022                                        ; 2.1.2022                                      ; 11            ; Agreement on minimum prices ; agr_spec431                   ;                            ; ascvUse431                           ;                    ;                         ; user431
+                          ; agreement432                 ; agreementName2      ; agreementDescription2                                                   ; APPROVED    ; 1.0    ; COMMERCIAL         ; 1.1.2020                                       ; 1.1.2022                                     ; 1.1.2020                            ; 1.1.2022                                        ; 2.1.2022                                      ; 12            ; Agreement on maximum prices ;                               ; agr_auth432                ; ascvUse432                           ; agrItem432         ; agreement431            ; user432
+                          ; agreement433                 ; agreementName3      ; agreementDescription3                                                   ; REJECTED    ; 1.5    ; COMMERCIAL         ; 1.1.2020                                       ; 1.1.2022                                     ; 1.1.2020                            ; 1.1.2022                                        ; 2.1.2022                                      ; 13            ; Agreement on minimum prices ; agr_spec433                   ; agr_auth433                ;                                      ; agrItem433         ;                         ; user433
+                          ; agreement434                 ; agreementName4      ; agreementDescription4                                                   ; APPROVED    ; 1.5    ; COMMERCIAL         ; 1.1.2020                                       ; 1.1.2022                                     ; 1.1.2020                            ; 1.1.2022                                        ; 2.1.2022                                      ; 14            ; Agreement on minimum prices ; agr_spec434                   ; agr_auth434                ; ascvUse434                           ; agrItem434         ;                         ; user434
+                          ; agreement435                 ; agreementName5      ; agreementDescription5                                                   ; APPROVED    ; 1.5    ; COMMERCIAL         ; 1.1.2020                                       ; 1.1.2022                                     ; 1.1.2020                            ; 1.1.2022                                        ; 2.1.2022                                      ; 15            ; Agreement on maximum prices ; agr_spec435                   ; agr_auth435                ; ascvUse435                           ; agrItem435         ;                         ; user435
+                          ; agreement436                 ; agreementName6      ; agreementDescription6                                                   ; APPROVED    ; 1.5    ; COMMERCIAL         ; 1.1.2020                                       ; 1.1.2022                                     ; 1.1.2020                            ; 1.1.2022                                        ; 2.1.2022                                      ; 16            ; Agreement on maximum prices ; agr_spec436                   ; agr_auth436                ; ascvUse436                           ; agrItem436         ; agreement432            ; user436
+## delete agreement event
+                          ; agreement471                 ; agreementName3      ; agreementDescription3                                                   ; REJECTED    ; 1.5    ; COMMERCIAL         ; 1.1.2020                                       ; 1.1.2022                                     ; 1.1.2020                            ; 1.1.2022                                        ; 2.1.2022                                      ; 13            ; Agreement on minimum prices ; agr_spec471                   ; agr_auth471                ; ascvUse471                           ; agrItem471         ;                         ; user471
+
+#Create Category
+
+INSERT_UPDATE AgrCategory; id[unique = true]; name                  ; version;
+                         ; category1        ; category_name1        ; 1
+                         ; category2        ; category_name2        ; 1
+                         ; category3        ; category_name3        ; 1
+                         ; category4        ; category_name4        ; 1
+                         ; homeDealCategory ; homeDealCategory_name ; 1
+                         ; category5        ; category_name5        ; 1
+                         ; category6        ; category_name6        ; 1
+
+## Update agreement attribute event
+                         ; category119301   ; category_name1        ; 1
+                         ; category119302   ; category_name2        ; 1
+                         ; category119303   ; category_name3        ; 1
+                         ; category119304   ; category_name4        ; 1
+                         ; category119305   ; category_name5        ; 1
+                         ; category119306   ; category_name6        ; 1
+## Update agreement state event
+                         ; category119431   ; category_name1        ; 1
+                         ; category119432   ; category_name2        ; 1
+## delete agreement event
+                         ; category119471   ; category_name3        ; 1
+## Patch agreement
+                         ; category431      ; category_name1        ; 1
+                         ; category432      ; category_name2        ; 1
+                         ; category433      ; category_name3        ; 1
+                         ; category434      ; category_name4        ; 1
+                         ; category435      ; category_name5        ; 1
+                         ; category436      ; category_name6        ; 1
+## delete agreement
+                         ; category471      ; category_name3        ; 1
+## Update agreement specification attribute event
+                         ; category691      ; category_name1        ; 1
+                         ; category692      ; category_name2        ; 1
+                         ; category693      ; category_name3        ; 1
+                         ; category694      ; category_name4        ; 1
+                         ; category695      ; category_name5        ; 1
+## Update agreement specification state event
+                         ; category741      ; category_name1        ; 1
+                         ; category742      ; category_name2        ; 1
+## delete agreement specification event
+                         ; category771      ; category_name3        ; 1
+## Patch agreement specification
+                         ; category991      ; category_name1        ; 1
+                         ; category992      ; category_name2        ; 1
+                         ; category993      ; category_name3        ; 1
+                         ; category994      ; category_name4        ; 1
+                         ; category995      ; category_name5        ; 1
+## delete agreement specification event
+                         ; category1051     ; category_name3        ; 1
+
+UPDATE User; UID[unique = true]; password[default = 1234]; loginDisabled[default = false]
+"#%beforeEach:
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import de.hybris.platform.servicelayer.user.UserService;
+import de.hybris.platform.servicelayer.exceptions.UnknownIdentifierException;
+ERROR_MESSAGE_TEMPLATE = ""Password for the user [{}] can not be set because the user does not exist"";
+Logger LOG = LoggerFactory.getLogger(""ImpExImportReader"");
+UserService userService = Registry.getApplicationContext().getBean(""userService"", UserService.class);
+userUid = line.get(1);
+try
+{
+userService.getUserForUID(userUid);
+}
+catch (UnknownIdentifierException ex)
+{
+LOG.info(ERROR_MESSAGE_TEMPLATE, userUid);
+line.clear();
+}"
+           ; user10853@hybris.com
+           ; user108531@hybris.com
+           ; user108532@hybris.com
+           ; user108533@hybris.com
+           ; user108535@hybris.com
+           ; user108534@hybris.com
+           ; etta.berg@hybris.com

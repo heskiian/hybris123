@@ -1,0 +1,48 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for Importing Sample Product Offerings
+
+$productCatalog = b2btelcoProductCatalog
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Online'])[unique = true, default = $productCatalog:Online]
+$supercategories = supercategories(code, $catalogVersion)
+$approved = approvalstatus(code)[default = 'approved']
+
+#Create test simple product offering
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaSimpleProductOffering; code[unique = true]                 ; parents(code, $catalogVersion); name[lang = en]                       ; name[lang = de]; description[lang = en]                  ; description[lang = de]; approvalstatus(code)[default = 'approved']; productSpecification(id, $catalogVersion); productSpecCharValueUses(id, $catalogVersion); $catalogVersion; supercategories(code, $catalogVersion); unit(code)[default = pieces]
+                                      ; gsm_10884                           ;                               ; "GSM_10884"                           ;                ; "GSM_10884 Description"                 ;                       ;                                           ; gsm_plan_10884                           ; dataUse_plan_10884
+                                      ; sattelite_10884                     ;                               ; "Sattelite_10884"                     ;                ; "Sattelite_10884 Description"           ;                       ;                                           ; sattelite_plan_10884                     ; connectedViaUse_10884, dhcp_10884
+                                      ; sattelite_Bandwidth_10884           ;                               ; "Sattelite_Bandwidth_10884"           ;                ; "Sattelite_Bandwidth_10884 Description" ;                       ;                                           ; sattelite_Bandwidth_plan_10884           ; bandwidthUse_10884
+                                      ; sattelite_TerminalType_10884        ;                               ; "Sattelite_TerminalType_10884"        ;                ; "Sattelite_TerminalType_10884"          ;                       ;                                           ; sattelite_Terminal_plan_10884            ; terminalTypeUse_10884
+                                      ; sattelite_TerminalType_config_10884 ;                               ; "Sattelite_TerminalType_config_10884" ;                ; "Sattelite_TerminalType_config_10884"   ;                       ;                                           ; sattelite_Terminaltype_plan_10884        ; terminalTypeUse_config_10884
+# e2e 10862
+                                      ; sattelite_10862                     ;                               ; "Sattelite_10862"                     ;                ; "Sattelite_10862 Description"           ;                       ;                                           ; sattelite_plan_10862                     ; connectedViaUse_10862
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaSimpleProductOffering; code[unique = true]        ; parents(code, $catalogVersion); name[lang = en]              ; name[lang = de]; description[lang = en]                   ; description[lang = de]; approvalstatus(code)[default = 'approved']; allowedPrincipals(uid); productSpecification(id, $catalogVersion); $catalogVersion; supercategories(code, $catalogVersion); unit(code)[default = pieces]
+# PO Permissions
+                                      ; iPhone_10895               ;                               ; "iPhone_10895"               ;                ; "iPhone_10895 Description"               ;                       ;                                           ; BU1,BU4               ;
+                                      ; Samsung_10895              ;                               ; "Samsung_10895"              ;                ; "Samsung_10895 Description"              ;                       ;                                           ; BU2                   ;
+                                      ; unlimitedPremiumPlan_10895 ;                               ; "unlimitedPremiumPlan_10895" ;                ; "unlimitedPremiumPlan_10895 Description" ;                       ;                                           ; BU3                   ;
+                                      ; Fiberlink_10895            ;                               ; "Fiberlink_10895 "           ;                ; "Fiberlink_10895 Description"            ;                       ;                                           ; BU4                   ;
+                                      ; iPhone6_10895              ;                               ; "iPhone6_10895 "             ;                ; "iPhone6_10895 Description"              ;                       ;                                           ; BU5                   ;
+                                      ; iPhone7_10895              ;                               ; "iPhone7_10895 "             ;                ; "iPhone7_10895 Description"              ;                       ;                                           ;                       ;
+                                      ; unlimitedBasicPlan_10895   ;                               ; "unlimitedBasicPlan_10895"   ;                ; "unlimitedBasicPlan_10895  Description"  ;                       ;                                           ;                       ;
+
+# PO Permissions E2E
+                                      ; iPhone_10894               ;                               ; "iPhone_10894"               ;                ; "iPhone_10894 Description"               ;                       ;                                           ; BU1_10894,BU4_10894   ;
+                                      ; Samsung_10894              ;                               ; "Samsung_10894"              ;                ; "Samsung_10894 Description"              ;                       ;                                           ; BU2_10894             ;
+                                      ; unlimitedPremiumPlan_10894 ;                               ; "unlimitedPremiumPlan_10894" ;                ; "unlimitedPremiumPlan_10894 Description" ;                       ;                                           ; BU3_10894             ;
+                                      ; Fiberlink_10894            ;                               ; "Fiberlink_10894 "           ;                ; "Fiberlink_10894 Description"            ;                       ;                                           ; BU4_10894             ;
+                                      ; iPhone6_10894              ;                               ; "iPhone6_10894 "             ;                ; "iPhone6_10894 Description"              ;                       ;                                           ; BU5_10894             ;
+                                      ; iPhone7_10894              ;                               ; "iPhone7_10894 "             ;                ; "iPhone7_10894 Description"              ;                       ;                                           ;                       ;
+                                      ; unlimitedBasicPlan_10894   ;                               ; "unlimitedBasicPlan_10894"   ;                ; "unlimitedBasicPlan_10894  Description"  ;                       ;                                           ;                       ;
+
+# Order Apporval - POST
+                                      ; connect_50_11038           ;                               ; "Connect 50 11038"           ;                ; "Connect 50 11038"                       ;                       ;                                           ;                       ;
+
+# Order Apporval - E2E
+                                      ; connect_50_11037           ;                               ; "Connect 50 11037"           ;                ; "Connect 50 11037"                       ;                       ;                                           ;                       ;

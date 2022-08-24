@@ -1,0 +1,94 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+#% impex.setLocale(Locale.ENGLISH);
+
+$productCatalog = mediaProductCatalog
+$catalogVersion = catalogversion(catalog(id[default=$productCatalog]), version[default='Staged'])[unique=true, default='$productCatalog:Staged']
+$priceEvent = priceEvent(code)[default='paynow']
+$priceEventRcUc = priceEvent(code)[default='monthly']
+$currency = currency(isocode)[default=USD]
+
+################################################
+###            One time charges              ###
+################################################
+
+INSERT_UPDATE TmaOneTimeProdOfferPriceCharge; id[unique = true]   ; $catalogVersion; value ; $currency; $priceEvent
+                                            ; OTC_0_USD           ;                ; 0.0   ;
+                                            ; OTC_1_99_USD        ;                ; 1.99  ;
+                                            ; OTC_6_99_USD        ;                ; 6.99  ;
+                                            ; OTC_9_60_USD        ;                ; 9.60  ;
+                                            ; OTC_9_99_USD        ;                ; 9.99  ;
+                                            ; OTC_12_99_USD       ;                ; 12.99 ;
+                                            ; OTC_15_99_USD       ;                ; 15.99 ;
+                                            ; OTC_15_46_USD       ;                ; 15.46 ;
+                                            ; OTC_19_99_USD       ;                ; 19.99 ;
+                                            ; OTC_29_99_USD       ;                ; 29.99 ;
+                                            ; OTC_34_55_USD       ;                ; 34.55 ;
+                                            ; OTC_34_99_USD       ;                ; 34.99 ;
+                                            ; OTC_50_USD          ;                ; 50.00 ;
+                                            ; OTC_51_21_USD       ;                ; 51.21 ;
+                                            ; OTC_59_99_USD       ;                ; 59.99 ;
+                                            ; OTC_65_30_USD       ;                ; 65.30 ;
+                                            ; OTC_79_99_USD       ;                ; 79.99 ;
+                                            ; installation_tv_otc ;                ; 35.99 ;          ; onfirstbill
+
+
+################################################
+###              Recurring charges           ###
+################################################
+
+INSERT_UPDATE TmaRecurringProdOfferPriceCharge; id[unique = true]    ; $catalogVersion; value ; $currency; $priceEventRcUc; cycleStart; cycleEnd
+                                              ; RC_16_99_USD_start_1 ;                ; 16.99 ;          ;                ; 1         ;
+                                              ; RC_3_USD_start_1     ;                ; 3     ;          ;                ; 1         ;
+                                              ; RC_4_75_USD_start_1  ;                ; 4.75  ;          ;                ; 1         ;
+                                              ; RC_6_5_USD_start_1   ;                ; 6.5   ;          ;                ; 1         ;
+                                              ; RC_15_USD_start_1    ;                ; 15    ;          ;                ; 1         ;
+                                              ; RC_25_USD_start_1    ;                ; 25    ;          ;                ; 1         ;
+                                              ; RC_10_USD_start_1    ;                ; 10    ;          ;                ; 1         ;
+                                              ; RC_12_USD_start_1    ;                ; 12    ;          ;                ; 1         ;
+                                              ; RC_7_USD_start_1     ;                ; 7     ;          ;                ; 1         ;
+                                              ; RC_5_USD_start_1     ;                ; 5     ;          ;                ; 1         ;
+
+INSERT_UPDATE TmaUsageProdOfferPriceCharge; id[unique = true]; value; tierStart; tierEnd; usageUnit(id)   ; $currency; compositeProdOfferPrices(id); $catalogVersion; $priceEventRcUc; productUsageSpec(id, $catalogVersion); productSpecCharacteristicValues(id, $catalogVersion)
+                                          ; UC_sport_USD_pop ; 3.0  ; 1        ;        ; games_on_demand ;          ;                             ;                ;                ; media_tv_spec                        ;
+
+################################################
+###              Usage charges               ###
+################################################
+
+INSERT_UPDATE TmaTierUsageChargeCompositePop; id[unique = true]          ; usageChargeType(code); children(id, $catalogVersion); $catalogVersion; productSpecCharacteristicValues(id, $catalogVersion)
+                                            ; UC_sport_USD_composite_pop ; each_respective_tier ; UC_sport_USD_pop             ;                ; 3_tv_everywhere
+
+################################################
+###             Allowance alterations        ###
+################################################
+
+INSERT_UPDATE TmaAllowanceProdOfferPriceAlteration; id[unique = true]  ; value; $currency; $priceEvent; $catalogVersion; isPercentage[default = false]; type(code)[default = CREDIT]
+                                                  ; standardRouter_alw ; 5    ;          ;            ;                ;                              ;
+                                                  ; sportChannel_alw   ; 2    ;          ;            ;                ;                              ;
+
+################################################
+###              Composite prices            ###
+################################################
+
+INSERT_UPDATE TmaCompositeProdOfferPrice; id[unique = true]                     ; $catalogVersion; children(id, $catalogVersion)
+                                        ; phoneUnlimitedWeekend_USD_pop         ;                ; OTC_50_USD, RC_16_99_USD_start_1
+                                        ; standardBroadband_USD_pop             ;                ; OTC_50_USD, RC_4_75_USD_start_1
+                                        ; fibreBroadbandLimited_USD_pop         ;                ; OTC_50_USD, RC_6_5_USD_start_1
+                                        ; fibreBroadbandUnlimited_USD_pop       ;                ; OTC_50_USD, RC_15_USD_start_1
+                                        ; fibreBroadbandUnlimited_USD_promo_pop ;                ; OTC_50_USD, RC_15_USD_start_1, fibreBroadbandUnlimited_USD_dsc
+                                        ; superFibreUnlimited_USD_pop           ;                ; OTC_50_USD, RC_25_USD_start_1
+                                        ; underworld_movie_promo_pop            ;                ; OTC_19_99_USD, underworld_movie_dsc
+                                        ; standardRouter_pr_alw_pop             ;                ; OTC_9_99_USD, standardRouter_alw
+                                        ; sportChannel_pr_alw_pop               ;                ; OTC_0_USD, sportChannel_alw
+                                        ; standardHomeTv_pop                    ;                ; installation_tv_otc, RC_4_75_USD_start_1
+
+################################################
+###              Discount alterations        ###
+################################################
+
+INSERT_UPDATE TmaDiscountProdOfferPriceAlteration; id[unique = true]               ; value; cycleStart; cycleEnd; $currency; $priceEvent; $catalogVersion; isPercentage[default = false];
+                                                 ; underworld_movie_dsc            ; 20   ;           ;         ;          ;            ;                ;                              ;
+                                                 ; fibreBroadbandUnlimited_USD_dsc ; 20   ;           ;         ;          ;            ;                ; true                         ;

@@ -1,0 +1,33 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for importing Product Offering Variants into Media Store
+
+$productCatalog=mediaProductCatalog
+$catalogVersion=catalogversion(catalog(id[default=$productCatalog]), version[default='Staged'])[unique=true, default=$productCatalog:Staged]
+
+$lang=en
+
+UPDATE VariantCategory;code[unique=true];name[lang=$lang];$catalogVersion
+                      ;color            ;Color
+                      ;size             ;Size
+
+UPDATE VariantValueCategory;code[unique=true];name[lang=$lang];$catalogVersion
+                           ;black            ;Black
+                           ;white            ;White
+                           ;S                ;S
+                           ;M                ;M
+                           ;L                ;L
+                           ;XL               ;XL
+
+UPDATE TmaPoVariant;code[unique=true]   ;name[lang=$lang];$catalogVersion
+                   ;t-shirt_bp_black_S  ;BP T-Shirt Black S
+                   ;t-shirt_bp_black_M  ;BP T-Shirt Black M
+                   ;t-shirt_bp_black_L  ;BP T-Shirt Black L
+                   ;t-shirt_bp_black_XL ;BP T-Shirt Black XL
+
+                   ;t-shirt_bp_white_S  ;BP T-Shirt White S
+                   ;t-shirt_bp_white_M  ;BP T-Shirt White M
+                   ;t-shirt_bp_white_L  ;BP T-Shirt White L
+                   ;t-shirt_bp_white_XL ;BP T-Shirt White XL

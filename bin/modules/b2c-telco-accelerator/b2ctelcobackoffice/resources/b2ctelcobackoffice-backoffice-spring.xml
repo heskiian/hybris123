@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd" >
+
+    <bean id="b2ctelcobackofficeService" class="de.hybris.platform.b2ctelcobackoffice.services.B2ctelcobackofficeService"/>
+
+    <bean id="b2ctelcobackofficeLabelLocator" class="com.hybris.cockpitng.util.labels.ResourcesLabelLocator" scope="singleton"
+          init-method="init" lazy-init="false">
+        <property name="location" value="/b2ctelcobackoffice-backoffice-labels/"/>
+        <property name="name" value="labels"/>
+    </bean>
+
+    <alias name="defaultTmaProductSpecificationApprovalStatusRenderer" alias="tmaProductSpecificationApprovalStatusRenderer"/>
+    <bean id="defaultTmaProductSpecificationApprovalStatusRenderer"
+          class="de.hybris.platform.b2ctelcobackoffice.renderers.TmaPsApprovalStatusRenderer">
+        <property name="labelService" ref="labelService"/>
+    </bean>
+
+    <alias name="defaultTmaAttributeTypeRenderer" alias="tmaAttributeTypeRenderer"/>
+    <bean id="defaultTmaAttributeTypeRenderer" class="de.hybris.platform.b2ctelcobackoffice.renderers.TmaAttributeTypeRenderer">
+        <property name="labelService" ref="labelService"/>
+    </bean>
+
+
+    <alias name="defaultTmaProductSpecificationStatusRenderer" alias="tmaProductSpecificationStatusRenderer"/>
+    <bean name="defaultTmaProductSpecificationStatusRenderer"
+          class="com.hybris.cockpitng.widgets.common.CompoundWidgetComponentRenderer">
+        <property name="renderers">
+            <list>
+                <ref bean="syncStatusCellRenderer"/>
+                <ref bean="tmaProductSpecificationApprovalStatusRenderer"/>
+                <ref bean="tmaAttributeTypeRenderer"/>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="defaultTmaPsSummaryViewApprovalStatusRenderer" alias="tmaPsSummaryViewApprovalStatusRenderer"/>
+    <bean name="defaultTmaPsSummaryViewApprovalStatusRenderer" parent="abstractSummaryViewItemWithIconRenderer"
+          class="de.hybris.platform.b2ctelcobackoffice.renderers.TmaPsSummaryViewApprovalStatusRenderer"/>
+
+    <alias name="defaultCreateTmaPscvConfigurableFlowHandler" alias="createTmaPscvConfigurableFlowHandler"/>
+    <bean id="defaultCreateTmaPscvConfigurableFlowHandler"
+          class="de.hybris.platform.b2ctelcobackoffice.handler.CreateTmaPscvConfigurableFlowHandler">
+        <constructor-arg name="configurationService" ref="configurationService"/>
+    </bean>
+
+    <alias name="defaultTmaPscvListitemRenderer" alias="tmaPscvListitemRenderer"/>
+    <bean id="defaultTmaPscvListitemRenderer" class="de.hybris.platform.b2ctelcobackoffice.renderers.TmaPscvListitemRenderer"/>
+
+    <alias name="defaultTmaCatalogTreeModelPopulator" alias="tmaCatalogTreeModelPopulator"/>
+    <bean id="defaultTmaCatalogTreeModelPopulator" parent="catalogTreeModelPopulator" lazy-init="true"
+          class="de.hybris.platform.b2ctelcobackoffice.tree.TmaCatalogTreeModelPopulator"/>
+
+    <bean id="poTreeNodeRenderer"
+          class="de.hybris.platform.b2ctelcobackoffice.renderers.TmaPoTreeNodeRenderer">
+        <property name="productOfferingService" ref="tmaPoService"/>
+        <property name="permissionFacade" ref="permissionFacade"/>
+        <property name="labelService" ref="labelService"/>
+        <property name="notificationService" ref="notificationService"/>
+    </bean>
+
+    <alias alias="bpoHierarchyComponentRenderer" name="defaultBpoHierarchyComponentRenderer"/>
+    <bean id="defaultBpoHierarchyComponentRenderer"
+          class="de.hybris.platform.b2ctelcobackoffice.renderers.TmaBpoStructureEditorAreaRenderer"
+          parent="defaultEditorAreaSectionRenderer">
+        <property name="nodeRenderer" ref="poTreeNodeRenderer"/>
+    </bean>
+
+    <alias name="defaultTmaWidgetRenderingUtils" alias="tmaWidgetRenderingUtils"/>
+    <bean id="defaultTmaWidgetRenderingUtils" class="de.hybris.platform.b2ctelcobackoffice.renderers.TmaWidgetRenderingUtils"
+          parent="widgetRenderingUtils"/>
+
+    <alias name="defaultTmaListCellRenderer" alias="tmaListCellRenderer"/>
+    <bean id="defaultTmaListCellRenderer"
+          class="com.hybris.cockpitng.widgets.collectionbrowser.mold.impl.listview.renderer.DefaultListCellRenderer"
+          scope="prototype">
+        <property name="widgetRenderingUtils" ref="tmaWidgetRenderingUtils"/>
+    </bean>
+
+    <alias name="defaultCancelPricePlanConfigurableFlowHandler" alias="cancelPricePlanConfigurableFlowHandler"/>
+    <bean id="defaultCancelPricePlanConfigurableFlowHandler"
+          class="de.hybris.platform.b2ctelcobackoffice.handler.CancelPricePlanConfigurableFlowHandler"/>
+
+    <alias name="defaultPoGroupPolicyStatementRenderer" alias="poGroupPolicyStatementRenderer"/>
+    <bean id="defaultPoGroupPolicyStatementRenderer"
+          class="de.hybris.platform.b2ctelcobackoffice.renderers.TmaPolicyStatementRenderer">
+        <property name="typeCode" value="#{T(de.hybris.platform.b2ctelcoservices.model.TmaPoGroupPolicyStatementModel)._TYPECODE}"/>
+        <property name="policyStatementTypePrefix" value="policy.statement.prefix.pogroup"/>
+        <property name="labelService" ref="labelService"/>
+    </bean>
+
+    <alias name="defaultPoPolicyStatementRenderer" alias="poPolicyStatementRenderer"/>
+    <bean id="defaultPoPolicyStatementRenderer"
+          class="de.hybris.platform.b2ctelcobackoffice.renderers.TmaPolicyStatementRenderer">
+        <property name="typeCode" value="#{T(de.hybris.platform.b2ctelcoservices.model.TmaPoPolicyStatementModel)._TYPECODE}"/>
+        <property name="policyStatementTypePrefix" value="policy.statement.prefix.po"/>
+        <property name="labelService" ref="labelService"/>
+    </bean>
+
+    <alias name="defaultSubscribedPoPolicyStatementRenderer" alias="subscribedPoPolicyStatementRenderer"/>
+    <bean id="defaultSubscribedPoPolicyStatementRenderer"
+          class="de.hybris.platform.b2ctelcobackoffice.renderers.TmaPolicyStatementRenderer">
+        <property name="typeCode" value="#{T(de.hybris.platform.b2ctelcoservices.model.TmaSubscribedPoPolicyStatementModel)._TYPECODE}"/>
+        <property name="policyStatementTypePrefix" value="policy.statement.prefix.subscribedPo"/>
+        <property name="labelService" ref="labelService"/>
+    </bean>
+
+    <alias name="defaultPsPolicyStatementRenderer" alias="psPolicyStatementRenderer"/>
+    <bean id="defaultPsPolicyStatementRenderer"
+          class="de.hybris.platform.b2ctelcobackoffice.renderers.TmaPolicyStatementRenderer">
+        <property name="typeCode" value="#{T(de.hybris.platform.b2ctelcoservices.model.TmaPsPolicyStatementModel)._TYPECODE}"/>
+        <property name="policyStatementTypePrefix" value="policy.statement.prefix.ps"/>
+        <property name="labelService" ref="labelService"/>
+    </bean>
+
+    <alias name="defaultPscvPolicyStatementRenderer" alias="pscvPolicyStatementRenderer"/>
+    <bean id="defaultPscvPolicyStatementRenderer"
+          class="de.hybris.platform.b2ctelcobackoffice.renderers.TmaPolicyStatementRenderer">
+        <property name="typeCode" value="#{T(de.hybris.platform.b2ctelcoservices.model.TmaPscvPolicyStatementModel)._TYPECODE}"/>
+        <property name="policyStatementTypePrefix" value="policy.statement.prefix.psc"/>
+        <property name="labelService" ref="labelService"/>
+    </bean>
+
+    <alias name="defaultRemainingCommittedPeriodPolicyStatementRenderer"
+           alias="remainingCommittedPeriodPolicyStatementRenderer"/>
+    <bean id="defaultRemainingCommittedPeriodPolicyStatementRenderer"
+          class="de.hybris.platform.b2ctelcobackoffice.renderers.TmaPolicyStatementRenderer">
+        <property name="typeCode"
+                  value="#{T(de.hybris.platform.b2ctelcoservices.model.TmaRemainingCommittedPeriodPolicyStatementModel)._TYPECODE}"/>
+        <property name="policyStatementTypePrefix" value="policy.statement.prefix.remainingDays"/>
+        <property name="labelService" ref="labelService"/>
+    </bean>
+
+    <alias name="defaultPoListPolicyStatementRenderer" alias="poListPolicyStatementRenderer"/>
+    <bean id="defaultPoListPolicyStatementRenderer"
+          class="de.hybris.platform.b2ctelcobackoffice.renderers.TmaPolicyStatementRenderer">
+        <property name="typeCode" value="#{T(de.hybris.platform.b2ctelcoservices.model.TmaPoListPolicyStatementModel)._TYPECODE}"/>
+        <property name="policyStatementTypePrefix" value="policy.statement.prefix.poList"/>
+        <property name="labelService" ref="labelService"/>
+    </bean>
+
+    <alias name="defaultProcessTypesPolicyStatementRenderer" alias="processTypesPolicyStatementRenderer"/>
+    <bean id="defaultProcessTypesPolicyStatementRenderer"
+          class="de.hybris.platform.b2ctelcobackoffice.renderers.TmaPolicyStatementRenderer">
+        <property name="typeCode" value="#{T(de.hybris.platform.b2ctelcoservices.model.TmaProcessTypesPolicyStatementModel)._TYPECODE}"/>
+        <property name="policyStatementTypePrefix" value="policy.statement.prefix.processTypes"/>
+        <property name="labelService" ref="labelService"/>
+    </bean>
+
+    <alias name="defaultContractTermsPolicyStatementRenderer" alias="contractTermsPolicyStatementRenderer"/>
+    <bean id="defaultContractTermsPolicyStatementRenderer"
+          class="de.hybris.platform.b2ctelcobackoffice.renderers.TmaPolicyStatementRenderer">
+        <property name="typeCode" value="#{T(de.hybris.platform.b2ctelcoservices.model.TmaContractTermsPolicyStatementModel)._TYPECODE}"/>
+        <property name="policyStatementTypePrefix" value="policy.statement.prefix.contractTerms"/>
+        <property name="labelService" ref="labelService"/>
+    </bean>
+    
+    <alias name="defaultProductStatusPolicyStatementRenderer" alias="productStatusPolicyStatementRenderer"/>
+    <bean id="defaultProductStatusPolicyStatementRenderer"
+          class="de.hybris.platform.b2ctelcobackoffice.renderers.TmaPolicyStatementRenderer">
+        <property name="typeCode" value="#{T(de.hybris.platform.b2ctelcoservices.model.TmaProductStatusPolicyStatementModel)._TYPECODE}"/>
+        <property name="policyStatementTypePrefix" value="policy.statement.prefix.statuses"/>
+        <property name="labelService" ref="labelService"/>
+    </bean>
+
+    <alias name="defaultAbstractTmaPolicyStatementValueRenderer" alias="abstractTmaPolicyStatementValueRenderer"/>
+    <bean id="defaultAbstractTmaPolicyStatementValueRenderer"
+          class="de.hybris.platform.b2ctelcobackoffice.renderers.AbstractTmaPolicyStatementValueRenderer" abstract="true">
+        <property name="policyStatementRenderers">
+            <list>
+                <ref bean="poGroupPolicyStatementRenderer"/>
+                <ref bean="poPolicyStatementRenderer"/>
+                <ref bean="subscribedPoPolicyStatementRenderer"/>
+                <ref bean="psPolicyStatementRenderer"/>
+                <ref bean="pscvPolicyStatementRenderer"/>
+                <ref bean="remainingCommittedPeriodPolicyStatementRenderer"/>
+                <ref bean="poListPolicyStatementRenderer"/>
+                <ref bean="contractTermsPolicyStatementRenderer"/>
+                <ref bean="processTypesPolicyStatementRenderer"/>
+                <ref bean="productStatusPolicyStatementRenderer"/>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="defaultTmaPolicyConditionStatementValueRenderer" alias="tmaPolicyConditionStatementValueRenderer"/>
+    <bean id="defaultTmaPolicyConditionStatementValueRenderer"
+          class="de.hybris.platform.b2ctelcobackoffice.renderers.TmaPolicyConditionStatementValueRenderer"
+          parent="abstractTmaPolicyStatementValueRenderer"/>
+
+    <alias name="defaultTmaPolicyActionStatementValueRenderer" alias="tmaPolicyActionStatementValueRenderer"/>
+    <bean id="defaultTmaPolicyActionStatementValueRenderer"
+          class="de.hybris.platform.b2ctelcobackoffice.renderers.TmaPolicyActionStatementValueRenderer"
+          parent="abstractTmaPolicyStatementValueRenderer"/>
+
+    <alias name="defaultTmaBpoPricesForSpoEditorAreaRenderer" alias="tmaBpoPricesForSpoEditorAreaRenderer"/>
+    <bean id="defaultTmaBpoPricesForSpoEditorAreaRenderer"
+          class="de.hybris.platform.b2ctelcobackoffice.renderers.TmaBpoPricesForSpoEditorAreaRenderer"
+          parent="defaultEditorAreaPanelRenderer"/>
+
+    <alias name="defaultTmaPolicyConditionStatusRenderer" alias="tmaPolicyConditionStatusRenderer"/>
+    <bean name="defaultTmaPolicyConditionStatusRenderer" class="com.hybris.cockpitng.widgets.common.CompoundWidgetComponentRenderer">
+        <property name="renderers">
+            <list>
+                <ref bean="syncStatusCellRenderer"/>
+                <ref bean="tmaAttributeTypeRenderer"/>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="defaultTmaConditionsEvaluatorTypeCompositePolicyRenderer"
+           alias="tmaConditionsEvaluatorTypeCompositePolicyRenderer"/>
+    <bean name="defaultTmaConditionsEvaluatorTypeCompositePolicyRenderer"
+          class="de.hybris.platform.b2ctelcobackoffice.renderers.TmaCompositePolicyConditionAttributeRenderer">
+        <property name="attributeName"
+                  value="#{T(de.hybris.platform.b2ctelcoservices.model.TmaCompositePolicyConditionModel).CONDITIONSEVALUATORTYPE}"/>
+        <property name="modelService" ref="modelService"/>
+        <property name="labelService" ref="labelService"/>
+    </bean>
+
+    <alias name="defaultTmaChildrenConditionsCompositePolicyRenderer"
+           alias="tmaChildrenConditionsCompositePolicyRenderer"/>
+    <bean name="defaultTmaChildrenConditionsCompositePolicyRenderer"
+          class="de.hybris.platform.b2ctelcobackoffice.renderers.TmaCompositePolicyConditionAttributeRenderer">
+        <property name="attributeName"
+                  value="#{T(de.hybris.platform.b2ctelcoservices.model.TmaCompositePolicyConditionModel).CHILDREN}"/>
+        <property name="modelService" ref="modelService"/>
+        <property name="labelService" ref="labelService"/>
+    </bean>
+
+    <alias name="defaultTmaLabelRenderer" alias="tmaLabelRenderer"/>
+    <bean id="defaultTmaLabelRenderer"
+          class="de.hybris.platform.b2ctelcobackoffice.renderers.TmaLabelRenderer">
+        <property name="messageKey" value="backoffice.create.tmapolicycondition.warning.label"/>
+    </bean>
+
+    <alias name="defaultTmaChecklistStatementLabelRenderer" alias="tmaChecklistStatementLabelRenderer"/>
+    <bean id="defaultTmaChecklistStatementLabelRenderer"
+          class="de.hybris.platform.b2ctelcobackoffice.renderers.TmaLabelRenderer">
+        <property name="messageKey" value="backoffice.create.tmacheckliststatement.warning.label"/>
+    </bean>
+
+    <alias name="defaultPolicyConditionsStructureRenderer" alias="tmaPolicyConditionsStructureRenderer"/>
+    <bean id="defaultPolicyConditionsStructureRenderer"
+          class="de.hybris.platform.b2ctelcobackoffice.renderers.TmaPolicyConditionsStructureSectionRenderer"
+          parent="defaultEditorAreaSectionRenderer">
+        <property name="treeNodeRenderer" ref="tmaPolicyConditionTreeNodeRenderer"/>
+        <property name="enumerationService" ref="enumerationService"/>
+        <property name="modelService" ref="modelService"/>
+    </bean>
+
+    <alias name="defaultTmaPolicyConditionTreeNodeRenderer" alias="tmaPolicyConditionTreeNodeRenderer"/>
+    <bean id="defaultTmaPolicyConditionTreeNodeRenderer"
+          class="de.hybris.platform.b2ctelcobackoffice.renderers.TmaPolicyConditionTreeNodeRenderer">
+        <property name="labelService" ref="labelService"/>
+        <property name="modelService" ref="modelService"/>
+        <property name="enumerationService" ref="enumerationService"/>
+        <property name="conditionStatementValueRenderer" ref="tmaPolicyConditionStatementValueRenderer"/>
+        <property name="typeService" ref="typeService"/>
+        <property name="tmaPolicyService" ref="tmaPolicyService"/>
+    </bean>
+
+    <alias name="defaultTmaPscvSearchFacade" alias="tmaPscvSearchFacade"/>
+    <bean id="defaultTmaPscvSearchFacade" class="de.hybris.platform.b2ctelcobackoffice.search.TmaPscvSearchFacade"/>
+
+	<alias alias="tmaEligibilityPolicyAreaRenderer" name="defaultTmaEligibilityPolicyAreaRenderer"/>
+	<bean id="defaultTmaEligibilityPolicyAreaRenderer"
+		class="de.hybris.platform.b2ctelcobackoffice.renderers.TmaEligibilityPolicyAreaRenderer"/>
+
+
+	<alias name="defaultTmaCustomerEligibilityContextEditorAreaRenderer" alias="tmaCustomerEligibilityContextEditorAreaRenderer"/>
+    <bean id="defaultTmaCustomerEligibilityContextEditorAreaRenderer"
+          class="de.hybris.platform.b2ctelcobackoffice.renderers.TmaCustomerEligibilityContextEditorAreaRenderer"
+          parent="defaultEditorAreaPanelRenderer"/>
+
+
+	<alias alias="tmaCompatibilityPolicyAreaRenderer" name="defaultTmaCompatibilityPolicyAreaRenderer"/>
+	<bean id="defaultTmaCompatibilityPolicyAreaRenderer"
+		class="de.hybris.platform.b2ctelcobackoffice.renderers.TmaCompatibilityPolicyAreaRenderer"/>
+
+	<alias alias="tmaChecklistActionAreaRenderer" name="defaultTmaChecklistActionAreaRenderer"/>
+	<bean id="defaultTmaChecklistActionAreaRenderer"
+		class="de.hybris.platform.b2ctelcobackoffice.renderers.TmaChecklistActionAreaRenderer"/>
+
+
+  <alias name="defaultTmaPolicyNameTooltipRenderer" alias="tmaPolicyNameTooltipRenderer"/>
+    <bean id="defaultTmaPolicyNameTooltipRenderer"
+          class="de.hybris.platform.b2ctelcobackoffice.renderers.TmaPolicyNameTooltipRenderer">
+        <constructor-arg name="labelService" ref="labelService"/>
+    </bean>
+
+    <alias name="defaultTmaPolicyConditionsRenderer" alias="tmaPolicyConditionsRenderer"/>
+    <bean id="defaultTmaPolicyConditionsRenderer"
+          class="de.hybris.platform.b2ctelcobackoffice.renderers.TmaPolicyConditionsRenderer">
+    </bean>
+
+	<alias name="defaultTmaPoEditorReferenceSearchFacade" alias="tmaPoEditorReferenceSearchFacade"/>
+    <bean id="defaultTmaPoEditorReferenceSearchFacade" class="de.hybris.platform.b2ctelcobackoffice.search.TmaPoEditorReferenceSearchFacade">
+		<constructor-arg name="tmaPoService" ref="tmaPoService" />
+		<constructor-arg name="configurationService" ref="configurationService" />
+    </bean>
+
+    <alias name="defaultTmaPriceRowPopSearchFacade" alias="tmaPriceRowPopSearchFacade"/>
+    <bean id="defaultTmaPriceRowPopSearchFacade" parent="backofficeReferenceEditorSearchFacade"
+          class="de.hybris.platform.b2ctelcobackoffice.search.TmaPriceRowPopSearchFacade">
+        <constructor-arg name="tmaPopService" ref="tmaPopService"/>
+    </bean>
+
+    <alias name="defaultTmaPopChildrenSearchFacade" alias="tmaPopChildrenSearchFacade"/>
+    <bean id="defaultTmaPopChildrenSearchFacade" parent="backofficeReferenceEditorSearchFacade"
+          class="de.hybris.platform.b2ctelcobackoffice.search.TmaPopChildrenSearchFacade">
+        <constructor-arg name="tmaPopService" ref="tmaPopService"/>
+        <constructor-arg name="productUsageSpecService" ref="tmaProductUsageSpecService"/>
+        <constructor-arg name="pscvService" ref="tmaPscvService"/>
+    </bean>
+
+    <alias name="defaultTmaAbstractPopEditorSearchFacade" alias="tmaAbstractPopEditorSearchFacade"/>
+    <bean id="defaultTmaAbstractPopEditorSearchFacade" abstract="true" parent="backofficeReferenceEditorSearchFacade"
+          class="de.hybris.platform.b2ctelcobackoffice.search.TmaAbstractPopEditorSearchFacade">
+        <constructor-arg name="tmaPopService" ref="tmaPopService"/>
+    </bean>
+
+    <alias name="defaultTmaPopProdUsageSpecSearchFacade" alias="tmaPopProdUsageSpecSearchFacade"/>
+    <bean id="defaultTmaPopProdUsageSpecSearchFacade" parent="tmaAbstractPopEditorSearchFacade"
+          class="de.hybris.platform.b2ctelcobackoffice.search.TmaPopProdUsageSpecSearchFacade">
+        <constructor-arg name="productUsageSpecService" ref="tmaProductUsageSpecService"/>
+    </bean>
+
+    <alias name="defaultTmaPopPscvEditorSearchFacade" alias="tmaPopPscvEditorSearchFacade"/>
+    <bean id="defaultTmaPopPscvEditorSearchFacade" parent="tmaAbstractPopEditorSearchFacade"
+          class="de.hybris.platform.b2ctelcobackoffice.search.TmaPopPscvEditorSearchFacade">
+        <constructor-arg name="pscvService" ref="tmaPscvService"/>
+    </bean>
+
+    <alias name="defaultTmaBpoChildrenEditorSearchFacade" alias="tmaBpoChildrenEditorSearchFacade"/>
+    <bean id="defaultTmaBpoChildrenEditorSearchFacade"
+          class="de.hybris.platform.b2ctelcobackoffice.search.TmaBpoChildrenEditorSearchFacade"/>
+
+    <alias name="defaultTmaFixedBpoChildrenSearchFacade" alias="tmaFixedBpoChildrenSearchFacade"/>
+    <bean id="defaultTmaFixedBpoChildrenSearchFacade" parent="backofficeReferenceEditorSearchFacade"
+          class="de.hybris.platform.b2ctelcobackoffice.search.TmaFixedBpoChildrenSearchFacade">
+        <constructor-arg name="tmaPoService" ref="tmaPoService"/>
+    </bean>
+
+</beans>
+
+
+
+
+
+
+

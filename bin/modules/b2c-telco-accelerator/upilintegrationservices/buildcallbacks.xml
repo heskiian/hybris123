@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<!--
+ All hybris buildcallbacks.xml macrodefinitions:
+ 
+ Build/Documentation
+ 
+	 before/after ant macro "clean"
+		 <macrodef name="upilintegrationservices_before_clean"/>
+		 <macrodef name="upilintegrationservices_after_clean"/>
+	 
+	 before/after ant macro "build"
+		 <macrodef name="upilintegrationservices_before_build"/>
+		 <macrodef name="upilintegrationservices_after_build"/>
+		 
+	 before/after ant macro "compile_core" - the core module of the extension
+		 <macrodef name="upilintegrationservices_before_compile_core">
+		 <macrodef name="upilintegrationservices_after_compile_core">
+	 
+	 before/after ant macro "compile_web" - the web module of the extension
+		 <macrodef name="upilintegrationservices_before_compile_web" />
+		 <macrodef name="upilintegrationservices_after_compile_web" />
+	 
+	 before/after ant macro "compile_hmc" - the hmc module of the extension
+		 <macrodef name="upilintegrationservices_before_compile_hmc" />
+		 <macrodef name="upilintegrationservices_after_compile_hmc" />
+ 
+ Preparing extension
+ 
+	 will be called in the beginning of the ant call and only once (also when using multiple 
+	 ant targets e.g. ant build yunittest)	
+		 <macrodef name="upilintegrationservices_only_once_prepare"/>
+ 
+ Creating ear module/production
+ 
+	 before/after ant macro "ear"
+		 <macrodef name="upilintegrationservices_before_ear"/>
+		 <macrodef name="upilintegrationservices_after_ear"/>
+	 before/after ant macro "production" - for hybris server only
+		 <macrodef name="upilintegrationservices_before_production" />
+		 <macrodef name="upilintegrationservices_after_production" />
+ 
+ JUnit Test
+ 
+	 before/after ant macro "yunitinit" 
+		 <macrodef name="upilintegrationservices_before_yunitinit" />
+		 <macrodef name="upilintegrationservices_after_yunitinit" />
+	 
+	 before/after ant macro "yunit"
+		 <macrodef name="upilintegrationservices_before_yunit" />
+		 <macrodef name="upilintegrationservices_after_yunit" /> 
+		 
+ Distribution package
+ 
+ 	 before/after ant macro "dist" - internal target; only for use when platform is available in source code
+		 <macrodef name="upilintegrationservices_after_dist"/>
+		 <macrodef name="upilintegrationservices_before_dist"/>
+	 
+	 before/after ant macro "dist_copy" - internal target; only for use when platform is available in source code
+		 <macrodef name="upilintegrationservices_before_dist_copy"/>
+		 <macrodef name="upilintegrationservices_after_dist_copy"/>
+		  
+ 	 With these filters you can override the default extension filters defined in platform/resources/ant/dist/filtersets.xml
+ 	  	 <patternset id="extension.upilintegrationservices.binary.filter">
+ 	  	  	 <patternset refid="extension.filter" />
+ 	  	  	 <exclude name="**/*-source.jar" />
+ 	  	 </patternset>
+ 	  	 <patternset id="extension.upilintegrationservices.source.filter">
+ 	  	  	 <exclude name="**/bin/**" />
+ 	  	 </patternset>
+     With this filter you can decide what should be excluded from development zip.
+ 	  	 <patternset id="extension.upilintegrationservices.devzip.filter">
+ 	  	 Include all files from extension.source.filter.
+ 	  	     <patternset refid="extension.source.filter" />
+         Exclude unwanted files.
+ 	  	  	 <exclude name="lib/exclude-me.jar" />
+ 	  	 </patternset>
+ 
+-->
+<project name="upilintegrationservices_buildcallbacks">
+
+	<macrodef name="extension_build_number">
+		<attribute name="extname"/>
+		<attribute name="destdir"/>
+
+		<sequential>
+			<!-- Just leave the file as it is declared into the custom extension-->
+		</sequential>
+	</macrodef>
+
+	<macrodef name="upilintegrationservices_before_build">
+		<!--<attribute name="extname"/>-->
+		<!--<attribute name="destdir"/>-->
+
+		<sequential>
+			<compile_pojogen_custom_class/>
+			<generate_upiledmx-pojos/>
+		</sequential>
+	</macrodef>
+
+	<!--
+	      Called whenever 'ant ear' is used. this callback can be used to modify the content of the ear file
+	       ${ear.path}: 			path to ear
+	   -->
+	<macrodef name="upilintegrationservices_before_ear">
+		<sequential>
+
+			<!-- you can do anything before the EAR file is being packed -->
+
+		</sequential>
+	</macrodef>
+
+	<macrodef name="compile_pojogen_custom_class">
+		<attribute name="baseDir" default="${ext.upilintegrationservices.path}"/>
+		<attribute name="platformDir" default="../platform"/>
+		<attribute name="platformLibDir" default="@{platformDir}/ext/core/lib"/>
+		
+		<sequential>
+			<if>
+				<not>
+					<available file="@{baseDir}/lib/upiledmx-custom-pojogen.jar"/>
+				</not>
+				<then>
+					<if>
+						<not>
+							<available file="@{baseDir}/gensrc/pojogen"/>
+						</not>
+						<then>
+							<mkdir dir="@{baseDir}/gensrc/pojogen"/>
+						</then>
+					</if>
+
+					<javacompile destdir="@{baseDir}/gensrc/pojogen">
+						<additionalclasspath>
+							<path>
+								<fileset dir="@{baseDir}/lib">
+									<include name="*.jar"/>
+								</fileset>
+							</path>
+						</additionalclasspath>
+						<source>
+							<pathelement path="@{baseDir}/src/de/hybris/platform/upilintegrationservices/odata/feed/edmx"/>
+						</source>
+					</javacompile>
+					
+					<jar destfile="@{baseDir}/lib/upiledmx-custom-pojogen.jar" >
+						<fileset dir="@{baseDir}/gensrc/pojogen" includes="**/*.class"/>
+						<zipgroupfileset dir="@{baseDir}/lib">
+								<include name="**/*.jar" />
+						</zipgroupfileset>
+						<zipgroupfileset dir="@{platformLibDir}">
+							<include name="slf4j-api-*.jar"/>
+						</zipgroupfileset>
+						<zipgroupfileset dir="@{platformLibDir}">
+							<include name="commons-io-*.jar"/>
+						</zipgroupfileset>
+						<zipgroupfileset dir="@{platformLibDir}">
+							<include name="commons-lang-*.jar"/>
+						</zipgroupfileset>
+						<zipgroupfileset dir="@{platformLibDir}">
+							<include name="guava-*.jar"/>
+						</zipgroupfileset>
+						<manifest>
+							<attribute name="Main-Class" value="de.hybris.platform.upilintegrationservices.odata.feed.edmx.generate.impl.UpilEdmxPojoGenerateService"/>
+						</manifest>
+					</jar>
+				</then>
+			</if>
+		</sequential>
+	</macrodef>
+
+	<target name="generate_pojos" description="Generates edmx pojos" >
+		<generate_upiledmx-pojos forced="true" />
+	</target>
+
+	<macrodef name="generate_upiledmx-pojos">
+		<attribute name="baseDir" default="${ext.upilintegrationservices.path}"/>
+		<attribute name="metaDataFileDir" default="${ext.upilintegrationservices.path}/resources/upilintegrationservices/edmxData"/>
+		<attribute name="forced" default="false" />
+		<sequential>
+			<fileset id="edmxFiles" dir="@{metaDataFileDir}" includes="*.xml"/>
+			<property name="edmxFiles" refid="edmxFiles"/>
+			<for param="file" list="${edmxFiles}" delimiter=";">
+				<sequential>
+					<generate_edmxapi templateDir="@{metaDataFileDir}"  file="@{file}"/>
+				</sequential>
+			</for>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="generate_edmxapi">
+		<attribute name="file"/>
+		<attribute name="templateDir"/>
+		<attribute name="defaultPackage" default="de.hybris.platform.upilintegrationservices"/>
+		<attribute name="baseDir" default="${ext.upilintegrationservices.path}"/>
+		<sequential>
+			<path id="utility_custom">
+				<fileset dir="@{baseDir}/lib" includes="*"/>
+			</path>
+			<property name="classpath" refid="utility_custom"/>
+			<java jar="@{baseDir}/lib/upiledmx-custom-pojogen.jar" fork="true" failonerror="true">
+				<arg line="generate"/>
+				<arg line="-l de.hybris.platform.upilintegrationservices.odata.feed.edmx.generate.impl.UpilEdmxPojoGenerateService"/>
+				<arg line="@{baseDir}/gensrc/ @{templateDir}/@{file}"/>
+			</java>
+		</sequential>
+	</macrodef>
+
+</project>

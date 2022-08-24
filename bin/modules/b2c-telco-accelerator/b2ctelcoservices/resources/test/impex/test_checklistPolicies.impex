@@ -1,0 +1,114 @@
+# ImpEx for Importing sample checklist policies
+
+$catalog-id = b2ctelcoProductCatalog
+$catalog-version = Online
+$catalogVersion = catalogversion(catalog(id[default = $catalog-id]), version[default = $catalog-version])[unique = true, default = $catalog-id:$catalog-version]
+$lang = en
+$supercategories = supercategories(code, $catalogVersion)
+$approved = approvalstatus(code)[default = 'approved']
+
+#################################################################################################
+# Catalog and catalog version
+#################################################################################################
+
+INSERT_UPDATE Catalog; id[unique = true]
+; $catalog-id
+
+INSERT_UPDATE CatalogVersion; catalog(id)[unique = true]; version[unique = true]
+; $catalog-id ; $catalog-version
+
+#################################################################################################
+# Product Specifications and Products
+#################################################################################################
+INSERT_UPDATE TmaProductSpecCharacteristic; id[unique = true]; $catalogVersion; name[lang = $lang]; description[lang = $lang]                              ; configurable[default = false]
+                                          ; msisdn           ;                ; MSISDN            ; MSISDN is a number uniquely identifying a subscription ; true
+
+INSERT_UPDATE Unit; unitType[unique = true]; code[unique = true]; name[lang = en]; conversion;;;;;
+; pieces ; pieces ; pieces ; 1 ; ; ; ; ;
+
+INSERT_UPDATE TmaAtomicProductSpecification; id[unique = true]; name[lang = $lang]; description[lang = $lang]; productSpecCharacteristics(id, $catalogVersion); $catalogVersion
+; salsa    ; salsa    ; salsa - Voice       ; msisdn ; ;
+; tapas    ; tapas    ; tapas - Voice       ;        ; ;
+; sombrero ; sombrero ; sombrero - Internet ;        ; ;
+
+INSERT_UPDATE TmaSimpleProductOffering; code[unique = true]; $supercategories; productSpecification(id, $catalogVersion); $approved; $catalogVersion; unit(code);
+; salsa_s           ; ; salsa    ; ; ;
+; internet_for_home ; ;          ; ; ; pieces
+; sombrero_s        ; ; sombrero ; ; ;
+
+#################################################################################################
+# Policy 1 (Journey Checklist for service ability):
+# A customer needs to perform a serviceability ( gsm coverage in this case ) check if
+# he purchases a Product Offering specified by the "sombrero" Product Specification
+#################################################################################################
+INSERT_UPDATE TmaPsPolicyStatement; code[unique = true]; min; max; productSpecification(id, $catalogVersion); $catalogVersion
+; sombrero_specification ; 1 ; ; sombrero
+
+INSERT_UPDATE TmaAtomicPolicyCondition; code[unique = true]; statement(code, $catalogVersion); $catalogVersion
+; has_sombrero_specification ; sombrero_specification
+
+INSERT_UPDATE TmaPsChecklistPolicyStatement; code[unique = true]; type(code); $catalogVersion; productSpecifications(id, $catalogVersion)
+; serviceability_check ; INSTALLATION_ADDRESS ; ; sombrero
+
+INSERT_UPDATE TmaPolicyAction; code[unique = true]; statement(code, $catalogVersion); actionType(code); $catalogVersion
+; requires_serviceability_check ; serviceability_check ; CHECKLIST
+
+INSERT_UPDATE TmaCompatibilityPolicy; code[unique = true]; conditions(code, $catalogVersion); actions(code, $catalogVersion); conditionsEvaluatorType(code); $catalogVersion
+; sombrero_requires_serviceability_check ; has_sombrero_specification ; requires_serviceability_check ; OR
+
+#################################################################################################
+# Policy 2 (Journey Checklist for MSISDN selection):
+# A customer needs to choose a MSISDN when buying new salsa service plans
+#################################################################################################
+INSERT_UPDATE TmaPsPolicyStatement; code[unique = true]; min; max; productSpecification(id, $catalogVersion); $catalogVersion
+; salsa_plans ; 1 ; ; salsa
+
+INSERT_UPDATE TmaAtomicPolicyCondition; code[unique = true]; statement(code, $catalogVersion); $catalogVersion
+; has_salsa_specification ; salsa_plans
+
+INSERT_UPDATE TmaProcessTypesPolicyStatement; code[unique = true]; processes(code); $catalogVersion
+; acquisition_statement ; ACQUISITION
+
+INSERT_UPDATE TmaAtomicPolicyCondition; code[unique = true]; statement(code, $catalogVersion); $catalogVersion
+; is_acquisition_flow ; acquisition_statement
+
+INSERT_UPDATE TmaCompositePolicyCondition; code[unique = true]; children(code, $catalogVersion); conditionsEvaluatorType(code); $catalogVersion
+; acq_and_salsa_plan ; is_acquisition_flow, has_salsa_specification ; AND ;
+
+INSERT_UPDATE TmaConfigurablePscvPolicyStatement; code[unique = true]; productSpecCharacteristic(id, $catalogVersion); type(code); $catalogVersion
+; requires_msisdn ; msisdn ; MSISDN ;
+
+INSERT_UPDATE TmaPolicyAction; code[unique = true]; statement(code, $catalogVersion); actionType(code); $catalogVersion
+; requires_msisdn_selection ; requires_msisdn ; CHECKLIST
+
+INSERT_UPDATE TmaCompatibilityPolicy; code[unique = true]; conditions(code, $catalogVersion); actions(code, $catalogVersion); conditionsEvaluatorType(code); $catalogVersion
+; gsm_requires_msisdn_selection ; acq_and_salsa_plan ; requires_msisdn_selection ; OR
+
+#################################################################################################
+# Policy 3 (Journey Checklist for appointment making):
+# A customer needs to make an appointment for installation when relocating product internet_for_home
+#################################################################################################
+
+INSERT_UPDATE TmaPoPolicyStatement; code[unique = true]; min; max; productOffering(code, $catalogVersion); $catalogVersion
+; internet_for_home_statement ; 1 ; ; internet_for_home
+
+INSERT_UPDATE TmaAtomicPolicyCondition; code[unique = true]; statement(code, $catalogVersion); $catalogVersion
+; internet_for_home_is_present ; internet_for_home_statement
+
+INSERT_UPDATE TmaProcessTypesPolicyStatement; code[unique = true]; processes(code); $catalogVersion
+; relocation_statement ; RELOCATION
+
+INSERT_UPDATE TmaAtomicPolicyCondition; code[unique = true]; statement(code, $catalogVersion); $catalogVersion
+; is_relocation_flow ; relocation_statement
+
+INSERT_UPDATE TmaCompositePolicyCondition; code[unique = true]; children(code, $catalogVersion); conditionsEvaluatorType(code); $catalogVersion
+; acq_and_internet_for_home ; is_relocation_flow, internet_for_home_is_present ; AND ;
+
+INSERT_UPDATE TmaPoChecklistPolicyStatement; code[unique = true]; type(code); $catalogVersion; productOfferings(code, $catalogVersion)
+; do_appointment ; APPOINTMENT ; ; internet_for_home
+
+INSERT_UPDATE TmaPolicyAction; code[unique = true]; statement(code, $catalogVersion); actionType(code); $catalogVersion
+; requires_do_appointment ; do_appointment ; CHECKLIST
+
+INSERT_UPDATE TmaCompatibilityPolicy; code[unique = true]; conditions(code, $catalogVersion); actions(code, $catalogVersion); conditionsEvaluatorType(code); $catalogVersion
+; acq_and_internet_for_home_req_appointment ; acq_and_internet_for_home ; requires_do_appointment ; OR

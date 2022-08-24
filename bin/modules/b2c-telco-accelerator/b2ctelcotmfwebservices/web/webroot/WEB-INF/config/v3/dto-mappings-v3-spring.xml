@@ -1,0 +1,1262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~  Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <!-- ### START definition of atribute mappers for entity mapper tmaPoEntityMapperV3 ### -->
+    <alias name="defaultTmaPoAttachmentAttributeMapperV3" alias="tmaPoAttachmentAttributeMapperV3"/>
+    <bean id="defaultTmaPoAttachmentAttributeMapperV3"
+          class=" de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productoffering.PoAttachmentAttributeMapper">
+        <property name="sourceAttributeName" value="images"/>
+        <property name="targetAttributeName" value="attachment"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultTmaPoAtTypeAttributeMapperV3" alias="tmaPoAtTypeAttributeMapperV3"/>
+    <bean id="defaultTmaPoAtTypeAttributeMapperV3"
+          class=" de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productoffering.PoAtTypeAttributeMapper">
+        <property name="sourceAttributeName" value="itemType"/>
+        <property name="targetAttributeName" value="atType"/>
+        <constructor-arg name="productOfferingType" ref="productOfferingTypeDtoMap"/>
+    </bean>
+
+    <alias name="defaultTmaPoAtBaseTypeAttributeMapperV3" alias="tmaPoAtBaseTypeAttributeMapperV3"/>
+    <bean id="defaultTmaPoAtBaseTypeAttributeMapperV3"
+          class=" de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productoffering.PoAtBaseTypeAttributeMapper">
+        <property name="sourceAttributeName" value="code"/>
+        <property name="targetAttributeName" value="atBaseType"/>
+    </bean>
+
+    <alias name="defaultTmaPoBaseProductAttributeMapperV3" alias="tmaPoBaseProductAttributeMapperV3"/>
+    <bean id="defaultTmaPoBaseProductAttributeMapperV3"
+          class=" de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productoffering.PoBaseProductAttributeMapper">
+        <property name="sourceAttributeName" value="baseProduct"/>
+        <property name="targetAttributeName" value="baseProduct"/>
+    </bean>
+
+    <alias name="defaultTmaPoBundledPoAttributeMapperV3" alias="tmaPoBundledPoAttributeMapperV3"/>
+    <bean id="defaultTmaPoBundledPoAttributeMapperV3"
+          class=" de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productoffering.PoBundledPoAttributeMapper">
+        <property name="sourceAttributeName" value="children"/>
+        <property name="targetAttributeName" value="bundledProductOffering"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="productOfferFacade" ref="tmaProductOfferFacade"/>
+    </bean>
+
+    <alias name="defaultTmaPoCategoryAttributeMapperV3" alias="tmaPoCategoryAttributeMapperV3"/>
+    <bean id="defaultTmaPoCategoryAttributeMapperV3"
+          class=" de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productoffering.PoCategoryAttributeMapper">
+        <property name="sourceAttributeName" value="categories"/>
+        <property name="targetAttributeName" value="category"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultTmaPoCavuAttributeMapperV3" alias="tmaPoCavuAttributeMapperV3"/>
+    <bean id="defaultTmaPoCavuAttributeMapperV3"
+          class=" de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productoffering.PoCavuAttributeMapper">
+        <property name="sourceAttributeName" value="classificationData"/>
+        <property name="targetAttributeName" value="classificationAttributeValueUse"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultTmaPoGroupAttributeMapperV3" alias="tmaPoGroupAttributeMapperV3"/>
+    <bean id="defaultTmaPoGroupAttributeMapperV3"
+          class=" de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productoffering.PoGroupAttributeMapper">
+        <property name="sourceAttributeName" value="offeringGroups"/>
+        <property name="targetAttributeName" value="offeringGroup"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="productOfferFacade" ref="tmaProductOfferFacade"/>
+    </bean>
+
+    <alias name="defaultTmaPoHrefAttributeMapperV3" alias="tmaPoHrefAttributeMapperV3"/>
+    <bean id="defaultTmaPoHrefAttributeMapperV3"
+          class=" de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productoffering.PoHrefAttributeMapper">
+        <property name="sourceAttributeName" value="code"/>
+        <property name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultTmaPoIdAttributeMapperV3" alias="tmaPoIdAttributeMapperV3"/>
+    <bean id="defaultTmaPoIdAttributeMapperV3"
+          class=" de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productoffering.PoIdAttributeMapper">
+        <property name="sourceAttributeName" value="code"/>
+        <property name="targetAttributeName" value="id"/>
+    </bean>
+
+    <alias name="defaultTmaPoIsBundleAttributeMapperV3" alias="tmaPoIsBundleAttributeMapperV3"/>
+    <bean id="defaultTmaPoIsBundleAttributeMapperV3"
+          class=" de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productoffering.PoIsBundleAttributeMapper">
+        <property name="sourceAttributeName" value="code"/>
+        <property name="targetAttributeName" value="isBundle"/>
+        <constructor-arg name="productOfferFacade" ref="tmaProductOfferFacade"/>
+    </bean>
+
+    <alias name="defaultTmaPoIsSellableAttributeMapperV3" alias="tmaPoIsSellableAttributeMapperV3"/>
+    <bean id="defaultTmaPoIsSellableAttributeMapperV3"
+          class=" de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productoffering.PoIsSellableAttributeMapper">
+        <property name="sourceAttributeName" value="code"/>
+        <property name="targetAttributeName" value="isSellable"/>
+    </bean>
+
+    <alias name="defaultTmaPoLastUpdateAttributeMapperV3" alias="tmaPoLastUpdateAttributeMapperV3"/>
+    <bean id="defaultTmaPoLastUpdateAttributeMapperV3"
+          class=" de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productoffering.PoLastUpdateAttributeMapper">
+        <property name="sourceAttributeName" value="modifiedTime"/>
+        <property name="targetAttributeName" value="lastUpdate"/>
+    </bean>
+
+    <alias name="defaultTmaPoLifecycleStatusAttributeMapperV3" alias="tmaPoLifecycleStatusAttributeMapperV3"/>
+    <bean id="defaultTmaPoLifecycleStatusAttributeMapperV3"
+          class=" de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productoffering.PoLifecycleStatusAttributeMapper">
+        <property name="sourceAttributeName" value="approvalStatus"/>
+        <property name="targetAttributeName" value="lifecycleStatus"/>
+    </bean>
+
+    <alias name="defaultTmaPoParentBpoAttributeMapperV3" alias="tmaPoParentBpoAttributeMapperV3"/>
+    <bean id="defaultTmaPoParentBpoAttributeMapperV3"
+          class=" de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productoffering.PoParentBpoAttributeMapper">
+        <property name="sourceAttributeName" value="parents"/>
+        <property name="targetAttributeName" value="parentBundleProductOffering"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultTmaPoPriceAttributeMapperV3" alias="tmaPoPriceAttributeMapperV3"/>
+    <bean id="defaultTmaPoPriceAttributeMapperV3"
+          class=" de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productoffering.PoPriceAttributeMapper">
+        <property name="sourceAttributeName" value="productOfferingPrices"/>
+        <property name="targetAttributeName" value="productOfferingPrice"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultTmaPoPriceContextAttributeMapperV3" alias="tmaPoPriceContextAttributeMapperV3"/>
+    <bean id="defaultTmaPoPriceContextAttributeMapperV3"
+          class=" de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productoffering.PoPriceContextAttributeMapper">
+        <property name="sourceAttributeName" value="prices"/>
+        <property name="targetAttributeName" value="priceContext"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultTmaPoPsAttributeMapperV3" alias="tmaPoPsAttributeMapperV3"/>
+    <bean id="defaultTmaPoPsAttributeMapperV3"
+          class=" de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productoffering.PoPsAttributeMapper">
+        <property name="sourceAttributeName" value="productSpecification"/>
+        <property name="targetAttributeName" value="productSpecification"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultTmaPoPscvuAttributeMapperV3" alias="tmaPoPscvuAttributeMapperV3"/>
+    <bean id="defaultTmaPoPscvuAttributeMapperV3"
+          class=" de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productoffering.PoPscvuAttributeMapper">
+        <property name="sourceAttributeName" value="productSpecCharValueUses"/>
+        <property name="targetAttributeName" value="prodSpecCharValueUse"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultTmaPoRatingAttributeMapperV3" alias="tmaPoRatingAttributeMapperV3"/>
+    <bean id="defaultTmaPoRatingAttributeMapperV3"
+          class=" de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productoffering.PoRatingAttributeMapper">
+        <property name="sourceAttributeName" value="averageRating"/>
+        <property name="targetAttributeName" value="rating"/>
+    </bean>
+
+    <alias name="defaultTmaPoSchemaLocationAttributeMapperV3" alias="tmaPoSchemaLocationAttributeMapperV3"/>
+    <bean id="defaultTmaPoSchemaLocationAttributeMapperV3"
+          class=" de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productoffering.PoSchemaLocationAttributeMapper">
+        <property name="sourceAttributeName" value="code"/>
+        <property name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+
+    <alias name="defaultTmaPoValidForAttributeMapperV3" alias="tmaPoValidForAttributeMapperV3"/>
+    <bean id="defaultTmaPoValidForAttributeMapperV3"
+          class=" de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productoffering.PoValidForAttributeMapper">
+        <property name="sourceAttributeName" value="onlineDate"/>
+        <property name="targetAttributeName" value="validFor"/>
+    </bean>
+
+    <alias name="defaultTmaPoVariantOptionAttributeMapperV3" alias="tmaPoVariantOptionAttributeMapperV3"/>
+    <bean id="defaultTmaPoVariantOptionAttributeMapperV3"
+          class=" de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productoffering.PoVariantOptionAttributeMapper">
+        <property name="sourceAttributeName" value="variantMatrix"/>
+        <property name="targetAttributeName" value="variantOption"/>
+    </bean>
+
+    <alias name="defaultTmaPoVariantPoAttributeMapperV3" alias="tmaPoVariantPoAttributeMapperV3"/>
+    <bean id="defaultTmaPoVariantPoAttributeMapperV3"
+          class=" de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productoffering.PoVariantPoAttributeMapper">
+        <property name="sourceAttributeName" value="variantMatrix"/>
+        <property name="targetAttributeName" value="variantProductOffering"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultTmaPoMediaAttachmentAttributeMapperV3" alias="tmaPoMediaAttachmentAttributeMapperV3"/>
+	<bean id="defaultTmaPoMediaAttachmentAttributeMapperV3"
+		  class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productoffering.PoMediaAttachmentAttributeMapper">
+		<property name="sourceAttributeName" value="dataSheet"/>
+		<property name="targetAttributeName" value="attachment"/>
+		<constructor-arg name="mapperFacade" ref="dataMapper"/>
+	</bean>
+    <!-- ### END definition of atribute mappers for entity mapper tmaPoEntityMapperV3 ### -->
+
+    <!-- ### START definition of atribute mappers for entity mapper tmaPoPriceEntityMapperV3 ### -->
+    <alias name="defaultTmaPopHrefAttributeMapperV3" alias="tmaPopHrefAttributeMapperV3"/>
+    <bean id="defaultTmaPopHrefAttributeMapperV3"
+          class=" de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productofferingprice.PopHrefAttributeMapper">
+        <property name="sourceAttributeName" value="id"/>
+        <property name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultTmaPopSchemaLocationAttributeMapperV3" alias="tmaPopSchemaLocationAttributeMapperV3"/>
+    <bean id="defaultTmaPopSchemaLocationAttributeMapperV3"
+          class=" de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productofferingprice.PopSchemaLocationAttributeMapper">
+        <property name="sourceAttributeName" value="id"/>
+        <property name="targetAttributeName" value="schemaLocation"/>
+    </bean>
+
+    <alias name="defaultTmaPopPriceEventAttributeMapperV3" alias="tmaPopPriceEventAttributeMapperV3"/>
+    <bean id="defaultTmaPopPriceEventAttributeMapperV3"
+          class=" de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productofferingprice.PopPriceEventAttributeMapper">
+        <property name="sourceAttributeName" value="priceEvent"/>
+        <property name="targetAttributeName" value="priceEvent"/>
+    </bean>
+
+    <alias name="defaultTmaPopPriceAttributeMapperV3" alias="tmaPopPriceAttributeMapperV3"/>
+    <bean id="defaultTmaPopPriceAttributeMapperV3"
+          class=" de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productofferingprice.PopPriceAttributeMapper">
+        <property name="sourceAttributeName" value="price"/>
+        <property name="targetAttributeName" value="price"/>
+    </bean>
+
+    <alias name="defaultTmaPopPricingLogicAlgorithmAttributeMapperV3" alias="tmaPopPricingLogicAlgorithmAttributeMapperV3"/>
+    <bean id="defaultTmaPopPricingLogicAlgorithmAttributeMapperV3"
+          class=" de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productofferingprice.PopPricingLogicAlgorithmAttributeMapper">
+        <property name="sourceAttributeName" value="pla"/>
+        <property name="targetAttributeName" value="pricingLogicAlgorithm"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <!-- Map between source class and priceType for TmaProductOfferingPrice subtypes -->
+    <util:map id="productOfferingPriceTypeDtoMap" map-class="java.util.HashMap">
+        <entry key="TmaOneTimeProdOfferPriceChargeData" value="oneTime"/>
+        <entry key="TmaUsageProdOfferPriceChargeData" value="usage"/>
+        <entry key="TmaRecurringProdOfferPriceChargeData" value="recurring"/>
+        <entry key="TmaDiscountProdOfferPriceAlterationData" value="discount"/>
+        <entry key="TmaAllowanceProdOfferPriceAlterationData" value="allowance"/>
+    </util:map>
+
+    <alias name="defaultTmaPopPriceTypeAttributeMapperV3" alias="tmaPopPriceTypeAttributeMapperV3"/>
+    <bean id="defaultTmaPopPriceTypeAttributeMapperV3"
+          class=" de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productofferingprice.PopPriceTypeAttributeMapper">
+        <property name="sourceAttributeName" value="id"/>
+        <property name="targetAttributeName" value="priceType"/>
+        <constructor-arg name="productOfferingPriceTypeDtoMap" ref="productOfferingPriceTypeDtoMap"/>
+    </bean>
+
+    <alias name="defaultTmaPopIsBundleAttributeMapperV3" alias="tmaPopIsBundleAttributeMapperV3"/>
+    <bean id="defaultTmaPopIsBundleAttributeMapperV3"
+          class=" de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productofferingprice.PopIsBundleAttributeMapper">
+        <property name="sourceAttributeName" value="id"/>
+        <property name="targetAttributeName" value="isBundle"/>
+    </bean>
+
+    <alias name="defaultTmaPopUsageUnitAttributeMapperV3" alias="tmaPopUsageUnitAttributeMapperV3"/>
+    <bean id="defaultTmaPopUsageUnitAttributeMapperV3"
+          class=" de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productofferingprice.PopUsageUnitAttributeMapper">
+        <property name="sourceAttributeName" value="usageUnit"/>
+        <property name="targetAttributeName" value="usageUnit"/>
+    </bean>
+
+    <alias name="defaultTmaPopUsageSpecificationAttributeMapperV3" alias="tmaPopUsageSpecificationAttributeMapperV3"/>
+    <bean id="defaultTmaPopUsageSpecificationAttributeMapperV3"
+          class=" de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productofferingprice.PopUsageSpecificationAttributeMapper">
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <property name="sourceAttributeName" value="productUsageSpecification"/>
+        <property name="targetAttributeName" value="productUsageSpecification"/>
+    </bean>
+
+    <alias name="defaultTmaPopUsageChargeTypeAttributeMapperV3" alias="tmaPopUsageChargeTypeAttributeMapperV3"/>
+    <bean id="defaultTmaPopUsageChargeTypeAttributeMapperV3"
+          class=" de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productofferingprice.PopUsageChargeTypeAttributeMapper">
+        <property name="sourceAttributeName" value="usageChargeType"/>
+        <property name="targetAttributeName" value="usageChargeType"/>
+    </bean>
+
+    <alias name="defaultTmaPopBundledPopAttributeMapperV3" alias="tmaPopBundledPopAttributeMapperV3"/>
+    <bean id="defaultTmaPopBundledPopAttributeMapperV3"
+          class=" de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productofferingprice.PopBundledPopAttributeMapper">
+        <property name="sourceAttributeName" value="children"/>
+        <property name="targetAttributeName" value="bundledPop"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultTmaPopPriceCycleAttributeMapperV3" alias="tmaPopPriceCycleAttributeMapperV3"/>
+    <bean id="defaultTmaPopPriceCycleAttributeMapperV3"
+          class=" de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productofferingprice.PopPriceCycleAttributeMapper">
+        <property name="sourceAttributeName" value="cycle"/>
+        <property name="targetAttributeName" value="cycle"/>
+    </bean>
+
+    <alias name="defaultTmaPopDiscountCycleAttributeMapperV3" alias="tmaPopDiscountCycleAttributeMapperV3"/>
+    <bean id="defaultTmaPopDiscountCycleAttributeMapperV3"
+          class=" de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productofferingprice.PopDiscountCycleAttributeMapper">
+        <property name="sourceAttributeName" value="cycle"/>
+        <property name="targetAttributeName" value="cycle"/>
+    </bean>
+
+    <alias name="defaultTmaPopDiscountPercentageAttributeMapperV3" alias="tmaPopDiscountPercentageAttributeMapperV3"/>
+    <bean id="defaultTmaPopDiscountPercentageAttributeMapperV3"
+          class=" de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productofferingprice.PopDiscountPercentageAttributeMapper">
+        <property name="sourceAttributeName" value="isPercentage"/>
+        <property name="targetAttributeName" value="percentage"/>
+    </bean>
+
+    <alias name="defaultTmaPopAllowanceTypeAttributeMapperV3" alias="tmaPopAllowanceTypeAttributeMapperV3"/>
+    <bean id="defaultTmaPopAllowanceTypeAttributeMapperV3"
+          class=" de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productofferingprice.PopAllowanceTypeAttributeMapper">
+        <property name="sourceAttributeName" value="type"/>
+        <property name="targetAttributeName" value="priceType"/>
+        <constructor-arg name="productOfferingPriceTypeDtoMap" ref="productOfferingPriceTypeDtoMap"/>
+    </bean>
+
+    <alias name="defaultTmaPopPscvuAttributeMapperV3" alias="tmaPopPscvuAttributeMapperV3"/>
+    <bean id="defaultTmaPopPscvuAttributeMapperV3"
+          class=" de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productofferingprice.PopPscvuAttributeMapper">
+        <property name="sourceAttributeName" value="productSpecCharateristicValueUses"/>
+        <property name="targetAttributeName" value="prodSpecCharValueUse"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+    <!-- ### END definition of atribute mappers for entity mapper tmaPoPriceEntityMapperV3 ### -->
+
+    <!-- ### Start definition of attribute mappers for entity mapper tmaPriceContextEntityMapper ### -->
+
+    <alias name="defaultTmaPriceContextIdAttributeMapperV3" alias="tmaPriceContextIdAttributeMapperV3"/>
+    <bean id="defaultTmaPriceContextIdAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.pricecontext.PriceContextIdAttributeMapper">
+        <property name="sourceAttributeName" value="code"/>
+        <property name="targetAttributeName" value="id"/>
+    </bean>
+
+    <alias name="defaultTmaPriceContextProductOfferingPriceRefAttributeMapperV3"
+           alias="tmaPriceContextProductOfferingPriceRefAttributeMapperV3"/>
+    <bean id="defaultTmaPriceContextProductOfferingPriceRefAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.pricecontext.PriceContextProductOfferingPriceRefAttributeMapper">
+        <property name="sourceAttributeName" value="productOfferingPrice"/>
+        <property name="targetAttributeName" value="productOfferingPriceRef"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+
+    <alias name="defaultTmaPriceContextValidForAttributeMapperV3" alias="tmaPriceContextValidForAttributeMapperV3"/>
+    <bean id="defaultTmaPriceContextValidForAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.pricecontext.PriceContextValidForAttributeMapper">
+        <property name="sourceAttributeName" value="startDate"/>
+        <property name="targetAttributeName" value="validFor"/>
+    </bean>
+
+    <alias name="defaultTmaPriceContextSubscriptionTermAttributeMapperV3"
+           alias="tmaPriceContextSubscriptionTermAttributeMapperV3"/>
+    <bean id="defaultTmaPriceContextSubscriptionTermAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.pricecontext.PriceContextSubscriptionTermAttributeMapper">
+        <property name="sourceAttributeName" value="subscriptionTerms"/>
+        <property name="targetAttributeName" value="productOfferingTerm"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultTmaPriceContextPlaceRefAttributeMapperV3" alias="tmaPriceContextPlaceRefAttributeMapperV3"/>
+    <bean id="defaultTmaPriceContextPlaceRefAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.pricecontext.PriceContextPlaceRefAttributeMapper">
+        <property name="sourceAttributeName" value="regions"/>
+        <property name="targetAttributeName" value="placeRef"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultTmaPriceContextPoRelationshipAttributeMapperV3" alias="tmaPriceContextPoRelationshipAttributeMapperV3"/>
+    <bean id="defaultTmaPriceContextPoRelationshipAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.pricecontext.PriceContextPoRelationshipAttributeMapper">
+        <property name="sourceAttributeName" value="affectedProduct"/>
+        <property name="targetAttributeName" value="poRelationship"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultTmaPriceContextProcessTypeAttributeMapperV3" alias="tmaPriceContextProcessTypeAttributeMapperV3"/>
+    <bean id="defaultTmaPriceContextProcessTypeAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.pricecontext.PriceContextProcessTypeAttributeMapper">
+        <property name="sourceAttributeName" value="processTypes"/>
+        <property name="targetAttributeName" value="processType"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultTmaPriceContextRelatedPartyAttributeMapperV3" alias="tmaPriceContextRelatedPartyAttributeMapperV3"/>
+    <bean id="defaultTmaPriceContextRelatedPartyAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.pricecontext.PriceContextRelatedPartyAttributeMapper">
+        <property name="sourceAttributeName" value="user"/>
+        <property name="targetAttributeName" value="relatedParty"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultTmaPriceContextChannelAttributeMapperV3" alias="tmaPriceContextChannelAttributeMapperV3"/>
+    <bean id="defaultTmaPriceContextChannelAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.pricecontext.PriceContextChannelAttributeMapper">
+        <property name="sourceAttributeName" value="distributionChannels"/>
+        <property name="targetAttributeName" value="channel"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <!-- ### END definition of atribute mappers for entity mapper tmaPriceContextEntityMapper ### -->
+
+    <!-- ### START definition of atribute mappers for entity mapper tmaRelatedPartyRefEntityMapperV3 ### -->
+
+    <alias name="defaultTmaRelatedPartyRefHrefAttributeMapperV3" alias="tmaRelatedPartyRefHrefAttributeMapperV3"/>
+    <bean id="defaultTmaRelatedPartyRefHrefAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.relatedpartyref.RelatedPartyRefHrefAttributeMapper">
+        <property name="sourceAttributeName" value="uid"/>
+        <property name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultTmaRelatedPartyRefIdAttributeMapperV3" alias="tmaRelatedPartyRefIdAttributeMapperV3"/>
+    <bean id="defaultTmaRelatedPartyRefIdAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.relatedpartyref.RelatedPartyRefIdAttributeMapper">
+        <property name="sourceAttributeName" value="uid"/>
+        <property name="targetAttributeName" value="id"/>
+    </bean>
+    <!-- ### END definition of atribute mappers for entity mapper tmaRelatedPartyRefEntityMapperV3 ### -->
+
+
+    <!-- Start of Atrribute Mappers for tmaProductOfferingPriceRefEntityMapperV3 -->
+
+    <alias name="defaultTmaProductOfferingPriceRefSchemaLocationAttributeMapperV3"
+           alias="tmaProductOfferingPriceRefSchemaLocationAttributeMapperV3"/>
+    <bean id="defaultTmaProductOfferingPriceRefSchemaLocationAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productofferingpriceref.ProductOfferingPriceRefSchemaLocationAttributeMapper">
+        <property name="sourceAttributeName" value="id"/>
+        <property name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+
+    <alias name="defaultTmaProductOfferingPriceRefReferredTypeAttributeMapperV3"
+           alias="tmaProductOfferingPriceRefReferredTypeAttributeMapperV3"/>
+    <bean id="defaultTmaProductOfferingPriceRefReferredTypeAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productofferingpriceref.ProductOfferingPriceRefReferredTypeAttributeMapper">
+        <property name="sourceAttributeName" value="id"/>
+        <property name="targetAttributeName" value="atreferredType"/>
+    </bean>
+
+    <alias name="defaultTmaProductOfferingPriceRefHrefAttributeMapperV3" alias="tmaProductOfferingPriceRefHrefAttributeMapperV3"/>
+    <bean id="defaultTmaProductOfferingPriceRefHrefAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productofferingpriceref.ProductOfferingPriceRefHrefAttributeMapper">
+        <property name="sourceAttributeName" value="id"/>
+        <property name="targetAttributeName" value="href"/>
+    </bean>
+
+    <!-- END of Atrribute Mappers tmaProductOfferingPriceRefEntityMapperV3 -->
+
+    <!-- ### START definition of attribute mappers for entity mapper tmaIndexedPoEntityMapper V3 ### -->
+    <alias name="defaultTmaIndexedPoIsInStockAttributeMapperV3" alias="tmaIndexedPoIsInStockAttributeMapperV3"/>
+    <bean id="defaultTmaIndexedPoIsInStockAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.indexedproductoffering.IndexedPoIsInStockAttributeMapper">
+        <property name="sourceAttributeName" value="stockLevelStatus"/>
+        <property name="targetAttributeName" value="isInStock"/>
+    </bean>
+
+    <alias name="defaultTmaIndexedPoAtTypeAttributeMapperV3" alias="tmaIndexedPoAtTypeAttributeMapperV3"/>
+    <bean id="defaultTmaIndexedPoAtTypeAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.indexedproductoffering.TmaIndexedPoAtTypeAttributeMapper">
+        <property name="sourceAttributeName" value="code"/>
+        <property name="targetAttributeName" value="atType"/>
+        <constructor-arg name="productOfferingType" ref="productOfferingTypeDtoMap"/>
+    </bean>
+
+    <alias name="defaultTmaIndexedPoAtBaseTypeAttributeMapperV3" alias="tmaIndexedPoAtBaseTypeAttributeMapperV3"/>
+    <bean id="defaultTmaIndexedPoAtBaseTypeAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.indexedproductoffering.TmaIndexedPoBaseTypeAttributeMapper">
+        <property name="sourceAttributeName" value="code"/>
+        <property name="targetAttributeName" value="atBaseType"/>
+    </bean>
+
+    <alias name="defaultTmaIndexedPoFacetSearchOptionAttributeMapperV3" alias="tmaIndexedPoFacetSearchOptionAttributeMapperV3"/>
+    <bean id="defaultTmaIndexedPoFacetSearchOptionAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.indexedproductoffering.TmaIndexedPoFacetSearchOptionAttributeMapper">
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <property name="sourceAttributeName" value="facetSearchOptionMap"/>
+        <property name="targetAttributeName" value="facetSearchOption"/>
+    </bean>
+    <!-- ### END definition of attribute mappers for entity mapper tmaIndexedPoEntityMapper V3 ### -->
+
+    <!-- ### START definition of atribute mappers for entity mapper tmaMediaAttachmentEntityMapperV3 ### -->
+	<alias name="defaultTmaMediaAttachmentIdAttributeMapperV3" alias="tmaMediaAttachmentIdAttributeMapperV3"/>
+	<bean id="defaultTmaMediaAttachmentIdAttributeMapperV3"
+		  class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.attachment.MediaAttachmentIdAttributeMapper">
+		<property name="sourceAttributeName" value="code"/>
+		<property name="targetAttributeName" value="id"/>
+	</bean>
+
+	<alias name="defaultTmaMediaAttachmentHrefAttributeMapperV3" alias="tmaMediaAttachmentHrefAttributeMapperV3"/>
+	<bean id="defaultTmaMediaAttachmentHrefAttributeMapperV3"
+		  class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.attachment.MediaAttachmentHrefAttributeMapper">
+		<property name="sourceAttributeName" value="code"/>
+		<property name="targetAttributeName" value="href"/>
+	</bean>
+
+	<alias name="defaultTmaMediaAttachmentSchemaLocationAttributeMapperV3" alias="tmaMediaAttachmentSchemaLocationAttributeMapperV3"/>
+	<bean id="defaultTmaMediaAttachmentSchemaLocationAttributeMapperV3"
+		  class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.attachment.MediaAttachmentSchemaLocationAttributeMapper">
+		<property name="sourceAttributeName" value="code"/>
+		<property name="targetAttributeName" value="atschemaLocation"/>
+	</bean>
+
+	<alias name="defaultTmaMediaAttachmentAtTypeAttributeMapperV3" alias="tmaMediaAttachmentAtTypeAttributeMapperV3"/>
+	<bean id="defaultTmaMediaAttachmentAtTypeAttributeMapperV3"
+		  class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.attachment.MediaAttachmentAtTypeAttributeMapper">
+		<property name="sourceAttributeName" value="code"/>
+		<property name="targetAttributeName" value="attype"/>
+	</bean>
+
+    <alias name="defaultTmaMediaAttachmentUrlAttributeMapperV3" alias="tmaMediaAttachmentUrlAttributeMapperV3"/>
+	<bean id="defaultTmaMediaAttachmentUrlAttributeMapperV3"
+		  class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.attachment.MediaAttachmentUrlAttributeMapper">
+		<property name="sourceAttributeName" value="url"/>
+		<property name="targetAttributeName" value="url"/>
+	</bean>
+
+	<alias name="defaultTmaMediaAttachmentMimeTypeAttributeMapperV3" alias="tmaMediaAttachmentMimeTypeAttributeMapperV3"/>
+	<bean id="defaultTmaMediaAttachmentMimeTypeAttributeMapperV3"
+		  class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.attachment.MediaAttachmentMimeTypeAttributeMapper">
+		<property name="sourceAttributeName" value="mime"/>
+		<property name="targetAttributeName" value="mimeType"/>
+	</bean>
+    <!-- ### END definition of atribute mappers for entity mapper tmaMediaAttachmentEntityMapperV3 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper tmaBpoEntityMapperV3 ### -->
+    <alias name="defaultTmaBpoIdAttributeMapperV3" alias="tmaBpoIdAttributeMapperV3"/>
+    <bean id="defaultTmaBpoIdAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.bundledproductoffering.BpoIdAttributeMapper">
+        <property name="sourceAttributeName" value="code"/>
+        <property name="targetAttributeName" value="id"/>
+    </bean>
+
+    <alias name="defaultTmaBpoHrefAttributeMapperV3" alias="tmaBpoHrefAttributeMapperV3"/>
+    <bean id="defaultTmaBpoHrefAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.bundledproductoffering.BpoHrefAttributeMapper">
+        <property name="sourceAttributeName" value="code"/>
+        <property name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultTmaBpoLifecycleStatusAttributeMapperV3" alias="tmaBpoLifecycleStatusAttributeMapperV3"/>
+    <bean id="defaultTmaBpoLifecycleStatusAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.bundledproductoffering.BpoLifecycleStatusAttributeMapper">
+        <property name="sourceAttributeName" value="approvalStatus"/>
+        <property name="targetAttributeName" value="lifecycleStatus"/>
+    </bean>
+
+    <alias name="defaultTmaBpoOptionAttributeMapperV3" alias="tmaBpoOptionAttributeMapperV3"/>
+    <bean id="defaultTmaBpoOptionAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.bundledproductoffering.BpoOptionAttributeMapper">
+        <property name="sourceAttributeName" value="bundledProdOfferOption"/>
+        <property name="targetAttributeName" value="bundledProductOfferingOption"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+    <!-- ### END definition of attribute mappers for entity mapper tmaBpoEntityMapperV3 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper tmaBpoOptionEntityMapperV3 ### -->
+    <alias name="defaultTmaBpoOptionAtTypeAttributeMapperV3" alias="tmaBpoOptionAtTypeAttributeMapperV3"/>
+    <bean id="defaultTmaBpoOptionAtTypeAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.bundledproductofferingoption.BpoOptionAtTypeAttributeMapper">
+        <property name="sourceAttributeName" value="bpoOption"/>
+        <property name="targetAttributeName" value="attype"/>
+    </bean>
+
+    <alias name="defaultTmaBpoOptionDefaultAttributeMapperV3" alias="tmaBpoOptionDefaultAttributeMapperV3"/>
+    <bean id="defaultTmaBpoOptionDefaultAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.bundledproductofferingoption.BpoOptionDefaultAttributeMapper">
+        <property name="sourceAttributeName" value="defaultValue"/>
+        <property name="targetAttributeName" value="numberRelOfferDefault"/>
+    </bean>
+
+    <alias name="defaultTmaBpoOptionLowerLimitAttributeMapperV3" alias="tmaBpoOptionLowerLimitAttributeMapperV3"/>
+    <bean id="defaultTmaBpoOptionLowerLimitAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.bundledproductofferingoption.BpoOptionLowerLimitAttributeMapper">
+        <property name="sourceAttributeName" value="lowerLimit"/>
+        <property name="targetAttributeName" value="numberRelOfferLowerLimit"/>
+    </bean>
+
+    <alias name="defaultTmaBpoOptionUpperLimitAttributeMapperV3" alias="tmaBpoOptionUpperLimitAttributeMapperV3"/>
+    <bean id="defaultTmaBpoOptionUpperLimitAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.bundledproductofferingoption.BpoOptionUpperLimitAttributeMapper">
+        <property name="sourceAttributeName" value="upperLimit"/>
+        <property name="targetAttributeName" value="numberRelOfferUpperLimit"/>
+    </bean>
+
+    <alias name="defaultTmaProductHrefAttributeMapperV3" alias="tmaProductHrefAttributeMapperV3"/>
+    <bean id="defaultTmaProductHrefAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.product.ProductHrefAttributeMapper">
+        <property name="sourceAttributeName" value="id"/>
+        <property name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultTmaProductTerminationDateAttributeMapperV3" alias="tmaProductTerminationDateAttributeMapperV3"/>
+    <bean id="defaultTmaProductTerminationDateAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.product.ProductTerminationDateAttributeMapper">
+        <property name="sourceAttributeName" value="endDate"/>
+        <property name="targetAttributeName" value="terminationDate"/>
+    </bean>
+    
+    <alias name="defaultTmaProductStatusAttributeMapperV3" alias="tmaProductStatusAttributeMapperV3"/>
+    <bean id="defaultTmaProductStatusAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.product.ProductStatusAttributeMapper">
+        <property name="sourceAttributeName" value="subscriptionStatus"/>
+        <property name="targetAttributeName" value="status"/>
+    </bean>
+    
+    <alias name="defaultTmaProductIsCustomerVisibleAttributeMapperV3"
+           alias="tmaProductIsCustomerVisibleAttributeMapperV3"/>
+    <bean id="defaultTmaProductIsCustomerVisibleAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.product.ProductIsCustomerVisibleAttributeMapper">
+        <property name="sourceAttributeName" value="isCustomerVisible"/>
+        <property name="targetAttributeName" value="isCustomerVisible"/>
+    </bean>
+    
+    <alias name="defaultTmaProductAtBaseTypeAttributeMapperV3" alias="tmaProductAtBaseTypeAttributeMapperV3"/>
+    <bean id="defaultTmaProductAtBaseTypeAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.product.ProductAtBaseTypeAttributeMapper">
+        <property name="sourceAttributeName" value="atbaseType"/>
+        <property name="targetAttributeName" value="atbaseType"/>
+    </bean>
+    
+    <alias name="defaultTmaProductSchemaLocationAttributeMapperV3" alias="tmaProductSchemaLocationAttributeMapperV3"/>
+    <bean id="defaultTmaProductSchemaLocationAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.product.ProductSchemaLocationAttributeMapper">
+        <property name="sourceAttributeName" value="atschemaLocation"/>
+        <property name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+    
+    <alias name="defaultTmaProductAtTypeAttributeMapperV3" alias="tmaProductAtTypeAttributeMapperV3"/>
+    <bean id="defaultTmaProductAtTypeAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.product.ProductAtTypeAttributeMapper">
+        <property name="sourceAttributeName" value="code"/>
+        <property name="targetAttributeName" value="attype"/>
+    </bean>
+    
+    <alias name="defaultTmaProductOrderDateAttributeMapperV3" alias="tmaProductOrderDateAttributeMapperV3"/>
+    <bean id="defaultTmaProductOrderDateAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.product.ProductOrderDateAttributeMapper">
+        <property name="sourceAttributeName" value="orderDate"/>
+        <property name="targetAttributeName" value="orderDate"/>
+    </bean>
+    
+    <alias name="defaultTmaProductRelatedPartyAttributeMapperV3" alias="tmaProductRelatedPartyAttributeMapperV3"/>
+    <bean id="defaultTmaProductRelatedPartyAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.product.ProductRelatedPartyAttributeMapper">
+        <property name="sourceAttributeName" value="subscriptionAccesses"/>
+        <property name="targetAttributeName" value="relatedParty"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+    
+    <alias name="defaultTmaProductBillingAccountRefAttributeMapperV3" alias="tmaProductBillingAccountRefAttributeMapperV3"/>
+    <bean id="defaultTmaProductBillingAccountRefAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.product.ProductBillingAccountRefAttributeMapper">
+        <property name="sourceAttributeName" value="billingAccount"/>
+        <property name="targetAttributeName" value="billingAccount"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+    
+    <alias name="defaultTmaProductPoAttributeMapperV3" alias="tmaProductPoAttributeMapperV3"/>
+    <bean id="defaultTmaProductPoAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.product.ProductPoAttributeMapper">
+        <property name="sourceAttributeName" value="productCode"/>
+        <property name="targetAttributeName" value="productOffering"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+    
+    <alias name="defaultTmaProductRelatedProductOrderAttributeMapperV3" alias="tmaProductRelatedProductOrderAttributeMapperV3"/>
+    <bean id="defaultTmaProductRelatedProductOrderAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.product.ProductRelatedProductOrderAttributeMapper">
+        <property name="sourceAttributeName" value="orderNumber"/>
+        <property name="targetAttributeName" value="productOrderItem"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+    
+    <alias name="defaultTmaProductIsBundleAttributeMapperV3" alias="tmaProductIsBundleAttributeMapperV3"/>
+    <bean id="defaultTmaProductIsBundleAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.product.ProductIsBundleAttributeMapper">
+        <property name="sourceAttributeName" value="parentPOCode"/>
+        <property name="targetAttributeName" value="isBundle"/>
+    </bean>
+    
+    <!-- ### END definition of attribute mappers for entity mapper tmaProductEntityMapperV3 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper tmaRelatedPartyEntityMapperV3 ### -->
+    <alias name="defaultRelatedPartyIdAttributeMapperV3" alias="relatedPartyIdAttributeMapperV3"/>
+    <bean id="defaultRelatedPartyIdAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.relatedparty.RelatedPartyIdAttributeMapper">
+        <property name="sourceAttributeName" value="id"/>
+        <property name="targetAttributeName" value="id"/>
+    </bean>
+
+    <alias name="defaultRelatedPartyHrefAttributeMapperV3" alias="relatedPartyHrefAttributeMapperV3"/>
+    <bean id="defaultRelatedPartyHrefAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.relatedparty.RelatedPartyHrefAttributeMapper">
+        <property name="sourceAttributeName" value="id"/>
+        <property name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultRelatedPartyRoleAttributeMapperV3" alias="relatedPartyRoleAttributeMapperV3"/>
+    <bean id="defaultRelatedPartyRoleAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.relatedparty.RelatedPartyRoleAttributeMapper">
+        <property name="sourceAttributeName" value="role"/>
+        <property name="targetAttributeName" value="role"/>
+    </bean>
+    
+    <alias name="defaultRelatedPartyRefferedTypeAttributeMapperV3" alias="relatedPartyRefferedTypeAttributeMapperV3"/>
+    <bean id="defaultRelatedPartyRefferedTypeAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.relatedparty.RelatedPartyRefferedTypeAttributeMapper">
+        <property name="sourceAttributeName" value="id"/>
+        <property name="targetAttributeName" value="atreferredType"/>
+    </bean>
+    
+    <!-- ### END definition of attribute mappers for entity mapper tmaRelatedPartyEntityMapperV3 ### -->
+        
+    <!-- ### START definition of attribute mappers for entity mapper tmaSubscriptionEntityMapperV3 ### -->
+    <alias name="defaultTmaSubscriptionIdAttributeMapperV3" alias="tmaSubscriptionIdAttributeMapperV3"/>
+    <bean id="defaultTmaSubscriptionIdAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.subscription.ProductIdAttributeMapper">
+        <property name="sourceAttributeName" value="id"/>
+        <property name="targetAttributeName" value="id"/>
+    </bean>
+
+    <alias name="defaultTmaSubscriptionHrefAttributeMapperV3" alias="tmaSubscriptionHrefAttributeMapperV3"/>
+    <bean id="defaultTmaSubscriptionHrefAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.subscription.ProductHrefAttributeMapper">
+        <property name="sourceAttributeName" value="id"/>
+        <property name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultTmaSubscriptionNameAttributeMapperV3" alias="tmaSubscriptionNameAttributeMapperV3"/>
+    <bean id="defaultTmaSubscriptionNameAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.subscription.ProductNameAttributeMapper">
+        <property name="sourceAttributeName" value="name"/>
+        <property name="targetAttributeName" value="name"/>
+    </bean>
+
+    <alias name="defaultTmaSubscriptionDescriptionAttributeMapperV3" alias="tmaSubscriptionDescriptionAttributeMapperV3"/>
+    <bean id="defaultTmaSubscriptionDescriptionAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.subscription.ProductDescriptionAttributeMapper">
+        <property name="sourceAttributeName" value="description"/>
+        <property name="targetAttributeName" value="description"/>
+    </bean>
+    
+    <alias name="defaultTmaSubscriptionAtBaseTypeAttributeMapperV3" alias="tmaSubscriptionAtBaseTypeAttributeMapperV3"/>
+    <bean id="defaultTmaSubscriptionAtBaseTypeAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.subscription.ProductAtBaseTypeAttributeMapper">
+        <property name="sourceAttributeName" value="atbaseType"/>
+        <property name="targetAttributeName" value="atbaseType"/>
+    </bean>
+    
+   	<alias name="defaultTmaSubscriptionSchemaLocationAttributeMapperV3" alias="tmaSubscriptionSchemaLocationAttributeMapperV3"/>
+    <bean id="defaultTmaSubscriptionSchemaLocationAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.subscription.ProductSchemaLocationAttributeMapper">
+        <property name="sourceAttributeName" value="atschemaLocation"/>
+        <property name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+    
+    <alias name="defaultTmaSubscriptionAtTypeAttributeMapperV3" alias="tmaSubscriptionAtTypeAttributeMapperV3"/>
+    <bean id="defaultTmaSubscriptionAtTypeAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.subscription.ProductAtTypeAttributeMapper">
+        <property name="sourceAttributeName" value="code"/>
+        <property name="targetAttributeName" value="attype"/>
+    </bean>    
+    
+    <alias name="defaultTmaSubscriptionRelatedPartyAttributeMapperV3" alias="tmaSubscriptionRelatedPartyAttributeMapperV3"/>
+    <bean id="defaultTmaSubscriptionRelatedPartyAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.subscription.ProductRelatedPartyAttributeMapper">
+        <property name="sourceAttributeName" value="subscriptionAccesses"/>
+        <property name="targetAttributeName" value="relatedParty"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+    
+    <alias name="defaultTmaSubscriptionBillingAccountRefAttributeMapperV3" alias="tmaSubscriptionBillingAccountRefAttributeMapperV3"/>
+    <bean id="defaultTmaSubscriptionBillingAccountRefAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.subscription.ProductBillingAccountRefAttributeMapper">
+        <property name="sourceAttributeName" value="billingAccount"/>
+        <property name="targetAttributeName" value="billingAccount"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+    
+    <alias name="defaultTmaSubscriptionIsBundleAttributeMapperV3" alias="tmaSubscriptionIsBundleAttributeMapperV3"/>
+    <bean id="defaultTmaSubscriptionIsBundleAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.subscription.ProductIsBundleAttributeMapper">
+        <property name="sourceAttributeName" value="boolean"/>
+        <property name="targetAttributeName" value="boolean"/>
+    </bean>
+    
+    <alias name="defaultTmaSubscriptionProductRelationshipAttributeMapperV3" alias="tmaSubscriptionProductRelationshipAttributeMapperV3"/>
+    <bean id="defaultTmaSubscriptionProductRelationshipAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.subscription.ProductRelationshipAttributeMapper">
+        <property name="sourceAttributeName" value="productRelationship"/>
+        <property name="targetAttributeName" value="productRelationship"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+    
+    <alias name="defaultTmaSubscriptionPoAttributeMapperV3" alias="tmaSubscriptionPoAttributeMapperV3"/>
+    <bean id="defaultTmaSubscriptionPoAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.subscription.ProductPoAttributeMapper">
+        <property name="sourceAttributeName" value="productCode"/>
+        <property name="targetAttributeName" value="productOffering"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+    <!-- ### END definition of attribute mappers for entity mapper tmaSubscriptionEntityMapperV3 ### -->
+    
+    <!-- ### START definition of attribute mappers for entity mapper tmaProductBaseProductRelationshipRefEntityMapperV3 ### -->
+    <alias name="defaultTmaProductRelationshipTypeAttributeMapperV3" alias="tmaProductRelationshipTypeAttributeMapperV3"/>
+    <bean id="defaultTmaProductRelationshipTypeAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productrelationship.RelationshipTypeAttributeMapper">
+        <property name="sourceAttributeName" value="relationshipType"/>
+        <property name="targetAttributeName" value="relationshipType"/>
+    </bean>
+    
+    <alias name="defaultTmaProductRelationshipProductRefAttributeMapperV3" alias="tmaProductRelationshipProductRefAttributeMapperV3"/>
+    <bean id="defaultTmaProductRelationshipProductRefAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productrelationship.RelationshipProductRefAttributeMapper">
+        <property name="sourceAttributeName" value="productRef"/>
+        <property name="targetAttributeName" value="productRef"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+    
+    <!-- ### END definition of attribute mappers for entity mapper tmaProductBaseProductRelationshipRefEntityMapperV3 ### -->
+    
+    <!-- ### START definition of attribute mappers for entity mapper tmaProductBaseProductRefEntityMapperV3 ### -->
+        
+    <alias name="defaultTmaProductRefHrefAttributeMapperV3" alias="tmaProductRefHrefAttributeMapperV3"/>
+    <bean id="defaultTmaProductRefHrefAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.productref.ProductRefHrefAttributeMapper">
+        <property name="sourceAttributeName" value="href"/>
+        <property name="targetAttributeName" value="href"/>
+    </bean>
+    
+    <!-- ### END definition of attribute mappers for entity mapper tmaProductBaseProductRefEntityMapperV3 ### -->
+    
+    <!-- ### START definition of attribute mappers for entity mapper tmaProductOrderEntityMapperV3 ### -->
+    <alias name="defaultRelatedProductOrderHrefAttributeMapperV3" alias="relatedProductOrderHrefAttributeMapperV3"/>
+    <bean id="defaultRelatedProductOrderHrefAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.relatedorderitem.RelatedProductOrderHrefAttributeMapper">
+        <property name="sourceAttributeName" value="orderNumber"/>
+        <property name="targetAttributeName" value="href"/>
+    </bean>
+    
+    <alias name="defaultRelatedProductOrderIdAttributeMapperV3" alias="relatedProductOrderIdAttributeMapperV3"/>
+    <bean id="defaultRelatedProductOrderIdAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.relatedorderitem.RelatedProductOrderIdAttributeMapper">
+        <property name="sourceAttributeName" value="orderNumber"/>
+        <property name="targetAttributeName" value="id"/>
+    </bean>
+    
+        <alias name="defaultRelatedProductOrderItemIdAttributeMapperV3" alias="relatedProductOrderItemIdAttributeMapperV3"/>
+    <bean id="defaultRelatedProductOrderItemIdAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.relatedorderitem.RelatedProductOrderItemIdAttributeMapper">
+        <property name="sourceAttributeName" value="orderEntryNumber"/>
+        <property name="targetAttributeName" value="id"/>
+    </bean>
+    
+    <alias name="defaultRelatedProductOrderRefferedTypeAttributeMapperV3" alias="relatedProductOrderRefferedTypeAttributeMapperV3"/>
+    <bean id="defaultRelatedProductOrderRefferedTypeAttributeMapperV3"
+          class="de.hybris.platform.b2ctelcotmfwebservices.v3.mappers.relatedorderitem.RelatedProductOrderRefferedTypeAttributeMapper">
+        <property name="sourceAttributeName" value="orderNumber"/>
+        <property name="targetAttributeName" value="atreferredType"/>
+    </bean>
+    
+    <!-- ### END definition of attribute mappers for entity mapper tmaProductOrderEntityMapperV3 ### -->	
+    
+
+    <!-- ######################################################################################################################-->
+    <!-- ######################################## END definition of attribute mappers ######################################## -->
+    <!-- ######################################################################################################################-->
+
+
+    <!-- ######################################################################################################################-->
+    <!-- ######################################## START definition of entity mappers ######################################### -->
+    <!-- ######################################################################################################################-->
+
+    <!-- Entity mapper for ProductOfferingV3 (from ProductData) -->
+    <alias name="defaultTmaPoEntityMapperV3" alias="tmaPoEntityMapperV3"/>
+    <bean id="defaultTmaPoEntityMapperV3" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.commercefacades.product.data.ProductData"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcotmfwebservices.v3.dto.ProductOffering"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaPoAttachmentAttributeMapperV3"/>
+                <ref bean="tmaPoAtTypeAttributeMapperV3"/>
+                <ref bean="tmaPoAtBaseTypeAttributeMapperV3"/>
+                <ref bean="tmaPoBaseProductAttributeMapperV3"/>
+                <ref bean="tmaPoBundledPoAttributeMapperV3"/>
+                <ref bean="tmaPoCategoryAttributeMapperV3"/>
+                <ref bean="tmaPoCavuAttributeMapperV3"/>
+                <ref bean="tmaPoGroupAttributeMapperV3"/>
+                <ref bean="tmaPoHrefAttributeMapperV3"/>
+                <ref bean="tmaPoIdAttributeMapperV3"/>
+                <ref bean="tmaPoIsBundleAttributeMapperV3"/>
+                <ref bean="tmaPoIsSellableAttributeMapperV3"/>
+                <ref bean="tmaPoLastUpdateAttributeMapperV3"/>
+                <ref bean="tmaPoLifecycleStatusAttributeMapperV3"/>
+                <ref bean="tmaPoParentBpoAttributeMapperV3"/>
+                <ref bean="tmaPoPriceAttributeMapperV3"/>
+                <ref bean="tmaPoPriceContextAttributeMapperV3"/>
+                <ref bean="tmaPoPsAttributeMapperV3"/>
+                <ref bean="tmaPoPscvuAttributeMapperV3"/>
+                <ref bean="tmaPoRatingAttributeMapperV3"/>
+                <ref bean="tmaPoSchemaLocationAttributeMapperV3"/>
+                <ref bean="tmaPoValidForAttributeMapperV3"/>
+                <ref bean="tmaPoVariantOptionAttributeMapperV3"/>
+                <ref bean="tmaPoVariantPoAttributeMapperV3"/>
+                <ref bean="tmaPoMediaAttachmentAttributeMapperV3"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for ProductOfferingPriceV3 (from TmaProductOfferingPriceData) -->
+    <alias name="defaultTmaPoPriceEntityMapperV3" alias="tmaPoPriceEntityMapperV3"/>
+    <bean id="defaultTmaPoPriceEntityMapperV3" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.b2ctelcofacades.data.TmaProductOfferingPriceData"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcotmfwebservices.v3.dto.ProductOfferingPrice"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaPopPriceEventAttributeMapperV3"/>
+                <ref bean="tmaPopSchemaLocationAttributeMapperV3"/>
+                <ref bean="tmaPopHrefAttributeMapperV3"/>
+                <ref bean="tmaPopIsBundleAttributeMapperV3"/>
+                <ref bean="tmaPopPscvuAttributeMapperV3"/>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="defaultTmaPoPriceComponentEntityMapperV3" alias="tmaPoPriceComponentEntityMapperV3"/>
+    <bean id="defaultTmaPoPriceComponentEntityMapperV3" parent="tmaPoPriceEntityMapperV3"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.b2ctelcofacades.data.TmaComponentProdOfferPriceData"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcotmfwebservices.v3.dto.ProductOfferingPrice"/>
+        <property name="attributeMappers">
+            <list merge="true">
+                <ref bean="tmaPopPriceAttributeMapperV3"/>
+                <ref bean="tmaPopPriceTypeAttributeMapperV3"/>
+                <ref bean="tmaPopPricingLogicAlgorithmAttributeMapperV3"/>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="defaultTmaPoPriceUsageEntityMapperV3" alias="tmaPoPriceUsageEntityMapperV3"/>
+    <bean id="defaultTmaPoPriceUsageEntityMapperV3" parent="tmaPoPriceComponentEntityMapperV3"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.b2ctelcofacades.data.TmaUsageProdOfferPriceChargeData"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcotmfwebservices.v3.dto.ProductOfferingPrice"/>
+        <property name="attributeMappers">
+            <list merge="true">
+                <ref bean="tmaPopUsageUnitAttributeMapperV3"/>
+                <ref bean="tmaPopUsageSpecificationAttributeMapperV3"/>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="defaultTmaPoPriceCompositeEntityMapperV3" alias="tmaPoPriceCompositeEntityMapperV3"/>
+    <bean id="defaultTmaPoPriceCompositeEntityMapperV3" parent="tmaPoPriceEntityMapperV3"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.b2ctelcofacades.data.TmaCompositeProdOfferPriceData"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcotmfwebservices.v3.dto.ProductOfferingPrice"/>
+        <property name="attributeMappers">
+            <list merge="true">
+                <ref bean="tmaPopBundledPopAttributeMapperV3"/>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="defaultTmaPoPriceTierUsageCompositeEntityMapperV3" alias="tmaPoPriceTierUsageCompositeEntityMapperV3"/>
+    <bean id="defaultTmaPoPriceTierUsageCompositeEntityMapperV3" parent="tmaPoPriceCompositeEntityMapperV3"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.b2ctelcofacades.data.TmaTierUsageCompositeProdOfferPriceData"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcotmfwebservices.v3.dto.ProductOfferingPrice"/>
+        <property name="attributeMappers">
+            <list merge="true">
+                <ref bean="tmaPopUsageChargeTypeAttributeMapperV3"/>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="defaultTmaPoPriceRecurringEntityMapperV3" alias="tmaPoPriceRecurringEntityMapperV3"/>
+    <bean id="defaultTmaPoPriceRecurringEntityMapperV3" parent="tmaPoPriceComponentEntityMapperV3"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.b2ctelcofacades.data.TmaRecurringProdOfferPriceChargeData"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcotmfwebservices.v3.dto.ProductOfferingPrice"/>
+        <property name="attributeMappers">
+            <list merge="true">
+                <ref bean="tmaPopPriceCycleAttributeMapperV3"/>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="defaultTmaPoPriceAlterationEntityMapperV3" alias="tmaPoPriceAlterationEntityMapperV3"/>
+    <bean id="defaultTmaPoPriceAlterationEntityMapperV3" parent="tmaPoPriceComponentEntityMapperV3"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.b2ctelcofacades.data.TmaProdOfferPriceAlterationData"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcotmfwebservices.v3.dto.ProductOfferingPrice"/>
+        <property name="attributeMappers">
+            <list merge="true">
+                <ref bean="tmaPopDiscountCycleAttributeMapperV3"/>
+                <ref bean="tmaPopDiscountPercentageAttributeMapperV3"/>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="defaultTmaPoPriceAllowanceEntityMapperV3" alias="tmaPoPriceAllowanceEntityMapperV3"/>
+    <bean id="defaultTmaPoPriceAllowanceEntityMapperV3" parent="tmaPoPriceAlterationEntityMapperV3"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.b2ctelcofacades.data.TmaAllowanceProdOfferPriceAlterationData"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcotmfwebservices.v3.dto.ProductOfferingPrice"/>
+        <property name="attributeMappers">
+            <list merge="true">
+                <ref bean="tmaPopAllowanceTypeAttributeMapperV3"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for RelatedPartyRef (from TmaUserData) -->
+    <alias name="defaultTmaRelatedPartyRefEntityMapperV3" alias="tmaRelatedPartyRefEntityMapperV3"/>
+    <bean id="defaultTmaRelatedPartyRefEntityMapperV3" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.b2ctelcofacades.data.TmaUserData"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcotmfwebservices.v2.dto.RelatedPartyRef"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaRelatedPartyRefIdAttributeMapperV3"/>
+                <ref bean="tmaRelatedPartyRefHrefAttributeMapperV3"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for ProductOfferingPriceRef (from ProductOfferingPrice) -->
+    <alias name="defaultTmaProductOfferingPriceRefEntityMapperV3" alias="tmaProductOfferingPriceRefEntityMapperV3"/>
+    <bean id="defaultTmaProductOfferingPriceRefEntityMapperV3" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.b2ctelcofacades.data.TmaProductOfferingPriceData"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcotmfwebservices.v3.dto.ProductOfferingPriceRef"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaProductOfferingPriceRefReferredTypeAttributeMapperV3"/>
+                <ref bean="tmaProductOfferingPriceRefHrefAttributeMapperV3"/>
+                <ref bean="tmaProductOfferingPriceRefSchemaLocationAttributeMapperV3"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for PriceContext (from PriceData) -->
+    <alias name="defaultTmaPriceContextEntityMapperV3" alias="tmaPriceContextEntityMapperV3"/>
+    <bean id="defaultTmaPriceContextEntityMapperV3" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.commercefacades.product.data.PriceData"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcotmfwebservices.v3.dto.PriceContext"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaPriceContextIdAttributeMapperV3"/>
+                <ref bean="tmaPriceContextProductOfferingPriceRefAttributeMapperV3"/>
+                <ref bean="tmaPriceContextValidForAttributeMapperV3"/>
+                <ref bean="tmaPriceContextSubscriptionTermAttributeMapperV3"/>
+                <ref bean="tmaPriceContextPlaceRefAttributeMapperV3"/>
+                <ref bean="tmaPriceContextChannelAttributeMapperV3"/>
+                <ref bean="tmaPriceContextRelatedPartyAttributeMapperV3"/>
+                <ref bean="tmaPriceContextProcessTypeAttributeMapperV3"/>
+                <ref bean="tmaPriceContextPoRelationshipAttributeMapperV3"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for IndexedProductOffering (from ProductData) -->
+    <alias name="defaultTmaIndexedPoEntityMapperV3" alias="tmaIndexedPoEntityMapperV3"/>
+    <bean id="defaultTmaIndexedPoEntityMapperV3" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.commercefacades.product.data.ProductData"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcotmfwebservices.v3.dto.IndexedProductOffering"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaIndexedPoIsInStockAttributeMapperV3"/>
+                <ref bean="tmaIndexedPoAtTypeAttributeMapperV3"/>
+                <ref bean="tmaIndexedPoAtBaseTypeAttributeMapperV3"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for BundledProductOffering (from ProductData) -->
+    <alias name="defaultTmaBpoEntityMapperV3" alias="tmaBpoEntityMapperV3"/>
+    <bean id="defaultTmaBpoEntityMapperV3" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.commercefacades.product.data.ProductData"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcotmfwebservices.v3.dto.BundledProductOffering"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaBpoIdAttributeMapperV3"/>
+                <ref bean="tmaBpoHrefAttributeMapperV3"/>
+                <ref bean="tmaBpoLifecycleStatusAttributeMapperV3"/>
+                <ref bean="tmaBpoOptionAttributeMapperV3"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for BundledProductOfferingOption (from TmaBundledProdOfferOptionData) -->
+    <alias name="defaultTmaBpoOptionEntityMapperV3" alias="tmaBpoOptionEntityMapperV3"/>
+    <bean id="defaultTmaBpoOptionEntityMapperV3" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.b2ctelcofacades.data.TmaBundledProdOfferOptionData"/>
+        <property name="targetClass"
+                  value="de.hybris.platform.b2ctelcotmfwebservices.v3.dto.BundledProductOfferingOption"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaBpoOptionAtTypeAttributeMapperV3"/>
+                <ref bean="tmaBpoOptionDefaultAttributeMapperV3"/>
+                <ref bean="tmaBpoOptionLowerLimitAttributeMapperV3"/>
+                <ref bean="tmaBpoOptionUpperLimitAttributeMapperV3"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for IndexedProductOffering (from TmaFacetSearchOptionData) -->
+    <alias name="defaultTmaIndexedPoFromTmaFacetSearchOptionDataEntityMapperV3"
+           alias="tmaIndexedPoFromTmaFacetSearchOptionDataEntityMapperV3"/>
+    <bean id="defaultTmaIndexedPoFromTmaFacetSearchOptionDataEntityMapperV3" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass"
+                  value="de.hybris.platform.commerceservices.search.solrfacetsearch.data.SolrSearchQueryTermData"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcotmfwebservices.v3.dto.IndexedProductOffering"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaIndexedPoFacetSearchOptionAttributeMapperV3"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for Attachment (from MediaData) -->
+    <alias name="defaultTmaMediaAttachmentEntityMapperV3" alias="tmaMediaAttachmentEntityMapperV3"/>
+    <bean id="defaultTmaMediaAttachmentEntityMapperV3" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.cmsfacades.data.MediaData"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcotmfwebservices.v2.dto.Attachment"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaMediaAttachmentIdAttributeMapperV3"/>
+                <ref bean="tmaMediaAttachmentAtTypeAttributeMapperV3"/>
+                <ref bean="tmaMediaAttachmentHrefAttributeMapperV3"/>
+                <ref bean="tmaMediaAttachmentSchemaLocationAttributeMapperV3"/>
+                <ref bean="tmaMediaAttachmentMimeTypeAttributeMapperV3"/>
+                <ref bean="tmaMediaAttachmentUrlAttributeMapperV3"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Entity mapper for ProductV3 (from TmaSubscribedProductData) -->
+    <alias name="defaultTmaProductEntityMapperV3" alias="tmaProductEntityMapperV3"/>
+    <bean id="defaultTmaProductEntityMapperV3" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.b2ctelcofacades.data.TmaSubscribedProductData"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcotmfwebservices.v3.dto.Product"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaProductHrefAttributeMapperV3"/>
+                <ref bean="tmaProductTerminationDateAttributeMapperV3"/>
+                <ref bean="tmaProductStatusAttributeMapperV3"/>
+                <ref bean="tmaProductIsCustomerVisibleAttributeMapperV3"/>
+                <ref bean="tmaProductAtBaseTypeAttributeMapperV3"/>
+                <ref bean="tmaProductAtTypeAttributeMapperV3"/>
+                <ref bean="tmaProductSchemaLocationAttributeMapperV3"/>
+                <ref bean="tmaProductOrderDateAttributeMapperV3"/>
+                <ref bean="tmaProductBillingAccountRefAttributeMapperV3"/>
+                <ref bean="tmaProductRelatedPartyAttributeMapperV3"/>
+                <ref bean="tmaProductPoAttributeMapperV3"/>
+                <ref bean="tmaProductRelatedProductOrderAttributeMapperV3"/>
+                <ref bean="tmaProductIsBundleAttributeMapperV3"/>
+            </list>
+        </property>
+    </bean>
+    
+    <!-- Entity mapper for RelatedParty (from TmaSubscriptionAccessData) -->
+    <alias name="defaultTmaRelatedPartyEntityMapperV3" alias="tmaRelatedPartyEntityMapperV3"/>
+    <bean id="defaultTmaRelatedPartyEntityMapperV3" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.b2ctelcofacades.data.TmaSubscriptionAccessData"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcotmfwebservices.v2.dto.RelatedPartyRef"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="relatedPartyIdAttributeMapperV3"/>
+                <ref bean="relatedPartyHrefAttributeMapperV3"/>
+                <ref bean="relatedPartyRoleAttributeMapperV3"/>
+                <ref bean="relatedPartyRefferedTypeAttributeMapperV3"/>
+            </list>
+        </property>
+    </bean>
+    
+    <!-- Entity mapper for ProductV3 (from TmaSubscriptionBaseData) -->
+    <alias name="defaultTmaSubscriptionEntityMapperV3" alias="tmaSubscriptionEntityMapperV3"/>
+    <bean id="defaultTmaSubscriptionEntityMapperV3" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.b2ctelcofacades.data.TmaSubscriptionBaseData"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcotmfwebservices.v3.dto.Product"/>
+        <property name="attributeMappers">
+            <list>
+				<ref bean="tmaSubscriptionIdAttributeMapperV3"/>
+				<ref bean="tmaSubscriptionHrefAttributeMapperV3"/>
+				<ref bean="tmaSubscriptionNameAttributeMapperV3"/>
+				<ref bean="tmaSubscriptionDescriptionAttributeMapperV3"/>
+				<ref bean="tmaSubscriptionAtBaseTypeAttributeMapperV3"/>
+				<ref bean="tmaSubscriptionAtTypeAttributeMapperV3"/>
+				<ref bean="tmaSubscriptionSchemaLocationAttributeMapperV3"/>
+				<ref bean="tmaSubscriptionBillingAccountRefAttributeMapperV3"/>
+				<ref bean="tmaSubscriptionRelatedPartyAttributeMapperV3"/>
+				<ref bean="tmaSubscriptionProductRelationshipAttributeMapperV3"/>
+                <ref bean="tmaSubscriptionIsBundleAttributeMapperV3"/>
+				<ref bean="tmaSubscriptionPoAttributeMapperV3"/>
+            </list>
+        </property>
+    </bean>
+    
+    <!-- Entity mapper for ProductV3 (from TmaSubscribedProductData) -->
+    <alias name="defaultTmaProductRelationshipRefEntityMapperV3" alias="tmaProductRelationshipRefEntityMapperV3"/>
+    <bean id="defaultTmaProductRelationshipRefEntityMapperV3" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.b2ctelcofacades.data.TmaSubscribedProductData"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcotmfwebservices.v2.dto.ProductRelationship"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaProductRelationshipTypeAttributeMapperV3"/>
+                <ref bean="tmaProductRelationshipProductRefAttributeMapperV3"/>
+            </list>
+        </property>
+    </bean>
+    
+    <!-- Entity mapper for ProductV3 (from TmaSubscribedProductData) -->
+    <alias name="defaultTmaProductRefEntityMapperV3" alias="tmaProductRefEntityMapperV3"/>
+    <bean id="defaultTmaProductRefEntityMapperV3" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.b2ctelcofacades.data.TmaSubscribedProductData"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcotmfwebservices.v2.dto.ProductRef"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="tmaProductRefHrefAttributeMapperV3"/>
+            </list>
+        </property>
+    </bean>
+    
+    <!-- Entity mapper for RelatedProductOrder (from TmaSubscribedProductData) -->
+    <alias name="defaultTmaProductRelatedOrderMapperV3" alias="tmaProductRelatedOrderMapperV3"/>
+    <bean id="defaultTmaProductRelatedOrderMapperV3" parent="abstractCustomMapper"
+          class="de.hybris.platform.b2ctelcofacades.mappers.TmaEntityMapper">
+        <property name="sourceClass" value="de.hybris.platform.b2ctelcofacades.data.TmaSubscribedProductData"/>
+        <property name="targetClass" value="de.hybris.platform.b2ctelcotmfwebservices.v3.dto.RelatedProductOrderItem"/>
+        <property name="attributeMappers">
+            <list>
+                <ref bean="relatedProductOrderIdAttributeMapperV3"/>
+                <ref bean="relatedProductOrderHrefAttributeMapperV3"/>
+                <ref bean="relatedProductOrderItemIdAttributeMapperV3"/>
+                <ref bean="relatedProductOrderRefferedTypeAttributeMapperV3"/>
+            </list>
+        </property>
+    </bean>
+</beans>

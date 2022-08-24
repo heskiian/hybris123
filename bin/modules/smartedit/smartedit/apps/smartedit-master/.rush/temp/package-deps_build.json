@@ -1,0 +1,6 @@
+{
+  "files": {
+    "../smartedit/apps/smartedit-master/.rush/temp/shrinkwrap-deps.json": "6b0479217a4346d55eda4ed84279f3abf84d6b2a"
+  },
+  "arguments": "npm run build:prod "
+}

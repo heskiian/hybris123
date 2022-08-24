@@ -1,0 +1,37 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+
+# ImpEx for Importing Orders Test Data
+
+#% impex.enableCodeExecution(true);
+
+$utilitiesProductCatalog = utilitiesProductCatalog
+$onlineUtilitiesCatalogVersion = catalogversion(catalog(id[default = $utilitiesProductCatalog]), version[default = 'Online'])[unique = true, default = $utilitiesProductCatalog:Online]
+
+# ORDERS
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE Order; user(uid)                       ; code[unique = true]; currency(isocode); date[dateformat = dd.MM.yyyy HH:mm:ss]; modifiedtime[dateformat = dd.MM.yyyy HH:mm:ss]; net   ; calculated; paymentInfo(code); deliveryAddress(id); deliveryMode(code); site(uid) ; store(uid); guid; status(code)
+##TMF Order APIs baseSiteId
+                   ; selfserviceuser98713@hybris.com ; 98710003           ; USD              ; 25.11.2020 00:00:00                   ; 25.11.2020 00:00:00                           ; FALSE ; TRUE      ; 98710003         ; 98713              ; standard-gross    ; utilities ; utilities ;
+
+
+#ORDER PRICES
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaAbstractOrderRecurringChargePrice; id[unique = true]        ; taxIncludedAmount; dutyFreeAmount; priceType(code); billingTime(code); currency(isocode); taxRate; cycleStart; cycleEnd; catalogCode
+## TMF Order APIs baseSiteId
+                                                  ; 98710003_order_price_rc1 ; 20.0             ; 20.0          ; PRODUCT_PRICE  ; monthly          ; USD              ; 1.1    ; 1         ; 6       ; 98710003_order_price_rc1
+                                                  ; 98710003_order_price_rc2 ; 10.0             ; 10.0          ; PRODUCT_PRICE  ; monthly          ; USD              ; 1.1    ; 7         ; 12      ; 98710003_order_price_rc2
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaAbstractOrderCompositePrice; id[unique = true]              ; childPrices(id)                                    ; catalogCode
+## TMF Order APIs baseSiteId
+                                            ; 98710003_order_price_composite ; 98710003_order_price_rc1, 98710003_order_price_rc2 ; 98710003_order_price_composite
+
+
+# ORDER ENTRIES
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE OrderEntry; entryNumber[unique = true]; product(code, $onlineUtilitiesCatalogVersion); quantity; unit(code); order(code); bpo(code, $onlineUtilitiesCatalogVersion); entryGroupNumbers; processType(code); installationAddress(id); appointmentReference; productSpecCharacteristicValues(id); subscriptionInfo(id); price(id)
+## TMF Order APIs baseSiteId
+                        ; -1                        ; gas_plan_basic                               ; 1       ; pieces    ; 98710003   ;                                          ;                  ; ACQUISITION      ;                        ;                     ;                                    ;                     ; 98710003_order_price_composite

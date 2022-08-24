@@ -1,0 +1,60 @@
+# ImpEx for Importing sample checklist policies
+
+$productCatalog = mediaProductCatalog
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Staged'])[unique = true, default = $productCatalog:Staged]
+$lang = en
+
+#################################################################################################
+# Policy1 (Journey Checklist for service ability):
+# A customer needs to perform a serviceability check if he purchases a Product Offering specified by the "tv_starter_plan",
+# "tv_entertainment_plan", or "tv_premium_plan" Product Specification #
+#################################################################################################
+INSERT_UPDATE TmaPsPolicyStatement; code[unique = true]; min; max; productSpecification(id, $catalogVersion); $catalogVersion
+; tv_starter_plan_specification ; 1 ; ; tv_starter_plan ;
+
+INSERT_UPDATE TmaPsPolicyStatement; code[unique = true]; min; max; productSpecification(id, $catalogVersion); $catalogVersion
+; tv_entertainment_plan_specification ; 1 ; ; tv_entertainment_plan ;
+
+INSERT_UPDATE TmaPsPolicyStatement; code[unique = true]; min; max; productSpecification(id, $catalogVersion); $catalogVersion
+; tv_premium_plan_specification ; 1 ; ; tv_premium_plan ;
+
+INSERT_UPDATE TmaAtomicPolicyCondition; code[unique = true]; statement(code, $catalogVersion); $catalogVersion
+; has_tv_starter_plan_specification ; tv_starter_plan_specification
+
+INSERT_UPDATE TmaAtomicPolicyCondition; code[unique = true]; statement(code, $catalogVersion); $catalogVersion
+; has_tv_entertainment_plan_specification ; tv_entertainment_plan_specification
+
+INSERT_UPDATE TmaAtomicPolicyCondition; code[unique = true]; statement(code, $catalogVersion); $catalogVersion
+; has_tv_premium_plan_plan_specification ; tv_premium_plan_specification
+
+INSERT_UPDATE TmaCompositePolicyCondition; code[unique = true]; children(code, $catalogVersion); conditionsEvaluatorType(code); $catalogVersion
+; tv_plan_present ; has_tv_starter_plan_specification, has_tv_entertainment_plan_specification, has_tv_premium_plan_plan_specification ; OR ;
+
+INSERT_UPDATE TmaPsChecklistPolicyStatement; code[unique = true]; type(code); productSpecifications(id, $catalogVersion); $catalogVersion;
+; serviceability_check ; INSTALLATION_ADDRESS ; tv_starter_plan,tv_entertainment_plan,tv_premium_plan
+
+INSERT_UPDATE TmaPolicyAction; code[unique = true]; statement(code, $catalogVersion); actionType(code); $catalogVersion
+; requires_serviceability_check ; serviceability_check ; CHECKLIST
+
+INSERT_UPDATE TmaCompatibilityPolicy; code[unique = true]; conditions(code, $catalogVersion); actions(code, $catalogVersion); conditionsEvaluatorType(code); $catalogVersion
+; tv_purchases_require_serviceability ; tv_plan_present ; requires_serviceability_check ; OR
+
+#################################################################################################
+# Policy4
+# A customer needs to have an installation address for any Product Offering specified by the "tv_entertainment_plan" when he wants to relocate
+#################################################################################################
+INSERT_UPDATE TmaProcessTypesPolicyStatement; code[unique = true]  ; processes(code); $catalogVersion
+                                            ; relocation_statement ; RELOCATION
+
+INSERT_UPDATE TmaAtomicPolicyCondition; code[unique = true]; statement(code, $catalogVersion); $catalogVersion
+                                      ; wants_to_relocate  ; relocation_statement
+
+INSERT_UPDATE TmaPsChecklistPolicyStatement; code[unique = true]           ; type(code)           ; productSpecifications(id, $catalogVersion); $catalogVersion
+                                           ; requires_installation_address ; INSTALLATION_ADDRESS ; tv_entertainment_plan                           ;
+
+INSERT_UPDATE TmaPolicyAction; code[unique = true]                 ; statement(code, $catalogVersion); actionType(code); $catalogVersion
+                             ; relocation_req_installation_address ; requires_installation_address   ; CHECKLIST
+
+INSERT_UPDATE TmaCompatibilityPolicy; code[unique = true]                     ; conditions(code, $catalogVersion); actions(code, $catalogVersion)      ; conditionsEvaluatorType(code); $catalogVersion
+                                    ; relocation_require_installation_address ; wants_to_relocate                ; relocation_req_installation_address ; OR
+

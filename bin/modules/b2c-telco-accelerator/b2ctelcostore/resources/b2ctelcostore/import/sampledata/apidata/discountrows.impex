@@ -1,0 +1,12 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+$catalog-id = b2ctelcoProductCatalog
+$catalog-version = Online
+$catalogVersion = catalogversion(catalog(id[default = $catalog-id]), version[default = $catalog-version])[unique = true, default = $catalog-id:$catalog-version]
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE DiscountRow; code[unique = true]              ; product(code, $catalogVersion)   ; value; currency(isocode); $catalogVersion; discount(code); absolute[default = false]
+# composite pricing for price alteration and promotion tests
+                         ; discountRow_unlimited5GPlan_7968 ; unlimited5GPlan_7968_discountRow ; 6.5  ; USD              ;                ; discount7968  ; true

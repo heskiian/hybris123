@@ -1,0 +1,2621 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+		   http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd
+           http://www.springframework.org/schema/util
+           http://www.springframework.org/schema/util/spring-util.xsd">
+
+   <context:annotation-config/>
+
+   <alias name="defaultTelcoProductfacade" alias="telcoProductFacade"/>
+   <alias name="defaultTelcoSubscriptionFacade" alias="telcoSubscriptionFacade"/>
+
+   <util:list id="subscriptionBillingDataList" value-type="de.hybris.platform.subscriptionfacades.data.SubscriptionBillingData" scope="prototype"/>
+
+   <bean id="defaultTelcoProductfacade"
+         class="de.hybris.platform.b2ctelcofacades.product.impl.DefaultTelcoProductFacade">
+      <property name="compatibilityService" ref="compatibilityService"/>
+      <property name="productFacade" ref="productFacade"/>
+   </bean>
+
+   <alias name="defaultSearchProductReviewPopulator" alias="searchProductReviewPopulator"/>
+   <bean id="defaultSearchProductReviewPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.SearchProductReviewPopulator"/>
+
+   <bean id="tmaSolrPropSource"
+         class="de.hybris.platform.b2ctelcofacades.eligibility.converters.populator.TmaSolrPropSource">
+   </bean>
+
+    <bean id="tmaSolrSpoPricePopulator"
+          class="de.hybris.platform.b2ctelcofacades.eligibility.converters.populator.TmaSolrSpoPricePopulator">
+        <constructor-arg name="propSource" ref="tmaSolrPropSource"/>
+        <constructor-arg name="priceDataFactory" ref="tmaPriceDataFactory"/>
+        <constructor-arg name="i18NService" ref="commonI18NService"/>
+    </bean>
+
+   <bean parent="modifyPopulatorList">
+      <property name="list" ref="commerceSearchResultProductConverter"/>
+      <property name="add" ref="searchProductReviewPopulator"/>
+   </bean>
+
+   <bean parent="modifyPopulatorList">
+      <property name="list" ref="commerceSearchResultProductConverter"/>
+      <property name="add" ref="tmaProductOfferingParentBposFlagPopulator"/>
+   </bean>
+
+   <bean parent="modifyPopulatorList">
+      <property name="list" ref="commerceSearchResultProductConverter"/>
+      <property name="add" ref="tmaProductSpecValuesSearchDataPopulator"/>
+   </bean>
+
+    <bean parent="modifyPopulatorList">
+        <property name="list" ref="commerceSearchResultProductConverter"/>
+        <property name="remove" ref="searchResultSubscriptionProductPopulator"/>
+    </bean>
+
+   <bean parent="modifyPopulatorList">
+      <property name="list" ref="commerceSearchResultProductConverter"/>
+      <property name="add" ref="tmaPoVariantSearchDataPopulator"/>
+   </bean>
+
+   <bean parent="modifyPopulatorList">
+      <property name="list" ref="commerceSearchResultProductConverter"/>
+      <property name="add" ref="tmaPoSoldIndividuallySearchDataPopulator"/>
+   </bean>
+
+   <bean parent="modifyPopulatorList">
+      <property name="list" ref="orderEntryConverter"/>
+      <property name="add" ref="tmaHierarchicalOrderEntryPopulator"/>
+   </bean>
+
+   <alias name="defaultTmaHierarchicalOrderEntryPopulator" alias="tmaHierarchicalOrderEntryPopulator"/>
+   <bean id="defaultTmaHierarchicalOrderEntryPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaHierarchicalOrderEntryPopulator">
+      <constructor-arg name="abstractOrderEntryConverter" ref="orderEntryConverter"/>
+   </bean>
+
+   <alias name="defaultTmaProductOfferingParentBposFlagPopulator" alias="tmaProductOfferingParentBposFlagPopulator"/>
+   <bean id="defaultTmaProductOfferingParentBposFlagPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaProductOfferingParentBposFlagPopulator"
+         scope="prototype"/>
+
+   <alias name="defaultTmaProductOfferingSoldIndividuallyPopulator" alias="tmaProductOfferingSoldIndividuallyPopulator"/>
+   <bean id="defaultTmaProductOfferingSoldIndividuallyPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaProductOfferingSoldIndividuallyPopulator"
+         parent="baseProductPopulator"/>
+
+   <alias name="defaultTelcoProductConfiguredPopulator" alias="productConfiguredPopulator"/>
+   <bean id="defaultTelcoProductConfiguredPopulator" parent="defaultProductConfiguredPopulator">
+      <property name="populators">
+         <map key-type="de.hybris.platform.commercefacades.product.ProductOption"
+              merge="true">
+            <entry key="SPO_BUNDLE_TABS" value-ref="spoBundleTabsPopulator"/>
+            <entry key="VOLUME_PRICES" value-ref="productVolumePricesPopulator"/> <!-- it is a workaround and should be removed as it is already in the core
+					acc. -->
+            <entry key="SOLD_INDIVIDUALLY" value-ref="tmaProductOfferingSoldIndividuallyPopulator"/>
+            <entry key="VARIANT_MATRIX" value-ref="tmaPoVariantMatrixPopulator"/>
+            <entry key="VARIANT_MATRIX_ALL_OPTIONS" value-ref="tmaVariantOptionDataFullPopulator"/>
+            <entry key="PRODUCT_SPECIFICATION" value-ref="tmaProductOfferingProductSpecPopulator"/>
+            <entry key="PRODUCT_OFFERING_PRICES" value-ref="tmaProductOfferingPricesPopulator"/>
+            <entry key="PRODUCT_SPEC_CHAR_VALUE_USE" value-ref="tmaProductOfferingPscvuPopulator"/>
+            <entry key="PRODUCT_MEDIA" value-ref="tmaMediaPopulator"/>
+            <entry key="PRODUCT_BPO_CHILDREN" value-ref="tmaBpoChildrenPopulator"/>
+            <entry key="PARENT_BPOS" value-ref="tmaProductOfferingParentsPopulator"/>
+            <entry key="PRODUCT_OFFERING_GROUPS" value-ref="tmaProductOfferingGroupsPopulator"/>
+            <entry key="MEDIA_ATTACHMENT" value-ref="tmaMediaAttachmentPopulator"/>
+         </map>
+      </property>
+   </bean>
+
+   <alias name="defaultTmaProductSpecValuesSearchDataPopulator" alias="tmaProductSpecValuesSearchDataPopulator"/>
+    <bean id="defaultTmaProductSpecValuesSearchDataPopulator"
+          class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaProductSpecValuesSearchDataPopulator"/>
+
+   <alias name="defaultTmaPoVariantSearchDataPopulator" alias="tmaPoVariantSearchDataPopulator"/>
+   <bean id="defaultTmaPoVariantSearchDataPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.variants.TmaPoVariantSearchDataPopulator"/>
+
+   <alias name="defaultTmaPoSoldIndividuallySearchDataPopulator" alias="tmaPoSoldIndividuallySearchDataPopulator"/>
+   <bean id="defaultTmaPoSoldIndividuallySearchDataPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaPoSoldIndividuallySearchDataPopulator"/>
+
+   <alias name="defaultTmaBpoGuidedSellingFacade" alias="tmaBpoGuidedSellingFacade"/>
+   <bean id="defaultTmaBpoGuidedSellingFacade"
+         class="de.hybris.platform.b2ctelcofacades.bpoguidedselling.impl.DefaultTmaBpoGuidedSellingFacade">
+      <constructor-arg name="abstractOrderEntryService" ref="abstractOrderEntryService"/>
+      <constructor-arg name="tmaGuidedSellingDashBoardDataPopulator" ref="tmaGuidedSellingDashBoardDataPopulator"/>
+      <constructor-arg name="tmaPoService" ref="tmaPoService"/>
+      <constructor-arg name="productSearchFacade" ref="productSearchFacade"/>
+      <constructor-arg name="entryGroupFacade" ref="entryGroupFacade"/>
+      <constructor-arg name="cartService" ref="cartService"/>
+
+      <property name="tmaBpoGuidedSellingDashBoardDataPopulator" ref="tmaBpoGuidedSellingDashBoardDataPopulator">
+         <description>deprecated since 2102</description>
+      </property>
+
+   </bean>
+
+   <alias alias="entryGroupFacade" name="defaultEntryGroupFacade"/>
+   <bean id="defaultEntryGroupFacade"
+         class="de.hybris.platform.b2ctelcofacades.configurableguidedselling.impl.DefaultEntryGroupFacade">
+      <property name="entryGroupService" ref="entryGroupService"/>
+      <property name="cartService" ref="cartService"/>
+   </bean>
+
+   <alias name="tmaSearchResultProductOfferingPopulator" alias="commerceSearchResultProductPopulator"/>
+   <alias name="defaultTmaSearchResultProductOfferingPopulator" alias="tmaSearchResultProductOfferingPopulator"/>
+   <bean id="defaultTmaSearchResultProductOfferingPopulator"
+         class="de.hybris.platform.b2ctelcofacades.search.solrfacetsearch.populators.TmaSearchResultProductOfferingPopulator"
+         parent="defaultCommerceSearchResultProductPopulator">
+      <constructor-arg name="priceConverter" ref="tmaSearchResultPriceConverter"/>
+      <constructor-arg name="pscvuConverter" ref="tmaSearchResultPscvuConverter"/>
+   </bean>
+
+   <alias name="defaultTmaSearchResultPricesPopulator" alias="tmaSearchResultPricesPopulator"/>
+   <bean id="defaultTmaSearchResultPricesPopulator"
+         class="de.hybris.platform.b2ctelcofacades.search.solrfacetsearch.populators.TmaSearchResultPricesPopulator">
+      <constructor-arg name="priceDataTypeMap" ref="tmaPriceDataTypeMap"/>
+      <constructor-arg name="pricingLogicAlgorithmDataTypeMap" ref="tmaPricingLogicAlgorithmDataTypeMap"/>
+   </bean>
+   
+   <alias name="defaultTmaSearchResultPscvuPopulator" alias="tmaSearchResultPscvuPopulator"/>
+   <bean id="defaultTmaSearchResultPscvuPopulator"
+         class="de.hybris.platform.b2ctelcofacades.search.solrfacetsearch.populators.TmaSearchResultPscvuPopulator">
+   </bean>
+
+   <alias name="defaultTmaSearchResultPriceConverter" alias="tmaSearchResultPriceConverter"/>
+   <bean id="defaultTmaSearchResultPriceConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value=" de.hybris.platform.commercefacades.product.data.PriceData"/>
+      <property name="populators">
+         <list>
+            <ref bean="tmaSearchResultPricesPopulator"/>
+         </list>
+      </property>
+   </bean>
+   
+   <alias name="defaultTmaSearchResultPscvuConverter" alias="tmaSearchResultPscvuConverter"/>
+   <bean id="defaultTmaSearchResultPscvuConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value=" java.util.ArrayList"/>
+      <property name="populators">
+         <list>
+            <ref bean="tmaSearchResultPscvuPopulator"/>
+         </list>
+      </property>
+   </bean>
+
+    <bean id="tmaSearchResultProductPopulator"
+          class="de.hybris.platform.b2ctelcofacades.search.solrfacetsearch.populators.TmaSearchResultPoPopulator"
+          parent="defaultCommerceSearchResultProductPopulator">
+        <property name="tmaPriceDataFactory" ref="tmaPriceDataFactory"/>
+    </bean>
+
+    <alias name="defaultTmaSearchResultPopulator" alias="tmaSearchResultPopulator"/>
+    <bean id="defaultTmaSearchResultPopulator"
+         class="de.hybris.platform.b2ctelcofacades.search.solrfacetsearch.populators.TmaSearchResultPopulator" abstract="true"/>
+
+    <bean parent="modifyPopulatorList">
+        <property name="list" ref="commerceSearchResultProductConverter"/>
+        <property name="add" ref="tmaSearchResultParentBpoPopulator"/>
+    </bean>
+
+    <alias name="defaultTmaSearchResultParentBpoPopulator" alias="tmaSearchResultParentBpoPopulator"/>
+    <bean id="defaultTmaSearchResultParentBpoPopulator"
+         class="de.hybris.platform.b2ctelcofacades.search.solrfacetsearch.populators.TmaSearchResultParentBpoPopulator"/>
+
+   <bean parent="modifyPopulatorList">
+      <property name="list" ref="commerceSearchResultProductConverter"/>
+      <property name="add" ref="tmaSearchResultBpoChildrenPopulator"/>
+   </bean>
+
+   <alias name="defaultTmaSearchResultBpoChildrenPopulator" alias="tmaSearchResultBpoChildrenPopulator"/>
+   <bean id="defaultTmaSearchResultBpoChildrenPopulator"
+         class="de.hybris.platform.b2ctelcofacades.search.solrfacetsearch.populators.TmaSearchResultBpoChildrenPopulator"/>
+
+   <bean parent="modifyPopulatorList">
+        <property name="list" ref="commerceSearchResultProductConverter"/>
+        <property name="add" ref="tmaSearchResultProductSpecificationPopulator"/>
+    </bean>
+
+    <alias name="defaultTmaSearchResultProductSpecificationPopulator" alias="tmaSearchResultProductSpecificationPopulator"/>
+    <bean id="defaultTmaSearchResultProductSpecificationPopulator"
+          class="de.hybris.platform.b2ctelcofacades.search.solrfacetsearch.populators.TmaSearchResultProductSpecificationPopulator"/>
+
+    <bean parent="modifyPopulatorList">
+        <property name="list" ref="commerceSearchResultProductConverter"/>
+        <property name="add" ref="tmaSearchResultProductGroupsPopulator"/>
+    </bean>
+
+    <alias name="defaultTmaSearchResultProductGroupsPopulator" alias="tmaSearchResultProductGroupsPopulator"/>
+    <bean id="defaultTmaSearchResultProductGroupsPopulator"
+          class="de.hybris.platform.b2ctelcofacades.search.solrfacetsearch.populators.TmaSearchResultProductGroupsPopulator"/>
+
+   <alias name="defaultTmaPriceDataTypeMap" alias="tmaPriceDataTypeMap"/>
+    <util:map id="defaultTmaPriceDataTypeMap" map-class="java.util.HashMap">
+        <entry key="#{T(de.hybris.platform.b2ctelcoservices.model.TmaOneTimeProdOfferPriceChargeModel)._TYPECODE}"
+               value="de.hybris.platform.b2ctelcofacades.data.TmaOneTimeProdOfferPriceChargeData"/>
+        <entry key="#{T(de.hybris.platform.b2ctelcoservices.model.TmaRecurringProdOfferPriceChargeModel)._TYPECODE}"
+               value="de.hybris.platform.b2ctelcofacades.data.TmaRecurringProdOfferPriceChargeData"/>
+        <entry key="#{T(de.hybris.platform.b2ctelcoservices.model.TmaUsageProdOfferPriceChargeModel)._TYPECODE}"
+               value="de.hybris.platform.b2ctelcofacades.data.TmaUsageProdOfferPriceChargeData"/>
+        <entry key="#{T(de.hybris.platform.b2ctelcoservices.model.TmaCompositeProdOfferPriceModel)._TYPECODE}"
+               value="de.hybris.platform.b2ctelcofacades.data.TmaCompositeProdOfferPriceData"/>
+        <entry key="#{T(de.hybris.platform.b2ctelcoservices.model.TmaTierUsageChargeCompositePopModel)._TYPECODE}"
+               value="de.hybris.platform.b2ctelcofacades.data.TmaTierUsageCompositeProdOfferPriceData"/>
+       <entry key="#{T(de.hybris.platform.b2ctelcoservices.model.TmaDiscountProdOfferPriceAlterationModel)._TYPECODE}"
+              value="de.hybris.platform.b2ctelcofacades.data.TmaDiscountProdOfferPriceAlterationData"/>
+       <entry key="#{T(de.hybris.platform.b2ctelcoservices.model.TmaAllowanceProdOfferPriceAlterationModel)._TYPECODE}"
+              value="de.hybris.platform.b2ctelcofacades.data.TmaAllowanceProdOfferPriceAlterationData"/>
+    </util:map>
+
+   <alias name="defaultTmaPricingLogicAlgorithmDataTypeMap" alias="tmaPricingLogicAlgorithmDataTypeMap"/>
+   <util:map id="defaultTmaPricingLogicAlgorithmDataTypeMap" map-class="java.util.HashMap">
+      <entry key="#{T(de.hybris.platform.b2ctelcoservices.model.TmaOneTimeRatingPlaModel)._TYPECODE}"
+             value="de.hybris.platform.b2ctelcofacades.data.TmaOneTimePricingLogicAlgorithmData"/>
+      <entry key="#{T(de.hybris.platform.b2ctelcoservices.model.TmaRecurringRatingPlaModel)._TYPECODE}"
+             value="de.hybris.platform.b2ctelcofacades.data.TmaRecurringPricingLogicAlgorithmData"/>
+      <entry key="#{T(de.hybris.platform.b2ctelcoservices.model.TmaUsageRatingPlaModel)._TYPECODE}"
+             value="de.hybris.platform.b2ctelcofacades.data.TmaUsagePricingLogicAlgorithmData"/>
+   </util:map>
+
+   <alias name="defaultTelcoProductTypePopulator" alias="telcoProductTypePopulator"/>
+   <bean id="defaultTelcoProductTypePopulator"
+         class="de.hybris.platform.b2ctelcofacades.product.converters.populator.TelcoProductTypePopulator"/>
+
+   <bean parent="modifyPopulatorList">
+      <property name="list" ref="productBasicPopulatorList"/>
+      <property name="add" ref="telcoProductTypePopulator"/>
+   </bean>
+
+   <bean parent="modifyPopulatorList">
+      <property name="list" ref="productBasicPopulatorList"/>
+      <property name="add" ref="productStockPopulator"/>
+   </bean>
+
+   <alias name="defaultTelcoCheckoutFacade" alias="acceleratorCheckoutFacade"/>
+   <bean id="defaultTelcoCheckoutFacade"
+         class="de.hybris.platform.b2ctelcofacades.bundle.impl.DefaultTmaCheckoutFacade"
+         parent="defaultAcceleratorCheckoutFacade">
+      <property name="commerceCartService" ref="commerceCartService"/>
+      <property name="cartConverter" ref="cartConverter"/>
+      <property name="principalConverter" ref="principalConverter"/>
+      <property name="orderDataToCartDataConverter" ref="tmaOrderDataToCartDataConverter"/>
+      <property name="cartReverseConverter" ref="tmaCartReverseConverter"/>
+   </bean>
+
+   <alias name="defaultTmaCheckoutFacade" alias="checkoutFacade"/>
+   <bean id="defaultTmaCheckoutFacade"
+         class="de.hybris.platform.b2ctelcofacades.order.impl.DefaultTmaCheckoutFacade"
+         parent="defaultCheckoutFacade">
+   </bean>
+
+   <alias name="defaultTmaCreditCardPaymentInfoCodePopulator" alias="tmaCreditCardPaymentInfoCodePopulator"/>
+   <bean id="defaultTmaCreditCardPaymentInfoCodePopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaCreditCardPaymentInfoCodePopulator">
+   </bean>
+
+   <bean parent="modifyPopulatorList">
+      <property name="list" ref="creditCardPaymentInfoConverter"/>
+      <property name="add" ref="tmaCreditCardPaymentInfoCodePopulator"/>
+   </bean>
+
+   <bean parent="modifyPopulatorList">
+      <property name="list" ref="productBasicPopulatorList"/>
+      <property name="add" ref="productDeliveryModeAvailabilityPopulator"/>
+   </bean>
+
+   <alias name="b2ctelcoAddressReversePopulator" alias="addressReversePopulator"/>
+   <bean id="b2ctelcoAddressReversePopulator" parent="defaultAddressReversePopulator"
+         class="de.hybris.platform.b2ctelcofacades.user.converters.populator.B2ctelcoAddressReversePopulator"/>
+
+   <alias name="tmaAddressPopulator" alias="addressPopulator"/>
+   <bean id="tmaAddressPopulator" parent="defaultAddressPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaAddressPopulator">
+   </bean>
+
+    <alias name="tmaAddressReversePopulator" alias="addressReversePopulator"/>
+    <bean id="tmaAddressReversePopulator" parent="defaultAddressReversePopulator"
+          class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaAddressReversePopulator">
+    </bean>
+
+   <alias name="defaultTmaMiniCartEntriesPopulator" alias="tmaMiniCartEntriesPopulator"/>
+   <bean id="defaultTmaMiniCartEntriesPopulator"
+         class="de.hybris.platform.b2ctelcofacades.order.converters.populator.TmaMiniCartEntriesPopulator">
+      <property name="telcoOrderEntryConverter" ref="orderEntryConverter"/>
+   </bean>
+
+    <alias name="defaultTmaMiniCartPopulator" alias="miniCartPopulator"/>
+    <bean id="defaultTmaMiniCartPopulator" parent="defaultMiniCartPopulator"
+          class="de.hybris.platform.b2ctelcofacades.order.converters.populator.TmaMiniCartPopulator">
+    </bean>
+
+   <bean parent="modifyPopulatorList">
+      <property name="list" ref="miniCartConverter"/>
+      <property name="add" ref="tmaMiniCartEntriesPopulator"/>
+   </bean>
+
+   <alias name="defaultTmaBaseOrderPopulator" alias="tmaBaseOrderPopulator"/>
+   <bean id="defaultTmaBaseOrderPopulator"
+         class="de.hybris.platform.b2ctelcofacades.order.converters.populator.TmaAbstractOrderPopulator"
+         parent="baseOrderPopulator">
+   </bean>
+
+   <alias name="defaultTmaCartPopulator" alias="tmaCartPopulator"/>
+   <bean id="defaultTmaCartPopulator" class="de.hybris.platform.b2ctelcofacades.order.converters.populator.TmaCartPopulator"
+         parent="tmaBaseOrderPopulator">
+      <constructor-arg name="creditCardPaymentInfoConverter" ref="creditCardPaymentInfoConverter"/>
+      <constructor-arg name="addressConverter" ref="addressConverter"/>
+      <constructor-arg name="deliveryModeConverter" ref="deliveryModeConverter"/>
+      <constructor-arg name="zoneDeliveryModeConverter" ref="zoneDeliveryModeConverter"/>
+   </bean>
+
+   <alias name="defaultTmaHierarchicalCartPopulator" alias="cartPopulator"/>
+   <bean id="defaultTmaHierarchicalCartPopulator"
+         class="de.hybris.platform.b2ctelcofacades.order.converters.populator.TmaHierarchicalCartPopulator"
+         parent="defaultCartPopulator">
+       <constructor-arg name="orderEntryFacade" ref="tmaOrderEntryFacade"/>
+   </bean>
+
+   <alias name="defaultTmaHierarchicalOrderPopulator" alias="orderPopulator"/>
+   <bean id="defaultTmaHierarchicalOrderPopulator"
+         class="de.hybris.platform.b2ctelcofacades.order.converters.populator.TmaHierarchicalOrderPopulator"
+         parent="defaultOrderPopulator">
+   </bean>
+
+   <alias name="defaultTmaHierarchicalQuotePopulator" alias="quotePopulator"/>
+   <bean id="defaultTmaHierarchicalQuotePopulator"
+         class="de.hybris.platform.b2ctelcofacades.order.converters.populator.TmaHierarchicalQuotePopulator"
+         parent="defaultQuotePopulator">
+   </bean>
+
+   <alias name="defaultTmaConsignmentPopulator" alias="consignmentPopulator"/>
+   <bean id="defaultTmaConsignmentPopulator"
+         class="de.hybris.platform.b2ctelcofacades.order.converters.populator.TmaConsignmentPopulator"
+         parent="defaultConsignmentPopulator">
+   </bean>
+
+   <alias name="defaultTmaOrderConsignmentPopulator" alias="orderConsignmentPopulator"/>
+   <bean id="defaultTmaOrderConsignmentPopulator"
+         class="de.hybris.platform.b2ctelcofacades.order.converters.populator.TmaOrderConsignmentPopulator"
+         parent="defaultOrderConsignmentPopulator">
+   </bean>
+
+   <alias name="defaultTmaExtendedHierarchicalCartPopulator" alias="extendedCartPopulator"/>
+   <bean id="defaultTmaExtendedHierarchicalCartPopulator"
+         class="de.hybris.platform.b2ctelcofacades.order.converters.populator.TmaExtendedHierarchicalCartPopulator"
+         parent="defaultTmaHierarchicalCartPopulator">
+   </bean>
+
+   <bean id="defaultTmaCartInvalidMessagesPopulator"
+         class="de.hybris.platform.b2ctelcofacades.order.converters.populator.TmaCartInvalidMessagesPopulator"/>
+
+   <alias name="defaultTmaCartValidationMessagesPopulator" alias="tmaCartValidationMessagesPopulator"/>
+   <bean id="defaultTmaCartValidationMessagesPopulator"
+         class="de.hybris.platform.b2ctelcofacades.order.converters.populator.TmaCartValidationMessagesPopulator">
+      <constructor-arg name="cartValidationConverter" ref="tmaCartValidationConverter"/>
+   </bean>
+
+    <bean parent="modifyPopulatorList">
+        <property name="list" ref="cartConverter"/>
+        <property name="add" ref="tmaCartValidationMessagesPopulator"/>
+    </bean>
+
+    <bean parent="modifyPopulatorList">
+        <property name="list" ref="cartConverter"/>
+        <property name="add" ref="tmaCartPopulator"/>
+    </bean>
+
+   <alias name="defaultTmaOrderEntryPopulator" alias="tmaOrderEntryPopulator"/>
+   <bean id="defaultTmaOrderEntryPopulator"
+         class="de.hybris.platform.b2ctelcofacades.order.converters.populator.TmaOrderEntryPopulator">
+      <property name="tmaSubscriptionInfoConverter" ref="tmaSubscriptionInfoConverter"/>
+      <property name="productConverter" ref="orderEntryProductConverter"/>
+      <property name="cartValidationConverter" ref="tmaCartValidationConverter"/>
+   </bean>
+
+    <alias name="defaultTmaPickupOrderEntryGroupPopulator" alias="pickupOrderEntryGroupPopulator"/>
+    <bean id="defaultTmaPickupOrderEntryGroupPopulator" parent="defaultPickupOrderEntryGroupPopulator"
+          class="de.hybris.platform.b2ctelcofacades.order.converters.populator.TmaPickupOrderEntryGroupPopulator">
+        <constructor-arg name="orderEntryFacade" ref="tmaOrderEntryFacade"/>
+    </bean>
+
+   <alias name="defaultTmaDeliveryOrderEntryGroupPopulator" alias="deliveryOrderEntryGroupPopulator"/>
+   <bean id="defaultTmaDeliveryOrderEntryGroupPopulator"
+         class="de.hybris.platform.b2ctelcofacades.order.converters.populator.TmaDeliveryOrderEntryGroupPopulator"
+         parent="defaultDeliveryOrderEntryGroupPopulator">
+   </bean>
+
+   <bean parent="modifyPopulatorList">
+        <property name="list" ref="orderEntryConverter"/>
+        <property name="add" ref="tmaOrderEntryPopulator"/>
+   </bean>
+
+   <alias name="defaultTmaCartValidationPopulator" alias="tmaCartValidationPopulator"/>
+   <bean id="defaultTmaCartValidationPopulator"
+         class="de.hybris.platform.b2ctelcofacades.order.converters.populator.TmaCartValidationPopulator"/>
+
+   <alias name="defaultTmaCartValidationConverter" alias="tmaCartValidationConverter"/>
+   <bean id="defaultTmaCartValidationConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaCartValidationData"/>
+      <property name="populators">
+         <list>
+            <ref bean="tmaCartValidationPopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <alias name="defaultTmaSubscriptionInfoPopulator" alias="tmaSubscriptionInfoPopulator"/>
+   <bean id="defaultTmaSubscriptionInfoPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaSubscriptionInfoPopulator">
+      <property name="tmaSubscriptionTermConverter" ref="tmaSubscriptionTermConverter"/>
+   </bean>
+
+   <alias name="defaultTmaSubscriptionInfoConverter" alias="tmaSubscriptionInfoConverter"/>
+   <bean id="defaultTmaSubscriptionInfoConverter" parent="abstractPopulatingConverter" >
+      <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaCartSubscriptionInfoData"/>
+      <property name="populators">
+         <list>
+            <ref bean="tmaSubscriptionInfoPopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <alias name="defaultTmaCartReverseConverter" alias="tmaCartReverseConverter"/>
+   <bean id="defaultTmaCartReverseConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.core.model.order.CartModel"/>
+      <property name="populators">
+         <list>
+            <ref bean="tmaCartReversePopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <alias name="defaultTmaCartReversePopulator" alias="tmaCartReversePopulator"/>
+   <bean id="defaultTmaCartReversePopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaCartReversePopulator"/>
+
+   <alias name="defaultTmaOrderDataToCartDataConverter" alias="tmaOrderDataToCartDataConverter"/>
+   <bean id="defaultTmaOrderDataToCartDataConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.commercefacades.order.data.CartData"/>
+      <property name="populators">
+         <list>
+            <ref bean="tmaOrderDataToCartDataPopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <alias name="defaultTmaOrderDataToCartDataPopulator" alias="tmaOrderDataToCartDataPopulator"/>
+   <bean id="defaultTmaOrderDataToCartDataPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaOrderDataToCartDataPopulator"/>
+
+   <alias name="defaultBillingTimeConverter" alias="billingTimeConverter"/>
+   <bean id="defaultBillingTimeConverter" parent="abstractPopulatingConverter">
+      <lookup-method name="createTarget" bean="billingTimeData"/>
+      <property name="populators">
+         <list>
+            <ref bean="billingTimePopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <bean id="billingTimeComparator"
+         class="de.hybris.platform.subscriptionfacades.order.impl.BillingTimeComparator">
+   </bean>
+
+   <alias name="defaultBillingTimePopulator" alias="billingTimePopulator"/>
+   <bean id="defaultBillingTimePopulator"
+         class="de.hybris.platform.subscriptionfacades.converters.populator.BillingTimePopulator"/>
+
+   <alias name="orderHistoryBillingDetailPopulator" alias="orderHistoryPopulator"/>
+   <bean id="orderHistoryBillingDetailPopulator"
+         class="de.hybris.platform.b2ctelcofacades.order.converters.populator.OrderHistoryBillingDetailPopulator">
+      <property name="billingTimeConverter" ref="billingTimeConverter"/>
+      <property name="enumerationService" ref="enumerationService"/>
+      <property name="priceDataFactory" ref="priceDataFactory"/>
+      <property name="billingTimeComparator" ref="billingTimeComparator"/>
+   </bean>
+
+   <alias name="defaultEnumerationValuePopulator" alias="enumerationValuePopulator"/>
+   <bean id="defaultEnumerationValuePopulator"
+         class="de.hybris.platform.b2ctelcofacades.subscription.converters.populator.EnumerationValuePopulator"/>
+
+   <alias name="defaultEnumerationValueConverter" alias="enumerationValueConverter"/>
+   <bean id="defaultEnumerationValueConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.EnumerationValueData"/>
+      <property name="populators">
+         <list>
+            <ref bean="enumerationValuePopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <alias name="defaultEnumTypeFacade" alias="enumTypeFacade"/>
+   <bean id="defaultEnumTypeFacade" abstract="true">
+      <property name="enumerationService" ref="enumerationService"/>
+      <property name="enumerationValueConverter" ref="enumerationValueConverter"/>
+   </bean>
+
+   <alias name="defaultEntryGroupConverter" alias="entryGroupConverter"/>
+   <bean id="defaultEntryGroupConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.commercefacades.order.EntryGroupData"/>
+      <property name="populators">
+         <list>
+            <ref bean="tmaEntryGroupPopulator"/>
+            <ref bean="tmaEntryGroupValidationMessagesPopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <alias name="defaultTmaEntryGroupPopulator" alias="tmaEntryGroupPopulator"/>
+   <bean id="defaultTmaEntryGroupPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaEntryGroupPopulator" parent="entryGroupPopulator">
+   </bean>
+
+   <bean id="defaultTmaEntryGroupErrorMessagesPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaEntryGroupErrorMessagesPopulator"/>
+
+   <alias name="defaultTmaEntryGroupValidationMessagesPopulator" alias="tmaEntryGroupValidationMessagesPopulator"/>
+   <bean id="defaultTmaEntryGroupValidationMessagesPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaEntryGroupValidationMessagesPopulator">
+      <constructor-arg name="cartValidationConverter" ref="tmaCartValidationConverter"/>
+   </bean>
+
+   <alias name="defaultTmaServiceTypeFacade" alias="tmaServiceTypeFacade"/>
+   <bean id="defaultTmaServiceTypeFacade"
+         class="de.hybris.platform.b2ctelcofacades.subscription.impl.DefaultEnumerationFacade"
+         parent="enumTypeFacade">
+      <constructor-arg name="enumerationTypeCode">
+         <util:constant static-field="de.hybris.platform.b2ctelcoservices.enums.TmaServiceType._TYPECODE"/>
+      </constructor-arg>
+   </bean>
+
+   <alias name="defaultTmaAccessTypeFacade" alias="tmaAccessTypeFacade"/>
+   <bean id="defaultTmaAccessTypeFacade"
+         class="de.hybris.platform.b2ctelcofacades.subscription.impl.DefaultEnumerationFacade"
+         parent="enumTypeFacade">
+      <constructor-arg name="enumerationTypeCode">
+         <util:constant static-field="de.hybris.platform.b2ctelcoservices.enums.TmaAccessType._TYPECODE"/>
+      </constructor-arg>
+   </bean>
+
+   <alias name="defaultTmaSubscriptionAccessPopulator" alias="tmaSubscriptionAccessPopulator"/>
+   <bean id="defaultTmaSubscriptionAccessPopulator"
+         class="de.hybris.platform.b2ctelcofacades.subscription.converters.populator.TmaSubscriptionAccessPopulator">
+      <property name="subscriptionBaseDataConverter" ref="tmaSubscriptionBaseConverter" />
+
+   </bean>
+
+   <alias name="defaultTmaSubscriptionAccessConverter" alias="tmaSubscriptionAccessConverter"/>
+   <bean id="defaultTmaSubscriptionAccessConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaSubscriptionAccessData"/>
+      <property name="populators">
+         <list>
+            <ref bean="tmaSubscriptionAccessPopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <alias name="defaultTmaDetailedSubscriptionBasePopulator" alias="tmaDetailedSubscriptionBasePopulator"/>
+   <bean id="defaultTmaDetailedSubscriptionBasePopulator"
+         class="de.hybris.platform.b2ctelcofacades.subscription.converters.populator.TmaDetailedSubscriptionBasePopulator">
+      <property name="billingAccountConverter" ref="tmaBillingAccountConverter"/>
+   </bean>
+
+   <alias name="defaultTmaDetailedSubscriptionBaseConverter" alias="tmaDetailedSubscriptionBaseConverter"/>
+   <bean id="defaultTmaDetailedSubscriptionBaseConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaDetailedSubscriptionBaseData"/>
+      <property name="populators">
+         <list>
+            <ref bean="tmaDetailedSubscriptionBasePopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <alias name="defaultTmaSubscriptionAccessFacade" alias="tmaSubscriptionAccessFacade"/>
+   <bean id="defaultTmaSubscriptionAccessFacade"
+         class="de.hybris.platform.b2ctelcofacades.subscription.impl.DefaultTmaSubscriptionAccessFacade">
+      <property name="tmaSubscriptionAccessService" ref="tmaSubscriptionAccessService"/>
+      <property name="tmaSubscriptionAccessConverter" ref="tmaSubscriptionAccessConverter"/>
+   </bean>
+
+   <alias name="defaultSubscriptionBasePopulator" alias="tmaSubscriptionBasePopulator"/>
+   <bean id="defaultSubscriptionBasePopulator"
+         class="de.hybris.platform.b2ctelcofacades.subscription.converters.populator.TmaSubscriptionBasePopulator">
+         <constructor-arg name="tmaSubscriptionAccessRefConverter" ref="tmaSubscriptionAccessRefConverter"/>
+         <constructor-arg name="tmaProductSubscriptionBaseConverter" ref="tmaProductSubscriptionBaseConverter"/>
+   </bean>
+
+    <alias name="defaultTmaSubscriptionBaseSubscribedProductPopulator" alias="tmaSubscriptionBaseSubscribedProductPopulator"/>
+    <bean id="defaultTmaSubscriptionBaseSubscribedProductPopulator"
+          class="de.hybris.platform.b2ctelcofacades.subscription.converters.populator.TmaSubscriptionBaseSubscribedProductPopulator">
+        <property name="tmaSubscribedProductConverter" ref="tmaSubscribedProductConverter"/>
+    </bean>
+
+   <alias name="defaultTmaSubscriptionBaseConverter" alias="tmaSubscriptionBaseConverter"/>
+   <bean id="defaultTmaSubscriptionBaseConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaSubscriptionBaseData"/>
+      <property name="populators">
+         <list>
+            <ref bean="tmaSubscriptionBasePopulator"/>
+            <ref bean="tmaSubscriptionBaseSubscribedProductPopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <alias name="defaultTmaSubscriptionBaseReverseConverter" alias="tmaSubscriptionBaseReverseConverter"/>
+   <bean id="defaultTmaSubscriptionBaseReverseConverter" parent="abstractPopulatingConverter">
+       <property name="targetClass" value="de.hybris.platform.b2ctelcoservices.model.TmaSubscriptionBaseModel"/>
+       <property name="populators">
+           <list>
+               <ref bean="tmaSubscriptionBaseReversePopulator"/>
+           </list>
+       </property>
+   </bean>
+
+   <alias name="deafultTmaSubscriptionBaseReversePopulator" alias="tmaSubscriptionBaseReversePopulator"/>
+   <bean id="deafultTmaSubscriptionBaseReversePopulator"
+         class="de.hybris.platform.b2ctelcofacades.subscription.converters.populator.TmaSubscriptionBaseReversePopulator">
+   </bean>
+
+   <alias name="defaultSubscriptionSelectionPopulator" alias="tmaSubscriptionSelectionPopulator"/>
+   <bean id="defaultSubscriptionSelectionPopulator"
+         class="de.hybris.platform.b2ctelcofacades.subscription.converters.populator.TmaSubscriptionSelectionPopulator"/>
+
+   <alias name="defaultTmaSubscriptionSelectionConverter" alias="tmaSubscriptionSelectionConverter"/>
+   <bean id="defaultTmaSubscriptionSelectionConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaSubscriptionSelectionData"/>
+      <property name="populators">
+         <list>
+            <ref bean="tmaSubscriptionSelectionPopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <bean id="tmaProductSpecCharacteristicValuePopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaProductSpecCharacteristicValuePopulator"/>
+
+   <alias name="defaultTmaProductSpecCharacteristicValueConverter" alias="tmaProductSpecCharacteristicValueConverter"/>
+   <bean id="defaultTmaProductSpecCharacteristicValueConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaProductSpecCharacteristicValueData"/>
+      <property name="populators">
+         <list>
+            <ref bean="tmaProductSpecCharacteristicValuePopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <alias name="defaultTmaProductSpecCharacteristicPopulator" alias="tmaProductSpecCharacteristicPopulator"/>
+   <bean id="defaultTmaProductSpecCharacteristicPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaProductSpecCharacteristicPopulator">
+      <constructor-arg name="defaultTmaProductSpecCharacteristicValueConverter" ref="tmaProductSpecCharacteristicValueConverter"/>
+   </bean>
+
+   <alias name="defaultTmaProductSpecCharacteristicConverter" alias="tmaProductSpecCharacteristicConverter"/>
+   <bean id="defaultTmaProductSpecCharacteristicConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaProductSpecCharacteristicData"/>
+      <property name="populators">
+         <list>
+            <ref bean="tmaProductSpecCharacteristicPopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <alias name="defaultTmaServiceSpecificationBasicPopulator" alias="tmaServiceSpecificationBasicPopulator"/>
+   <bean id="defaultTmaServiceSpecificationBasicPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaServiceSpecificationBasicPopulator">
+      <constructor-arg name="externalIdentifierConverter" ref="tmaExternalIdentifierConverter"/>
+   </bean>
+
+   <alias name="defaultTmaServiceSpecificationConverter" alias="tmaServiceSpecificationConverter"/>
+   <bean id="defaultTmaServiceSpecificationConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaServiceSpecificationData"/>
+      <property name="populators">
+         <list>
+            <ref bean="tmaServiceSpecificationBasicPopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <bean id="tmaProductSpecCharValueUsePopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaProductSpecCharValueUsePopulator">
+      <property name="pscvConverter" ref="tmaProductSpecCharacteristicValueConverter"/>
+   </bean>
+
+   <alias name="defaultTmaProductSpecCharValueUseConverter" alias="tmaProductSpecCharValueUseConverter"/>
+   <bean id="defaultTmaProductSpecCharValueUseConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaProductSpecCharacteristicValueUseData"/>
+      <property name="populators">
+         <list>
+            <ref bean="tmaProductSpecCharValueUsePopulator"/>
+         </list>
+      </property>
+   </bean>
+
+	<alias name="defaultTmaProdSpecCharValueUseBasicPopulator" alias="tmaProdSpecCharValueUseBasicPopulator"/>
+	<bean id="defaultTmaProdSpecCharValueUseBasicPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaProdSpecCharValueUseBasicPopulator">
+      <constructor-arg name="pscvConverter" ref="tmaProductSpecCharacteristicValueConverter"/>
+   </bean>
+
+   <alias name="defaultTmaProdSpecCharValueUseConverter" alias="tmaProdSpecCharValueUseConverter"/>
+   <bean id="defaultTmaProdSpecCharValueUseConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaProductSpecCharacteristicValueUseData"/>
+      <property name="populators">
+         <list>
+            <ref bean="tmaProdSpecCharValueUseBasicPopulator"/>
+         </list>
+      </property>
+   </bean>
+   
+   <bean id="tmaAverageServiceUsagePopulator"
+         class="de.hybris.platform.b2ctelcofacades.subscription.converters.populator.TmaAverageServiceUsagePopulator">
+      <property name="tmaProductSpecCharacteristicValueConverter" ref="tmaProductSpecCharacteristicValueConverter"/>
+      <property name="tmaUnitConversionStrategy" ref="tmaUnitConversionStrategy"/>
+   </bean>
+
+   <alias name="defaultTmaAverageServiceUsageConverter" alias="tmaAverageServiceUsageConverter"/>
+   <bean id="defaultTmaAverageServiceUsageConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaAverageServiceUsageData"/>
+      <property name="populators">
+         <list>
+            <ref bean="tmaAverageServiceUsagePopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <alias name="defaultTmaSubscriptionBaseFacade" alias="tmaSubscriptionBaseFacade"/>
+   <bean id="defaultTmaSubscriptionBaseFacade"
+         class="de.hybris.platform.b2ctelcofacades.subscription.impl.DefaultTmaSubscriptionBaseFacade">
+      <property name="tmaSubscriptionBaseService" ref="tmaSubscriptionBaseService"/>
+      <property name="tmaSubscriptionAccessService" ref="tmaSubscriptionAccessService"/>
+      <property name="tmaSubscriptionBaseConverter" ref="tmaSubscriptionBaseConverter"/>
+      <property name="tmaSubscriptionBaseReverseConverter" ref="tmaSubscriptionBaseReverseConverter"/>
+      <property name="tmaSubscriptionSelectionConverter" ref="tmaSubscriptionSelectionConverter"/>
+      <property name="customerFacade" ref="customerFacade"/>
+      <property name="tmaSubscriptionAccessConverter" ref="tmaSubscriptionAccessConverter"/>
+      <property name="tmaDetailedSubscriptionBaseConverter" ref="tmaDetailedSubscriptionBaseConverter"/>
+      <property name="userService" ref="userService"/>
+   </bean>
+
+   <alias name="tmaCustomerFacade" alias="customerFacade"/>
+   <alias name="defaultTmaCustomerFacade" alias="tmaCustomerFacade"/>
+   <bean id="defaultTmaCustomerFacade"
+         class="de.hybris.platform.b2ctelcofacades.user.impl.TmaDefaultCustomerFacade" parent="defaultCustomerFacade">
+      <property name="tmaSubscriptionAccessFacade" ref="tmaSubscriptionAccessFacade"/>
+      <property name="tmaEligibilityContextService" ref="tmaEligibilityContextService"/>
+      <property name="tmaCustomerInventoryService" ref="tmaCustomerInventoryService"/>
+      <property name="tmaSubscriptionBaseConverter" ref="tmaSubscriptionBaseConverter"/>
+      <property name="tmaSubscriptionSelectionConverter" ref="tmaSubscriptionSelectionConverter"/>
+      <property name="tmaSubscriptionBaseService" ref="tmaSubscriptionBaseService"/>
+      <property name="principalConverter" ref="principalConverter"/>
+      <constructor-arg name="enumerationService" ref="enumerationService"/>
+      <constructor-arg name="tmaIdentificationService" ref="tmaIdentificationService"/>
+   </bean>
+
+    <alias name="defaultTmaUserFacade" alias="userFacade"/>
+    <bean id="defaultTmaUserFacade"
+          class="de.hybris.platform.b2ctelcofacades.user.impl.DefaultTmaUserFacade" parent="defaultUserFacade">
+       <property name="principalConverter" ref="principalConverter"/>
+       <property name="customerAccountService" ref="tmaCustomerAccountService"/>
+    </bean>
+
+   <alias name="defaultTmaSubscribedProductFacade" alias="tmaSubscribedProductFacade"/>
+   <bean id="defaultTmaSubscribedProductFacade"
+         class="de.hybris.platform.b2ctelcofacades.subscription.impl.DefaultTmaSubscribedProductFacade">
+      <property name="modelService" ref="modelService"/>
+      <property name="userService" ref="userService"/>
+      <property name="productFacade" ref="productFacade"/>
+      <property name="tmaSubscribedProductService" ref="tmaSubscribedProductService"/>
+      <property name="tmaSubscribedProductConverter" ref="tmaSubscribedProductConverter"/>
+      <property name="tmaSubscribedProductReverseConverter" ref="tmaSubscribedProductReverseConverter"/>
+      <property name="tmaSubscriptionAccessFacade" ref="tmaSubscriptionAccessFacade"/>
+      <property name="tmaSubscriptionBaseFacade" ref="tmaSubscriptionBaseFacade"/>
+      <property name="tmaBillingAccountFacade" ref="tmaBillingAccountFacade"/>
+      <property name="tmaSubscriptionBaseService" ref="tmaSubscriptionBaseService"/>
+      <property name="tmaAverageServiceUsageConverter" ref="tmaAverageServiceUsageConverter"/>
+      <property name="subscriptionBillingDataListConverter" ref="subscriptionBillingDataListConverter"/>
+      <property name="productConverter" ref="productConverter"/>
+      <property name="categoryService" ref="categoryService"/>
+      <property name="subscriptionTermConverter" ref="tmaSubscriptionTermConverter"/>
+      <property name="tmaSubscriptionPricePlanConverter" ref="tmaSubscriptionPricePlanConverter"/>
+      <property name="tmaPoService" ref="tmaPoService"/>
+      <property name="tmaUnitConversionStrategy" ref="tmaUnitConversionStrategy"/>
+      <property name="catalogVersionService" ref="catalogVersionService"/>
+      <property name="defaultSubscriptionProductsCategories" value="${default.subscriptionProducts.categories}"/>
+      <constructor-arg name="customerInventoryService" ref="tmaCustomerInventoryService"/>
+   </bean>
+
+   <alias name="defaultTmaSubscribedProductReversePopulator" alias="tmaSubscribedProductReversePopulator"/>
+   <bean id="defaultTmaSubscribedProductReversePopulator"
+         class="de.hybris.platform.b2ctelcofacades.subscription.converters.populator.TmaSubscribedProductReversePopulator">
+      <property name="tmaSubscriptionBaseService" ref="tmaSubscriptionBaseService"/>
+   </bean>
+
+   <alias name="defaultTmaSubscribedProductReverseConverter" alias="tmaSubscribedProductReverseConverter"/>
+   <bean id="defaultTmaSubscribedProductReverseConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.b2ctelcoservices.model.TmaSubscribedProductModel"/>
+      <property name="populators">
+         <list>
+            <ref bean="tmaSubscribedProductReversePopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <alias name="defaultTmaSubscribedProductPopulator" alias="tmaSubscribedProductPopulator"/>
+   <bean id="defaultTmaSubscribedProductPopulator"
+         class="de.hybris.platform.b2ctelcofacades.subscription.converters.populator.TmaSubscribedProductPopulator">
+		<constructor-arg name="tmaPoService" ref="tmaPoService"/>
+		<constructor-arg name="productConverter" ref="productConverter"/>
+		<constructor-arg name="tmaBillingAccountDataConverter" ref="tmaBillingAccountConverter"/>
+		<constructor-arg name="tmaProductSubscribedProductConverter" ref="tmaProductSubscribedProductConverter"/>
+		<constructor-arg name="tmaSubscriptionAccessRefConverter" ref="tmaSubscriptionAccessRefConverter"/>
+   </bean>
+
+   <alias name="defaultSubscribedProductConverter" alias="tmaSubscribedProductConverter"/>
+   <bean id="defaultSubscribedProductConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaSubscribedProductData"/>
+      <property name="populators">
+         <list>
+            <ref bean="tmaSubscribedProductPopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <alias name="defaultTmaBillingAccountPopulator" alias="tmaBillingAccountPopulator"/>
+   <bean id="defaultTmaBillingAccountPopulator"
+         class="de.hybris.platform.b2ctelcofacades.subscription.converters.populator.TmaBillingAccountPopulator">
+   </bean>
+
+   <alias name="defaultTmaBillingAccountConverter" alias="tmaBillingAccountConverter"/>
+   <bean id="defaultTmaBillingAccountConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaBillingAccountData"/>
+      <property name="populators">
+         <list>
+            <ref bean="tmaBillingAccountPopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <alias name="defaultTmaBillingAccountFacade" alias="tmaBillingAccountFacade"/>
+   <bean id="defaultTmaBillingAccountFacade"
+         class="de.hybris.platform.b2ctelcofacades.subscription.impl.DefaultTmaBillingAccountFacade">
+      <property name="tmaBillingAccountService" ref="tmaBillingAccountService"/>
+      <property name="tmaBillingAccountDataConverter" ref="tmaBillingAccountConverter"/>
+   </bean>
+
+   <alias name="defaultTmaBpoPreConfigFacade" alias="tmaBpoPreConfigFacade"/>
+   <bean id="defaultTmaBpoPreConfigFacade"
+         class="de.hybris.platform.b2ctelcofacades.product.impl.DefaultTmaBpoPreConfigFacade">
+      <property name="tmaBpoPreConfigService" ref="tmaBpoPreConfigService"/>
+      <property name="bpoPreConfigDataConverter" ref="tmaBpoPreConfigDataConverter"/>
+   </bean>
+
+   <!-- TmaAbstractOrderPrice -->
+   <alias name="defaultTmaAbstractOrderPriceDataPopulator" alias="tmaAbstractOrderPriceDataPopulator"/>
+   <bean id="defaultTmaAbstractOrderPriceDataPopulator"
+         class="de.hybris.platform.b2ctelcofacades.price.converters.TmaAbstractOrderPriceDataPopulator">
+   </bean>
+
+   <!-- TmaAbstractOrderComponentPriceData -->
+   <alias name="defaultTmaAbstractOrderComponentPriceDataPopulator" alias="tmaAbstractOrderComponentPriceDataPopulator"/>
+   <bean id="defaultTmaAbstractOrderComponentPriceDataPopulator" parent="tmaAbstractOrderPriceDataPopulator"
+         class="de.hybris.platform.b2ctelcofacades.price.converters.TmaAbstractOrderComponentPriceDataPopulator">
+      <constructor-arg name="billingTimeConverter" ref="billingTimeConverter"/>
+      <constructor-arg name="priceDataFactory" ref="priceDataFactory"/>
+   </bean>
+
+   <!-- TmaAbstractOrderChargePriceData -->
+   <alias name="defaultTmaAbstractOrderChargePriceDataPopulator" alias="tmaAbstractOrderChargePriceDataPopulator"/>
+   <bean id="defaultTmaAbstractOrderChargePriceDataPopulator" parent="tmaAbstractOrderComponentPriceDataPopulator"
+         class="de.hybris.platform.b2ctelcofacades.price.converters.TmaAbstractOrderChargePriceDataPopulator">
+   </bean>
+
+   <!-- TmaOneTimeChargePriceData -->
+   <alias name="defaultTmaAbstractOrderOneTimeChargePriceDataPopulator" alias="tmaAbstractOrderOneTimeChargePriceDataPopulator"/>
+   <bean id="defaultTmaAbstractOrderOneTimeChargePriceDataPopulator" parent="tmaAbstractOrderChargePriceDataPopulator"
+         class="de.hybris.platform.b2ctelcofacades.price.converters.TmaAbstractOrderOneTimeChargePriceDataPopulator" >
+   </bean>
+
+   <alias name="defaultOneTimeChargePriceDataConverter" alias="tmaOneTimeChargePriceDataConverter"/>
+   <bean id="defaultOneTimeChargePriceDataConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaAbstractOrderOneTimeChargePriceData"/>
+      <property name="populators">
+         <list>
+            <ref bean="tmaAbstractOrderOneTimeChargePriceDataPopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <!-- TmaRecurringChargePriceData -->
+   <alias name="defaultTmaAbstractOrderRecurringChargePriceDataPopulator" alias="tmaAbstractOrderRecurringChargePriceDataPopulator"/>
+   <bean id="defaultTmaAbstractOrderRecurringChargePriceDataPopulator"
+         class="de.hybris.platform.b2ctelcofacades.price.converters.TmaAbstractOrderRecurringChargePriceDataPopulator" parent="tmaAbstractOrderChargePriceDataPopulator">
+   </bean>
+
+   <alias name="defaultRecurringChargePriceDataConverter" alias="tmaRecurringChargePriceDataConverter"/>
+   <bean id="defaultRecurringChargePriceDataConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaAbstractOrderRecurringChargePriceData"/>
+      <property name="populators">
+         <list>
+            <ref bean="tmaAbstractOrderRecurringChargePriceDataPopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <!-- TmaUsageChargePriceData -->
+   <alias name="defaultTmaAbstractOrderUsageChargePriceDataPopulator" alias="tmaAbstractOrderUsageChargePriceDataPopulator"/>
+   <bean id="defaultTmaAbstractOrderUsageChargePriceDataPopulator"
+         class="de.hybris.platform.b2ctelcofacades.price.converters.TmaAbstractOrderUsageChargePriceDataPopulator" parent="tmaAbstractOrderChargePriceDataPopulator">
+      <property name="usageUnitConverter" ref="usageUnitConverter"/>
+      <property name="usageChargeTypeConverter" ref="usageChargeTypeConverter"/>
+   </bean>
+
+   <alias name="defaultUsageChargePriceDataConverter" alias="tmaUsageChargePriceDataConverter"/>
+   <bean id="defaultUsageChargePriceDataConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaAbstractOrderUsageChargePriceData"/>
+      <property name="populators">
+         <list>
+            <ref bean="tmaAbstractOrderUsageChargePriceDataPopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <!-- TmaAbstractOrderCompositePriceData -->
+   <bean id="tmaAbstractOrderComponentPriceModel"
+         class="de.hybris.platform.b2ctelcoservices.model.TmaAbstractOrderComponentPriceModel"/>
+   <bean id="tmaAbstractOrderCompositePriceModel"
+         class="de.hybris.platform.b2ctelcoservices.model.TmaAbstractOrderCompositePriceModel"/>
+
+   <alias name="tmaAbstractOrderPriceConvertersMapping" alias="tmaAbstractOrderPriceConvertersMapping"/>
+   <util:map id="tmaAbstractOrderPriceConvertersMapping">
+       <entry key="#{T(de.hybris.platform.b2ctelcoservices.model.TmaAbstractOrderCompositePriceModel)._TYPECODE}"
+              value-ref="tmaAbstractOrderCompositePriceDataConverter"/>
+       <entry key="#{T(de.hybris.platform.b2ctelcoservices.model.TmaAbstractOrderOneTimeChargePriceModel)._TYPECODE}"
+              value-ref="tmaOneTimeChargePriceDataConverter"/>
+       <entry key="#{T(de.hybris.platform.b2ctelcoservices.model.TmaAbstractOrderRecurringChargePriceModel)._TYPECODE}"
+              value-ref="tmaRecurringChargePriceDataConverter"/>
+       <entry key="#{T(de.hybris.platform.b2ctelcoservices.model.TmaAbstractOrderUsageChargePriceModel)._TYPECODE}"
+              value-ref="tmaUsageChargePriceDataConverter"/>
+      <entry key="#{T(de.hybris.platform.b2ctelcoservices.model.TmaAbstractOrderTierUsageCompositePriceModel)._TYPECODE}"
+             value-ref="tmaAbstractOrderTierUsageCompositePriceDataConverter"/>
+      <entry key="#{T(de.hybris.platform.b2ctelcoservices.model.TmaAbstractOrderDiscountAlterationPriceModel)._TYPECODE}"
+             value-ref="tmaAbstractOrderAlterationPriceDataConverter"/>
+      <entry key="#{T(de.hybris.platform.b2ctelcoservices.model.TmaAbstractOrderAllowanceAlterationPriceModel)._TYPECODE}"
+             value-ref="tmaAbstractOrderAlterationPriceDataConverter"/>
+   </util:map>
+
+   <alias name="defaultTmaAbstractOrderCompositePriceDataPopulator" alias="tmaAbstractOrderCompositePriceDataPopulator"/>
+   <bean id="defaultTmaAbstractOrderCompositePriceDataPopulator"
+         class="de.hybris.platform.b2ctelcofacades.price.converters.TmaAbstractOrderCompositePriceDataPopulator">
+      <property name="tmaAbstractOrderCompositeComponentMap" ref="tmaAbstractOrderPriceConvertersMapping"/>
+   </bean>
+
+   <alias name="defaultTmaAbstractOrderCompositePriceDataConverter" alias="tmaAbstractOrderCompositePriceDataConverter"/>
+   <bean id="defaultTmaAbstractOrderCompositePriceDataConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaAbstractOrderCompositePriceData"/>
+      <property name="populators">
+         <list>
+            <ref bean="tmaAbstractOrderCompositePriceDataPopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <alias name="defaultTmaAbstractOrderTierUsageChargeTypePopulator" alias="tmaAbstractOrderTierUsageChargeTypePopulator"/>
+   <bean id="defaultTmaAbstractOrderTierUsageChargeTypePopulator"
+         class="de.hybris.platform.b2ctelcofacades.price.converters.TmaAbstractOrderTierUsageChargeTypePopulator">
+      <constructor-arg name="usageChargeTypeConverter" ref="usageChargeTypeConverter"/>
+   </bean>
+
+   <alias name="defaultTmaAbstractOrderTierUsageCompositePriceDataConverter"
+          alias="tmaAbstractOrderTierUsageCompositePriceDataConverter"/>
+   <bean id="defaultTmaAbstractOrderTierUsageCompositePriceDataConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaAbstractOrderTierUsageCompositePriceData"/>
+      <property name="populators">
+         <list>
+            <ref bean="tmaAbstractOrderCompositePriceDataPopulator"/>
+            <ref bean="tmaAbstractOrderTierUsageChargeTypePopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <alias name="defaultTmaAbstractOrderAlterationPriceDataPopulator" alias="tmaAbstractOrderAlterationPriceDataPopulator"/>
+   <bean id="defaultTmaAbstractOrderAlterationPriceDataPopulator" parent="tmaAbstractOrderComponentPriceDataPopulator"
+         class="de.hybris.platform.b2ctelcofacades.price.converters.TmaAbstractOrderAlterationPriceDataPopulator">
+   </bean>
+
+   <alias name="defaultTmaAbstractOrderAlterationPriceDataConverter"
+          alias="tmaAbstractOrderAlterationPriceDataConverter"/>
+   <bean id="defaultTmaAbstractOrderAlterationPriceDataConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaAbstractOrderAlterationPriceData"/>
+      <property name="populators">
+         <list>
+            <ref bean="tmaAbstractOrderAlterationPriceDataPopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <alias name="defaultTmaAbstractOrderPopulator" alias="tmaAbstractOrderPopulator"/>
+   <bean id="defaultTmaAbstractOrderPopulator"
+         class="de.hybris.platform.b2ctelcofacades.price.converters.TmaAbstractOrderPriceAttributePopulator">
+      <property name="tmaAbstractOrderCompositeComponentMap" ref="tmaAbstractOrderPriceConvertersMapping"/>
+   </bean>
+
+   <alias name="defaultTmaAbstractOrderUserPopulator" alias="tmaAbstractOrderUserPopulator"/>
+   <bean id="defaultTmaAbstractOrderUserPopulator"
+         class="de.hybris.platform.b2ctelcofacades.price.converters.TmaAbstractOrderUserPopulator">
+      <property name="principalConverter" ref="principalConverter"/>
+   </bean>
+
+   <alias name="defaultTmaOrderPromotionPopulator" alias="tmaOrderPromotionPopulator"/>
+   <bean id="defaultTmaOrderPromotionPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaOrderPromotionPopulator">
+   </bean>
+
+   <bean parent="modifyPopulatorList">
+      <property name="list" ref="orderConverter"/>
+      <property name="add" ref="tmaAbstractOrderPopulator"/>
+   </bean>
+
+   <bean parent="modifyPopulatorList">
+      <property name="list" ref="orderConverter"/>
+      <property name="add" ref="tmaAbstractOrderUserPopulator"/>
+   </bean>
+
+   <bean parent="modifyPopulatorList">
+      <property name="list" ref="orderConverter"/>
+      <property name="add" ref="tmaOrderPromotionPopulator"/>
+   </bean>
+
+   <bean parent="modifyPopulatorList">
+      <property name="list" ref="orderConverter"/>
+      <property name="add" ref="tmaBaseOrderPopulator"/>
+   </bean>
+
+   <bean parent="modifyPopulatorList">
+      <property name="list" ref="cartConverter"/>
+      <property name="add" ref="tmaAbstractOrderPopulator"/>
+   </bean>
+
+   <bean parent="modifyPopulatorList">
+      <property name="list" ref="cartConverter"/>
+      <property name="add" ref="tmaAbstractOrderUserPopulator"/>
+   </bean>
+
+   <bean parent="modifyPopulatorList">
+      <property name="list" ref="extendedCartConverter"/>
+      <property name="add" ref="tmaAbstractOrderPopulator"/>
+   </bean>
+
+   <alias name="defaultAbstractTmaOrderEntryPopulator" alias="tmaAbstractOrderEntryPopulator"/>
+   <bean id="defaultAbstractTmaOrderEntryPopulator"
+         class="de.hybris.platform.b2ctelcofacades.price.converters.TmaAbstractOrderEntryPriceAttributePopulator">
+      <property name="tmaAbstractOrderCompositeComponentMap" ref="tmaAbstractOrderPriceConvertersMapping"/>
+   </bean>
+
+   <bean parent="modifyPopulatorList">
+      <property name="list" ref="orderEntryConverter"/>
+      <property name="add" ref="tmaAbstractOrderEntryPopulator"/>
+   </bean>
+
+   <!-- BPO -->
+   <bean id="bpoData" class="de.hybris.platform.b2ctelcofacades.data.BpoData" scope="prototype"/>
+
+   <alias name="defaultBpoPopulator" alias="bpoPopulator"/>
+   <bean id="defaultBpoPopulator" class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaBpoPopulator"/>
+
+   <alias name="defaultBpoConverter" alias="bpoConverter"/>
+   <bean id="defaultBpoConverter" parent="abstractPopulatingConverter">
+      <lookup-method name="createTarget" bean="bpoData"/>
+      <property name="populators">
+         <list>
+            <ref bean="bpoPopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <alias name="defaultTmaSpoBundleTabsPopulator" alias="spoBundleTabsPopulator"/>
+   <bean id="defaultTmaSpoBundleTabsPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaSpoBundleTabsPopulator"
+         parent="baseProductPopulator" scope="prototype">
+      <property name="bpoConverter" ref="bpoConverter"/>
+      <property name="tmaPoService" ref="tmaPoService"/>
+      <property name="tmaSubscriptionTermService" ref="tmaSubscriptionTermService"/>
+      <property name="tmaSubscriptionProductConverter" ref="tmaSubscriptionProductConverter"/>
+      <property name="termOfServiceFrequencyConverter" ref="termOfServiceFrequencyConverter"/>
+      <property name="tmaPriceFacade" ref="tmaPriceFacade"/>
+   </bean>
+
+   <alias name="tmaProductOfferingBasicPopulator" alias="productBasicPopulator"/>
+   <bean id="tmaProductOfferingBasicPopulator" parent="defaultProductBasicPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaProductOfferingBasicPopulator" >
+   </bean>
+
+   <alias name="defaultTmaSubscriptionProductConverter" alias="tmaSubscriptionProductConverter"/>
+   <bean id="defaultTmaSubscriptionProductConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.commercefacades.product.data.ProductData"/>
+      <property name="populators">
+         <list>
+            <ref bean="tmaSubscriptionProductPopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <alias name="defaultTmaSubscriptionProductPopulator" alias="tmaSubscriptionProductPopulator"/>
+   <bean id="defaultTmaSubscriptionProductPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaSubscriptionProductPopulator"
+         parent="productPopulator">
+      <property name="subscriptionProductBasicPopulator" ref="subscriptionProductBasicPopulator"/>
+      <property name="productStockPopulator" ref="productStockPopulator"/>
+      <property name="productPricePopulator" ref="productPricePopulator"/>
+      <property name="productDescriptionPopulator" ref="productDescriptionPopulator"/>
+      <property name="productClassificationPopulator" ref="productClassificationPopulator"/>
+      <property name="tmaSubscribedProductFacade" ref="tmaSubscribedProductFacade"/>
+      <property name="priceFacade" ref="tmaPriceFacade"/>
+   </bean>
+
+   <alias name="defaultTmaOrderEntryFacade" alias="tmaOrderEntryFacade"/>
+   <bean id="defaultTmaOrderEntryFacade" class="de.hybris.platform.b2ctelcofacades.order.impl.DefaultTmaOrderEntryFacade"/>
+
+
+   <alias name="tmaCartFacade" alias="cartFacade" />
+	<alias name="defaultTmaCartFacade" alias="tmaCartFacade" />
+	<bean id="defaultTmaCartFacade"
+		class="de.hybris.platform.b2ctelcofacades.order.impl.DefaultTmaCartFacade"
+		parent="defaultCartFacade">
+		<property name="tmaPoService" ref="tmaPoService" />
+		<property name="subscriptionTermService" ref="tmaSubscriptionTermService" />
+		<property name="customerFacade" ref="customerFacade" />
+		<property name="cartStrategyMapping" ref="tmaCartStrategyMapping" />
+		<property name="tmaCommerceCartParameterConverter" ref="tmaCommerceCartParameterConverter" />
+		<property name="tmaSubscribedProductFacade" ref="tmaSubscribedProductFacade" />
+		<constructor-arg name="cartStrategyMap" ref="tmaCartStrategyMap" />
+		<constructor-arg name="saveCartTextGenerationStrategy" ref="commerceSaveCartTextGenerationStrategy" />
+		<constructor-arg name="configurationService" ref="configurationService" />
+		<constructor-arg name="enumerationService" ref="enumerationService" />
+	</bean>
+
+   <alias name="defaultTmaOrderFacade" alias="orderFacade" />
+   <bean id="defaultTmaOrderFacade"
+         class="de.hybris.platform.b2ctelcofacades.order.impl.DefaultTmaOrderFacade"
+         parent="defaultOrderFacade">
+      <constructor-arg name="principalService" ref="principalService"/>
+      <constructor-arg name="orderService" ref="orderService"/>
+   </bean>
+
+   <alias name="defaultTmaCartStrategyMapping" alias="tmaCartStrategyMapping"/>
+   <bean id="defaultTmaCartStrategyMapping"
+         class="de.hybris.platform.b2ctelcofacades.strategy.impl.TmaCartStrategyMapping">
+      <property name="cartStrategyMap">
+         <map merge="true">
+            <entry key="add" value-ref="commerceAddToCartStrategy"/>
+            <entry key="modify" value-ref="tmaUpdateCartStrategy"/>
+            <entry key="delete" value-ref="tmaRemoveEntryStrategy"/>
+            <entry key="merge" value-ref="commerceCartMergingStrategy"/>
+            <entry key="clone" value-ref="b2ctelcoCommerceCloneSavedCartStrategy"/>
+            <entry key="restore" value-ref="commerceSaveCartRestorationStrategy"/>
+         </map>
+      </property>
+   </bean>
+
+   <alias name="defaultTmaSubscriptionTermPopulator" alias="subscriptionTermPopulator"/>
+    <bean name="defaultTmaSubscriptionTermPopulator"
+          class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaSubscriptionTermPopulator"
+          parent="defaultSubscriptionTermPopulator">
+   </bean>
+
+   <alias name="defaultTmaSubscriptionTermConverter" alias="tmaSubscriptionTermConverter"/>
+   <bean id="defaultTmaSubscriptionTermConverter" parent="abstractPopulatingConverter" >
+      <lookup-method name="createTarget" bean="subscriptionTermData"/>
+      <property name="populators">
+         <list>
+            <ref bean="subscriptionTermPopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <alias name="defaultTmaAbstractOrderEntryPscvPopulator" alias="tmaAbstractOrderEntryPscvPopulator"/>
+   <bean name="defaultTmaAbstractOrderEntryPscvPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaAbstractOrderEntryPscvPopulator">
+   </bean>
+
+   <alias name="defaultTmaAbstractOrderEntryPscvConverter" alias="tmaAbstractOrderEntryPscvConverter"/>
+   <bean id="defaultTmaAbstractOrderEntryPscvConverter" parent="abstractPopulatingConverter" >
+      <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaAbstractOrderEntryPscvData" />
+      <property name="populators">
+         <list>
+            <ref bean="tmaAbstractOrderEntryPscvPopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <alias name="defaultTmaAbstractOrderEntryResourcesPopulator" alias="tmaAbstractOrderEntryResourcesPopulator"/>
+   <bean id="defaultTmaAbstractOrderEntryResourcesPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaAbstractOrderEntryResourcesPopulator">
+      <constructor-arg name="tmaAbstractOrderEntryPscvConverter" ref="tmaAbstractOrderEntryPscvConverter"/>
+      <constructor-arg name="addressConverter" ref="addressConverter"/>
+      <constructor-arg name="regionConverter" ref="regionConverter"/>
+   </bean>
+
+   <bean parent="modifyPopulatorList">
+      <property name="list" ref="orderEntryConverter"/>
+      <property name="add" ref="tmaAbstractOrderEntryResourcesPopulator"/>
+   </bean>
+
+    <!--Pricing-->
+   <alias name="defaultTmaPoPricePopulator" alias="tmaPoPricePopulator"/>
+   <bean id="defaultTmaPoPricePopulator" class="de.hybris.platform.b2ctelcofacades.price.converters.TmaPoPricePopulator"
+         parent="defaultProductPricePopulator">
+      <description>Deprecated since 2007</description>
+      <property name="commercePriceService" ref="tmaCommercePriceService"/>
+      <property name="i18NService" ref="commonI18NService"/>
+   </bean>
+
+   <alias name="defaultTmaProductPricePopulator" alias="productPricePopulator"/>
+   <bean id="defaultTmaProductPricePopulator" class="de.hybris.platform.b2ctelcofacades.price.converters.TmaProductPricePopulator"
+         parent="defaultProductPricePopulator">
+      <property name="commercePriceService" ref="tmaCommercePriceService"/>
+      <constructor-arg name="i18NService" ref="commonI18NService"/>
+      <constructor-arg name="priceDataConverter" ref="tmaPriceDataConverter"/>
+   </bean>
+
+   <alias name="defaultTmaSubscriptionPricePlanPopulator" alias="tmaSubscriptionPricePlanPopulator"/>
+   <bean id="defaultTmaSubscriptionPricePlanPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaSubscriptionPricePlanPopulator">
+      <property name="pricePlanUsageChargePopulator" ref="subscriptionPricePlanUsageChargePopulator"/>
+      <property name="pricePlanRecurringChargePopulator" ref="subscriptionPricePlanRecurringChargePopulator"/>
+      <property name="pricePlanOneTimeChargePopulator" ref="subscriptionPricePlanOneTimeChargePopulator"/>
+      <property name="tmaSubscriptionTermConverter" ref="tmaSubscriptionTermConverter"/>
+      <property name="tmaSubscriptionTermService" ref="tmaSubscriptionTermService"/>
+      <property name="productConverter" ref="productConverter"/>
+      <property name="tmaUnitConverter" ref="tmaUnitConverter"/>
+      <property name="userConverter" ref="tmaUserConverter"/>
+      <property name="tmaRequiredProductClassesConverter" ref="tmaRequiredProductClassesConverter"/>
+      <property name="regionConverter" ref="regionConverter"/>
+   </bean>
+
+   <alias name="defaultTmaSppOneTimeChargePopulator" alias="tmaSppOneTimeChargePopulator"/>
+   <bean id="defaultTmaSppOneTimeChargePopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaSppOneTimeChargePopulator">
+      <constructor-arg name="oneTimeChargeEntryConverter" ref="oneTimeChargeEntryConverter"/>
+   </bean>
+
+   <alias name="defaultTmaSppRecurringChargePopulator" alias="tmaSppRecurringChargePopulator"/>
+   <bean id="defaultTmaSppRecurringChargePopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaSppRecurringChargePopulator">
+      <constructor-arg name="recurringChargeEntryConverter" ref="recurringChargeEntryConverter"/>
+   </bean>
+
+   <alias name="defaultTmaSppUsageChargePopulator" alias="tmaSppUsageChargePopulator"/>
+   <bean id="defaultTmaSppUsageChargePopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaSppUsageChargePopulator">
+      <constructor-arg name="perUnitUsageChargeConverter" ref="perUnitUsageChargeConverter"/>
+      <constructor-arg name="volumeUsageChargeConverter" ref="volumeUsageChargeConverter"/>
+   </bean>
+
+    <alias name="defaultTmaBasicPricePopulator" alias="tmaBasicPricePopulator"/>
+    <bean id="defaultTmaBasicPricePopulator"
+          class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaBasicPricePopulator">
+        <constructor-arg name="tmaUnitConverter" ref="tmaUnitConverter"/>
+        <constructor-arg name="priceValueFormatter" ref="tmaPriceValueFormatter"/>
+        <property name="tmaPriceDataFactory" ref="tmaPriceDataFactory"/>
+    </bean>
+
+   <alias name="defaultTmaSubscriptionPricePlanConverter" alias="tmaSubscriptionPricePlanConverter"/>
+   <bean id="defaultTmaSubscriptionPricePlanConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.subscriptionfacades.data.SubscriptionPricePlanData"/>
+      <property name="populators">
+         <list>
+            <ref bean="tmaBasicPricePopulator"/>
+            <ref bean="tmaSppOneTimeChargePopulator"/>
+            <ref bean="tmaSppRecurringChargePopulator"/>
+            <ref bean="tmaSppUsageChargePopulator"/>
+            <ref bean="tmaPriceRowContextPopulator"/>
+            <ref bean="tmaSubscriptionPricePlanPopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <alias name="defaultTmaPriceRowContextPopulator" alias="tmaPriceRowContextPopulator"/>
+   <bean id="defaultTmaPriceRowContextPopulator"
+         class="de.hybris.platform.b2ctelcofacades.price.converters.TmaPriceRowContextPopulator">
+      <constructor-arg name="tmaSubscriptionTermConverter" ref="tmaSubscriptionTermConverter"/>
+      <constructor-arg name="tmaSubscriptionTermService" ref="tmaSubscriptionTermService"/>
+      <constructor-arg name="productConverter" ref="productConverter"/>
+      <constructor-arg name="tmaRequiredProductClassesConverter" ref="tmaRequiredProductClassesConverter"/>
+      <constructor-arg name="regionConverter" ref="regionConverter"/>
+      <constructor-arg name="userConverter" ref="tmaUserConverter"/>
+   </bean>
+
+   <alias name="defaultTmaPriceDataConverter" alias="tmaPriceDataConverter"/>
+   <bean id="defaultTmaPriceDataConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.commercefacades.product.data.PriceData"/>
+      <property name="populators">
+         <list>
+            <ref bean="tmaBasicPricePopulator"/>
+            <ref bean="tmaPriceRowContextPopulator"/>
+            <ref bean="tmaPriceDataProductOfferingPricePopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <alias name="defaultTmaPriceDataFactory" alias="tmaPriceDataFactory"/>
+   <bean id="defaultTmaPriceDataFactory" class="de.hybris.platform.b2ctelcofacades.price.impl.DefaultTmaPriceDataFactory"
+         parent="defaultPriceDataFactory"/>
+
+    <alias name="defaultTmaPriceFacade" alias="tmaPriceFacade"/>
+    <bean id="defaultTmaPriceFacade" class="de.hybris.platform.b2ctelcofacades.price.impl.DefaultTmaPriceFacade">
+        <property name="commercePriceService" ref="tmaCommercePriceService"/>
+        <property name="subscriptionPricePlanConverter" ref="tmaSubscriptionPricePlanConverter"/>
+        <property name="tmaPriceDataFactory" ref="tmaPriceDataFactory"/>
+        <constructor-arg name="priceDataConverter" ref="tmaPriceDataConverter"/>
+    </bean>
+
+   <!-- BPO dash Board data Populator  -->
+   <alias name="defaultTmaBpoGuidedSellingDashBoardDataPopulator" alias="tmaBpoGuidedSellingDashBoardDataPopulator"/>
+   <bean id="defaultTmaBpoGuidedSellingDashBoardDataPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaBpoGuidedSellingDashBoardDataPopulator">
+      <description>Deprecated since 2102</description>
+      <property name="orderEntryConverter" ref="orderEntryConverter"/>
+      <property name="cartService" ref="cartService"/>
+   </bean>
+
+   <!-- Guided Selling dash Board data Populator for hierarchical cart functionality -->
+   <alias name="defaultTmaGuidedSellingDashBoardDataPopulator" alias="tmaGuidedSellingDashBoardDataPopulator"/>
+   <bean id="defaultTmaGuidedSellingDashBoardDataPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaGuidedSellingDashBoardDataPopulator">
+      <constructor-arg name="cartService" ref="cartService"/>
+      <constructor-arg name="orderEntryConverter" ref="orderEntryConverter"/>
+      <constructor-arg name="abstractOrderEntryService" ref="abstractOrderEntryService"/>
+   </bean>
+
+   <!-- Converter Populator  for Billing Data-->
+    <alias name="defaultSubscriptionBillingDataListPopulator" alias="subscriptionBillingDataListPopulator"/>
+    <bean name="defaultSubscriptionBillingDataListPopulator"
+          class="de.hybris.platform.b2ctelcofacades.converters.populator.SubscriptionBillingDataListPopulator">
+        <property name="productService" ref="productService"/>
+        <property name="commercePriceService" ref="tmaCommercePriceService"/>
+        <property name="subscriptionPricePlanRecurringChargeConverter" ref="subscriptionPricePlanRecurringChargeConverter"/>
+    </bean>
+
+    <alias name="defaultSubscriptionBillingDataListConverter" alias="subscriptionBillingDataListConverter"/>
+    <bean id="defaultSubscriptionBillingDataListConverter" parent="abstractPopulatingConverter">
+        <lookup-method name="createTarget" bean="subscriptionBillingDataList"/>
+        <property name="populators">
+            <list>
+                <ref bean="subscriptionBillingDataListPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Process flow strategies -->
+   <alias name="defaultTmaProcessTypeFacade" alias="tmaProcessTypeFacade"/>
+   <bean id="defaultTmaProcessTypeFacade"
+         class="de.hybris.platform.b2ctelcofacades.purchaseflow.impl.DefaultTmaProcessTypeFacadeImpl">
+      <property name="enumerationService" ref="enumerationService"/>
+   </bean>
+
+   <alias name="defaultTmaAbstractProcessFlowStrategy" alias="tmaAbstractProcessFlowStrategy"/>
+   <bean id="defaultTmaAbstractProcessFlowStrategy" abstract="true"
+         class="de.hybris.platform.b2ctelcofacades.strategy.impl.TmaAbstractProcessFlowStrategy">
+      <property name="productOfferFacade" ref="tmaProductOfferFacade"/>
+      <property name="poService" ref="tmaPoService"/>
+      <property name="subscriptionTermService" ref="tmaSubscriptionTermService"/>
+      <property name="sessionService" ref="sessionService"/>
+      <property name="tmaPriceFacade" ref="tmaPriceFacade"/>
+      <property name="tmaOfferConverter" ref="tmaOfferConverter"/>
+      <constructor-arg name="userService" ref="userService"/>
+   </bean>
+
+   <bean id="tmaRetentionStrategy" parent="tmaAbstractProcessFlowStrategy"
+         class="de.hybris.platform.b2ctelcofacades.strategy.impl.TmaRetentionStrategy"/>
+
+   <bean id="tmaTariffChangeStrategy" parent="tmaAbstractProcessFlowStrategy"
+         class="de.hybris.platform.b2ctelcofacades.strategy.impl.TmaTariffChangeStrategy">
+   </bean>
+
+   <alias name="defaultTmaProcessFlowStrategyMapping" alias="tmaProcessFlowStrategyMapping"/>
+   <bean id="defaultTmaProcessFlowStrategyMapping"
+         class="de.hybris.platform.b2ctelcofacades.strategy.impl.TmaProcessFlowStrategyMapping">
+      <property name="strategyMap">
+         <map merge="true">
+            <entry key="RETENTION" value-ref="tmaRetentionStrategy"/>
+            <entry key="TARIFF_CHANGE" value-ref="tmaTariffChangeStrategy"/>
+         </map>
+      </property>
+   </bean>
+
+   <!-- Product offers -->
+
+   <bean id="defaultTmaProductOfferFacade"
+         class="de.hybris.platform.b2ctelcofacades.product.impl.DefaultTmaProductOfferFacade">
+      <property name="tmaPoService" ref="tmaPoService"/>
+      <property name="productConverter" ref="productConverter"/>
+      <property name="productConfiguredPopulator" ref="productConfiguredPopulator"/>
+      <property name="priceFacade" ref="tmaPriceFacade"/>
+      <property name="priceDataFactory" ref="tmaPriceDataFactory"/>
+      <property name="strategyMapping" ref="tmaProcessFlowStrategyMapping"/>
+      <property name="priceContextDataReverseConverter" ref="tmaPriceContextDataReverseConverter"/>
+      <property name="tmaSubscriptionPricePlanConverter" ref="tmaSubscriptionPricePlanConverter"/>
+      <property name="tmaCommercePriceService" ref="tmaCommercePriceService"/>
+   </bean>
+
+   <alias name="defaultTmaProductOfferingPriceFacade" alias="tmaProductOfferingPriceFacade"/>
+   <bean id="defaultTmaProductOfferingPriceFacade"
+         class="de.hybris.platform.b2ctelcofacades.productofferingprice.impl.DefaultTmaProductOfferingPriceFacade">
+      <constructor-arg name="tmaPopService" ref="tmaPopService"/>
+      <constructor-arg name="productOfferingPriceConverterMap" ref="productOfferingPriceConverterMap"/>
+   </bean>
+
+   <alias name="tmaProductOfferCpFacade" alias="tmaProductOfferFacade"/>
+   <bean id="tmaProductOfferCpFacade"
+         class="de.hybris.platform.b2ctelcofacades.product.impl.TmaProductOfferCpFacade" parent="defaultTmaProductOfferFacade">
+      <constructor-arg name="tmaPriceDataConverter" ref="tmaPriceDataConverter"/>
+   </bean>
+
+   <alias name="defaultTmaPoVariantFacade" alias="tmaPoVariantFacade"/>
+   <bean id="defaultTmaPoVariantFacade" class="de.hybris.platform.b2ctelcofacades.product.impl.DefaultTmaPoVariantFacade"/>
+
+   <alias name="defaultTmaOfferPopulator" alias="tmaOfferPopulator"/>
+   <bean id="defaultTmaOfferPopulator" class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaOfferPopulator"/>
+
+   <alias name="defaultTmaOfferConverter" alias="tmaOfferConverter"/>
+   <bean id="defaultTmaOfferConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaOfferData"/>
+      <property name="populators">
+         <list merge="true">
+            <ref bean="tmaOfferPopulator"/>
+         </list>
+      </property>
+   </bean>
+
+    <alias name="defaultTmaBpoPreConfigDataPopulator" alias="tmaBpoPreConfigDataPopulator"/>
+   <bean id="defaultTmaBpoPreConfigDataPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaBpoPreConfigDataPopulator"/>
+
+   <alias name="defaultTmaBpoPreConfigDataConverter" alias="tmaBpoPreConfigDataConverter"/>
+   <bean id="defaultTmaBpoPreConfigDataConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaBpoPreConfigData"/>
+      <property name="populators">
+         <list>
+            <ref bean="tmaBpoPreConfigDataPopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <alias name="defaultTmaProductSearchFacade" alias="productSearchFacade"/>
+   <bean id="defaultTmaProductSearchFacade" class="de.hybris.platform.b2ctelcofacades.product.impl.DefaultTmaProductSearchFacade"
+         parent="defaultSolrProductSearchFacade">
+       <property name="solrSearchStateConverter" ref="solrSearchStateConverter"/>
+       <property name="catalogVersionService" ref="catalogVersionService"/>
+       <property name="productCategoriesPopulator" ref="productCategoriesPopulator"/>
+       <property name="tmaPoService" ref="tmaPoService"/>
+       <property name="productConverter" ref="productConverter"/>
+       <property name="productConfiguredPopulator" ref="productConfiguredPopulator"/>
+       <property name="commerceProductOfferingSearchContextConverter" ref="commerceProductOfferingSearchContextConverter"/>
+   </bean>
+
+    <alias name="defaultTmaProductSortFacade" alias="tmaProductSortFacade"/>
+    <bean id="defaultTmaProductSortFacade"
+          class="de.hybris.platform.b2ctelcofacades.product.impl.DefaultTmaProductSortFacade">
+        <property name="sortOptionMap" ref="tmaProductSortOptionMap"/>
+    </bean>
+
+    <!-- product sort options -->
+    <util:map id="tmaProductSortOptionMap" map-class="java.util.HashMap" key-type="java.lang.String"
+              value-type="java.lang.String">
+        <entry key="relevance" value="relevance"/>
+        <entry key="rating" value="topRated"/>
+        <entry key="name" value="name-asc"/>
+        <entry key="+name" value="name-asc"/>
+        <entry key="-name" value="name-desc"/>
+        <entry key="payNowPrice" value="payNowPrice-asc"/>
+        <entry key="+payNowPrice" value="payNowPrice-asc"/>
+        <entry key="-payNowPrice" value="payNowPrice-desc"/>
+        <entry key="recurringPrice" value="recurringPrice-asc"/>
+        <entry key="+recurringPrice" value="recurringPrice-asc"/>
+        <entry key="-recurringPrice" value="recurringPrice-desc"/>
+        <entry key="pricePriority" value="pricePriority-desc"/>
+    </util:map>
+
+   <!--Product Offering Variants-->
+   <alias name="defaultTmaPoVariantMatrixPopulator" alias="tmaPoVariantMatrixPopulator"/>
+   <bean id="defaultTmaPoVariantMatrixPopulator" class="de.hybris.platform.b2ctelcofacades.converters.populator.variants.TmaPoVariantMatrixPopulator">
+      <property name="modelService" ref="modelService"/>
+      <property name="variantMatrixElementPopulator" ref="variantMatrixElementPopulator"/>
+      <property name="valueCategoryComparator" ref="variantValueCategoryModelPriorityComparator"/>
+   </bean>
+
+   <alias name="defaultTmaVariantOptionDataUrlPopulator" alias="tmaVariantOptionDataUrlPopulator"/>
+   <bean id="defaultTmaVariantOptionDataUrlPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.variants.options.TmaVariantOptionDataUrlPopulator">
+      <property name="productModelUrlResolver" ref="productModelUrlResolver"/>
+   </bean>
+
+   <alias name="defaultTmaVariantOptionDataMediaPopulator" alias="tmaVariantOptionDataMediaPopulator"/>
+   <bean id="defaultTmaVariantOptionDataMediaPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.variants.options.TmaVariantOptionDataMediaPopulator">
+      <property name="imageConverter" ref="imageConverter"/>
+      <property name="acceleratorImageFormatMapping" ref="imageFormatMapping"/>
+      <property name="imageFormats">
+         <list>
+            <value>zoom</value>
+            <value>product</value>
+            <value>thumbnail</value>
+            <value>cartIcon</value>
+            <value>styleSwatch</value>
+         </list>
+      </property>
+   </bean>
+
+   <alias name="defaultTmaVariantOptionDataConfigurablePopulator" alias="tmaVariantOptionDataConfigurablePopulator"/>
+   <bean id="defaultTmaVariantOptionDataConfigurablePopulator" class="de.hybris.platform.converters.impl.DefaultModifableConfigurablePopulator">
+      <property name="populators">
+         <map key-type="de.hybris.platform.commercefacades.product.ProductVariantOption" merge="true">
+            <entry key="URL" value-ref="tmaVariantOptionDataUrlPopulator"/>
+            <entry key="MEDIA" value-ref="tmaVariantOptionDataMediaPopulator"/>
+         </map>
+      </property>
+   </bean>
+
+   <alias name="defaultTmaVariantOptionAllDataPopulator" alias="tmaVariantOptionDataFullPopulator"/>
+   <bean id="defaultTmaVariantOptionAllDataPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.variants.TmaPoVariantOptionDataPopulator">
+      <property name="modelService" ref="modelService"/>
+      <property name="productVariantOptionList">
+         <list>
+            <value>URL</value>
+            <value>MEDIA</value>
+         </list>
+      </property>
+      <property name="variantOptionDataPopulator" ref="tmaVariantOptionDataConfigurablePopulator"/>
+   </bean>
+
+   <alias name="defaultTmaPoVariantSelectedPopulator" alias="tmaPoVariantSelectedPopulator"/>
+   <bean id="defaultTmaPoVariantSelectedPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.variants.TmaPoVariantSelectedPopulator"
+         parent="tmaPoVariantMatrixPopulator">
+      <property name="productVariantOptionList">
+         <list>
+            <value>MEDIA</value>
+         </list>
+      </property>
+      <property name="variantOptionDataPopulator" ref="tmaVariantOptionDataConfigurablePopulator"/>
+   </bean>
+
+   <bean parent="modifyPopulatorList">
+      <property name="list" ref="productConverter"/>
+      <property name="add" ref="tmaPoVariantSelectedPopulator"/>
+   </bean>
+
+   <alias name="defaultTmaProductSpecPopulator" alias="tmaProductSpecPopulator"/>
+   <bean id="defaultTmaProductSpecPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaProductSpecPopulator"/>
+
+   <alias name="defaultTmaProductSpecServiceSpecsPopulator" alias="tmaProductSpecServiceSpecsPopulator"/>
+   <bean id="defaultTmaProductSpecServiceSpecsPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaProductSpecServiceSpecsPopulator">
+      <constructor-arg name="tmaServiceSpecificationConverter" ref="tmaServiceSpecificationConverter"/>
+   </bean>
+
+   <alias name="defaultTmaProductSpecUsageSpecPopulator" alias="tmaProductSpecUsageSpecPopulator"/>
+   <bean id="defaultTmaProductSpecUsageSpecPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaProductSpecUsageSpecPopulator">
+      <constructor-arg name="tmaProductUsageSpecificationConverter" ref="tmaProductUsageSpecificationConverter"/>
+   </bean>
+
+   <alias name="defaultTmaProductSpecProductSpecTypesPopulator" alias="tmaProductSpecProductSpecTypesPopulator"/>
+   <bean id="defaultTmaProductSpecProductSpecTypesPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaProductSpecProductSpecTypesPopulator">
+      <constructor-arg name="tmaProductSpecTypeConverter" ref="tmaProductSpecTypeConverter"/>
+   </bean>
+
+   <alias name="defaultTmaProductSpecPscPopulator" alias="tmaProductSpecPscPopulator"/>
+   <bean id="defaultTmaProductSpecPscPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaProductSpecPscPopulator">
+      <constructor-arg name="tmaProductSpecCharacteristicConverter" ref="tmaProductSpecCharacteristicConverter"/>
+   </bean>
+
+   <!-- Product specification entity converter -->
+   <alias name="defaultTmaProductSpecificationConverter" alias="tmaProductSpecificationConverter"/>
+   <bean id="defaultTmaProductSpecificationConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaProductSpecificationData"/>
+      <property name="populators">
+         <list>
+            <ref bean="tmaProductSpecPopulator"/>
+            <ref bean="tmaProductSpecPscPopulator"/>
+            <ref bean="tmaProductSpecProductSpecTypesPopulator"/>
+            <ref bean="tmaProductSpecServiceSpecsPopulator"/>
+            <ref bean="tmaProductSpecUsageSpecPopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <!-- Product offering populator for product specification -->
+   <bean id="tmaProductOfferingProductSpecPopulator" parent="baseProductPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaProductOfferingProductSpecificationPopulator">
+      <property name="productSpecificationConverter" ref="tmaProductSpecificationConverter"/>
+   </bean>
+
+   <bean id="tmaMediaPopulator"  parent="baseProductPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaMediaPopulator">
+         <property name="imageConverter" ref="imageConverter"/>
+    </bean>
+
+   <bean id="defaultTmaProductOfferingPricesPopulator" parent="baseProductPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaProductOfferingPricesPopulator">
+         <property name="tmaSubscriptionPricePlanConverter" ref="tmaSubscriptionPricePlanConverter"/>
+    </bean>
+
+   <alias name="defaultTmaCompositePricesPopulator" alias="tmaProductOfferingPricesPopulator"/>
+   <bean id="defaultTmaCompositePricesPopulator" parent="baseProductPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaCompositePricesPopulator">
+      <constructor-arg name="tmaPriceDataConverter" ref="tmaPriceDataConverter"/>
+   </bean>
+
+   <!-- Product offering populator for product spec char value uses -->
+   <bean id="tmaProductOfferingPscvuPopulator" parent="baseProductPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaProductOfferingPscvuPopulator">
+      <property name="pscvuConverter" ref="tmaProductSpecCharValueUseConverter"/>
+      <property name="productSpecificationConverter" ref="tmaProductSpecificationConverter"/>
+      <constructor-arg name="prodSpecCharValueUseConverter" ref="tmaProdSpecCharValueUseConverter"/>
+   </bean>
+
+   <!-- Product offering group entity populator -->
+   <bean id="tmaOfferingGroupPopulator" class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaOfferingGroupPopulator">
+      <property name="productDataConverter" ref="productConverter"/>
+   </bean>
+
+
+    <alias name="tmaCategoryHierarchyPopulator" alias="categoryHierarchyPopulator"/>
+    <bean id="tmaCategoryHierarchyPopulator"
+          class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaCategoryHierarchyPopulator"
+          parent="defaultCategoryHierarchyPopulator">
+    </bean>
+
+
+    <alias name="defaultTmaOfferingGroupConverter" alias="tmaOfferingGroupConverter"/>
+    <bean id="defaultTmaOfferingGroupConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaOfferingGroupData"/>
+        <property name="populators">
+            <list>
+                <ref bean="tmaOfferingGroupPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+   <bean id="tmaBpoChildrenPopulator"  parent="baseProductPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaBpoChildrenPopulator">
+      <property name="productConverter" ref="productConverter"/>
+      <constructor-arg name="bpoOptionConverter" ref="tmaBpoOptionConverter"/>
+      <constructor-arg name="poService" ref="tmaPoService"/>
+   </bean>
+
+   <bean id="tmaProductOfferingParentsPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaProductOfferingParentsPopulator">
+      <property name="poService" ref="tmaPoService"/>
+      <property name="productDataConverter" ref="productConverter"/>
+   </bean>
+
+   <!-- Product offering populator for product offering groups -->
+   <bean id="tmaProductOfferingGroupsPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaProductOfferingGroupsPopulator">
+      <property name="offeringGroupConverter" ref="tmaOfferingGroupConverter"/>
+   </bean>
+
+   <alias name="defaultTmaCategoryDataPopulator" alias="tmaCategoryDataPopulator"/>
+   <bean id="defaultTmaCategoryDataPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaCategoryDataPopulator">
+   </bean>
+
+   <bean parent="modifyPopulatorList">
+      <property name="list" ref="categoryConverter"/>
+      <property name="add" ref="tmaCategoryDataPopulator"/>
+   </bean>
+
+   <alias name="defaultTmaUnitConverter" alias="tmaUnitConverter"/>
+	<bean id="defaultTmaUnitConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.UnitData"/>
+		<property name="populators">
+			<list>
+				<ref bean="tmaUnitPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+   <bean id="tmaUnitPopulator" class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaUnitPopulator"/>
+
+   <alias name="defaultTmaOneTimeChargeEntryConverter" alias="tmaOneTimeChargeEntryConverter"/>
+	<bean id="defaultTmaOneTimeChargeEntryConverter" parent="abstractPopulatingConverter" >
+		<lookup-method name="createTarget" bean="oneTimeChargeEntryData"/>
+		<property name="populators">
+			<list>
+				<ref bean="tmaOneTimeChargeEntryPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+    <alias name="defaultTmaOneTimeChargeEntryPopulator" alias="tmaOneTimeChargeEntryPopulator"/>
+	<bean id="defaultTmaOneTimeChargeEntryPopulator" class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaOneTimeChargeEntryPopulator" parent="oneTimeChargeEntryPopulator" />
+
+	<alias name="defaultTmaSubscriptionPricePlanOneTimeChargePopulator" alias="tmaSubscriptionPricePlanOneTimeChargePopulator"/>
+	<bean id="defaultTmaSubscriptionPricePlanOneTimeChargePopulator" class="de.hybris.platform.subscriptionfacades.product.converters.populator.SubscriptionPricePlanOneTimeChargePopulator" >
+	    <property name="oneTimeChargeEntryConverter" ref="tmaOneTimeChargeEntryConverter"/>
+	</bean>
+
+   <bean parent="modifyPopulatorList">
+      <property name="list" ref="oneTimeChargeEntryConverter"/>
+      <property name="add" ref="tmaOneTimeChargeEntryPopulator"/>
+   </bean>
+
+	<alias name="defaultTmaRecurringChargeEntryConverter"	alias="tmaRecurringChargeEntryConverter"/>
+	<bean id="defaultTmaRecurringChargeEntryConverter" parent="abstractPopulatingConverter" >
+		<lookup-method name="createTarget" bean="recurringChargeEntryData"/>
+		<property name="populators">
+			<list>
+				<ref bean="tmaRecurringChargeEntryPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<alias name="defaultTmaRecurringChargeEntryPopulator" alias="tmaRecurringChargeEntryPopulator"/>
+	<bean id="defaultTmaRecurringChargeEntryPopulator" class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaRecurringChargeEntryPopulator" parent="recurringChargeEntryPopulator" />
+
+
+   <bean parent="modifyPopulatorList">
+      <property name="list" ref="recurringChargeEntryConverter"/>
+      <property name="add" ref="tmaRecurringChargeEntryPopulator"/>
+   </bean>
+
+   <alias name="defaultTmaSubscriptionPricePlanRecurringChargePopulator" alias="tmaSubscriptionPricePlanRecurringChargePopulator"/>
+	<bean id="defaultTmaSubscriptionPricePlanRecurringChargePopulator" class="de.hybris.platform.subscriptionfacades.product.converters.populator.SubscriptionPricePlanRecurringChargePopulator" >
+	    <property name="recurringChargeEntryConverter" ref="tmaRecurringChargeEntryConverter"/>
+	</bean>
+
+   <alias name="defaultTmaUsageChargePopulator" alias="tmaUsageChargePopulator"/>
+   <bean id="defaultTmaUsageChargePopulator" class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaUsageChargePopulator"
+         parent="abstractUsageChargePopulator" />
+
+   <bean parent="modifyPopulatorList">
+      <property name="list" ref="volumeUsageChargeConverter"/>
+      <property name="add" ref="tmaUsageChargePopulator"/>
+   </bean>
+
+   <bean parent="modifyPopulatorList">
+      <property name="list" ref="perUnitUsageChargeConverter"/>
+      <property name="add" ref="tmaUsageChargePopulator"/>
+   </bean>
+
+   <alias name="defaultTmaTierUsageChargeEntryConverter" alias="tmaTierUsageChargeEntryConverter"/>
+	<bean id="defaultTmaTierUsageChargeEntryConverter" parent="abstractPopulatingConverter" >
+		<lookup-method name="createTarget" bean="tierUsageChargeEntryData"/>
+		<property name="populators">
+			<list>
+				<ref bean="tmaTierUsageChargeEntryPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<alias name="defaultTmaTierUsageChargeEntryPopulator" alias="tmaTierUsageChargeEntryPopulator"/>
+	<bean id="defaultTmaTierUsageChargeEntryPopulator" class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaTierUsageChargeEntryPopulator" parent="tierUsageChargeEntryPopulator" />
+
+   <bean parent="modifyPopulatorList">
+      <property name="list" ref="tierUsageChargeEntryConverter"/>
+      <property name="add" ref="tmaTierUsageChargeEntryPopulator"/>
+   </bean>
+
+	<alias name="defaultTmaOverageUsageChargeEntryConverter" alias="tmaOverageUsageChargeEntryConverter"/>
+	<bean id="defaultTmaOverageUsageChargeEntryConverter" parent="abstractPopulatingConverter" >
+		<lookup-method name="createTarget" bean="overageUsageChargeEntryData"/>
+		<property name="populators">
+			<list>
+				<ref bean="tmaOverageUsageChargeEntryPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<alias name="defaultTmaOverageUsageChargeEntryPopulator" alias="tmaOverageUsageChargeEntryPopulator"/>
+	<bean id="defaultTmaOverageUsageChargeEntryPopulator" class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaOverageUsageChargeEntryPopulator" parent="overageUsageChargeEntryPopulator" />
+
+   <bean parent="modifyPopulatorList">
+      <property name="list" ref="overageUsageChargeEntryConverter"/>
+      <property name="add" ref="tmaOverageUsageChargeEntryPopulator"/>
+   </bean>
+
+
+	<alias name="defaultAbstractTmaUsageChargePopulator" alias="abstractTmaUsageChargePopulator"/>
+	<bean id="defaultAbstractTmaUsageChargePopulator" class="de.hybris.platform.subscriptionfacades.product.converters.populator.AbstractUsageChargePopulator" abstract="true" >
+		<property name="usageUnitConverter" ref="usageUnitConverter"/>
+		<property name="tierUsageChargeEntryConverter" ref="tmaTierUsageChargeEntryConverter"/>
+		<property name="overageUsageChargeEntryConverter" ref="tmaOverageUsageChargeEntryConverter"/>
+	</bean>
+
+  <alias name="defaultTmaSubscriptionPricePlanUsageChargePopulator" alias="tmaSubscriptionPricePlanUsageChargePopulator"/>
+	<bean id="defaultTmaSubscriptionPricePlanUsageChargePopulator" class="de.hybris.platform.subscriptionfacades.product.converters.populator.SubscriptionPricePlanUsageChargePopulator" >
+	    <property name="perUnitUsageChargeConverter" ref="tmaPerUnitUsageChargeConverter"/>
+        <property name="volumeUsageChargeConverter" ref="tmaVolumeUsageChargeConverter"/>
+	</bean>
+
+	<alias name="defaultTmaPerUnitUsageChargeConverter" alias="tmaPerUnitUsageChargeConverter"/>
+	<bean id="defaultTmaPerUnitUsageChargeConverter" parent="abstractPopulatingConverter" >
+		<lookup-method name="createTarget" bean="perUnitUsageChargeData"/>
+		<property name="populators">
+			<list>
+				<ref bean="tmaPerUnitUsageChargePopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<alias name="defaultTmaPerUnitUsageChargePopulator" alias="tmaPerUnitUsageChargePopulator"/>
+	<bean id="defaultTmaPerUnitUsageChargePopulator" class="de.hybris.platform.subscriptionfacades.product.converters.populator.PerUnitUsageChargePopulator" parent="abstractTmaUsageChargePopulator" >
+	    <property name="usageChargeTypeConverter" ref="usageChargeTypeConverter"/>
+	</bean>
+
+	<alias name="defaultTmaVolumeUsageChargeConverter"	alias="tmaVolumeUsageChargeConverter"/>
+	<bean id="defaultTmaVolumeUsageChargeConverter" parent="abstractPopulatingConverter" >
+		<lookup-method name="createTarget" bean="volumeUsageChargeData"/>
+		<property name="populators">
+			<list>
+				<ref bean="tmaVolumeUsageChargePopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<alias name="defaultTmaVolumeUsageChargePopulator"	alias="tmaVolumeUsageChargePopulator"/>
+	<bean id="defaultTmaVolumeUsageChargePopulator" class="de.hybris.platform.subscriptionfacades.product.converters.populator.VolumeUsageChargePopulator" parent="abstractTmaUsageChargePopulator" />
+
+	<alias name="defaultTmaRequiredProductClassesConverter" alias="tmaRequiredProductClassesConverter"/>
+	<bean id="defaultTmaRequiredProductClassesConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaProductPriceClassData"/>
+		<property name="populators">
+			<list>
+				<ref bean="tmaRequiredProductClassesPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+   <bean id="tmaRequiredProductClassesPopulator" class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaRequiredProductClassesPopulator"/>
+
+   <alias name="defaultTmaUserConverter" alias="tmaUserConverter"/>
+   <bean id="defaultTmaUserConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaUserData"/>
+		<property name="populators">
+			<list>
+				<ref bean="tmaUserUidPopulator"/>
+			</list>
+		</property>
+   </bean>
+
+   <alias name="defaultTmaUserUidPopulator" alias="tmaUserUidPopulator" />
+   <bean id="defaultTmaUserUidPopulator" class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaUserUidPopulator" />
+
+    <alias name="defaultTmaCatalogFacade" alias="catalogFacade"/>
+    <bean id="defaultTmaCatalogFacade" class="de.hybris.platform.b2ctelcofacades.catalog.impl.DefaultTmaCatalogFacade"
+          parent="defaultCatalogFacade">
+       <property name="catalogConverter" ref="catalogConverter"/>
+       <property name="baseStoreService" ref="baseStoreService"/>
+       <property name="baseStoreConverter" ref="baseStoreConverter"/>
+    </bean>
+
+   <alias name="defaultTmaCatalogConverter" alias="catalogConverter"/>
+   <bean id="defaultTmaCatalogConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.commercefacades.catalog.data.CatalogData"/>
+      <property name="populators">
+         <list>
+            <ref bean="tmaCatalogPopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <alias name="defaultTmaBaseCatalogPopulator" alias="tmaCatalogPopulator"/>
+   <bean id="defaultTmaBaseCatalogPopulator"
+         class="de.hybris.platform.b2ctelcofacades.catalog.converters.populators.TmaBaseCatalogPopulator" >
+   </bean>
+
+
+   <alias name="defaultTmaPaginationFacade" alias="tmaPaginationFacade"/>
+   <bean id="defaultTmaPaginationFacade"
+         class="de.hybris.platform.b2ctelcofacades.pagination.impl.DefaultTmaPaginationFacade">
+   </bean>
+
+   <alias name="defaultFacetSearchTmaPaginationFacade" alias="tmaFacetSearchPaginationFacade"/>
+   <bean id="defaultFacetSearchTmaPaginationFacade"
+         class="de.hybris.platform.b2ctelcofacades.pagination.impl.FacetSearchTmaPaginationFacade">
+   </bean>
+
+   <!-- Default Tma Product Facade -->
+   <alias name="defaultTmaProductFacade" alias="productFacade"/>
+   <bean id="defaultTmaProductFacade"
+         class="de.hybris.platform.b2ctelcofacades.product.impl.DefaultTmaProductFacade"
+         parent="defaultProductFacade">
+      <constructor-arg name="tmaPoService" ref="tmaPoService"/>
+   </bean>
+
+    <!-- Review Data populator -->
+   <alias name="tmaReviewDataPopulator" alias="customerReviewPopulator"/>
+   <bean id="tmaReviewDataPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaReviewDataPopulator"
+         parent="defaultCustomerReviewPopulator">
+   </bean>
+
+   <alias name="defaultTmaPlaceConvertersMapping" alias="tmaPlaceConvertersMapping"/>
+   <util:map id="defaultTmaPlaceConvertersMapping">
+      <entry key="#{T(de.hybris.platform.b2ctelcoservices.enums.TmaPlaceRoleType).INSTALLATION_ADDRESS}"
+             value-ref="tmaAddressPlaceConverter"/>
+      <entry key="#{T(de.hybris.platform.b2ctelcoservices.enums.TmaPlaceRoleType).DELIVERY_ADDRESS}"
+             value-ref="tmaAddressPlaceConverter"/>
+      <entry key="#{T(de.hybris.platform.b2ctelcoservices.enums.TmaPlaceRoleType).BILLING_ADDRESS}"
+             value-ref="tmaAddressPlaceConverter"/>
+      <entry key="#{T(de.hybris.platform.b2ctelcoservices.enums.TmaPlaceRoleType).PRODUCT_REGION}"
+             value-ref="tmaRegionPlaceConverter"/>
+   </util:map>
+
+   <alias name="defaultTmaAddressPlaceConverter" alias="tmaAddressPlaceConverter"/>
+   <bean id="defaultTmaAddressPlaceConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.b2ctelcoservices.data.TmaAddressPlace"/>
+      <property name="populators">
+         <list>
+            <ref bean="tmaAddressPlacePopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <alias name="defaultTmaAddressPlacePopulator" alias="tmaAddressPlacePopulator"/>
+   <bean name="defaultTmaAddressPlacePopulator"
+         class="de.hybris.platform.b2ctelcofacades.order.TmaAddressPlacePopulator">
+      <constructor-arg name="addressService" ref="addressService"/>
+   </bean>
+
+   <alias name="defaultTmaCommerceCartParameterPopulator" alias="tmaCommerceCartParameterPopulator"/>
+   <bean name="defaultTmaCommerceCartParameterPopulator"
+         class="de.hybris.platform.b2ctelcofacades.order.converters.populator.TmaCommerceCartParameterPopulator">
+      <property name="cartService" ref="cartService"/>
+      <property name="productService" ref="productService"/>
+      <property name="pointOfServiceService" ref="pointOfServiceService"/>
+      <property name="commerceCartService" ref="commerceCartService"/>
+      <property name="customerInventoryService" ref="tmaCustomerInventoryService"/>
+      <property name="userService" ref="userService"/>
+      <property name="baseSiteService" ref="baseSiteService"/>
+      <constructor-arg name="modelService" ref="modelService"/>
+      <constructor-arg name="placeConverters" ref="tmaPlaceConvertersMapping"/>
+      <constructor-arg name="deliveryModeService" ref="deliveryModeService"/>
+      <constructor-arg name="commerceCartParameterConverter" ref="tmaCommerceCartParameterConverter"/>
+   </bean>
+
+   <alias name="defaultTmaCommerceCartParameterConverter" alias="tmaCommerceCartParameterConverter"/>
+   <bean id="defaultTmaCommerceCartParameterConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.commerceservices.service.data.CommerceCartParameter"/>
+      <property name="populators">
+         <list>
+            <ref bean="tmaCommerceCartParameterPopulator"/>
+         </list>
+      </property>
+   </bean>
+
+    <alias name="defaultTmaChecklistFacade" alias="tmaChecklistFacade"/>
+    <bean id="defaultTmaChecklistFacade"
+          class="de.hybris.platform.b2ctelcofacades.checklist.impl.DefaultTmaChecklistFacade">
+        <property name="checklistActionParamDataReverseConverter" ref="tmaChecklistActionParamDataReverseConverter"/>
+        <property name="tmaChecklistService" ref="tmaChecklistService"/>
+        <property name="checklistActionDataConverter" ref="tmaChecklistActionDataConverter"/>
+    </bean>
+
+    <alias name="defaultTmaChecklistActionParamDataReversePopulator" alias="tmaChecklistActionParamDataReversePopulator"/>
+    <bean id="defaultTmaChecklistActionParamDataReversePopulator"
+          class="de.hybris.platform.b2ctelcofacades.checklist.converters.populators.TmaChecklistActionParamDataReversePopulator">
+        <property name="tmaPoService" ref="tmaPoService"/>
+    </bean>
+
+    <alias name="defaultTmaChecklistActionParamDataReverseConverter" alias="tmaChecklistActionParamDataReverseConverter"/>
+    <bean id="defaultTmaChecklistActionParamDataReverseConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="de.hybris.platform.b2ctelcoservices.checklist.context.TmaChecklistContext"/>
+        <property name="populators">
+            <list>
+                <ref bean="tmaChecklistActionParamDataReversePopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="defaultTmaChecklistActionCharacteristicDataPopulator" alias="tmaChecklistActionCharacteristicDataPopulator"/>
+    <bean id="defaultTmaChecklistActionCharacteristicDataPopulator"
+          class="de.hybris.platform.b2ctelcofacades.checklist.converters.populators.TmaChecklistActionCharacteristicDataPopulator">
+    </bean>
+
+    <util:map id="tmaChecklistActionStatementTypeMap" map-class="java.util.HashMap">
+        <entry key="TmaConfigurablePscvPolicyStatementModel"
+               value-ref="tmaChecklistActionCharacteristicDataPopulator"/>
+    </util:map>
+
+    <alias name="defaultTmaChecklistActionDataPopulator" alias="tmaChecklistActionDataPopulator"/>
+    <bean id="defaultTmaChecklistActionDataPopulator"
+          class="de.hybris.platform.b2ctelcofacades.checklist.converters.populators.TmaChecklistActionDataPopulator">
+        <property name="productDataConverter" ref="productConverter"/>
+        <property name="statementTypeMap" ref="tmaChecklistActionStatementTypeMap"/>
+    </bean>
+
+    <alias name="defaultTmaChecklistActionDataConverter" alias="tmaChecklistActionDataConverter"/>
+    <bean id="defaultTmaChecklistActionDataConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaChecklistActionData"/>
+        <property name="populators">
+            <list>
+                <ref bean="tmaChecklistActionDataPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+   <alias name="defaultTmaPriceContextDataReversePopulator" alias="tmaPriceContextDataReversePopulator"/>
+   <bean id="defaultTmaPriceContextDataReversePopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaPriceContextDataReversePopulator">
+      <property name="tmaPoService" ref="tmaPoService"/>
+      <property name="tmaRegionService" ref="tmaRegionService"/>
+      <property name="userService" ref="userService"/>
+      <property name="i18NService" ref="commonI18NService"/>
+      <property name="tmaSubscriptionTermService" ref="tmaSubscriptionTermService"/>
+      <property name="enumerationService" ref="enumerationService"/>
+   </bean>
+
+   <alias name="defaultTmaPriceContextDataReverseConverter" alias="tmaPriceContextDataReverseConverter"/>
+   <bean id="defaultTmaPriceContextDataReverseConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.b2ctelcoservices.pricing.context.TmaPriceContext"/>
+      <property name="populators">
+         <list>
+            <ref bean="tmaPriceContextDataReversePopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <alias name="defaultProductOfferingSearchContextConverter" alias="commerceProductOfferingSearchContextConverter"/>
+   <bean name="defaultProductOfferingSearchContextConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.b2ctelcoservices.data.TmaProductOfferingSearchContext"/>
+      <property name="populators">
+          <list>
+              <ref bean="commerceProductOfferingSearchContextPopulator"/>
+		  </list>
+      </property>
+   </bean>
+
+   <bean id="commerceProductOfferingSearchContextPopulator"
+         class="de.hybris.platform.b2ctelcofacades.productoffering.populator.CommerceProductOfferingSearchContextPopulator">
+   </bean>
+
+   <!-- cart strategy mapper -->
+   <util:map id="tmaCartStrategyMap" map-class="java.util.HashMap"
+             key-type="de.hybris.platform.b2ctelcofacades.data.TmaCartStrategyType"
+             value-type="de.hybris.platform.b2ctelcoservices.order.TmaCartStrategy">
+      <entry key="#{T(de.hybris.platform.b2ctelcofacades.data.TmaCartStrategyType).ADD}"
+             value-ref="commerceAddToCartStrategy"/>
+      <entry key="#{T(de.hybris.platform.b2ctelcofacades.data.TmaCartStrategyType).MODIFY}"
+             value-ref="tmaUpdateCartStrategy"/>
+      <entry key="#{T(de.hybris.platform.b2ctelcofacades.data.TmaCartStrategyType).DELETE}"
+             value-ref="tmaRemoveEntryStrategy"/>
+      <entry key="#{T(de.hybris.platform.b2ctelcofacades.data.TmaCartStrategyType).MERGE}"
+             value-ref="commerceCartMergingStrategy"/>
+      <entry key="#{T(de.hybris.platform.b2ctelcofacades.data.TmaCartStrategyType).CLONE}"
+             value-ref="b2ctelcoCommerceCloneSavedCartStrategy"/>
+      <entry key="#{T(de.hybris.platform.b2ctelcofacades.data.TmaCartStrategyType).RESTORE}"
+              value-ref="commerceSaveCartRestorationStrategy"/>
+   </util:map>
+
+   <alias name="defaultTmaRegionPlaceConverter" alias="tmaRegionPlaceConverter"/>
+   <bean id="defaultTmaRegionPlaceConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.b2ctelcoservices.data.TmaRegionPlace"/>
+      <property name="populators">
+         <list>
+            <ref bean="tmaRegionPlacePopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <alias name="defaultTmaRegionPlacePopulator" alias="tmaRegionPlacePopulator"/>
+   <bean id="defaultTmaRegionPlacePopulator"
+         class="de.hybris.platform.b2ctelcofacades.order.converters.populator.TmaRegionPlacePopulator">
+      <constructor-arg name="tmaRegionService" ref="tmaRegionService"/>
+   </bean>
+
+	<alias name="defaultCartModificationConverter" alias="cartModificationConverter"/>
+    <bean id="defaultCartModificationConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="de.hybris.platform.commercefacades.order.data.CartModificationData"/>
+        <property name="populators">
+            <list>
+                <ref bean="tmaCartModificationPopulator"/>
+                <ref bean="tmaCartModificationValidationMessagesPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+	<bean id="tmaCartModificationPopulator"
+		class="de.hybris.platform.b2ctelcofacades.order.converters.populator.TmaCartModificationPopulator"
+		parent="cartModificationPopulator">
+	</bean>
+    <alias name="defaultTmaIdentificationConverter" alias="identificationConverter"/>
+    <bean id="defaultTmaIdentificationConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaIdentificationData"/>
+        <property name="populators">
+            <list>
+                <ref bean="identificationPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="defaultTmaIdentificationPopulator" alias="identificationPopulator"/>
+    <bean id="defaultTmaIdentificationPopulator"
+          class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaIdentificationPopulator"/>
+
+    <alias name="defaultTmaCustomerIdentificationsPopulator" alias="tmaCustomerIdentificationsPopulator"/>
+    <bean id="defaultTmaCustomerIdentificationsPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaCustomerIdentificationsPopulator">
+         <constructor-arg name="tmaIdentificationConverter" ref="identificationConverter"/>
+    </bean>
+
+    <bean parent="modifyPopulatorList">
+        <property name="list" ref="customerConverter"/>
+        <property name="add" ref="tmaCustomerIdentificationsPopulator"/>
+    </bean>
+
+    <alias name="defaultTmaIdentificationReverseConverter" alias="identificationReverseConverter"/>
+    <bean id="defaultTmaIdentificationReverseConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="de.hybris.platform.b2ctelcoservices.model.TmaIdentificationModel"/>
+        <property name="populators">
+            <list>
+                <ref bean="identificationReversePopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="defaultTmaIdentificationReversePopulator" alias="identificationReversePopulator"/>
+    <bean id="defaultTmaIdentificationReversePopulator"
+          class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaIdentificationReversePopulator">
+    </bean>
+
+    <alias name="defaultTmaCustomerReversePopulator" alias="customerReversePopulator" />
+    <bean id="defaultTmaCustomerReversePopulator"
+          class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaCustomerReversePopulator" parent="defaultCustomerReversePopulator">
+         <constructor-arg name="identificationReverseConverter" ref="identificationReverseConverter"/>
+         <constructor-arg name="tmaIdentificationService" ref="tmaIdentificationService"/>
+    </bean>
+   <bean id="tmaCartModificationValidationMessagesPopulator"
+         class="de.hybris.platform.b2ctelcofacades.order.converters.populator.TmaCartModificationValidationMessagesPopulator">
+      <constructor-arg name="cartValidationConverter" ref="tmaCartValidationConverter"/>
+   </bean>
+
+    <alias name="defaultTmaStockFacade" alias="tmaStockFacade"/>
+	<bean id="defaultTmaStockFacade" class="de.hybris.platform.b2ctelcofacades.stock.impl.DefaultTmaStockFacade">
+		<property name="pointOfServiceService" ref="pointOfServiceService"/>
+		<property name="baseSiteService" ref="baseSiteService" />
+		<property name="commerceStockService" ref="commerceStockService" />
+		<property name="productService" ref="productService"/>
+		<property name="tmaBaseStoreForSiteSelectorStrategy" ref="tmaBaseStoreForSiteSelectorStrategy"/>
+	</bean>
+
+	<bean id="tmaWebServicesCartFacade" class="de.hybris.platform.b2ctelcofacades.cart.impl.DefaultTmaWebServicesCartFacade"
+	      parent="defaultTmaCartFacade">
+		<property name="cartConverter" ref="extendedCartConverter"/>
+		<property name="commerceCartService" ref="commerceWebServicesCartService"/>
+	</bean>
+
+	<alias name="defaultTmaAddressFacade" alias="tmaAddressFacade"/>
+	<bean id="defaultTmaAddressFacade" class="de.hybris.platform.b2ctelcofacades.address.impl.DefaultTmaAddressFacade">
+      	<constructor-arg name="addressConverter" ref="addressConverter"/>
+      	<constructor-arg name="userService" ref="userService"/>
+      	<constructor-arg name="customerAccountService" ref="tmaCustomerAccountService"/>
+      	<constructor-arg name="addressReverseConverter" ref="addressReverseConverter"/>
+     </bean>
+
+     <bean parent="modifyPopulatorList">
+   		<property name="list" ref="extendedCartConverter"/>
+   		<property name="add" ref="tmaAbstractOrderPopulator"/>
+	 </bean>
+
+     <bean parent="modifyPopulatorList">
+        <property name="list" ref="extendedCartConverter"/>
+        <property name="add" ref="tmaCartValidationMessagesPopulator"/>
+     </bean>
+
+   <alias name="defaultTmaProductOfferingPricePopulator" alias="tmaProductOfferingPricePopulator"/>
+   <bean id="defaultTmaProductOfferingPricePopulator"
+         class="de.hybris.platform.b2ctelcofacades.productofferingprice.converters.populators.TmaProductOfferingPricePopulator">
+      <constructor-arg name="billingTimeConverter" ref="billingTimeConverter"/>
+      <constructor-arg name="productSpecCharacteristicValueUseConverter" ref="tmaProductSpecCharValueUseConverter"/>
+   </bean>
+
+   <alias name="defaultTmaComponentProdOfferPricePopulator" alias="tmaComponentProdOfferPricePopulator"/>
+   <bean id="defaultTmaComponentProdOfferPricePopulator"
+         class="de.hybris.platform.b2ctelcofacades.productofferingprice.converters.populators.TmaComponentProdOfferPricePopulator">
+      <constructor-arg name="currencyConverter" ref="currencyConverter"/>
+      <constructor-arg name="pricingLogicAlgorithmConverterMap" ref="pricingLogicAlgorithmConverterMap"/>
+   </bean>
+
+   <alias name="defaultTmaRecurringProdOfferPricePopulator" alias="tmaRecurringProdOfferPricePopulator"/>
+   <bean id="defaultTmaRecurringProdOfferPricePopulator"
+         class="de.hybris.platform.b2ctelcofacades.productofferingprice.converters.populators.TmaRecurringProdOfferPricePopulator">
+   </bean>
+
+   <alias name="defaultTmaUsageProdOfferPricePopulator" alias="tmaUsageProdOfferPricePopulator"/>
+   <bean id="defaultTmaUsageProdOfferPricePopulator"
+         class="de.hybris.platform.b2ctelcofacades.productofferingprice.converters.populators.TmaUsageProdOfferPricePopulator">
+      <constructor-arg name="usageUnitConverter" ref="usageUnitConverter"/>
+      <constructor-arg name="productUsageSpecificationConverter" ref="tmaProductUsageSpecificationConverter"/>
+   </bean>
+
+    <alias name="defaultTmaCompositeProdOfferPricePopulator" alias="tmaCompositeProdOfferPricePopulator"/>
+    <bean id="defaultTmaCompositeProdOfferPricePopulator"
+          class="de.hybris.platform.b2ctelcofacades.productofferingprice.converters.populators.TmaCompositeProdOfferPricePopulator">
+        <constructor-arg name="productOfferingPriceConverterMap" ref="productOfferingPriceConverterMap"/>
+    </bean>
+
+    <alias name="defaultTmaTierUsageCompositeProdOfferPopulator" alias="tmaTierUsageCompositeProdOfferPopulator"/>
+    <bean id="defaultTmaTierUsageCompositeProdOfferPopulator"
+          class="de.hybris.platform.b2ctelcofacades.productofferingprice.converters.populators.TmaTierUsageCompositeProdOfferPopulator">
+        <constructor-arg name="usageChargeTypeConverter" ref="usageChargeTypeConverter"/>
+    </bean>
+
+   <alias name="defaultTmaProdOfferPriceAlterationPopulator" alias="tmaProdOfferPriceAlterationPopulator"/>
+   <bean id="defaultTmaProdOfferPriceAlterationPopulator"
+         class="de.hybris.platform.b2ctelcofacades.productofferingprice.converters.populators.TmaProdOfferPriceAlterationPopulator">
+   </bean>
+
+   <alias name="defaultTmaAllowancePopAlterationPopulator" alias="tmaAllowancePopAlterationPopulator"/>
+   <bean id="defaultTmaAllowancePopAlterationPopulator"
+         class="de.hybris.platform.b2ctelcofacades.productofferingprice.converters.populators.TmaAllowancePopAlterationPopulator">
+   </bean>
+
+   <alias name="defaultTmaCompositeProdOfferPriceConverter" alias="tmaCompositeProdOfferPriceConverter"/>
+   <bean id="defaultTmaCompositeProdOfferPriceConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaCompositeProdOfferPriceData"/>
+      <property name="populators">
+         <list>
+            <ref bean="tmaProductOfferingPricePopulator"/>
+            <ref bean="tmaCompositeProdOfferPricePopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <alias name="defaultTmaTierUsageCompositeProdOfferPriceConverter" alias="tmaTierUsageCompositeProdOfferPriceConverter"/>
+   <bean id="defaultTmaTierUsageCompositeProdOfferPriceConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaTierUsageCompositeProdOfferPriceData"/>
+      <property name="populators">
+         <list>
+            <ref bean="tmaProductOfferingPricePopulator"/>
+            <ref bean="tmaCompositeProdOfferPricePopulator"/>
+            <ref bean="tmaTierUsageCompositeProdOfferPopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <alias name="defaultTmaComponentProdOfferPriceChargeConverter" alias="tmaComponentProdOfferPriceChargeConverter"/>
+   <bean id="defaultTmaComponentProdOfferPriceChargeConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaComponentProdOfferPriceData"/>
+      <property name="populators">
+         <list>
+            <ref bean="tmaProductOfferingPricePopulator"/>
+            <ref bean="tmaComponentProdOfferPricePopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <alias name="defaultTmaOneTimeProdOfferPriceChargeConverter" alias="tmaOneTimeProdOfferPriceChargeConverter"/>
+   <bean id="defaultTmaOneTimeProdOfferPriceChargeConverter" parent="defaultTmaComponentProdOfferPriceChargeConverter">
+      <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaOneTimeProdOfferPriceChargeData"/>
+   </bean>
+
+   <alias name="defaultTmaRecurringProdOfferPriceChargeConverter" alias="tmaRecurringProdOfferPriceChargeConverter"/>
+   <bean id="defaultTmaRecurringProdOfferPriceChargeConverter" parent="defaultTmaComponentProdOfferPriceChargeConverter">
+      <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaRecurringProdOfferPriceChargeData"/>
+      <property name="populators">
+         <list merge="true">
+            <ref bean="tmaRecurringProdOfferPricePopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <alias name="defaultTmaUsageProdOfferPriceChargeConverter" alias="tmaUsageProdOfferPriceChargeConverter"/>
+   <bean id="defaultTmaUsageProdOfferPriceChargeConverter" parent="defaultTmaComponentProdOfferPriceChargeConverter">
+      <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaUsageProdOfferPriceChargeData"/>
+      <property name="populators">
+         <list merge="true">
+            <ref bean="tmaUsageProdOfferPricePopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <alias name="defaultTmaProdOfferPriceAlterationConverter" alias="tmaProdOfferPriceAlterationConverter"/>
+   <bean id="defaultTmaProdOfferPriceAlterationConverter" parent="defaultTmaComponentProdOfferPriceChargeConverter">
+      <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaProdOfferPriceAlterationData"/>
+      <property name="populators">
+         <list merge="true">
+            <ref bean="tmaProdOfferPriceAlterationPopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <alias name="defaultTmaDiscountProdOfferPriceAlterationConverter" alias="tmaDiscountProdOfferPriceAlterationConverter"/>
+   <bean id="defaultTmaDiscountProdOfferPriceAlterationConverter" parent="defaultTmaProdOfferPriceAlterationConverter">
+      <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaDiscountProdOfferPriceAlterationData"/>
+   </bean>
+
+   <alias name="defaultTmaAllowancePopAlterationConverter" alias="tmaAllowancePopAlterationConverter"/>
+   <bean id="defaultTmaAllowancePopAlterationConverter" parent="defaultTmaProdOfferPriceAlterationConverter">
+      <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaAllowanceProdOfferPriceAlterationData"/>
+      <property name="populators">
+         <list merge="true">
+            <ref bean="tmaAllowancePopAlterationPopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <!-- Map between source class and converter for TmaProductOfferingPrice subtypes -->
+   <util:map id="productOfferingPriceConverterMap" map-class="java.util.HashMap">
+      <entry key="#{T(de.hybris.platform.b2ctelcoservices.model.TmaOneTimeProdOfferPriceChargeModel)._TYPECODE}"
+             value-ref="tmaOneTimeProdOfferPriceChargeConverter"/>
+      <entry key="#{T(de.hybris.platform.b2ctelcoservices.model.TmaUsageProdOfferPriceChargeModel)._TYPECODE}"
+             value-ref="tmaUsageProdOfferPriceChargeConverter"/>
+      <entry key="#{T(de.hybris.platform.b2ctelcoservices.model.TmaCompositeProdOfferPriceModel)._TYPECODE}"
+             value-ref="tmaCompositeProdOfferPriceConverter"/>
+      <entry key="#{T(de.hybris.platform.b2ctelcoservices.model.TmaTierUsageChargeCompositePopModel)._TYPECODE}"
+             value-ref="tmaTierUsageCompositeProdOfferPriceConverter"/>
+      <entry key="#{T(de.hybris.platform.b2ctelcoservices.model.TmaRecurringProdOfferPriceChargeModel)._TYPECODE}"
+             value-ref="tmaRecurringProdOfferPriceChargeConverter"/>
+      <entry key="#{T(de.hybris.platform.b2ctelcoservices.model.TmaDiscountProdOfferPriceAlterationModel)._TYPECODE}"
+             value-ref="tmaDiscountProdOfferPriceAlterationConverter"/>
+      <entry key="#{T(de.hybris.platform.b2ctelcoservices.model.TmaAllowanceProdOfferPriceAlterationModel)._TYPECODE}"
+             value-ref="tmaAllowancePopAlterationConverter"/>
+   </util:map>
+
+    <alias name="defaultTmaPriceDataProductOfferingPricePopulator" alias="tmaPriceDataProductOfferingPricePopulator"/>
+    <bean id="defaultTmaPriceDataProductOfferingPricePopulator"
+          class="de.hybris.platform.b2ctelcofacades.productofferingprice.converters.populators.TmaPriceDataProductOfferingPricePopulator">
+        <constructor-arg name="productOfferingPriceConverterMap" ref="productOfferingPriceConverterMap"/>
+    </bean>
+
+    <alias name="defaultTmaPriceValueFormatter" alias="tmaPriceValueFormatter"/>
+    <bean id="defaultTmaPriceValueFormatter" class="de.hybris.platform.b2ctelcofacades.price.impl.DefaultTmaPriceValueFormatter">
+        <constructor-arg name="commonI18NService" ref="commonI18NService"/>
+        <constructor-arg name="commerceCommonI18NService" ref="commerceCommonI18NService"/>
+        <constructor-arg name="i18NService" ref="i18NService"/>
+    </bean>
+
+
+    <!-- Pricing Logic Algorithm -->
+
+    <!-- Map between source class and converter for TmaPricingLogicAlgorithm subtypes -->
+    <util:map id="pricingLogicAlgorithmConverterMap" map-class="java.util.HashMap">
+        <entry key="#{T(de.hybris.platform.b2ctelcoservices.model.TmaOneTimeRatingPlaModel)._TYPECODE}"
+             value-ref="tmaOneTimePlaConverter"/>
+        <entry key="#{T(de.hybris.platform.b2ctelcoservices.model.TmaRecurringRatingPlaModel)._TYPECODE}"
+             value-ref="tmaRecurringPlaConverter"/>
+        <entry key="#{T(de.hybris.platform.b2ctelcoservices.model.TmaUsageRatingPlaModel)._TYPECODE}"
+             value-ref="tmaUsagePlaConverter"/>
+    </util:map>
+
+    <alias name="defaultTmaPricingLogicAlgorithmPopulator" alias="tmaPricingLogicAlgorithmPopulator"/>
+    <bean id="defaultTmaPricingLogicAlgorithmPopulator"
+          class="de.hybris.platform.b2ctelcofacades.productofferingprice.converters.populators.TmaPricingLogicAlgorithmPopulator">
+        <constructor-arg name="pricingLogicAlgorithmSpecConverter" ref="tmaPricingLogicAlgorithmSpecConverter"/>
+        <constructor-arg name="externalIdentifierConverter" ref="tmaExternalIdentifierConverter"/>
+    </bean>
+
+    <alias name="defaultTmaPricingLogicAlgorithmConverter" alias="tmaPricingLogicAlgorithmConverter"/>
+    <bean id="defaultTmaPricingLogicAlgorithmConverter" parent="abstractPopulatingConverter" abstract="true">
+        <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaPricingLogicAlgorithmData"/>
+        <property name="populators">
+            <list>
+                <ref bean="tmaPricingLogicAlgorithmPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="defaultTmaOneTimePlaConverter" alias="tmaOneTimePlaConverter"/>
+    <bean id="defaultTmaOneTimePlaConverter" parent="defaultTmaPricingLogicAlgorithmConverter">
+        <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaOneTimePricingLogicAlgorithmData"/>
+    </bean>
+
+    <alias name="defaultTmaRecurringPlaConverter" alias="tmaRecurringPlaConverter"/>
+    <bean id="defaultTmaRecurringPlaConverter" parent="defaultTmaPricingLogicAlgorithmConverter">
+        <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaRecurringPricingLogicAlgorithmData"/>
+    </bean>
+
+    <alias name="defaultTmaUsagePlaConverter" alias="tmaUsagePlaConverter"/>
+    <bean id="defaultTmaUsagePlaConverter" parent="defaultTmaPricingLogicAlgorithmConverter">
+        <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaUsagePricingLogicAlgorithmData"/>
+    </bean>
+
+
+    <!-- Pricing Logic Algorithm Spec-->
+    <alias name="defaultTmaPricingLogicAlgorithmSpecPopulator" alias="tmaPricingLogicAlgorithmSpecPopulator"/>
+    <bean id="defaultTmaPricingLogicAlgorithmSpecPopulator"
+          class="de.hybris.platform.b2ctelcofacades.productofferingprice.converters.populators.TmaPricingLogicAlgorithmSpecPopulator">
+        <constructor-arg name="externalIdentifierConverter" ref="tmaExternalIdentifierConverter"/>
+    </bean>
+
+    <alias name="defaultTmaPricingLogicAlgorithmSpecConverter" alias="tmaPricingLogicAlgorithmSpecConverter"/>
+    <bean id="defaultTmaPricingLogicAlgorithmSpecConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaPricingLogicAlgorithmSpecData"/>
+        <property name="populators">
+            <list>
+                <ref bean="tmaPricingLogicAlgorithmSpecPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="tmaMediaAttachmentPopulator"  parent="baseProductPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaMediaAttachmentPopulator">
+         <property name="mediaConverter" ref="mediaModelConverter"/>
+    </bean>
+
+    <alias name="defaultTmaBasicMediaPopulator" alias="basicMediaModelPopulator"/>
+    <bean id="defaultTmaBasicMediaPopulator"  parent="defaultCmsBasicMediaModelPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaBasicMediaPopulator">
+    </bean>
+
+   <alias name="defaultTmaBpoOptionPopulator" alias="tmaBpoOptionPopulator"/>
+   <bean id="defaultTmaBpoOptionPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaBundledProdOfferOptionPopulator">
+      <constructor-arg name="productConverter" ref="productConverter"/>
+   </bean>
+
+   <alias name="defaultTmaBpoOptionConverter" alias="tmaBpoOptionConverter"/>
+   <bean id="defaultTmaBpoOptionConverter" parent="abstractPopulatingConverter" >
+      <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaBundledProdOfferOptionData"/>
+      <property name="populators">
+         <list>
+            <ref bean="tmaBpoOptionPopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <alias name="defaultTmaProductUsageSpecificationBasicPopulator" alias="tmaProductUsageSpecificationBasicPopulator"/>
+   <bean id="defaultTmaProductUsageSpecificationBasicPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaProductUsageSpecificationBasicPopulator">
+      <constructor-arg name="externalIdentifierConverter" ref="tmaExternalIdentifierConverter"/>
+   </bean>
+
+   <alias name="defaultTmaProductUsageSpecificationConverter" alias="tmaProductUsageSpecificationConverter"/>
+   <bean id="defaultTmaProductUsageSpecificationConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaProductUsageSpecificationData"/>
+      <property name="populators">
+         <list>
+            <ref bean="tmaProductUsageSpecificationBasicPopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <!-- External Identifier-->
+   <alias name="defaultTmaExternalIdentifierPopulator" alias="tmaExternalIdentifierPopulator"/>
+   <bean id="defaultTmaExternalIdentifierPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaExternalIdentifierPopulator">
+   </bean>
+
+   <alias name="defaultTmaExternalIdentifierConverter" alias="tmaExternalIdentifierConverter"/>
+   <bean id="defaultTmaExternalIdentifierConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaExternalIdentifierData"/>
+      <property name="populators">
+         <list>
+            <ref bean="tmaExternalIdentifierPopulator"/>
+         </list>
+      </property>
+   </bean>
+   
+   <alias name="defaultTmaProductSpecTypeBasicPopulator" alias="tmaProductSpecTypeBasicPopulator"/>
+   <bean id="defaultTmaProductSpecTypeBasicPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaProductSpecTypeBasicPopulator"/>
+
+   <alias name="defaultTmaProductSpecTypeConverter" alias="tmaProductSpecTypeConverter"/>
+   <bean id="defaultTmaProductSpecTypeConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaProductSpecTypeData"/>
+      <property name="populators">
+         <list>
+            <ref bean="tmaProductSpecTypeBasicPopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <!-- Map between source class and converter for TmaProductSpecification subtypes -->
+   <util:map id="productSpecificationConverterMap" map-class="java.util.HashMap">
+      <entry key="#{T(de.hybris.platform.b2ctelcoservices.model.TmaAtomicProductSpecificationModel)._TYPECODE}"
+             value-ref="tmaProductSpecificationConverter"/>
+      <entry key="#{T(de.hybris.platform.b2ctelcoservices.model.TmaCompositeProductSpecificationModel)._TYPECODE}"
+             value-ref="tmaCompositeProductSpecificationConverter"/>
+   </util:map>
+
+   <alias name="defaultTmaCompositeProductSpecificationChildrenPopulator"
+          alias="tmaCompositeProductSpecificationChildrenPopulator"/>
+   <bean id="defaultTmaCompositeProductSpecificationChildrenPopulator"
+         class="de.hybris.platform.b2ctelcofacades.converters.populator.TmaCompositeProductSpecificationChildrenPopulator">
+      <constructor-arg name="productSpecificationConverterMap" ref="productSpecificationConverterMap"/>
+   </bean>
+
+   <alias name="defaultTmaCompositeProductSpecificationConverter" alias="tmaCompositeProductSpecificationConverter"/>
+   <bean id="defaultTmaCompositeProductSpecificationConverter" parent="defaultTmaProductSpecificationConverter">
+      <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaCompositeProductSpecificationData"/>
+      <property name="populators">
+         <list merge="true">
+            <ref bean="tmaCompositeProductSpecificationChildrenPopulator"/>
+         </list>
+      </property>
+   </bean>
+  
+   <alias name="defaultTmaProductSpecificationFacade" alias="tmaProductSpecificationFacade"/>
+   <bean id="defaultTmaProductSpecificationFacade"
+         class="de.hybris.platform.b2ctelcofacades.product.impl.DefaultTmaProductSpecificationFacade">
+      <constructor-arg name="productSpecificationService" ref="tmaProductSpecificationService"/>
+      <constructor-arg name="productSpecificationConverterMap" ref="productSpecificationConverterMap"/>
+   </bean>
+   
+   <alias name="tmaImageFormattingMapping" alias="imageFormatMapping"/>
+   <bean id="tmaImageFormattingMapping" parent="defaultImageFormatMapping">
+	   <property name="mapping">
+		   <map>
+			   <entry key="superZoom" value="1200Wx1200H"/>
+			   <entry key="zoom" value="515Wx515H"/>
+			   <entry key="store" value="365Wx246H"/>
+			   <entry key="product" value="300Wx300H"/>
+			   <entry key="thumbnail" value="96Wx96H"/>
+			   <entry key="cartIcon" value="65Wx65H"/>
+			   <entry key="styleSwatch" value="30Wx30H"/>
+		   </map>
+	   </property>
+   </bean>
+	
+   <alias name="tmaProductPrimaryImagePopulator" alias="productPrimaryImagePopulator" />
+   <bean id="tmaProductPrimaryImagePopulator" parent="defaultProductPrimaryImagePopulator">
+	   <property name="imageFormats">
+		   <list>
+			   <value>zoom</value>
+			   <value>product</value>
+			   <value>thumbnail</value>
+			   <value>cartIcon</value>
+			</list>
+	   </property>
+   </bean>
+
+   <alias name="defaultTmaProductSubscriptionBasePopulator" alias="tmaProductSubscriptionBasePopulator"/>
+   <bean id="defaultTmaProductSubscriptionBasePopulator"
+         class="de.hybris.platform.b2ctelcofacades.subscription.converters.populator.TmaProductSubscriptionBasePopulator">
+   </bean>
+
+   <alias name="defaultTmaProductSubscriptionBaseConverter" alias="tmaProductSubscriptionBaseConverter"/>
+   <bean id="defaultTmaProductSubscriptionBaseConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.commercefacades.product.data.ProductData"/>
+      <property name="populators">
+         <list>
+            <ref bean="tmaProductSubscriptionBasePopulator"/>
+         </list>
+      </property>
+   </bean>
+
+   <alias name="defaultTmaProductSubscribedProductPopulator" alias="tmaProductSubscribedProductPopulator"/>
+   <bean id="defaultTmaProductSubscribedProductPopulator"
+         class="de.hybris.platform.b2ctelcofacades.subscription.converters.populator.TmaProductSubscribedProductPopulator">
+   </bean>
+   
+   <alias name="defaultTmaProductSubscribedProductConverter" alias="tmaProductSubscribedProductConverter"/>
+   <bean id="defaultTmaProductSubscribedProductConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.commercefacades.product.data.ProductData"/>
+      <property name="populators">
+         <list>
+            <ref bean="tmaProductSubscribedProductPopulator"/>
+         </list>
+      </property>
+   </bean>
+   
+   <alias name="defaultTmaSubscriptionAccessRefPopulator" alias="tmaSubscriptionAccessRefPopulator"/>
+   <bean id="defaultTmaSubscriptionAccessRefPopulator"
+         class="de.hybris.platform.b2ctelcofacades.subscription.converters.populator.TmaSubscriptionAccessRefPopulator">
+   </bean>
+
+   <alias name="defaultTmaSubscriptionAccessRefConverter" alias="tmaSubscriptionAccessRefConverter"/>
+   <bean id="defaultTmaSubscriptionAccessRefConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.b2ctelcofacades.data.TmaSubscriptionAccessData"/>
+      <property name="populators">
+         <list>
+            <ref bean="tmaSubscriptionAccessRefPopulator"/>
+         </list>
+      </property>
+   </bean>
+</beans>
+

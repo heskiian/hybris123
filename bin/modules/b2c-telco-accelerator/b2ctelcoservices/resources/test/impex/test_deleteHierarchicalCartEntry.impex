@@ -1,0 +1,80 @@
+#Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+
+#% impex.enableCodeExecution(true)
+
+$catalog-id = testCatalog
+$catalog-version = Online
+$catalogVersion = catalogversion(catalog(id[default = $catalog-id]), version[default = $catalog-version])[unique = true, default = $catalog-id:$catalog-version]
+$approved = approvalstatus(code)[default = 'approved']
+$lang = en
+$prices = europe1prices[translator=de.hybris.platform.europe1.jalo.impex.Europe1PricesTranslator]
+$price = price(code)[default = '0.0']
+$processTypes = processTypes(code)
+$subscriptionTerms = subscriptionTerms(id)[unique = true]
+$priority = priority[default=0]
+$currency = currency(isocode)[default = USD]
+$priceEvent = priceEvent(code)[default='paynow']
+
+INSERT_UPDATE Language; isocode[unique = true]; active; name[lang = en]
+                      ; en                    ; true  ; English
+
+INSERT_UPDATE Currency; isocode[unique = true]; active; conversion; digits; symbol
+                      ; USD                   ; true  ; 1.5       ; 2     ; "$"
+
+INSERT_UPDATE Catalog; id[unique = true]; name[lang = en]; defaultCatalog
+                     ; $catalog-id      ; $catalog-id    ; true ;
+
+INSERT_UPDATE CatalogVersion; catalog(id)[unique = true]; version[unique = true]; active; defaultCurrency(isocode); languages(isocode)
+                            ; $catalog-id               ; $catalog-version      ; true  ; USD                     ; en ;
+
+INSERT_UPDATE BillingEvent; code[unique = true]; order; cartAware[default = true]
+                          ; paynow             ; 1
+
+INSERT_UPDATE Unit; unitType[unique = true]; code[unique = true]; conversion
+                  ; pieces                 ; pieces             ; 1
+
+INSERT_UPDATE UserGroup; uid[unique = true]; groups(uid);
+                       ; customergroup     ;            ;
+
+INSERT_UPDATE Customer; uid[unique = true]; customerID; name       ; description; sessionLanguage(isocode); sessionCurrency(isocode); groups(uid)   ; password; ;
+                      ; user1@hybris.com  ; U007      ; James Bond ;            ; en                      ; USD                     ; customergroup ; 1234    ; ;
+
+INSERT_UPDATE TmaBundledProductOffering; code[unique = true]; name[lang = en]; parents(code, $catalogVersion); $approved; $catalogVersion; unit(code)[default = pieces]
+                                       ; quadPlay           ; Quad Play Deal ;                               ;          ;                ;
+                                       ; mobileDeal         ; Mobile Deal    ; quadPlay                      ;          ;                ;
+                                       ; homeDeal           ; Home Deal      ; quadPlay                      ;          ;                ;
+                                       ; internet           ; Internet Deal  ; homeDeal                      ;          ;                ;
+
+
+INSERT_UPDATE TmaSimpleProductOffering; code[unique = true]  ; $catalogVersion; name[lang = en]        ; parents(code, $catalogVersion); approvalStatus(code); unit(code)[default = pieces]
+# Mobile Deal
+                                      ; unlimitedPremiumPlan ;                ; Unlimited Premium Plan ; mobileDeal                    ; approved            ; ;
+                                      ; Apple_iPhone_6       ;                ; Apple iPhone 6         ; mobileDeal                    ; approved            ; ;
+# Internet Deal
+                                      ; int_100              ;                ; Fiberlink 100          ; internet                      ; approved            ; ;
+
+INSERT_UPDATE TmaBundledProductOffering; code[unique = true]; $catalogVersion; children(code, $catalogVersion)      ;
+                                       ; mobileDeal         ;                ; unlimitedPremiumPlan, Apple_iPhone_6 ;
+                                       ; internet           ;                ; int_100                              ;
+
+INSERT_UPDATE TmaOneTimeProdOfferPriceCharge; id[unique = true]; name            ; description                 ; $catalogVersion; value; $priceEvent; $currency
+                                            ; generic_otc_pop  ; Generic OTC POP ; Generic OTC POP Description ;                ; 4.0  ;
+
+INSERT_UPDATE PriceRow; code[unique = true]        ; product(code, $catalogVersion)[unique = true]; $price; $processTypes[unique = true]; $subscriptionTerms; $catalogVersion; currency(isocode)[default = USD, unique = true]; unit(code)[default = pieces]; productOfferingPrice(id, $catalogVersion); $priority
+                      ; unlimitedPremiumPlan_price ; unlimitedPremiumPlan                         ;       ; ACQUISITION                 ;                   ;                ;                                                ;                             ; generic_otc_pop
+                      ; Apple_iPhone_6_price       ; Apple_iPhone_6                               ;       ; ACQUISITION                 ;                   ;                ;                                                ;                             ; generic_otc_pop
+                      ; int_100_price              ; int_100                                      ;       ; ACQUISITION                 ;                   ;                ;                                                ;                             ; generic_otc_pop
+
+INSERT_UPDATE Cart; user(uid)        ; code[unique = true]; currency(isocode); date[dateformat = dd.MM.yyyy HH:mm:ss]; net   ; calculated; site(uid); store(uid); guid
+# User 1 Carts
+                  ; user1@hybris.com ; user1Cart          ; USD              ; 01.10.2020 00:00:00                   ; false ; false     ;          ;           ; ;
+
+INSERT_UPDATE CartEntry; entryNumber[unique = true]; product(code, $catalogVersion); quantity; unit(code); order(code)[unique = true]; masterEntry(order(code), entryNumber); bpo(code, $catalogVersion); processType(code);
+# User 1 Cart 1
+                       ; 0                         ; quadPlay                      ; 1       ; pieces    ; user1Cart                 ;                                      ;                           ; ACQUISITION
+                       ; 1                         ; mobileDeal                    ; 1       ; pieces    ; user1Cart                 ; user1Cart:0                          ; quadPlay                  ; ACQUISITION
+                       ; 2                         ; Apple_iPhone_6                ; 1       ; pieces    ; user1Cart                 ; user1Cart:1                          ; mobileDeal                ; ACQUISITION
+                       ; 3                         ; unlimitedPremiumPlan          ; 1       ; pieces    ; user1Cart                 ; user1Cart:1                          ; mobileDeal                ; ACQUISITION
+                       ; 4                         ; homeDeal                      ; 1       ; pieces    ; user1Cart                 ; user1Cart:0                          ; quadPlay                  ; ACQUISITION
+                       ; 5                         ; internet                      ; 1       ; pieces    ; user1Cart                 ; user1Cart:4                          ; homeDeal                  ; ACQUISITION
+                       ; 6                         ; int_100                       ; 1       ; pieces    ; user1Cart                 ; user1Cart:5                          ; internet                  ; ACQUISITION

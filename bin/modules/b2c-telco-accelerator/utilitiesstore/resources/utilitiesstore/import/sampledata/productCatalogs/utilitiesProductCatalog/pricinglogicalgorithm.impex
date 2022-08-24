@@ -1,0 +1,20 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+$approved = approvalstatus(code)[default = 'approved']
+
+INSERT_UPDATE TmaExternalIdentifier; billingSystemExtId[unique = true]    ; billingSystemId[unique = true]; resourceType
+                                   ; electricity_plan_pla_spec            ; amdocs                        ; PricingLogicAlgorithmSpec
+
+                                   ; base_charge_pla                      ; amdocs                        ; PricingLogicAlgorithm
+                                   ; carbon_emission_offset_surcharge_pla ; amdocs                        ; PricingLogicAlgorithm
+
+
+INSERT_UPDATE TmaRecurringPlaSpec; id[unique = true]         ; externalIds(billingSystemId, billingSystemExtId)[unique = true]; $approved; onlineDate[dateformat = dd-MM-yyyy]; offlineDate[dateformat = dd-MM-yyyy]
+                                 ; electricity_plan_pla_spec ; amdocs:electricity_plan_pla_spec                               ; approved ;                                    ; ;
+
+INSERT_UPDATE TmaRecurringRatingPla; id[unique = true]                    ; externalIds(billingSystemId, billingSystemExtId); pricingLogicAlgorithmSpec(id)[unique = true]; onlineDate[dateformat = dd-MM-yyyy]; offlineDate[dateformat = dd-MM-yyyy]
+                                   ; base_charge_pla                      ; amdocs:base_charge_pla                          ; electricity_plan_pla_spec                   ;                                    ; ;
+                                   ; carbon_emission_offset_surcharge_pla ; amdocs:carbon_emission_offset_surcharge_pla     ; electricity_plan_pla_spec                   ;                                    ; ;
+

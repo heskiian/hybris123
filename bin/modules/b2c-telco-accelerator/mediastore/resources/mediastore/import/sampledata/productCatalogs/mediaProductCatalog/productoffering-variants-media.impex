@@ -1,0 +1,64 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for importing Product Offering Variants into Media Store
+
+$productCatalog=mediaProductCatalog
+$catalogVersion=catalogversion(catalog(id[default=$productCatalog]), version[default='Staged'])[unique=true, default=$productCatalog:Staged]
+$thumbnail=thumbnail(code, $catalogVersion)
+$picture=picture(code, $catalogVersion)
+$thumbnails=thumbnails(code, $catalogVersion)
+$detail=detail(code, $catalogVersion)
+$normal=normal(code, $catalogVersion)
+$others=others(code, $catalogVersion)
+$data_sheet=data_sheet(code, $catalogVersion)
+$medias=medias(code, $catalogVersion)
+$galleryImages=galleryImages(qualifier, $catalogVersion)
+$siteResource=jar:de.hybris.platform.mediastore.constants.MediastoreConstants&/mediastore/import/sampledata/productCatalogs/$productCatalog
+
+INSERT_UPDATE Media;mediaFormat(qualifier);code[unique=true]                  ;@media[translator=de.hybris.platform.impex.jalo.media.MediaDataTranslator];mime[default='image/jpg'];$catalogVersion;folder(qualifier)[default=images][forceWrite=true]
+# BP T-Shirt Black
+                   ;1200Wx1200H           ;/1200Wx1200H/t-shirt_bp_black.jpg  ;$siteResource/images/1200Wx1200H/t-shirt_bp_black.jpg
+                   ;515Wx515H             ;/515Wx515H/t-shirt_bp_black.jpg    ;$siteResource/images/515Wx515H/t-shirt_bp_black.jpg
+                   ;300Wx300H             ;/300Wx300H/t-shirt_bp_black.jpg    ;$siteResource/images/300Wx300H/t-shirt_bp_black.jpg
+                   ;96Wx96H               ;/96Wx96H/t-shirt_bp_black.jpg      ;$siteResource/images/96Wx96H/t-shirt_bp_black.jpg
+                   ;65Wx65H               ;/65Wx65H/t-shirt_bp_black.jpg      ;$siteResource/images/65Wx65H/t-shirt_bp_black.jpg
+                   ;30Wx30H               ;/30Wx30H/t-shirt_bp_black.jpg      ;$siteResource/images/30Wx30H/t-shirt_bp_black.jpg
+
+                   ;1200Wx1200H           ;/1200Wx1200H/t-shirt_bp_black2.jpg ;$siteResource/images/1200Wx1200H/t-shirt_bp_black2.jpg
+                   ;515Wx515H             ;/515Wx515H/t-shirt_bp_black2.jpg   ;$siteResource/images/515Wx515H/t-shirt_bp_black2.jpg
+                   ;300Wx300H             ;/300Wx300H/t-shirt_bp_black2.jpg   ;$siteResource/images/300Wx300H/t-shirt_bp_black2.jpg
+                   ;96Wx96H               ;/96Wx96H/t-shirt_bp_black2.jpg     ;$siteResource/images/96Wx96H/t-shirt_bp_black2.jpg
+                   ;65Wx65H               ;/65Wx65H/t-shirt_bp_black2.jpg     ;$siteResource/images/65Wx65H/t-shirt_bp_black2.jpg
+                   ;30Wx30H               ;/30Wx30H/t-shirt_bp_black2.jpg     ;$siteResource/images/30Wx30H/t-shirt_bp_black2.jpg
+
+# BP T-Shirt White
+                   ;1200Wx1200H           ;/1200Wx1200H/t-shirt_bp_white.jpg  ;$siteResource/images/1200Wx1200H/t-shirt_bp_white.jpg
+                   ;515Wx515H             ;/515Wx515H/t-shirt_bp_white.jpg    ;$siteResource/images/515Wx515H/t-shirt_bp_white.jpg
+                   ;300Wx300H             ;/300Wx300H/t-shirt_bp_white.jpg    ;$siteResource/images/300Wx300H/t-shirt_bp_white.jpg
+                   ;96Wx96H               ;/96Wx96H/t-shirt_bp_white.jpg      ;$siteResource/images/96Wx96H/t-shirt_bp_white.jpg
+                   ;65Wx65H               ;/65Wx65H/t-shirt_bp_white.jpg      ;$siteResource/images/65Wx65H/t-shirt_bp_white.jpg
+                   ;30Wx30H               ;/30Wx30H/t-shirt_bp_white.jpg      ;$siteResource/images/30Wx30H/t-shirt_bp_white.jpg
+
+                   ;1200Wx1200H           ;/1200Wx1200H/t-shirt_bp_white2.jpg ;$siteResource/images/1200Wx1200H/t-shirt_bp_white2.jpg
+                   ;515Wx515H             ;/515Wx515H/t-shirt_bp_white2.jpg   ;$siteResource/images/515Wx515H/t-shirt_bp_white2.jpg
+                   ;300Wx300H             ;/300Wx300H/t-shirt_bp_white2.jpg   ;$siteResource/images/300Wx300H/t-shirt_bp_white2.jpg
+                   ;96Wx96H               ;/96Wx96H/t-shirt_bp_white2.jpg     ;$siteResource/images/96Wx96H/t-shirt_bp_white2.jpg
+                   ;65Wx65H               ;/65Wx65H/t-shirt_bp_white2.jpg     ;$siteResource/images/65Wx65H/t-shirt_bp_white2.jpg
+                   ;30Wx30H               ;/30Wx30H/t-shirt_bp_white2.jpg     ;$siteResource/images/30Wx30H/t-shirt_bp_white2.jpg
+
+INSERT_UPDATE MediaContainer;qualifier[unique=true];$medias;$catalogVersion
+                            ;t-shirt_bp_black      ;/1200Wx1200H/t-shirt_bp_black.jpg,/515Wx515H/t-shirt_bp_black.jpg,/300Wx300H/t-shirt_bp_black.jpg,/96Wx96H/t-shirt_bp_black.jpg,/65Wx65H/t-shirt_bp_black.jpg,/30Wx30H/t-shirt_bp_black.jpg,/1200Wx1200H/t-shirt_bp_black2.jpg,/515Wx515H/t-shirt_bp_black2.jpg,/300Wx300H/t-shirt_bp_black2.jpg,/96Wx96H/t-shirt_bp_black2.jpg,/65Wx65H/t-shirt_bp_black2.jpg,/30Wx30H/t-shirt_bp_black2.jpg
+                            ;t-shirt_bp_white      ;/1200Wx1200H/t-shirt_bp_white.jpg,/515Wx515H/t-shirt_bp_white.jpg,/300Wx300H/t-shirt_bp_white.jpg,/96Wx96H/t-shirt_bp_white.jpg,/65Wx65H/t-shirt_bp_white.jpg,/30Wx30H/t-shirt_bp_white.jpg,/1200Wx1200H/t-shirt_bp_white2.jpg,/515Wx515H/t-shirt_bp_white2.jpg,/300Wx300H/t-shirt_bp_white2.jpg,/96Wx96H/t-shirt_bp_white2.jpg,/65Wx65H/t-shirt_bp_white2.jpg,/30Wx30H/t-shirt_bp_white2.jpg
+
+UPDATE TmaPoVariant;code[unique=true]   ;$picture                        ;$thumbnail                    ;$detail                           ;$normal                         ;$thumbnails                   ;$galleryImages;$catalogVersion
+                   ;t-shirt_bp_black_S  ;/300Wx300H/t-shirt_bp_black.jpg ;/96Wx96H/t-shirt_bp_black.jpg ;/1200Wx1200H/t-shirt_bp_black.jpg ;/300Wx300H/t-shirt_bp_black.jpg ;/96Wx96H/t-shirt_bp_black.jpg ;t-shirt_bp_black
+                   ;t-shirt_bp_black_M  ;/300Wx300H/t-shirt_bp_black.jpg ;/96Wx96H/t-shirt_bp_black.jpg ;/1200Wx1200H/t-shirt_bp_black.jpg ;/300Wx300H/t-shirt_bp_black.jpg ;/96Wx96H/t-shirt_bp_black.jpg ;t-shirt_bp_black
+                   ;t-shirt_bp_black_L  ;/300Wx300H/t-shirt_bp_black.jpg ;/96Wx96H/t-shirt_bp_black.jpg ;/1200Wx1200H/t-shirt_bp_black.jpg ;/300Wx300H/t-shirt_bp_black.jpg ;/96Wx96H/t-shirt_bp_black.jpg ;t-shirt_bp_black
+                   ;t-shirt_bp_black_XL ;/300Wx300H/t-shirt_bp_black.jpg ;/96Wx96H/t-shirt_bp_black.jpg ;/1200Wx1200H/t-shirt_bp_black.jpg ;/300Wx300H/t-shirt_bp_black.jpg ;/96Wx96H/t-shirt_bp_black.jpg ;t-shirt_bp_black
+
+                   ;t-shirt_bp_white_S  ;/300Wx300H/t-shirt_bp_white.jpg ;/96Wx96H/t-shirt_bp_white.jpg ;/1200Wx1200H/t-shirt_bp_white.jpg ;/300Wx300H/t-shirt_bp_white.jpg ;/96Wx96H/t-shirt_bp_white.jpg ;t-shirt_bp_white
+                   ;t-shirt_bp_white_M  ;/300Wx300H/t-shirt_bp_white.jpg ;/96Wx96H/t-shirt_bp_white.jpg ;/1200Wx1200H/t-shirt_bp_white.jpg ;/300Wx300H/t-shirt_bp_white.jpg ;/96Wx96H/t-shirt_bp_white.jpg ;t-shirt_bp_white
+                   ;t-shirt_bp_white_L  ;/300Wx300H/t-shirt_bp_white.jpg ;/96Wx96H/t-shirt_bp_white.jpg ;/1200Wx1200H/t-shirt_bp_white.jpg ;/300Wx300H/t-shirt_bp_white.jpg ;/96Wx96H/t-shirt_bp_white.jpg ;t-shirt_bp_white
+                   ;t-shirt_bp_white_XL ;/300Wx300H/t-shirt_bp_white.jpg ;/96Wx96H/t-shirt_bp_white.jpg ;/1200Wx1200H/t-shirt_bp_white.jpg ;/300Wx300H/t-shirt_bp_white.jpg ;/96Wx96H/t-shirt_bp_white.jpg ;t-shirt_bp_white

@@ -1,0 +1,853 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+$defaultPassword = 1234
+
+
+#Create SubscribedProductInventory ProductOffering
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE SpiProductOffering; id[unique = true]            ; name[lang = en]
+                                ; signatureUnlimitedPlan_10828 ; signatureUnlimitedPlan_10828_name
+                                ; christmasHomeDeal_10828      ; christmasHomeDeal_10828_name
+                                ; fiber_internet_10828         ; fiber_internet_10828_name
+                                ; fiber_router_10828           ; fiber_router_10828_name
+                                ; tvPremium_10828              ; tvPremium_10828_name
+                                ; quadPlay_10828               ; quadPlay_10828_name
+                                ; mobileDeal_10828             ; mobileDeal_10828_name
+                                ; iPhone12_10828               ; iPhone12_10828_name
+                                ; 1gb_roaming_data_10828       ; 1gb_roaming_data_10828_name
+                                ; homeDeal_10828               ; homeDeal_10828_name
+                                ; broadband_10828              ; broadband_10828
+                                ; tvDeal_10828                 ; tvDeal_10828_name
+                                ; tvNews_10828                 ; tvNews_10828_name
+                                ; landline_10828               ; landline_10828_name
+                                ; ll_voip_10828                ; ll_voip_10828_name
+                                ; 100mins_roaming_addon_10828  ; 100mins_roaming_addon_10828_name
+                                ; premiumUnlimitedPlan_10828   ; premiumUnlimitedPlan_10828_name
+## update event of SPI
+                                ; dext_11776                   ; Dext Mobile
+                                ; signatureUnlimitedPlan_11776 ; signature Unlimited Plan
+                                ; quadPlay_11776               ; Quad Play
+                                ; mobileDeal_11776             ; Mobile Deal
+                                ; iPhone12_11776               ; iPhone 12
+                                ; 1gb_roaming_data_11776       ; 1gb roaming data
+                                ; homeDeal_11776               ; Home Deal
+                                ; smartPink_11776              ; Smart Pink
+                                ; sombrero_11776               ; Sombrero
+                                ; SalsaM_11776                 ; Salsa M
+                                ; premiumUnlimitedPlan_11776   ; Premium Unlimited Plan
+                                ; unlimitedBasicPlan_11776     ; Unlimited Basic Plan
+                                ; landline_11776               ; Landline
+                                ; internet_11776               ; internet
+                                ; talkTime_11776               ; talkTime
+
+## update state event of SPI
+                                ; signatureUnlimitedPlan_11783 ; signature Unlimited Plan
+                                ; quadPlay_11783               ; Quad Play
+                                ; mobileDeal_11783             ; Mobile Deal
+                                ; 1gb_roaming_data_11783       ; 1gb roaming data
+                                ; homeDeal_11783               ; Home Deal
+                                ; premiumUnlimitedPlan_11783   ; Premium Unlimited Plan
+                                ; sombrero_11783               ; Sombrero
+## delete event of SPI
+                                ; Tapas_S_11841                ; Tapas S
+                                ; StandardMobileDeal_11841     ; Standard Mobile Deal
+                                ; 1gb_roaming_data_11841       ; 1gb roaming data
+                                ; sombrero_11841               ; Sombrero
+
+## patch SPI
+                                ; dext_11825                   ; Dext Mobile
+                                ; signatureUnlimitedPlan_11825 ; signature Unlimited Plan
+                                ; quadPlay_11825               ; Quad Play
+                                ; mobileDeal_11825             ; Mobile Deal
+                                ; iPhone12_11825               ; iPhone 12
+                                ; 1gb_roaming_data_11825       ; 1gb roaming data
+                                ; homeDeal_11825               ; Home Deal
+                                ; smartPink_11825              ; Smart Pink
+                                ; sombrero_11825               ; Sombrero
+                                ; SalsaM_11825                 ; Salsa M
+                                ; premiumUnlimitedPlan_11825   ; Premium Unlimited Plan
+                                ; unlimitedBasicPlan_11825     ; Unlimited Basic Plan
+                                ; landline_11825               ; Landline
+                                ; internet_11825               ; internet
+                                ; talkTime_11825               ; talkTime
+
+## delete SPI
+                                ; Tapas_S_11829                ; Tapas S
+                                ; StandardMobileDeal_11829     ; Standard Mobile Deal
+                                ; 1gb_roaming_data_11829       ; 1gb roaming data
+                                ; sombrero_11829               ; Sombrero
+
+
+#Create SubscribedProductInventory billingAccount
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE SpiBillingAccount; id[unique = true]         ; name[lang = en]
+                               ; ba_etta.berg@hybris.com   ; ba_etta.berg
+                               ; ba_tim.james@hybris.com   ; ba_tim.james
+                               ; ba_etta.berg@yahoo.com    ; ba_etta.berg
+                               ; ba_time.james@hybris.com  ; ba_tim.james
+                               ; ba_etta.james@hybris.com  ; ba_etta.james
+## Update event of SPI
+                               ; ba_user117761@hybris.com  ; ba_user117761
+                               ; ba_user117762@hybris.com  ; ba_user117762
+                               ; ba_user117763@hybris.com  ; ba_user117763
+                               ; ba_user117764@hybris.com  ; ba_user117764
+                               ; ba_user117765@hybris.com  ; ba_user117765
+                               ; ba_user117766@hybris.com  ; ba_user117766
+                               ; ba_user117767@hybris.com  ; ba_user117767
+                               ; ba_user117768@hybris.com  ; ba_user117768
+                               ; ba_user117769@hybris.com  ; ba_user117769
+                               ; ba_user1177610@hybris.com ; ba_user1177610
+
+## update state event of SPI
+                               ; ba_user117831@hybris.com  ; ba_user117831
+                               ; ba_user117832@hybris.com  ; ba_user117832
+                               ; ba_user117833@hybris.com  ; ba_user117833
+## delete event of SPI
+                               ; ba_user118411@hybris.com  ; ba_user118411
+                               ; ba_user118412@hybris.com  ; ba_user118412
+
+## patch SPI
+                               ; ba_user118251@hybris.com  ; ba_user118251
+                               ; ba_user118252@hybris.com  ; ba_user118252
+                               ; ba_user118253@hybris.com  ; ba_user118253
+                               ; ba_user118254@hybris.com  ; ba_user118254
+                               ; ba_user118255@hybris.com  ; ba_user118255
+                               ; ba_user118256@hybris.com  ; ba_user118256
+                               ; ba_user118257@hybris.com  ; ba_user118257
+                               ; ba_user118258@hybris.com  ; ba_user118258
+                               ; ba_user118259@hybris.com  ; ba_user118259
+                               ; ba_user1182510@hybris.com ; ba_user1182510
+
+## delete SPI
+                               ; ba_user118291@hybris.com  ; ba_user118291
+                               ; ba_user118292@hybris.com  ; ba_user118292
+
+
+#Create SubscribedProductInventory productSpecification
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE SpiProductSpecification; id[unique = true]         ; name[lang = en]                ; version
+                                     ; std_gsm_plan_108281       ; std_gsm_plan_108281_name       ; 1
+                                     ; fiber_internet_ps_108281  ; fiber_internet_ps_108281_name  ; 1
+                                     ; fiber_router_ps_108281    ; fiber_router_ps_108281_name    ; 1
+                                     ; data_addon_108281         ; data_addons_10828_name         ; 1
+                                     ; voip_ps_108281            ; voip_ps_108281_name            ; 1
+                                     ; roaming_mins_addon_108281 ; roaming_mins_addon_108281_name ; 1
+##Update event of spi
+                                     ; dext_gsm_plan_11776       ; GSM plans of a dext mobile     ; 1
+                                     ; std_gsm_plan_11776        ; GSM plan of SUP                ; 1
+                                     ; data_addon_11776          ; data addons                    ; 2
+                                     ; gsm_plan_11776            ; GSM plan                       ; 1
+
+## update state event of SPI
+                                     ; std_gsm_plan_11783        ; GSM plan of SUP                ; 1
+## delete event of SPI
+                                     ; gsm_plan_11841            ; GSM plan of tapas              ; 2
+
+##Patch spi
+                                     ; dext_gsm_plan_11825       ; GSM plans of a dext mobile     ; 1
+                                     ; std_gsm_plan_11825        ; GSM plan of SUP                ; 1
+                                     ; data_addon_11825          ; data addons                    ; 2
+                                     ; gsm_plan_11825            ; GSM plan                       ; 1
+
+## delete SPI
+                                     ; gsm_plan_11829            ; GSM plan of tapas              ; 2
+
+#Create SubscribedProductInventory AgreementItem
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE SpiAgreementItem; id[unique = true] ; name[lang = en]        ; agreementId
+                              ; 1082800001_baItem ; 1082800001_baItem_name ; 108281_baItem
+                              ; 1082800002_baItem ; 1082800002_baItem_name ; 108282_baItem
+                              ; 1082800003_baItem ; 1082800003_baItem_name ; 108283_baItem
+                              ; 1082800004_baItem ; 1082800004_baItem_name ; 108284_baItem
+                              ; 1082800005_baItem ; 1082800005_baItem_name ; 108285_baItem
+## Update event of SPI
+                              ; 1177600001_baItem ; 1177600001 baItem      ; 117761_baItem
+                              ; 1177600002_baItem ; 1177600002 baItem      ; 117762_baItem
+                              ; 1177600003_baItem ; 1177600003 baItem      ; 117763_baItem
+                              ; 1177600004_baItem ; 1177600004 baItem      ; 117764_baItem
+                              ; 1177600005_baItem ; 1177600005 baItem      ; 117765_baItem
+                              ; 1177600006_baItem ; 1177600006 baItem      ; 117766_baItem
+                              ; 1177600007_baItem ; 1177600007 baItem      ; 117767_baItem
+                              ; 1177600008_baItem ; 1177600008 baItem      ; 117768_baItem
+                              ; 1177600009_baItem ; 1177600009 baItem      ; 117769_baItem
+                              ; 1177600010_baItem ; 1177600010 baItem      ; 1177610_baItem
+
+## update state event of SPI
+                              ; 1178300001_baItem ; 1178300001 baItem      ; 117831_baItem
+                              ; 1178300002_baItem ; 1178300002 baItem      ; 117832_baItem
+                              ; 1178300003_baItem ; 1178300003 baItem      ; 117833_baItem
+## delete event of SPI
+                              ; 1184100001_baItem ; 1184100001 baItem      ; 118411_baItem
+                              ; 1184100002_baItem ; 1184100002 baItem      ; 118412_baItem
+
+## Patch SPI
+                              ; 1182500001_baItem ; 1182500001 baItem      ; 118251_baItem
+                              ; 1182500002_baItem ; 1182500002 baItem      ; 118252_baItem
+                              ; 1182500003_baItem ; 1182500003 baItem      ; 118253_baItem
+                              ; 1182500004_baItem ; 1182500004 baItem      ; 118254_baItem
+                              ; 1182500005_baItem ; 1182500005 baItem      ; 118255_baItem
+                              ; 1182500006_baItem ; 1182500006 baItem      ; 118256_baItem
+                              ; 1182500007_baItem ; 1182500007 baItem      ; 118257_baItem
+                              ; 1182500008_baItem ; 1182500008 baItem      ; 118258_baItem
+                              ; 1182500009_baItem ; 1182500009 baItem      ; 118259_baItem
+                              ; 1182500010_baItem ; 1182500010 baItem      ; 1182510_baItem
+
+## delete event of SPI
+                              ; 1182900001_baItem ; 1182900001 baItem      ; 118291_baItem
+                              ; 1182900002_baItem ; 1182900002 baItem      ; 118292_baItem
+
+#Create SubscribedProductInventory RelatedPlace
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE SpiRelatedPlace; id[unique = true]; name[lang = en]             ; role
+                             ; reg_108281       ; UNI Site for this customer  ; UNI Site
+##Update event of SPI
+                             ; reg_117761       ; UNI Site for this customer  ; UNI Site
+                             ; reg_117762       ; UNI site for this product   ; UNI Site
+
+## update state event of SPI
+                             ; reg_117831       ; UNI Site for this customer  ; UNI Site
+## delete event of SPI
+                             ; reg_11841        ; Main Site for this customer ; Main Site
+##Patch SPI
+                             ; reg_118251       ; UNI Site for this customer  ; UNI Site
+                             ; reg_118252       ; UNI site for this product   ; UNI Site
+
+## delete SPI
+                             ; reg_11829        ; Main Site for this customer ; Main Site
+
+#Create SubscribedProductInventory ProductRelationship
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE SpiProductRelationship; id[unique = true]; type     ; product(id)            ; target(id)
+                                    ; relation_108281  ; reliesOn ; sup_108281             ; christmas_hd_10828
+                                    ; relation_108282  ; bundle   ; christmas_hd_10828     ; office_quad_play_10828
+                                    ; relation_108283  ; bundle   ; office_quad_play_10828 ; md_108281
+                                    ; relation_108284  ; bundle   ; md_108281              ; pup_10828
+                                    ; relation_108285  ; reliesOn ; pup_10828              ; sup_108281
+## Update event of SPI
+                                    ; relation_117761  ; reliesOn ; dxt_117761             ; sup_117761
+                                    ; relation_117762  ; bundle   ; sup_117761             ; office_quad_play_11776
+                                    ; relation_117763  ; bundle   ; office_quad_play_11776 ; dxt_117761
+                                    ; relation_117764  ; bundle   ; office_landline_11776  ; data_11776
+
+## Patch SPI
+                                    ; relation_118251  ; reliesOn ; dxt_118251             ; sup_118251
+                                    ; relation_118252  ; bundle   ; sup_118251             ; office_quad_play_11825
+                                    ; relation_118253  ; bundle   ; office_quad_play_11825 ; dxt_118251
+                                    ; relation_118254  ; bundle   ; office_landline_11825  ; data_11825
+
+#Create SubscribedProductInventory ProductTerms
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE SpiProductTerm; id[unique = true]; name[lang = en]; description[lang = en]; startDate[dateformat = dd.MM.yyyy]; endDate[dateformat = dd.MM.yyyy]; amount; units
+                            ; monthly_24       ; 24_months      ; 24 months contract    ; 1.1.2020                          ; 1.1.2022                        ; 10    ;
+                            ; monthly_12       ; 12_months      ; 12 months contract    ; 1.1.2021                          ; 1.1.2022                        ; 15    ;
+                            ; monthly_1        ; 1_month        ; 1 month contract      ; 1.1.2021                          ; 1.2.2021                        ; 20    ;
+
+#Create SubscribedProductInventory RelatedProductOrderItems
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE SpiRelatedProductOrderItem; orderItemId [unique = true]; orderItemAction(code); productOrderId [unique = true]; role                    ; product(id)
+                                        ; 0                          ; add                  ; 10828001                      ; Install Order           ; sup_108281
+
+                                        ; 0                          ; noChange             ; 10828002                      ; Change Management Order ; christmas_hd_10828
+                                        ; 1                          ; noChange             ; 10828002                      ; Install Order           ; chd_fiber_net_10828
+                                        ; 2                          ; noChange             ; 10828002                      ; Install Order           ; chd_fiber_router_108281
+                                        ; 3                          ; noChange             ; 10828002                      ; Install Order           ; chd_fiber_router_108282
+                                        ; 4                          ; noChange             ; 10828002                      ; Change Management Order ; chd_tv_premium_10828
+
+                                        ; 0                          ; noChange             ; 10828003                      ; Change Management Order ; office_quad_play_10828
+                                        ; 1                          ; noChange             ; 10828003                      ; Install Order           ; md_10828
+                                        ; 2                          ; noChange             ; 10828003                      ; Install Order           ; sup_108282
+                                        ; 3                          ; noChange             ; 10828003                      ; Install Order           ; iPhone12_spi_10828
+                                        ; 4                          ; noChange             ; 10828003                      ; Change Management Order ; 1gb_raddon_10828
+                                        ; 5                          ; noChange             ; 10828003                      ; Change Management Order ; hd_10828
+                                        ; 6                          ; noChange             ; 10828003                      ; Install Order           ; bb_10828
+                                        ; 7                          ; noChange             ; 10828003                      ; Install Order           ; bb_fiber_net_10828
+                                        ; 8                          ; noChange             ; 10828003                      ; Install Order           ; tv_10828
+                                        ; 9                          ; noChange             ; 10828003                      ; Change Management Order ; tv_premium_10828
+                                        ; 10                         ; noChange             ; 10828003                      ; Change Management Order ; tv_news_10828
+                                        ; 11                         ; noChange             ; 10828003                      ; Install Order           ; ll_10828
+                                        ; 12                         ; noChange             ; 10828003                      ; Install Order           ; ll_voip_spi_10828
+
+                                        ; 0                          ; noChange             ; 10828004                      ; Change Management Order ; md_108281
+                                        ; 1                          ; modify               ; 10828004                      ; Install Order           ; sup_108283
+                                        ; 2                          ; modify               ; 10828004                      ; Install Order           ; iPhone12_spi_108281
+                                        ; 3                          ; add                  ; 10828004                      ; Install Order           ; 1gb_raddon_108281
+                                        ; 4                          ; delete               ; 10828004                      ; Change Management Order ; 100mins_raddon_108281
+
+                                        ; 0                          ; add                  ; 10828005                      ; Install Order           ; pup_10828
+## Update event of spi
+                                        ; order_117761               ; add                  ; 11776001                      ; Install Order           ; dxt_117761
+                                        ; order_117762               ; noChange             ; 11776002                      ; Change Management Order ; sup_117761
+
+                                        ; order_117763               ; noChange             ; 11776003                      ; Change Management Order ; office_quad_play_11776
+                                        ; order_117764               ; add                  ; 11776003                      ; Change Management Order ; md_11776
+                                        ; order_117765               ; delete               ; 11776003                      ; Install Order           ; iPhone12_spi_11776
+                                        ; order_117766               ; noChange             ; 11776003                      ; Change Management Order ; 1gb_raddon_11776
+                                        ; order_117767               ; modify               ; 11776003                      ; Install Order           ; hd_11776
+
+                                        ; order_117768               ; noChange             ; 11776004                      ; Change Management Order ; pink_117761
+                                        ; order_117769               ; modify               ; 11776005                      ; Install Order           ; somb_11776
+                                        ; order_1177610              ; modify               ; 11776006                      ; Install Order           ; sm_11776
+                                        ; order_1177611              ; modify               ; 11776007                      ; Install Order           ; pup_11776
+                                        ; order_1177612              ; add                  ; 11776008                      ; Install Order           ; ubp_11776
+
+                                        ; order_1177613              ; noChange             ; 11776009                      ; Change Management Order ; office_landline_11776
+                                        ; order_1177614              ; add                  ; 11776009                      ; Change Management Order ; data_11776
+                                        ; order_1177615              ; delete               ; 11776009                      ; Install Order           ; minutes_11776
+
+## update state event of SPI
+                                        ; order_117831               ; add                  ; 11783001                      ; Install Order           ; sup_11783
+                                        ; order_117832               ; noChange             ; 11783002                      ; Change Management Order ; pup_11783
+                                        ; order_117833               ; noChange             ; 11776003                      ; Change Management Order ; office_quad_play_11783
+                                        ; order_117834               ; add                  ; 11776003                      ; Change Management Order ; md_11783
+                                        ; order_117835               ; delete               ; 11776003                      ; Install Order           ; somb_11783
+                                        ; order_117836               ; noChange             ; 11776003                      ; Change Management Order ; 1gb_raddon_11783
+                                        ; order_117837               ; modify               ; 11776003                      ; Install Order           ; hd_11783
+## delete event of SPI
+                                        ; order_118411               ; add                  ; 11841001                      ; Install Order           ; tapasS_11841
+                                        ; order_118412               ; noChange             ; 11841002                      ; Change Management Order ; smd_11841
+                                        ; order_118413               ; add                  ; 11841002                      ; Change Management Order ; 1gb_raddon_11841
+                                        ; order_118414               ; delete               ; 11841002                      ; Install Order           ; somb_11841
+## Patch spi
+                                        ; order_118251               ; add                  ; 11825001                      ; Install Order           ; dxt_118251
+                                        ; order_118252               ; noChange             ; 11825002                      ; Change Management Order ; sup_118251
+
+                                        ; order_118253               ; noChange             ; 11825003                      ; Change Management Order ; office_quad_play_11776
+                                        ; order_118254               ; add                  ; 11825003                      ; Change Management Order ; md_11776
+                                        ; order_118255               ; delete               ; 11825003                      ; Install Order           ; iPhone12_spi_11776
+                                        ; order_118256               ; noChange             ; 11825003                      ; Change Management Order ; 1gb_raddon_11776
+                                        ; order_118257               ; modify               ; 11825003                      ; Install Order           ; hd_11776
+
+                                        ; order_118258               ; noChange             ; 11825004                      ; Change Management Order ; pink_118251
+                                        ; order_118259               ; modify               ; 11825005                      ; Install Order           ; somb_11825
+                                        ; order_1182510              ; modify               ; 11825006                      ; Install Order           ; sm_11825
+                                        ; order_1182511              ; modify               ; 11825007                      ; Install Order           ; pup_11825
+                                        ; order_1182512              ; add                  ; 11825008                      ; Install Order           ; ubp_11825
+
+                                        ; order_1182513              ; noChange             ; 11825009                      ; Change Management Order ; office_landline_11825
+                                        ; order_1182514              ; add                  ; 11825009                      ; Change Management Order ; data_11825
+                                        ; order_1182515              ; delete               ; 11825009                      ; Install Order           ; minutes_11825
+
+## delete event of SPI
+                                        ; order_118291               ; add                  ; 11829001                      ; Install Order           ; tapasS_11829
+                                        ; order_118292               ; noChange             ; 11829002                      ; Change Management Order ; smd_11829
+                                        ; order_118293               ; add                  ; 11829002                      ; Change Management Order ; 1gb_raddon_11829
+                                        ; order_118294               ; delete               ; 11829002                      ; Install Order           ; somb_11829
+
+#Create SubscribedProductInventory Services
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE SpiService; id[unique = true]; name[lang = en]
+                        ; voice_svc        ; voice svc
+                        ; data_svc         ; data svc
+                        ; voip_svc         ; voip svc
+## Update event of spi
+                        ; voice_svc_117761 ; voice svc
+                        ; data_svc_117761  ; data svc
+                        ; voip_svc_117761  ; voip svc
+                        ; voice_svc_117762 ; voice svc
+
+## update state event of SPI
+                        ; voice_svc_117831 ; voice svc
+## delete event of SPI
+                        ; data_svc_11841   ; data svc
+## Patch spi
+                        ; voice_svc_118251 ; voice svc
+                        ; data_svc_118251  ; data svc
+                        ; voip_svc_118251  ; voip svc
+                        ; voice_svc_118252 ; voice svc
+
+## delete SPI
+                        ; data_svc_11829   ; data svc
+
+#Create SubscribedProductInventory Resources
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE SpiResource; id[unique = true]; name[lang = en]; value
+                         ; eSim             ;                ; 354410064301719
+                         ; msisdn           ;                ; +40744111222
+                         ; eSim1            ;                ; 354410064301719
+                         ; msisdn1          ;                ; +40744111222
+                         ; msisdn2          ;                ; +40744111222
+## Update event of spi
+                         ; eSim_117761      ;                ; 354410064301719
+                         ; msisdn_117761    ;                ; +40744111222
+                         ; eSim_117762      ;                ; 354410064301719
+                         ; msisdn_117762    ;                ; +40744111223
+                         ; msisdn_117763    ;                ; +40744111224
+                         ; msisdn_117764    ;                ; +40744111225
+
+## update state event of SPI
+                         ; eSim_117831      ;                ; 354410064301719
+## Patch spi
+                         ; eSim_118251      ;                ; 354410064301719
+                         ; msisdn_118251    ;                ; +40744111222
+                         ; eSim_118252      ;                ; 354410064301719
+                         ; msisdn_118252    ;                ; +40744111223
+                         ; msisdn_118253    ;                ; +40744111224
+                         ; msisdn_118254    ;                ; +40744111225
+
+#Create SubscribedProductInventory Characteristics
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE SpiCharacteristic; id[unique = true]   ; name[lang = en]    ; valueType     ; value
+                               ; unlimited_min       ; Unlimited mins     ; phone_minutes ; 5000
+                               ; unlimited_min3      ; Unlimited mins 3   ; phone_minutes ; 5000
+                               ; unlimited_sms       ; Unlimited sms      ; sms           ; 5000
+                               ; unlimited_sms3      ; Unlimited sms 3    ; sms           ; 5000
+                               ; 10000_mb            ; 10gb data          ; mb            ; 10000
+                               ; up_500              ; upload speed 500   ; mbps          ; 500
+                               ; down_1000           ; downloadSpeed 1000 ; mbps          ; 1000
+                               ; MAC_add_0A_0B       ; MAC Address0ABB    ; address       ; 00000A0B28FC
+                               ; MAC_add_1A_1B       ; MAC Address1A1B    ; address       ; 00001A1B28FC
+                               ; 1000_mb             ; 1gb data           ; mb            ; 1000
+                               ; 100_min             ; 100 mins           ; phone_minutes ; 100
+                               ; unlimited_min1      ; Unlimited mins1    ; phone_minutes ; 5000
+                               ; unlimited_min2      ; Unlimited mins2    ; phone_minutes ; 5000
+                               ; unlimited_sms1      ; Unlimited sms1     ; sms           ; 5000
+                               ; unlimited_sms2      ; Unlimited sms2     ; sms           ; 5000
+                               ; up1_500             ; upload speed 500   ; mbps          ; 500
+                               ; down1_1000          ; downloadSpeed 1000 ; mbps          ; 1000
+                               ; 1000_mb1            ; 1gb data           ; mb            ; 1000
+                               ; 10000_mb1           ; 10gb data          ; mb            ; 10000
+
+## Update event of spi
+                               ; unlimitedMin_117761 ; Unlimited mins     ; phone_minutes ; 5000
+                               ; up_500_11776        ; upload speed 500   ; mbps          ; 500
+                               ; down_1000_11776     ; downloadSpeed 1000 ; mbps          ; 1000
+                               ; unlimitedSms_117761 ; Unlimited sms      ; sms           ; 1000
+
+## update state event of SPI
+                               ; unlimitedMin_117831 ; Unlimited mins     ; phone_minutes ; 5000
+## delete event of SPI
+                               ; unlimitedData_11841 ; Unlimited data     ; mb            ; 5000
+## Patch spi
+                               ; unlimitedMin_118251 ; Unlimited mins     ; phone_minutes ; 5000
+                               ; up_500_11825        ; upload speed 500   ; mbps          ; 500
+                               ; down_1000_11825     ; downloadSpeed 1000 ; mbps          ; 1000
+                               ; unlimitedSms_118251 ; Unlimited sms      ; sms           ; 1000
+
+## delete SPI
+                               ; unlimitedData_11829 ; Unlimited data     ; mb            ; 5000
+
+#Create Customer
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE Customer; originalUid[unique = true]; uid[unique = true]     ; customerID             ; name        ; groups(uid)   ; password[default = $defaultPassword]; Europe1PriceFactory_UPG(code)
+                      ; etta.berg@hybris.com      ; etta.berg@hybris.com   ; etta.berg@hybris.com   ; etta.berg   ; customergroup ;
+                      ; tim.james@hybris.com      ; tim.james@hybris.com   ; tim.james@hybris.com   ; tim.james   ; customergroup ;
+                      ; sam.felt@hybris.com       ; sam.felt@hybris.com    ; sam.felt@hybris.com    ; sam.felt    ; customergroup ;
+                      ; etta.james@hybris.com     ; etta.james@hybris.com  ; etta.james@hybris.com  ; etta.james  ; customergroup ;
+## create subscribedProduct Event
+                      ; user117361@hybris.com     ; user117361@hybris.com  ; user117361@hybris.com  ; user117361  ; customergroup ;
+                      ; user117362@hybris.com     ; user117362@hybris.com  ; user117362@hybris.com  ; user117362  ; customergroup ;
+                      ; user117363@hybris.com     ; user117363@hybris.com  ; user117363@hybris.com  ; user117363  ; customergroup ;
+                      ; user117364@hybris.com     ; user117364@hybris.com  ; user117364@hybris.com  ; user117364  ; customergroup ;
+## update event of spi
+                      ; user117761@hybris.com     ; user117761@hybris.com  ; user117761@hybris.com  ; user117761  ; customergroup ;
+                      ; user117762@hybris.com     ; user117762@hybris.com  ; user117762@hybris.com  ; user117762  ; customergroup ;
+                      ; user117763@hybris.com     ; user117763@hybris.com  ; user117763@hybris.com  ; user117763  ; customergroup ;
+                      ; user117764@hybris.com     ; user117764@hybris.com  ; user117764@hybris.com  ; user117764  ; customergroup ;
+                      ; user117765@hybris.com     ; user117765@hybris.com  ; user117765@hybris.com  ; user117765  ; customergroup ;
+                      ; user117766@hybris.com     ; user117766@hybris.com  ; user117766@hybris.com  ; user117766  ; customergroup ;
+                      ; user117767@hybris.com     ; user117767@hybris.com  ; user117767@hybris.com  ; user117767  ; customergroup ;
+                      ; user117768@hybris.com     ; user117768@hybris.com  ; user117768@hybris.com  ; user117768  ; customergroup ;
+                      ; user117769@hybris.com     ; user117769@hybris.com  ; user117769@hybris.com  ; user117769  ; customergroup ;
+                      ; user1177610@hybris.com    ; user1177610@hybris.com ; user1177610@hybris.com ; user1177610 ; customergroup ;
+
+## update state event of SPI
+                      ; user117831@hybris.com     ; user117831@hybris.com  ; user117831@hybris.com  ; user117831  ; customergroup ;
+                      ; user117832@hybris.com     ; user117832@hybris.com  ; user117832@hybris.com  ; user117832  ; customergroup ;
+                      ; user117833@hybris.com     ; user117833@hybris.com  ; user117833@hybris.com  ; user117833  ; customergroup ;
+## delete event of SPI
+                      ; user118411@hybris.com     ; user118411@hybris.com  ; user118411@hybris.com  ; user118411  ; customergroup ;
+                      ; user118412@hybris.com     ; user118412@hybris.com  ; user118412@hybris.com  ; user118412  ; customergroup ;
+## Patch spi
+                      ; user118251@hybris.com     ; user118251@hybris.com  ; user118251@hybris.com  ; user118251  ; customergroup ;
+                      ; user118252@hybris.com     ; user118252@hybris.com  ; user118252@hybris.com  ; user118252  ; customergroup ;
+                      ; user118253@hybris.com     ; user118253@hybris.com  ; user118253@hybris.com  ; user118253  ; customergroup ;
+                      ; user118254@hybris.com     ; user118254@hybris.com  ; user118254@hybris.com  ; user118254  ; customergroup ;
+                      ; user118255@hybris.com     ; user118255@hybris.com  ; user118255@hybris.com  ; user118255  ; customergroup ;
+                      ; user118256@hybris.com     ; user118256@hybris.com  ; user118256@hybris.com  ; user118256  ; customergroup ;
+                      ; user118257@hybris.com     ; user118257@hybris.com  ; user118257@hybris.com  ; user118257  ; customergroup ;
+                      ; user118258@hybris.com     ; user118258@hybris.com  ; user118258@hybris.com  ; user118258  ; customergroup ;
+                      ; user118259@hybris.com     ; user118259@hybris.com  ; user118259@hybris.com  ; user118259  ; customergroup ;
+                      ; user1182510@hybris.com    ; user1182510@hybris.com ; user1182510@hybris.com ; user1182510 ; customergroup ;
+
+## delete SPI
+                      ; user118291@hybris.com     ; user118291@hybris.com  ; user118291@hybris.com  ; user118291  ; customergroup ;
+                      ; user118292@hybris.com     ; user118292@hybris.com  ; user118292@hybris.com  ; user118292  ; customergroup ;
+
+#Create SubscribedProductInventory Party
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE SpiParty; id[unique = true]; name[lang = en]; type(code)   ; partyRoles(id); principals(uid)
+                      ; party_108281     ; etta berg      ; Individual   ; etta.berg     ; etta.berg@hybris.com
+                      ; party_108282     ; tim james      ; Organization ; tim.james     ; tim.james@hybris.com
+                      ; party_108283     ; sam felt       ; Organization ; sam.felt      ; sam.felt@hybris.com
+                      ; party_108284     ; etta james     ; Individual   ; etta.james    ; etta.james@hybris.com
+## create subscribedProduct Event
+                      ; party_117361     ; user117361     ; Individual   ; user117361    ; user117361@hybris.com
+                      ; party_117362     ; user117362     ; Organization ; user117362    ; user117362@hybris.com
+                      ; party_117363     ; user117363     ; Individual   ; user117363    ; user117363@hybris.com
+                      ; party_117364     ; user117364     ; Organization ; user117364    ; user117364@hybris.com
+## update event of spi
+                      ; party_117761     ; user117761     ; Individual   ; user117761    ; user117761@hybris.com
+                      ; party_117762     ; user117762     ; Organization ; user117762    ; user117762@hybris.com
+                      ; party_117763     ; user117763     ; Organization ; user117763    ; user117763@hybris.com
+                      ; party_117764     ; user117764     ; Individual   ; user117764    ; user117764@hybris.com
+                      ; party_117765     ; user117765     ; Organization ; user117765    ; user117765@hybris.com
+                      ; party_117766     ; user117766     ; Individual   ; user117766    ; user117766@hybris.com
+                      ; party_117767     ; user117767     ; Individual   ; user117767    ; user117767@hybris.com
+                      ; party_117768     ; user117768     ; Individual   ; user117768    ; user117768@hybris.com
+                      ; party_117769     ; user117769     ; Individual   ; user117769    ; user117769@hybris.com
+                      ; party_1177610    ; user1177610    ; Individual   ; user1177610   ; user1177610@hybris.com
+
+## update state event of SPI
+                      ; party_117831     ; user117831     ; Individual   ; user117831    ; user117831@hybris.com
+                      ; party_117832     ; user117832     ; Organization ; user117832    ; user117832@hybris.com
+                      ; party_117833     ; user117833     ; Organization ; user117833    ; user117833@hybris.com
+## delete event of SPI
+                      ; party_118411     ; user118411     ; Individual   ; user118411    ; user118411@hybris.com
+                      ; party_118412     ; user118412     ; Organization ; user118412    ; user118412@hybris.com
+
+## Patch spi
+                      ; party_118251     ; user118251     ; Individual   ; user118251    ; user118251@hybris.com
+                      ; party_118252     ; user118252     ; Organization ; user118252    ; user118252@hybris.com
+                      ; party_118253     ; user118253     ; Organization ; user118253    ; user118253@hybris.com
+                      ; party_118254     ; user118254     ; Individual   ; user118254    ; user118254@hybris.com
+                      ; party_118255     ; user118255     ; Organization ; user118255    ; user118255@hybris.com
+                      ; party_118256     ; user118256     ; Individual   ; user118256    ; user118256@hybris.com
+                      ; party_118257     ; user118257     ; Individual   ; user118257    ; user118257@hybris.com
+                      ; party_118258     ; user118258     ; Individual   ; user118258    ; user118258@hybris.com
+                      ; party_118259     ; user118259     ; Individual   ; user118259    ; user118259@hybris.com
+                      ; party_1182510    ; user1182510    ; Individual   ; user1182510   ; user1182510@hybris.com
+
+## delete SPI
+                      ; party_118291     ; user118291     ; Individual   ; user118291    ; user118291@hybris.com
+                      ; party_118292     ; user118292     ; Organization ; user118292    ; user118292@hybris.com
+
+#Create SubscribedProductInventory PartyRole
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE SpiPartyRole; id[unique = true]; role
+                          ; etta.berg        ; customer
+                          ; tim.james        ; employee
+                          ; sam.felt         ; employee
+                          ; etta.james       ; customer
+## create subscribedProduct Event
+                          ; user117361       ; customer
+                          ; user117362       ; employee
+                          ; user117363       ; employee
+                          ; user117364       ; customer
+## update event of spi
+                          ; user117761       ; customer
+                          ; user117762       ; employee
+                          ; user117763       ; employee
+                          ; user117764       ; customer
+                          ; user117765       ; employee
+                          ; user117766       ; customer
+                          ; user117767       ; customer
+                          ; user117768       ; customer
+                          ; user117769       ; customer
+                          ; user1177610      ; customer
+
+## update state event of SPI
+                          ; user117831       ; customer
+                          ; user117832       ; employee
+                          ; user117833       ; employee
+## delete event of SPI
+                          ; user118411       ; customer
+                          ; user118412       ; employee
+## patch spi
+                          ; user118251       ; customer
+                          ; user118252       ; employee
+                          ; user118253       ; employee
+                          ; user118254       ; customer
+                          ; user118255       ; employee
+                          ; user118256       ; customer
+                          ; user118257       ; customer
+                          ; user118258       ; customer
+                          ; user118259       ; customer
+                          ; user1182510      ; customer
+
+## delete SPI
+                          ; user118291       ; customer
+                          ; user118292       ; employee
+
+#Create SubscribedProductInventory ProductOfferingPrice
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE SpiProductOfferingPrice; id[unique = true]                          ; name[lang = en]
+                                     ; sup_activation_otc                         ; sup_activation_otc_name
+                                     ; sup_activation_online_promo                ; sup_activation_online_promo_name
+                                     ; sup_monthly_service                        ; sup_monthly_service_name
+                                     ; sup_monthly_service_promo                  ; sup_monthly_service_promo_name
+                                     ; extra_data_1_3                             ; extra_data_1_3_name
+                                     ; extra_data_4_6                             ; extra_data_4_6_name
+                                     ; extra_data_7_onw                           ; extra_data_7_onw_name
+                                     ; sup_activation_charges                     ; sup_activation_charges_name
+                                     ; sup_service_charges                        ; sup_service_charges_name
+                                     ; usage_charges                              ; usage_charges_name
+                                     ; pr_signatureUnlimitedPlan_alterations_USD  ; pr_signatureUnlimitedPlan_alterations_USD_name
+                                     ; pr_christmasHomeDeal_promo_USD             ; pr_christmasHomeDeal_promo_USD_name
+                                     ; chd_installation_charges                   ; chd_installation_charges_name
+                                     ; chd_installation_otc                       ; chd_installation_otc_name
+                                     ; chd_installation_online_promo              ; chd_installation_online_promo_name
+                                     ; chd_hw_price                               ; chd_hw_price_name
+                                     ; chd_hw_otc                                 ; chd_hw_otc_name
+                                     ; chd_hw_promo                               ; chd_hw_promo_name
+                                     ; chd_service_charges                        ; chd_service_charges_name
+                                     ; chd_monthly_service                        ; chd_monthly_service_name
+                                     ; chd_monthly_service_promo                  ; chd_monthly_service_promo_name
+                                     ; pr_iphone_12_installment_plan_24m_USD      ; pr_iphone_12_installment_plan_24m_USD_name
+                                     ; pr_1gb_roaming_data_USD                    ; pr_1gb_roaming_data_USD_name
+                                     ; pr_fiber_net_USD                           ; pr_fiber_net_USD_name
+                                     ; pr_tv_premium_USD                          ; pr_tv_premium_USD_name
+                                     ; pr_tv_news_USD                             ; pr_tv_news_USD_name
+                                     ; fiber_net_rc                               ; fiber_net_rc_name
+                                     ; fiber_net_discount                         ; fiber_net_discount_name
+                                     ; pr_100mins_roaming_addon_USD               ; pr_100mins_roaming_addon_USD_name
+                                     ; pr_signatureUnlimitedPlan_alterations_USD1 ; pr_signatureUnlimitedPlan_alterations_USD1_name
+                                     ; pr_signatureUnlimitedPlan_alterations_USD2 ; pr_signatureUnlimitedPlan_alterations_USD2_name
+                                     ; pr_iphone_12_installment_plan_24m_USD1     ; pr_iphone_12_installment_plan_24m_USD1_name
+                                     ; pr_1gb_roaming_data_USD1                   ; pr_1gb_roaming_data_USD1_name
+                                     ; pup_activation_otc                         ; pup_activation_otc_name
+                                     ; pup_activation_online_promo                ; pup_activation_online_promo_name
+                                     ; sup1_activation_otc                        ; sup1_activation_otc_name
+                                     ; sup_activation_charges1                    ; sup_activation_charges_name1
+                                     ; sup_service_charges1                       ; sup_service_charges_name1
+                                     ; usage_charges1                             ; usage_charges_name1
+                                     ; sup_activation_charges2                    ; sup_activation_charges_name2
+                                     ; sup_service_charges2                       ; sup_service_charges_name2
+                                     ; usage_charges2                             ; usage_charges_name2
+                                     ; sup_activation_otc1                        ; sup_activation_otc_name1
+                                     ; sup_activation_otc2                        ; sup_activation_otc_name2
+                                     ; sup_activation_online_promo1               ; sup_activation_online_promo_name1
+                                     ; sup_monthly_service1                       ; sup_monthly_service_name1
+                                     ; sup_monthly_service_promo1                 ; sup_monthly_service_promo_name1
+                                     ; extra1_data_1_3                            ; extra_data_1_3_name1
+                                     ; extra1_data_4_6                            ; extra_data_4_6_name1
+                                     ; sup_activation_online_promo2               ; sup_activation_online_promo_name2
+                                     ; sup_monthly_service2                       ; sup_monthly_service_name2
+                                     ; sup_monthly_service_promo2                 ; sup_monthly_service_promo_name2
+                                     ; extra2_data_1_3                            ; extra_data_1_3_name2
+                                     ; extra2_data_4_6                            ; extra_data_4_6_name2
+                                     ; extra1_data_7_onw                          ; extra_data_7_onw_name1
+                                     ; extra2_data_7_onw                          ; extra_data_7_onw_name1
+## update event of spi
+                                     ; dxt_activation_otc                         ; dext mobile activation one time charge
+                                     ; sup_service_otc                            ; signature unlimited plan service one time charge
+                                     ; iphone_12_installment_plan                 ; iphone_12 installment plan
+                                     ; smartPinkPrice                             ; Cost of smart pink
+                                     ; basicPlan_pop                              ; cost of basic plan
+                                     ; landline_pop                               ; cost of landline plan
+                                     ; talktime_pop                               ; cost of talktime plan
+
+## update state event of SPI
+                                     ; sup_service_otc_11783                      ; signature unlimited plan service one time charge
+                                     ; basicPlan_pop_11783                        ; basic plans prices
+## delete event of SPI
+                                     ; tapas_rc_pop_11841                         ; Tapas S prices
+                                     ; standardMobileDeal_pop_11841               ; Benefit the lowest prices
+## patch spi
+                                     ; dxt_activation_otc_11825                   ; dext mobile activation one time charge
+                                     ; sup_service_otc_11825                      ; signature unlimited plan service one time charge
+                                     ; iphone_12_installment_plan_11825           ; iphone_12 installment plan
+                                     ; smartPinkPrice_11825                       ; Cost of smart pink
+                                     ; basicPlan_pop_11825                        ; cost of basic plan
+                                     ; landline_pop_11825                         ; cost of landline plan
+                                     ; talktime_pop_11825                         ; cost of talktime plan
+
+## delete SPI
+                                     ; tapas_rc_pop_11829                         ; Tapas S prices
+                                     ; standardMobileDeal_pop_11829               ; Benefit the lowest prices
+
+INSERT_UPDATE Currency; isocode[unique = true]; name[lang = en]; active; base  ; conversion; digits; symbol;
+                      ; USD                   ; US Dollar      ; true  ; false ; 1,38      ; 2     ; $
+
+#Create SubscribedProductInventory ProdPriceCharge
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE SpiProdPriceCharge; id[unique = true]                      ; name[lang = en]                       ; description; startDate[dateformat = dd.MM.yyyy]; endDate[dateformat = dd.MM.yyyy]; billingAccount(id)        ; productOfferingPrice(id)               ; priceType(code); unitOfMeasure; recurringChargePeriod; currency(isocode); taxRate; dutyFreeAmount; taxIncludedAmount
+                                ; sup_activation_otc                     ; sup_activation_otc                    ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_etta.berg@yahoo.com    ; sup_activation_otc                     ; oneTime        ;              ; paynow               ; USD              ; 1.1    ; 20            ; 20  ;
+                                ; sup_monthly_service                    ; sup_monthly_service                   ;            ; 3.1.2020                          ; 1.1.2021                        ; ba_etta.berg@yahoo.com    ; sup_monthly_service                    ; recurring      ;              ; monthly              ; USD              ; 1.1    ; 30            ; 30  ;
+                                ; extra_data_1_3                         ; extra_data_1_3                        ;            ; 1.10.2020                         ; 1.1.2021                        ; ba_etta.berg@yahoo.com    ; extra_data_1_3                         ; usage          ;              ; monthly              ; USD              ; 1.1    ; 3             ; 3   ;
+                                ; extra_data_4_6                         ; extra_data_4_6                        ;            ; 1.7.2020                          ; 1.1.2021                        ; ba_etta.berg@yahoo.com    ; extra_data_4_6                         ; usage          ;              ; monthly              ; USD              ; 1.1    ; 2             ; 2   ;
+                                ; extra_data_7_onw                       ; extra_data_7_onw                      ;            ; 1.1.2021                          ; 1.1.2021                        ; ba_etta.berg@yahoo.com    ; extra_data_7_onw                       ; usage          ;              ; monthly              ; USD              ; 1.1    ; 1             ; 1   ;
+                                ; chd_installation_otc                   ; chd_installation_otc                  ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_etta.berg@yahoo.com    ; chd_installation_otc                   ; oneTime        ;              ; paynow               ; USD              ; 1.1    ; 50            ; 50  ;
+                                ; chd_hw_otc                             ; chd_hw_otc                            ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_etta.berg@yahoo.com    ; chd_hw_otc                             ; oneTime        ;              ; paynow               ; USD              ; 1.1    ; 149           ; 149 ;
+                                ; chd_monthly_service                    ; chd_monthly_service                   ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_etta.berg@yahoo.com    ; chd_monthly_service                    ; recurring      ;              ; monthly              ; USD              ; 1.1    ; 70            ; 70  ;
+                                ; pr_iphone_12_installment_plan_24m_USD  ; pr_iphone_12_installment_plan_24m_USD ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_tim.james@hybris.com   ; pr_iphone_12_installment_plan_24m_USD  ; oneTime        ;              ; monthly              ; USD              ; 1.1    ; 20            ; 20  ;
+                                ; pr_1gb_roaming_data_USD                ; pr_1gb_roaming_data_USD               ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_tim.james@hybris.com   ; pr_1gb_roaming_data_USD                ; recurring      ;              ; monthly              ; USD              ; 1.1    ; 2             ; 2   ;
+                                ; fiber_net_rc                           ; fiber_net_rc                          ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_tim.james@hybris.com   ; fiber_net_rc                           ; recurring      ;              ; monthly              ; USD              ; 1.1    ; 40            ; 40  ;
+                                ; pr_tv_premium_USD                      ; pr_tv_premium_USD                     ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_tim.james@hybris.com   ; pr_tv_premium_USD                      ; recurring      ;              ; monthly              ; USD              ; 1.1    ; 10            ; 10  ;
+                                ; pr_tv_news_USD                         ; pr_tv_news_USD                        ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_tim.james@hybris.com   ; pr_tv_news_USD                         ; recurring      ;              ; monthly              ; USD              ; 1.1    ; 2             ; 2   ;
+                                ; pr_100mins_roaming_addon_USD           ; pr_100mins_roaming_addon_USD          ;            ; 1.1.2020                          ; 1.1.2021                        ;                           ; pr_100mins_roaming_addon_USD           ; recurring      ;              ; monthly              ; USD              ; 1.1    ; 2             ; 2   ;
+                                ; pr_iphone_12_installment_plan_24m_USD1 ; pr_iphone_12_installment_plan_24m_USD ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_tim.james@hybris.com   ; pr_iphone_12_installment_plan_24m_USD1 ; oneTime        ;              ; monthly              ; USD              ; 1.1    ; 20            ; 20  ;
+                                ; pr_1gb_roaming_data_USD1               ; pr_1gb_roaming_data_USD               ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_tim.james@hybris.com   ; pr_1gb_roaming_data_USD1               ; recurring      ;              ; monthly              ; USD              ; 1.1    ; 2             ; 2   ;
+                                ; pup_activation_otc                     ; pup_activation_otc                    ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_etta.james@hybris.com  ; pup_activation_otc                     ; oneTime        ;              ; paynow               ; USD              ; 1.1    ; 20            ; 20  ;
+                                ; sup1_activation_otc                    ; sup1_activation_otc                   ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_etta.berg@yahoo.com    ; sup1_activation_otc                    ; oneTime        ;              ; paynow               ; USD              ; 1.1    ; 20            ; 20  ;
+                                ; sup_activation_otc1                    ; sup_activation_otc1                   ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_etta.berg@yahoo.com    ; sup_activation_otc1                    ; oneTime        ;              ; paynow               ; USD              ; 1.1    ; 20            ; 20  ;
+                                ; sup_activation_otc2                    ; sup_activation_otc2                   ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_etta.berg@yahoo.com    ; sup_activation_otc2                    ; oneTime        ;              ; paynow               ; USD              ; 1.1    ; 20            ; 20  ;
+                                ; sup_monthly_service1                   ; sup_monthly_service1                  ;            ; 3.1.2020                          ; 1.1.2021                        ; ba_etta.berg@yahoo.com    ; sup_monthly_service1                   ; recurring      ;              ; monthly              ; USD              ; 1.1    ; 30            ; 30  ;
+                                ; sup_monthly_service2                   ; sup_monthly_service2                  ;            ; 3.1.2020                          ; 1.1.2021                        ; ba_etta.berg@yahoo.com    ; sup_monthly_service2                   ; recurring      ;              ; monthly              ; USD              ; 1.1    ; 30            ; 30  ;
+                                ; extra1_data_1_3                        ; extra1_data_1_3                       ;            ; 1.10.2020                         ; 1.1.2021                        ; ba_etta.berg@yahoo.com    ; extra1_data_1_3                        ; usage          ;              ; monthly              ; USD              ; 1.1    ; 3             ; 3   ;
+                                ; extra1_data_4_6                        ; extra1_data_4_6                       ;            ; 1.7.2020                          ; 1.1.2021                        ; ba_etta.berg@yahoo.com    ; extra1_data_4_6                        ; usage          ;              ; monthly              ; USD              ; 1.1    ; 2             ; 2   ;
+                                ; extra1_data_7_onw                      ; extra1_data_7_onw                     ;            ; 1.1.2021                          ; 1.1.2021                        ; ba_etta.berg@yahoo.com    ; extra1_data_7_onw                      ; usage          ;              ; monthly              ; USD              ; 1.1    ; 1             ; 1   ;
+                                ; extra2_data_1_3                        ; extra2_data_1_3                       ;            ; 1.10.2020                         ; 1.1.2021                        ; ba_etta.berg@yahoo.com    ; extra2_data_1_3                        ; usage          ;              ; monthly              ; USD              ; 1.1    ; 3             ; 3   ;
+                                ; extra2_data_4_6                        ; extra2_data_4_6                       ;            ; 1.7.2020                          ; 1.1.2021                        ; ba_etta.berg@yahoo.com    ; extra2_data_4_6                        ; usage          ;              ; monthly              ; USD              ; 1.1    ; 2             ; 2   ;
+                                ; extra2_data_7_onw                      ; extra2_data_7_onw                     ;            ; 1.1.2021                          ; 1.1.2021                        ; ba_etta.berg@yahoo.com    ; extra2_data_7_onw                      ; usage          ;              ; monthly              ; USD              ; 1.1    ; 1             ; 1   ;
+## update event of spi
+                                ; dxt_activation_otc                     ; dxt_activation_otc                    ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_user117761@hybris.com  ; dxt_activation_otc                     ; oneTime        ;              ; paynow               ; USD              ; 1.1    ; 20            ; 20  ;
+                                ; sup_service_otc                        ; sup_service_otc                       ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_user117762@hybris.com  ; sup_service_otc                        ; recurring      ;              ; monthly              ; USD              ; 1.1    ; 10            ; 10  ;
+                                ; iphone_12_installment_plan             ; iphone_12 installment plan            ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_user117763@hybris.com  ; iphone_12_installment_plan             ; recurring      ;              ; monthly              ; USD              ; 1.1    ; 30            ; 30  ;
+                                ; smartPinkPrice                         ; price of smart pink                   ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_user117764@hybris.com  ; smartPinkPrice                         ; oneTime        ;              ; paynow               ; USD              ; 1.1    ; 200           ; 200 ;
+                                ; basicPlan_pop                          ; basic plan price                      ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_user117768@hybris.com  ; basicPlan_pop                          ; recurring      ;              ; monthly              ; USD              ; 1.1    ; 10            ; 10  ;
+                                ; landline_pop                           ; landline_pop                          ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_user1177610@hybris.com ; landline_pop                           ; oneTime        ;              ; paynow               ; USD              ; 1.1    ; 10            ; 10  ;
+                                ; talktime_pop                           ; talktime_pop                          ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_user1177610@hybris.com ; talktime_pop                           ; oneTime        ;              ; paynow               ; USD              ; 1.1    ; 15            ; 15  ;
+
+## update state event of SPI
+                                ; sup_service_otc_11783                  ; sup_service_otc                       ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_user117831@hybris.com  ; sup_service_otc_11783                  ; recurring      ;              ; monthly              ; USD              ; 1.1    ; 10            ; 10  ;
+                                ; basicPlan_pop_11783                    ; basic plan price                      ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_user117833@hybris.com  ; basicPlan_pop_11783                    ; oneTime        ;              ; paynow               ; USD              ; 1.1    ; 25            ; 25  ;
+## delete event of SPI
+                                ; tapas_rc_pop_11841                     ; tapas_rc_pop_11841                    ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_user118411@hybris.com  ; tapas_rc_pop_11841                     ; recurring      ;              ; monthly              ; USD              ; 1.1    ; 10            ; 10  ;
+                                ; standardMobileDeal_pop_11841           ; standardMobileDeal_pop_11841          ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_user118412@hybris.com  ; standardMobileDeal_pop_11841           ; oneTime        ;              ; paynow               ; USD              ; 1.1    ; 25            ; 25  ;
+
+## patch event of spi
+                                ; dxt_activation_otc_11825               ; dxt_activation_otc_11825              ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_user118251@hybris.com  ; dxt_activation_otc_11825               ; oneTime        ;              ; paynow               ; USD              ; 1.1    ; 20            ; 20  ;
+                                ; sup_service_otc_11825                  ; sup_service_otc_11825                 ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_user118252@hybris.com  ; sup_service_otc_11825                  ; recurring      ;              ; monthly              ; USD              ; 1.1    ; 10            ; 10  ;
+                                ; iphone_12_installment_plan_11825       ; iphone_12 installment plan_11825      ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_user118253@hybris.com  ; iphone_12_installment_plan_11825       ; recurring      ;              ; monthly              ; USD              ; 1.1    ; 30            ; 30  ;
+                                ; smartPinkPrice_11825                   ; price of smart pink_11825             ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_user118254@hybris.com  ; smartPinkPrice_11825                   ; oneTime        ;              ; paynow               ; USD              ; 1.1    ; 200           ; 200 ;
+                                ; basicPlan_pop_11825                    ; basic plan price_11825                ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_user118258@hybris.com  ; basicPlan_pop_11825                    ; recurring      ;              ; monthly              ; USD              ; 1.1    ; 10            ; 10  ;
+                                ; landline_pop_11825                     ; landline_pop                          ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_user1182510@hybris.com ; landline_pop_11825                     ; oneTime        ;              ; paynow               ; USD              ; 1.1    ; 10            ; 10  ;
+                                ; talktime_pop_11825                     ; talktime_pop                          ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_user1182510@hybris.com ; talktime_pop_11825                     ; oneTime        ;              ; paynow               ; USD              ; 1.1    ; 15            ; 15  ;
+
+## delete SPI
+                                ; tapas_rc_pop_11829                     ; tapas_rc_pop_11829                    ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_user118291@hybris.com  ; tapas_rc_pop_11829                     ; recurring      ;              ; monthly              ; USD              ; 1.1    ; 10            ; 10  ;
+                                ; standardMobileDeal_pop_11829           ; standardMobileDeal_pop_11829          ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_user118292@hybris.com  ; standardMobileDeal_pop_11829           ; oneTime        ;              ; paynow               ; USD              ; 1.1    ; 25            ; 25  ;
+
+#Create SubscribedProductInventory PriceAlteration
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE SpiPriceAlteration; id[unique = true]             ; name[lang = en]               ; description; startDate[dateformat = dd.MM.yyyy]; endDate[dateformat = dd.MM.yyyy]; billingAccount(id)       ; productOfferingPrice(id)      ; priceType(code); unitOfMeasure; recurringChargePeriod; currency(isocode); taxRate; dutyFreeAmount; taxIncludedAmount; percentage; priority; applicationDuration
+                                ; sup_activation_online_promo   ; sup_activation_online_promo   ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_etta.berg@yahoo.com   ; sup_activation_online_promo   ; discount       ;              ; paynow               ; USD              ; 1.1    ; 20            ; 20               ; 20        ; 100     ;
+                                ; sup_monthly_service_promo     ; sup_monthly_service_promo     ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_etta.berg@yahoo.com   ; sup_monthly_service_promo     ; allowance      ;              ; monthly              ; USD              ; 1.1    ; 50            ; 50               ; 50        ; 100     ; 6
+                                ; chd_installation_online_promo ; chd_installation_online_promo ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_etta.berg@yahoo.com   ; chd_installation_online_promo ; discount       ;              ; paynow               ; USD              ; 1.1    ; 50            ; 50               ; 50        ; 100     ;
+                                ; chd_hw_promo                  ; chd_hw_promo                  ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_etta.berg@yahoo.com   ; chd_hw_promo                  ; discount       ;              ; paynow               ; USD              ; 1.1    ; 149           ; 149              ; 149       ; 100     ;
+                                ; chd_monthly_service_promo     ; chd_monthly_service_promo     ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_etta.berg@yahoo.com   ; chd_monthly_service_promo     ; allowance      ;              ; monthly              ; USD              ; 1.1    ; 50            ; 50               ; 50        ; 100     ; 6
+                                ; fiber_net_discount            ; fiber_net_discount            ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_tim.james@hybris.com  ; fiber_net_discount            ; allowance      ;              ; paynow               ; USD              ; 1.1    ; 20            ; 20               ; 20        ; 100     ;
+                                ; pup_activation_online_promo   ; pup_activation_online_promo   ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_etta.james@hybris.com ; pup_activation_online_promo   ; allowance      ;              ; paynow               ; USD              ; 1.1    ; 20            ; 20               ; 20        ; 100     ;
+                                ; sup_activation_online_promo1  ; sup_activation_online_promo1  ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_etta.berg@yahoo.com   ; sup_activation_online_promo1  ; discount       ;              ; paynow               ; USD              ; 1.1    ; 20            ; 20               ; 20        ; 100     ;
+                                ; sup_activation_online_promo2  ; sup_activation_online_promo2  ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_etta.berg@yahoo.com   ; sup_activation_online_promo2  ; discount       ;              ; paynow               ; USD              ; 1.1    ; 20            ; 20               ; 20        ; 100     ;
+                                ; sup_monthly_service_promo1    ; sup_monthly_service_promo1    ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_etta.berg@yahoo.com   ; sup_monthly_service_promo1    ; allowance      ;              ; monthly              ; USD              ; 1.1    ; 50            ; 50               ; 50        ; 100     ; 6
+                                ; sup_monthly_service_promo2    ; sup_monthly_service_promo2    ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_etta.berg@yahoo.com   ; sup_monthly_service_promo2    ; allowance      ;              ; monthly              ; USD              ; 1.1    ; 50            ; 50               ; 50        ; 100     ; 6
+
+
+#Create SubscribedProductInventory CompositeProdPrice
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE SpiCompositeProdPrice; id[unique = true]                          ; name[lang = en]                           ; description; startDate[dateformat = dd.MM.yyyy]; endDate[dateformat = dd.MM.yyyy]; billingAccount(id)      ; productOfferingPrice(id)                   ; childPrices(id)
+                                   ; sup_activation_charges                     ; sup_activation_charges                    ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_etta.berg@yahoo.com  ; sup_activation_charges                     ; sup_activation_otc, sup_activation_online_promo
+                                   ; sup_service_charges                        ; sup_service_charges                       ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_etta.berg@yahoo.com  ; sup_service_charges                        ; sup_monthly_service, sup_monthly_service_promo
+                                   ; usage_charges                              ; usage_charges                             ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_etta.berg@yahoo.com  ; usage_charges                              ; extra_data_1_3, extra_data_4_6, extra_data_7_onw
+                                   ; pr_signatureUnlimitedPlan_alterations_USD  ; pr_signatureUnlimitedPlan_alterations_USD ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_etta.berg@yahoo.com  ; pr_signatureUnlimitedPlan_alterations_USD  ; sup_activation_charges, sup_service_charges, usage_charges
+                                   ; chd_installation_charges                   ; chd_installation_charges                  ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_etta.berg@yahoo.com  ; chd_installation_charges                   ; chd_installation_otc, chd_installation_online_promo
+                                   ; chd_hw_price                               ; chd_hw_price                              ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_etta.berg@yahoo.com  ; chd_hw_price                               ; chd_hw_otc, chd_hw_promo
+                                   ; chd_service_charges                        ; chd_service_charges                       ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_etta.berg@yahoo.com  ; chd_service_charges                        ; chd_monthly_service, chd_monthly_service_promo
+                                   ; pr_christmasHomeDeal_promo_USD             ; pr_christmasHomeDeal_promo_USD            ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_etta.berg@yahoo.com  ; pr_christmasHomeDeal_promo_USD             ; chd_installation_charges, chd_hw_price, chd_service_charges
+                                   ; pr_fiber_net_USD                           ; pr_fiber_net_USD                          ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_tim.james@hybris.com ; pr_fiber_net_USD                           ; fiber_net_rc, fiber_net_discount
+                                   ; pr_signatureUnlimitedPlan_alterations_USD1 ; pr_signatureUnlimitedPlan_alterations_USD ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_etta.berg@yahoo.com  ; pr_signatureUnlimitedPlan_alterations_USD1 ; sup_activation_charges1, sup_service_charges1, usage_charges1
+                                   ; pr_signatureUnlimitedPlan_alterations_USD2 ; pr_signatureUnlimitedPlan_alterations_USD ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_etta.berg@yahoo.com  ; pr_signatureUnlimitedPlan_alterations_USD2 ; sup_activation_charges2, sup_service_charges2, usage_charges2
+                                   ; sup_activation_charges1                    ; sup_activation_charges1                   ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_etta.berg@yahoo.com  ; sup_activation_charges1                    ; sup_activation_otc1, sup_activation_online_promo1
+                                   ; sup_service_charges1                       ; sup_service_charges1                      ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_etta.berg@yahoo.com  ; sup_service_charges1                       ; sup_monthly_service1, sup_monthly_service_promo1
+                                   ; usage_charges1                             ; usage_charges1                            ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_etta.berg@yahoo.com  ; usage_charges1                             ; extra1_data_1_3, extra1_data_4_6, extra1_data_7_onw
+                                   ; sup_activation_charges2                    ; sup_activation_charges2                   ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_etta.berg@yahoo.com  ; sup_activation_charges2                    ; sup_activation_otc2, sup_activation_online_promo2
+                                   ; sup_service_charges2                       ; sup_service_charges2                      ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_etta.berg@yahoo.com  ; sup_service_charges2                       ; sup_monthly_service2, sup_monthly_service_promo2
+                                   ; usage_charges2                             ; usage_charges2                            ;            ; 1.1.2020                          ; 1.1.2021                        ; ba_etta.berg@yahoo.com  ; usage_charges2                             ; extra2_data_1_3, extra2_data_4_6, extra2_data_7_onw
+
+
+
+#Create SubscribedProductInventory ProductComponent
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE SpiProductComponent; id[unique = true]       ; name[lang = en]              ; description[lang = en]               ; isCustomerVisible[default = false]; orderDate[dateformat = dd.MM.yyyy]; productSerialNumber; startDate[dateformat = dd.MM.yyyy]; terminationDate[dateformat = dd.MM.yyyy]; status(code)     ; billingAccount(id)        ; productOffering(id)          ; productSpecification(id)  ; productPrices(id)                          ; services(id)                      ; resources(id)              ; productTerms(id); partyRoles(id)       ; characteristics(id)                       ; agreementItems(id); relatedPlaces(id)
+                                 ; sup_108281              ; sup_108281_name              ; sup_108281_description               ; true                              ; 1.1.2020                          ; 1082800001         ; 1.1.2020                          ; 1.1.2022                                ; ACTIVE           ; ba_etta.berg@yahoo.com    ; signatureUnlimitedPlan_10828 ; std_gsm_plan_108281       ; pr_signatureUnlimitedPlan_alterations_USD  ; voice_svc, data_svc               ; eSim, msisdn               ; monthly_24      ; etta.berg            ; unlimited_min3, unlimited_sms3            ; 1082800001_baItem ;
+                                 ; chd_fiber_net_10828     ; chd_fiber_net_10828_name     ; chd_fiber_net_10828_description      ; true                              ; 1.1.2020                          ; 1082800003         ; 1.1.2020                          ; 1.1.2022                                ; ACTIVE           ; ba_etta.berg@yahoo.com    ; fiber_internet_10828         ; fiber_internet_ps_108281  ;                                            ;                                   ;                            ; monthly_24      ; etta.berg            ; up_500, down_1000                         ;                   ;
+                                 ; chd_fiber_router_108281 ; chd_fiber_router_108281_name ; chd_fiber_router_108281_description  ; true                              ; 1.1.2020                          ; 1082800004         ; 1.1.2020                          ; 1.1.2022                                ; ACTIVE           ; ba_etta.berg@yahoo.com    ; fiber_router_10828           ; fiber_router_ps_108281    ;                                            ;                                   ;                            ; monthly_24      ; etta.berg            ; MAC_add_0A_0B                             ;                   ;
+                                 ; chd_fiber_router_108282 ; chd_fiber_router_108282_name ; chd_fiber_router_108282_description  ; true                              ; 1.1.2020                          ; 1082800005         ; 1.1.2020                          ; 1.1.2022                                ; ACTIVE           ; ba_etta.berg@yahoo.com    ; fiber_router_10828           ; fiber_router_ps_108281    ;                                            ;                                   ;                            ; monthly_24      ; etta.berg            ; MAC_add_1A_1B                             ;                   ;
+                                 ; chd_tv_premium_10828    ; chd_tv_premium_10828_name    ; chd_tv_premium_10828_description     ; true                              ; 1.1.2020                          ; 1082800006         ; 1.1.2020                          ; 1.1.2022                                ; ACTIVE           ; ba_etta.berg@yahoo.com    ; tvPremium_10828              ;                           ;                                            ;                                   ;                            ; monthly_24      ; etta.berg            ;                                           ;                   ;
+                                 ; sup_108282              ; sup_108282_name              ; sup_108282_description               ; true                              ; 1.1.2020                          ; 1082800011         ; 1.1.2021                          ; 1.1.2022                                ; ACTIVE           ; ba_tim.james@hybris.com   ; signatureUnlimitedPlan_10828 ; std_gsm_plan_108281       ; pr_signatureUnlimitedPlan_alterations_USD1 ;                                   ; eSim1, msisdn1             ; monthly_12      ; tim.james, etta.berg ; unlimited_min1, 10000_mb, unlimited_sms1  ;                   ;
+                                 ; iPhone12_spi_10828      ; iPhone12_spi_10828_name      ; iPhone12_spi_10828_description       ; true                              ; 1.1.2020                          ; 1082800012         ; 1.1.2021                          ; 1.1.2022                                ; ACTIVE           ; ba_tim.james@hybris.com   ; iPhone12_10828               ;                           ; pr_iphone_12_installment_plan_24m_USD      ;                                   ;                            ; monthly_12      ; tim.james, etta.berg ;                                           ;                   ;
+                                 ; 1gb_raddon_10828        ; 1gb_raddon_10828_name        ; 1gb_raddon_10828_description         ; true                              ; 1.1.2020                          ; 1082800013         ; 1.1.2021                          ; 1.1.2022                                ; ACTIVE           ; ba_tim.james@hybris.com   ; 1gb_roaming_data_10828       ; data_addon_108281         ; pr_1gb_roaming_data_USD                    ;                                   ;                            ; monthly_12      ; tim.james, etta.berg ; 1000_mb                                   ;                   ;
+                                 ; bb_fiber_net_10828      ; bb_fiber_net_10828_name      ; bb_fiber_net_10828_description       ; true                              ; 1.1.2020                          ; 1082800014         ; 1.1.2021                          ; 1.1.2022                                ; ACTIVE           ; ba_tim.james@hybris.com   ; fiber_internet_10828         ; fiber_internet_ps_108281  ; pr_fiber_net_USD                           ;                                   ;                            ; monthly_24      ; tim.james, etta.berg ; up1_500, down1_1000                       ;                   ;
+                                 ; tv_premium_10828        ; tv_premium_10828_name        ; tv_premium_10828_description         ; true                              ; 1.1.2020                          ; 1082800015         ; 1.1.2021                          ; 1.1.2022                                ; ACTIVE           ; ba_tim.james@hybris.com   ; tvPremium_10828              ;                           ; pr_tv_premium_USD                          ;                                   ;                            ; monthly_24      ; tim.james, etta.berg ;                                           ;                   ;
+                                 ; tv_news_10828           ; tv_news_10828_name           ; tv_news_10828_description            ; true                              ; 1.1.2020                          ; 1082800016         ; 1.1.2021                          ; 1.1.2022                                ; ACTIVE           ; ba_tim.james@hybris.com   ; tvNews_10828                 ;                           ; pr_tv_news_USD                             ;                                   ;                            ; monthly_24      ; tim.james, etta.berg ;                                           ;                   ;
+                                 ; ll_voip_spi_10828       ; ll_voip_spi_10828_name       ; ll_voip_spi_10828_description        ; true                              ; 1.1.2020                          ; 1082800017         ; 1.1.2021                          ; 1.1.2022                                ; ACTIVE           ; ba_tim.james@hybris.com   ; ll_voip_10828                ; voip_ps_108281            ;                                            ; voip_svc                          ;                            ; monthly_24      ; tim.james, etta.berg ;                                           ;                   ;
+                                 ; sup_108283              ; sup_108283_name              ; sup_108283_description               ; true                              ; 1.1.2020                          ; 1082800018         ; 1.1.2021                          ; 1.1.2022                                ; ACTIVE           ;                           ; signatureUnlimitedPlan_10828 ; std_gsm_plan_108281       ; pr_signatureUnlimitedPlan_alterations_USD2 ;                                   ; msisdn1                    ; monthly_12      ; sam.felt             ; unlimited_min2, 10000_mb1, unlimited_sms2 ;                   ;
+                                 ; iPhone12_spi_108281     ; iPhone12_spi_108281_name     ; iPhone12_spi_108281_description      ; true                              ; 1.1.2020                          ; 1082800019         ; 1.1.2021                          ; 1.1.2022                                ; ACTIVE           ;                           ; iPhone12_10828               ;                           ; pr_iphone_12_installment_plan_24m_USD1     ;                                   ;                            ; monthly_12      ; sam.felt             ;                                           ;                   ;
+                                 ; 1gb_raddon_108281       ; 1gb_raddon_108281_name       ; 1gb_raddon_108281_description        ; true                              ; 1.1.2020                          ; 1082800020         ; 1.1.2021                          ; 1.2.2021                                ; TERMINATED       ;                           ; 1gb_roaming_data_10828       ; data_addon_108281         ; pr_1gb_roaming_data_USD1                   ;                                   ;                            ; monthly_1       ; sam.felt             ; 1000_mb1                                  ;                   ;
+                                 ; 100mins_raddon_108281   ; 100mins_raddon_108281_name   ; 100mins_raddon_108281_description    ; true                              ; 1.1.2020                          ; 1082800021         ; 1.1.2021                          ; 1.1.2022                                ; PENDINGTERMINATE ;                           ; 100mins_roaming_addon_10828  ; roaming_mins_addon_108281 ; pr_100mins_roaming_addon_USD               ;                                   ;                            ;                 ; sam.felt             ; 100_min                                   ;                   ;
+                                 ; pup_10828               ; pup_10828_name               ; pup_10828_description                ; true                              ; 1.1.2020                          ; 1082800022         ; 1.1.2020                          ; 1.1.2022                                ; TERMINATED       ; ba_etta.james@hybris.com  ; premiumUnlimitedPlan_10828   ;                           ; pup_activation_otc                         ;                                   ;                            ; monthly_24      ; etta.james           ;                                           ; 1082800005_baItem ;
+## update event of spi
+                                 ; dxt_117761              ; Dext subscribed product      ; One touch awayWhy open separate apps ; true                              ; 1.1.2020                          ; 1177600001         ; 1.1.2020                          ; 1.1.2022                                ; ACTIVE           ; ba_user117761@hybris.com  ; dext_11776                   ; dext_gsm_plan_11776       ; dxt_activation_otc                         ; voice_svc_117761, data_svc_117761 ; eSim_117761, msisdn_117761 ; monthly_24      ; user117761           ; unlimited_min, unlimited_sms              ; 1177600001_baItem ;
+                                 ; sup_117761              ; signature unlimited Plan     ; Get unlimited Plans                  ; true                              ; 1.1.2020                          ; 1177600002         ; 1.1.2020                          ; 1.1.2022                                ; ACTIVE           ; ba_user117762@hybris.com  ; signatureUnlimitedPlan_11776 ; std_gsm_plan_11776        ; sup_service_otc                            ;                                   ;                            ; monthly_12      ; user117762           ;                                           ; 1177600002_baItem ; reg_117761
+                                 ; iPhone12_spi_11776      ; iPhone12                     ; All in one                           ; true                              ; 1.1.2020                          ; 1177600003         ; 1.1.2021                          ; 1.1.2022                                ; ACTIVE           ; ba_user117763@hybris.com  ; iPhone12_11776               ;                           ; iphone_12_installment_plan                 ;                                   ;                            ; monthly_12      ; user117763           ;                                           ;                   ;
+                                 ; 1gb_raddon_11776        ; 1gb raddon                   ; data plans                           ; true                              ; 1.1.2020                          ; 1177600004         ; 1.1.2021                          ; 1.1.2022                                ; ACTIVE           ; ba_user117763@hybris.com  ; 1gb_roaming_data_11776       ; data_addon_11776          ;                                            ;                                   ;                            ; monthly_12      ; user117763           ;                                           ;                   ;
+                                 ; pink_117761             ; Smart Pink                   ; smart phone device                   ; true                              ; 1.1.2020                          ; 1177600008         ; 1.1.2020                          ; 1.1.2022                                ; ACTIVE           ; ba_user117764@hybris.com  ; smartPink_11776              ;                           ; smartPinkPrice                             ;                                   ;                            ; monthly_24      ; user117765           ;                                           ; 1177600005_baItem ;
+                                 ; somb_11776              ; Sombrero                     ; Plans that you need                  ; true                              ; 1.1.2020                          ; 1177600009         ; 1.1.2020                          ; 1.1.2022                                ; ACTIVE           ; ba_user117765@hybris.com  ; sombrero_11776               ;                           ;                                            ;                                   ;                            ;                 ; user117766           ;                                           ;                   ;
+                                 ; sm_11776                ; SalsaM subscribed product    ; Maximum benefits                     ; true                              ; 1.1.2020                          ; 1177600010         ; 1.1.2020                          ; 1.1.2022                                ; ACTIVE           ; ba_user117766@hybris.com  ; SalsaM_11776                 ;                           ;                                            ;                                   ;                            ; monthly_24      ; user117767           ;                                           ; 1177600006_baItem ;
+                                 ; pup_11776               ; premium unlimited plan       ; Premium plans                        ; false                             ; 1.1.2020                          ; 1177600011         ; 1.1.2020                          ; 1.1.2022                                ; ACTIVE           ; ba_user117767@hybris.com  ; premiumUnlimitedPlan_11776   ;                           ;                                            ;                                   ;                            ; monthly_1       ;                      ;                                           ; 1177600007_baItem ;
+                                 ; ubp_11776               ; unlimited basic plan         ; basic plans                          ; false                             ; 1.1.2020                          ; 1177600012         ; 1.1.2020                          ; 1.1.2022                                ; ACTIVE           ; ba_user117768@hybris.com  ; unlimitedBasicPlan_11776     ;                           ; basicPlan_pop                              ;                                   ;                            ; monthly_12      ; user117769           ;                                           ; 1177600008_baItem ;
+                                 ; data_11776              ; Internet subscribed product  ; Data Plans                           ; true                              ; 1.1.2020                          ; 1177600013         ; 1.1.2020                          ; 1.1.2022                                ; ACTIVE           ; ba_user1177610@hybris.com ; internet_11776               ;                           ;                                            ;                                   ;                            ; monthly_24      ; user1177610          ;                                           ;                   ;
+                                 ; minutes_11776           ; talkTime subscribed product  ; Minutes Plans                        ; true                              ; 1.1.2020                          ; 1177600014         ; 1.1.2020                          ; 1.1.2022                                ; ACTIVE           ; ba_user1177610@hybris.com ; talkTime_11776               ;                           ; talktime_pop                               ;                                   ;                            ; monthly_24      ; user1177610          ;                                           ;                   ;
+
+## update state event of SPI
+                                 ; sup_11783               ; signature unlimited Plan     ; Get unlimited Plans                  ; true                              ; 1.1.2020                          ; 1178300001         ; 1.1.2020                          ; 1.1.2022                                ;                  ; ba_user117831@hybris.com  ; signatureUnlimitedPlan_11783 ; std_gsm_plan_11783        ; sup_service_otc_11783                      ; voice_svc_117831                  ; eSim_117831                ; monthly_12      ; user117831           ; unlimitedMin_117831                       ; 1178300001_baItem ; reg_117831
+                                 ; pup_11783               ; premium unlimited plan       ; Premium plans                        ; false                             ; 1.1.2020                          ; 1178300002         ; 1.1.2020                          ; 1.1.2022                                ; ACTIVE           ; ba_user117832@hybris.com  ; premiumUnlimitedPlan_11783   ;                           ;                                            ;                                   ;                            ; monthly_1       ; user117832           ;                                           ; 1178300002_baItem ;
+                                 ; 1gb_raddon_11783        ; 1gb raddon                   ; data plans                           ; true                              ; 1.1.2020                          ; 1178300003         ; 1.1.2021                          ; 1.1.2022                                ; ACTIVE           ; ba_user117833@hybris.com  ; 1gb_roaming_data_11783       ;                           ; basicPlan_pop_11783                        ;                                   ;                            ; monthly_12      ; user117833           ;                                           ;                   ;
+                                 ; somb_11783              ; Sombrero                     ; Plans that you need                  ; true                              ; 1.1.2020                          ; 1178300004         ; 1.1.2020                          ; 1.1.2022                                ; ACTIVE           ; ba_user117833@hybris.com  ; sombrero_11783               ;                           ;                                            ;                                   ;                            ;                 ; user117833           ;                                           ;                   ;
+## delete event of SPI
+                                 ; tapasS_11841            ; Tapas Services               ; Get unlimited Plans                  ; true                              ; 1.1.2020                          ; 1184100001         ; 1.1.2020                          ; 1.1.2022                                ; ACTIVE           ; ba_user118411@hybris.com  ; Tapas_S_11841                ; gsm_plan_11841            ; tapas_rc_pop_11841                         ; data_svc_11841                    ;                            ; monthly_12      ; user118411           ; unlimitedData_11841                       ; 1184100001_baItem ; reg_11841
+                                 ; 1gb_raddon_11841        ; 1gb raddon                   ; data plans                           ; true                              ; 1.1.2020                          ; 1184100003         ; 1.1.2021                          ; 1.1.2022                                ; ACTIVE           ; ba_user118412@hybris.com  ; 1gb_roaming_data_11841       ;                           ;                                            ;                                   ;                            ; monthly_12      ; user118412           ;                                           ;                   ;
+                                 ; somb_11841              ; Sombrero                     ; Plans that you need                  ; true                              ; 1.1.2020                          ; 1184100004         ; 1.1.2020                          ; 1.1.2022                                ; CREATED          ; ba_user118412@hybris.com  ; sombrero_11841               ;                           ;                                            ;                                   ;                            ;                 ; user118412           ;                                           ;                   ;
+# PATCH SPI
+                                 ; dxt_118251              ; Dext subscribed product      ; One touch awayWhy open separate apps ; true                              ; 1.1.2020                          ; 1182500001         ; 1.1.2020                          ; 1.1.2022                                ; ACTIVE           ; ba_user118251@hybris.com  ; dext_11825                   ; dext_gsm_plan_11825       ; dxt_activation_otc_11825                   ; voice_svc_118251, data_svc_118251 ; eSim_118251, msisdn_118251 ; monthly_24      ; user118251           ; unlimitedMin_118251                       ; 1182500001_baItem ;
+                                 ; sup_118251              ; signature unlimited Plan     ; Get unlimited Plans                  ; true                              ; 1.1.2020                          ; 1182500002         ; 1.1.2020                          ; 1.1.2022                                ; ACTIVE           ; ba_user118252@hybris.com  ; signatureUnlimitedPlan_11825 ; std_gsm_plan_11825        ; sup_service_otc_11825                      ;                                   ;                            ; monthly_12      ; user118252           ;                                           ; 1182500002_baItem ; reg_118251
+                                 ; iPhone12_spi_11825      ; iPhone12                     ; All in one                           ; true                              ; 1.1.2020                          ; 1182500003         ; 1.1.2021                          ; 1.1.2022                                ; ACTIVE           ; ba_user118253@hybris.com  ; iPhone12_11825               ;                           ; iphone_12_installment_plan_11825           ;                                   ;                            ; monthly_12      ; user118253           ;                                           ;                   ;
+                                 ; 1gb_raddon_11825        ; 1gb raddon                   ; data plans                           ; true                              ; 1.1.2020                          ; 1182500004         ; 1.1.2021                          ; 1.1.2022                                ; ACTIVE           ; ba_user118253@hybris.com  ; 1gb_roaming_data_11825       ; data_addon_11825          ;                                            ;                                   ;                            ; monthly_12      ; user118253           ;                                           ;                   ;
+                                 ; pink_118251             ; Smart Pink                   ; smart phone device                   ; true                              ; 1.1.2020                          ; 1182500008         ; 1.1.2020                          ; 1.1.2022                                ; ACTIVE           ; ba_user118254@hybris.com  ; smartPink_11825              ;                           ; smartPinkPrice_11825                       ;                                   ;                            ; monthly_24      ; user118255           ;                                           ; 1182500005_baItem ;
+                                 ; somb_11825              ; Sombrero                     ; Plans that you need                  ; true                              ; 1.1.2020                          ; 1182500009         ; 1.1.2020                          ; 1.1.2022                                ; ACTIVE           ; ba_user118255@hybris.com  ; sombrero_11825               ;                           ;                                            ;                                   ;                            ;                 ; user118256           ;                                           ;                   ;
+                                 ; sm_11825                ; SalsaM subscribed product    ; Maximum benefits                     ; true                              ; 1.1.2020                          ; 1182500010         ; 1.1.2020                          ; 1.1.2022                                ; ACTIVE           ; ba_user118256@hybris.com  ; SalsaM_11825                 ;                           ;                                            ;                                   ;                            ; monthly_24      ; user118257           ;                                           ; 1182500006_baItem ;
+                                 ; pup_11825               ; premium unlimited plan       ; Premium plans                        ; false                             ; 1.1.2020                          ; 1182500011         ; 1.1.2020                          ; 1.1.2022                                ; ACTIVE           ; ba_user118257@hybris.com  ; premiumUnlimitedPlan_11825   ;                           ;                                            ;                                   ;                            ; monthly_1       ;                      ;                                           ; 1182500007_baItem ;
+                                 ; ubp_11825               ; unlimited basic plan         ; basic plans                          ; false                             ; 1.1.2020                          ; 1182500012         ; 1.1.2020                          ; 1.1.2022                                ; ACTIVE           ; ba_user118258@hybris.com  ; unlimitedBasicPlan_11825     ;                           ; basicPlan_pop_11825                        ;                                   ;                            ; monthly_12      ; user118259           ;                                           ; 1182500008_baItem ;
+                                 ; data_11825              ; Internet subscribed product  ; Data Plans                           ; true                              ; 1.1.2020                          ; 1182500013         ; 1.1.2020                          ; 1.1.2022                                ; ACTIVE           ; ba_user1182510@hybris.com ; internet_11825               ;                           ;                                            ;                                   ;                            ; monthly_24      ; user1182510          ;                                           ;                   ;
+                                 ; minutes_11825           ; talkTime subscribed product  ; Minutes Plans                        ; true                              ; 1.1.2020                          ; 1182500014         ; 1.1.2020                          ; 1.1.2022                                ; ACTIVE           ; ba_user1182510@hybris.com ; talkTime_11825               ;                           ; talktime_pop_11825                         ;                                   ;                            ; monthly_24      ; user1182510          ;                                           ;                   ;
+
+## delete event of SPI
+                                 ; tapasS_11829            ; Tapas Services               ; Get unlimited Plans                  ; true                              ; 1.1.2020                          ; 1182900001         ; 1.1.2020                          ; 1.1.2022                                ; ACTIVE           ; ba_user118291@hybris.com  ; Tapas_S_11829                ; gsm_plan_11829            ; tapas_rc_pop_11829                         ; data_svc_11829                    ;                            ; monthly_12      ; user118291           ; unlimitedData_11829                       ; 1182900001_baItem ; reg_11829
+                                 ; 1gb_raddon_11829        ; 1gb raddon                   ; data plans                           ; true                              ; 1.1.2020                          ; 1182900003         ; 1.1.2021                          ; 1.1.2022                                ; ACTIVE           ; ba_user118292@hybris.com  ; 1gb_roaming_data_11829       ;                           ;                                            ;                                   ;                            ; monthly_12      ; user118292           ;                                           ;                   ;
+                                 ; somb_11829              ; Sombrero                     ; Plans that you need                  ; true                              ; 1.1.2020                          ; 1182900004         ; 1.1.2020                          ; 1.1.2022                                ; CREATED          ; ba_user118292@hybris.com  ; sombrero_11829               ;                           ;                                            ;                                   ;                            ;                 ; user118292           ;                                           ;                   ;
+
+
+#Create SubscribedProductInventory ProductBundle
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE SpiProductBundle; id[unique = true]      ; name[lang = en]             ; description[lang = en]             ; isCustomerVisible[default = false]; orderDate[dateformat = dd.MM.yyyy]; productSerialNumber; startDate[dateformat = dd.MM.yyyy]; terminationDate[dateformat = dd.MM.yyyy]; status(code); billingAccount(id)        ; productOffering(id)      ; productSpecification(id); products(id)                                                                                ; productPrices(id)              ; services(id)     ; resources(id) ; productTerms(id); partyRoles(id)         ; characteristics(id) ; agreementItems(id)                  ; relatedPlaces(id)
+                              ; christmas_hd_10828     ; christmas_hd_10828_name     ; christmas_hd_10828_description     ; true                              ; 1.1.2020                          ; 1082800002         ; 1.1.2020                          ; 1.1.2022                                ; ACTIVE      ; ba_etta.berg@yahoo.com    ; christmasHomeDeal_10828  ;                         ; chd_fiber_net_10828, chd_fiber_router_108281, chd_fiber_router_108282, chd_tv_premium_10828 ; pr_christmasHomeDeal_promo_USD ;                  ;               ; monthly_24      ; etta.berg              ;                     ; 1082800002_baItem                   ; reg_108281
+                              ; office_quad_play_10828 ; office_quad_play_10828_name ; office_quad_play_10828_description ; true                              ; 1.1.2021                          ; 1082800007         ; 1.1.2021                          ; 1.1.2022                                ; ACTIVE      ; ba_tim.james@hybris.com   ; quadPlay_10828           ;                         ; md_10828, hd_10828                                                                          ;                                ;                  ;               ;                 ; tim.james, etta.berg   ;                     ; 1082800003_baItem                   ;
+                              ; md_10828               ; md_10828_name               ; md_10828_description               ; true                              ; 1.1.2021                          ; 1082800008         ; 1.1.2021                          ; 1.1.2022                                ; ACTIVE      ; ba_tim.james@hybris.com   ; mobileDeal_10828         ;                         ; sup_108282,iPhone12_spi_10828, 1gb_raddon_10828                                             ;                                ;                  ;               ; monthly_12      ; tim.james, etta.berg   ;                     ;                                     ;
+                              ; hd_10828               ; hd_10828_name               ; hd_10828_description               ; true                              ; 1.1.2021                          ; 1082800009         ; 1.1.2021                          ; 1.1.2022                                ; ACTIVE      ; ba_tim.james@hybris.com   ; homeDeal_10828           ;                         ; bb_10828, tv_10828, ll_10828                                                                ;                                ;                  ;               ; monthly_24      ; tim.james, etta.berg   ;                     ;                                     ;
+                              ; bb_10828               ; bb_10828_name               ; bb_10828_description               ; true                              ; 1.1.2021                          ; 1082800010         ; 1.1.2021                          ; 1.1.2022                                ; ACTIVE      ; ba_tim.james@hybris.com   ; broadband_10828          ;                         ; bb_fiber_net_10828                                                                          ;                                ;                  ;               ; monthly_24      ; tim.james, etta.berg   ;                     ;                                     ;
+                              ; tv_10828               ; tv_10828_name               ; tv_10828_description               ; true                              ; 1.1.2021                          ; 1082800011         ; 1.1.2021                          ; 1.1.2022                                ; ACTIVE      ; ba_time.james@hybris.com  ; tvDeal_10828             ;                         ; tv_premium_10828, tv_news_10828                                                             ;                                ;                  ;               ; monthly_24      ; tim.james, etta.berg   ;                     ;                                     ;
+                              ; ll_10828               ; ll_10828_name               ; ll_10828_description               ; true                              ; 1.1.2021                          ; 1082800011         ; 1.1.2021                          ; 1.1.2022                                ; ACTIVE      ; ba_time.james@hybris.com  ; landline_10828           ;                         ; ll_voip_spi_10828                                                                           ;                                ;                  ;               ; monthly_24      ; tim.james, etta.berg   ;                     ;                                     ;
+                              ; md_108281              ; md_108281_name              ; md_108281_description              ; true                              ; 1.1.2021                          ; 1082800011         ; 1.1.2021                          ; 1.1.2022                                ; ACTIVE      ;                           ; mobileDeal_10828         ;                         ; sup_108283, iPhone12_spi_108281, 1gb_raddon_108281, 100mins_raddon_108281                   ;                                ;                  ;               ; monthly_12      ; sam.felt               ;                     ; 1082800004_baItem                   ;
+## update event of spi
+                              ; office_quad_play_11776 ; Office Quad Play            ; Bundled Benefits                   ; true                              ; 1.1.2021                          ; 1177600005         ; 1.1.2021                          ; 1.1.2022                                ; ACTIVE      ; ba_user117763@hybris.com  ; quadPlay_11776           ;                         ; md_11776, hd_11776                                                                          ;                                ;                  ;               ;                 ; user117763, user117764 ;                     ; 1177600003_baItem,1177600004_baItem ;
+                              ; md_11776               ; Mobile Deal                 ; Deals of the mobiles               ; true                              ; 1.1.2021                          ; 1177600006         ; 1.1.2021                          ; 1.1.2022                                ; ACTIVE      ; ba_user117763@hybris.com  ; mobileDeal_11776         ;                         ; iPhone12_spi_11776, 1gb_raddon_11776                                                        ;                                ;                  ;               ; monthly_12      ; user117763             ;                     ;                                     ;
+                              ; hd_11776               ; Home Deal                   ; Deals of the home appliances       ; true                              ; 1.1.2021                          ; 1177600007         ; 1.1.2021                          ; 1.1.2022                                ; ACTIVE      ; ba_user117763@hybris.com  ; homeDeal_11776           ;                         ;                                                                                             ;                                ;                  ;               ; monthly_12      ; user117763             ;                     ;                                     ;
+                              ; office_landline_11776  ; Office Landline             ; Landline Benefits                  ; true                              ; 1.1.2021                          ; 1177600008         ; 1.1.2021                          ; 1.1.2022                                ; ACTIVE      ; ba_user1177610@hybris.com ; landline_11776           ;                         ; data_11776, minutes_11776                                                                   ; landline_pop                   ; voice_svc_117762 ; msisdn_117764 ; monthly_12      ; user1177610            ; unlimitedSms_117761 ; 1177600010_baItem                   ; reg_117762
+
+## update state event of SPI
+                              ; office_quad_play_11783 ; Office Quad Play            ; Bundled Benefits                   ; true                              ; 1.1.2021                          ; 1178300005         ; 1.1.2021                          ; 1.1.2022                                ; CANCELLED   ; ba_user117833@hybris.com  ; quadPlay_11783           ;                         ; md_11783, hd_11783                                                                          ;                                ;                  ;               ;                 ; user117833             ;                     ; 1178300003_baItem                   ;
+                              ; md_11783               ; Mobile Deal                 ; Deals of the mobiles               ; true                              ; 1.1.2021                          ; 1178300006         ; 1.1.2021                          ; 1.1.2022                                ; ACTIVE      ; ba_user117833@hybris.com  ; mobileDeal_11783         ;                         ; 1gb_raddon_11783, somb_11783                                                                ;                                ;                  ;               ; monthly_12      ; user117833             ;                     ;                                     ;
+                              ; hd_11783               ; Home Deal                   ; Deals of the home appliances       ; true                              ; 1.1.2021                          ; 1178300007         ; 1.1.2021                          ; 1.1.2022                                ; ACTIVE      ; ba_user117833@hybris.com  ; homeDeal_11783           ;                         ;                                                                                             ;                                ;                  ;               ; monthly_12      ; user117833             ;                     ;                                     ;
+## delete event of SPI
+                              ; smd_11841              ; Standard Mobile Deal        ; Bundled Benefits                   ; true                              ; 1.1.2021                          ; 1184100002         ; 1.1.2021                          ; 1.1.2022                                ; ACTIVE      ; ba_user118412@hybris.com  ; StandardMobileDeal_11841 ;                         ; 1gb_raddon_11841, somb_11841                                                                ; standardMobileDeal_pop_11841   ;                  ;               ; monthly_12      ; user118412             ;                     ; 1184100002_baItem                   ;
+## Patch SPI
+                              ; office_quad_play_11825 ; Office Quad Play            ; Bundled Benefits                   ; true                              ; 1.1.2021                          ; 1182500005         ; 1.1.2021                          ; 1.1.2022                                ; CANCELLED   ; ba_user118253@hybris.com  ; quadPlay_11825           ;                         ; md_11825, hd_11825                                                                          ;                                ;                  ;               ;                 ; user118253             ;                     ; 1182500003_baItem                   ;
+                              ; md_11825               ; Mobile Deal                 ; Deals of the mobiles               ; true                              ; 1.1.2021                          ; 1182500006         ; 1.1.2021                          ; 1.1.2022                                ; ACTIVE      ; ba_user118253@hybris.com  ; mobileDeal_11825         ;                         ; 1gb_raddon_11825, somb_11825                                                                ;                                ;                  ;               ; monthly_12      ; user118253             ;                     ;                                     ;
+                              ; hd_11825               ; Home Deal                   ; Deals of the home appliances       ; true                              ; 1.1.2021                          ; 1182500007         ; 1.1.2021                          ; 1.1.2022                                ; ACTIVE      ; ba_user118253@hybris.com  ; homeDeal_11825           ;                         ;                                                                                             ;                                ;                  ;               ; monthly_12      ; user118253             ;                     ;                                     ;
+                              ; office_landline_11825  ; Office Landline             ; Landline Benefits                  ; true                              ; 1.1.2021                          ; 1182500008         ; 1.1.2021                          ; 1.1.2022                                ; ACTIVE      ; ba_user1182510@hybris.com ; landline_11825           ;                         ; data_11825, minutes_11825                                                                   ; landline_pop_11825             ; voice_svc_118252 ; msisdn_118254 ; monthly_12      ; user1182510            ; unlimitedSms_118251 ; 1182500010_baItem                   ; reg_118252
+
+## Delete SPI
+                              ; smd_11829              ; Standard Mobile Deal        ; Bundled Benefits                   ; true                              ; 1.1.2021                          ; 1182900002         ; 1.1.2021                          ; 1.1.2022                                ; ACTIVE      ; ba_user118292@hybris.com  ; StandardMobileDeal_11829 ;                         ; 1gb_raddon_11829, somb_11829                                                                ; standardMobileDeal_pop_11829   ;                  ;               ; monthly_12      ; user118292             ;                     ; 1182900002_baItem                   ;
+

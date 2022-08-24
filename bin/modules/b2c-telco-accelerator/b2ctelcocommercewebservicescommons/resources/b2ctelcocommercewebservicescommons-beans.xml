@@ -1,0 +1,620 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- Copyright (c) 2020 SAP SE or an SAP affiliate company.  All rights reserved. -->
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="beans.xsd">
+
+	<!-- ProcessTypeList WsDto -->
+	<bean
+		class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.TmaProcessTypeListWsDto">
+		<property name="processTypeCode"
+			type="java.util.List&lt;String>" />
+	</bean>
+
+	<!-- ProcessTypeList Data -->
+	<bean
+		class="de.hybris.platform.b2ctelcocommercewebservicescommons.data.TmaProcessTypeListData">
+		<property name="processTypeCode"
+			type="java.util.List&lt;String>" />
+	</bean>
+
+	<!-- Offer Product WS Dto -->
+	<bean
+			class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.TmaOfferProductWsDto">
+		<description>Used as return type for get recommendation operations</description>
+		<property name="parentBpo"
+				  type="de.hybris.platform.commercewebservicescommons.dto.product.ProductWsDTO" />
+		<property name="product"
+				  type="de.hybris.platform.commercewebservicescommons.dto.product.ProductWsDTO" />
+	</bean>
+
+	<!-- Subscription Base WS Dto -->
+	<bean
+			class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.TmaSubscriptionBaseWsDto">
+		<description>Used as return type for SubscriptionBase operations</description>
+		<property name="subscriberIdentity" type="String" />
+		<property name="billingSystemId" type="String" />
+		<property name="billingAccountId" type="String" />
+	</bean>
+
+
+	<!-- Recommendation Products WS Dto -->
+	<bean
+			class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.TmaRecommendationProductsWsDto">
+		<description>Used as return type for get recommendation operations</description>
+		<property name="subscriptionInfo"
+				  type="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.TmaSubscriptionBaseWsDto" />
+		<property name="offers"
+				  type="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.TmaOfferProductListWsDto" />
+		<property name="product"
+				  type="de.hybris.platform.commercewebservicescommons.dto.product.ProductWsDTO" />
+	</bean>
+
+
+	<!-- Offer Product List WS Dto -->
+	<bean
+			class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.TmaOfferProductListWsDto">
+		<property name="offerProduct"
+				  type="java.util.List&lt;de.hybris.platform.b2ctelcocommercewebservicescommons.dto.TmaOfferProductWsDto>" />
+	</bean>
+
+	<!-- Offer Product List Data -->
+	<bean
+			class="de.hybris.platform.b2ctelcocommercewebservicescommons.data.TmaOfferProductListData">
+		<property name="offerProduct"
+				  type="java.util.List&lt;de.hybris.platform.b2ctelcofacades.data.TmaOfferData>" />
+	</bean>
+
+	<!-- get Subscription data -->
+	<bean
+			class="de.hybris.platform.b2ctelcocommercewebservicescommons.data.TmaSubscriptionSelectionListData">
+		<description>POJO containing list of data for Subscription selection data.</description>
+		<property name="subscriptionSelection"
+				  type="java.util.List&lt;de.hybris.platform.b2ctelcofacades.data.TmaSubscriptionSelectionData>" />
+	</bean>
+
+	<bean
+			class="de.hybris.platform.b2ctelcocommercewebservicescommons.data.TmaSubscriptionBasesData">
+		<description>POJO containing data for Subscription bases.</description>
+		<property name="billingArrangementId" type="String" />
+		<property name="subscriptionSelectionList"
+				  type="de.hybris.platform.b2ctelcocommercewebservicescommons.data.TmaSubscriptionSelectionListData" />
+	</bean>
+
+	<bean
+			class="de.hybris.platform.b2ctelcocommercewebservicescommons.data.TmaSubscriptionBasesListData">
+		<description>POJO containing data for Subscription bases list.</description>
+		<property name="eligibleSubscriptionSelection"
+				  type="java.util.List&lt;de.hybris.platform.b2ctelcocommercewebservicescommons.data.TmaSubscriptionBasesData>" />
+	</bean>
+
+	<!-- get Subscription WsDto -->
+	<bean
+			class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.TmaSubscriptionSelectionWsDto">
+		<description>Used as return type for get Subscription operations</description>
+		<property name="bpoCode" type="String" />
+		<property name="productCode" type="String" />
+		<property name="billingAgreementId" type="String" />
+		<property name="subscriberIdentity" type="String" />
+		<property name="billingSystemId" type="String" />
+	</bean>
+
+	<bean
+			class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.TmaSubscriptionSelectionListWsDto">
+		<property name="subscriptionSelection"
+				  type="java.util.List&lt;de.hybris.platform.b2ctelcocommercewebservicescommons.dto.TmaSubscriptionSelectionWsDto>" />
+	</bean>
+
+	<bean
+			class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.TmaSubscriptionBasesWsDto">
+		<property name="billingArrangementId" type="String" />
+		<property name="subscriptionSelectionList"
+				  type="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.TmaSubscriptionSelectionListWsDto" />
+	</bean>
+
+	<bean
+			class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.TmaEligibleSubscriptionSelectionListWsDto">
+		<description>POJO containing dto for Subscription bases list.</description>
+		<property name="eligibleSubscriptionSelection"
+				  type="java.util.List&lt;de.hybris.platform.b2ctelcocommercewebservicescommons.dto.TmaSubscriptionBasesWsDto>" />
+	</bean>
+
+	<!-- Product Offerings WS DTO -->
+	<bean class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ChannelWsDTO">
+		<property name="id" type="String" />
+	</bean>
+
+	<bean
+			class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.TimePeriodWsDTO">
+		<property name="endDateTime" type="java.util.Date" />
+		<property name="startDateTime" type="java.util.Date" />
+	</bean>
+
+	<bean
+			class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.QuantityWsDTO" deprecated="Since version 1911" deprecatedSince="1911">
+		<property name="amount" type="Long" />
+		<property name="units" type="String" />
+	</bean>
+
+	<bean
+			class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductOfferingTermWsDTO">
+		<property name="billingPlan"
+				  type="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.BillingPlanWsDTO" />
+		<property name="termOfServiceRenewal" type="String" />
+		<property name="termOfServiceNumber" type="Integer" />
+		<property name="termOfServiceFrequency" type="String" />
+		<property name="cancellable" type="Boolean" />
+		<property name="id" type="String" />
+		<property name="name" type="String" />
+		<property name="duration"
+				  type="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.QuantityWsDTO" />
+	</bean>
+
+	<bean
+			class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.BillingPlanWsDTO">
+		<property name="billingCycleDay" type="Integer" />
+		<property name="billingCycleType" type="String" />
+		<property name="billingTime" type="String" />
+		<property name="name" type="String" />
+	</bean>
+	<bean
+		class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductSpecCharacteristicValueWsDTO">
+		<property name="id" type="String" />
+		<property name="unitOfMeasure" type="String" />
+		<property name="value" type="String" />
+		<property name="valueType" type="String" />
+		<property name="description" type="String"/>
+	</bean>
+
+	<bean
+			class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.PoRelationshipWsDTO">
+		<property name="bpoId" type="String" />
+		<property name="href" type="String" />
+		<property name="id" type="String" />
+		<property name="name" type="String" />
+		<property name="poAttributeType" type="String" />
+	</bean>
+
+	<bean class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.MoneyWsDTO">
+		<property name="currencyIso" type="String"/>
+		<property name="value" type="String"/>
+	</bean>
+
+	<bean
+			class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProcessTypeWsDTO">
+		<property name="id" type="String" />
+	</bean>
+
+	<bean
+			class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductSpecificationWsDTO">
+		<property name="href" type="String" />
+		<property name="id" type="String" />
+		<property name="name" type="String" />
+		<property name="version" type="String" />
+	</bean>
+
+	<bean
+			class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProdSpecCharValueUseWsDTO">
+		<property name="description" type="String" />
+		<property name="productSpecCharacteristicValue"
+				  type="java.util.List&lt;de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductSpecCharacteristicValueWsDTO>" />
+		<property name="productSpecification"
+				  type="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductSpecificationWsDTO" />
+		<property name="id" type="String" />
+		<property name="name" type="String" />
+		<property name="minCardinality" type="Integer" />
+		<property name="maxCardinality" type="Integer" />
+		<property name="valueType" type="String" />
+	</bean>
+
+	<bean
+			class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.OfferingGroupWsDTO">
+		<property name="childProductOfferings"
+				  type="java.util.List&lt;de.hybris.platform.commercewebservicescommons.dto.product.ProductWsDTO>" />
+		<property name="id" type="String" />
+		<property name="name" type="String" />
+	</bean>
+
+	<bean
+			class="de.hybris.platform.commercewebservicescommons.dto.product.ProductWsDTO">
+		<description>Extending ProductWsDTO to add Product offering details</description>
+		<property name="children"
+				  type="java.util.List&lt;de.hybris.platform.commercewebservicescommons.dto.product.ProductWsDTO>" />
+		<property name="isBundle" type="Boolean" />
+		<property name="soldIndividually" type="Boolean" />
+		<property name="modifiedTime" type="java.util.Date" />
+		<property name="approvalStatus" type="String" />
+		<property name="offeringGroup"
+				  type="java.util.List&lt;de.hybris.platform.b2ctelcocommercewebservicescommons.dto.OfferingGroupWsDTO>" />
+		<property name="parents"
+				  type="java.util.List&lt;de.hybris.platform.commercewebservicescommons.dto.product.ProductWsDTO>" />
+		<property name="productSpecification"
+			type="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductSpecificationWsDTO" />
+		<property name="productSpecCharValues"
+				  type="java.util.List&lt;de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductSpecCharacteristicValueWsDTO>"/>
+		<property name="validFor"
+				  type="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.TimePeriodWsDTO" />
+		<property name="mainSpoPriceInBpo"
+				  type="de.hybris.platform.commercewebservicescommons.dto.product.PriceWsDTO" />
+		<property name="productOfferingPrice"
+				  type="java.util.List&lt;de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductOfferingPriceWsDTO>" />
+		<property name="productSpecDescription" type="java.util.List&lt;String>" />
+		<property name="preselected" type="boolean" />
+		<property name="disabledMessage" type="String" />
+		<property name="componentId" type="String" />
+		<property name="isComponentEditable" type="boolean" />
+		<property name="isRemovableEntry" type="boolean" />
+		<property name="isMaxLimitReachedForBundle" type="boolean" />
+		<property name="hasParentBpos" type="Boolean" />
+		<property name="baseProductName" type="java.lang.String" />
+		<property name="storageSize" type="java.lang.String" />
+		<property name="colors"
+			type="java.util.List&lt;java.lang.String>" />
+		<property name="attachments" type="java.util.List&lt;de.hybris.platform.b2ctelcocommercewebservicescommons.dto.MediaWsDTO>"/>
+		<property name="bundledProductOfferingOption" type="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.BundledProductOfferingOptionWsDto"/>
+		<property name="poSpecCharValueUses"
+				  type="java.util.List&lt;de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProdSpecCharValueUseWsDTO>"/>
+		<property name="type" type="java.lang.String"/>
+	</bean>
+
+	<bean
+			class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductOfferingPriceWsDTO">
+		<property name="isBundle" type="Boolean" />
+		<property name="bundledPop"
+				  type="java.util.List&lt;de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductOfferingPriceWsDTO>" />
+		<property name="channel"
+				  type="java.util.List&lt;de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ChannelWsDTO>" />
+		<property name="isPriceOverride" type="Boolean" />
+		<property name="modifiedTime" type="java.util.Date" />
+		<property name="name" type="String" />
+		<property name="poRelationship"
+				  type="java.util.List&lt;de.hybris.platform.b2ctelcocommercewebservicescommons.dto.PoRelationshipWsDTO>" />
+		<property name="chargeType" type="String" />
+		<property name="processType"
+				  type="java.util.List&lt;de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProcessTypeWsDTO>" />
+		<property name="productOfferingTerm"
+				  type="java.util.List&lt;de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductOfferingTermWsDTO>" />
+		<property name="recurringChargePeriodLength" type="Long" />
+		<property name="recurringChargePeriodType" type="String" />
+		<property name="unitOfMeasure"
+				  type="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.MoneyWsDTO" />
+		<property name="validFor"
+				  type="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.TimePeriodWsDTO" />
+		<property name="price"
+				  type="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.MoneyWsDTO" />
+		<property name="billingEvent" type="String" />
+		<property name="cycle"
+				  type="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.CycleWsDTO" />
+		<property name="itemType" type="String" />
+		<property name="usageType" type="String" />
+		<property name="usageUnit"
+				  type="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.UsageUnitWsDTO" />
+		<property name="tierEnd" type="Integer" />
+		<property name="tierStart" type="Integer" />
+		<property name="lifecycleStatus" type="String" />
+		<property name="id" type="String" />
+		<property name="region"
+				  type="java.util.List&lt;de.hybris.platform.commercewebservicescommons.dto.user.RegionWsDTO>" />
+		<property name="user"
+				  type="de.hybris.platform.commercewebservicescommons.dto.user.UserWsDTO" />
+		<property name="userPriceGroupID" type="String" />
+		<property name="priority" type="Integer" />
+		<property name="isPercentage" type="java.lang.Boolean" />
+		<property name="productSpecCharValues"
+				  type="java.util.Set&lt;de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductSpecCharacteristicValueWsDTO>"/>
+		<property name="usageSpecification"
+				  type="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.UsageSpecificationRefWsDTO"/>
+		<property name="pricingLogicAlgorithm"
+				  type="java.util.List&lt;de.hybris.platform.b2ctelcocommercewebservicescommons.dto.PricingLogicAlgorithmWsDto>"/>
+	</bean>
+
+	<bean
+			class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.UsageUnitWsDTO">
+		<property name="id" type="String" />
+		<property name="name" type="String" />
+	</bean>
+	<bean class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.CycleWsDTO">
+		<property name="cycleStart" type="Integer" />
+		<property name="cycleEnd" type="Integer" />
+	</bean>
+
+	<bean
+			class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.UsagePriceChargeEntryWsDTO"
+			extends="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.UsagePriceChargeWsDTO">
+		<property name="tierEnd" type="Integer" />
+		<property name="tierStart" type="Integer" />
+	</bean>
+
+	<bean
+			class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.UsagePriceChargeWsDTO"
+			extends="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductOfferingPriceWsDTO">
+		<property name="usageType" type="String" />
+		<property name="usageUnit"
+				  type="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.UsageUnitWsDTO" />
+	</bean>
+
+	<bean
+			class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.OneTimePriceChargeWsDTO"
+			extends="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductOfferingPriceWsDTO">
+	</bean>
+
+	<bean
+			class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.RecurringPriceChargeWsDTO"
+			extends="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductOfferingPriceWsDTO">
+		<property name="cycle"
+				  type="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.CycleWsDTO" />
+	</bean>
+
+	<bean class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductOfferingPriceAlterationWsDTO"
+		  extends="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductOfferingPriceWsDTO">
+		<property name="cycle"
+				  type="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.CycleWsDTO"/>
+		<property name="isPercentage"
+				  type="java.lang.Boolean"/>
+	</bean>
+
+	<bean class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductOfferingPriceAllowanceWsDTO"
+		  extends="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductOfferingPriceAlterationWsDTO">
+	</bean>
+
+	<bean class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.BundledProductOfferingOptionWsDto">
+		<property name="lowerLimit" type="java.lang.Integer" />
+		<property name="upperLimit" type="java.lang.Integer" />
+		<property name="defaultValue" type="java.lang.Integer" />
+	</bean>
+
+	<bean class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.PricingLogicAlgorithmWsDto">
+		<property name="id" type="java.lang.String"/>
+		<property name="name" type="java.lang.String"/>
+		<property name="description" type="java.lang.String"/>
+		<property name="plaSpecId" type="java.lang.String"/>
+		<property name="externalIdentifier"
+				  type="java.util.List&lt;de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ExternalIdentifierWsDto>"/>
+		<property name="validFor" type="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.TimePeriodWsDTO"/>
+	</bean>
+
+	<!-- CartWsDTO -->
+	<bean class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.MessageWsDTO">
+		<property name="type" type="String" />
+		<property name="value" type="String" />
+	</bean>
+
+	<bean
+			class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.CartPriceWsDTO">
+		<property name="dutyFreeAmount"
+				  type="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.MoneyWsDTO" />
+		<property name="percentage" type="java.lang.Double" />
+		<property name="taxIncludedAmount"
+				  type="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.MoneyWsDTO" />
+		<property name="taxRate" type="java.lang.Double" />
+	</bean>
+
+	<bean
+			class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.PriceAlterationWsDTO">
+		<property name="description" type="String" />
+		<property name="id" type="String" />
+		<property name="name" type="String" />
+		<property name="price"
+				  type="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.CartCostWsDTO" />
+		<property name="priceType" type="String" />
+		<property name="priority" type="Integer" />
+		<property name="recurringChargePeriod" type="String" />
+		<property name="unitOfMeasure" type="String" />
+		<property name="validFor"
+				  type="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.TimePeriodWsDTO" />
+		<property name="cycle" type="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.CycleWsDTO"/>
+		<property name="productOfferingPrice"
+				  type="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductOfferingPriceRefWsDTO"/>
+	</bean>
+
+	<bean
+			class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.CartCostWsDTO">
+		<property name="description" type="String" />
+		<property name="id" type="String" />
+		<property name="name" type="String" />
+		<property name="priceAlteration"
+				  type="java.util.List&lt;de.hybris.platform.b2ctelcocommercewebservicescommons.dto.PriceAlterationWsDTO>" />
+		<property name="priceType" type="String" />
+		<property name="recurringChargePeriod" type="String" />
+		<property name="unitOfMeasure" type="String" />
+		<property name="cartPrice"
+				  type="java.util.List&lt;de.hybris.platform.b2ctelcocommercewebservicescommons.dto.CartCostWsDTO>" />
+		<property name="dutyFreeAmount"
+				  type="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.MoneyWsDTO" />
+		<property name="percentage" type="java.lang.Double" />
+		<property name="taxIncludedAmount"
+				  type="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.MoneyWsDTO" />
+		<property name="taxRate"
+				  type="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.MoneyWsDTO" />
+		<property name="tierEnd" type="String" />
+		<property name="tierStart" type="String" />
+		<property name="chargeType" type="String" />
+		<property name="cycle"
+				  type="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.CycleWsDTO" />
+		<property name="usageChargeType" type="String" />
+		<property name="productOfferingPrice"
+				  type="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductOfferingPriceRefWsDTO"/>
+	</bean>
+
+	<enum class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ActionTypeWsDTO">
+		<value>ADD</value>
+		<value>UPDATE</value>
+		<value>KEEP</value>
+		<value>REMOVE</value>
+	</enum>
+
+	<bean class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.PlaceWsDTO">
+		<property name="id" type="String"/>
+		<property name="role" type="String"/>
+		<property name="name" type="String"/>
+		<property name="line1" type="String"/>
+		<property name="line2" type="String"/>
+		<property name="town" type="String"/>
+		<property name="postalCode" type="String"/>
+		<property name="country" type="de.hybris.platform.commercewebservicescommons.dto.user.CountryWsDTO"/>
+		<property name="region" type="de.hybris.platform.commercewebservicescommons.dto.user.RegionWsDTO"/>
+	</bean>
+
+	<bean class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductCharacteristicWsDTO">
+		<property name="name" type="String"/>
+		<property name="value" type="String"/>
+	</bean>
+
+	<bean class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.SubscribedProductWsDTO">
+		<property name="id" type="String"/>
+		<property name="name" type="String"/>
+		<property name="place" type="java.util.List&lt;de.hybris.platform.b2ctelcocommercewebservicescommons.dto.PlaceWsDTO>"/>
+		<property name="characteristic" type="java.util.List&lt;de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductCharacteristicWsDTO>"/>
+		<property name="relatedParty" type="java.util.List&lt;de.hybris.platform.b2ctelcocommercewebservicescommons.dto.RelatedPartyWsDTO>"/>
+	</bean>
+
+	<bean
+			class="de.hybris.platform.commercewebservicescommons.dto.order.OrderEntryWsDTO">
+		<property name="cartPrice"
+				  type="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.CartCostWsDTO" />
+		<property name="processType"
+				  type="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProcessTypeWsDTO" />
+		<property name="parentEntryNumber" type="Integer" />
+		<property name="entryGroupNumbers"
+				  type="java.util.Collection&lt;Integer>" />
+		<property name="subscriptionTerm"
+				  type="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductOfferingTermWsDTO" />
+		<property name="rootBpoCode" type="String" />
+		<property name="region" type="de.hybris.platform.commercewebservicescommons.dto.user.RegionWsDTO"/>
+		<property name="action" type="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ActionTypeWsDTO"/>
+		<property name="subscribedProduct" type="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.SubscribedProductWsDTO"/>
+		<property name="appointment" type="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.TmaAppointmentWSDto"/>
+		<property name="validationMessages"
+				  type="java.util.Set&lt;de.hybris.platform.b2ctelcocommercewebservicescommons.dto.TmaCartValidationWsDTO>"/>
+		<property name="entries"
+				  type="java.util.List&lt;de.hybris.platform.commercewebservicescommons.dto.order.OrderEntryWsDTO>"/>
+		<property name="contractStartDate" type="java.util.Date" />
+	</bean>
+	<bean class="de.hybris.platform.commercewebservicescommons.dto.user.RegionWsDTO">
+		<property name="role" type="String"/>
+	</bean>
+
+	<bean
+			class="de.hybris.platform.commercewebservicescommons.dto.order.CartWsDTO">
+		<property name="message"
+				  type="java.util.List&lt;de.hybris.platform.b2ctelcocommercewebservicescommons.dto.MessageWsDTO>" />
+		<property name="cartCosts"
+				  type="java.util.List&lt;de.hybris.platform.b2ctelcocommercewebservicescommons.dto.CartCostWsDTO>" />
+		<property name="rootGroups"
+				  type="java.util.List&lt;de.hybris.platform.b2ctelcocommercewebservicescommons.dto.RootGroupsWsDTO>" />
+	</bean>
+
+	<bean
+			class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.OneTimeChargeCartCostWsDTO"
+			extends="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.CartCostWsDTO">
+	</bean>
+
+	<bean
+			class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.RecurringChargeCartCostWsDTO"
+			extends="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.CartCostWsDTO">
+		<property name="cycle"
+				  type="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.CycleWsDTO" />
+	</bean>
+
+	<bean
+			class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.UsageChargeCartCostWsDTO"
+			extends="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.CartCostWsDTO">
+		<property name="tierStart" type="String" />
+		<property name="tierEnd" type="String" />
+	</bean>
+
+	<bean
+			class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.RootGroupsWsDTO">
+		<property name="groupNumber" type="Integer" />
+		<property name="groupType" type="String" />
+		<property name="externalReferenceId" type="String" />
+		<property name="erroneous" type="Boolean" />
+		<property name="errorMessages" type="String" />
+		<property name="isAutoPickEnabled" type="Boolean" />
+		<property name="validationMessages"
+				  type="java.util.Set&lt;de.hybris.platform.b2ctelcocommercewebservicescommons.dto.TmaCartValidationWsDTO>"/>
+	</bean>
+
+	<bean
+			class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.TmaIdentificationWsDTO">
+		<property name="identificationType" type="String" />
+		<property name="identificationNumber" type="String" />
+	</bean>
+
+	<bean
+			class="de.hybris.platform.commercewebservicescommons.dto.user.UserSignUpWsDTO">
+		<property name="identifications"
+				  type="java.util.List&lt;de.hybris.platform.b2ctelcocommercewebservicescommons.dto.TmaIdentificationWsDTO>" />
+	</bean>
+
+	<bean
+			class="de.hybris.platform.commercewebservicescommons.dto.user.UserWsDTO">
+		<property name="identifications"
+				  type="java.util.List&lt;de.hybris.platform.b2ctelcocommercewebservicescommons.dto.TmaIdentificationWsDTO>" />
+	</bean>
+
+	<bean class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.TmaAppointmentWSDto">
+		<property name="id" type="String"/>
+	</bean>
+	<bean class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.TmaCartValidationWsDTO">
+		<property name="code" type="java.lang.String"/>
+		<property name="message" type="java.lang.String"/>
+		<property name="groupNumber" type="Integer"/>
+	</bean>
+
+	<bean class="de.hybris.platform.commercewebservicescommons.dto.order.CartModificationWsDTO">
+		<description>Representation of a Cart modification</description>
+		<property name="validationMessages"
+				  type="java.util.Set&lt;de.hybris.platform.b2ctelcocommercewebservicescommons.dto.TmaCartValidationWsDTO>"/>
+	</bean>
+
+	<bean class="de.hybris.platform.commercewebservicescommons.dto.order.OrderWsDTO">
+		<property name="orderCosts"
+				  type="java.util.List&lt;de.hybris.platform.b2ctelcocommercewebservicescommons.dto.CartCostWsDTO>" />
+	</bean>
+
+	<bean
+			class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.RelatedPartyWsDTO">
+		<property name="id" type="String" />
+		<property name="role" type="String" />
+	</bean>
+
+	<bean class="de.hybris.platform.commercewebservicescommons.dto.user.AddressWsDTO">
+		<property name="installationAddress" type="Boolean">
+			<description>Boolean flag if address is for installation</description>
+		</property>
+		<property name="building" type="String"/>
+        <property name="apartment" type="String"/>
+	</bean>
+	
+	<bean class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.MediaWsDTO">
+		<property name="code" type="String" />
+		<property name="catalogId" type="String" />
+		<property name="catalogVersion" type="String" />
+		<property name="mime" type="String" />
+		<property name="altText" type="String" />
+		<property name="description" type="String" />
+		<property name="url" type="String" />
+		<property name="downloadUrl" type="String" />
+		<property name="folder" type="java.lang.String"/>
+		<property name="realFileName" type="java.lang.String"/>
+	</bean>
+
+	<bean class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.UsageSpecificationRefWsDTO">
+		<property name="id" type="java.lang.String"/>
+		<property name="name" type="java.lang.String"/>
+		<property name="href" type="java.lang.String"/>
+		<property name="externalIdentifier"
+				  type="java.util.List&lt;de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ExternalIdentifierWsDto>"/>
+	</bean>
+
+	<bean class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ExternalIdentifierWsDto">
+		<property name="owner" type="java.lang.String"/>
+		<property name="externalIdentifierType" type="java.lang.String"/>
+		<property name="id" type="java.lang.String"/>
+	</bean>
+
+	<bean class="de.hybris.platform.b2ctelcocommercewebservicescommons.dto.ProductOfferingPriceRefWsDTO">
+		<property name="id" type="java.lang.String"/>
+		<property name="href" type="java.lang.String"/>
+	</bean>
+</beans>

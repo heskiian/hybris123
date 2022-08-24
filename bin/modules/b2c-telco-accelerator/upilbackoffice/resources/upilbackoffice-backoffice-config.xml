@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+
+<config xmlns="http://www.hybris.com/cockpit/config"
+        xmlns:wz="http://www.hybris.com/cockpitng/config/wizard-config"
+        xmlns:editorArea="http://www.hybris.com/cockpitng/component/editorArea">
+        
+	<!-- upilbackoffice UI configuration should be provided here -->
+
+	<context merge-by="type" parent="TmaProductOffering" type="TmaSimpleProductOffering"
+		component="editor-area">
+		<editorArea:editorArea name=""
+			xmlns:editorArea="http://www.hybris.com/cockpitng/component/editorArea">
+			<editorArea:tab name="hmc.tab.product.prices"
+				position="14" merge-mode="merge">
+				<editorArea:section name="hmc.section.product.pricesdiscounts"
+					merge-mode="">
+					<editorArea:customPanel name="backoffice.section.prices.upilSync"
+						spring-bean="upilproductSyncEditorAreaRenderer" rowspan="1"
+						colspan="2" position="1">
+						<editorArea:render-parameter>
+							<editorArea:name>dataModelProperty</editorArea:name>
+							<editorArea:value>currentObject</editorArea:value>
+						</editorArea:render-parameter>
+					</editorArea:customPanel>
+				</editorArea:section>
+			</editorArea:tab>
+		</editorArea:editorArea>
+	</context>
+
+	<context parent="TmaProductOffering" type="TmaBundledProductOffering"
+		component="editor-area" module="b2ctelcobackoffice" merge-by="type">
+		<editorArea:editorArea name=""
+			xmlns:editorArea="http://www.hybris.com/cockpitng/component/editorArea">
+			<editorArea:tab name="hmc.tab.product.prices"
+				position="14" merge-mode="merge">
+				<editorArea:section name="hmc.section.product.pricesdiscounts"
+					merge-mode="">
+					<editorArea:panel colspan="2" name="panel.europe1Prices"
+						rowspan="1" merge-mode="replace">
+						<editorArea:attribute description="hmc.text.product.pg"
+							editor="com.hybris.cockpitng.editor.extendedmultireferenceeditor"
+							qualifier="europe1Prices" merge-mode="replace">
+							<editorArea:editor-parameter>
+								<editorArea:name>restrictToType</editorArea:name>
+								<editorArea:value>SubscriptionPricePlan</editorArea:value>
+							</editorArea:editor-parameter>
+							<editorArea:editor-parameter>
+								<editorArea:name>listConfigContext</editorArea:name>
+								<editorArea:value>bpoPricePlansListView</editorArea:value>
+							</editorArea:editor-parameter>
+						</editorArea:attribute>
+					</editorArea:panel>
+					<editorArea:customPanel name="backoffice.section.prices.upilSync"
+						spring-bean="upilproductSyncEditorAreaRenderer" rowspan="1"
+						colspan="2" position="1">
+						<editorArea:render-parameter>
+							<editorArea:name>dataModelProperty</editorArea:name>
+							<editorArea:value>currentObject</editorArea:value>
+						</editorArea:render-parameter>
+					</editorArea:customPanel>
+				</editorArea:section>
+			</editorArea:tab>
+		</editorArea:editorArea>
+	</context>
+
+	<context merge-by="type" parent="GenericItem" type="TmaProductSpecType"
+		component="base">
+		<y:base xmlns:y="http://www.hybris.com/cockpit/config/hybris"
+			xmlns:na="http://www.hybris.com/cockpitng/config/notifications">
+			<y:labels>
+				<y:label>code</y:label>
+			</y:labels>
+		</y:base>
+	</context>
+	
+    <context merge-by="type" parent="UsageChargeEntry" type="OverageUsageChargeEntry" component="create-wizard">
+		<wz:flow id="OverageUsageChargeEntryWizard" title="create.title(ctx.TYPE_CODE)">
+			<wz:step id="step1" label="backoffice.create-wizard.Essentials.label"
+					 sublabel="backoffice.create-wizard.Essentials.sublabel" merge-mode="append">
+				<wz:content id="step1.content" merge-mode="append">
+					<wz:property-list root="newOverageUsageChargeEntry" merge-mode="append">
+					    <wz:property qualifier="semantics" position="0">
+					    	      <wz:editor-parameter>
+						        <wz:name>isNestedObjectCreationDisabled</wz:name>
+						        <wz:value>true</wz:value>
+						    </wz:editor-parameter>
+					    </wz:property> 
+						<wz:property qualifier="tierStart"/>
+						<wz:property qualifier="tierEnd"/>
+					</wz:property-list>
+				</wz:content>
+			</wz:step>
+		</wz:flow>
+	</context>
+	
+	<context merge-by="type" parent="UsageChargeEntry" type="TierUsageChargeEntry" component="create-wizard">
+		<wz:flow id="TierUsageChargeEntryWizard" title="create.title(ctx.TYPE_CODE)">
+			<wz:step id="step1" label="backoffice.create-wizard.Essentials.label"
+					 sublabel="backoffice.create-wizard.Essentials.sublabel" merge-mode="append">
+				<wz:content id="step1.content" merge-mode="append">
+					<wz:property-list root="newTierUsageChargeEntry" merge-mode="append">
+						<wz:property qualifier="semantics" position="0">
+						     <wz:editor-parameter>
+						        <wz:name>isNestedObjectCreationDisabled</wz:name>
+						        <wz:value>true</wz:value>
+						    </wz:editor-parameter> 
+					    </wz:property>
+					</wz:property-list>
+				</wz:content>
+			</wz:step>
+		</wz:flow>
+	</context>
+	
+	<context type="UsageChargeEntry" component="editor-area" merge-by="type" parent="GenericItem">
+		<editorArea:editorArea xmlns:editorArea="http://www.hybris.com/cockpitng/component/editorArea" name="backoffice.editor-area.UsageChargeEntry">
+			<editorArea:essentials>
+				<editorArea:essentialSection name="hmc.essential">
+						<editorArea:attribute qualifier="semantics">
+						     <editorArea:editor-parameter>
+								<editorArea:name>isNestedObjectCreationDisabled</editorArea:name>
+								<editorArea:value>true</editorArea:value>
+							 </editorArea:editor-parameter> 
+					    </editorArea:attribute>
+				</editorArea:essentialSection>
+			</editorArea:essentials>
+		</editorArea:editorArea>
+	</context>
+	
+    <context type="SubscriptionPricePlan" component="create-wizard">
+        <wz:flow id="SubscriptionPricePlanWizard" title="create.title(ctx.TYPE_CODE)">
+            <wz:step id="step4" label="create.subscriptionpriceplan.terms.label"
+					 sublabel="create.subscriptionpriceplan.terms.sublabel" merge-mode="append">
+				<wz:content id="step4.content" merge-mode="append">
+					<wz:property-list root="newSubscriptionPricePlan" merge-mode="append">
+					   <wz:property qualifier="upilAdditionalAttributes"
+									 editor="com.hybris.cockpitng.editor.defaultmultireferenceeditor">
+							<wz:editor-parameter>
+								<wz:name>isNestedObjectCreationDisabled</wz:name>
+								<wz:value>false</wz:value>
+							</wz:editor-parameter>
+						</wz:property>	
+					</wz:property-list>
+				</wz:content>
+		   </wz:step>
+		</wz:flow>
+	</context>
+	
+    <context merge-by="type" parent="GenericItem" type="SubscriptionPricePlan" component="editor-area">
+		<editorArea:editorArea name="" xmlns:editorArea="http://www.hybris.com/cockpitng/component/editorArea">
+			<editorArea:tab name="backoffice.tab.subscriptionpriceplan.terms" position="6">
+				<editorArea:section name="backoffice.section.subscriptionpriceplan.subscriptionterms">					
+					<editorArea:attribute qualifier="upilAdditionalAttributes"/>	
+				</editorArea:section>
+			</editorArea:tab>
+			<editorArea:tab name="hmc.administration">
+                <editorArea:section name="hmc.section.metadata">
+                  <editorArea:attribute qualifier="isuCreationDate" readonly="true"/>
+                </editorArea:section>
+            </editorArea:tab>
+		</editorArea:editorArea>
+	</context>
+	
+    <context merge-by="type" parent="GenericItem" type="UpilAdditionalAttributes" component="base">
+		<y:base xmlns:y="http://www.hybris.com/cockpit/config/hybris"
+				xmlns:na="http://www.hybris.com/cockpitng/config/notifications">
+			<y:labels>
+				<y:label>code + ' - ' +@labelService.getObjectLabel(catalogVersion)</y:label>
+				<y:description>code != null ? code : @labelService.getObjectLabel(#this)</y:description>
+			</y:labels>
+		</y:base>
+	</context>
+	
+	<context merge-by="type" parent="GenericItem" type="UpilSemantics" component="base">
+		<y:base xmlns:y="http://www.hybris.com/cockpit/config/hybris"
+				xmlns:na="http://www.hybris.com/cockpitng/config/notifications">
+			<y:labels>
+				<y:label>description</y:label>
+				<y:description>description != null ? description : @labelService.getObjectLabel(#this)</y:description>
+			</y:labels>
+		</y:base>
+	</context>
+	
+	<context type="UpilAdditionalAttributes" component="create-wizard">
+		<wz:flow id="UpilAdditionalAttributesWizard" title="create.title(ctx.TYPE_CODE)">
+			<wz:prepare id="newUpilAdditionalAttributes" merge-mode="append">
+				<wz:initialize property="newUpilAdditionalAttributes" type="ctx.TYPE_CODE"/>
+			</wz:prepare>
+			<wz:step id="step1" label="backoffice.create-wizard.Essentials.label"
+					 sublabel="backoffice.create-wizard.Essentials.sublabel">
+				<wz:content id="step1.content">
+					<wz:property-list root="newUpilAdditionalAttributes">
+					    <wz:property qualifier="semantics">
+					      <wz:editor-parameter>
+						        <wz:name>isNestedObjectCreationDisabled</wz:name>
+						        <wz:value>true</wz:value>
+						    </wz:editor-parameter>
+						</wz:property> 
+						<wz:property qualifier="code"/>
+						<wz:property qualifier="catalogVersion"/>
+						<wz:property qualifier="attributeType"/>
+						<wz:property qualifier="utilsProductEntryValue"/>
+						<wz:property qualifier="currency"/>
+						<wz:property qualifier="utilsSalesFactValue"/>
+					</wz:property-list>
+				</wz:content>
+				<wz:navigation id="step1.navigation">
+					<wz:cancel/>
+					<wz:done visible="newUpilAdditionalAttributes.semantics!=null">
+						<wz:save property="newUpilAdditionalAttributes"/>
+					</wz:done>
+				</wz:navigation>
+			</wz:step>
+		</wz:flow>
+	</context>
+	
+	<context type="UpilAdditionalAttributes"
+		component="configurableFlowDynamicForms">
+		<df:dynamicForms
+			xmlns:df="http://www.hybris.com/cockpitng/component/dynamicForms"
+			modelProperty="newUpilAdditionalAttributes">
+			<df:attribute id="enableUtilsProductEntryValue"
+				triggeredOn="attributeType" qualifier="utilsProductEntryValue"
+				visibleIf="attributeType.equals(T(de.hybris.platform.upilintegrationservices.enums.UpilAttributeType).BILLING)" />
+			<df:attribute id="enableUtilsSalesFactValue"
+				triggeredOn="attributeType" qualifier="utilsSalesFactValue"
+				visibleIf="attributeType.equals(T(de.hybris.platform.upilintegrationservices.enums.UpilAttributeType).SALES)" />
+			<df:attribute id="enableUtilsSalesFactValue"
+				triggeredOn="attributeType" qualifier="currency"
+				visibleIf="attributeType.equals(T(de.hybris.platform.upilintegrationservices.enums.UpilAttributeType).SALES)" />
+		</df:dynamicForms>
+	</context>
+	
+	<context merge-by="type" type="UpilAdditionalAttributes" component="editor-area">
+		<editorArea:editorArea name="" xmlns:editorArea="http://www.hybris.com/cockpitng/component/editorArea">
+			<editorArea:essentials>
+				<editorArea:essentialSection name="hmc.essential">
+				        <editorArea:attribute qualifier="semantics" position="2">
+				             <editorArea:editor-parameter>
+								<editorArea:name>isNestedObjectCreationDisabled</editorArea:name>
+								<editorArea:value>true</editorArea:value>
+							 </editorArea:editor-parameter>
+					    </editorArea:attribute> 
+						<editorArea:attribute qualifier="code" position="3"/>
+						<editorArea:attribute qualifier="attributeType" position="4" readonly="true"/>
+						<editorArea:attribute qualifier="utilsProductEntryValue" position="5"/>
+						<editorArea:attribute qualifier="utilsSalesFactValue" position="6"/>
+						<editorArea:attribute qualifier="currency" position="7"/>
+				</editorArea:essentialSection>
+			</editorArea:essentials>
+		</editorArea:editorArea>
+	</context>
+	
+	<context type="UpilAdditionalAttributes"
+		component="editorAreaDynamicForms" merge-by="type">
+		<df:dynamicForms
+			xmlns:df="http://www.hybris.com/cockpitng/component/dynamicForms">
+			<df:attribute id="enableUtilsProductEntryValue"
+				triggeredOn="attributeType" qualifier="utilsProductEntryValue"
+				visibleIf="attributeType.equals(T(de.hybris.platform.upilintegrationservices.enums.UpilAttributeType).BILLING)" />
+			<df:attribute id="enableUtilsSalesFactValue"
+				triggeredOn="attributeType" qualifier="utilsSalesFactValue"
+				visibleIf="attributeType.equals(T(de.hybris.platform.upilintegrationservices.enums.UpilAttributeType).SALES)" />
+			<df:attribute id="enableUtilsSalesFactValue"
+				triggeredOn="attributeType" qualifier="currency"
+				visibleIf="attributeType.equals(T(de.hybris.platform.upilintegrationservices.enums.UpilAttributeType).SALES)" />
+		</df:dynamicForms>
+	</context>
+	
+	<context type="UpilSemantics" component="create-wizard">
+		<wz:flow id="UpilSemanticsWizard" title="create.title(ctx.TYPE_CODE)">
+			<wz:prepare id="newUpilSemantics" merge-mode="append">
+				<wz:initialize property="newUpilSemantics" type="ctx.TYPE_CODE"/>
+			</wz:prepare>
+			<wz:step id="step1" label="backoffice.create-wizard.Essentials.label"
+					 sublabel="backoffice.create-wizard.Essentials.sublabel">
+				<wz:content id="step1.content">
+					<wz:property-list root="newUpilSemantics">
+						<wz:property qualifier="semanticType"/>
+						<wz:property qualifier="description"/>
+						<wz:property qualifier="catalogVersion"/>
+						<wz:property qualifier="semanticsName1"/>
+						<wz:property qualifier="semanticsName2"/>
+					</wz:property-list>
+				</wz:content>
+				<wz:navigation id="step1.navigation">
+					<wz:cancel/>
+					<wz:done>
+						<wz:save property="newUpilSemantics"/>
+					</wz:done>
+				</wz:navigation>
+			</wz:step>
+		</wz:flow>
+	</context>
+	
+	 <context merge-by="type" parent="GenericItem" type="UpilSemantics" component="editor-area">
+		<editorArea:editorArea name="" xmlns:editorArea="http://www.hybris.com/cockpitng/component/editorArea">
+			<editorArea:essentials>
+				<editorArea:essentialSection name="hmc.essential">
+				    <editorArea:attribute qualifier="semanticsName1" readonly="true"/>
+				    <editorArea:attribute qualifier="semanticsName2" readonly="true"/>
+				    <editorArea:attribute qualifier="semanticType" readonly="true"/>
+				    <editorArea:attribute qualifier="description" readonly="true"/>
+				    </editorArea:essentialSection>
+			</editorArea:essentials>
+		</editorArea:editorArea>
+    </context>
+	
+    <context type="RecurringChargeEntry" component="create-wizard">
+		<wz:flow id="RecurringChargeEntryWizard" title="create.title(ctx.TYPE_CODE)">
+			<wz:prepare id="newRecurringChargeEntry" merge-mode="append">
+				<wz:initialize property="newRecurringChargeEntry" type="ctx.TYPE_CODE"/>
+			</wz:prepare>
+			<wz:step id="step1" label="backoffice.create-wizard.Essentials.label"
+					 sublabel="backoffice.create-wizard.Essentials.sublabel">
+				<wz:content id="step1.content" >
+					<wz:property-list root="newRecurringChargeEntry">
+						<wz:property qualifier="semantics" position="0">
+						     <wz:editor-parameter>
+						        <wz:name>isNestedObjectCreationDisabled</wz:name>
+						        <wz:value>true</wz:value>
+						    </wz:editor-parameter>
+						</wz:property>
+					</wz:property-list>
+				</wz:content>
+				<wz:navigation id="step1.navigation">
+					<wz:cancel/>
+					<wz:done>
+						<wz:save property="newRecurringChargeEntry"/>
+					</wz:done>
+				</wz:navigation>
+			</wz:step>
+		</wz:flow>
+	</context>
+	
+	<context type="RecurringChargeEntry" component="editor-area" merge-by="type" parent="GenericItem">
+		<editorArea:editorArea xmlns:editorArea="http://www.hybris.com/cockpitng/component/editorArea" name="backoffice.editor-area.RecurringChargeEntry">
+			<editorArea:essentials>
+				<editorArea:essentialSection name="hmc.essential">
+						<editorArea:attribute qualifier="semantics" position="1">
+						     <editorArea:editor-parameter>
+								<editorArea:name>isNestedObjectCreationDisabled</editorArea:name>
+								<editorArea:value>true</editorArea:value>
+							 </editorArea:editor-parameter> 
+					    </editorArea:attribute>
+				</editorArea:essentialSection>
+			</editorArea:essentials>
+		</editorArea:editorArea>
+	</context>
+	
+    <context type="OneTimeChargeEntry" component="create-wizard">
+		<wz:flow id="OneTimeChargeEntryWizard" title="create.title(ctx.TYPE_CODE)">
+			<wz:prepare id="newOneTimeChargeEntry" merge-mode="append">
+				<wz:initialize property="newOneTimeChargeEntry" type="ctx.TYPE_CODE"/>
+			</wz:prepare>
+			<wz:step id="step1" label="backoffice.create-wizard.Essentials.label"
+					 sublabel="backoffice.create-wizard.Essentials.sublabel">
+				<wz:content id="step1.content" >
+					<wz:property-list root="newOneTimeChargeEntry">
+					    <wz:property qualifier="semantics" position="0">
+						     <wz:editor-parameter>
+						        <wz:name>isNestedObjectCreationDisabled</wz:name>
+						        <wz:value>true</wz:value>
+						    </wz:editor-parameter>
+						</wz:property>
+					</wz:property-list>
+				</wz:content>
+				<wz:navigation id="step1.navigation">
+					<wz:cancel/>
+					<wz:done>
+						<wz:save property="newOneTimeChargeEntry"/>
+					</wz:done>
+				</wz:navigation>
+			</wz:step>
+		</wz:flow>
+	</context>
+	
+	<context type="OneTimeChargeEntry" component="editor-area" merge-by="type" parent="GenericItem">
+		<editorArea:editorArea xmlns:editorArea="http://www.hybris.com/cockpitng/component/editorArea" name="backoffice.editor-area.OneTimeChargeEntry">
+			<editorArea:essentials>
+				<editorArea:essentialSection name="hmc.essential">
+						<editorArea:attribute qualifier="semantics">
+						      <editorArea:editor-parameter>
+								<editorArea:name>isNestedObjectCreationDisabled</editorArea:name>
+								<editorArea:value>true</editorArea:value>
+							 </editorArea:editor-parameter>  
+					    </editorArea:attribute>
+				</editorArea:essentialSection>
+			</editorArea:essentials>
+		</editorArea:editorArea>
+	</context>
+	
+	<context merge-by="type" type="BillingFrequency" component="create-wizard" >
+		<wz:flow id="BillingFrequency" title="create.title(ctx.TYPE_CODE)">
+			<wz:step id="step1" label="backoffice.create-wizard.Essentials.label"
+					 sublabel="backoffice.create-wizard.Essentials.sublabel" merge-mode="append">
+				<wz:content id="step1.content" merge-mode="append">
+					<wz:property-list root="newObject" merge-mode="append">
+						<wz:property qualifier="frequencyUnit"/>
+						<wz:property qualifier="frequencyValue"/>
+					</wz:property-list>
+				</wz:content> 
+			</wz:step>
+		</wz:flow>
+	</context>
+
+</config>

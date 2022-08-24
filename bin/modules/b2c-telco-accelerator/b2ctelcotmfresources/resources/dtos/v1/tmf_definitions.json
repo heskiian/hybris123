@@ -1,0 +1,283 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "TUA - Tmf Events",
+    "description": "This is Swagger UI environment generated for the Tmf Events implemented in TUA",
+    "version": "1.0"
+  },
+  "host": "serverRoot",
+  "paths": {},
+  "definitions": {
+    "Event": {
+      "type": "object",
+      "description": "event with common attributes.",
+      "properties": {
+        "correlationId": {
+          "type": "string",
+          "description": "The correlation id for this event."
+        },
+        "description": {
+          "type": "string",
+          "description": "An explnatory of the event."
+        },
+        "href": {
+          "type": "string",
+          "description": "Reference of the related entity."
+        },
+        "domain": {
+          "type": "string",
+          "description": "The domain of the event."
+        },
+        "eventId": {
+          "type": "string",
+          "description": "The identifier of the notification."
+        },
+        "eventTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Time of the event occurrence."
+        },
+        "eventType": {
+          "type": "string",
+          "description": "The type of the notification."
+        },
+        "priority": {
+          "type": "string",
+          "description": "A priority."
+        },
+        "timeOcurred": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The time the event occured."
+        },
+        "title": {
+          "type": "string",
+          "description": "The title of the event."
+        },
+        "event": {
+          "$ref": "#/definitions/Any",
+          "description": "The event linked to the involved resource object"
+        },
+        "relatedParty": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RelatedParty"
+          }
+        },
+        "reportingSystem": {
+          "$ref": "#/definitions/EntityRef",
+          "description": "Reporting System described by EntityRef"
+        },
+        "source": {
+          "$ref": "#/definitions/EntityRef",
+          "description": "Source Entity described by EntityRef"
+        },
+        "@baseType": {
+          "type": "string",
+          "description": "When sub-classing, this defines the super-class"
+        },
+        "@schemaLocation": {
+          "type": "string",
+          "format": "uri",
+          "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+        },
+        "@type": {
+          "type": "string",
+          "description": "When sub-classing, this defines the sub-class entity name"
+        }
+      }
+    },
+    "EntityRef": {
+      "type": "object",
+      "description": "Entity reference schema to be use for all entityRef class.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of a related entity."
+        },
+        "href": {
+          "type": "string",
+          "description": "Reference of the related entity."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the related entity."
+        },
+        "@baseType": {
+          "type": "string",
+          "description": "When sub-classing, this defines the super-class"
+        },
+        "@schemaLocation": {
+          "type": "string",
+          "format": "uri",
+          "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+        },
+        "@type": {
+          "type": "string",
+          "description": "When sub-classing, this defines the sub-class entity name"
+        },
+        "@referredType": {
+          "type": "string",
+          "description": "The actual type of the target instance when needed for disambiguation."
+        }
+      }
+    },
+    "ProductOfferingRef": {
+      "description": "ProductOffering reference. A product offering represents entities that are orderable from the provider of the catalog, this resource includes pricing information.",
+      "required": [
+        "id"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Unique identifier of the product offering",
+          "type": "string"
+        },
+        "href": {
+          "description": "Reference of the product offering",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name of the product offering",
+          "type": "string"
+        },
+        "@referredType": {
+          "description": "Type (class) of the product offering",
+          "type": "string"
+        },
+        "@type": {
+          "description": "Type (class) of the product offering",
+          "type": "string"
+        },
+        "@schemaLocation": {
+          "type": "string",
+          "description": "Hyperlink reference to the schema describing this resource"
+        }
+      }
+    },
+    "ProductOfferingPriceRef": {
+      "type": "object",
+      "description": "ProductPriceOffering reference. An amount, usually of money, that is asked for or allowed when a ProductOffering is bought, rented, or leased.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Reference id of the ProductOfferingPrice."
+        },
+        "href": {
+          "type": "string",
+          "description": "Reference of the ProductOfferingPrice."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the ProductOfferingPrice."
+        },
+        "@referredType": {
+          "type": "string",
+          "description": "(Class) type of the referred ProductOfferingPrice"
+        },
+        "@schemaLocation": {
+          "type": "string",
+          "description": "Hyperlink reference to the schema describing this resource"
+        }
+      }
+    },
+    "ProductOrderRef": {
+      "type": "object",
+      "description": "ProductOrder reference. A Product Order is a type of order which can be used to place an order between a customer and a service provider or between a service provider and a partner and vice versa. ",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of a related entity."
+        },
+        "href": {
+          "type": "string",
+          "description": "Reference of the related entity."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the related entity."
+        },
+        "@referredType": {
+          "type": "string",
+          "description": "The actual type of the target instance when needed for disambiguation."
+        },
+        "@schemaLocation": {
+          "type": "string",
+          "description": "Hyperlink reference to the schema describing this resource"
+        }
+      }
+    },
+    "RelatedParty": {
+      "description": "The party which the product is related with.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Unique identifier of the related party",
+          "type": "string"
+        },
+        "href": {
+          "description": "Reference of the related party",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name of the related party",
+          "type": "string"
+        },
+        "role": {
+          "description": "Role played by the related party",
+          "type": "string"
+        },
+        "validFor": {
+          "$ref": "#/definitions/TimePeriod"
+        },
+        "@referredType": {
+          "description": "Indicates the (class) type of party",
+          "type": "string"
+        }
+      }
+    },
+    "TimePeriod": {
+      "description": "A time period described through 2 dates",
+      "type": "object",
+      "properties": {
+        "startDateTime": {
+          "description": "",
+          "type": "string",
+          "format": "date-time"
+        },
+        "endDateTime": {
+          "description": "",
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "ProductOrderEvent": {
+      "description": "Event for product order.",
+      "type": "object",
+      "properties": {
+        "productOrderRef": {
+          "$ref": "#/definitions/ProductOrderRef"
+        }
+      }
+    },
+    "ProductOfferingEvent": {
+      "description": "Event for product offering.",
+      "type": "object",
+      "properties": {
+        "productOfferingRef": {
+          "$ref": "#/definitions/ProductOfferingRef"
+        }
+      }
+    },
+    "ProductOfferingPriceEvent": {
+      "description": "Event for product offering price.",
+      "type": "object",
+      "properties": {
+        "productOfferingPriceRef": {
+          "$ref": "#/definitions/ProductOfferingPriceRef"
+        }
+      }
+    }
+  }
+}

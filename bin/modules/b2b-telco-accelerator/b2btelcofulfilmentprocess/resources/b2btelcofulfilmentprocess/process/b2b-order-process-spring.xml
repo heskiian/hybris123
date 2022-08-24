@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:annotation-config/>
+
+    <!-- Order Process Actions -->
+    <alias name="defaultTmaCheckApprovalFromOrganizationAction" alias="tmaCheckApprovalFromOrganizationAction"/>
+    <bean id="defaultTmaCheckApprovalFromOrganizationAction"
+          class="de.hybris.platform.b2btelcofulfilmentprocess.actions.order.b2b.TmaCheckApprovalFromOrganizationAction"
+          parent="abstractAction">
+    </bean>
+
+    <alias name="defaultTmaCheckOrderContextAction" alias="tmaCheckOrderContextAction"/>
+    <bean id="defaultTmaCheckOrderContextAction"
+          class="de.hybris.platform.b2btelcofulfilmentprocess.actions.order.b2b.TmaCheckOrderContextAction"
+          parent="abstractAction">
+    </bean>
+
+    <alias name="defaultTmaStartB2cOrderProcessAction" alias="tmaStartB2cOrderProcessAction"/>
+    <bean id="defaultTmaStartB2cOrderProcessAction"
+          class="de.hybris.platform.b2btelcofulfilmentprocess.actions.order.b2c.TmaStartB2cOrderProcessAction"
+          parent="abstractAction">
+        <constructor-arg name="businessProcessService" ref="businessProcessService"/>
+    </bean>
+
+    <alias name="defaultTmaCheckB2cOrderProcessAction" alias="tmaCheckB2cOrderProcessAction"/>
+    <bean id="defaultTmaCheckB2cOrderProcessAction"
+          class="de.hybris.platform.b2btelcofulfilmentprocess.actions.order.b2c.TmaCheckB2cOrderProcessAction"
+          parent="abstractAction">
+    </bean>
+
+</beans>

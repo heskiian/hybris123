@@ -1,0 +1,17 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+INSERT_UPDATE TmaUsagePlaSpec; id[unique = true]               ; name                                                                ; description
+                             ; customerType_timeOfDay_pla_spec ; Customer Type and Time of Day Pricing Logic Algorithm Specification ; Pricing Logic Algorithm Specification used for calculating the cost of the call based on the customer type and time of day.
+                             ; call_duration_pla_spec          ; Call Duration Pricing Logic Algorithm Specification                 ; Pricing Logic Algorithm Specification used for calculating the cost of charges for call usage events based on the call duration.
+
+INSERT_UPDATE TmaUsageRatingPla; id[unique = true]    ; name                 ; description
+                               ; student_peak_pla     ; Student Peak PLA     ; Pricing Logic Algorithm used for calculating price for student type customer calls during peak time.
+                               ; student_off_peak_pla ; Student Off-Peak PLA ; Pricing Logic Algorithm used for calculating price for student type customer calls during off-peak time.
+                               ; normal_peak_pla      ; Normal Peak PLA      ; Pricing Logic Algorithm used for calculating price for normal type customer calls during peak time.
+                               ; normal_off_peak_pla  ; Normal Off-Peak PLA  ; Pricing Logic Algorithm used for calculating price for normal type customer calls during off-peak time.
+                               ; vip_peak_pla         ; VIP Peak PLA         ; Pricing Logic Algorithm used for calculating price for VIP type customer calls during peak time.
+                               ; vip_off_peak_pla     ; VIP Off-Peak PLA     ; Pricing Logic Algorithm used for calculating price for VIP type customer calls during off-peak time.
+
+                               ; call_duration_pla    ; Call Duration PLA    ; Pricing Logic Algorithm used for calculating charges for call usage events based on the call duration.

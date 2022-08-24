@@ -1,0 +1,1042 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="items.xsd">
+
+    <collectiontypes>
+        <collectiontype code="PmIdentifications" elementtype="PmIdentification" type="list"/>
+        <collectiontype code="PmContactMediums" elementtype="PmContactMedium" type="list"/>
+        <collectiontype code="PmPartyCreditProfiles" elementtype="PmPartyCreditProfile" type="list"/>
+        <collectiontype code="PmExternalReferences" elementtype="PmExternalReference" type="list"/>
+        <collectiontype code="PmCharacteristics" elementtype="PmCharacteristic" type="list"/>
+        <collectiontype code="PmTaxExemptionCertificates" elementtype="PmTaxExemptionCertificate" type="list"/>
+        <collectiontype code="PmTaxDefinitions" elementtype="PmTaxDefinition" type="list"/>
+        <collectiontype code="PmOtherNames" elementtype="PmOtherName" type="list"/>
+        <collectiontype code="PmDisabilities" elementtype="PmDisability" type="list"/>
+        <collectiontype code="PmSkills" elementtype="PmSkill" type="list"/>
+        <collectiontype code="PmLanguageAbilities" elementtype="PmLanguageAbility" type="list"/>
+    </collectiontypes>
+
+
+    <enumtypes>
+        <enumtype code="PmStateType">
+            <description>The state type of a party</description>
+            <value code="INITIALIZED"/>
+            <value code="VALIDATED"/>
+            <value code="DECEADED"/>
+            <value code="CLOSED"/>
+        </enumtype>
+
+        <enumtype code="PmContactMediumType">
+            <description>The type of a contact medium</description>
+            <value code="PHONE_NUMBER"/>
+            <value code="POSTAL_ADDRESS"/>
+            <value code="EMAIL_ADDRESS"/>
+        </enumtype>
+
+        <enumtype code="PmMediumCharContactType">
+            <description>The contact type of a medium characteristic</description>
+            <value code="MOBILE_PHONE_NUMBER"/>
+            <value code="FIXED_HOME_PHONE_NUMBER"/>
+            <value code="FIXED_OFFICE_PHONE_NUMBER"/>
+            <value code="SHIPPING_ADDRESS"/>
+            <value code="INSTALLATION_ADDRESS"/>
+        </enumtype>
+    </enumtypes>
+
+    <relations>
+        <relation code="PmParty2PmPartyRoleRelation" localized="false">
+            <description>Relation defining the role of a party</description>
+            <sourceElement type="PmParty" qualifier="party" cardinality="one">
+                <description>The party</description>
+            </sourceElement>
+            <targetElement type="PmPartyRole" qualifier="partyRoles" cardinality="many" collectiontype="set">
+                <description>The roles of the party</description>
+                <modifiers initial="true" optional="false"/>
+            </targetElement>
+        </relation>
+
+        <relation code="PmPartyRole2PmPartyRoleAssociationInvolvedWithRelation" localized="false">
+            <description>Relation defining the party role associations of a party role</description>
+            <sourceElement type="PmPartyRole" qualifier="partyRoleInvolvedWith" cardinality="one">
+                <description>The party role</description>
+                <modifiers initial="true" optional="false"/>
+            </sourceElement>
+            <targetElement type="PmPartyRoleAssociation" qualifier="partyRoleAssociationInvolvedWith" cardinality="many"
+                           collectiontype="set">
+                <description>The party role associations the party role is involved with</description>
+            </targetElement>
+        </relation>
+
+        <relation code="PmPartyRole2PmPartyRoleAssociationInvolvesRelation" localized="false">
+            <description>Relation defining the party role associations of a party role</description>
+            <sourceElement type="PmPartyRole" qualifier="partyRoleInvolves" cardinality="one">
+                <description>The party role</description>
+                <modifiers initial="true" optional="false"/>
+            </sourceElement>
+            <targetElement type="PmPartyRoleAssociation" qualifier="partyRoleAssociationInvolves" cardinality="many"
+                           collectiontype="set">
+                <description>The party role associations the party role involves</description>
+            </targetElement>
+        </relation>
+
+        <relation code="PmPartyRole2PmBusinessInteractionRoleRelation" localized="false">
+            <description>Relation defining the connection between party role of the business interaction role</description>
+            <sourceElement type="PmPartyRole" qualifier="partyRole" cardinality="one">
+                <description>The party role</description>
+            </sourceElement>
+            <targetElement type="PmBusinessInteractionRole" qualifier="interactionRoles" cardinality="many" collectiontype="set">
+                <description>The roles of the business interaction</description>
+            </targetElement>
+        </relation>
+
+        <relation code="PmBusinessInteraction2PmBusinessInteractionRoleRelation" localized="false">
+            <description>Relation defining the role of the business interaction</description>
+            <sourceElement type="PmBusinessInteraction" qualifier="businessInteraction" cardinality="one">
+                <description>The business interaction</description>
+            </sourceElement>
+            <targetElement type="PmBusinessInteractionRole" qualifier="interactionRoles" cardinality="many" collectiontype="set">
+                <description>The roles of the business interaction</description>
+            </targetElement>
+        </relation>
+
+        <relation code="PmPartyRole2PmInvolvementRoleRelation" localized="false">
+            <description>Relation defining the connection between party role of the involvement role</description>
+            <sourceElement type="PmPartyRole" qualifier="partyRole" cardinality="one">
+                <description>The party role</description>
+            </sourceElement>
+            <targetElement type="PmInvolvementRole" qualifier="involvementRoles" cardinality="many" collectiontype="set">
+                <description>The roles of the involvement</description>
+            </targetElement>
+        </relation>
+
+        <relation code="PmProductInvolvementRole2PmProductRelation" localized="false">
+            <description>Relation defining the connection between product involvement role and product</description>
+            <deployment table="PmProdInvRole2PmProd" typecode="7521"/>
+            <sourceElement type="PmProductInvolvementRole" qualifier="involvementRoles" cardinality="many" collectiontype="set">
+                <description>The product involvement roles</description>
+            </sourceElement>
+            <targetElement type="PmProduct" qualifier="products" cardinality="many" collectiontype="set">
+                <description>The products</description>
+            </targetElement>
+        </relation>
+
+        <relation code="PmParty2PrincipalRelation" localized="false">
+            <description>Relation defining the principal of a party</description>
+            <sourceElement type="PmParty" qualifier="pmParty" cardinality="one">
+                <description>The party</description>
+            </sourceElement>
+            <targetElement type="Principal" qualifier="principals" cardinality="many" collectiontype="set">
+                <description>The principals of the party</description>
+                <modifiers initial="true" optional="false"/>
+            </targetElement>
+        </relation>
+
+        <relation code="PmOrganization2PmOrganizationRelationshipRelation" localized="false">
+            <description>Relation defining the hierarchy between organizations</description>
+            <sourceElement type="PmOrganization" qualifier="parentOrganization" cardinality="one">
+                <description>The parent organization</description>
+            </sourceElement>
+            <targetElement type="PmOrganizationRelationship" qualifier="childOrganizations" cardinality="many"
+                           collectiontype="set">
+                <description>The child organizations</description>
+            </targetElement>
+        </relation>
+    </relations>
+
+
+    <itemtypes>
+
+        <!-- Party -->
+        <typegroup name="Party">
+            <itemtype code="PmParty" extends="GenericItem" abstract="true">
+                <deployment table="PmParty" typecode="7522"/>
+                <attributes>
+                    <attribute qualifier="id" type="java.lang.String">
+                        <description>The unique identifier of the party</description>
+                        <persistence type="property"/>
+                        <modifiers unique="true" initial="true" optional="false"/>
+                    </attribute>
+                    <attribute qualifier="status" type="PmStateType">
+                        <description>The status of the party</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="identifications" type="PmIdentifications">
+                        <description>The list of identifications of the party</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="contactMediums" type="PmContactMediums">
+                        <description>The list of contact mediums of the party</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="creditRatings" type="PmPartyCreditProfiles">
+                        <description>The list of credit ratings of the party</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="externalReferences" type="PmExternalReferences">
+                        <description>The list of external refereces of the party</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="partyCharacteristics" type="PmCharacteristics">
+                        <description>The list of characteristics of the party</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="taxExemptionCertificates" type="PmTaxExemptionCertificates">
+                        <description>The list of tax exemption certificates of the party</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="otherNames" type="PmOtherNames">
+                        <description>The list of other names of the party</description>
+                        <persistence type="property"/>
+                    </attribute>
+                </attributes>
+                <indexes>
+                    <index name="pmPartyIdx" unique="true">
+                        <key attribute="id"/>
+                    </index>
+                </indexes>
+            </itemtype>
+
+            <itemtype code="PmIdentification" extends="GenericItem">
+                <deployment table="PmIdentification" typecode="7523"/>
+                <attributes>
+                    <attribute qualifier="identificationId" type="java.lang.String">
+                        <description>The unique identifier of the identification</description>
+                        <persistence type="property"/>
+                        <modifiers unique="true" initial="true" optional="false"/>
+                    </attribute>
+                    <attribute qualifier="identificationType" type="java.lang.String">
+                        <description>The type of the identification</description>
+                        <persistence type="property"/>
+                        <modifiers initial="true" optional="false"/>
+                    </attribute>
+                    <attribute qualifier="issuingAuthority" type="java.lang.String">
+                        <description>The issuing authority of the identification</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="issuingDate" type="java.util.Date">
+                        <description>The issuing date of the identification</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="startDate" type="java.util.Date">
+                        <description>The start date of the identification</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="endDate" type="java.util.Date">
+                        <description>The end date of the identification</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="attachment" type="CatalogUnawareMedia">
+                        <description>The attachment of the identification</description>
+                        <persistence type="property"/>
+                    </attribute>
+                </attributes>
+                <indexes>
+                    <index name="pmIdentificationIdx" unique="true">
+                        <key attribute="identificationId"/>
+                    </index>
+                </indexes>
+            </itemtype>
+
+            <itemtype code="PmContactMedium" extends="GenericItem">
+                <deployment table="PmContactMedium" typecode="7524"/>
+                <attributes>
+                    <attribute qualifier="id" type="java.lang.String">
+                        <description>The unique identifier of the contact medium</description>
+                        <persistence type="property"/>
+                        <modifiers unique="true" initial="true" optional="false"/>
+                    </attribute>
+                    <attribute qualifier="mediumType" type="PmContactMediumType">
+                        <description>The type of the contact medium</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="preferred" type="java.lang.Boolean">
+                        <description>Flag indicating if it is the preferred contact medium</description>
+                        <persistence type="property"/>
+                        <defaultvalue>Boolean.valueOf(false)</defaultvalue>
+                    </attribute>
+                    <attribute qualifier="startDate" type="java.util.Date">
+                        <description>The start date of the contact medium</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="endDate" type="java.util.Date">
+                        <description>The end date of the contact medium</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="characteristic" type="PmMediumCharacteristic">
+                        <description>The characteristic of the contact medium</description>
+                        <persistence type="property"/>
+                    </attribute>
+                </attributes>
+                <indexes>
+                    <index name="pmContactMediumIdx" unique="true">
+                        <key attribute="id"/>
+                    </index>
+                </indexes>
+            </itemtype>
+
+            <itemtype code="PmMediumCharacteristic" extends="GenericItem">
+                <deployment table="PmMediumChar" typecode="7525"/>
+                <attributes>
+                    <attribute qualifier="id" type="java.lang.String">
+                        <description>The unique identifier of the medium characteristic</description>
+                        <persistence type="property"/>
+                        <modifiers unique="true" initial="true" optional="false"/>
+                    </attribute>
+                    <attribute qualifier="city" type="java.lang.String">
+                        <description>The city of the medium characteristic</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="contactType" type="PmMediumCharContactType">
+                        <description>The contact type of the medium characteristic</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="country" type="java.lang.String">
+                        <description>The country of the medium characteristic</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="emailAddress" type="java.lang.String">
+                        <description>The e-mail address of the medium characteristic</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="faxNumber" type="java.lang.String">
+                        <description>The fax number of the medium characteristic</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="phoneNumber" type="java.lang.String">
+                        <description>The phone number of the medium characteristic</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="postCode" type="java.lang.String">
+                        <description>The post code of the medium characteristic</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="socialNetworkId" type="java.lang.String">
+                        <description>The identifier of the social network of the medium characteristic</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="stateOrProvince" type="java.lang.String">
+                        <description>The state or province of the medium characteristic</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="street1" type="java.lang.String">
+                        <description>The street details of the medium characteristic</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="street2" type="java.lang.String">
+                        <description>The complementary street details of the medium characteristic</description>
+                        <persistence type="property"/>
+                    </attribute>
+                </attributes>
+                <indexes>
+                    <index name="pmMediumCharacteristicIdx" unique="true">
+                        <key attribute="id"/>
+                    </index>
+                </indexes>
+            </itemtype>
+
+            <itemtype code="PmPartyCreditProfile" extends="GenericItem">
+                <deployment table="PmCreditProfile" typecode="7526"/>
+                <attributes>
+                    <attribute qualifier="id" type="java.lang.String">
+                        <description>The unique identifier of the credit profile</description>
+                        <persistence type="property"/>
+                        <modifiers unique="true" initial="true" optional="false"/>
+                    </attribute>
+                    <attribute qualifier="creditAgencyName" type="java.lang.String">
+                        <description>The name of the credit agency for the credit profile</description>
+                        <persistence type="property"/>
+                        <modifiers initial="true" optional="false"/>
+                    </attribute>
+                    <attribute qualifier="creditAgencyType" type="java.lang.String">
+                        <description>The type of the credit agency for the credit profile</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="ratingReference" type="java.lang.String">
+                        <description>The rating reference of the credit profile</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="ratingScore" type="java.lang.Integer">
+                        <description>The rating score of the credit profile</description>
+                        <persistence type="property"/>
+                        <modifiers initial="true" optional="false"/>
+                    </attribute>
+                    <attribute qualifier="startDate" type="java.util.Date">
+                        <description>The start date of the credit profile</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="endDate" type="java.util.Date">
+                        <description>The end date of the credit profile</description>
+                        <persistence type="property"/>
+                    </attribute>
+                </attributes>
+                <indexes>
+                    <index name="pmPartyCreditProfileIdx" unique="true">
+                        <key attribute="id"/>
+                    </index>
+                </indexes>
+            </itemtype>
+
+            <itemtype code="PmExternalReference" extends="GenericItem">
+                <deployment table="PmExternalRef" typecode="7527"/>
+                <attributes>
+                    <attribute qualifier="id" type="java.lang.String">
+                        <description>The unique identifier of the external reference</description>
+                        <persistence type="property"/>
+                        <modifiers unique="true" initial="true" optional="false"/>
+                    </attribute>
+                    <attribute qualifier="externalReferenceType" type="java.lang.String">
+                        <description>The type of the external reference</description>
+                        <persistence type="property"/>
+                        <modifiers initial="true" optional="false"/>
+                    </attribute>
+                    <attribute qualifier="name" type="java.lang.String">
+                        <description>The name of the external reference</description>
+                        <persistence type="property"/>
+                        <modifiers initial="true" optional="false"/>
+                    </attribute>
+                </attributes>
+                <indexes>
+                    <index name="pmExternalReferenceIdx" unique="true">
+                        <key attribute="id"/>
+                    </index>
+                </indexes>
+            </itemtype>
+
+            <itemtype code="PmCharacteristic" extends="GenericItem">
+                <deployment table="PmCharacteristic" typecode="7528"/>
+                <attributes>
+                    <attribute qualifier="id" type="java.lang.String">
+                        <description>The unique identifier of the characteristic</description>
+                        <persistence type="property"/>
+                        <modifiers unique="true" initial="true" optional="false"/>
+                    </attribute>
+                    <attribute qualifier="name" type="java.lang.String">
+                        <description>The name of the characteristic</description>
+                        <persistence type="property"/>
+                        <modifiers initial="true" optional="false"/>
+                    </attribute>
+                    <attribute qualifier="value" type="java.lang.String">
+                        <description>The value of the characteristic</description>
+                        <persistence type="property"/>
+                        <modifiers initial="true" optional="false"/>
+                    </attribute>
+                    <attribute qualifier="valueType" type="java.lang.String">
+                        <description>The value type of the characteristic</description>
+                        <persistence type="property"/>
+                    </attribute>
+                </attributes>
+                <indexes>
+                    <index name="pmCharacteristicIdx" unique="true">
+                        <key attribute="id"/>
+                    </index>
+                </indexes>
+            </itemtype>
+
+            <itemtype code="PmTaxExemptionCertificate" extends="GenericItem">
+                <deployment table="PmTaxExemptCert" typecode="7529"/>
+                <attributes>
+                    <attribute qualifier="id" type="java.lang.String">
+                        <description>The unique identifier of the tax exemption certificate</description>
+                        <persistence type="property"/>
+                        <modifiers unique="true" initial="true" optional="false"/>
+                    </attribute>
+                    <attribute qualifier="attachment" type="CatalogUnawareMedia">
+                        <description>The attachment of the tax exemption certificate</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="taxDefinitions" type="PmTaxDefinitions">
+                        <description>The list of tax definitions of the tax exemption certificate</description>
+                        <persistence type="property"/>
+                        <modifiers initial="true" optional="false"/>
+                    </attribute>
+                    <attribute qualifier="startDate" type="java.util.Date">
+                        <description>The start date of the tax exemption certificate</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="endDate" type="java.util.Date">
+                        <description>The end date of the tax exemption certificate</description>
+                        <persistence type="property"/>
+                    </attribute>
+                </attributes>
+                <indexes>
+                    <index name="pmTaxExemptionCertificateIdx" unique="true">
+                        <key attribute="id"/>
+                    </index>
+                </indexes>
+            </itemtype>
+
+            <itemtype code="PmTaxDefinition" extends="GenericItem">
+                <deployment table="PmTaxDefinition" typecode="7530"/>
+                <attributes>
+                    <attribute qualifier="id" type="java.lang.String">
+                        <description>The unique identifier of the tax definition</description>
+                        <persistence type="property"/>
+                        <modifiers unique="true" initial="true" optional="false"/>
+                    </attribute>
+                    <attribute qualifier="name" type="localized:java.lang.String">
+                        <description>The name of the tax definition</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="taxType" type="java.lang.String">
+                        <description>The type of tax definition</description>
+                        <persistence type="property"/>
+                        <modifiers initial="true" optional="false"/>
+                    </attribute>
+                </attributes>
+                <indexes>
+                    <index name="pmTaxDefinitionIdx" unique="true">
+                        <key attribute="id"/>
+                    </index>
+                </indexes>
+            </itemtype>
+
+            <itemtype code="PmOtherName" extends="GenericItem">
+                <deployment table="PmOtherName" typecode="7531"/>
+                <attributes>
+                    <attribute qualifier="id" type="java.lang.String">
+                        <description>The unique identifier of the other name</description>
+                        <persistence type="property"/>
+                        <modifiers unique="true" initial="true" optional="false"/>
+                    </attribute>
+                    <attribute qualifier="legalName" type="localized:java.lang.String">
+                        <description>The legal other name</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="aristocraticTitle" type="localized:java.lang.String">
+                        <description>The aristocratic title of the other name</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="familyName" type="localized:java.lang.String">
+                        <description>The family name of the other name</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="familyNamePrefix" type="localized:java.lang.String">
+                        <description>The family name prefix of the other name</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="fullName" type="localized:java.lang.String">
+                        <description>The full other name</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="generation" type="java.lang.String">
+                        <description>The generation of the other name</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="givenName" type="localized:java.lang.String">
+                        <description>The given name of the other name</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="middleName" type="localized:java.lang.String">
+                        <description>The middle name of the other name</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="preferredGivenName" type="localized:java.lang.String">
+                        <description>The preferred given name of the other name</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="name" type="localized:java.lang.String">
+                        <description>The name of the other name</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="nameType" type="java.lang.String">
+                        <description>The name type of the other name</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="formattedName" type="localized:java.lang.String">
+                        <description>The formatted name of the other name</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="tradingName" type="localized:java.lang.String">
+                        <description>The trading name of the other name</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="title" type="Title">
+                        <description>The title of the other name</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="startDate" type="java.util.Date">
+                        <description>The start date of the other name</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="endDate" type="java.util.Date">
+                        <description>The end date of the other name</description>
+                        <persistence type="property"/>
+                    </attribute>
+                </attributes>
+                <indexes>
+                    <index name="pmOtherNameIdx" unique="true">
+                        <key attribute="id"/>
+                    </index>
+                </indexes>
+            </itemtype>
+
+            <itemtype code="PmPartyRole" extends="GenericItem">
+                <deployment table="PmPartyRole" typecode="7532"/>
+                <attributes>
+                    <attribute qualifier="id" type="java.lang.String">
+                        <description>The unique identifier of the party role</description>
+                        <persistence type="property"/>
+                        <modifiers unique="true" initial="true" optional="false"/>
+                    </attribute>
+                    <attribute qualifier="role" type="java.lang.String">
+                        <description>The role of the party</description>
+                        <persistence type="property"/>
+                    </attribute>
+                </attributes>
+                <indexes>
+                    <index name="pmPartyRoleIdx" unique="true">
+                        <key attribute="id"/>
+                    </index>
+                </indexes>
+            </itemtype>
+
+            <itemtype code="PmPartyRoleAssociation" extends="GenericItem">
+                <deployment table="PmPartyRoleAssociation" typecode="7533"/>
+                <attributes>
+                    <attribute qualifier="code" type="java.lang.String">
+                        <description>The unique identifier of the party role association</description>
+                        <persistence type="property"/>
+                        <modifiers unique="true" initial="true" optional="false"/>
+                    </attribute>
+                    <attribute qualifier="associationType" type="java.lang.String">
+                        <description>The type of the party role association</description>
+                        <persistence type="property"/>
+                        <modifiers initial="true" optional="false"/>
+                    </attribute>
+                    <attribute qualifier="startDate" type="java.util.Date">
+                        <description>The start date of the party role association</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="endDate" type="java.util.Date">
+                        <description>The end date of the party role association</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="status" type="java.lang.String">
+                        <description>The status of the party role association</description>
+                        <persistence type="property"/>
+                    </attribute>
+                </attributes>
+                <indexes>
+                    <index name="pmPartyRoleAssociationIdx" unique="true">
+                        <key attribute="code"/>
+                    </index>
+                </indexes>
+            </itemtype>
+
+            <itemtype code="PmBusinessInteraction" extends="GenericItem" abstract="true">
+                <deployment table="PmBusinessInteraction" typecode="7534"/>
+                <attributes>
+                    <attribute qualifier="id" type="java.lang.String">
+                        <description>The unique identifier of the business interaction</description>
+                        <persistence type="property"/>
+                        <modifiers unique="true" initial="true" optional="false"/>
+                    </attribute>
+                    <attribute qualifier="startDate" type="java.util.Date">
+                        <description>The start date of the business interaction</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="endDate" type="java.util.Date">
+                        <description>The end date of the business interaction</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="description" type="localized:java.lang.String">
+                        <description>The description of the business interaction</description>
+                        <persistence type="property">
+                            <columntype database="oracle">
+                                <value>CLOB</value>
+                            </columntype>
+                            <columntype database="sap">
+                                <value>NCLOB</value>
+                            </columntype>
+                            <columntype>
+                                <value>HYBRIS.LONG_STRING</value>
+                            </columntype>
+                        </persistence>
+                    </attribute>
+                </attributes>
+                <indexes>
+                    <index name="pmBusinessInteractionIdx" unique="true">
+                        <key attribute="id"/>
+                    </index>
+                </indexes>
+            </itemtype>
+
+            <itemtype code="PmAgreement" extends="PmBusinessInteraction"/>
+
+            <itemtype code="PmBusinessInteractionRole" extends="GenericItem">
+                <deployment table="PmBusinessIntRole" typecode="7535"/>
+                <attributes>
+                    <attribute qualifier="code" type="java.lang.String">
+                        <description>The unique identifier of the business interaction role</description>
+                        <persistence type="property"/>
+                        <modifiers unique="true" initial="true" optional="false"/>
+                    </attribute>
+                    <attribute qualifier="interactionName" type="localized:java.lang.String">
+                        <description>The name of the business interaction role</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="interactionType" type="java.lang.String">
+                        <description>The interaction type of the business interaction role</description>
+                        <persistence type="property"/>
+                    </attribute>
+                </attributes>
+                <indexes>
+                    <index name="pmBusinessInteractionRoleIdx" unique="true">
+                        <key attribute="code"/>
+                    </index>
+                </indexes>
+            </itemtype>
+
+            <itemtype code="PmInvolvementRole" extends="GenericItem">
+                <deployment table="PmInvolvementRole" typecode="7536"/>
+                <attributes>
+                    <attribute qualifier="id" type="java.lang.String">
+                        <description>The unique identifier of the involvement role</description>
+                        <persistence type="property"/>
+                        <modifiers unique="true" initial="true" optional="false"/>
+                    </attribute>
+                    <attribute qualifier="involvementRole" type="java.lang.String">
+                        <description>The role of the involvement</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="startDate" type="java.util.Date">
+                        <description>The start date of the involvement role</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="endDate" type="java.util.Date">
+                        <description>The end date of the involvement role</description>
+                        <persistence type="property"/>
+                    </attribute>
+                </attributes>
+                <indexes>
+                    <index name="pmInvolvementRoleIdx" unique="true">
+                        <key attribute="id"/>
+                    </index>
+                </indexes>
+            </itemtype>
+
+            <itemtype code="PmProductInvolvementRole" extends="PmInvolvementRole"/>
+
+            <itemtype code="PmProduct" extends="GenericItem">
+                <deployment table="PmProduct" typecode="7537"/>
+                <attributes>
+                    <attribute qualifier="id" type="java.lang.String">
+                        <description>The unique identifier of the product</description>
+                        <persistence type="property"/>
+                        <modifiers unique="true" initial="true" optional="false"/>
+                    </attribute>
+                    <attribute qualifier="name" type="localized:java.lang.String">
+                        <description>The name of the product</description>
+                        <persistence type="property"/>
+                    </attribute>
+                </attributes>
+                <indexes>
+                    <index name="pmProductIdx" unique="true">
+                        <key attribute="id"/>
+                    </index>
+                </indexes>
+            </itemtype>
+        </typegroup>
+
+        <!-- Individual -->
+        <typegroup name="Individual">
+            <itemtype code="PmIndividual" extends="PmParty">
+                <attributes>
+                    <attribute qualifier="legalName" type="localized:java.lang.String">
+                        <description>The legal name of the individual</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="aristocraticTitle" type="localized:java.lang.String">
+                        <description>The artistrocratic title of the individual</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="birthDate" type="java.util.Date">
+                        <description>The date of birth of the individual</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="countryOfBirth" type="java.lang.String">
+                        <description>The country of birth of the individual</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="deathDate" type="java.util.Date">
+                        <description>The date of death of the individual</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="familyName" type="java.lang.String">
+                        <description>The family name of the individual</description>
+                        <persistence type="property"/>
+                        <modifiers initial="true" optional="false"/>
+                    </attribute>
+                    <attribute qualifier="familyNamePrefix" type="localized:java.lang.String">
+                        <description>The the family name prefix of the individual</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="formattedName" type="localized:java.lang.String">
+                        <description>The formatted name of the individual</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="fullName" type="localized:java.lang.String">
+                        <description>The full name of the individual</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="gender" type="Gender">
+                        <description>The gender of the individual</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="generation" type="java.lang.String">
+                        <description>The generation of the individual</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="givenName" type="java.lang.String">
+                        <description>The given name of the individual</description>
+                        <persistence type="property"/>
+                        <modifiers initial="true" optional="false"/>
+                    </attribute>
+                    <attribute qualifier="location" type="java.lang.String">
+                        <description>The location of the individual</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="maritalStatus" type="java.lang.String">
+                        <description>The marital status of the individual</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="middleName" type="localized:java.lang.String">
+                        <description>The middle name of the individual</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="nationality" type="java.lang.String">
+                        <description>The nationality of the individual</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="placeOfBirth" type="java.lang.String">
+                        <description>The place of birth of the individual</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="preferredGivenName" type="localized:java.lang.String">
+                        <description>The preferred given name of the individual</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="title" type="Title">
+                        <description>The title of the individual</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="disabilities" type="PmDisabilities">
+                        <description>The list of disabilities of the individual</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="skills" type="PmSkills">
+                        <description>The list of skills of the individual</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="languageAbilities" type="PmLanguageAbilities">
+                        <description>The list of language abilities of the individual</description>
+                        <persistence type="property"/>
+                    </attribute>
+                </attributes>
+            </itemtype>
+
+            <itemtype code="PmDisability" extends="GenericItem">
+                <deployment table="PmDisability" typecode="7538"/>
+                <attributes>
+                    <attribute qualifier="id" type="java.lang.String">
+                        <description>The unique identifier of the disability</description>
+                        <persistence type="property"/>
+                        <modifiers unique="true" initial="true" optional="false"/>
+                    </attribute>
+                    <attribute qualifier="disabilityCode" type="java.lang.String">
+                        <description>The code of the disability</description>
+                        <persistence type="property"/>
+                        <modifiers unique="true" initial="true" optional="false"/>
+                    </attribute>
+                    <attribute qualifier="disabilityName" type="java.lang.String">
+                        <description>The name of the disability</description>
+                        <persistence type="property"/>
+                        <modifiers initial="true" optional="false"/>
+                    </attribute>
+                    <attribute qualifier="startDate" type="java.util.Date">
+                        <description>The start date of the disability</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="endDate" type="java.util.Date">
+                        <description>The end date of the disability</description>
+                        <persistence type="property"/>
+                    </attribute>
+                </attributes>
+                <indexes>
+                    <index name="pmDisabilityIdx" unique="true">
+                        <key attribute="id"/>
+                    </index>
+                </indexes>
+            </itemtype>
+
+            <itemtype code="PmSkill" extends="GenericItem">
+                <deployment table="PmSkill" typecode="7539"/>
+                <attributes>
+                    <attribute qualifier="id" type="java.lang.String">
+                        <description>The unique identifier of the skill</description>
+                        <persistence type="property"/>
+                        <modifiers unique="true" initial="true" optional="false"/>
+                    </attribute>
+                    <attribute qualifier="skillCode" type="java.lang.String">
+                        <description>The code of the skill</description>
+                        <persistence type="property"/>
+                        <modifiers unique="true" initial="true" optional="false"/>
+                    </attribute>
+                    <attribute qualifier="skillName" type="java.lang.String">
+                        <description>The name of the skill</description>
+                        <persistence type="property"/>
+                        <modifiers initial="true" optional="false"/>
+                    </attribute>
+                    <attribute qualifier="evaluatedLevel" type="java.lang.String">
+                        <description>The evaluated level of the skill</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="comment" type="java.lang.String">
+                        <description>Additional notes related to the skill</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="startDate" type="java.util.Date">
+                        <description>The start date of the skill</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="endDate" type="java.util.Date">
+                        <description>The end date of the skill</description>
+                        <persistence type="property"/>
+                    </attribute>
+                </attributes>
+                <indexes>
+                    <index name="pmSkillIdx" unique="true">
+                        <key attribute="id"/>
+                    </index>
+                </indexes>
+            </itemtype>
+
+            <itemtype code="PmLanguageAbility" extends="GenericItem">
+                <deployment table="PmLanguageAbility" typecode="7540"/>
+                <attributes>
+                    <attribute qualifier="id" type="java.lang.String">
+                        <description>The unique identifier of the language ability</description>
+                        <persistence type="property"/>
+                        <modifiers unique="true" initial="true" optional="false"/>
+                    </attribute>
+                    <attribute qualifier="isFavouriteLanguage" type="java.lang.Boolean">
+                        <description>Flag indicating if it is the preferred language</description>
+                        <persistence type="property"/>
+                        <defaultvalue>Boolean.valueOf(false)</defaultvalue>
+                    </attribute>
+                    <attribute qualifier="language" type="Language">
+                        <description>The language</description>
+                        <persistence type="property"/>
+                        <modifiers initial="true" optional="false"/>
+                    </attribute>
+                    <attribute qualifier="listeningProficiency" type="java.lang.String">
+                        <description>The proficiency in listening to the language</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="readingProficiency" type="java.lang.String">
+                        <description>The proficiency in reading in the language</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="speakingProficiency" type="java.lang.String">
+                        <description>The proficiency in speaking the language</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="writingProficiency" type="java.lang.String">
+                        <description>The proficiency in writing in the language</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="startDate" type="java.util.Date">
+                        <description>The start date of the language ability</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="endDate" type="java.util.Date">
+                        <description>The end date of the language ability</description>
+                        <persistence type="property"/>
+                    </attribute>
+                </attributes>
+                <indexes>
+                    <index name="pmLanguageAbilityIdx" unique="true">
+                        <key attribute="id"/>
+                    </index>
+                </indexes>
+            </itemtype>
+        </typegroup>
+
+        <!-- Organization -->
+        <typegroup name="Organization">
+            <itemtype code="PmOrganization" extends="PmParty">
+                <attributes>
+                    <attribute qualifier="startDate" type="java.util.Date">
+                        <description>The start date of the organization</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="endDate" type="java.util.Date">
+                        <description>The end date of the organization</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="isHeadOffice" type="java.lang.Boolean">
+                        <description>Flag indicating if the organization is the head office</description>
+                        <persistence type="property"/>
+                        <defaultvalue>Boolean.valueOf(false)</defaultvalue>
+                    </attribute>
+                    <attribute qualifier="isLegalEntity" type="java.lang.Boolean">
+                        <description>Flag indicating if the organization is a legal entity</description>
+                        <persistence type="property"/>
+                        <defaultvalue>Boolean.valueOf(false)</defaultvalue>
+                    </attribute>
+                    <attribute qualifier="tradingName" type="java.lang.String">
+                        <description>The trading name of the organization</description>
+                        <persistence type="property"/>
+                        <modifiers initial="true" optional="false"/>
+                    </attribute>
+                    <attribute qualifier="name" type="localized:java.lang.String">
+                        <description>The name of the organization</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="nameType" type="java.lang.String">
+                        <description>The name type of the organization</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="organizationType" type="java.lang.String">
+                        <description>The type of the organization</description>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="organizationParent" type="PmOrganizationRelationship">
+                        <description>The parent organization</description>
+                        <persistence type="property"/>
+                    </attribute>
+                </attributes>
+            </itemtype>
+
+            <itemtype code="PmOrganizationRelationship" extends="GenericItem">
+                <deployment table="PmOrgRelationship" typecode="7541"/>
+                <attributes>
+                    <attribute qualifier="id" type="java.lang.String">
+                        <description>The unique identifier of the organization relationship</description>
+                        <persistence type="property"/>
+                        <modifiers unique="true" initial="true" optional="false"/>
+                    </attribute>
+                    <attribute qualifier="relationshipType" type="java.lang.String">
+                        <description>The type of the relationship between the organizations</description>
+                        <persistence type="property"/>
+                        <modifiers initial="true" optional="false"/>
+                    </attribute>
+                    <attribute qualifier="organization" type="PmOrganization">
+                        <description>The organization</description>
+                        <persistence type="property"/>
+                        <modifiers initial="true" optional="false"/>
+                    </attribute>
+                </attributes>
+                <indexes>
+                    <index name="pmOrganizationRelationshipIdx" unique="true">
+                        <key attribute="id"/>
+                    </index>
+                </indexes>
+            </itemtype>
+        </typegroup>
+
+    </itemtypes>
+</items>

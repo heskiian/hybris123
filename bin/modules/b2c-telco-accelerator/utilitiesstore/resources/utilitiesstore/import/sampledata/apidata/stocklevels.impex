@@ -1,0 +1,21 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for Importing Product Offerings Stock Levels
+
+$productCatalog =  utilitiesProductCatalog
+$productCatalogName = Utilities Product Catalog
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Staged'])[unique = true, default =$productCatalog:Staged]
+$vendor = utilities
+#Create test simple product stock levels
+
+#% impex.enableCodeExecution(true);
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE StockLevel; productCode[unique = true]; available[default = 10]; warehouse(code)[unique = true, default = warehouse_utilities]; inStockStatus(code)[default = notSpecified]; maxPreOrder[default = 0]; maxStockLevelHistoryCount[default = -1]; overSelling[default = 0]; preOrder[default = 0]; reserved[default = 0]
+                        ; electric_plan_basic
+                        ; electric_plan_best_PT
+                        ; gas_plan_best_PT
+                        ; gas_plan_plus_PT
+                        ; lightbulb_energy_efficient

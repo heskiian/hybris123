@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <bean id="upilintegrationservicesSystemSetup"
+          class="de.hybris.platform.upilintegrationservices.setup.UpilintegrationservicesSystemSetup"
+          parent="abstractCoreSystemSetup">
+        <property name="sampleDataImportService" ref="defaultUpilintegrationServicesSampleDataImportService" />
+    </bean>
+    
+    <bean id="defaultUpilintegrationServicesSampleDataImportService"
+          class="de.hybris.platform.upilintegrationservices.setup.UpilintegrationServicesSampleDataImportService"
+          parent="defaultSampleDataImportService">
+       <property name="typeService" ref="typeService" />
+       <property name="modelService" ref="modelService" />
+    </bean>
+
+    <bean id="upilintegrationservicesService" class="de.hybris.platform.upilintegrationservices.service.impl.DefaultUpilintegrationservicesService">
+        <property name="modelService" ref="modelService"/>
+        <property name="enumerationService" ref="enumerationService"/>
+        <property name="upilIntegrationClientService" ref="upilIntegrationClientService"/>
+        <property name="isuConfigSyncDao" ref="isuConfigSyncDao"/>
+    </bean>
+         
+    <bean id="upilUtilitiesProductService" class="de.hybris.platform.upilintegrationservices.service.impl.DefaultUpilUtilitiesProductServiceImpl">
+        <property name="upilUtilitiesProductConverter" ref="upilUtilitiesProductConverter"/>
+        <property name="upilUtilitiesProductDataMapper" ref="upilUtilitiesProductDataMapper"/>
+        <property name="upilIntegrationClientService" ref="upilIntegrationClientService"/>
+    </bean>
+    
+    <alias name="upilUtilitiesProductDataMapper" alias="upilUtilitiesProductDataMapper"/>
+    <bean id="upilUtilitiesProductDataMapper" class="de.hybris.platform.upilintegrationservices.datamapper.impl.DefaultUpilUtilitiesProductDataMapperImpl" />
+         
+    <alias name="defaultUpilUtilitiesProductPopulator" alias="upilUtilitiesProductPopulator"/>
+	<bean id="defaultUpilUtilitiesProductPopulator"
+	          class="de.hybris.platform.upilintegrationservices.populators.UpilUtilitiesProductPopulator">
+	    <property name="upilUsageChargeEntryConverter" ref="upilUsageChargeEntryConverter"/>
+	    <property name="upilRecurringChargesConverter" ref="upilRecurringChargesConverter"/>
+	    <property name="upilOneTimeChargesConverter" ref="upilOneTimeChargesConverter"/>
+	    <property name="upilBillingAttributeConverter" ref="upilBillingAttributeConverter"/>
+	    <property name="upilSalesAttributeConverter" ref="upilSalesAttributeConverter"/>
+	 </bean>
+	 
+	<alias name="defaultUpilUsageChargeEntryPopulator" alias="upilUsageChargeEntryPopulator"/>
+	<bean id="defaultUpilUsageChargeEntryPopulator" class="de.hybris.platform.upilintegrationservices.populators.UpilUsageChargeEntryPopulator" />
+		
+	<alias name="defaultUpilRecurringChargesPopulator" alias="upilRecurringChargesPopulator"/>
+	<bean id="defaultUpilRecurringChargesPopulator" class="de.hybris.platform.upilintegrationservices.populators.UpilRecurringChargesPopulator" />
+	
+	<alias name="defaultUpilOneTimeChargesPopulator" alias="upilOneTimeChargesPopulator"/>
+	<bean id="defaultUpilOneTimeChargesPopulator" class="de.hybris.platform.upilintegrationservices.populators.UpilOneTimeChargesPopulator" />
+	
+	<alias name="defaultUpilBillingAttributePopulator" alias="upilBillingAttributePopulator"/>
+	<bean id="defaultUpilBillingAttributePopulator" class="de.hybris.platform.upilintegrationservices.populators.UpilBillingAttributePopulator" />
+	
+	<alias name="defaultUpilSalesAttributePopulator" alias="upilSalesAttributePopulator"/>
+	<bean id="defaultUpilSalesAttributePopulator" class="de.hybris.platform.upilintegrationservices.populators.UpilSalesAttributePopulator" />
+	
+	<alias name="defaultUpilIntegrationClientService" alias="upilIntegrationClientService"/>
+	<bean id="defaultUpilIntegrationClientService" class="de.hybris.platform.upilintegrationservices.service.impl.DefaultUpilIntegrationClientService" />
+	
+	<bean id="tmaProductSpecTypeAttrHandler" class="de.hybris.platform.upilintegrationservices.model.TmaProductSpecTypeAttrHandler" />
+		
+	<bean id="utilitiesProductsSyncJob" class="de.hybris.platform.upilintegrationservices.job.UtilitiesProductsSyncJob"
+		  parent="abstractJobPerformable">
+		<property name="changeDetectionService" ref="upilPricePlanChangeDetectionService"/>
+		<property name="typeService" ref="typeService"/>
+		<property name="upilUtilitiesProductService" ref="upilUtilitiesProductService" />
+	</bean>
+	
+	<alias name="defaultUpilPricePlanChangeDetectionService" alias="upilPricePlanChangeDetectionService" />
+	<bean id="defaultUpilPricePlanChangeDetectionService"
+		  class="de.hybris.platform.upilintegrationservices.service.impl.DefaultUpilPricePlanChangeDetectionService"
+		  parent="defaultChangeDetectionService">
+	</bean>
+
+   <alias name="defaultUpilUtilitiesProductConverter" alias="upilUtilitiesProductConverter"/>
+   <bean id="defaultUpilUtilitiesProductConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.upilintegrationservices.data.C_UtilitiesProductType"/>
+      <property name="populators">
+         <list>
+            <ref bean="upilUtilitiesProductPopulator"/>
+         </list>
+      </property>
+   </bean>
+   
+   <alias name="defaultUpilUsageChargeEntryConverter" alias="upilUsageChargeEntryConverter"/>
+   <bean id="defaultUpilUsageChargeEntryConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.upilintegrationservices.data.I_UtilsProdChgUsageType "/>
+      <property name="populators">
+         <list>
+            <ref bean="upilUsageChargeEntryPopulator"/>
+         </list>
+      </property>
+   </bean>
+   
+   <alias name="defaultUpilRecurringChargesConverter" alias="upilRecurringChargesConverter"/>
+   <bean id="defaultUpilRecurringChargesConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.upilintegrationservices.data.I_UtilsProdChgRecurringType"/>
+      <property name="populators">
+         <list>
+            <ref bean="upilRecurringChargesPopulator"/>
+         </list>
+      </property>
+   </bean>
+   
+   <alias name="defaultUpilOneTimeChargesConverter" alias="upilOneTimeChargesConverter"/>
+   <bean id="defaultUpilOneTimeChargesConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.upilintegrationservices.data.I_UtilsProdChgOneTimeType"/>
+      <property name="populators">
+         <list>
+            <ref bean="upilOneTimeChargesPopulator"/>
+         </list>
+      </property>
+   </bean>
+   
+   <alias name="defaultUpilBillingAttributeConverter" alias="upilBillingAttributeConverter"/>
+   <bean id="defaultUpilBillingAttributeConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.upilintegrationservices.data.I_UtilsProdBillingAttributeType"/>
+      <property name="populators">
+         <list>
+            <ref bean="upilBillingAttributePopulator"/>
+         </list>
+      </property>
+   </bean>
+   
+   <alias name="defaultUpilSalesAttributeConverter" alias="upilSalesAttributeConverter"/>
+   <bean id="defaultUpilSalesAttributeConverter" parent="abstractPopulatingConverter">
+      <property name="targetClass" value="de.hybris.platform.upilintegrationservices.data.I_UtilsProdSalesAttributeType"/>
+      <property name="populators">
+         <list>
+            <ref bean="upilSalesAttributePopulator"/>
+         </list>
+      </property>
+   </bean>
+   
+   <bean id="utilitiesConfigSyncJob" class="de.hybris.platform.upilintegrationservices.job.UtilitiesConfigSyncJob"
+         parent="abstractJobPerformable">
+       <property name="upilintegrationservicesService" ref="upilintegrationservicesService" />  
+   </bean>
+
+   <alias name="defaultIsuConfigSyncDao" alias="isuConfigSyncDao"/>
+   <bean id="defaultIsuConfigSyncDao" class="de.hybris.platform.upilintegrationservices.daos.impl.DefaultIsuConfigSyncDao"
+          parent="abstractItemDao">
+   </bean>
+	
+</beans>

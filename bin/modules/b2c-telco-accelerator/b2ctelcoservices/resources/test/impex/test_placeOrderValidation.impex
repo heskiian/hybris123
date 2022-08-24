@@ -1,0 +1,69 @@
+#Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+
+$catalog-id = b2ctelcoProductCatalog
+$catalog-version = Online
+$lang = en
+$catalogversion = catalogversion(catalog(id[default=$catalog-id]), version[default='Online'])[unique=true, default=$catalog-id:$catalog-version]
+$prices = europe1prices[translator=de.hybris.platform.europe1.jalo.impex.Europe1PricesTranslator]
+
+INSERT_UPDATE Language; isocode[unique = true]; active; name[lang = en]
+; en ; true ; English
+
+INSERT_UPDATE Unit; unitType[unique = true]; code[unique = true]; name[lang = en]; conversion;;;;;
+; pieces ; pieces ; pieces ; 1 ; ; ; ; ;
+
+INSERT_UPDATE Currency; isocode[unique = true]; name[lang = en]; active; base; conversion; digits; symbol;;
+; EUR ; Euro      ; true ; true  ; 1    ; 2 ; E ; ;
+; USD ; US Dollar ; true ; false ; 1,38 ; 2 ; $ ; ;
+
+INSERT_UPDATE UserGroup; uid[unique = true]; groups(uid);
+; customergroup ; ;
+
+INSERT_UPDATE Customer; uid[unique = true]; customerID; name; description; sessionLanguage(isocode); sessionCurrency(isocode); groups(uid); password;;
+; user1@hybris.com ; U007 ; Mathias John ; ; en ; USD ; customergroup ; 1234 ; ;
+
+INSERT_UPDATE Country; isocode[unique = true]; active;
+; US ; true ;
+
+INSERT_UPDATE Address; id; streetname; streetnumber; postalcode[unique = true]; town[unique = true]; country(isocode); region(isocode); phone1; owner(Customer.uid)[unique = true]
+; 12345 ; Premium Outlets Blvd. ; 1650 ; 60504 ; Beijing ; US ; ; 630.585.9566 ; user1@hybris.com
+
+INSERT_UPDATE Catalog; id[unique = true]; name[lang = en]; defaultCatalog;;;;;;
+; $catalog-id ; $catalog-id ; true ; ; ; ; ; ;
+
+INSERT_UPDATE CatalogVersion; catalog(id)[unique = true]; version[unique = true]; active; defaultCurrency(isocode);;;;;;
+; $catalog-id ; $catalog-version ; true ; EUR ; en ; ; ; ; ;
+
+INSERT_UPDATE TmaProductSpecCharacteristic; id[unique = true]; $catalogversion; name[lang = $lang]; description[lang = $lang]                              ; configurable[default = false]
+                                          ; msisdn           ;                ; MSISDN            ; MSISDN is a number uniquely identifying a subscription ; true
+
+INSERT_UPDATE TmaProductSpecCharacteristicValue; id[unique = true]; value; unitOfMeasure(id); $catalogversion; productSpecCharacteristic(id, $catalogversion);
+; msisdn ; ## ; ; ; msisdn
+
+INSERT_UPDATE TmaAbstractOrderEntryPscv; id[unique = true]; name; value
+; msisdn ; msisdn ; 12312344444
+
+INSERT_UPDATE TmaAtomicProductSpecification; id[unique = true]; name[lang = $lang]; description[lang = $lang]; $catalogversion
+; salsa    ; salsa    ; salsa - Voice       ; ;
+; sombrero ; sombrero ; sombrero - Internet ; ;
+
+INSERT_UPDATE TmaSimpleProductOffering; code[unique = true]; $catalogversion; name[lang = en]; unit(code); $prices; approvalStatus(code); productSpecCharacteristicValues(id, $catalogversion); productSpecification(id, $catalogversion);
+; salsaS            ; ; salsaS   ; pieces ; 57,95 EUR ; approved ; msisdn ; salsa
+; internet_for_home ; ; internet ; pieces ; 100 EUR   ; approved ;        ;
+; sombreroS         ; ; sombrero ; pieces ; 57,95 EUR ; approved ;        ; sombrero
+
+INSERT_UPDATE Cart; user(uid); code[unique = true]; currency(isocode); date[dateformat = dd.MM.yyyy HH:mm:ss]; net; calculated; site(uid); store(uid); guid;;;;
+; user1@hybris.com ; user1Cart1 ; EUR ; 01.07.2019 00:00:00 ; false ; false ; ; ; ; ; ;
+; user1@hybris.com ; user1Cart2 ; EUR ; 01.07.2019 00:00:00 ; false ; false ; ; ; ; ; ;
+; user1@hybris.com ; user1Cart3 ; EUR ; 01.07.2019 00:00:00 ; false ; false ; ; ; ; ; ;
+; user1@hybris.com ; user1Cart4 ; EUR ; 01.07.2019 00:00:00 ; false ; false ; ; ; ; ; ;
+; user1@hybris.com ; user1Cart5 ; EUR ; 01.07.2019 00:00:00 ; false ; false ; ; ; ; ; ;
+; user1@hybris.com ; user1Cart6 ; EUR ; 01.07.2019 00:00:00 ; false ; false ; ; ; ; ; ;
+
+INSERT CartEntry; order(Cart.code); creationTime[dateformat = dd.MM.yyyy HH:mm:ss]; product(code, catalogVersion(catalog(id), version)); quantity; unit(code); entryNumber; processType(code); productSpecCharacteristicValues(id); appointmentReference; installationAddress(id)
+; user1Cart1 ; 27.04.2010 00:00:00 ; salsaS :$catalog-id:$catalog-version            ; 1 ; pieces ; 1 ; ACQUISITION ;        ;        ;
+; user1Cart2 ; 27.04.2010 00:00:00 ; salsaS :$catalog-id:$catalog-version            ; 1 ; pieces ; 1 ; ACQUISITION ; msisdn ;        ;
+; user1Cart3 ; 27.04.2010 00:00:00 ; internet_for_home :$catalog-id:$catalog-version ; 1 ; pieces ; 1 ; RELOCATION  ;        ;        ;
+; user1Cart4 ; 27.04.2010 00:00:00 ; internet_for_home :$catalog-id:$catalog-version ; 1 ; pieces ; 1 ; RELOCATION  ;        ; 123444 ;
+; user1Cart5 ; 27.04.2010 00:00:00 ; sombreroS :$catalog-id:$catalog-version         ; 1 ; pieces ; 1 ; ACQUISITION ;        ;        ;
+; user1Cart6 ; 27.04.2010 00:00:00 ; sombreroS :$catalog-id:$catalog-version         ; 1 ; pieces ; 1 ; ACQUISITION ;        ;        ; 12345 ;

@@ -1,0 +1,75 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+$productCatalog = b2btelcoProductCatalog
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Online'])[unique = true, default = $productCatalog:Online]
+$defaultApprovalStatus = approvalstatus(code)[default = 'check']
+
+
+# Product Spec Characteristics
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaProductSpecCharacteristic; id[unique = true]  ; $catalogVersion; name[lang = en]; description[lang = en] ; configurable[default = false];
+                                          ; dataVol_10884      ;                ; Data Vol       ; Included Data Vol
+                                          ; connection_10884   ;                ; ConnectedVia   ; Included Connection    ; true
+                                          ; dhcp_10884         ;                ; DHCP           ; DHCP                   ; true
+                                          ; bandwidth_10884    ;                ; Bandwidth      ; Included bandwidth     ; true
+                                          ; terminal_10884     ;                ; Terminal       ; Included Terminal      ; true
+                                          ; terminalType_10884 ;                ; TerminalType   ; Included Terminal type ; true
+# e2e 10862
+                                          ; connection_10862   ;                ; ConnectedVia   ; Included Connection    ; true
+
+# Product Category
+INSERT_UPDATE TmaProductCategory; code[unique = true];
+                                ; service_plan
+
+
+# Product Line
+INSERT_UPDATE TmaProductLine; code[unique = true];
+                            ; gsm
+
+
+
+##########################
+# Product Specifications #
+##########################
+INSERT_UPDATE TmaAtomicProductSpecification; id[unique = true]                 ; name[lang = en]                   ; productSpecificationTypes(code); onlineDate[dateformat = dd.MM.yyyy]; offlineDate[dateformat = dd.MM.yyyy]; brand; approvalStatus(code)[default = 'approved']; productSpecCharacteristics(id, $catalogVersion); cfsSpecs(id, $catalogVersion); $catalogVersion; productUsageSpecification(id, $catalogVersion)
+                                           ; gsm_plan_10884                    ; gsm_plan_10884                    ; gsm                            ; 04.01.2021                         ; 22.06.2035                          ;      ;                                           ; dataVol_10884                                  ;                              ;                ;
+                                           ; sattelite_plan_10884              ; Sattelite_plan_10884              ; service_plan                   ; 04.01.2021                         ; 22.06.2035                          ;      ;                                           ; connection_10884, dhcp_10884                   ;                              ;                ;
+                                           ; sattelite_Bandwidth_plan_10884    ; Sattelite_Bandwidth_plan_10884    ; service_plan                   ; 04.01.2021                         ; 22.06.2035                          ;      ;                                           ; bandwidth_10884                                ;                              ;                ;
+                                           ; sattelite_Terminal_plan_10884     ; Sattelite_Terminal_plan_10884     ; service_plan                   ; 04.01.2021                         ; 22.06.2035                          ;      ;                                           ; terminal_10884                                 ;                              ;                ;
+                                           ; sattelite_Terminaltype_plan_10884 ; Sattelite_Terminaltype_plan_10884 ; service_plan                   ; 04.01.2021                         ; 22.06.2035                          ;      ;                                           ; terminalType_10884                             ;                              ;                ;
+#e2e 10862
+                                           ; sattelite_plan_10862              ; Sattelite_plan_10862              ; service_plan                   ; 04.01.2021                         ; 22.06.2035                          ;      ;                                           ; connection_10862                               ;                              ;                ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaProductSpecCharacteristicValue; id[unique = true]              ; value    ; unitOfMeasure(id); productSpecCharacteristic(id, $catalogVersion); $catalogVersion;
+                                               ; 10gb_10884                     ; 10       ; gb               ; dataVol_10884
+                                               ; connectedVia_plan_10884_1      ; Amserdam ; no_unit          ; connection_10884
+                                               ; connectedVia_plan_10884_2      ; London   ; no_unit          ; connection_10884
+                                               ; connectedVia_plan_10884_3      ; Prague   ; no_unit          ; connection_10884
+                                               ; dhcp_true_10884                ; true     ; no_unit          ; dhcp_10884
+                                               ; dhcp_false_10884               ; false    ; no_unit          ; dhcp_10884
+                                               ; bandwidth_plan_10884_1         ; 3        ; no_unit          ; bandwidth_10884
+                                               ; bandwidth_plan_10884_2         ; 4        ; no_unit          ; bandwidth_10884
+                                               ; terminaltype_plan_10884_1      ; Group 1  ; no_unit          ; terminal_10884
+                                               ; terminaltype_plan_10884_2      ; Group 2  ; no_unit          ; terminal_10884
+                                               ; terminaltype_plan_config_10884 ; ##       ; no_unit          ; terminalType_10884
+# e2e 10862
+                                               ; connectedVia_plan_10862        ; Amserdam ; no_unit          ; connection_10862
+                                               ; connectedVia_plan_10862        ; London   ; no_unit          ; connection_10862
+                                               ; connectedVia_plan_10862        ; Prague   ; no_unit          ; connection_10862
+
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaProductSpecCharValueUse; id[unique = true]            ; name[lang = en]       ; description[lang = en]                                    ; productSpecCharacteristicValues(id, $catalogVersion)[unique = true]             ; minCardinality; maxCardinality; valueType(code); $catalogVersion;
+                                        ; dataUse_plan_10884           ; Data Vol              ; 10g_plan_for_10884                                        ; 10gb_10884                                                                      ; 1             ; 1             ; NUMERIC        ;                ;
+                                        ; connectedViaUse_10884        ; ConnectedVia          ; Usage of ConnectedViaPSC with SMB Sattelite Voice Plan    ; connectedVia_plan_10884_1, connectedVia_plan_10884_2, connectedVia_plan_10884_3 ; 1             ; 2             ; STRING         ;                ;
+                                        ; dhcp_10884                   ; DHCP                  ;                                                           ; dhcp_true_10884, dhcp_false_10884                                               ; 0             ; 1             ; BOOLEAN        ;                ;
+                                        ; bandwidthUse_10884           ; Bandwidth             ; Usage of BandwidthPSC with SMB Sattelite Voice Plan       ; bandwidth_plan_10884_1, bandwidth_plan_10884_2                                  ; 1             ; 1             ; NUMERIC        ;                ;
+                                        ; terminalTypeUse_10884        ; Terminal              ; Usage of TerminalTypePSC with SMB Sattelite Voice Plan    ; terminaltype_plan_10884_1, terminaltype_plan_10884_2                            ; 0             ; 1             ; STRING         ;                ;
+                                        ; terminalTypeUse_config_10884 ; TerminalType          ; Usage of TerminalTypeConfig with SMB Sattelite Voice Plan ; terminaltype_plan_config_10884                                                  ; 0             ; 1             ; STRING         ;                ;
+# e2e 10862
+                                        ; connectedViaUse_10862        ; ConnectedViaUse_10862 ; Usage of ConnectedViaPSC with SMB Sattelite Voice Plan    ; connectedVia_plan_10862                                                         ; 1             ; 2             ; STRING         ;                ;
+
+

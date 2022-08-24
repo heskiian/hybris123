@@ -1,0 +1,396 @@
+$productCatalog = b2ctelcoProductCatalog
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Staged'])[unique = true, default = '$productCatalog:Staged']
+$currency = currency(isocode)[default = EUR]
+$priceEvent = priceEvent(code)[default='paynow']
+$priceEventRcUc = priceEvent(code)[default='monthly']
+################################################
+###            One time charges              ###
+################################################
+
+INSERT_UPDATE TmaOneTimeProdOfferPriceCharge; id[unique = true]; $catalogVersion; value  ; $priceEvent; $currency
+                                            ; OTC_0_61_EUR     ;                ; 0.61   ;
+                                            ; OTC_3_11_EUR     ;                ; 3.11   ;
+                                            ; OTC_4_EUR        ;                ; 4.0    ;
+                                            ; OTC_5_81_EUR     ;                ; 5.81   ;
+                                            ; OTC_6_37_EUR     ;                ; 6.37   ;
+                                            ; OTC_6_65_EUR     ;                ; 6.65   ;
+                                            ; OTC_6_76_EUR     ;                ; 6.76   ;
+                                            ; OTC_8_2_EUR      ;                ; 8.2    ;
+                                            ; OTC_8_89_EUR     ;                ; 8.89   ;
+                                            ; OTC_9_14_EUR     ;                ; 9.14   ;
+                                            ; OTC_9_25_EUR     ;                ; 9.25   ;
+                                            ; OTC_9_72_EUR     ;                ; 9.72   ;
+                                            ; OTC_9_84_EUR     ;                ; 9.84   ;
+                                            ; OTC_10_EUR       ;                ; 10.0   ;
+                                            ; OTC_10_35_EUR    ;                ; 10.35  ;
+                                            ; OTC_10_43_EUR    ;                ; 10.43  ;
+                                            ; OTC_10_75_EUR    ;                ; 10.75  ;
+                                            ; OTC_11_EUR       ;                ; 11.0   ;
+                                            ; OTC_11_94_EUR    ;                ; 11.94  ;
+                                            ; OTC_11_95_EUR    ;                ; 11.95  ;
+                                            ; OTC_12_EUR       ;                ; 12.0   ;
+                                            ; OTC_12_66_EUR    ;                ; 12.66  ;
+                                            ; OTC_13_EUR       ;                ; 13.0   ;
+                                            ; OTC_13_91_EUR    ;                ; 13.91  ;
+                                            ; OTC_14_EUR       ;                ; 14.0   ;
+                                            ; OTC_14_9_EUR     ;                ; 14.9   ;
+                                            ; OTC_15_EUR       ;                ; 15.0   ;
+                                            ; OTC_15_EUR_OFB   ;                ; 15.0   ; onfirstbill
+                                            ; OTC_16_EUR       ;                ; 16.0   ;
+                                            ; OTC_16_41_EUR    ;                ; 16.41  ;
+                                            ; OTC_16_66_EUR    ;                ; 16.66  ;
+                                            ; OTC_17_EUR       ;                ; 17.0   ;
+                                            ; OTC_17_23_EUR    ;                ; 17.23  ;
+                                            ; OTC_18_62_EUR    ;                ; 18.62  ;
+                                            ; OTC_19_EUR       ;                ; 19.0   ;
+                                            ; OTC_19_01_EUR    ;                ; 19.01  ;
+                                            ; OTC_19_04_EUR    ;                ; 19.04  ;
+                                            ; OTC_19_64_EUR    ;                ; 19.64  ;
+                                            ; OTC_20_EUR       ;                ; 20.0   ;
+                                            ; OTC_21_EUR       ;                ; 21.0   ;
+                                            ; OTC_21_58_EUR    ;                ; 21.58  ;
+                                            ; OTC_22_EUR       ;                ; 22.0   ;
+                                            ; OTC_22_26_EUR    ;                ; 22.26  ;
+                                            ; OTC_21_38_EUR    ;                ; 21.38  ;
+                                            ; OTC_22_85_EUR    ;                ; 22.85  ;
+                                            ; OTC_23_EUR       ;                ; 23.0   ;
+                                            ; OTC_24_EUR       ;                ; 25.0   ;
+                                            ; OTC_24_55_EUR    ;                ; 24.55  ;
+                                            ; OTC_24_92_EUR    ;                ; 24.92  ;
+                                            ; OTC_25_EUR       ;                ; 25.0   ;
+                                            ; OTC_25_92_EUR    ;                ; 25.92  ;
+                                            ; OTC_24_94_EUR    ;                ; 25.94  ;
+                                            ; OTC_25_95_EUR    ;                ; 25.95  ;
+                                            ; OTC_26_EUR       ;                ; 26.0   ;
+                                            ; OTC_27_79_EUR    ;                ; 27.79  ;
+                                            ; OTC_27_EUR       ;                ; 27.0   ;
+                                            ; OTC_28_EUR       ;                ; 28.0   ;
+                                            ; OTC_28_52_EUR    ;                ; 28.52  ;
+                                            ; OTC_29_EUR       ;                ; 29.0   ;
+                                            ; OTC_29_96_EUR    ;                ; 29.96  ;
+                                            ; OTC_30_EUR       ;                ; 30.0   ;
+                                            ; OTC_31_EUR       ;                ; 31.0   ;
+                                            ; OTC_32_EUR       ;                ; 32.0   ;
+                                            ; OTC_32_13_EUR    ;                ; 32.13  ;
+                                            ; OTC_32_65_EUR    ;                ; 32.65  ;
+                                            ; OTC_33_EUR       ;                ; 33.0   ;
+                                            ; OTC_33_11_EUR    ;                ; 33.11  ;
+                                            ; OTC_33_67_EUR    ;                ; 33.67  ;
+                                            ; OTC_34_EUR       ;                ; 34.0   ;
+                                            ; OTC_34_95_EUR    ;                ; 34.95  ;
+                                            ; OTC_35_EUR       ;                ; 35.0   ;
+                                            ; OTC_35_5_EUR     ;                ; 35.5   ;
+                                            ; OTC_35_95_EUR    ;                ; 35.95  ;
+                                            ; OTC_36_EUR       ;                ; 36.0   ;
+                                            ; OTC_37_EUR       ;                ; 37.0   ;
+                                            ; OTC_38_EUR       ;                ; 38.0   ;
+                                            ; OTC_38_95_EUR    ;                ; 38.95  ;
+                                            ; OTC_39_EUR       ;                ; 39.0   ;
+                                            ; OTC_40_EUR       ;                ; 40.0   ;
+                                            ; OTC_40_28_EUR    ;                ; 40.28  ;
+                                            ; OTC_40_95_EUR    ;                ; 40.95  ;
+                                            ; OTC_41_EUR       ;                ; 41.0   ;
+                                            ; OTC_42_EUR       ;                ; 42.0   ;
+                                            ; OTC_43_EUR       ;                ; 43.0   ;
+                                            ; OTC_44_EUR       ;                ; 44.0   ;
+                                            ; OTC_45_EUR       ;                ; 45.0   ;
+                                            ; OTC_45_12_EUR    ;                ; 45.12  ;
+                                            ; OTC_45_71_EUR    ;                ; 45.71  ;
+                                            ; OTC_45_78_EUR    ;                ; 45.78  ;
+                                            ; OTC_46_EUR       ;                ; 46.0   ;
+                                            ; OTC_47_EUR       ;                ; 47.0   ;
+                                            ; OTC_48_EUR       ;                ; 48.0   ;
+                                            ; OTC_49_EUR       ;                ; 49.0   ;
+                                            ; OTC_49_9_EUR     ;                ; 49.9   ;
+                                            ; OTC_50_EUR       ;                ; 50.0   ;
+                                            ; OTC_68_9_EUR     ;                ; 68.9   ;
+                                            ; OTC_86_16_EUR    ;                ; 86.16  ;
+                                            ; OTC_89_76_EUR    ;                ; 89.76  ;
+                                            ; OTC_96_EUR       ;                ; 96.0   ;
+                                            ; OTC_98_44_EUR    ;                ; 98.44  ;
+                                            ; OTC_100_EUR      ;                ; 100.0  ;
+                                            ; OTC_104_EUR      ;                ; 104.0  ;
+                                            ; OTC_107_EUR      ;                ; 107.0  ;
+                                            ; OTC_108_EUR      ;                ; 108.0  ;
+                                            ; OTC_109_EUR      ;                ; 109.0  ;
+                                            ; OTC_111_EUR      ;                ; 111.0  ;
+                                            ; OTC_112_EUR      ;                ; 112.0  ;
+                                            ; OTC_116_EUR      ;                ; 116.0  ;
+                                            ; OTC_117_25_EUR   ;                ; 117.25 ;
+                                            ; OTC_119_EUR      ;                ; 119.0  ;
+                                            ; OTC_120_78_EUR   ;                ; 120.78 ;
+                                            ; OTC_121_EUR      ;                ; 121.0  ;
+                                            ; OTC_122_EUR      ;                ; 122.0  ;
+                                            ; OTC_122_9_EUR    ;                ; 122.9  ;
+                                            ; OTC_122_22_EUR   ;                ; 122.22 ;
+                                            ; OTC_122_68_EUR   ;                ; 122.68 ;
+                                            ; OTC_122_89_EUR   ;                ; 122.89 ;
+                                            ; OTC_123_EUR      ;                ; 123.0  ;
+                                            ; OTC_127_37_EUR   ;                ; 127.37 ;
+                                            ; OTC_136_EUR      ;                ; 136.0  ;
+                                            ; OTC_136_98_EUR   ;                ; 136.98 ;
+                                            ; OTC_137_EUR      ;                ; 137.0  ;
+                                            ; OTC_139_EUR      ;                ; 139.0  ;
+                                            ; OTC_143_EUR      ;                ; 143.0  ;
+                                            ; OTC_144_EUR      ;                ; 144.0  ;
+                                            ; OTC_145_EUR      ;                ; 145.0  ;
+                                            ; OTC_147_EUR      ;                ; 147.0  ;
+                                            ; OTC_148_EUR      ;                ; 148.0  ;
+                                            ; OTC_149_EUR      ;                ; 149.0  ;
+                                            ; OTC_154_EUR      ;                ; 154.0  ;
+                                            ; OTC_155_EUR      ;                ; 155.0  ;
+                                            ; OTC_156_EUR      ;                ; 156.0  ;
+                                            ; OTC_157_EUR      ;                ; 157.0  ;
+                                            ; OTC_158_EUR      ;                ; 158.0  ;
+                                            ; OTC_159_EUR      ;                ; 159.0  ;
+                                            ; OTC_160_EUR      ;                ; 160.0  ;
+                                            ; OTC_165_EUR      ;                ; 165.0  ;
+                                            ; OTC_166_EUR      ;                ; 166.0  ;
+                                            ; OTC_171_EUR      ;                ; 171.0  ;
+                                            ; OTC_177_EUR      ;                ; 177.0  ;
+                                            ; OTC_178_EUR      ;                ; 178.0  ;
+                                            ; OTC_179_EUR      ;                ; 179.0  ;
+                                            ; OTC_179_49_EUR   ;                ; 179.49 ;
+                                            ; OTC_180_EUR      ;                ; 180.0  ;
+                                            ; OTC_181_EUR      ;                ; 181.0  ;
+                                            ; OTC_182_EUR      ;                ; 182.0  ;
+                                            ; OTC_183_EUR      ;                ; 183.0  ;
+                                            ; OTC_184_EUR      ;                ; 184.0  ;
+                                            ; OTC_185_EUR      ;                ; 185.0  ;
+                                            ; OTC_186_EUR      ;                ; 186.0  ;
+                                            ; OTC_187_EUR      ;                ; 187.0  ;
+                                            ; OTC_188_EUR      ;                ; 188.0  ;
+                                            ; OTC_189_EUR      ;                ; 189.0  ;
+                                            ; OTC_190_EUR      ;                ; 190.0  ;
+                                            ; OTC_191_EUR      ;                ; 191.0  ;
+                                            ; OTC_192_EUR      ;                ; 192.0  ;
+                                            ; OTC_193_EUR      ;                ; 193.0  ;
+                                            ; OTC_198_EUR      ;                ; 198.0  ;
+                                            ; OTC_199_EUR      ;                ; 199.0  ;
+                                            ; OTC_200_EUR      ;                ; 200.0  ;
+                                            ; OTC_202_EUR      ;                ; 202.0  ;
+                                            ; OTC_211_EUR      ;                ; 211.0  ;
+                                            ; OTC_212_EUR      ;                ; 212.0  ;
+                                            ; OTC_213_EUR      ;                ; 213.0  ;
+                                            ; OTC_214_EUR      ;                ; 214.0  ;
+                                            ; OTC_216_EUR      ;                ; 216.0  ;
+                                            ; OTC_217_EUR      ;                ; 217.0  ;
+                                            ; OTC_218_EUR      ;                ; 218.0  ;
+                                            ; OTC_221_EUR      ;                ; 221.0  ;
+                                            ; OTC_222_EUR      ;                ; 222.0  ;
+                                            ; OTC_231_EUR      ;                ; 231.0  ;
+                                            ; OTC_233_EUR      ;                ; 233.0  ;
+                                            ; OTC_239_EUR      ;                ; 239.0  ;
+                                            ; OTC_243_EUR      ;                ; 243.0  ;
+                                            ; OTC_248_EUR      ;                ; 248.0  ;
+                                            ; OTC_263_34_EUR   ;                ; 263.34 ;
+                                            ; OTC_274_89_EUR   ;                ; 274.89 ;
+                                            ; OTC_280_EUR      ;                ; 280.0  ;
+                                            ; OTC_299_EUR      ;                ; 299.0  ;
+                                            ; OTC_300_EUR      ;                ; 300.0  ;
+                                            ; OTC_300_67_EUR   ;                ; 300.67 ;
+                                            ; OTC_322_EUR      ;                ; 322.0  ;
+                                            ; OTC_331_EUR      ;                ; 331.0  ;
+                                            ; OTC_332_EUR      ;                ; 332.0  ;
+                                            ; OTC_333_EUR      ;                ; 333.0  ;
+                                            ; OTC_341_EUR      ;                ; 341.0  ;
+                                            ; OTC_342_EUR      ;                ; 342.0  ;
+                                            ; OTC_342_31_EUR   ;                ; 342.31 ;
+                                            ; OTC_343_EUR      ;                ; 343.0  ;
+                                            ; OTC_345_EUR      ;                ; 345.0  ;
+                                            ; OTC_345_44_EUR   ;                ; 345.44 ;
+                                            ; OTC_352_62_EUR   ;                ; 352.62 ;
+                                            ; OTC_399_EUR      ;                ; 399.0  ;
+                                            ; OTC_402_16_EUR   ;                ; 402.16 ;
+                                            ; OTC_433_EUR      ;                ; 433.0  ;
+                                            ; OTC_449_EUR      ;                ; 449.0  ;
+                                            ; OTC_456_EUR      ;                ; 456.0  ;
+                                            ; OTC_491_23_EUR   ;                ; 491.23 ;
+                                            ; OTC_505_78_EUR   ;                ; 505.78 ;
+                                            ; OTC_527_04_EUR   ;                ; 527.04 ;
+                                            ; OTC_549_EUR      ;                ; 549.0  ;
+                                            ; OTC_579_EUR      ;                ; 579.0  ;
+                                            ; OTC_599_EUR      ;                ; 599.0  ;
+                                            ; OTC_649_EUR      ;                ; 649.0  ;
+                                            ; OTC_699_EUR      ;                ; 699.0  ;
+                                            ; OTC_709_EUR      ;                ; 709.0  ;
+                                            ; OTC_724_99_EUR   ;                ; 724.99 ;
+                                            ; OTC_749_EUR      ;                ; 749.0  ;
+                                            ; OTC_770_59_EUR   ;                ; 770.59 ;
+                                            ; OTC_789_EUR      ;                ; 789.0  ;
+                                            ; OTC_799_EUR      ;                ; 799.0  ;
+                                            ; OTC_809_EUR      ;                ; 809.0  ;
+                                            ; OTC_849_EUR      ;                ; 849.0  ;
+                                            ; OTC_949_EUR      ;                ; 949.0  ;
+                                            ; OTC_999_EUR      ;                ; 999.0  ;
+                                            ; OTC_1149_EUR     ;                ; 1149.0 ;
+
+################################################
+###              Recurring charges           ###
+################################################
+
+INSERT_UPDATE TmaRecurringProdOfferPriceCharge; id[unique = true]        ; $catalogVersion; value; $currency; $priceEventRcUc; cycleStart; cycleEnd
+                                              ; RC_0_EUR_start_1_end_1   ;                ; 0.0  ;          ;                ; 1         ; 1
+                                              ; RC_2_EUR_start_1         ;                ; 2.0  ;          ;                ; 1         ;
+                                              ; RC_3_EUR_start_1         ;                ; 3.0  ;          ;                ; 1         ;
+                                              ; RC_5_EUR_start_1         ;                ; 5.0  ;          ;                ; 1         ;
+                                              ; RC_10_EUR_start_1        ;                ; 10.0 ;          ;                ; 1         ;
+                                              ; RC_10_EUR_start_1_end_3  ;                ; 10.0 ;          ;                ; 1         ; 3
+                                              ; RC_15_EUR_start_1        ;                ; 15.0 ;          ;                ; 1         ;
+                                              ; RC_15_EUR_start_3        ;                ; 15.0 ;          ;                ; 3         ;
+                                              ; RC_16_EUR_start_3        ;                ; 16.0 ;          ;                ; 3         ;
+                                              ; RC_17_EUR_start_3        ;                ; 17.0 ;          ;                ; 3         ;
+                                              ; RC_18_EUR_start_3        ;                ; 18.0 ;          ;                ; 3         ;
+                                              ; RC_20_EUR_start_1        ;                ; 20.0 ;          ;                ; 1         ;
+                                              ; RC_20_EUR_start_4        ;                ; 20.0 ;          ;                ; 4         ;
+                                              ; RC_25_EUR_start_1        ;                ; 25.0 ;          ;                ; 1         ;
+                                              ; RC_25_EUR_start_3        ;                ; 25.0 ;          ;                ; 3         ;
+                                              ; RC_26_EUR_start_3        ;                ; 26.0 ;          ;                ; 3         ;
+                                              ; RC_27_EUR_start_3        ;                ; 27.0 ;          ;                ; 3         ;
+                                              ; RC_28_EUR_start_1        ;                ; 28.0 ;          ;                ; 1         ;
+                                              ; RC_28_EUR_start_3        ;                ; 28.0 ;          ;                ; 3         ;
+                                              ; RC_29_EUR_start_1_end_3  ;                ; 29.0 ;          ;                ; 1         ; 3
+                                              ; RC_29_EUR_start_2        ;                ; 29.0 ;          ;                ; 2         ;
+                                              ; RC_30_EUR_start_1        ;                ; 30.0 ;          ;                ; 1         ;
+                                              ; RC_30_EUR_start_4        ;                ; 30.0 ;          ;                ; 4         ;
+                                              ; RC_35_EUR_start_1        ;                ; 35.0 ;          ;                ; 1         ;
+                                              ; RC_35_EUR_start_3        ;                ; 35.0 ;          ;                ; 3         ;
+                                              ; RC_36_EUR_start_3        ;                ; 36.0 ;          ;                ; 3         ;
+                                              ; RC_37_EUR_start_3        ;                ; 37.0 ;          ;                ; 3         ;
+                                              ; RC_38_EUR_start_1        ;                ; 38.0 ;          ;                ; 1         ;
+                                              ; RC_38_EUR_start_3        ;                ; 38.0 ;          ;                ; 3         ;
+                                              ; RC_40_EUR_start_1        ;                ; 40.0 ;          ;                ; 1         ;
+                                              ; RC_40_EUR_start_4        ;                ; 40.0 ;          ;                ; 4         ;
+                                              ; RC_45_EUR_start_1        ;                ; 45.0 ;          ;                ; 1         ;
+                                              ; RC_45_EUR_start_1_end_3  ;                ; 45.0 ;          ;                ; 1         ; 3
+                                              ; RC_45_EUR_start_4        ;                ; 45.0 ;          ;                ; 4         ;
+                                              ; RC_45_EUR_start_4_end_6  ;                ; 45.0 ;          ;                ; 4         ; 6
+                                              ; RC_48_EUR_start_1        ;                ; 48.0 ;          ;                ; 1         ;
+                                              ; RC_50_EUR_start_1        ;                ; 50.0 ;          ;                ; 1         ;
+                                              ; RC_55_EUR_start_1        ;                ; 55.0 ;          ;                ; 1         ;
+                                              ; RC_58_EUR_start_1        ;                ; 58.0 ;          ;                ; 1         ;
+                                              ; RC_60_EUR_start_4_end_6  ;                ; 60.0 ;          ;                ; 4         ; 6
+                                              ; RC_60_EUR_start_7        ;                ; 60.0 ;          ;                ; 7         ;
+                                              ; RC_85_EUR_start_7        ;                ; 85.0 ;          ;                ; 7         ;
+                                              ; RC_95_EUR_start_1_end_18 ;                ; 85.0 ;          ;                ; 1         ; 18
+
+################################################
+###              Usage charges               ###
+################################################
+
+INSERT_UPDATE TmaUsageProdOfferPriceCharge; id[unique = true]                                    ; value; tierStart; tierEnd; usageUnit(id)           ; productUsageSpec(id, $catalogVersion); $catalogVersion; $currency; $priceEventRcUc; productSpecCharacteristicValues(id, $catalogVersion)
+                                          ; UC_0_05_tierStart_101_end_200_EUR                    ; 0.05 ; 101      ; 200    ; phone_minutes           ; cdr_voice_spec; ; ;
+                                          ; UC_0_07_tierStart_201_end_300_EUR                    ; 0.07 ; 201      ; 300    ; phone_minutes           ; cdr_voice_spec; ; ;
+                                          ; UC_0_09_tierStart_301_EUR                            ; 0.09 ; 301      ;        ; phone_minutes           ; cdr_voice_spec; ; ; ;
+                                          ; UC_0_09_tierStart_1_minutes_EUR                      ; 0.09 ; 1        ;        ; phone_minutes           ; cdr_voice_spec; ; ; ;
+                                          ; UC_0_09_tierStart_1_sms_EUR                          ; 0.09 ; 1        ;        ; sms                     ; cdr_sms_spec; ; ; ;
+                                          ; UC_0_09_tierStart_1_data_EUR                         ; 0.09 ; 1        ;        ; mb                      ; udr_data_spec; ; ; ;
+
+                                          ; UC_3_documentaries_on_demand_EUR                     ; 3.0  ; 1        ;        ; documentaries_on_demand ; ipdr_iptv_spec; ; ; ;
+                                          ; UC_4_movies_on_demand_EUR                            ; 4.0  ; 1        ;        ; movies_on_demand        ; ipdr_iptv_spec; ; ; ;
+                                          ; UC_5_blockbusters_on_demand_EUR                      ; 5.0  ; 1        ;        ; blockbusters_on_demand  ; ipdr_iptv_spec; ; ; ;
+
+                                          ; UC_2_documentaries_on_demand_EUR                     ; 2.0  ; 1        ;        ; documentaries_on_demand ; ipdr_iptv_spec; ; ; ;
+                                          ; UC_3_movies_on_demand_EUR                            ; 3.0  ; 1        ;        ; movies_on_demand        ; ipdr_iptv_spec; ; ; ;
+                                          ; UC_4_blockbusters_on_demand_EUR                      ; 4.0  ; 1        ;        ; blockbusters_on_demand  ; ipdr_iptv_spec; ; ; ;
+
+                                          ; UC_1_20_documentaries_on_demand_EUR                  ; 1.20 ; 1        ;        ; documentaries_on_demand ; ipdr_iptv_spec; ; ; ;
+                                          ; UC_1_50_movies_on_demand_EUR                         ; 1.50 ; 1        ;        ; movies_on_demand        ; ipdr_iptv_spec; ; ; ;
+                                          ; UC_2_50_blockbusters_on_demand_EUR                   ; 2.50 ; 1        ;        ; blockbusters_on_demand  ; ipdr_iptv_spec; ; ; ;
+
+                                          ; UC_0_30_movies_on_demand_EUR                         ; 0.30 ; 1        ;        ; movies_on_demand        ; ipdr_iptv_spec; ; ; ;
+                                          ; UC_1_blockbusters_on_demand_EUR                      ; 1.0  ; 1        ;        ; blockbusters_on_demand  ; ipdr_iptv_spec; ; ; ;
+
+                                          ; UC_3_tierStart_1_end_5_documentaries_on_demand_EUR   ; 3.0  ; 1        ; 5      ; documentaries_on_demand ; ipdr_iptv_spec; ; ;
+                                          ; UC_4_tierStart_1_end_5__movies_on_demand_EUR         ; 4.0  ; 1        ; 5      ; movies_on_demand        ; ipdr_iptv_spec; ; ;
+                                          ; UC_5_tierStart_1_end_5__blockbusters_on_demand_EUR   ; 5.0  ; 1        ; 5      ; blockbusters_on_demand  ; ipdr_iptv_spec; ; ;
+
+                                          ; UC_1_5_tierStart_1_end_5_documentaries_on_demand_EUR ; 1.5  ; 1        ; 5      ; documentaries_on_demand ; ipdr_iptv_spec; ; ;
+                                          ; UC_2_tierStart_1_end_5__movies_on_demand_EUR         ; 2.0  ; 1        ; 5      ; movies_on_demand        ; ipdr_iptv_spec; ; ;
+                                          ; UC_3_tierStart_1_end_5__blockbusters_on_demand_EUR   ; 3.0  ; 1        ; 5      ; blockbusters_on_demand  ; ipdr_iptv_spec; ; ;
+
+                                          ; UC_0_05_tierStart_1_EUR                              ; 0.05 ; 1        ;        ; phone_minutes           ; cdr_voice_spec; ; ; ;
+                                          ; UC_0_3_tierStart_1_data_EUR                          ; 0.3  ; 1        ;        ; mb                      ; udr_data_spec; ; ; ;
+
+INSERT_UPDATE TmaTierUsageChargeCompositePop; id[unique = true]                             ; usageChargeType(code)   ; children(id, $catalogVersion)                                                                                                                                                                                                                                ; $catalogVersion; productSpecCharacteristicValues(id, $catalogVersion)
+                                            ; essentialsUnlimitedPlan_minutes_usage_EUR_pop ; each_respective_tier    ; UC_0_05_tierStart_101_end_200_EUR, UC_0_07_tierStart_201_end_300_EUR,UC_0_09_tierStart_301_EUR                                                                                                                                                               ;                ; 300_min
+                                            ; tv_S_EUR_usage_pop                            ; each_respective_tier    ; UC_3_documentaries_on_demand_EUR, UC_4_movies_on_demand_EUR, UC_5_blockbusters_on_demand_EUR                                                                                                                                                                 ;                ; documentary_on_demand_DELUXE_TV, video_on_demand_PREMIUM_TV,local_and_us_radio_stations_PREMIUM_TV
+                                            ; tv_M_EUR_usage_pop                            ; each_respective_tier    ; UC_3_tierStart_1_end_5_documentaries_on_demand_EUR,UC_4_tierStart_1_end_5__movies_on_demand_EUR, UC_5_tierStart_1_end_5__blockbusters_on_demand_EUR, UC_2_documentaries_on_demand_EUR, UC_3_movies_on_demand_EUR, UC_4_blockbusters_on_demand_EUR            ;                ; documentary_on_demand_DELUXE_TV,local_and_us_radio_stations_PREMIUM_TV,video_on_demand_PREMIUM_TV
+                                            ; tv_L_EUR_usage_pop                            ; highest_applicable_tier ; UC_1_5_tierStart_1_end_5_documentaries_on_demand_EUR, UC_2_tierStart_1_end_5__movies_on_demand_EUR, UC_3_tierStart_1_end_5__blockbusters_on_demand_EUR,UC_1_20_documentaries_on_demand_EUR, UC_1_50_movies_on_demand_EUR, UC_2_50_blockbusters_on_demand_EUR ;                ; documentary_on_demand_DELUXE_TV,video_on_demand_PREMIUM_TV,local_and_us_radio_stations_PREMIUM_TV
+
+                                            ; BASIC_TV_EUR_usage_pop                        ; each_respective_tier    ; UC_3_documentaries_on_demand_EUR, UC_4_movies_on_demand_EUR, UC_5_blockbusters_on_demand_EUR                                                                                                                                                                 ;
+                                            ; BIG_TV_EUR_usage_pop                          ; each_respective_tier    ; UC_2_documentaries_on_demand_EUR, UC_3_movies_on_demand_EUR, UC_4_blockbusters_on_demand_EUR                                                                                                                                                                 ;
+                                            ; PREMIUM_TV_EUR_usage_pop                      ; highest_applicable_tier ; UC_1_20_documentaries_on_demand_EUR, UC_1_50_movies_on_demand_EUR, UC_2_50_blockbusters_on_demand_EUR                                                                                                                                                        ;
+                                            ; DELUXE_TV_EUR_usage_pop                       ; each_respective_tier    ; UC_0_30_movies_on_demand_EUR, UC_1_blockbusters_on_demand_EUR                                                                                                                                                                                                ;
+
+################################################
+###              Discount alterations        ###
+################################################
+
+INSERT_UPDATE TmaDiscountProdOfferPriceAlteration; id[unique = true]                         ; value; cycleStart; cycleEnd; $currency; $priceEvent; $catalogVersion; isPercentage[default = false];
+                                                 ; DELUXE_TV_EUR_promo_dsc                   ; 20   ;           ;         ;          ;            ;                ; true                         ;
+                                                 ; unlimitedStarterPlan_charging_otc_EUR_dsc ; 10   ;           ;         ;          ;            ;                ; true                         ;
+                                                 ; unlimitedStarterPlan_charging_rc_EUR_dsc  ; 10   ; 1         ; 6       ;          ; monthly    ;                ;                              ;
+                                                 ; unlimitedStarterPlan_charging_uc_EUR_dsc  ; 0.1  ; 1         ; 6       ;          ; monthly    ;                ;                              ;
+                                                 ; unlimited5GPlan_otc_EUR_dsc               ; 10   ;           ;         ;          ;            ;                ; true                         ;
+                                                 ; unlimited5GPlan_rc_EUR_dsc                ; 10   ; 1         ; 6       ;          ; monthly    ;                ;                              ;
+                                                 ; unlimited5GPlan_uc_EUR_dsc                ; 0.1  ; 1         ; 6       ;          ; monthly    ;                ;                              ;
+                                                 ; 2093587_rc_EUR_dsc                        ; 50   ; 1         ; 6       ;          ; monthly    ;                ; true                         ;
+
+
+################################################
+###              Composite prices            ###
+################################################
+
+INSERT_UPDATE TmaCompositeProdOfferPrice; id[unique = true]                         ; $catalogVersion; children(id,$catalogVersion)
+                                        ; tv_S_EUR_pop                              ;                ; OTC_4_EUR, RC_10_EUR_start_1_end_3, RC_20_EUR_start_4, tv_S_EUR_usage_pop
+                                        ; tv_M_EUR_pop                              ;                ; OTC_4_EUR,RC_10_EUR_start_1_end_3, RC_30_EUR_start_4, tv_M_EUR_usage_pop
+                                        ; tv_L_EUR_pop                              ;                ; OTC_4_EUR,RC_10_EUR_start_1_end_3, RC_40_EUR_start_4, tv_L_EUR_usage_pop
+                                        ; BASIC_TV_EUR_pop                          ;                ; OTC_25_EUR,RC_0_EUR_start_1_end_1, RC_29_EUR_start_2, BASIC_TV_EUR_usage_pop
+                                        ; BIG_TV_EUR_pop                            ;                ; OTC_15_EUR_OFB, RC_29_EUR_start_1_end_3, RC_45_EUR_start_4, BIG_TV_EUR_usage_pop
+                                        ; PREMIUM_TV_EUR_pop                        ;                ; OTC_15_EUR_OFB, RC_29_EUR_start_1_end_3, RC_45_EUR_start_4_end_6, RC_60_EUR_start_7, PREMIUM_TV_EUR_usage_pop
+                                        ; DELUXE_TV_EUR_pop                         ;                ; RC_45_EUR_start_1_end_3, RC_60_EUR_start_4_end_6, RC_85_EUR_start_7, DELUXE_TV_EUR_usage_pop
+                                        ; DELUXE_TV_EUR_promo_pop                   ;                ; RC_45_EUR_start_1_end_3, RC_60_EUR_start_4_end_6, RC_85_EUR_start_7, DELUXE_TV_EUR_usage_pop, DELUXE_TV_EUR_promo_dsc
+                                        ; int_100_EUR_pop                           ;                ; OTC_4_EUR, RC_10_EUR_start_1
+                                        ; int_500_EUR_pop                           ;                ; OTC_4_EUR, RC_20_EUR_start_1
+                                        ; int_1000_EUR_pop                          ;                ; OTC_4_EUR, RC_30_EUR_start_1
+                                        ; copper_internet_EUR_pop                   ;                ; OTC_4_EUR, RC_10_EUR_start_1
+                                        ; fiber_internet_EUR_pop                    ;                ; OTC_4_EUR, RC_20_EUR_start_1
+                                        ; 5g_internet_EUR_pop                       ;                ; OTC_4_EUR, RC_30_EUR_start_1
+                                       
+                                        ; landline_voip_EUR_pop                     ;                ; OTC_4_EUR, RC_5_EUR_start_1
+
+                                        ; essentialsUnlimitedPlan_EUR_pop           ;                ; essentialsUnlimitedPlan_minutes_usage_EUR_pop, RC_10_EUR_start_1, UC_0_09_tierStart_1_minutes_EUR, UC_0_09_tierStart_1_sms_EUR
+                                        ; signatureUnlimitedPlan_EUR_pop            ;                ; RC_20_EUR_start_1,UC_0_09_tierStart_1_minutes_EUR, UC_0_09_tierStart_1_sms_EUR
+                                        ; premiumUnlimitedPlan_EUR_pop              ;                ; RC_30_EUR_start_1, UC_0_09_tierStart_1_minutes_EUR, UC_0_09_tierStart_1_sms_EUR
+
+                                        ; unlimitedStarterPlan_EUR_acq_pop          ;                ; RC_30_EUR_start_1,UC_0_09_tierStart_1_minutes_EUR, UC_0_09_tierStart_1_sms_EUR, UC_0_09_tierStart_1_data_EUR
+                                        ; unlimitedBasicPlan_EUR_acq_pop            ;                ; RC_40_EUR_start_1, UC_0_09_tierStart_1_minutes_EUR, UC_0_09_tierStart_1_sms_EUR, UC_0_09_tierStart_1_data_EUR
+                                        ; unlimitedPlusPlan_EUR_acq_pop             ;                ; RC_50_EUR_start_1, UC_0_09_tierStart_1_minutes_EUR, UC_0_09_tierStart_1_sms_EUR, UC_0_09_tierStart_1_data_EUR
+
+                                        ; unlimitedStarterPlan_EUR_mnp_pop          ;                ; RC_25_EUR_start_1, UC_0_09_tierStart_1_minutes_EUR, UC_0_09_tierStart_1_sms_EUR, UC_0_09_tierStart_1_data_EUR
+                                        ; unlimitedBasicPlan_EUR_mnp_pop            ;                ; RC_35_EUR_start_1, UC_0_09_tierStart_1_minutes_EUR, UC_0_09_tierStart_1_sms_EUR, UC_0_09_tierStart_1_data_EUR
+                                        ; unlimitedPlusPlan_EUR_mnp_pop             ;                ; RC_45_EUR_start_1, UC_0_09_tierStart_1_minutes_EUR, UC_0_09_tierStart_1_sms_EUR, UC_0_09_tierStart_1_data_EUR
+
+                                        ; unlimitedStarterPlan_EUR_ret_pop          ;                ; RC_28_EUR_start_1, UC_0_09_tierStart_1_minutes_EUR, UC_0_09_tierStart_1_sms_EUR, UC_0_09_tierStart_1_data_EUR
+                                        ; unlimitedBasicPlan_EUR_ret_pop            ;                ; RC_38_EUR_start_1, UC_0_09_tierStart_1_minutes_EUR, UC_0_09_tierStart_1_sms_EUR, UC_0_09_tierStart_1_data_EUR
+                                        ; unlimitedPlusPlan_EUR_ret_pop             ;                ; RC_48_EUR_start_1, UC_0_09_tierStart_1_minutes_EUR, UC_0_09_tierStart_1_sms_EUR, UC_0_09_tierStart_1_data_EUR
+
+                                        ; starterNoLimit5GPlan_EUR_pop              ;                ; RC_5_EUR_start_1, UC_0_09_tierStart_1_data_EUR
+                                        ; streamMoreNoLimit5GPlan_EUR_pop           ;                ; RC_10_EUR_start_1, UC_0_09_tierStart_1_data_EUR
+                                        ; doMoreNoLimit5GPlan_EUR_pop               ;                ; RC_15_EUR_start_1, UC_0_09_tierStart_1_data_EUR
+
+                                        ; unlimitedStarterPlan_charging_otc_EUR_pop ;                ; OTC_50_EUR, unlimitedStarterPlan_charging_otc_EUR_dsc
+                                        ; unlimitedStarterPlan_charging_rc_EUR_pop  ;                ; RC_50_EUR_start_1, unlimitedStarterPlan_charging_rc_EUR_dsc
+                                        ; unlimitedStarterPlan_charging_uc_EUR_pop  ;                ; UC_0_3_tierStart_1_data_EUR, unlimitedStarterPlan_charging_uc_EUR_dsc
+                                        ; unlimitedStarterPlan_charging_EUR_pop     ;                ; unlimitedStarterPlan_charging_otc_EUR_pop, unlimitedStarterPlan_charging_rc_EUR_pop, UC_0_05_tierStart_1_EUR, unlimitedStarterPlan_charging_uc_EUR_pop
+
+                                        ; unlimited5GPlan_otc_EUR_pop               ;                ; OTC_50_EUR, unlimited5GPlan_otc_EUR_dsc
+                                        ; unlimited5GPlan_rc_EUR_pop                ;                ; RC_50_EUR_start_1, unlimited5GPlan_rc_EUR_dsc
+                                        ; unlimited5GPlan_uc_EUR_pop                ;                ; UC_0_3_tierStart_1_data_EUR, unlimited5GPlan_uc_EUR_dsc
+                                        ; unlimited5GPlan_EUR_pop                   ;                ; unlimited5GPlan_otc_EUR_pop, unlimited5GPlan_rc_EUR_pop, UC_0_05_tierStart_1_EUR, unlimited5GPlan_uc_EUR_pop
+
+                                        ; 2093587_EUR_promo_rc_pop                  ;                ; RC_95_EUR_start_1_end_18, 2093587_rc_EUR_dsc
+                                        ; 2093587_EUR_promo_pop                     ;                ; OTC_50_EUR, 2093587_EUR_promo_rc_pop
+
+                                        ; unlimitedSocialMediaPlan_acq_eur_pop      ;                ; RC_5_EUR_start_1, UC_0_09_tierStart_1_data_EUR

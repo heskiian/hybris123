@@ -1,0 +1,534 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+
+<items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="items.xsd">
+
+    <collectiontypes>
+        <collectiontype code="PrCharacteristics" elementtype="PrCharacteristic" type="list"/>
+        <collectiontype code="PrContactMediums" elementtype="PrContactMedium" type="list"/>
+        <collectiontype code="PrCreditProfiles" elementtype="PrCreditProfile" type="list"/>
+        <collectiontype code="PaymentInfos" elementtype="PaymentInfo" type="list"/>
+    </collectiontypes>
+
+    <relations>
+
+        <relation code="PrParty2PrPartyRoleRelation" localized="false">
+            <description>Relation defining the role of a party</description>
+            <sourceElement type="PrParty" qualifier="party" cardinality="one">
+                <description>The party</description>
+            </sourceElement>
+            <targetElement type="PrPartyRole" qualifier="partyRoles" cardinality="many" collectiontype="set">
+                <description>The roles of the party</description>
+                <modifiers initial="true" optional="false"/>
+            </targetElement>
+        </relation>
+
+        <relation code="PrPartyRole2PrPartyRoleAssociationInvolvedWithRelation" localized="false">
+            <description>Relation defining the party role associations of a party role</description>
+            <sourceElement type="PrPartyRole" qualifier="partyRoleInvolvedWith" cardinality="one">
+                <description>The party role</description>
+                <modifiers initial="true" optional="false"/>
+            </sourceElement>
+            <targetElement type="PrPartyRoleAssociation" qualifier="involvedWithAssociations" cardinality="many"
+                           collectiontype="set">
+                <description>The party role associations the party role is involved with</description>
+            </targetElement>
+        </relation>
+
+        <relation code="PrPartyRole2PrPartyRoleAssociationInvolvesRelation" localized="false">
+            <description>Relation defining the party role associations of a party role</description>
+            <sourceElement type="PrPartyRole" qualifier="partyRoleInvolves" cardinality="one">
+                <description>The party role</description>
+                <modifiers initial="true" optional="false"/>
+            </sourceElement>
+            <targetElement type="PrPartyRoleAssociation" qualifier="involvesAssociations" cardinality="many"
+                           collectiontype="set">
+                <description>The party role associations the party role involves</description>
+            </targetElement>
+        </relation>
+
+        <relation code="PrPartyRole2PrBusinessInteractionRoleRelation" localized="false">
+            <description>Relation defining the connection between party role of the business interaction role</description>
+            <sourceElement type="PrPartyRole" qualifier="partyRole" cardinality="one">
+                <description>The party role</description>
+            </sourceElement>
+            <targetElement type="PrBusinessInteractionRole" qualifier="interactionRoles" cardinality="many" collectiontype="set">
+                <description>The roles of the business interaction</description>
+            </targetElement>
+        </relation>
+
+        <relation code="PrBusinessInteraction2PrBusinessInteractionRoleRelation" localized="false">
+            <description>Relation defining the role of the business interaction</description>
+            <sourceElement type="PrBusinessInteraction" qualifier="businessInteraction" cardinality="one">
+                <description>The business interaction</description>
+            </sourceElement>
+            <targetElement type="PrBusinessInteractionRole" qualifier="interactionRoles" cardinality="many" collectiontype="set">
+                <description>The roles of the business interaction</description>
+            </targetElement>
+        </relation>
+
+        <relation code="PrPartyRole2PrInvolvementRoleRelation" localized="false">
+            <description>Relation defining the connection between party role of the involvement role</description>
+            <sourceElement type="PrPartyRole" qualifier="partyRole" cardinality="one">
+                <description>The party role</description>
+            </sourceElement>
+            <targetElement type="PrInvolvementRole" qualifier="involvementRoles" cardinality="many" collectiontype="set">
+                <description>The roles of the involvement</description>
+            </targetElement>
+        </relation>
+
+        <relation code="PrProductInvolvementRole2PrProduct" localized="false">
+            <description>Relation defining the Involvement Roles of Products</description>
+            <deployment table="PrProdInvRole2PrProduct" typecode="7493"/>
+            <sourceElement type="PrProductInvolvementRole" qualifier="involvementRoles" cardinality="many" collectiontype="set">
+                <description>The product involvement roles</description>
+            </sourceElement>
+            <targetElement type="PrProduct" qualifier="products" cardinality="many" collectiontype="set">
+                <description>The subscribed products</description>
+            </targetElement>
+        </relation>
+
+        <relation code="PrParty2PrincipalRelation" localized="false">
+            <description>Relation defining the principal of a party</description>
+            <sourceElement type="PrParty" qualifier="prParty" cardinality="one">
+                <description>The party</description>
+            </sourceElement>
+            <targetElement type="Principal" qualifier="principals" cardinality="many" collectiontype="set">
+                <description>The principals of the party</description>
+                <modifiers initial="true" optional="false"/>
+            </targetElement>
+        </relation>
+
+        <relation code="PrPartyRole2PrAccountRelation" localized="false">
+            <description>Relation defining the accounts of the party</description>
+            <deployment table="PrPartRole2PrAccount" typecode="7494"/>
+            <sourceElement type="PrPartyRole" qualifier="partyRoles" cardinality="many" collectiontype="set">
+                <description>The party roles</description>
+            </sourceElement>
+            <targetElement type="PrAccount" qualifier="accounts" cardinality="many" collectiontype="set">
+                <description>The accounts of the party role</description>
+                <modifiers initial="true" optional="false"/>
+            </targetElement>
+        </relation>
+
+    </relations>
+
+    <itemtypes>
+        <itemtype code="PrProduct">
+            <description>Product</description>
+            <deployment table="PrProducts" typecode="7481"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers optional="false" unique="true" initial="true"/>
+                </attribute>
+                <attribute qualifier="name" type="localized:java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="prProductIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="PrInvolvementRole">
+            <description>InvolvementRole</description>
+            <deployment table="PrInvolvementRoles" typecode="7482"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers optional="false" unique="true" initial="true"/>
+                </attribute>
+                <attribute qualifier="name" type="localized:java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="involvementRole" type="java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="startDate" type="java.util.Date">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="endDate" type="java.util.Date">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="prInvolvementRoleIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="PrProductInvolvementRole" extends="PrInvolvementRole">
+            <description>ProductInvolvementRole</description>
+        </itemtype>
+
+        <itemtype code="PrParty">
+            <description>Party</description>
+            <deployment table="PrParties" typecode="7483"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers optional="false" unique="true" initial="true"/>
+                </attribute>
+                <attribute qualifier="name" type="localized:java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="prPartyIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="PrIndividual" extends="PrParty">
+            <description>Individual</description>
+        </itemtype>
+
+        <itemtype code="PrOrganization" extends="PrParty">
+            <description>Organization</description>
+        </itemtype>
+
+        <itemtype code="PrPartyRole">
+            <description>PartyRole</description>
+            <deployment table="PrPartyRoles" typecode="7484"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers optional="false" unique="true" initial="true"/>
+                </attribute>
+                <attribute qualifier="name" type="localized:java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="status" type="java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="statusReason" type="java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="startDate" type="java.util.Date">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="endDate" type="java.util.Date">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="engagedParty" type="PrParty">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="characteristics" type="PrCharacteristics">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="contactMediums" type="PrContactMediums">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="creditProfiles" type="PrCreditProfiles">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="paymentMethods" type="PaymentInfos">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="prPartyRoleIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="PrPartyRoleAssociation">
+            <description>PartyRoleAssociation</description>
+            <deployment table="PrAssociations" typecode="7485"/>
+            <attributes>
+                <attribute qualifier="code" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers optional="false" unique="true" initial="true"/>
+                </attribute>
+                <attribute qualifier="associationName" type="localized:java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="status" type="java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="associationType" type="java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="startDate" type="java.util.Date">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="endDate" type="java.util.Date">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="prPartyRoleAssociationIdx" unique="true">
+                    <key attribute="code"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="PrBusinessInteraction">
+            <description>BusinessInteraction</description>
+            <deployment table="PrBusinessInteractions" typecode="7486"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers optional="false" unique="true" initial="true"/>
+                </attribute>
+                <attribute qualifier="name" type="localized:java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="description" type="localized:java.lang.String">
+                    <persistence type="property">
+                        <columntype database="oracle">
+                            <value>CLOB</value>
+                        </columntype>
+                        <columntype database="sap">
+                            <value>NCLOB</value>
+                        </columntype>
+                        <columntype>
+                            <value>HYBRIS.LONG_STRING</value>
+                        </columntype>
+                    </persistence>
+                </attribute>
+                <attribute qualifier="startDate" type="java.util.Date">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="endDate" type="java.util.Date">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="prBusinessInteractionIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="PrAgreement" extends="PrBusinessInteraction">
+            <description>Agreement</description>
+        </itemtype>
+
+        <itemtype code="PrBusinessInteractionRole">
+            <description>BusinessInteractionRole</description>
+            <deployment table="PrBusinessInterRole" typecode="7487"/>
+            <attributes>
+                <attribute qualifier="code" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers optional="false" unique="true" initial="true"/>
+                </attribute>
+                <attribute qualifier="interactionName" type="localized:java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="description" type="localized:java.lang.String">
+                    <persistence type="property">
+                        <columntype database="oracle">
+                            <value>CLOB</value>
+                        </columntype>
+                        <columntype database="sap">
+                            <value>NCLOB</value>
+                        </columntype>
+                        <columntype>
+                            <value>HYBRIS.LONG_STRING</value>
+                        </columntype>
+                    </persistence>
+                </attribute>
+                <attribute qualifier="interactionType" type="java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="prBusinessInteractionRoleIdx" unique="true">
+                    <key attribute="code"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="PrCharacteristic">
+            <description>Characteristic</description>
+            <deployment table="PrCharacteristics" typecode="7488"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers optional="false" unique="true" initial="true"/>
+                </attribute>
+                <attribute qualifier="name" type="localized:java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="value" type="java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="valueType" type="java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="prCharacteristicIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="PrContactMedium">
+            <description>ContactMedium</description>
+            <deployment table="PrContactMediums" typecode="7489"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers optional="false" unique="true" initial="true"/>
+                </attribute>
+                <attribute qualifier="name" type="localized:java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="mediumType" type="java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="startDate" type="java.util.Date">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="endDate" type="java.util.Date">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="preferred" type="java.lang.Boolean">
+                    <persistence type="property"/>
+                    <defaultvalue>Boolean.valueOf(false)</defaultvalue>
+                </attribute>
+                <attribute qualifier="characteristic" type="PrMediumCharacteristic">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="prContactMediumIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="PrMediumCharacteristic">
+            <description>Medium Characteristic</description>
+            <deployment table="PrMediumChar" typecode="7490"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers optional="false" unique="true" initial="true"/>
+                </attribute>
+                <attribute qualifier="name" type="localized:java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="city" type="java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="contactType" type="java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="country" type="java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="emailAddress" type="java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="faxNumber" type="java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="phoneNumber" type="java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="postCode" type="java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="socialNetworkId" type="java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="stateOrProvince" type="java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="street1" type="java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="street2" type="java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="prMediumCharacteristicIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="PrCreditProfile">
+            <description>CreditProfile</description>
+            <deployment table="PrCreditProfiles" typecode="7491"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers optional="false" unique="true" initial="true"/>
+                </attribute>
+                <attribute qualifier="name" type="localized:java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="startDate" type="java.util.Date">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="endDate" type="java.util.Date">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="creditProfileDate" type="java.util.Date">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="creditRiskRating" type="java.lang.Integer">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="creditScore" type="java.lang.Integer">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="prCreditProfileIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="PrAccount">
+            <description>Account</description>
+            <deployment table="PrAccounts" typecode="7492"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers optional="false" unique="true" initial="true"/>
+                </attribute>
+                <attribute qualifier="name" type="localized:java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="description" type="localized:java.lang.String">
+                    <persistence type="property">
+                        <columntype database="oracle">
+                            <value>CLOB</value>
+                        </columntype>
+                        <columntype database="sap">
+                            <value>NCLOB</value>
+                        </columntype>
+                        <columntype>
+                            <value>HYBRIS.LONG_STRING</value>
+                        </columntype>
+                    </persistence>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="prAccountIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+
+    </itemtypes>
+
+</items>
+
+

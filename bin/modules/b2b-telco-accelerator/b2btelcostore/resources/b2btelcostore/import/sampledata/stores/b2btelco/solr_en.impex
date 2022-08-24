@@ -1,0 +1,21 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+#
+# ENGLISH LOCALIZATION
+#
+
+$lang = en
+$solrIndexedType = b2btelcoPriceType
+
+###################
+# used in headers #
+###################
+$hIndexType = solrIndexedType(identifier)[unique = true, default = b2btelcoPriceType]
+$hName = name[unique = true]
+$hCode = code[unique = true]
+$hDisplayName = displayName[lang = en]
+$hLang = language(isocode)[unique = true, default = en]
+UPDATE SolrIndexedProperty; $hIndexType; $hName                ; $hDisplayName
+# facets

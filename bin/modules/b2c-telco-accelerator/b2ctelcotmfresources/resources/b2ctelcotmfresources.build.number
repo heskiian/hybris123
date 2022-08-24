@@ -1,0 +1,11 @@
+#Ant properties
+#Thu Nov 05 12:00:45 CET 2020
+version.api=2102
+vendor=hybris
+group.id=de.hybris.platform
+name=b2ctelcotmfresources
+description=b2ctelcotmfresources
+builddate=20201102 1754
+releasedate=20201102 1754
+version=2102.0
+module.name=platform-module

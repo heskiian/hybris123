@@ -1,0 +1,117 @@
+#-----------------------------------------------------------------------
+# Copyright (c) 2021 SAP SE or an SAP affiliate company.  All rights reserved.
+#-----------------------------------------------------------------------
+$defaultPassword = 1234
+$currency = currency(isocode)[default = USD]
+$lang = en
+
+INSERT_UPDATE Currency; isocode[unique = true]; active; conversion; digits; symbol
+                      ; USD                   ; true  ; 1.5       ; 2     ; "$"
+                      ; JPY                   ; true  ; 2         ; 2     ; "¥"
+
+INSERT_UPDATE User; uid[unique = true]    ; name; password[default = 1234]
+                  ; a@h.com               ; a
+                  ; b@h.com               ; b
+                  ; etta.berg@hybris.com  ; Etta Berg
+                  ; sam.felt@hybris.com   ; Sam Felt
+                  ; tim.james@hybris.com  ; Tim James
+                  ; user114391@hybris.com ; user114391
+                  ; user114392@hybris.com ; user114392
+                  ; user114393@hybris.com ; user114393
+                  ; user114394@hybris.com ; user114394
+
+
+INSERT_UPDATE CatalogUnawareMedia; code[unique = true]    ; realfilename       ; @media[translator = de.hybris.platform.impex.jalo.media.MediaDataTranslator]; mime[default = 'text/plain']
+                                 ; b2btelco-siteMapMedia  ; siteMapTemplate.vm ;                                                                             ;
+                                 ; b2ctelco-siteMapMedia  ; siteMapTemplate.vm ;                                                                             ;
+                                 ; b2ctelco-siteMapMedia1 ; siteMapTemplate.vm ;                                                                             ;
+                                 ; b2ctelco-siteMapMedia2 ; siteMapTemplate.vm ;                                                                             ;
+                                 ; b2ctelco-siteMapMedia3 ; siteMapTemplate.vm ;                                                                             ;
+                                 ; b2ctelco-siteMapMedia4 ; siteMapTemplate.vm ;                                                                             ;
+                                 ; b2ctelco-siteMapMedia5 ; siteMapTemplate.vm ;                                                                             ;
+                                 ; b2ctelco-siteMapMedia6 ; siteMapTemplate.vm ;                                                                             ;
+                                 ; doc_1257001N           ; siteMapTemplate.vm ;                                                                             ;
+                                 ; doc_1360877N           ; siteMapTemplate.vm ;                                                                             ;
+
+INSERT_UPDATE BmParty; id[unique = true]; name       ; type(code)   ; principals(uid)       ; partyRoles(id)
+                     ; party_10823      ; etta berg  ; INDIVIDUAL   ; etta.berg@hybris.com  ; etta.berg
+                     ; party_108231     ; tim james  ; ORGANIZATION ; tim.james@hybris.com  ; tim.james
+                     ; party_108232     ; sam felt   ; ORGANIZATION ; sam.felt@hybris.com   ; sam.felt
+                     ; party_114391     ; user114391 ; ORGANIZATION ; user114391@hybris.com ; user114391
+                     ; party_114392     ; user114392 ; ORGANIZATION ; user114392@hybris.com ; user114392
+                     ; party_114393     ; user114393 ; INDIVIDUAL   ; user114393@hybris.com ; user114393
+                     ; party_114394     ; user114394 ; INDIVIDUAL   ; user114394@hybris.com ; user114394
+
+INSERT_UPDATE BmPartyRole; id[unique = true]; role
+                         ; etta.berg        ; customer
+                         ; tim.james        ; employee
+                         ; sam.felt         ; employee
+                         ; etta.james       ; customer
+                         ; user114391       ; customer
+                         ; user114392       ; employee
+                         ; user114393       ; customer
+                         ; user114394       ; customer
+
+INSERT_UPDATE BmPartyPayment; id[unique = true]; paymentDate[dateformat = dd.MM.yyyy HH:mm:ss]; paymentItems(id)
+                            ; payment1         ; 10.04.2022 00:00:00                          ; paymentItem1
+                            ; payment2         ; 10.04.2022 00:00:00                          ; paymentItem2
+                            ; payment3         ; 10.04.2022 00:00:00                          ; paymentItem3
+                            ; payment4         ; 10.04.2022 00:00:00                          ; paymentItem4
+                            ; payment5         ; 10.04.2022 00:00:00                          ; paymentItem5
+                            ; payment6         ; 10.04.2022 00:00:00                          ; paymentItem6
+
+INSERT_UPDATE BmPartyPaymentItem; id[unique = true]; appliedAmount; Currency(isocode); payment(id)
+                                ; paymentItem1     ; 25           ; USD              ; payment1
+                                ; paymentItem2     ; 23           ; USD              ; payment2
+                                ; paymentItem3     ; 33           ; USD              ; payment3
+                                ; paymentItem4     ; 44           ; USD              ; payment4
+                                ; paymentItem5     ; 55           ; USD              ; payment5
+                                ; paymentItem6     ; 66           ; USD              ; payment6
+
+INSERT_UPDATE BmFinancialAccount; id[unique = true] ; name                ; partyRoles(id); accountBalances(id)
+                                ; financialAccount1 ; Financial Account 1 ; etta.berg     ; accBalance1
+                                ; financialAccount2 ; Financial Account 1 ; tim.james     ; accBalance1
+                                ; financialAccount3 ; Financial Account 3 ; user114391    ;
+                                ; financialAccount4 ; Financial Account 4 ; user114392    ; accBalance2
+                                ; financialAccount5 ; Financial Account 5 ; user114393    ; accBalance3
+
+INSERT_UPDATE BmBillingAccount; id[unique = true]        ; name         ; partyRoles(id); financialAccount(id); accountBalances(id); partyBills(billNo)
+                              ; ba_etta.berg@hybris.com  ; ba_etta.berg ; etta.berg     ; financialAccount1   ; accBalance1        ; 1257001N, 1360877N
+                              ; ba_tim.james@hybris.com  ; ba_tim.james ; tim.james     ; financialAccount2   ;                    ; cycleBill3
+                              ; ba_user114391@hybris.com ; user114391   ; user114391    ; financialAccount3   ;                    ; bill_114392
+                              ; ba_user114392@hybris.com ; user114392   ; user114392    ; financialAccount4   ; accBalance2        ; bill_114393
+                              ; ba_user114393@hybris.com ; user114393   ; user114393    ; financialAccount5   ; accBalance3        ; bill_114397
+
+INSERT_UPDATE BmAccountBalance; id[unique = true]; remainingAmount; currency(isocode)
+                              ; accBalance1      ; 25             ; USD
+                              ; accBalance2      ; 190            ; USD
+                              ; accBalance3      ; 200            ; USD
+
+INSERT_UPDATE BmAppliedPartyBillingTaxRate; id[unique = true]; taxCategory; quantity; currency(isocode); taxRate
+                                          ; VAT_RATE         ; VAT        ; 10      ; USD              ; 1
+                                          ; rate2            ; cat 2      ; 10      ; USD              ; 2
+                                          ; rate3            ; cat 3      ; 20      ; USD              ; 3
+                                          ; rate4            ; cat 4      ; 25      ; USD              ; 4
+                                          ; rate5            ; cat 5      ; 2       ; USD              ; 5
+                                          ; rate6            ; cat 6      ; 2       ; USD              ; 6
+
+INSERT_UPDATE BmPartyBillingCycle; id[unique = true]; billingDate[dateformat = dd.MM.yyyy HH:mm:ss]; chargeDate[dateformat = dd.MM.yyyy HH:mm:ss]; creditDate[dateformat = dd.MM.yyyy HH:mm:ss]; mailingDate[dateformat = dd.MM.yyyy HH:mm:ss]; paymentDueDate[dateformat = dd.MM.yyyy HH:mm:ss]; nextBillDate[dateformat = dd.MM.yyyy HH:mm:ss]; productionReason
+                                 ; billCycle1       ; 28.05.2021 00:00:00                          ; 28.06.2021 00:00:00                         ; 10.04.2022 00:00:00                         ; 10.04.2022 00:00:00                          ; 08.06.2022 00:00:00                             ; 28.06.2021 00:00:00                           ; ProdReason-OnDemand
+                                 ; billCycle2       ; 28.05.2021 00:00:00                          ; 28.06.2021 00:00:00                         ; 10.04.2022 00:00:00                         ; 10.04.2022 00:00:00                          ; 08.06.2022 00:00:00                             ; 28.06.2021 00:00:00                           ;
+                                 ; billCycle3       ; 28.05.2021 00:00:00                          ; 10.04.2022 00:00:00                         ; 10.04.2022 00:00:00                         ; 10.04.2022 00:00:00                          ; 08.06.2022 00:00:00                             ; 28.06.2021 00:00:00                           ;
+                                 ; billCycle4       ; 28.05.2021 00:00:00                          ; 10.04.2022 00:00:00                         ; 10.04.2022 00:00:00                         ; 10.04.2022 00:00:00                          ; 08.06.2022 00:00:00                             ; 28.06.2021 00:00:00                           ; ProdReason-OnDemand1
+
+INSERT_UPDATE BmOnCyclePartyBill; billNo [unique = true]; amount; currency(isocode); paymentItems(id)           ; taxItems(id) ; billCycle(id); parties(id)                ; status(code)   ; attachments(code)
+                                ; 1257001N              ; 50    ; USD              ; paymentItem1               ; VAT_RATE     ; billCycle1   ; party_10823                ; PARTIALLY_PAID ; doc_1257001N
+                                ; 1360877N              ; 60    ; USD              ; paymentItem2               ; rate2        ; billCycle2   ; party_10823                ; ON_HOLD        ; doc_1360877N
+                                ; cycleBill3            ; 333   ; USD              ; paymentItem3               ; rate3        ; billCycle3   ; party_108232               ; PARTIALLY_PAID ;
+                                ; bill_114391           ; 10    ; USD              ;                            ;              ;              ;                            ;                ; b2btelco-siteMapMedia, b2ctelco-siteMapMedia
+                                ; bill_114392           ; 20    ; USD              ;                            ;              ;              ;                            ;                ; b2ctelco-siteMapMedia1
+                                ; bill_114393           ; 10    ; USD              ;                            ;              ;              ;                            ;                ; b2ctelco-siteMapMedia2
+                                ; bill_114394           ; 10    ; USD              ;                            ;              ;              ; party_114391, party_114392 ;                ; b2ctelco-siteMapMedia3
+                                ; bill_114395           ; 30    ; USD              ;                            ; rate4, rate5 ;              ; party_114393               ; NEW            ; b2ctelco-siteMapMedia4
+                                ; bill_114396           ; 10    ; USD              ; paymentItem4, paymentItem5 ;              ;              ;                            ; SENT           ; b2ctelco-siteMapMedia5
+                                ; bill_114397           ; 10    ; USD              ; paymentItem6               ; rate6        ; billCycle4   ; party_114392               ;                ; b2ctelco-siteMapMedia6
+
+UPDATE User; UID[unique = true]; password[default = 1234]; loginDisabled[default = false]
+

@@ -1,0 +1,681 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for Importing Product Offerings Stock Levels
+
+$productCatalog = b2ctelcoProductCatalog
+$productCatalogName = B2C Telco Product Catalog
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Online'])[unique = true, default = $productCatalog:Online]
+$vendor = b2ctelco
+#Create test simple product stock levels
+
+#% impex.enableCodeExecution(true);
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE StockLevel; productCode[unique = true]; available[default = 10]; warehouse(code)[unique = true, default = warehouse_b2ctelco]; inStockStatus(code)[default = notSpecified]; maxPreOrder[default = 0]; maxStockLevelHistoryCount[default = -1]; overSelling[default = 0]; preOrder[default = 0]; reserved[default = 0]
+                        ; SIMPLE_PRODUCT_FIXED_DISCOUNT
+                        ; SIMPLE_PRODUCT_PERCENTAGE_DISCOUNT
+                        ; SIMPLE_PERCENTAGE_DISCOUNT_CART_1
+                        ; SIMPLE_PERCENTAGE_DISCOUNT_CART_2
+                        ; SIMPLE_PERCENTAGE_DISCOUNT_CART_3
+                        ; SIMPLE_FIXED_DISCOUNT_CART_1
+                        ; SIMPLE_FIXED_DISCOUNT_CART_2
+                        ; SIMPLE_FIXED_DISCOUNT_CART_3
+                        ; SIMPLE_PRODUCT_FIXED_PRICE_PROMOTION_1
+                        ; SIMPLE_PRODUCT_FIXED_PRICE_PROMOTION_2
+                        ; SIMPLE_PRODUCT_FIXED_DISCOUNT_CATEGORY
+                        ; SIMPLE_PRODUCT_PERCENTAGE_DISCOUNT_CATEGORY
+                        ; SIMPLE_PRODUCT_FIXED_PRICE_PROMOTION_CATEGORY
+                        ; SIMPLE_PRODUCT_PERCENTAGE_DISCOUNT_CART
+                        ; SIMPLE_PRODUCT_PERCENTAGE_DISCOUNT_CART_1
+                        ; SIMPLE_PRODUCT_PERCENTAGE_DISCOUNT_CART_2
+                        ; SIMPLE_PRODUCT_PERCENTAGE_DISCOUNT_CART_3
+                        ; SIMPLE_PRODUCT_PERCENTAGE_DISCOUNT_CART_CATEGORY
+                        ; SIMPLE_PRODUCT_PERCENTAGE_DISCOUNT_CART_NOT_CATEGORY
+                        ; SIMPLE_PRODUCT_PERFECT_PARTNER_FIXED_PRICE_1
+                        ; SIMPLE_PRODUCT_PERFECT_PARTNER_FIXED_PRICE_2
+                        ; SIMPLE_PRODUCT_PERFECT_PARTNER_FIXED_PRICE_CATEGORY_1
+                        ; SIMPLE_PRODUCT_PERFECT_PARTNER_FIXED_PRICE_CATEGORY_2
+                        ; SIMPLE_PRODUCT_PERFECT_PARTNER_PERCENTAGE_DISCOUNT_1
+                        ; SIMPLE_PRODUCT_PERFECT_PARTNER_PERCENTAGE_DISCOUNT_2
+                        ; SIMPLE_PRODUCT_PERFECT_PARTNER_PERCENTAGE_DISCOUNT_CATEGORY_1
+                        ; SIMPLE_PRODUCT_PERFECT_PARTNER_PERCENTAGE_DISCOUNT_CATEGORY_2
+                        ; SIMPLE_X_BUY_X_GET_Y_FREE
+                        ; SIMPLE_Y_BUY_X_GET_Y_FREE
+                        ; SIMPLE_ONE_X_MORE_Y_BUY_X_GET_Y_FREE_1
+                        ; SIMPLE_ONE_X_MORE_Y_BUY_X_GET_Y_FREE_2
+                        ; SIMPLE_ONE_X_MORE_Y_QUANTITY_BUY_X_GET_Y_FREE_1
+                        ; SIMPLE_ONE_X_MORE_Y_QUANTITY_BUY_X_GET_Y_FREE_2
+                        ; SIMPLE_MORE_X_ONE_Y_BUY_X_GET_Y_FREE_1
+                        ; SIMPLE_MORE_X_ONE_Y_BUY_X_GET_Y_FREE_2
+                        ; SIMPLE_MORE_X_MORE_Y_BUY_X_GET_Y_FREE_1
+                        ; SIMPLE_MORE_X_MORE_Y_BUY_X_GET_Y_FREE_2
+                        ; BPO_X_BUY_X_GET_Y_FREE
+                        ; BPO_Y_BUY_X_GET_Y_FREE
+                        ; SIMPLE_X_CATEGORY_BUY_X_GET_Y_FREE
+                        ; SIMPLE_Y_CATEGORY_BUY_X_GET_Y_FREE
+                        ; SERVICE_PLAN_BUY_X_GET_Y_FREE_1
+                        ; SERVICE_PLAN_BUY_X_GET_Y_FREE_2
+                        ; 3953616
+                        ; TAPAS_XS_TMF
+                        ; PRODUCT_TMF_1
+                        ; SIMPLE_PRODUCT_CUSTOMER_SPECIFIC_PRECENTAGE_DISCOUNT
+                        ; SIMPLE_PRODUCT_MULTIBUY_FIXED_PRICE_1
+                        ; SIMPLE_PRODUCT_MULTIBUY_FIXED_PRICE_2
+                        ; SIMPLE_PRODUCT_MULTIBUY_FIXED_PRICE_3
+                        ; SIMPLE_PRODUCT_MULTIBUY_FIXED_PRICE_CATEGORY_1
+                        ; SIMPLE_PRODUCT_MULTIBUY_FIXED_PRICE_CATEGORY_2
+                        ; SIMPLE_PRODUCT_MULTIBUY_FIXED_PRICE_CATEGORY_3
+                        ; SIMPLE_PRODUCT_MULTIBUY_FIXED_PRICE_CATEGORY_4
+                        ; SIMPLE_PRODUCT_MULTIBUY_FIXED_PRICE_CATEGORY_5
+                        ; SIMPLE_PRODUCT_MULTIBUY_FIXED_PRICE_CATEGORY_6
+                        ; SIMPLE_PRODUCT_MULTIBUY_FIXED_PRICE_CATEGORY_7
+                        ; SIMPLE_PRODUCT_BUNDLE_FIXED_PRICE_1
+                        ; SIMPLE_PRODUCT_BUNDLE_FIXED_PRICE_2
+                        ; SIMPLE_PRODUCT_BUNDLE_FIXED_PRICE_3
+                        ; SIMPLE_PRODUCT_BUNDLE_FIXED_PRICE_CATEGORY_1
+                        ; SIMPLE_PRODUCT_BUNDLE_FIXED_PRICE_CATEGORY_2
+                        ; SIMPLE_PRODUCT_BUNDLE_FIXED_PRICE_CATEGORY_3
+                        ; SIMPLE_PRODUCT_BUNDLE_FIXED_PRICE_CATEGORY_4
+                        ; APPLE_IPHONE_6_PBFP
+                        ; SIMPLE_PRODUCT_PRICE_THRESHOLD_FIXED_DISCOUNT_1
+                        ; SIMPLE_PRODUCT_PRICE_THRESHOLD_FIXED_DISCOUNT_2
+                        ; SIMPLE_PRODUCT_PRICE_THRESHOLD_FIXED_DISCOUNT_3
+                        ; SIMPLE_THRESHOLD_FIXED_DISCOUNT_PRODUCT_AFFECTED_PRODUCT_1
+                        ; SIMPLE_THRESHOLD_FIXED_DISCOUNT_PRODUCT_AFFECTED_PRODUCT_2
+                        ; SIMPLE_THRESHOLD_FIXED_DISCOUNT_PRODUCT_1
+                        ; SIMPLE_THRESHOLD_FIXED_DISCOUNT_PRODUCT_2
+                        ; SIMPLE_THRESHOLD_FIXED_DISCOUNT_PRODUCT_3
+                        ; SIMPLE_THRESHOLD_FIXED_DISCOUNT_PRODUCT_CATEGORY_1
+                        ; SIMPLE_THRESHOLD_FIXED_DISCOUNT_PRODUCT_CATEGORY_2
+                        ; SIMPLE_PRODUCT_CUSTOMER_SPECIFIC_FIXED_DISCOUNT_ORDER_THRESHOLD_1
+                        ; SIMPLE_PRODUCT_CUSTOMER_SPECIFIC_FIXED_DISCOUNT_ORDER_THRESHOLD_2
+                        ; SIMPLE_PRODUCT_CUSTOMER_SPECIFIC_FIXED_DISCOUNT_ORDER_THRESHOLD_3
+                        ; sombreroS_LBP
+                        ; sombreroL_LBP
+                        ; Samsung_Galaxy_S5_LBP
+                        ; SIMPLE_ORDER_THRESHOLD_FREE_GIFT_1
+                        ; SIMPLE_ORDER_THRESHOLD_FREE_GIFT_2
+                        ; SIMPLE_ORDER_THRESHOLD_FREE_GIFT_3
+                        ; SIMPLE_ORDER_THRESHOLD_FREE_GIFT_FREE
+                        ; SERVICE_PLAN_ORDER_THRESHOLD_FREE_GIFT_FREE
+                        ; SIMPLE_NOT_ELIGIBLE_ORDER_THRESHOLD_FREE_GIFT
+                        ; SIMPLE_CATEGORY_ORDER_THRESHOLD_FREE_GIFT
+                        ; SIMPLE_COUPON_CODE_PERCENTAGE_DISCOUNT
+                        ; SIMPLE_ORDER_COUPON_DISCOUNT
+                        ; APPLE_IPHONE_X_256
+                        ; APPLE_IPHONE_X_256_5836
+                        ; SIMPLE_COUPON_CODE_FIXED_DISCOUNT
+                        ; SIMPLE_COUPON_CODE_PERCENTAGE_DISCOUNT_PRODUCT
+                        ; iphoneXs_Max_5812
+                        ; tapasS_5812
+                        ; tapasM_5812
+                        ; tapasS_LBP
+                        ; Apple_iPhone_6plus_LBP
+                        ; internet_pack_casual_LBP
+                        ; Apple_iPhone_7plus_LBP
+                        ; Apple_iPhone_7_LBP
+                        ; Apple_iPhone_9plus_LBP
+                        ; Apple_iPhone_9_LBP
+                        ; Apple_iPhone_10_LBP
+                        ; SIMPLE_PRODUCT_OFFERING_6
+                        ; SIMPLE_PRODUCT_OFFERING_7
+                        ; SIMPLE_PRODUCT_OFFERING_9
+                        ; SIMPLE_PRODUCT_OFFERING_10
+                        ; SIMPLE_PRODUCT_OFFERING_12
+                        ; SIMPLE_PRODUCT_OFFERING_14
+                        ; SIMPLE_PRODUCT_OFFERING_15
+                        ; SIMPLE_PRODUCT_OFFERING_16
+                        ; SIMPLE_PRODUCT_OFFERING_17
+                        ; SIMPLE_PRODUCT_OFFERING_18
+                        ; SIMPLE_PRODUCT_OFFERING_19
+                        ; SIMPLE_PRODUCT_OFFERING_20
+                        ; SIMPLE_PRODUCT_OFFERING_21
+                        ; SIMPLE_PRODUCT_OFFERING_22
+                        ; SIMPLE_PRODUCT_OFFERING_23
+                        ; SIMPLE_PRODUCT_OFFERING_24
+                        ; SIMPLE_PRODUCT_OFFERING_25
+                        ; tapasXL_LBP
+                        ; samsung_s8_1_LBP
+                        ; samsung_s8_2_LBP
+                        ; samsung_s8_3_LBP
+                        ; samsung_s8_4_LBP
+                        ; samsung_s8_5_LBP
+                        ; samsung_s8_6_LBP
+                        ; samsung_s8_7_LBP
+                        ; samsung_s8_8_LBP
+                        ; iPhone_7202
+                        ; Samsung_7202
+                        ; Sony_7202
+                        ; Xperia_7202
+                        ; Dext_7202
+                        ; Nexus_7202
+                        ; iPhoneX_7202
+                        ; iPhone6_7202
+                        ; iPhone6_plus_7202
+                        ; Milestone_7202
+                        ; Smartpink_7202
+                        ; Quench_7202
+                        ; iPhone_16GB_7202
+                        ; iPhone_32GB_7202
+                        ; Galaxy_Note4_7202
+                        ; Galaxy_S5_7202
+                        ; iPhone_8GB_7202
+                        ; Backflip_7202
+                        ; samsung_s10_7564
+                        ; samsung_s9_7564
+                        ; panther_internet_7564
+                        ; racoon_plan_7564
+                        ; savannah_plan_7564
+                        ; allInOne_plan_7564
+                        ; wholeDeal_plan_7564
+                        ; Samsung_7189
+                        ; Tapas_7189
+                        ; int100_7189
+                        ; unlimitedPremiumPlan_7189
+                        ; Salsa_7189
+                        ; Nokia_7189
+                        ; tvS_7189
+                        ; tvM_7189
+                        ; Samsung_s8_7214
+                        ; TapasS_7214
+                        ; int100_7214
+                        ; unlimitedPremiumPlan_7214
+                        ; SalsaS_7214
+                        ; NokiaXpress_7214
+                        ; tvS_7214
+                        ; tvM_7214
+                        ; Apple_iPhone6_7214
+                        ; unlimitedStarterPlan_7214
+                        ; Wildfire_7214
+                        ; unlimitedBasicPlan_7214
+                        ; iPhone8_Gold_256G_7214
+                        ; unlimitedPromoPlan_7214
+                        ; wholeDeal_plan_7564
+                        ; Samsung_7960
+                        ; iPhone_7960
+                        ; int100_7960
+                        ; int1000_7960
+                        ; int500_7960
+                        ; int300_7960
+                        ; unlimitedPremiumPlan_7960
+                        ; TapasS_7960
+                        ; Galaxy_7960
+
+                        ; int100_7960               ;                        ; Hybris Telco - Seattle Premium Outlets
+                        ; int1000_7960              ;                        ; Hybris Telco - Seattle Premium Outlets
+                        ; unlimitedPremiumPlan_7960 ;                        ; Hybris Telco - Seattle Premium Outlets
+                        ; TapasS_7960               ;                        ; Hybris Telco - Seattle Premium Outlets
+                        ; tapasM                    ;                        ; Hybris Telco - Seattle Premium Outlets
+                        ; Samsung_7540
+
+                        ; PremiumUnlimitedPlan_7965
+                        ; BasicStarterPlan_7965
+                        ; Weekender_7965
+                        ; HotspotOption_7965
+                        ; Internet_Pack_Max_7965
+                        ; Internet_Pack_Basic_7965
+                        ; Tapas_7540
+
+                        ; iPhone_6_7345
+                        ; salsa_7345
+                        ; tapas_7345
+                        ; samsung_7345
+                        ; tapas_M_7345
+                        ; iphone8_7345
+                        ; Sombrero_7345
+                        ; Nexus_7345
+                        ; unlimitedPremiumPlan_7345
+                        ; iPhone_32GB_7345
+                        ; Galaxy_Note4_7345
+                        ; iPhone_8GB_7345
+                        ; Backflip_7345
+                        ; iPhone_11_Pro_8334
+## POST ShoppingCart with credits
+                        ; Apple_iPhone6_7289
+                        ; Apple_iPhone6plus_7289
+                        ; SombreroS_7289
+                        ; SombreroM_7289
+                        ; internet200mb_7289
+                        ; internet1000mb_7289
+                        ; unlimitedBasicPlan_7289
+                        ; unlimitedStarterPlan_7289
+                        ; premiumUnlimitedPlan_7289
+                        ; Fiberlink_7289
+                        ; Samsung_s8_7289
+                        ; Dext_7289
+## POST Order with credits
+                        ; unlimitedStarterPlan_84381
+                        ; unlimitedStarterPlan_84382
+                        ; unlimitedStarterPlan_84383
+                        ; unlimitedStarterPlan_84384
+                        ; iphone6_84381
+                        ; unlimitedBasicPlan_84381
+                        ; unlimitedBasicPlan_84382
+                        ; unlimitedBasicPlan_84383
+                        ; unlimitedBasicPlan_84384
+
+# BPO Cardinality - Create Cart
+                        ; tv_S_8941
+                        ; netflix_8941
+                        ; ll_pots_8941
+                        ; ll_voip_8941
+                        ; Apple_iPhone6_8941
+                        ; samsung_s8_8941
+                        ; sports_8941
+                        ; tv_L_8941
+                        ; int_100_8941
+                        ; int_500_8941
+                        ; int_1000_8941
+
+# BPO Cardinality - Update Cart
+                        ; unlimitedStarterPlan_8983
+                        ; Apple_iPhone_6_8983
+
+# Hierarchical Cart - Cart
+                        ; unlimitedStarterPlan_9260
+                        ; Apple_iPhone_6_9260
+                        ; tv_M_9260
+                        ; int_100_9260
+
+# Hierarchical Cart - Promotion
+                        ; unlimitedStarterPlan_9261
+                        ; Apple_iPhone_6_9261
+                        ; int_100_9261
+                        ; router_9260
+
+# Hierarchical Cart - Order
+                        ; unlimitedStarterPlan_9798
+                        ; Apple_iPhone_6_9798
+                        ; tv_M_9798
+                        ; int_100_9798
+
+# Hierarchical Cart - E2E
+                        ; StarterPlan9610
+                        ; iPhone_gray9610
+                        ; tv_S9610
+                        ; int_100_9610
+                        ; Apple_iPhone_6_9610
+
+## Order APIs - Fixed BPOs
+                        ; UnlimitedStarterPlan_10441
+                        ; iPhone8_10441
+                        ; iPhoneX_10441
+                        ; Samsung_s8_10441
+                        ; internet_200mb_10441
+                        ; internet_1000mb_10500
+                        ; Starter_homeDeal_10441
+                        ; Starter_mobileDeal_10441
+                        ; Starter_landline_10441
+                        ; Starter_internet_10441
+                        ; Starter_quadPlay_10441
+                        ; Starter_landline_10500
+                        ; SchoolPlan_10500
+                        ; WinterDeal_10500
+                        ; SummerDeal_10500
+                        ; SuperSave_10500
+                        ; FestiveSale_10500
+                        ; StandardOffer_10500
+## POST and PATCH Carts of Fixed BPOs
+                        ; UnlimitedStarterPlan_10469
+                        ; Apple_iPhone6_10469
+                        ; Samsung_s5_10469
+                        ; Internet_100mb_10469
+                        ; Tv_M_10469
+                        ; Fiberlink_500_10469
+                        ; UnlimitedBasicPlan_10469
+                        ; Unlimited5GPlan_10469
+                        ; Samsung_s8_10469
+                        ; Apple_iPhone6plus_10469
+                        ; Internet1000mb_10469
+                        ; Apple_iPhone7plus_10469
+                        ; Nexus_10469
+                        ; Fiberlink_100_10469
+                        ; Unlimited3GPlan_10469
+                        ; int_100_10469
+                        ; Unlimited4GPlan_10469
+                        ; int_300_10469
+                        ; UnlimitedPremiumPlan_10469
+                        ; Apple_iPhone8_10469
+                        ; Tv_L_10469
+                        ; Fiberlink_300_10469
+                        ; Nokia_10469
+                        ; Tv_S_10469
+                        ; Fiberlink_1000_10469
+                        ; Samsung_10469
+                        ; int_500_10469
+                        ; Samsung_S6_10469
+                        ; int_700_10469
+                        ; electric_plan_basic_10469
+                        ; int_200_10469
+                        ; electric_plan_best_10469
+                        ; int_400_10469
+                        ; electric_plan_plus_10469
+                        ; Internet_500mb_10469
+                        ; gas_plan_basic_10469
+                        ; int_600_10469
+                        ; Unlimited7GPlan_10469
+                        ; int_900_10469
+                        ; Starter_mobileDeal_10469
+                        ; Starter_internet_10469
+                        ; Starter_homeDeal_10469
+                        ; Starter_internetDeal_10469
+                        ; Starter_mobileDeal1_10469
+                        ; Starter_mobileDeal2_10469
+                        ; Starter_homeDeal1_10469
+                        ; Starter_homeDeal2_10469
+                        ; Starter_homeDeal3_10469
+                        ; Starter_phoneDeal_10469
+                        ; Starter_homeAppsDeal_10469
+                        ; Starter_quadplay1_10469
+                        ; Starter_homeDeal4_10469
+                        ; Starter_landline_10469
+                        ; Starter_landline1_10469
+                        ; Starter_homeDeal5_10469
+                        ; Starter_homeDeal6_10469
+                        ; Starter_homeDeal7_10469
+                        ; Starter_homeDeal8_10469
+                        ; Internet_FBPO3_10469
+                        ; Starter_homeDeal9_10469
+                        ; homeDeal_10469
+                        ; quadPlay_10469
+                        ; iPhone_8_10469
+                        ; unlimitedInternetPlan_10469
+                        ; tv_XL_10469
+                        ; movies_go_10469
+                        ; quadPlay_RBPO_10469
+                        ; DthDeal_BPO_10469
+                        ; internetDeal_FBPO_10469
+                        ; tvDeal_FBPO_10469
+                        ; iPhoneX_SPO_10469
+                        ; int_SPO_10469
+                        ; tv_S_SPO_10469
+                        ; unlimitedStarterPlan_FBPO_10469
+                        ; Apple_iPhone_6_FBPO_10469
+                        ; tv_M_FBPO_10469
+                        ; int_100_FBPO_10469
+                        ; Apple_iPhone_7_FBPO_10469
+                        ; unlimitedPremiumPlan_FBPO_10469
+                        ; Apple_iPhone_8_FBPO_10469
+                        ; unlimitedBasicPlan_FBPO_10469
+                        ; iPhone8_FBPO_10469
+                        ; internet200mb_FBPO_10469
+                        ; Nokia_FBPO_10469
+                        ; internet100mb_FBPO_10469
+                        ; premiumUnlimitedPlan_FBPO_10469
+                        ; Fiberlink_FBPO_10469
+                        ; Galaxy_FBPO_10469
+                        ; int_300_FBPO_10469
+                        ; tv_S_FBPO_10469
+                        ; NokiaXpress_FBPO_10469
+                        ; Internet_Pack_Max_FBPO_10469
+                        ; BasicStarterPlan_FBPO_10469
+                        ; Dext_FBPO_10469
+                        ; Internet_Pack_Smart_FBPO_10469
+                        ; unlimitedStarterPlan_FBPO_TC2_10469
+                        ; Apple_iPhone_6_FBPO_TC2_10469
+                        ; Apple_iPhone_6Plus_FBPO_TC2_10469
+                        ; unlimitedStarterPlan_FBPO_TC4_10469
+                        ; Apple_iPhone_6_FBPO_TC4_10469
+                        ; unlimitedBasicPlan_FBPO_10501
+                        ; iPhone8_FBPO_10501
+                        ; Apple_6Plus_FBPO_10501
+                        ; unlimitedBasicPlan_BPO_10501
+                        ; iPhone8_BPO_10501
+                        ; Nokia_BPO_10501
+                        ; unlimitedBasicPlan_OCC_FBPO_10501
+                        ; iPhone8_OCC_FBPO_10501
+                        ; int_300_OCC_FBPO_10501
+                        ; Galaxy_OCC_FBPO_10501
+                        ; tv_S_OCC_FBPO_10501
+                        ; unlimitedPremiumPlan_OCC_FBPO_10501
+                        ; Fiberlink_100_OCC_FBPO_10501
+                        ; Apple_6Plus_OCC_FBPO_10501
+                        ; NokiaXpress_OCC_FBPO_10501
+                        ; Internet_Pack_Max_OCC_FBPO_10501
+                        ; BasicStarterPlan_OCC_FBPO_10501
+                        ; unlimitedStarterPlan_FBPO_TC4_10469
+                        ; int_100_OCC_FBPO_10501
+                        ; Nexus_OCC_FBPO_10501
+                        ; FlexWav_OCC_FBPO_10501
+                        ; fastrack_OCC_FBPO_10501
+                        ; homeDeal_OCC_FBPO_10501
+                        ; tab_OCC_FBPO_10501
+                        ; int_500_OCC_FBPO_10501
+                        ; Samsung_S7_OCC_FBPO_10501
+                        ; unlimitedInternetPlan_FBPO_10501
+                        ; iPhone9_FBPO_10501
+                        ; motorola_FBPO_10501
+                        ; unlimitedBasicPlan_BPO_OCC_10501
+                        ; iPhone8_BPO_OCC_10501
+                        ; Apple_6Plus_BPO_OCC_10501
+                        ; mobileDeal_FBPO_10469
+                        ; ipTVDeal_FBPO_10469
+                        ; internet_FBPO_10469
+                        ; homeDeal_FBPO_10469
+                        ; quadPlay_FBPO_10469
+                        ; summerDeal_FBPO_10469
+                        ; winterDeal_FBPO_10469
+                        ; rainyDeal_FBPO_10469
+                        ; springDeal_FBPO_10469
+                        ; maxDeal_FBPO_10469
+                        ; minDeal_FBPO_10469
+                        ; extremeDeal_FBPO_10469
+                        ; lightningDeal_FBPO_10469
+                        ; limitedDeal_FBPO_10469
+                        ; bestDeal_FBPO_10469
+                        ; shortDeal_FBPO_10469
+                        ; excitingDeal_FBPO_10469
+                        ; mobileDeal_FBPO_TC2_10469
+                        ; mobileDeal_FBPO_TC3_10469
+                        ; mobileDeal_FBPO_TC4_10469
+                        ; mobileDeal_FBPO_10501
+                        ; fixedLinesDeal_BPO_10501
+                        ; mobileDeal_OCC_FBPO_10501
+                        ; minDeal_OCC_FBPO_10501
+                        ; internetDeal_OCC_FBPO_10501
+                        ; extremeDeal_OCC_FBPO_10501
+                        ; lightningDeal_OCC_FBPO_10501
+                        ; limitedDeal_OCC_FBPO_10501
+                        ; ipTvDeal_OCC_FBPO_10501
+                        ; AmazonDeal_OCC_FBPO_10501
+                        ; snapDeal_OCC_FBPO_10501
+                        ; FestivalDeal_OCC_FBPO_10501
+                        ; StudentDeal_OCC_FBPO_10501
+                        ; phoneDeal_FBPO_10501
+                        ; quadPlay_FBPO_10501
+                        ; mobileDeal_BPO_OCC_10501
+                        ; quadPlay_TMF_BPO_10469
+                        ; homeDeal_10469
+                        ; quadPlay_BPO_10501
+                        ; simpleDeal_BPO_10501
+                        ; quadPlay_OCC_FBPO_10501
+                        ; FreedomDeal_OCC_FBPO_10501
+                        ; quadPlay_BPO_OCC_10501
+                        ; quadPlay_RBPO_10501
+                        ; mobileDeal_BPO_10501
+                        ; mobileDeal_10501
+                        ; unlimitedBasicPlan_md_SPO_10501
+                        ; iPhone8_md_SPO_10501
+                        ; homeDeal_BPO_10501
+                        ; unlimitedBasicPlan_hd_SPO_10501
+                        ; iPhone8_hd_SPO_10501
+                        ; homeDeal_FBPO_10501
+                        ; ipTVDeal_FBPO_10501
+                        ; internet_FBPO_10501
+                        ; Apple_iPhone_11_FBPO_10469
+###########################################
+### Importing Bundled Product Offerings ###
+###########################################
+INSERT_UPDATE StockLevel; productCode[unique = true]; available[default = 10]; warehouse(code)[unique = true, default = 'warehouse_b2ctelco']; inStockStatus(code)[default = forceInStock]; maxPreOrder[default = 0]; maxStockLevelHistoryCount[default = -1]; overSelling[default = 0]; preOrder[default = 0]; reserved[default = 0]
+                        ; test_tmf_mobileDeal
+                        ; homeDeal_7541
+                        ; specialDeal_7541
+                        ; homeDeal_6949
+                        ; Empty_Bpo
+                        ; mobileDeal_9368
+
+### POST ShoppingCart with Credits
+                        ; mobileDeal_7289
+                        ; mobileDeal_7176
+                        ; mobileDeal_7478
+                        ; mobileDeal_8449
+
+## PSCVs on POP
+                        ; mobileDeal_8800
+
+## BPO Cardinality
+                        ; back2school_3640
+                        ; mobileDeal_3640
+                        ; quadPlay_3640
+                        ; landLine_3640
+
+# BPO Cardinality - Place Order
+                        ; ipTVDeal_8942
+                        ; quadPlay_8942
+                        ; mobileDeal_8942
+                        ; homeDeal_8942
+
+# BPO Cardinality - Create Cart
+                        ; homeDeal_8941
+                        ; landLine_8941
+                        ; back2school_8941
+                        ; ipTvDeal_8941
+                        ; internet_8941
+
+# BPO Cardinality - Update Cart
+                        ; starterMobileDeal_8983
+
+# PLA get po by id
+                        ; mobileDeal_9334
+
+# PO associated with Usage Specifications - GET PO by Id
+                        ; mobileDeal_9493
+
+# PO associated with Usage Specifications - GET Recommendation
+                        ; mobileDeal_9500
+
+# Hierarchical Cart - Cart
+                        ; quadPlay_9260
+                        ; mobileDeal_9260
+                        ; homeDeal_9260
+                        ; ipTVDeal_9260
+                        ; internet_9260
+
+# Hierarchical Cart - Promotion
+                        ; quadPlay_9261
+                        ; mobileDeal_9261
+                        ; homeDeal_9261
+                        ; internet_9261
+
+# Hierarchical Cart - Order
+                        ; quadPlay_9798
+                        ; mobileDeal_9798
+                        ; homeDeal_9798
+                        ; ipTVDeal_9798
+                        ; internet_9798
+
+# Hierarchical Cart - E2E
+                        ; quadPlay_9610
+                        ; mobileDeal_9610
+                        ; homeDeal_9610
+                        ; ipTVDeal_9610
+                        ; internet_9610
+
+
+##############################
+### Importing ServicePlans ###
+##############################
+"#% Registry.setCurrentTenantByID(""api"");"
+# Attention: default stockStatus is here forceInStock and so different to the products imported before
+INSERT_UPDATE StockLevel; productCode[unique = true]; available[default = 10]; warehouse(code)[unique = true, default = 'warehouse_b2ctelco']; inStockStatus(code)[default = forceInStock]; maxPreOrder[default = 0]; maxStockLevelHistoryCount[default = -1]; overSelling[default = 0]; preOrder[default = 0]; reserved[default = 0]
+                        ; tapasS
+                        ; tapasM
+                        ; tapasL
+                        ; tapasXL
+                        ; salsaS
+                        ; salsaM
+                        ; salsaL
+                        ; salsaXL
+                        ; sombreroS
+                        ; sombreroM
+                        ; sombreroL
+                        ; sombreroXL
+                        ; int_100_7234
+                        ; int_500_7234
+                        ; int_1000_7234
+                        ; Samsung_7234
+                        ; Apple_iPhone6_7234
+                        ; Dext_7234
+                        ; Nexus_7234
+                        ; unlimitedPremiumPlan_7234
+                        ; iPhone8_7234
+                        ; Smartpink_7234
+                        ; iPhone_32GB_7234
+                        ; Galaxy_Note4_7234
+                        ; Galaxy_S5_7234
+                        ; iPhone_8GB_7234
+                        ; Backflip_7234
+                        ; Quench_7234
+                        ; Samsung_7960
+                        ; iPhone_7960
+                        ; int100_7960
+                        ; int1000_7960
+                        ; int500_7960
+                        ; int300_7960
+                        ; unlimitedPremiumPlan_7960
+                        ; TapasS_7960
+                        ; Galaxy_7960
+## End to End Composite Pricing
+                        ; unlimitedStarterPlan_7478
+                        ; unlimitedBasicPlan_7478
+                        ; Apple_iPhone6_7478
+                        ; unlimitedStarterPlan_8449
+                        ; unlimitedBasicPlan_8449
+                        ; Apple_iPhone6_8449
+
+# BPO Cardinality - Place Order
+                        ; tv_S_8942
+                        ; tv_M_8942
+                        ; MoviesGO_8942
+                        ; SportsPack_8942
+                        ; Apple_iPhone6_8942
+                        ; Samsung_s8_8942
+                        ; TapasS_8942
+                        ; Motorola_8942
+                        ; Dext_8942
+                        ; PremiumUnlimitedPlan_8942
+
+#####################
+### SERVICE PLANS ###
+#####################
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaSimpleProductOffering; code[unique = true]; stockLevels(productCode, warehouse(code[default = warehouse_b2ctelco])); vendors(code)[default = $vendor]; $catalogVersion
+                                      ; tapasS             ; tapasS
+                                      ; tapasM             ; tapasM
+                                      ; tapasL             ; tapasL
+                                      ; tapasXL            ; tapasXL
+                                      ; salsaS             ; salsaS
+                                      ; salsaM             ; salsaM
+                                      ; salsaL             ; salsaL
+                                      ; salsaXL            ; salsaXL
+                                      ; sombreroS          ; sombreroS
+                                      ; sombreroM          ; sombreroM
+                                      ; sombreroL          ; sombreroL
+                                      ; sombreroXL         ; sombreroXL
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE StockLevel; productCode[unique = true]       ; available[default = 10]; warehouse(code)[unique = true, default = 'warehouse_b2ctelco']; inStockStatus(code)[default = notSpecified]; maxPreOrder[default = 0]; maxStockLevelHistoryCount[default = -1]; overSelling[default = 0]; preOrder[default = 0]; reserved[default = 0]
+# composite pricing for price alteration and promotion tests
+                        ; unlimited5GPlan_7968             ;
+                        ; unlimited5GPlan_7968_discountRow ;
+
+# Create test Stocklevels for TMF Get Order by Id
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE StockLevel; productCode[unique = true]; available[default = 10]; warehouse(code)[unique = true, default = warehouse_b2ctelco]; inStockStatus(code)[default = notSpecified]; maxPreOrder[default = 0]; maxStockLevelHistoryCount[default = -1]; overSelling[default = 0]; preOrder[default = 0]; reserved[default = 0]
+                        ; Fiberlink_9731
+                        ; Samsung_s8_9731
+                        ; tapasL_9731
+                        ; tv_S_9731

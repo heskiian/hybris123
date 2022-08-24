@@ -1,0 +1,35 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+#******************************This file is generated - please do not edit it. It will be regenerated after every build.********************************#
+# ImpEx for Importing Categories into Utilities Store
+
+# Macros / Replacement Parameter definitions
+$productCatalog = utilitiesProductCatalog
+$productCatalogName = Utilities Product Catalog
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Staged'])[unique = true, default = $productCatalog:Staged]
+
+
+# Language
+$lang = en
+
+# Create Categories
+UPDATE Category; code[unique = true]; $catalogVersion; name[lang = $lang]
+               ; 1                  ;                ; Open Catalogue ;
+
+
+# ImpEx for Importing Categories into Utilities Store (English)
+UPDATE Category; code[unique = true]; name[lang = $lang]  ; description[lang = $lang]; $catalogVersion
+               ; electricityplans   ; Electricity Plans   ; Electricity Plans
+               ; devices            ; Devices             ; Devices
+               ; plans              ; Plans               ; Plans
+               ; electricitydevices ; Electrical Devices  ; Electrical Devices
+               ; lightbulbs         ; Lightbulbs          ; Lightbulbs
+               ; electricalcords    ; Electrical Cords    ; Electrical Cords
+               ; solarpanels        ; Solar Panels        ; Solar Panels
+               ; thermostats        ; Thermostats         ; Thermostats
+               ; gasplans           ; Gasplans            ; Gasplans
+               ; homeservices       ; Home Services       ; Home Services
+               ; installation       ; Installation        ; Installation
+               ; homewarrantyplans  ; Home Warranty Plans ; Home Warranty Plans

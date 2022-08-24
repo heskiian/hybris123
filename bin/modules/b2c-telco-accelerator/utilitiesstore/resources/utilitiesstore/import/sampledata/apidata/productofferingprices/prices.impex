@@ -1,0 +1,40 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for Importing Sample Prices
+
+#% impex.enableCodeExecution(true)           ;
+
+$catalog-id = utilitiesProductCatalog
+$catalog-version = Staged
+$catalogVersion = catalogversion(catalog(id[default = $catalog-id]), version[default = $catalog-version])[unique = true, default = $catalog-id:$catalog-version]
+$regions = regions(isocode)
+$lang = en
+$processTypes = processTypes(code)
+$subscriptionTerms = subscriptionTerms(id)[unique = true]
+$distributionChannels = distributionChannels(code)
+$prices = @Europe1prices[translator = de.hybris.platform.b2ctelcoservices.dataimport.batch.price.TmaPriceRowTranslator]
+$europe1pricefactory_ptg = Europe1PriceFactory_PTG(code)[default = us-sales-tax-full]
+$approved = approvalstatus(code)[default = 'approved']
+
+$defaultBillingEvent = billingEvent(code)[default = 'paynow']
+$currency = currency(isocode)[default = USD]
+$unit = unit(code)[default = pieces]
+$product = product(code, $catalogVersion)[unique = true]
+$price = price(code)[default = '0.0']
+$priority = priority[default=0]
+
+###########################################
+########### STANDALONE PRICES #############
+###########################################
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PriceRow; code[unique = true]        ; product(code, $catalogVersion)[unique = true]; $price; $processTypes[unique = true]; $subscriptionTerms     ; $catalogVersion; currency(isocode)[default = USD, unique = true]; unit(code)[default = pieces]; $regions; productOfferingPrice(id, $catalogVersion); user(uid); $distributionChannels; $priority; affectedProductOffering(code, $catalogVersion); requiredProductOfferings(code, $catalogVersion)[unique = true]; requiredProductClasses(id)[unique = true];
+                      ; pr_electric_plan_best_PT_1 ; electric_plan_best_PT                        ;       ; ACQUISITION                 ; monthly_12, monthly_24 ;                ;                                                ;                             ; JP-35   ; pr_electric_plan_best_PT_1_pop
+                      ; pr_electric_plan_best_PT_2 ; electric_plan_best_PT                        ;       ; SWITCH_SERVICE_PROVIDER     ; monthly_12, monthly_24 ;                ;                                                ;                             ; JP-35   ; pr_electric_plan_best_PT_2_pop
+                      ; pr_electric_plan_best_PT_3 ; electric_plan_best_PT                        ;       ; DEVICE_ONLY                 ; monthly_12, monthly_24 ;                ;                                                ;                             ; JP-16   ; pr_electric_plan_best_PT_3_pop
+                      ; pr_gas_plan_best_PT_1      ; gas_plan_best_PT                             ;       ; ACQUISITION                 ; monthly_12, monthly_24 ;                ;                                                ;                             ; JP-14   ; pr_gas_plan_best_PT_1_pop                ;          ;                      ; 100      ;
+                      ; pr_gas_plan_best_PT_2      ; gas_plan_best_PT                             ;       ; ACQUISITION                 ; monthly_12, monthly_24 ;                ;                                                ;                             ; JP-14   ; pr_gas_plan_best_PT_2_pop
+                      ; pr_gas_plan_best_PT_3      ; gas_plan_best_PT                             ;       ; ACQUISITION                 ; monthly_12, monthly_24 ;                ;                                                ;                             ; JP-25   ; pr_gas_plan_best_PT_3_pop
+                      ; pr_gas_plan_plus_PT_1      ; gas_plan_plus_PT                             ;       ; ACQUISITION                 ; monthly_12, monthly_24 ;                ;                                                ;                             ; JP-30   ; pr_gas_plan_plus_PT_1_pop
+                      ; pr_gas_plan_plus_PT_2      ; gas_plan_plus_PT                             ;       ; SWITCH_SERVICE_PROVIDER     ; monthly_12, monthly_24 ;                ;                                                ;                             ; JP-30   ; pr_gas_plan_plus_PT_2_pop

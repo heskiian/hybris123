@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <alias name="defaultTmaB2bCommerceUnitService" alias="b2bCommerceUnitService"/>
+    <bean id="defaultTmaB2bCommerceUnitService" class="de.hybris.platform.b2btelcoservices.unit.DefaultTmaB2BCommerceUnitService"
+          parent="defaultB2BCommerceUnitService">
+    </bean>
+
+    <alias name="defaultTmaAllowedPrincipalsSolrQueryPopulator" alias="tmaAllowedPrincipalsSolrQueryPopulator"/>
+    <bean id="defaultTmaAllowedPrincipalsSolrQueryPopulator"
+          class="de.hybris.platform.b2btelcoservices.search.solrfacetsearch.populator.TmaAllowedPrincipalsSolrQueryPopulator">
+        <constructor-arg name="userService" ref="userService"/>
+        <constructor-arg name="sessionService" ref="sessionService"/>
+    </bean>
+
+    <bean parent="modifyPopulatorList">
+        <property name="list" ref="commerceSearchQueryPageableConverter"/>
+        <property name="add" ref="tmaAllowedPrincipalsSolrQueryPopulator"/>
+    </bean>
+
+    <bean parent="modifyPopulatorList">
+        <property name="list" ref="tmaEligibilityConverter"/>
+        <property name="add" ref="tmaAllowedPrincipalsSolrQueryPopulator"/>
+    </bean>
+
+    <alias name="defaultB2bTmaProductDao" alias="productDao"/>
+    <bean id="defaultB2bTmaProductDao" parent="defaultProductDao"
+          class="de.hybris.platform.b2btelcoservices.daos.impl.DefaultB2bTmaProductDao">
+        <constructor-arg name="userService" ref="userService"/>
+        <constructor-arg name="sessionService" ref="sessionService"/>
+    </bean>
+
+    <alias name="defaultTmaB2bCustomerAccountService" alias="customerAccountService"/>
+    <bean id="defaultTmaB2bCustomerAccountService"
+          class="de.hybris.platform.b2btelcoservices.customer.impl.DefaultTmaB2bCustomerAccountService"
+          parent="defaultTmaCustomerAccountService">
+    </bean>
+
+    <alias name="defaultB2BCreateOrderFromCartStrategy" alias="tmaB2bCreateOrderFromCartStrategy"/>
+    <bean id="defaultB2BCreateOrderFromCartStrategy" parent="createOrderFromCartStrategy"
+          class="de.hybris.platform.b2btelcoservices.strategy.impl.DefaultTmaB2bCreateOrderFromCartStrategy">
+        <property name="businessProcessStrategies">
+            <list>
+                <ref bean="b2bApprovalBusinessProcessStrategy"/>
+                <ref bean="b2bQuoteBusinessProcessStrategy"/>
+                <ref bean="b2bQuoteApprovalBusinessProcessStrategy"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

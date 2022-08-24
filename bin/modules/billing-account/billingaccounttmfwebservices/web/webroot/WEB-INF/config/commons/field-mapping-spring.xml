@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+			  http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- Field mapping configuration -->
+    <bean id="dataMapper"
+          class="de.hybris.platform.webservicescommons.mapping.impl.DefaultDataMapper">
+        <property name="fieldSetBuilder" ref="fieldSetBuilder"/>
+    </bean>
+
+    <bean id="fieldSetBuilder"
+          class="de.hybris.platform.webservicescommons.mapping.impl.DefaultFieldSetBuilder">
+        <property name="defaultRecurrencyLevel" value="4"/>
+        <property name="defaultMaxFieldSetSize" value="50000"/>
+        <property name="fieldSetLevelHelper" ref="fieldSetLevelHelper"/>
+    </bean>
+
+    <alias alias="fieldSetLevelHelper" name="defaultFieldSetLevelHelper"/>
+    <bean id="defaultFieldSetLevelHelper"
+          class="de.hybris.platform.webservicescommons.mapping.impl.DefaultFieldSetLevelHelper">
+    </bean>
+
+    <bean class="de.hybris.platform.webservicescommons.mapping.filters.GeneralFieldFilter">
+        <property name="fieldSelectionStrategy" ref="fieldSelectionStrategy"/>
+    </bean>
+
+    <!-- Destination Object factory-->
+    <bean id="baPartyRoleModelFactory"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.objectfactory.BaObjectFactory">
+        <constructor-arg name="baGenericService" ref="baGenericService"/>
+        <property name="baseType" value="de.hybris.platform.billingaccountservices.model.BaPartyRoleModel"/>
+    </bean>
+
+    <bean id="baPaymentInfoModelFactory"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.objectfactory.BaObjectFactory">
+        <constructor-arg name="baGenericService" ref="baGenericService"/>
+        <property name="baseType" value="de.hybris.platform.billingaccountservices.model.BaPaymentInfoModel"/>
+    </bean>
+
+    <bean id="baPartyModelFactory"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.objectfactory.BaObjectFactory">
+        <constructor-arg name="baGenericService" ref="baGenericService"/>
+        <property name="baseType" value="de.hybris.platform.billingaccountservices.model.BaPartyModel"/>
+    </bean>
+
+    <bean id="baDurationFactory"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.objectfactory.BaObjectFactory">
+        <constructor-arg name="baGenericService" ref="baGenericService"/>
+        <property name="baseType" value="de.hybris.platform.billingaccountservices.model.BaDurationModel"/>
+    </bean>
+
+    <bean id="baPaymentPlanFactory"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.objectfactory.BaObjectFactory">
+        <constructor-arg name="baGenericService" ref="baGenericService"/>
+        <property name="baseType" value="de.hybris.platform.billingaccountservices.model.BaPaymentPlanModel"/>
+    </bean>
+
+    <bean id="baBillingCycleSpecificationFactory"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.objectfactory.BaObjectFactory">
+        <constructor-arg name="baGenericService" ref="baGenericService"/>
+        <property name="baseType" value="de.hybris.platform.billingaccountservices.model.BaBillingCycleSpecificationModel"/>
+    </bean>
+
+    <bean id="baBillFormatFactory"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.objectfactory.BaObjectFactory">
+        <constructor-arg name="baGenericService" ref="baGenericService"/>
+        <property name="baseType" value="de.hybris.platform.billingaccountservices.model.BaBillFormatModel"/>
+    </bean>
+
+    <bean id="baBillPresentationMediaFactory"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.objectfactory.BaObjectFactory">
+        <constructor-arg name="baGenericService" ref="baGenericService"/>
+        <property name="baseType" value="de.hybris.platform.billingaccountservices.model.BaBillPresentationMediaModel"/>
+    </bean>
+
+    <bean id="baBillStructureFactory"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.objectfactory.BaObjectFactory">
+        <constructor-arg name="baGenericService" ref="baGenericService"/>
+        <property name="baseType" value="de.hybris.platform.billingaccountservices.model.BaBillStructureModel"/>
+    </bean>
+
+    <bean id="baAccountBalanceFactory"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.objectfactory.BaObjectFactory">
+        <constructor-arg name="baGenericService" ref="baGenericService"/>
+        <property name="baseType" value="de.hybris.platform.billingaccountservices.model.BaAccountBalanceModel"/>
+    </bean>
+
+    <bean id="baAccountTaxExemptionFactory"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.objectfactory.BaObjectFactory">
+        <constructor-arg name="baGenericService" ref="baGenericService"/>
+        <property name="baseType" value="de.hybris.platform.billingaccountservices.model.BaAccountTaxExemptionModel"/>
+    </bean>
+
+    <bean id="baMediumCharacteristicFactory"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.objectfactory.BaObjectFactory">
+        <constructor-arg name="baGenericService" ref="baGenericService"/>
+        <property name="baseType" value="de.hybris.platform.billingaccountservices.model.BaMediumCharacteristicModel"/>
+    </bean>
+
+    <bean id="baContactMediumFactory"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.objectfactory.BaObjectFactory">
+        <constructor-arg name="baGenericService" ref="baGenericService"/>
+        <property name="baseType" value="de.hybris.platform.billingaccountservices.model.BaContactMediumModel"/>
+    </bean>
+
+    <bean id="baContactFactory"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.objectfactory.BaObjectFactory">
+        <constructor-arg name="baGenericService" ref="baGenericService"/>
+        <property name="baseType" value="de.hybris.platform.billingaccountservices.model.BaContactModel"/>
+    </bean>
+
+    <bean id="baAccountFactory"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.objectfactory.BaObjectFactory">
+        <constructor-arg name="baGenericService" ref="baGenericService"/>
+        <property name="baseType" value="de.hybris.platform.billingaccountservices.model.BaAccountModel"/>
+    </bean>
+
+    <bean id="baFinancialAccountFactory"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.objectfactory.BaObjectFactory">
+        <constructor-arg name="baGenericService" ref="baGenericService"/>
+        <property name="baseType" value="de.hybris.platform.billingaccountservices.model.BaFinancialAccountModel"/>
+    </bean>
+
+    <bean id="baPartyAccountFactory"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.objectfactory.BaObjectFactory">
+        <constructor-arg name="baGenericService" ref="baGenericService"/>
+        <property name="baseType" value="de.hybris.platform.billingaccountservices.model.BaPartyAccountModel"/>
+    </bean>
+
+    <bean id="baBillingAccountFactory"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.objectfactory.BaObjectFactory">
+        <constructor-arg name="baGenericService" ref="baGenericService"/>
+        <property name="baseType" value="de.hybris.platform.billingaccountservices.model.BaBillingAccountModel"/>
+    </bean>
+
+    <bean id="baAccountRelationshipFactory"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.objectfactory.BaObjectFactory">
+        <constructor-arg name="baGenericService" ref="baGenericService"/>
+        <property name="baseType" value="de.hybris.platform.billingaccountservices.model.BaAccountRelationshipModel"/>
+    </bean>
+
+    <bean id="baPaymentInfoFactory"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.objectfactory.BaObjectFactory">
+        <constructor-arg name="baGenericService" ref="baGenericService"/>
+        <property name="baseType" value="de.hybris.platform.billingaccountservices.model.BaPaymentInfoModel"/>
+    </bean>
+
+    <bean id="baMoneyFactory"
+          class="de.hybris.platform.billingaccounttmfwebservices.v1.objectfactory.BaMoneyFactory">
+        <property name="baseType" value="java.lang.Double"/>
+    </bean>
+
+</beans>

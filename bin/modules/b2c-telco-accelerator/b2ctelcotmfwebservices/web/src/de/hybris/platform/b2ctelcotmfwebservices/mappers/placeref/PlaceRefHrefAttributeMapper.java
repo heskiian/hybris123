@@ -1,0 +1,35 @@
+/*
+ * Copyright (c) 2019 SAP SE or an SAP affiliate company.  All rights reserved.
+ */
+
+package de.hybris.platform.b2ctelcotmfwebservices.mappers.placeref;
+
+import de.hybris.platform.b2ctelcotmfwebservices.constants.B2ctelcotmfwebservicesConstants;
+import de.hybris.platform.b2ctelcofacades.mappers.TmaAttributeMapper;
+import de.hybris.platform.b2ctelcotmfwebservices.v2.dto.PlaceRef;
+import de.hybris.platform.commercefacades.user.data.RegionData;
+
+import org.apache.commons.lang.StringUtils;
+
+import ma.glasnost.orika.MappingContext;
+
+
+/**
+ * This attribute Mapper class maps data for href attribute between {@link RegionData} and
+ * {@link PlaceRef}
+ *
+ * @since 1907
+ */
+public class PlaceRefHrefAttributeMapper extends TmaAttributeMapper<RegionData, PlaceRef>
+{
+
+	@Override
+	public void populateTargetAttributeFromSource(final RegionData source, final PlaceRef target,
+			final MappingContext context)
+	{
+		if (StringUtils.isNotEmpty(source.getIsocode()))
+		{
+			target.setHref(B2ctelcotmfwebservicesConstants.TMA_PLACE_REF_API_URL + source.getIsocode());
+		}
+	}
+}

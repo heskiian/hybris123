@@ -1,0 +1,11 @@
+#Ant properties
+#Fri Apr 16 12:05:07 CEST 2021
+version.api=2011
+vendor=hybris
+group.id=de.hybris.platform
+name=partytmfwebservices
+description=partytmfwebservices
+builddate=20210416 1205
+releasedate=20201119 1630
+version=2108
+module.name=platform-module

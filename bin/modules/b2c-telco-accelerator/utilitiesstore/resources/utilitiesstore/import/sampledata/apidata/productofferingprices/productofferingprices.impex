@@ -1,0 +1,59 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for Importing Sample Product Offering Prices
+
+#% impex.enableCodeExecution(true);
+
+$productCatalog = utilitiesProductCatalog
+$catalog-version = Staged
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Staged'])[unique = true, default = '$productCatalog:Staged']
+$currency = currency(isocode)[default = USD]
+$priceEvent = priceEvent(code)[default='paynow']
+$priceEventRcUc = priceEvent(code)[default='monthly']
+$lang = en
+
+################################################
+###            One time charges              ###
+################################################
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaOneTimeProdOfferPriceCharge; id[unique = true]              ; name                       ; description; $catalogVersion; value; $priceEvent; $currency
+                                            ; otc_pr_electric_plan_best_PT_1 ; pp_electric_plan_best_PT_1 ;            ;                ; 100  ; paynow
+                                            ; otc_pr_electric_plan_best_PT_2 ; pp_electric_plan_best_PT_2 ;            ;                ; 50   ; paynow
+                                            ; otc_pr_electric_plan_best_PT_3 ; pp_electric_plan_best_PT_3 ;            ;                ; 25   ; paynow
+                                            ; otc_pr_gas_plan_plus_PT_1      ; pp_gas_plan_plus_PT_1      ;            ;                ; 75   ; paynow
+                                            ; otc_pr_gas_plan_plus_PT_2      ; pp_gas_plan_plus_PT_2      ;            ;                ; 30   ; paynow
+                                            ; otc_pr_gas_plan_best_PT_1      ; pp_gas_plan_best_PT_1      ;            ;                ; 20   ; paynow
+                                            ; otc_pr_gas_plan_best_PT_2      ; pp_gas_plan_best_PT_2      ;            ;                ; 45   ; paynow
+                                            ; otc_pr_gas_plan_best_PT_3      ; pp_gas_plan_best_PT_3      ;            ;                ; 65   ; paynow
+
+################################################
+###              Recurring charges           ###
+################################################
+
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaRecurringProdOfferPriceCharge; id[unique = true]              ; name                       ; $catalogVersion; value; $currency; $priceEventRcUc; cycleStart; cycleEnd
+                                              ; rce_pp_electric_plan_best_PT_1 ; pp_electric_plan_best_PT_1 ;                ; 9    ;          ;                ; 1         ;
+                                              ; rce_pp_gas_plan_best_PT_1      ; pp_gas_plan_best_PT_1      ;                ; 8    ;          ;                ; 1         ;
+                                              ; rce_pp_gas_plan_best_PT_2      ; pp_gas_plan_best_PT_2      ;                ; 5    ;          ;                ; 1         ;
+                                              ; rce_pp_gas_plan_plus_PT_1      ; pp_gas_plan_plus_PT_1      ;                ; 3    ;          ;                ; 1         ;
+                                              ; rce_pp_gas_plan_plus_PT_2      ; pp_gas_plan_plus_PT_2      ;                ; 4    ;          ;                ; 1         ;
+
+
+################################################
+###              Composite prices            ###
+################################################
+
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaCompositeProdOfferPrice; id[unique = true]              ; $catalogVersion; children(id, $catalogVersion)
+                                        ; pr_electric_plan_best_PT_1_pop ;                ; otc_pr_electric_plan_best_PT_1, rce_pp_electric_plan_best_PT_1
+                                        ; pr_electric_plan_best_PT_2_pop ;                ; otc_pr_electric_plan_best_PT_2
+                                        ; pr_electric_plan_best_PT_3_pop ;                ; otc_pr_electric_plan_best_PT_3
+                                        ; pr_gas_plan_best_PT_1_pop      ;                ; otc_pr_gas_plan_plus_PT_1, rce_pp_gas_plan_plus_PT_1
+                                        ; pr_gas_plan_best_PT_2_pop      ;                ; otc_pr_gas_plan_plus_PT_2, rce_pp_gas_plan_plus_PT_2
+                                        ; pr_gas_plan_best_PT_3_pop      ;                ; otc_pr_gas_plan_best_PT_1, rce_pp_gas_plan_best_PT_1
+                                        ; pr_gas_plan_plus_PT_1_pop      ;                ; otc_pr_gas_plan_best_PT_2, rce_pp_gas_plan_best_PT_2
+                                        ; pr_gas_plan_plus_PT_2_pop      ;                ; otc_pr_gas_plan_best_PT_3

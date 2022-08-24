@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+ Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+
+<project name="agreementtmfwebservices_buildcallbacks">
+
+    <!--
+    Called whenever 'ant ear' is used. this callback can be used to modify the content of the ear file
+
+     ${ear.path}: 			path to ear
+ -->
+
+    <macrodef name="agreementtmfwebservices_before_ear">
+        <sequential>
+
+            <!-- you can do anything before the EAR file is being packed -->
+
+        </sequential>
+    </macrodef>
+
+    <macrodef name="agreementtmfwebservices_before_build">
+        <!--<attribute name="extname"/>-->
+        <!--<attribute name="destdir"/>-->
+
+        <sequential>
+            <agreement_compile_swagger_custom_class/>
+            <agreement_generate_swagger_dtos/>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="agreement_compile_swagger_custom_class">
+        <attribute name="baseDir" default="${ext.agreementtmfwebservices.path}"/>
+        <sequential>
+            <if>
+                <not>
+                    <available file="@{baseDir}/lib/swagger-custom-codegen.jar"/>
+                </not>
+                <then>
+                    <if>
+                        <not>
+                            <available file="@{baseDir}/lib/swagger"/>
+                        </not>
+                        <then>
+                            <mkdir dir="@{baseDir}/lib/swagger"/>
+                        </then>
+                    </if>
+                    <javacompile destdir="@{baseDir}/lib/swagger">
+                        <additionalclasspath>
+                            <path>
+                                <fileset dir="@{baseDir}/lib">
+                                    <include name="swagger-codegen-cli-*.jar"/>
+                                </fileset>
+                            </path>
+                        </additionalclasspath>
+                        <source>
+                            <pathelement path="@{baseDir}/src/de/hybris/platform/agreementtmfwebservices/swagger/"/>
+                        </source>
+                    </javacompile>
+
+                    <path id="build.classpath">
+                        <fileset dir="@{baseDir}/lib">
+                            <include name="swagger-codegen-cli-*.jar"/>
+                        </fileset>
+                    </path>
+
+                    <pathconvert property="manifest.classpath" pathsep=" ">
+                        <path refid="build.classpath"/>
+                        <mapper>
+                            <chainedmapper>
+                                <flattenmapper/>
+                            </chainedmapper>
+                        </mapper>
+                    </pathconvert>
+
+                    <jar destfile="@{baseDir}/lib/swagger-custom-codegen.jar">
+                        <fileset dir="@{baseDir}/lib/swagger" includes="**/*.class"/>
+                        <manifest>
+                            <attribute name="Main-Class" value="io.swagger.codegen.SwaggerCodegen"/>
+                            <attribute name="Class-Path" value="${manifest.classpath}"/>
+                        </manifest>
+                    </jar>
+                </then>
+            </if>
+        </sequential>
+    </macrodef>
+
+    <target name="agreement_generate_swagger" description="Generates swagger dtos">
+        <agreement_generate_swagger_dtos forced="true"/>
+    </target>
+
+    <macrodef name="agreement_generate_swagger_dtos">
+        <attribute name="baseDir" default="${ext.agreementtmfwebservices.path}"/>
+        <attribute name="templateDir" default="${ext.agreementtmfwebservices.path}/resources/dtos"/>
+        <attribute name="forced" default="true"/>
+        <sequential>
+            <if>
+                <or>
+                    <equals arg1="@{forced}" arg2="true"/>
+                    <not>
+                        <available file="@{baseDir}/gensrc/.swagger-codegen/VERSION"/>
+                    </not>
+                </or>
+                <then>
+                    <dirset id="agreementVersions" dir="@{templateDir}" includes="*"/>
+                    <property name="agreementVersions" refid="agreementVersions"/>
+                    <for param="dtoVersion" list="${agreementVersions}" delimiter=";">
+                        <sequential>
+                            <fileset id="swaggerFiles" dir="@{templateDir}/@{dtoVersion}" includes="*.json"/>
+                            <property name="swaggerFiles" refid="swaggerFiles"/>
+                            <for param="file" list="${swaggerFiles}" delimiter=";">
+                                <sequential>
+                                    <agreement_generate_api templateDir="@{templateDir}" version="@{dtoVersion}"
+                                                                    file="@{file}"/>
+                                </sequential>
+                            </for>
+                        </sequential>
+                    </for>
+                </then>
+                <else>
+                    <echo message="Skipping swagger apis generation"/>
+                </else>
+            </if>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="agreement_generate_api">
+        <attribute name="file"/>
+        <attribute name="templateDir"/>
+        <attribute name="version"/>
+        <attribute name="defaultPackage" default="de.hybris.platform.agreementtmfwebservices"/>
+        <attribute name="baseDir" default="${ext.agreementtmfwebservices.path}"/>
+        <sequential>
+            <path id="agreementtmfwebservices_custom">
+                <fileset dir="@{baseDir}/lib" includes="*"/>
+            </path>
+            <property name="classpath" refid="agreementtmfwebservices_custom"/>
+            <java jar="@{baseDir}/lib/swagger-custom-codegen.jar" fork="true" failonerror="true">
+                <arg line="generate"/>
+                <arg line="-l de.hybris.platform.agreementtmfwebservices.swagger.AgreementsCodegen"/>
+                <arg line="-i @{templateDir}/@{version}/@{file}"/>
+                <arg line="-o @{baseDir}/gensrc/"/>
+                <arg line="-c @{baseDir}/resources/swaggerconfig/@{version}/swagger-generator-config.json"/>
+                <arg line="--model-package @{defaultPackage}.@{version}.dto"/>
+                <arg line="--api-package @{defaultPackage}.@{version}.api"/>
+            </java>
+            <move file="@{baseDir}/gensrc/src/main/java" tofile="@{baseDir}/gensrc" overwrite="true" failonerror="true"/>
+            <delete includeEmptyDirs="true">
+                <fileset dir="@{baseDir}/gensrc/src"/>
+            </delete>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="agreementtmfwebservices_after_build">
+        <sequential>
+            <echo message="agreementtmfwebservices_after_build"/>
+            <containsExact string="${extension.names}" substring="addonsupport" separator=";">
+                <do>
+                    <foreachext>
+                        <do>
+                            <for list="${addon.folder}" param="addOnFile" delimiter=";">
+                                <sequential>
+                                    <if>
+                                        <available file="${ext.@{extname}.path}/acceleratoraddon/@{addOnFile}"/>
+                                        <then>
+                                            <echo message="Found addon:  @{extname}"/>
+                                            <echo message="addOnFile test:  @{addOnFile}"/>
+                                            <copyAddOnToExtension addonextension="@{extname}" addonresource="@{addOnFile}"
+                                                                  target="agreementtmfwebservices"/>
+                                        </then>
+                                    </if>
+                                </sequential>
+                            </for>
+                        </do>
+                    </foreachext>
+                </do>
+            </containsExact>
+        </sequential>
+    </macrodef>
+
+    <patternset id="extension.agreementtmfwebservices.production.filter">
+        <patternset refid="extension.production.filter"/>
+        <exclude name="web/addonsrc/**"/>
+    </patternset>
+    
+</project>

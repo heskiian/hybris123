@@ -1,0 +1,98 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+######
+## PARAMETERS REQUIRED FOR THIS SCRIPT
+##
+##   * contentCatalog   - content catalog id
+##   * productCatalog   = product catalog id
+##   * storeUid - site id
+##   * storeUid - id of the store
+##   * channel - site channel
+#######
+$catalog-id=testCatalog
+$catalog-version=Online
+$approved=approvalstatus(code)[default='approved']
+$catalogversion=catalogversion(catalog(id[default=$catalog-id]),version[default=$catalog-version])[unique=true,default=$catalog-id:$catalog-version]
+$supercategories=supercategories(code,catalogversion(catalog(id[default=$catalog-id]),version[default=$catalog-version]))
+$prices=@Europe1prices[translator = de.hybris.platform.b2ctelcoservices.dataimport.batch.price.TmaPriceRowTranslator]
+$contentCatalog=testContentCatalog
+$lang=en
+$contentCV=catalogVersion(CatalogVersion.catalog(Catalog.id[default=$contentCatalog]),CatalogVersion.version[default=Online])[default=$contentCatalog:Online]
+$addonExtensionName=configurableguidedsellingaddon
+
+$currencies=USD
+$defaultCurrency=USD
+$defaultLanguage=en
+$deliveryCountries=US
+$paymentProvider=Mockup
+
+$ruleType=ruleType(code)[default='ANY']
+
+INSERT_UPDATE Catalog;id[unique=true]
+;$catalog-id
+;$contentCatalog
+
+INSERT_UPDATE Currency;isocode[unique=true];active;conversion;digits;symbol
+;USD;true;1.5;2;"$"
+;JPY;true;2;2;"�"
+
+INSERT_UPDATE Unit;unitType[unique=true];code[unique=true];conversion
+;pieces;pieces;1
+
+
+INSERT_UPDATE CatalogVersion; catalog(id)[unique=true]; version[unique=true];active;defaultCurrency(isocode)[default=USD]
+;$catalog-id;$catalog-version;true;
+;$catalog-id;Staged;false
+;$contentCatalog;$catalog-version;true;
+;$contentCatalog;Staged;false
+
+INSERT_UPDATE BaseStore;uid[unique=true];catalogs(id);currencies(isocode);net;defaultCurrency(isocode);languages(isocode);defaultLanguage(isocode);paymentProvider
+;testStore;$catalog-id;$currencies;false;$defaultCurrency;$defaultLanguage;$defaultLanguage;$paymentProvider
+
+INSERT_UPDATE CMSSite        ; uid[unique=true]         ; stores(uid)                                     ; defaultCatalog(id)			  
+                             ; testSite                 ; testStore                                        ; $catalog-id
+                             					 
+INSERT_UPDATE BundleTemplateStatus;id[unique=true];status(code)[default=approved];$catalogversion
+;Status_SARC;
+;Status_X
+
+
+INSERT_UPDATE BundleTemplate;id[unique=true];parentTemplate(id, version[default=1.0], $catalogversion);version[default=1.0][unique=true];status(id, $catalogversion);$catalogversion;
+;SARC;;;Status_SARC;
+;SARC_Device;SARC;;Status_SARC;
+;SARC_ServicePlan;SARC;;Status_SARC;
+;SARC_InternetPackage;SARC;;Status_SARC;
+;SARC_PopularAddOns;SARC;;Status_SARC;
+;SARC_MobileTV;SARC;;Status_SARC;
+;SARC_MobileTVChannels;SARC;;Status_SARC;
+
+;X;;;Status_X;
+;1;X;;Status_X;
+;2;X;;Status_X;
+;3;X;;Status_X;
+;4;X;;Status_X;
+
+UPDATE BundleTemplate;id[unique=true];name[lang=$lang];version[default=1.0];$catalogversion
+;SARC;Smartphone Package
+;SARC_Device;Smartphone - Device Component
+;SARC_ServicePlan;Smartphone - Service Plan Component
+;SARC_InternetPackage;Smartphone - Internet Package Component
+;SARC_PopularAddOns;Smartphone - Popular Add Ons Component
+;SARC_MobileTV;Smartphone - Mobile TV Component
+;SARC_MobileTVChannels;Smartphone - Mobile TV Channels Component
+
+;X;X Package
+;1;X LB1
+;2;X LB2
+;3;X LB3
+;4;X LB4
+
+
+#Sample Data For Guided Selling Journeys 
+INSERT_UPDATE GuidedSellingJourney;id[unique=true];name[$lang];$catalogversion;rootBundleTemplate(id,$catalogversion)
+;GS_FOR_DYNAMIC;Journey For Pay;;SARC
+;GS_FOR_STATIC;Journey For Smartphone;;SARC
+;GS_FOR_STATIC_DYNAMIC;Journey For Tablet;;SARC
+
+;GS_FOR_STEPS_SAME_AS_BUNDLE;Joureny for X;;X

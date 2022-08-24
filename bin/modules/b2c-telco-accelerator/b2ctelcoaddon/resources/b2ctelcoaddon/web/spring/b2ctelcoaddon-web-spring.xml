@@ -1,0 +1,545 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <context:annotation-config />
+    <context:component-scan base-package="de.hybris.platform.b2ctelcoaddon.controllers.cms, de.hybris.platform.b2ctelcoaddon.forms" scope-resolver="de.hybris.platform.spring.IgnoreTenantScopeMetadataResolver" />
+    
+	<!-- Expose /acceleratoraddon/web/webroot/WEB-INF/messages/base.js.properties  resource bundle as javascript variables -->
+	<bean id="defaultB2ctelcoaddonJavaScriptMessageResourceAccessor" parent="abstractJavaScriptMessageResourceAccessor">
+		<property name="addOnName" value="b2ctelcoaddon"/>
+	</bean>
+
+	<bean id="defaultB2ctelcoaddonBeforeViewJsPropsHandlerAdaptee" parent="abstractBeforeViewJsPropsHandlerAdaptee" class="de.hybris.platform.addonsupport.interceptors.ExportJsPropertiesBeforeViewHandler">
+		<property name="messageSource" ref="defaultB2ctelcoaddonJavaScriptMessageResourceAccessor"/>
+	</bean>
+
+	<bean id="getB2ctelcoaddonBeforeViewHandler" parent="beforeViewHandlerAdapter">
+		<property name="adaptee">
+			<ref bean="defaultB2ctelcoaddonBeforeViewJsPropsHandlerAdaptee"/>
+		</property>
+	</bean>
+
+	<bean id="B2ctelcoaddonBeforeViewHandlerListMergeDirective" depends-on="beforeViewHandlersList" parent="listMergeDirective">
+		<property name="add" ref="getB2ctelcoaddonBeforeViewHandler"/>
+	</bean>
+
+	<!-- this overrides the existing product details with our own bean -->
+	<bean name="productPageController" class="de.hybris.platform.b2ctelcoaddon.controllers.pages.ProductPageController"/>
+	<bean name="addToCartController" class="de.hybris.platform.b2ctelcoaddon.controllers.misc.AddToCartController"/>
+	<bean name="cartPageController" class="de.hybris.platform.b2ctelcoaddon.controllers.pages.CartPageController"/>
+	<bean name="checkoutLoginController" class="de.hybris.platform.b2ctelcoaddon.controllers.pages.TelcoCheckoutLoginController"/>
+	<bean name="loginPageController" class="de.hybris.platform.b2ctelcoaddon.controllers.pages.TelcoLoginPageController"/>
+	<bean name="miniCartController" class="de.hybris.platform.b2ctelcoaddon.controllers.misc.MiniCartController"/>
+	<bean name="servicePlansListingPageController" class="de.hybris.platform.b2ctelcoaddon.controllers.misc.ServicePlansListingPageController"/>
+	<bean name="telcoPaymentDetailsPageController" class="de.hybris.platform.b2ctelcoaddon.controllers.pages.myaccount.PaymentDetailsPageController" />
+	<bean name="telcoSopPaymentResponseController" class="de.hybris.platform.b2ctelcoaddon.controllers.pages.myaccount.SopPaymentResponseController" >
+		<property name="myAccountPaymentDetailsView" ref="myAccountPaymentDetailsView"/>
+	</bean>
+	<bean name="offerListingController" class="de.hybris.platform.b2ctelcoaddon.controllers.misc.OfferListingController"/>
+	<bean name="processTypeSelectionController"
+		  class="de.hybris.platform.b2ctelcoaddon.controllers.pages.processtype.TmaProcessTypeSelectionController"/>
+	<bean name="categoryPageController" class="de.hybris.platform.b2ctelcoaddon.controllers.pages.TmaCategoryPageController"/>
+	<bean name="searchPageController" class="de.hybris.platform.b2ctelcoaddon.controllers.pages.TmaSearchPageController"/>
+
+
+	<alias name="defaultMyAccountPaymentDetailsView" alias="myAccountPaymentDetailsView"/>
+	<bean id="defaultMyAccountPaymentDetailsView" class="java.lang.String">
+		<constructor-arg value="redirect:/my-account/my-payment-details"/>
+	</bean>
+
+	<alias name="SbgSopPaymentDetailsValidator" alias="myAccountSbgSopPaymentDetailsValidator"/>
+	<bean id="SbgSopPaymentDetailsValidator" class="de.hybris.platform.b2ctelcoaddon.forms.validation.SbgSopPaymentDetailsValidator">
+		<property name="i18NFacade" ref="i18NFacade"/>
+	</bean>
+
+	<bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+	        <property name="mappings">
+	            <props>
+	                <prop key="/**/p">productPageController</prop>
+					<prop key="/**/c">categoryPageController</prop>
+					<prop key="/search/**">searchPageController</prop>
+					<prop key="/search/results">searchPageController</prop>
+					<prop key="/search/facets">searchPageController</prop>
+					<prop key="/search/autocomplete/**">searchPageController</prop>
+	                <prop key="/cart/add">addToCartController</prop>
+	                <prop key="/cart/addBpo">addToCartController</prop>
+	                <prop key="/cart/**">cartPageController</prop>
+	                <prop key="/login/checkout">checkoutLoginController</prop>
+	                <prop key="/login">loginPageController</prop>
+	                <prop key="/my-account/my-payment-details/**">telcoPaymentDetailsPageController</prop>
+	                <prop key="/my-account/my-payment-details/sop/**">telcoSopPaymentResponseController</prop>
+	                <prop key="/cart/miniCart/**">miniCartController</prop>
+	                <prop key="/cart/rollover/**">miniCartController</prop>
+	                <prop key="/servicePlanList/**">servicePlansListingPageController</prop>
+					<prop key="/offers/**">offerListingController</prop>
+					<prop key="/processTypes/**">processTypeSelectionController</prop>
+	            </props>
+	        </property>
+	</bean>
+
+	<alias name="defaultSopResponseUrlStrategy" alias="sopResponseUrlStrategy" />
+	<bean id="defaultSopResponseUrlStrategy"
+		class="de.hybris.platform.b2ctelcoaddon.controllers.pages.myaccount.DefaultSopResponseUrlStrategy">
+		<property name="url" ref="sopResponseUrl"></property>
+	</bean>
+
+	<alias name="defaultSopResponseUrl" alias="sopResponseUrl" />
+	<bean id="defaultSopResponseUrl" class="java.lang.String">
+		<constructor-arg value="/my-account/my-payment-details/sop/response"></constructor-arg>
+	</bean>
+
+  	<bean id="logoutSuccessHandler" class="de.hybris.platform.acceleratorstorefrontcommons.security.StorefrontLogoutSuccessHandler">
+		<property name="alwaysUseDefaultTargetUrl"  value="true" />
+		<property name="useReferer" value="false"/>
+		<property name="defaultTargetUrl" value="/?logout=true"/>
+		<property name="guidCookieStrategy" ref="guidCookieStrategy"/>
+		 <property name="restrictedPages">
+		 <list>
+				<value>/my-account</value>
+				<value>/checkout</value>
+				<value>/bundle</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="miniCartComponentRenderer" class="de.hybris.platform.b2ctelcoaddon.component.renderer.MiniCartComponentRenderer"
+		parent="addOnJspIncludeCMSComponentRenderer">
+		<property name="cartFacade" ref="cartFacade" />
+    </bean>
+
+	<bean id="miniCartComponentRendererMapping" parent="addonCmsComponentRendererMapping">
+		<property name="typeCode" value="MiniCartComponent" />
+		<property name="renderer" ref="miniCartComponentRenderer" />
+	</bean>
+
+	<bean id="productCarouselComponentRenderer" class="de.hybris.platform.b2ctelcoaddon.component.renderer.ProductCarouselComponentRenderer"
+		  parent="addOnJspIncludeCMSComponentRenderer">
+		<constructor-arg name="productCarouselFacade" ref="productCarouselFacade" />
+		<constructor-arg name="productSearchFacade" ref="productSearchFacade" />
+	</bean>
+
+	<bean id="productCarouselComponentRendererMapping" parent="addonCmsComponentRendererMapping">
+		<property name="typeCode" value="ProductCarouselComponent" />
+		<property name="renderer" ref="productCarouselComponentRenderer" />
+	</bean>
+
+	<bean id="productAddToCartComponentRenderer" class="de.hybris.platform.b2ctelcoaddon.component.renderer.ProductAddToCartComponentRenderer"
+		parent="addOnJspIncludeCMSComponentRenderer" />
+
+	<bean id="productAddToCartComponentRendererMapping" parent="addonCmsComponentRendererMapping">
+		<property name="typeCode" value="ProductAddToCartComponent" />
+		<property name="renderer" ref="productAddToCartComponentRenderer" />
+	</bean>
+
+	<bean id="searchBoxComponentRenderer" class="de.hybris.platform.b2ctelcoaddon.component.renderer.SearchBoxComponentRenderer"
+		parent="addOnJspIncludeCMSComponentRenderer"/>
+
+	<bean id="searchBoxComponentRendererMapping" parent="addonCmsComponentRendererMapping">
+		<property name="typeCode" value="SearchBoxComponent" />
+		<property name="renderer" ref="searchBoxComponentRenderer" />
+	</bean>
+
+	<bean id="storeFinderHeaderComponentRenderer" parent="addOnJspIncludeCMSComponentRenderer" />
+
+	<bean id="storeFinderHeaderComponentRendererMapping" parent="addonCmsComponentRendererMapping">
+	        <property name="typeCode" value="StoreFinderHeaderComponent" />
+	        <property name="renderer" ref="storeFinderHeaderComponentRenderer" />
+	</bean>
+
+	<bean id="listAddToEntryGroupActionRenderer"
+		  class="de.hybris.platform.b2ctelcoaddon.component.renderer.ListAddToEntryGroupActionRenderer"
+		  parent="genericAddOnCMSComponentRenderer">
+	</bean>
+
+	<bean id="listAddToEntryGroupActionRendererMapping" parent="addonCmsComponentRendererMapping">
+		<property name="typeCode" value="ListAddToEntryGroupAction" />
+		<property name="renderer" ref="listAddToEntryGroupActionRenderer" />
+	</bean>
+
+	<bean id="addToCartActionRenderer" class="de.hybris.platform.b2ctelcoaddon.component.renderer.AddToCartActionRenderer"
+		  parent="genericAddOnCMSComponentRenderer">
+	</bean>
+
+	<bean id="addToCartActionRendererMapping" parent="addonCmsComponentRendererMapping">
+		<property name="typeCode" value="AddToCartAction"/>
+		<property name="renderer" ref="addToCartActionRenderer"/>
+	</bean>
+
+	<bean id="cmsProductListComponentRenderer" class="de.hybris.platform.b2ctelcoaddon.component.renderer.CMSProductListComponentRenderer"
+		parent="genericAddOnCMSComponentRenderer">
+    </bean>
+
+	<bean id="cmsProductListComponentRendererMapping" parent="addonCmsComponentRendererMapping">
+		<property name="typeCode" value="CMSProductListComponent" />
+		<property name="renderer" ref="cmsProductListComponentRenderer" />
+	</bean>
+
+	<bean id="productVariantSelectorRenderer"
+				class="de.hybris.platform.b2ctelcoaddon.component.renderer.ProductVariantSelectorComponentRenderer"
+				parent="addOnJspIncludeCMSComponentRenderer">
+	</bean>
+
+	<bean id="productVariantSelectorRendererMapping" parent="addonCmsComponentRendererMapping">
+		<property name="typeCode" value="ProductVariantSelectorComponent"/>
+		<property name="renderer" ref="productVariantSelectorRenderer"/>
+	</bean>
+
+	<bean id="productReferencesComponentRenderer"
+		  class="de.hybris.platform.b2ctelcoaddon.component.renderer.ProductReferencesComponentRenderer"
+		  parent="addOnJspIncludeCMSComponentRenderer">
+		<constructor-arg name="productFacade" ref="productVariantFacade"/>
+		<constructor-arg name="priceOrganizationService" ref="tmaPriceOrganizationClientService"/>
+	</bean>
+
+	<bean id="productReferencesComponentRendererMapping" parent="addonCmsComponentRendererMapping">
+		<property name="typeCode" value="ProductReferencesComponent"/>
+		<property name="renderer" ref="productReferencesComponentRenderer"/>
+	</bean>
+
+	<!-- Checkout Steps -->
+	<alias name="abstractCheckoutStep" alias="checkoutStep" />
+	<bean id="abstractCheckoutStep"
+		class="de.hybris.platform.acceleratorstorefrontcommons.checkout.steps.CheckoutStep"
+		abstract="true" />
+
+	<alias name="defaultMultiStepCheckout" alias="multiStepCheckout" />
+	<bean id="defaultMultiStepCheckout" parent="checkoutStep">
+		<property name="checkoutGroup" ref="defaultCheckoutGroup" />
+		<property name="checkoutStepValidator" ref="defaultMultiStepCheckoutValidator" />
+		<property name="transitions">
+			<map>
+				<entry key="previous" value-ref="REDIRECT_TO_CART" />
+				<entry key="current" value-ref="REDIRECT_MULTI_STEP_CHECKOUT" />
+				<entry key="next" value-ref="REDIRECT_TO_DELIVERY_ADDRESS" />
+			</map>
+		</property>
+		<property name="progressBarId" value="multi" />
+	</bean>
+
+	<alias name="defaultDeliveryAddressCheckoutStep" alias="deliveryAddressCheckoutStep" />
+	<bean id="defaultDeliveryAddressCheckoutStep" parent="checkoutStep">
+		<property name="checkoutGroup" ref="defaultCheckoutGroup" />
+		<property name="checkoutStepValidator" ref="deliveryAddressCheckoutValidator" />
+		<property name="transitions">
+			<map merge="true">
+				<entry key="previous" value-ref="REDIRECT_TO_CART" />
+				<entry key="current" value-ref="REDIRECT_TO_DELIVERY_ADDRESS" />
+				<entry key="next" value-ref="REDIRECT_TO_DELIVERY_METHOD" />
+			</map>
+		</property>
+		<property name="progressBarId" value="deliveryAddress" />
+	</bean>
+
+	<alias name="defaultDeliveryMethodCheckoutStep" alias="deliveryMethodCheckoutStep" />
+	<bean id="defaultDeliveryMethodCheckoutStep" parent="checkoutStep">
+		<property name="checkoutGroup" ref="defaultCheckoutGroup" />
+		<property name="checkoutStepValidator" ref="deliveryMethodCheckoutValidator" />
+		<property name="transitions">
+			<map merge="true">
+				<entry key="previous" value-ref="REDIRECT_TO_DELIVERY_ADDRESS" />
+				<entry key="current" value-ref="REDIRECT_TO_DELIVERY_METHOD" />
+				<entry key="next" value-ref="REDIRECT_TO_PAYMENT_METHOD" />
+			</map>
+		</property>
+		<property name="progressBarId" value="deliveryMethod" />
+	</bean>
+
+	<alias name="defaultPickupLocationCheckoutStep" alias="pickupLocationCheckoutStep" />
+	<bean id="defaultPickupLocationCheckoutStep" parent="checkoutStep">
+		<property name="checkoutGroup" ref="defaultCheckoutGroup" />
+		<property name="checkoutStepValidator" ref="defaultPickupCheckoutValidator" />
+		<property name="transitions">
+			<map merge="true">
+				<entry key="previous" value-ref="REDIRECT_TO_DELIVERY_METHOD" />
+				<entry key="current" value-ref="REDIRECT_TO_PICKUP_LOCATION" />
+				<entry key="next" value-ref="REDIRECT_TO_PAYMENT_METHOD" />
+			</map>
+		</property>
+		<property name="progressBarId" value="deliveryMethod" />
+	</bean>
+
+	<alias name="defaultPaymentMethodCheckoutStep" alias="paymentMethodCheckoutStep" />
+	<bean id="defaultPaymentMethodCheckoutStep" parent="checkoutStep">
+		<property name="checkoutGroup" ref="defaultCheckoutGroup" />
+		<property name="checkoutStepValidator" ref="defaultPaymentMethodCheckoutValidator" />
+		<property name="transitions">
+			<map merge="true">
+				<entry key="previous" value-ref="REDIRECT_TO_DELIVERY_METHOD" />
+				<entry key="current" value-ref="REDIRECT_TO_PAYMENT_METHOD" />
+				<entry key="next" value-ref="REDIRECT_TO_SUMMARY" />
+			</map>
+		</property>
+		<property name="progressBarId" value="paymentMethod" />
+	</bean>
+
+	<alias name="defaultSummaryCheckoutStep" alias="summaryCheckoutStep" />
+	<bean id="defaultSummaryCheckoutStep" parent="checkoutStep">
+		<property name="checkoutGroup" ref="defaultCheckoutGroup" />
+		<property name="checkoutStepValidator" ref="defaultSummaryCheckoutValidator" />
+		<property name="transitions">
+			<map merge="true">
+				<entry key="previous" value-ref="REDIRECT_TO_PAYMENT_METHOD" />
+				<entry key="current" value-ref="REDIRECT_TO_SUMMARY" />
+				<entry key="next" value="redirect:/checkout/orderConfirmation/%s" />
+			</map>
+		</property>
+		<property name="progressBarId" value="confirmOrder" />
+	</bean>
+
+	<!---Default checkout group -->
+	<alias name="defaultMultiStepCheckoutGroup" alias="defaultCheckoutGroup" />
+	<bean id="defaultMultiStepCheckoutGroup"
+		class="de.hybris.platform.acceleratorstorefrontcommons.checkout.steps.CheckoutGroup">
+		<property name="groupId" value="defaultGroup" />
+		<property name="checkoutStepMap">
+			<map merge="true">
+				<entry key="multi" value-ref="multiStepCheckout" />
+				<entry key="delivery-address" value-ref="deliveryAddressCheckoutStep" />
+				<entry key="delivery-method" value-ref="deliveryMethodCheckoutStep" />
+				<entry key="pickup-location" value-ref="pickupLocationCheckoutStep" />
+				<entry key="payment-method" value-ref="paymentMethodCheckoutStep" />
+				<entry key="summary" value-ref="summaryCheckoutStep" />
+			</map>
+		</property>
+		<property name="validationResultsMap">
+			<map merge="true">
+				<entry key="FAILED" value-ref="REDIRECT_TO_CART" />
+				<entry key="REDIRECT_TO_DELIVERY_ADDRESS" value-ref="REDIRECT_TO_DELIVERY_ADDRESS" />
+				<entry key="REDIRECT_TO_PICKUP_LOCATION" value-ref="REDIRECT_TO_PICKUP_LOCATION" />
+				<entry key="REDIRECT_TO_CART" value-ref="REDIRECT_TO_CART" />
+				<entry key="REDIRECT_TO_PAYMENT_METHOD" value-ref="REDIRECT_TO_PAYMENT_METHOD" />
+				<entry key="REDIRECT_TO_DELIVERY_METHOD" value-ref="REDIRECT_TO_DELIVERY_METHOD" />
+			</map>
+		</property>
+		<property name="checkoutProgressBar">
+			<map merge="true">
+				<entry key="1" value-ref="deliveryAddressCheckoutStep" />
+				<entry key="2" value-ref="deliveryMethodCheckoutStep" />
+				<entry key="3" value-ref="paymentMethodCheckoutStep" />
+				<entry key="4" value-ref="defaultSummaryCheckoutStep" />
+			</map>
+		</property>
+	</bean>
+
+	<!---Default checkout group -->
+
+	<!--Apparel store multistep checkout with Giftwrap -->
+	<alias name="defaultMultiStepCheckoutGroupApparel" alias="apparelCheckoutGroup" />
+	<bean id="defaultMultiStepCheckoutGroupApparel"
+		class="de.hybris.platform.acceleratorstorefrontcommons.checkout.steps.CheckoutGroup">
+		<property name="groupId" value="apparelCheckoutGroup" />
+		<property name="checkoutStepMap">
+			<map merge="true">
+				<entry key="multi" value-ref="multiStepCheckout" />
+				<entry key="delivery-address" value-ref="deliveryAddressCheckoutStep" />
+				<entry key="delivery-method" value-ref="deliveryMethodCheckoutStep" />
+				<entry key="pickup-location" value-ref="pickupLocationCheckoutStep" />
+				<entry key="payment-method" value-ref="paymentMethodCheckoutStep" />
+				<entry key="summary" value-ref="summaryCheckoutStep" />
+			</map>
+		</property>
+		<property name="validationResultsMap">
+			<map merge="true">
+				<entry key="FAILED" value-ref="REDIRECT_TO_CART" />
+				<entry key="REDIRECT_TO_DELIVERY_ADDRESS" value-ref="REDIRECT_TO_DELIVERY_ADDRESS" />
+				<entry key="REDIRECT_TO_PICKUP_LOCATION" value-ref="REDIRECT_TO_PICKUP_LOCATION" />
+				<entry key="REDIRECT_TO_CART" value-ref="REDIRECT_TO_CART" />
+				<entry key="REDIRECT_TO_PAYMENT_METHOD" value-ref="REDIRECT_TO_PAYMENT_METHOD" />
+				<entry key="REDIRECT_TO_DELIVERY_METHOD" value-ref="REDIRECT_TO_DELIVERY_METHOD" />
+			</map>
+		</property>
+		<property name="checkoutProgressBar">
+			<map merge="true">
+				<entry key="1" value-ref="deliveryAddressCheckoutStep" />
+				<entry key="2" value-ref="deliveryMethodCheckoutStep" />
+				<entry key="3" value-ref="paymentMethodCheckoutStep" />
+				<entry key="4" value-ref="summaryCheckoutStep" />
+			</map>
+		</property>
+	</bean>
+
+	<!--Apparel store multistep checkout with Giftwrap -->
+
+	<!--Validation -->
+	<alias name="abstractCheckoutStepValidator" alias="abstractCheckoutStepValidator" />
+	<bean id="abstractCheckoutStepValidator"
+		class="de.hybris.platform.acceleratorstorefrontcommons.checkout.steps.validation.AbstractCheckoutStepValidator"
+		abstract="true">
+		<property name="checkoutFlowFacade" ref="checkoutFlowFacade" />
+		<property name="checkoutFacade" ref="checkoutFacade" />
+	</bean>
+
+	<bean id="defaultMultiStepCheckoutValidator"
+		class="de.hybris.platform.storefront.checkout.steps.validation.impl.DefaultMultiStepCheckoutStepValidator"
+		parent="abstractCheckoutStepValidator" />
+	<bean id="deliveryAddressCheckoutValidator"
+		class="de.hybris.platform.storefront.checkout.steps.validation.impl.DefaultDeliveryAddressCheckoutStepValidator"
+		parent="abstractCheckoutStepValidator" />
+	<bean id="deliveryMethodCheckoutValidator"
+		class="de.hybris.platform.storefront.checkout.steps.validation.impl.DefaultDeliveryMethodCheckoutStepValidator"
+		parent="abstractCheckoutStepValidator" />
+	<bean id="defaultPaymentMethodCheckoutValidator"
+		class="de.hybris.platform.storefront.checkout.steps.validation.impl.DefaultPaymentCheckoutStepValidator"
+		parent="abstractCheckoutStepValidator" />
+	<bean id="defaultPickupCheckoutValidator"
+		class="de.hybris.platform.storefront.checkout.steps.validation.impl.DefaultPickupCheckoutStepValidator"
+		parent="abstractCheckoutStepValidator" />
+	<bean id="defaultSummaryCheckoutValidator"
+		class="de.hybris.platform.storefront.checkout.steps.validation.impl.DefaultSummaryCheckoutStepValidator"
+		parent="abstractCheckoutStepValidator" />
+
+	<!--Validation -->
+
+	<!--Checkout GroupMap -->
+	<util:map id="checkoutFlowGroupMap">
+		<entry key="apparelCheckoutGroup" value-ref="apparelCheckoutGroup" />
+		<entry key="defaultCheckoutGroup" value-ref="defaultCheckoutGroup" />
+	</util:map>
+	<!--Checkout GroupMap -->
+
+	<!-- Redirects -->
+	<bean id="REDIRECT_TO_CART" class="java.lang.String">
+		<constructor-arg value="redirect:/cart" />
+	</bean>
+
+	<bean id="REDIRECT_MULTI_STEP_CHECKOUT" class="java.lang.String">
+		<constructor-arg value="redirect:/checkout/multi" />
+	</bean>
+
+	<bean id="REDIRECT_TO_DELIVERY_ADDRESS" class="java.lang.String">
+		<constructor-arg value="redirect:/checkout/multi/delivery-address/add" />
+	</bean>
+
+	<bean id="REDIRECT_TO_DELIVERY_METHOD" class="java.lang.String">
+		<constructor-arg value="redirect:/checkout/multi/delivery-method/choose" />
+	</bean>
+
+	<bean id="REDIRECT_TO_PICKUP_LOCATION" class="java.lang.String">
+		<constructor-arg value="redirect:/checkout/multi/pickup-location/choose" />
+	</bean>
+
+	<bean id="REDIRECT_TO_PAYMENT_METHOD" class="java.lang.String">
+		<constructor-arg value="redirect:/checkout/multi/payment-method/add" />
+	</bean>
+
+	<bean id="REDIRECT_TO_SUMMARY" class="java.lang.String">
+		<constructor-arg value="redirect:/checkout/multi/summary/view" />
+	</bean>
+
+<!--  Move to btctelcostorefront? -->
+	<!-- <alias name="defaultMyAccountPaymentDetailsView" alias="myAccountPaymentDetailsView" />
+	<bean id="defaultMyAccountPaymentDetailsView" class="java.lang.String">
+		<constructor-arg value="redirect:/my-account/my-payment-details/add" />
+	</bean> -->
+
+	<!-- Controller bean defintions and URL mappings overriding the default behaviour -->
+	<bean name="deliveryAddressCheckoutStepController" class="de.hybris.platform.b2ctelcoaddon.controllers.pages.checkout.steps.DeliveryAddressCheckoutStepController"/>
+	<bean name="deliveryMethodCheckoutStepController" class="de.hybris.platform.b2ctelcoaddon.controllers.pages.checkout.steps.DeliveryMethodCheckoutStepController"/>
+	<bean name="hopPaymentResponseController" class="de.hybris.platform.b2ctelcoaddon.controllers.pages.checkout.steps.HopPaymentResponseController"/>
+	<bean name="multiStepCheckoutController" class="de.hybris.platform.b2ctelcoaddon.controllers.pages.checkout.steps.MultiStepCheckoutController"/>
+	<bean name="paymentMethodCheckoutStepController" class="de.hybris.platform.b2ctelcoaddon.controllers.pages.checkout.steps.PaymentMethodCheckoutStepController"/>
+	<bean name="pickupLocationCheckoutStepController" class="de.hybris.platform.b2ctelcoaddon.controllers.pages.checkout.steps.PickupLocationCheckoutStepController"/>
+	<bean name="sopPaymentResponseController" class="de.hybris.platform.b2ctelcoaddon.controllers.pages.checkout.steps.SopPaymentResponseController"/>
+	<bean name="summaryCheckoutStepController" class="de.hybris.platform.b2ctelcoaddon.controllers.pages.checkout.steps.SummaryCheckoutStepController"/>
+    <bean name="tmaBpoGuidedSellingController" class="de.hybris.platform.b2ctelcoaddon.controllers.pages.TmaBpoGuidedSellingController"/>
+    <bean name="tmaEntryGroupEditPageController" class="de.hybris.platform.b2ctelcoaddon.controllers.pages.TmaEntryGroupEditPageController"/>
+	<bean name="checkoutController" class="de.hybris.platform.b2ctelcoaddon.controllers.pages.TmaCheckoutController"/>
+
+	<bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+			<props>
+				<prop key="/checkout/multi/delivery-address">deliveryAddressCheckoutStepController</prop>
+				<prop key="/checkout/multi/delivery-method">deliveryMethodCheckoutStepController</prop>
+				<prop key="/checkout/multi/hop">hopPaymentResponseController</prop>
+				<prop key="/checkout/multi/payment-method">paymentMethodCheckoutStepController</prop>
+				<prop key="/checkout/multi/pickup-location">pickupLocationCheckoutStepController</prop>
+				<prop key="/checkout/multi/sop">sopPaymentResponseController</prop>
+				<prop key="/checkout/multi/summary">summaryCheckoutStepController</prop>
+				<prop key="/checkout/multi/**">multiStepCheckoutController</prop>
+				<prop key="/checkout/orderConfirmation/**">checkoutController</prop>
+				<prop key="/bpo/configure">tmaBpoGuidedSellingController</prop>
+				<prop key="/bpo/edit">tmaEntryGroupEditPageController</prop>
+			</props>
+		</property>
+	</bean>
+	<!-- Expose /acceleratoraddon/web/webroot/WEB-INF/messages/base.js.properties  resource bundle as javascript variables -->
+
+	<bean name="subscriptionPageController" class="de.hybris.platform.b2ctelcoaddon.controllers.pages.TmaSubscriptionPageController"/>
+	<bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+	        <property name="mappings">
+	            <props>
+	                <prop key="/my-account/subscription">subscriptionPageController</prop>
+	            </props>
+	        </property>
+	</bean>
+
+		<!-- localization -->
+	<bean id="messageSource"
+	    class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+	    <property name="basenames">
+	         <list>
+	            <value>/WEB-INF/messages/base</value>
+	            <!--value>/WEB-INF/messages/addons/b2ctelcoaddon/base</value-->
+	        </list>
+	     </property>
+	    <property name="defaultEncoding" value="UTF-8"/>
+	</bean>
+	<bean id="localeChangeInterceptor"
+		    class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+		    <property name="paramName" value="lang" />
+	</bean>
+	<bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+	    <property name="interceptors">
+	        <ref bean="localeChangeInterceptor" />
+	    </property>
+            <property name="mappings">
+                <props>
+                    <prop key="/my-account/subscription">subscriptionPageController</prop>
+                </props>
+            </property>
+	</bean>
+	<bean id="localeResolver"
+	    class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+	    <property name="defaultLocale" value="en"/>
+	</bean>
+
+	<alias name="defaultProductOfferingBreadcrumbBuilder" alias="productOfferingBreadcrumbBuilder"/>
+	<bean id="defaultProductOfferingBreadcrumbBuilder"
+				class="de.hybris.platform.b2ctelcoaddon.breadcrumb.TmaProductOfferingBreadcrumbBuilder"
+				parent="productBreadcrumbBuilder">
+	</bean>
+
+	<bean id="b2ctelcoAddonFilterChain" depends-on="defaultStorefrontTenantDefaultFilterChainList" parent="listMergeDirective">
+		<property name="add" ref="tmaEligibilityContextFilter"/>
+		<property name="beforeBeanNames">
+			<list value-type="java.lang.String">
+				<value>cartRestorationFilter</value>
+			</list>
+		</property>
+	</bean>
+
+	<alias name="defaultTmaEligibilityContextFilter" alias="tmaEligibilityContextFilter"/>
+	<bean id="defaultTmaEligibilityContextFilter" class="de.hybris.platform.b2ctelcoaddon.filters.TmaEligibilityContextFilter">
+		<property name="eligibilityContextService" ref="tmaEligibilityContextService"/>
+	</bean>
+
+	<alias name="tmaDefaultPriceOrganizationClientService" alias="tmaPriceOrganizationClientService"/>
+	<bean id="tmaDefaultPriceOrganizationClientService" class="de.hybris.platform.b2ctelcoaddon.clientservice.TmaPriceOrganizationService"  >
+		<constructor-arg name="tmaPriceFacade" ref="tmaPriceFacade"/>
+	</bean>
+
+
+</beans>

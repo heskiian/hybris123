@@ -1,0 +1,16 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for Importing Customer Test Data
+
+#% impex.enableCodeExecution(true);
+
+$defaultPassword = 1234
+
+# Create test customer
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE Customer; originalUid[unique = true]      ; uid[unique = true]              ; customerID                      ; name                 ; groups(uid)   ; password[default = $defaultPassword]; Europe1PriceFactory_UPG(code)
+## TMF Order Apis baseSiteId
+                      ; selfserviceuser98712@hybris.com ; selfserviceuser98712@hybris.com ; selfserviceuser98712@hybris.com ; selfserviceuser98712 ; customergroup
+                      ; selfserviceuser98715@hybris.com ; selfserviceuser98715@hybris.com ; selfserviceuser98715@hybris.com ; selfserviceuser98715 ; customergroup

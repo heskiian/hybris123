@@ -1,0 +1,82 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for Importing Cart Test Data
+#% impex.enableCodeExecution(true)           ;
+
+$cart-site-store = utilities
+$productCatalog = utilitiesProductCatalog
+$productCatalogName = Utilities Product Catalog
+$onlineCatalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Online'])[unique = true, default = $productCatalog:Online]
+$region = region(isocode)
+
+#%de.hybris.platform.core.Registry.setCurrentTenantByID("api");
+#% setAccessibility(true)
+#% Date date = new Date();
+#% date.setMonth(date.getMonth()+1);
+#% impex.definitions.put("$oneMonthAfterCurrent", new java.text.SimpleDateFormat("dd.MM.yyyy").format(date))
+#% Date date2 = new Date();
+#% date2.setMonth(date2.getMonth()-1);
+#% impex.definitions.put("$oneMonthBeforeCurrent", new java.text.SimpleDateFormat("dd.MM.yyyy").format(date2))
+
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE Cart; user(uid)                          ; code[unique = true]; currency(isocode); date[dateformat = dd.MM.yyyy HH:mm:ss]; modifiedtime[dateformat = dd.MM.yyyy HH:mm:ss]; net   ; calculated; site(uid)        ; store(uid)       ; paymentInfo(code); deliveryAddress(id); deliveryMode(code)
+                  ; occpostformer1@hybris.com          ; 60006000           ; USD              ; 10.05.2019 00:00:00                   ; 12.05.2019 00:00:00                           ; FALSE ; TRUE      ; $cart-site-store ; $cart-site-store ;                  ;                    ;                ;
+                  ; occpostformer1@hybris.com          ; 60006001           ; USD              ; 10.05.2019 00:00:00                   ; 12.05.2019 00:00:00                           ; FALSE ; TRUE      ; $cart-site-store ; $cart-site-store ;                  ;                    ;                ;
+                  ; occpostformer1@hybris.com          ; 60006002           ; USD              ; 10.05.2019 00:00:00                   ; 12.05.2019 00:00:00                           ; FALSE ; TRUE      ; $cart-site-store ; $cart-site-store ;                  ;                    ;                ;
+                  ; occpostformer1@hybris.com          ; 60006003           ; USD              ; 10.05.2019 00:00:00                   ; 12.05.2019 00:00:00                           ; FALSE ; TRUE      ; $cart-site-store ; $cart-site-store ;                  ;                    ;                ;
+
+##Former Supplier
+                  ; occpatchformersupplier1@hybris.com ; 70007000           ; USD              ; 10.05.2019 00:00:00                   ; 12.05.2019 00:00:00                           ; FALSE ; TRUE      ; $cart-site-store ; $cart-site-store ;                  ;                    ;                ;
+                  ; occpatchformersupplier1@hybris.com ; 70007001           ; USD              ; 10.05.2019 00:00:00                   ; 12.05.2019 00:00:00                           ; FALSE ; TRUE      ; $cart-site-store ; $cart-site-store ;                  ;                    ;                ;
+                  ; occpatchformersupplier1@hybris.com ; 70007002           ; USD              ; 10.05.2019 00:00:00                   ; 12.05.2019 00:00:00                           ; FALSE ; TRUE      ; $cart-site-store ; $cart-site-store ;                  ;                    ;                ;
+                  ; occpatchformersupplier1@hybris.com ; 70007003           ; USD              ; 10.05.2019 00:00:00                   ; 12.05.2019 00:00:00                           ; FALSE ; TRUE      ; $cart-site-store ; $cart-site-store ;                  ;                    ;                ;
+                  ; occpatchformersupplier1@hybris.com ; 70007004           ; USD              ; 10.05.2019 00:00:00                   ; 12.05.2019 00:00:00                           ; FALSE ; TRUE      ; $cart-site-store ; $cart-site-store ;                  ;                    ;                ;
+                  ; occpatchformersupplier1@hybris.com ; 70007005           ; USD              ; 10.05.2019 00:00:00                   ; 12.05.2019 00:00:00                           ; FALSE ; TRUE      ; $cart-site-store ; $cart-site-store ;                  ;                    ;                ;
+                  ; occpatchformersupplier1@hybris.com ; 70007006           ; USD              ; 10.05.2019 00:00:00                   ; 12.05.2019 00:00:00                           ; FALSE ; TRUE      ; $cart-site-store ; $cart-site-store ;                  ;                    ;                ;
+                  ; occpatchformersupplier1@hybris.com ; 70007007           ; USD              ; 10.05.2019 00:00:00                   ; 12.05.2019 00:00:00                           ; FALSE ; TRUE      ; $cart-site-store ; $cart-site-store ;                  ;                    ;                ;
+                  ; occpatchformersupplier1@hybris.com ; 70007008           ; USD              ; 10.05.2019 00:00:00                   ; 12.05.2019 00:00:00                           ; FALSE ; TRUE      ; $cart-site-store ; $cart-site-store ;                  ;                    ;                ;
+                  ; tmfpatchformersupplier1@hybris.com ; 70008001           ; USD              ; 10.05.2019 00:00:00                   ; 12.05.2019 00:00:00                           ; FALSE ; TRUE      ; $cart-site-store ; $cart-site-store ;                  ;                    ;                ;
+                  ; tmfpatchformersupplier2@hybris.com ; 70008002           ; USD              ; 10.05.2019 00:00:00                   ; 12.05.2019 00:00:00                           ; FALSE ; TRUE      ; $cart-site-store ; $cart-site-store ;                  ;                    ;                ;
+                  ; tmfpatchformersupplier3@hybris.com ; 70008003           ; USD              ; 10.05.2019 00:00:00                   ; 12.05.2019 00:00:00                           ; FALSE ; TRUE      ; $cart-site-store ; $cart-site-store ;                  ;                    ;                ;
+                  ; tmfpatchformersupplier4@hybris.com ; 70008004           ; USD              ; 10.05.2019 00:00:00                   ; 12.05.2019 00:00:00                           ; FALSE ; TRUE      ; $cart-site-store ; $cart-site-store ;                  ;                    ;                ;
+
+                  ; occpatchcartuser1@hybris.com       ; 90000000           ; USD              ; 02.03.2020 00:00:00                   ; 05.03.2020 00:00:00                           ; FALSE ; TRUE      ; $cart-site-store ; $cart-site-store ;                  ;                    ;                ;
+                  ; occpatchcartuser1@hybris.com       ; 90000001           ; USD              ; 02.03.2020 00:00:00                   ; 05.03.2020 00:00:00                           ; FALSE ; TRUE      ; $cart-site-store ; $cart-site-store ;                  ;                    ;                ;
+                  ; occpatchcartuser1@hybris.com       ; 90000002           ; USD              ; 02.03.2020 00:00:00                   ; 05.03.2020 00:00:00                           ; FALSE ; TRUE      ; $cart-site-store ; $cart-site-store ;                  ;                    ;                ;
+                  ; occpatchcartuser1@hybris.com       ; 90000003           ; USD              ; 02.03.2020 00:00:00                   ; 05.03.2020 00:00:00                           ; FALSE ; TRUE      ; $cart-site-store ; $cart-site-store ;                  ;                    ;                ;
+                  ; occpatchcartuser1@hybris.com       ; 90000004           ; USD              ; 02.03.2020 00:00:00                   ; 05.03.2020 00:00:00                           ; FALSE ; TRUE      ; $cart-site-store ; $cart-site-store ;                  ;                    ;                ;
+                  ; occpatchcartuser1@hybris.com       ; 90000005           ; USD              ; 02.03.2020 00:00:00                   ; 05.03.2020 00:00:00                           ; FALSE ; TRUE      ; $cart-site-store ; $cart-site-store ;                  ;                    ;                ;
+                  ; occpatchcartuser1@hybris.com       ; 90000006           ; USD              ; 02.03.2020 00:00:00                   ; 05.03.2020 00:00:00                           ; FALSE ; TRUE      ; $cart-site-store ; $cart-site-store ;                  ;                    ;                ;
+                  ; occpatchcartuser2@hybris.com       ; 90000007           ; USD              ; 02.03.2020 00:00:00                   ; 05.03.2020 00:00:00                           ; FALSE ; TRUE      ; $cart-site-store ; $cart-site-store ;                  ;                    ;                ;
+                  ; occpatchcartuser2@hybris.com       ; 90009008           ; USD              ; 02.03.2020 00:00:00                   ; 05.03.2020 00:00:00                           ; FALSE ; TRUE      ; $cart-site-store ; $cart-site-store ;                  ;                    ;                ;
+
+                  ; selfserviceuser6426@hybris.com     ; 64250000           ; USD              ; 10.05.2019 00:00:00                   ; 12.05.2019 00:00:00                           ; FALSE ; TRUE      ; $cart-site-store ; $cart-site-store ;                  ;                    ;                ;
+                  ; selfserviceuser6426@hybris.com     ; 64250001           ; USD              ; 10.05.2019 00:00:00                   ; 12.05.2019 00:00:00                           ; FALSE ; TRUE      ; $cart-site-store ; $cart-site-store ;                  ;                    ;                ;
+                  ; selfserviceuser6426@hybris.com     ; 64250002           ; USD              ; 10.05.2019 00:00:00                   ; 12.05.2019 00:00:00                           ; FALSE ; TRUE      ; $cart-site-store ; $cart-site-store ;                  ;                    ;                ;
+                  ; selfserviceuser6426@hybris.com     ; 64250003           ; USD              ; 10.05.2019 00:00:00                   ; 12.05.2019 00:00:00                           ; FALSE ; TRUE      ; $cart-site-store ; $cart-site-store ; 6425             ; 6425               ; standard-gross ;
+                  ; selfserviceuser6426@hybris.com     ; 64250004           ; USD              ; 10.05.2019 00:00:00                   ; 12.05.2019 00:00:00                           ; FALSE ; TRUE      ; $cart-site-store ; $cart-site-store ; 6425             ; 6425               ; standard-gross ;
+                  ; selfserviceuser64261@hybris.com    ; 64251000           ; USD              ; 10.05.2019 00:00:00                   ; 12.05.2019 00:00:00                           ; FALSE ; TRUE      ; $cart-site-store ; $cart-site-store ; 6425             ; 6425               ; standard-gross ;
+                  ; selfserviceuser64261@hybris.com    ; 64251001           ; USD              ; 10.05.2019 00:00:00                   ; 12.05.2019 00:00:00                           ; FALSE ; TRUE      ; $cart-site-store ; $cart-site-store ; 6425             ; 6425               ; standard-gross ;
+                  ; selfserviceuser64261@hybris.com    ; 64251002           ; USD              ; 10.05.2019 00:00:00                   ; 12.05.2019 00:00:00                           ; FALSE ; TRUE      ; $cart-site-store ; $cart-site-store ; 6425             ; 6425               ; standard-gross ;
+
+## TMF Order APIs baseSiteId
+                  ; selfserviceuser98716@hybris.com    ; 98710006           ; USD              ; 10.05.2019 00:00:00                   ; 12.05.2019 00:00:00                           ; FALSE ; TRUE      ; $cart-site-store ; $cart-site-store ; 98710006         ; 98716              ; standard-gross ;
+
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE CartEntry; entryNumber[unique = true]; product(code, $onlineCatalogVersion); quantity; unit(code); order(code)[unique = true]; bpo(code, $onlineCatalogVersion); masterEntry(order(code), entryNumber); processType(code); contractStartDate[dateformat = dd.MM.yyyy]; installationAddress(id); appointmentReference; productSpecCharacteristicValues(id); subscriptionInfo(id)
+                       ; 0                         ; gas_plan_basic                      ; 1       ; pieces    ; 64250001                  ;                                 ;                                      ; ACQUISITION      ; 10.05.2020                                ;                        ;                     ;                                    ; ;
+
+                       ; 0                         ; gas_plan_basic                      ; 1       ; pieces    ; 64250003                  ;                                 ;                                      ; ACQUISITION      ; $oneMonthAfterCurrent                     ; 6425                   ; appointment6425     ;                                    ; ;
+
+                       ; 0                         ; gas_plan_basic                      ; 1       ; pieces    ; 64250004                  ;                                 ;                                      ; ACQUISITION      ; $oneMonthBeforeCurrent                    ; 6425                   ; appointment6425     ;                                    ; ;
+
+                       ; 0                         ; gas_plan_basic                      ; 1       ; pieces    ; 64251000                  ;                                 ;                                      ; ACQUISITION      ; 10.05.2020                                ;                        ;                     ;                                    ; ;
+
+                       ; 0                         ; gas_plan_basic                      ; 1       ; pieces    ; 64251001                  ;                                 ;                                      ; ACQUISITION      ; $oneMonthAfterCurrent                     ; 64251                  ; appointment6425     ;                                    ; ;
+
+##TMF Order APIs baseSiteId - UTILITIES
+                       ; 0                         ; gas_plan_basic                      ; 1       ; pieces    ; 98710006                  ;                                 ;                                      ; ACQUISITION      ;                                           ; 98716                  ; appointment1        ; msisdn9871                         ; ;

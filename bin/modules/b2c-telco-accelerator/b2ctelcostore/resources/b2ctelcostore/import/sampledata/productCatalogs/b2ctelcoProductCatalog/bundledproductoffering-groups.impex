@@ -1,0 +1,25 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for Importing the bundle product offering groups
+
+# Macros / Replacement Parameter definitions
+
+$productCatalog = b2ctelcoProductCatalog
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Staged'])[unique = true, default = $productCatalog:Staged]
+
+INSERT_UPDATE TmaProductOfferingGroup; code[unique = true]; name; parentBundleProductOffering(code, $catalogVersion); childProductOfferings(code, $catalogVersion); $catalogVersion;
+; mobile_devices  ; Mobile devices    ; mobileDeal ; samsung_s8, Apple_iPhone_6, Apple_iPhone_6plus, 2047052, 2093587, 3961745, 3994624, 3417125, iPhone_x_space_gray_64g ,iPhone_x_space_gray_256g ,iPhone_x_silver_64g ,iPhone_x_silver_256g, iPhone_8_space_gray_64g ,iPhone_8_space_gray_256g, iPhone_8_silver_64g ,iPhone_8_silver_256g ,iPhone_8_gold_64g ,iPhone_8_gold_256g, iPhone_8_red_64g, iPhone_8_red_256g
+; mobile_plans    ; Mobile plans      ; mobileDeal ; essentialsUnlimitedPlan, signatureUnlimitedPlan, premiumUnlimitedPlan, essentialsUnlimited55Plan, unlimitedStarterPlan, unlimitedBasicPlan, unlimitedPlusPlan, unlimitedPremiumPlan, unlimitedSocialMediaPlan, starterNoLimit5GPlan, streamMoreNoLimit5GPlan, doMoreNoLimit5GPlan, getTheMostNoLimit5GPlan
+; mobile_addons   ; Mobile addons     ; mobileDeal ; internet_pack_casual, internet_pack_smart,internet_pack_max
+
+; ipTVDeal_plans  ; IpTVDeal plans    ; ipTVDeal   ; tv_S, tv_M,tv_L
+; ipTVDeal_addons ; IpTVDeal addons   ; ipTVDeal   ; movies_go,sports
+
+; internet_plans  ; Internet plans    ; internet   ; int_100, int_500, int_1000
+; landline_plans  ; Landline plans    ; landline   ; ll_voip, ll_pots
+
+; quad_mobile     ; Quad mobile       ; quadPlay   ; mobileDeal
+; quad_home       ; Quad home         ; quadPlay   ; homeDeal
+

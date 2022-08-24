@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+
+<project name="b2ctelcotmfevents_buildcallbacks">
+
+    <!--OVERRIDING the default macro definition-->
+    <!--    <macrodef name="extension_build_number">-->
+    <!--        <attribute name="extname"/>-->
+    <!--        <attribute name="destdir"/>-->
+
+    <!--        <sequential>-->
+    <!--            &lt;!&ndash; Just leave the file as it is declared into the custom extension&ndash;&gt;-->
+    <!--        </sequential>-->
+    <!--    </macrodef>-->
+
+    <macrodef name="b2ctelcotmfevents_before_ear">
+
+        <sequential>
+
+            <!-- you can do anything before the EAR file is being packed -->
+
+        </sequential>
+
+    </macrodef>
+
+
+</project>
+

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<action-definition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   id="de.hybris.platform.b2ctelcobackoffice.action.addchildproductoffering"
+                   xsi:noNamespaceSchemaLocation="http://www.hybris.com/schema/cockpitng/action-definition.xsd">
+
+    <name>Add new child product offering</name>
+    <description>Completes the list of product offerings with a new one</description>
+    <keywords>
+        <keyword>TmaBundledProductOffering</keyword>
+        <keyword>children</keyword>
+    </keywords>
+    <author>hybris</author>
+    <version>1.0</version>
+
+    <iconUri>icons/icon_action_add_default.png</iconUri>
+
+    <actionClassName>de.hybris.platform.b2ctelcobackoffice.actions.AddChildTmaPoAction</actionClassName>
+    <sockets>
+        <input id="poSelectedReferences" type="java.lang.Object"/>
+        <output id="referenceSearchCtx" type="com.hybris.cockpitng.data.TypeAwareSelectionContext"/>
+    </sockets>
+
+</action-definition>

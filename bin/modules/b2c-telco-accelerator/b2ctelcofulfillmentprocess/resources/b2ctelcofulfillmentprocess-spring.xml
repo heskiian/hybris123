@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+           
+    <context:annotation-config/> 
+
+	<!-- Listeners -->
+	
+	<bean id="pickupConfirmationEventListener" class="de.hybris.platform.b2ctelcofulfillmentprocess.listeners.PickupConfirmationEventListener" parent="abstractEventListener">
+		<property name="businessProcessService" ref="businessProcessService"/>
+	</bean>
+
+	<!-- Services -->
+
+	<alias name="defaultTmaB2cOrderProcessFulfilmentService" alias="tmaB2cOrderProcessFulfilmentService"/>
+	<bean id="defaultTmaB2cOrderProcessFulfilmentService"
+		  class="de.hybris.platform.b2ctelcofulfillmentprocess.service.impl.DefaultTmaB2cOrderProcessFulfilmentService">
+		<constructor-arg name="businessProcessService" ref="businessProcessService"/>
+	</bean>
+	
+	<!-- Process Adapters -->
+
+	<alias name="mockProcess2WarehouseAdapter" alias="process2WarehouseAdapter"/>
+	<bean id="mockProcess2WarehouseAdapter" class="de.hybris.platform.b2ctelcofulfillmentprocess.warehouse.MockProcess2WarehouseAdapter" >
+		<property name="modelService" ref="modelService"/>
+		<property name="warehouse2ProcessAdapter" ref="warehouse2ProcessAdapter"/>
+		<property name="timeService" ref="timeService"/>
+	</bean>
+
+	<alias name="defaultWarehouse2ProcessAdapter" alias="warehouse2ProcessAdapter"/>
+	<bean id="defaultWarehouse2ProcessAdapter" class="de.hybris.platform.b2ctelcofulfillmentprocess.warehouse.DefaultWarehouse2ProcessAdapter" >
+		<property name="modelService" ref="modelService"/>
+		<property name="statusMap">
+			<map key-type="de.hybris.platform.warehouse.WarehouseConsignmentStatus" value-type="de.hybris.platform.commerceservices.enums.WarehouseConsignmentState">
+				<entry key="CANCEL" value="CANCEL"/>
+				<entry key="COMPLETE" value="COMPLETE"/>
+				<entry key="PARTIAL" value="PARTIAL"/>
+			</map>
+		</property>
+		<property name="businessProcessService" ref="businessProcessService"/>
+	</bean>
+	
+	<!-- Process Definitions -->
+
+	<bean id="orderProcessDefinitionResource" class="de.hybris.platform.processengine.definition.ProcessDefinitionResource" >
+		<property name="resource" value="classpath:/b2ctelcofulfillmentprocess/process/order-process.xml"/>
+	</bean>
+
+	<bean id="consignmentProcessDefinitionResource" class="de.hybris.platform.processengine.definition.ProcessDefinitionResource" >
+		<property name="resource" value="classpath:/b2ctelcofulfillmentprocess/process/consignment-process.xml"/>
+	</bean>
+
+	<bean id="returnProcessDefinitionResource" class="de.hybris.platform.processengine.definition.ProcessDefinitionResource" >
+		<property name="resource" value="classpath:/b2ctelcofulfillmentprocess/process/return-process.xml"/>
+	</bean>
+
+	<!-- Process Actions -->
+
+	<import resource="/b2ctelcofulfillmentprocess/process/order-process-spring.xml"/>
+	<import resource="/b2ctelcofulfillmentprocess/process/consignment-process-spring.xml"/>
+	<import resource="/b2ctelcofulfillmentprocess/process/return-process-spring.xml"/>
+
+	<!-- Order Check Service -->
+	<!-- Performs some basic validation for the order as part of the first stage of the process. -->
+
+	<alias name="defaultCheckOrderService" alias="checkOrderService"/>
+	<bean id="defaultCheckOrderService" class="de.hybris.platform.b2ctelcofulfillmentprocess.impl.DefaultCheckOrderService" />
+	
+	<!-- Order Splitting -->
+	<alias name="b2ctelcofulfillmentprocessOrderSplittingService" alias="orderSplittingService"/>
+	<bean id="b2ctelcofulfillmentprocessOrderSplittingService" parent="defaultOrderSplittingService" >
+		<property name="strategiesList">
+			<list>
+				<ref bean="splitByAvailableCount"/>
+				<ref bean="splitByDeliveryMode" />
+				<ref bean="splitByPoS" />
+				<ref bean="splitByNamedDeliveryDate" />
+				<ref bean="splitByEntryDeliveryAddress" />
+				<ref bean="splitByWarehouse" />
+			</list>
+		</property>
+	</bean>
+
+	<!--Create Subscriptions Mock-->
+	<alias name="defaultMockCreateCpiService" alias="tmaMockCreateCpiService"/>
+	<bean id="defaultMockCreateCpiService" class="de.hybris.platform.b2ctelcofulfillmentprocess.impl.DefaultMockCreateCpiService">
+		<property name="defaultBillingSystemId" value="${default.billing.system.id}"/>
+		<property name="defaultSubscriptionStatus" value="${default.subscription.status}"/>
+		<property name="modelService" ref="modelService"/>
+		<property name="catalogVersionService" ref="catalogVersionService"/>
+		<property name="categoryService" ref="categoryService"/>
+		<property name="customerInventoryService" ref="tmaCustomerInventoryService"/>
+		<property name="subscribedProductService" ref="tmaSubscribedProductService"/>
+		<property name="entryGroupService" ref="entryGroupService"/>
+	</bean>
+
+	<!-- Split Strategies -->
+	
+	<alias name="defaultSplitByPoS" alias="splitByPoS"/>
+	<bean id="defaultSplitByPoS" class="de.hybris.platform.b2ctelcofulfillmentprocess.strategy.impl.SplitByPoS" />
+	
+	<alias name="defaultSplitByEntryDeliveryAddress" alias="splitByEntryDeliveryAddress"/>
+	<bean id="defaultSplitByEntryDeliveryAddress" class="de.hybris.platform.b2ctelcofulfillmentprocess.strategy.impl.SplitByEntryDeliveryAddress"  />
+	
+	<alias name="defaultSplitByDeliveryMode" alias="splitByDeliveryMode"/>
+	<bean id="defaultSplitByDeliveryMode" class="de.hybris.platform.b2ctelcofulfillmentprocess.strategy.impl.SplitByDeliveryMode" >
+		<property name="pickupDeliveryModeDao" ref="pickupDeliveryModeDao"/>
+	</bean>
+	
+	<alias name="defaultSplitByAvailableCount" alias="splitByAvailableCount"/>
+	<bean id="defaultSplitByAvailableCount" class="de.hybris.platform.b2ctelcofulfillmentprocess.strategy.impl.SplitByAvailableCount" >
+		<property name="commerceStockService" ref="commerceStockService"/>
+	</bean>
+	
+	<alias name="defaultSplitByWarehouse" alias="splitByWarehouse"/>
+	<bean id="defaultSplitByWarehouse" class="de.hybris.platform.b2ctelcofulfillmentprocess.strategy.impl.SplitByWarehouse">
+		<property name="stockService" ref="stockService"/>
+		<property name="commerceAvailabilityCalculationStrategy" ref="commerceStockLevelCalculationStrategy"/>
+	</bean>
+	
+	 <alias name="mockCreateSubscriptionFromOrderAction" alias="mockCreateSubscriptionFromOrderAction"/>
+   <bean id="mockCreateSubscriptionFromOrderAction"
+         class="de.hybris.platform.b2ctelcofulfillmentprocess.actions.order.MockCreateSubscriptionFromOrderAction">
+         <property name="eventService" ref="eventService"/>
+         <property name="checkoutFacade" ref="checkoutFacade"/>
+         <property name="tmaSubscribedProductFacade" ref="tmaSubscribedProductFacade"/>
+         <property name="mockCreateCpiService" ref="tmaMockCreateCpiService"/>
+	   	 <constructor-arg name="orderProcessFulfilmentService" ref="tmaB2cOrderProcessFulfilmentService"/>
+   </bean>
+	
+	<!--  Jobs -->
+	
+	<bean id="cleanUpFraudOrderJob" class="de.hybris.platform.b2ctelcofulfillmentprocess.jobs.CleanUpFraudOrderJob"  >
+		<property name="modelService" ref="modelService"/>
+		<property name="flexibleSearchService" ref="flexibleSearchService"/>
+		<property name="businessProcessService" ref="businessProcessService"/>
+		<property name="sessionService" ref="sessionService"/>
+	</bean>
+
+</beans>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved. -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd">
+           
+     <alias name="defaultTmaServiceabilityCheckService" alias="tmaServiceabilityCheckService"/>
+     <bean name="defaultTmaServiceabilityCheckService"
+          class="de.hybris.platform.b2ctelcoserviceabilityclient.service.impl.DefaultTmaServiceabilityCheckService">
+            <constructor-arg name="tmaServiceQualificationClientService" ref="tmaServiceQualificationClientService"/>
+            <constructor-arg name="tmaPlaceConverter" ref="tmaPlaceConverter"/>
+    </bean>
+
+	<bean depends-on="tmaServiceabilityCheckServiceList"
+		parent="listMergeDirective">
+		<property name="add" ref="tmaServiceabilityCheckService" />
+	</bean>
+    
+    <alias name="defaultTmaPlaceConverter" alias="tmaPlaceConverter"/>
+	<bean id="defaultTmaPlaceConverter" parent="abstractPopulatingConverter">
+		<lookup-method name="createTarget" bean="place"/>
+		<property name="populators">
+			<list>
+				<ref bean="tmaPlacePopulator"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="place"
+	      class=" de.hybris.platform.b2ctelcotmfresources.v4.dto.GeographicAddress"
+	      scope="prototype">
+	</bean>
+
+	<alias name="defaultTmaPlacePopulator" alias="tmaPlacePopulator"/>
+	<bean id="defaultTmaPlacePopulator"
+	      class="de.hybris.platform.b2ctelcoserviceabilityclient.serviceability.populators.TmaPlacePopulator">
+	</bean>           
+
+	<alias name="defaultTmaServiceQualificationClientService" alias="tmaServiceQualificationClientService"/>
+	<bean id="defaultTmaServiceQualificationClientService"
+		class="de.hybris.platform.b2ctelcoserviceabilityclient.service.impl.DefaultTmaServiceQualificationClientService">
+		<constructor-arg name="serviceabilityHttpClient"
+			ref="serviceabilityHttpClient" />
+	</bean>
+	
+    <alias name="defaultServiceabilityHttpClient" alias="serviceabilityHttpClient"/>
+	<bean id="defaultServiceabilityHttpClient" 
+		class="com.hybris.charon.HttpClientFactoryBean">
+		<property name="type"
+			value="de.hybris.platform.b2ctelcoserviceabilityclient.client.ServiceabilityHttpClient" />
+		<property name="clientId" value="serviceability" />
+		<property name="url"
+			value="#{configurationService.configuration.getProperty('b2ctelcoserviceabilityclient.queryServiceQualification.url')}" />
+	</bean>
+
+</beans>

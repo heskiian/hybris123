@@ -1,0 +1,10 @@
+#Ant properties
+builddate=20182410
+description=b2ctelcofulfillmentprocess
+group.id=de.hybris.platform
+module.name=b2ctelco-accelerator-module
+name=b2ctelcofulfillmentprocess
+releasedate=20182410
+vendor=hybris
+version=21.02.0
+version.api=21.02.0

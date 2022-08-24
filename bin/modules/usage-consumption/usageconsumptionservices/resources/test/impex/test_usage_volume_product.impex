@@ -1,0 +1,45 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+$defaultPassword = 1234
+
+INSERT_UPDATE UserGroup; uid[unique = true];
+                       ; customergroup     ;
+
+INSERT_UPDATE Customer; originalUid[unique = true]; uid[unique = true]     ; customerID             ; name        ; groups(uid)   ; password[default = $defaultPassword]; Europe1PriceFactory_UPG(code)
+                      ; etta.berg@hybris.com      ; etta.berg@hybris.com   ; etta.berg@hybris.com   ; etta.berg   ; customergroup ;
+                      ; gretta.berg@hybris.com    ; gretta.berg@hybris.com ; gretta.berg@hybris.com ; gretta.berg ; customergroup ;
+
+INSERT_UPDATE UcPartyRole; id[unique = true]; role     ; party(id)
+                         ; etta.berg        ; customer ; party_10830
+                         ; gretta.berg      ; customer ; party_10831
+
+INSERT_UPDATE UcParty; id[unique = true]; name[lang = en]; type(code) ; partyRoles(id); principals(uid)
+                     ; party_10830      ; etta berg      ; INDIVIDUAL ; etta.berg     ; etta.berg@hybris.com
+                     ; party_10831      ; gretta berg    ; INDIVIDUAL ; gretta.berg   ; gretta.berg@hybris.com
+
+INSERT_UPDATE UcNetworkProduct; id[unique = true]; name         ; publicIdentifier; usedBy(id)
+                              ; MainOffer        ; Main Offer   ; 0601010101      ; etta.berg
+                              ; MainOffer2       ; Main Offer 2 ; 0601010102      ; gretta.berg
+
+INSERT_UPDATE UcUsageVolumeBalance; id[unique = true]        ; remainingValue; units   ; startDate[dateformat = dd.MM.yyyy HH:mm:ss]; endDate[dateformat = dd.MM.yyyy HH:mm:ss]
+                                  ; usage_vol_balance_80_min ; 80            ; Minutes ; 10.04.2021 00:00:00                        ; 10.06.2021 00:00:00
+                                  ; usage_vol_balance_1_8_go ; 1.8           ; Go      ; 10.04.2021 00:00:00                        ; 10.06.2021 00:00:00
+                                  ; usage_vol_balance_10_min ; 10            ; Minutes ; 10.04.2021 00:00:00                        ; 10.06.2021 00:00:00
+
+INSERT_UPDATE UcUsageVolumeProductSpec; id[unique = true]; name                ; isShared; usageType
+                                      ; SMS              ; Sms Spec            ; false   ; SMS
+                                      ; NationalVoice    ; National Voice Spec ; false   ; NationalVoice
+                                      ; Data             ; Data Spec           ; false   ; Data
+                                      ; Voice            ; Voice Spec          ; false   ; Voice
+
+INSERT_UPDATE UcConsumptionSummary; id[unique = true]              ; level(code); value; units   ; consumptionStartDate[dateformat = dd.MM.yyyy HH:mm:ss]; consumptionEndDate[dateformat = dd.MM.yyyy HH:mm:ss]; effectiveDate[dateformat = dd.MM.yyyy HH:mm:ss]
+                                  ; main_offer_data_summary_go_1_2 ; GLOBAL     ; 1.2  ; Go      ; 10.04.2021 00:00:00                                   ; 10.04.2021 00:00:00                                 ; 10.04.2021 00:00:00
+                                  ; main_offer_data_summary_40_min ; GLOBAL     ; 40   ; Minutes ; 10.04.2021 00:00:00                                   ; 10.04.2021 00:00:00                                 ; 10.04.2021 00:00:00
+                                  ; main_offer_data_summary_20_min ; GLOBAL     ; 20   ; Minutes ; 10.04.2021 00:00:00                                   ; 10.04.2021 00:00:00                                 ; 10.04.2021 00:00:00
+
+INSERT_UPDATE UcUsageVolumeProduct; id[unique = true]        ; name                     ; usageVolumeProductSpec(id); usedBy(id)  ; consumptionSummaries(id)       ; networkProducts(id); usageVolumeBalances(id);
+                                  ; MainOffer-Data           ; MainOffer Data           ; Data                      ; etta.berg   ; main_offer_data_summary_go_1_2 ; MainOffer          ; usage_vol_balance_1_8_go
+                                  ; MainOffer-NationalVoice  ; MainOffer National Voice ; NationalVoice             ; etta.berg   ; main_offer_data_summary_40_min ; MainOffer          ; usage_vol_balance_80_min
+                                  ; MainOffer-NationalVoice2 ; MainOffer Data 2         ; Data                      ; gretta.berg ; main_offer_data_summary_20_min ; MainOffer2         ; usage_vol_balance_10_min

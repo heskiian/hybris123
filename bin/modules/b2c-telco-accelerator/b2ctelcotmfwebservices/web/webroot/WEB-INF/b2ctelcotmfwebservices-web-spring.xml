@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<!-- WARNING: This is the Spring WEB configuration file. If you want to replace 
+	items or managers you have to do this from the extensions core configuration 
+	file (b2ctelcotmfwebservices/resources/b2ctelcotmfwebservices-spring.xml) -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+			  http://www.springframework.org/schema/context/spring-context.xsd
+           http://www.springframework.org/schema/security
+		http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+	<context:annotation-config />
+	<import resource="config/v2-web-spring.xml" />
+	<import resource="config/v3-web-spring.xml" />
+	<import resource="config/commons/cache-config-spring.xml" />
+	<import resource="${b2ctelcotmfwebservices.security.config:config/commons/security-spring.xml}" />
+	<import resource="config/commons/error-config-spring.xml" />
+	<import resource="config/commons/field-mapping-spring.xml" />
+	<import resource="config/commons/validation-config-spring.xml" />
+
+	<mvc:annotation-driven>
+		<mvc:message-converters>
+			<bean
+				class="org.springframework.http.converter.ResourceHttpMessageConverter" />
+			<bean
+				class="org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter" />
+			<bean
+				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+
+	<bean id="objectMapper" name="objectMapper"
+		class="com.fasterxml.jackson.databind.ObjectMapper" />
+
+	<bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>/WEB-INF/messages/messages</value>
+			</list>
+		</property>
+		<property name="defaultEncoding" value="UTF-8" />
+	</bean>
+
+	<!-- Spring managed FilterChain for hybris Filter stack -->
+	<bean id="b2ctelcotmfwebservicesPlatformFilterChain" class="de.hybris.platform.servicelayer.web.PlatformFilterChain">
+		<constructor-arg>
+			<list>
+				<!-- Filter that catches and resolves exceptions thrown from other filters.
+					Can be uncommented if you need such functionality -->
+				<ref bean="exceptionTranslationFilter" />
+
+				<ref bean="log4jFilter" />
+				<ref bean="tenantActivationFilter" />
+				<ref bean="corsFilter"/>
+				<!-- This filter creates new jalo session and close it after request
+					is handled. -->
+				<ref bean="restSessionFilter" />
+				<!-- If you want to track user session: - uncomment filter below - comment
+					or remove restSessionFilter above - comment or remove SessionHindingRequestFilter
+					in web.xml -->
+				<!-- ref bean="sessionFilter" / -->
+				<!-- Security -->
+				<ref bean="springSecurityFilterChain" />
+				<!-- Other -->
+				<ref bean="tmaBaseSiteSessionFilter" />
+				<ref bean="tmaSessionAttributesFilter" />
+			</list>
+		</constructor-arg>
+	</bean>
+
+	<bean id="restSessionFilter"
+		class="de.hybris.platform.webservicescommons.filter.RestSessionFilter">
+		<property name="sessionService" ref="sessionService" />
+	</bean>
+
+    <bean id="tmaBaseSiteSessionFilter"
+		class="de.hybris.platform.b2ctelcotmfwebservices.filters.TmaBaseSiteSessionFilter">
+		<property name="baseSiteService" ref="baseSiteService" />
+		<constructor-arg name="configurationService" ref="configurationService"/>
+		<constructor-arg name="userFacade" ref="userFacade"/>
+		<constructor-arg name="tmaCustomerFacade" ref="tmaCustomerFacade"/>
+		<constructor-arg name="sessionService" ref="sessionService"/>
+	</bean>
+
+	<bean id="tmaSessionAttributesFilter"
+		class="de.hybris.platform.b2ctelcotmfwebservices.filters.TmaSessionAttributesFilter">
+		<property name="contextInformationLoader" ref="wsContextInformationLoader" />
+		<property name="baseStoreService" ref="baseStoreService" />
+		<property name="sessionService" ref="sessionService" />
+	</bean>
+
+	<alias name="defaultWsContextInformationLoader" alias="wsContextInformationLoader" />
+	<bean id="defaultWsContextInformationLoader" class="de.hybris.platform.b2ctelcotmfwebservices.context.impl.TmaDefaultContextInformationLoader">
+		<property name="baseStoreService" ref="baseStoreService" />
+		<property name="commonI18NService" ref="commonI18NService" />
+		<property name="commerceCommonI18NService" ref="commerceCommonI18NService" />
+	</bean>
+
+	<!-- Filter that catches and resolves exceptions thrown from other filters.
+		Can be added to filter chain if you need such functionality -->
+	<alias alias="exceptionTranslationFilter" name="defaultExceptionTranslationFilter" />
+	<bean id="defaultExceptionTranslationFilter"
+		class="de.hybris.platform.webservicescommons.filter.ExceptionTranslationFilter">
+		<property name="restHandlerExceptionResolver" ref="restHandlerExceptionResolver" />
+	</bean>
+
+    <alias name="defaultUserValidator" alias="userValidator" />
+	<bean id="defaultUserValidator" class="de.hybris.platform.b2ctelcotmfwebservices.security.UserValidator">
+		<constructor-arg name="tmaSubscribedProductFacade" ref="tmaSubscribedProductFacade"/>
+		<constructor-arg name="tmaSubscriptionBaseFacade" ref="tmaSubscriptionBaseFacade"/>
+	</bean>
+	
+	<!-- Review Validator-->
+	<alias name="defaultTmaReviewValidator" alias="tmaReviewValidator"/>
+	<bean id="defaultTmaReviewValidator" class="de.hybris.platform.b2ctelcotmfwebservices.validators.TmaReviewValidator"/>
+
+    <!-- Shopping cart validator -->
+    <alias name="defaultTmaShoppingCartUpdateValidator" alias="tmaShoppingCartUpdateValidator"/>
+    <bean id="defaultTmaShoppingCartUpdateValidator"
+          class="de.hybris.platform.b2ctelcotmfwebservices.validators.TmaShoppingCartUpdateValidator">
+        <property name="cartItemValidator" ref="tmaCartItemValidator"/>
+    </bean>
+
+    <alias name="defaultTmaShoppingCartCreateValidator" alias="tmaShoppingCartCreateValidator"/>
+    <bean id="defaultTmaShoppingCartCreateValidator"
+          class="de.hybris.platform.b2ctelcotmfwebservices.validators.TmaShoppingCartCreateValidator">
+        <property name="cartItemValidator" ref="tmaCartItemValidator"/>
+    </bean>
+
+	<alias name="defaultTmaCartItemValidator" alias="tmaCartItemValidator"/>
+	<bean id="defaultTmaCartItemValidator" class="de.hybris.platform.b2ctelcotmfwebservices.validators.TmaCartItemValidator">
+		<constructor-arg name="placeValidator" ref="tmaPlaceValidator"/>
+	</bean>
+
+	<alias name="defaultTmaPlaceValidator" alias="tmaPlaceValidator"/>
+	<bean id="defaultTmaPlaceValidator" class="de.hybris.platform.b2ctelcotmfwebservices.validators.TmaPlaceValidator"/>
+    
+    <alias name="defaultTmaGeoraphicAddressValidator" alias="tmaGeoraphicAddressValidator"/>
+	<bean id="defaultTmaGeoraphicAddressValidator" class="de.hybris.platform.b2ctelcotmfwebservices.validators.TmaGeoraphicAddressValidator"/>
+
+	<!-- Product Order Validator -->
+	<alias name="defaultTmaProductOrderUpdateValidator" alias="tmaProductOrderUpdateValidator"/>
+	<bean id="defaultTmaProductOrderUpdateValidator"
+		  class="de.hybris.platform.b2ctelcotmfwebservices.validators.TmaProductOrderUpdateValidator">
+	</bean>
+</beans>

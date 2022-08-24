@@ -1,0 +1,53 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+$catalog-id = testCatalog
+$catalog-version = Online
+$catalogVersion = catalogversion(catalog(id[default = $catalog-id]), version[default = $catalog-version])[unique = true, default = $catalog-id:$catalog-version]
+$approved = approvalstatus(code)[default = 'approved']
+
+INSERT_UPDATE Catalog; id[unique = true]; name[lang = en]; defaultCatalog;
+                     ; $catalog-id      ; $catalog-id    ; true          ;
+
+INSERT_UPDATE Currency; isocode[unique = true]; active; conversion; digits; symbol
+                      ; USD                   ; true  ; 1.5       ; 2     ; "$"
+
+INSERT_UPDATE Unit; unitType[unique = true]; code[unique = true]; conversion
+                  ; pieces                 ; pieces             ; 1
+
+INSERT_UPDATE CatalogVersion; catalog(id)[unique = true]; version[unique = true]; active; defaultCurrency(isocode)[default = USD]
+                            ; $catalog-id               ; $catalog-version      ; true  ;
+
+INSERT_UPDATE TmaBundledProductOffering; code[unique = true]; name[lang = en]       ; parents(code, $catalogVersion); $approved; $catalogVersion
+                                       ; quadPlay           ; Quad Play             ;
+                                       ; mobileDeal         ; Mobile Deal           ; quadPlay
+                                       ; back2School        ; Back To School        ;
+                                       ; homeDeal           ; Home Deal             ; back2School, quadPlay
+                                       ; starterHomeDeal    ; Starter Home Deal     ; quadPlay
+                                       ; internet           ; Internet Deal         ; homeDeal
+                                       ; starterInternet    ; Starter Internet Deal ; starterHomeDeal
+
+INSERT_UPDATE TmaSimpleProductOffering; code[unique = true]; name[lang = en]; parents(code, $catalogVersion); $approved; $catalogVersion
+#mobile deal
+                                      ; iPhone_8           ; iPhone 8       ; mobileDeal, back2School
+                                      ; int_100            ; Fiberlink 100  ; back2School, internet, starterInternet
+                                      ; int_500            ; Fiberlink 500  ; back2School, starterInternet, internet
+                                      ; int_1000           ; Fiberlink 1000 ; back2School
+                                      ; int_5000           ; Fiberlink 5000 ; quadPlay
+
+INSERT_UPDATE TmaSimpleProductOffering; code[unique = true]; parents(code, $catalogVersion); $approved; $catalogVersion
+                                      ; tapasS             ; mobileDeal
+                                      ; tapasM
+
+INSERT_UPDATE TmaBundledProductOffering; code[unique = true]; $catalogVersion; children(code, $catalogVersion);
+                                       ; mobileDeal         ;                ; iPhone_8                       ;
+
+
+INSERT_UPDATE TmaProductOfferingGroup; code[unique = true]; name           ; parentBundleProductOffering(code, $catalogVersion); childProductOfferings(code, $catalogVersion); $catalogVersion;
+                                     ; mobile_devices     ; Mobile devices ; mobileDeal                                        ; iPhone_8
+                                     ; iphone_devices     ; iPhone devices ; back2School                                       ; iPhone_8
+                                     ; mobile_plans       ; Mobile plans   ; mobileDeal                                        ; tapasS
+
+INSERT_UPDATE TmaBundledProdOfferOption; bundledProductOffering(code, $catalogVersion)[unique = true]; productOffering(code, $catalogVersion)[unique = true]; $catalogVersion; lowerLimit; upperLimit; default
+                                       ; mobileDeal                                                  ; iPhone_8                                             ;                ; 0         ; 1         ; 0

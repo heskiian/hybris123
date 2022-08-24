@@ -1,0 +1,11 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+INSERT_UPDATE TmaRecurringPlaSpec; id[unique = true]         ; name                                                   ; description
+                                 ; electricity_plan_pla_spec ; Electricity Plan Pricing Logic Algorithm Specification ; Pricing Logic Algorithm Specification used for calculating the cost of the electricity plan.
+
+INSERT_UPDATE TmaRecurringRatingPla; id[unique = true]                    ; name                                 ; description
+                                   ; base_charge_pla                      ; Base Charge PLA                      ; Pricing Logic Algorithm used for calculating price for base recurring price.
+                                   ; carbon_emission_offset_surcharge_pla ; Carbon Emission Offset Surcharge PLA ; Pricing Logic Algorithm used for calculating price for carbon emission offset surcharge.
+

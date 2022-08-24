@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <bean id="usageConsumptionServicesSystemSetup"
+          class="de.hybris.platform.usageconsumptionservices.setup.UsageConsumptionServicesSystemSetup"
+          parent="abstractCoreSystemSetup"/>
+
+    <alias name="defaultUcUsageVolumeProductDao" alias="ucUsageVolumeProductDao"/>
+    <bean id="defaultUcUsageVolumeProductDao"
+          class="de.hybris.platform.usageconsumptionservices.daos.impl.DefaultUcUsageVolumeProductDao">
+    </bean>
+
+    <alias name="defaultUcUsageVolumeProductService" alias="ucUsageVolumeProductService"/>
+    <bean name="defaultUcUsageVolumeProductService"
+          class="de.hybris.platform.usageconsumptionservices.services.impl.DefaultUcUsageVolumeProductService">
+        <constructor-arg name="usageVolumeProductDao" ref="ucUsageVolumeProductDao"/>
+    </bean>
+
+    <alias name="defaultUcPaginationService" alias="ucPaginationService"/>
+    <bean name="defaultUcPaginationService"
+          class="de.hybris.platform.usageconsumptionservices.services.impl.DefaultUcPaginationService">
+    </bean>
+
+</beans>

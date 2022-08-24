@@ -1,0 +1,10 @@
+#Ant properties
+builddate=20191807
+description=b2ctelcooccaddon
+group.id=de.hybris.platform
+module.name=b2ctelco-accelerator-module
+name=b2ctelcooccaddon
+releasedate=20191807
+vendor=hybris
+version=21.02.0
+version.api=21.02.0

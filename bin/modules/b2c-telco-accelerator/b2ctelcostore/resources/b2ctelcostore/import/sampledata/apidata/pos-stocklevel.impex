@@ -1,0 +1,47 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for Importing Products Store Stock Levels into B2C Telco Store
+
+# Macros / Replacement Parameter definitions
+
+$vendor = b2ctelco
+
+"#% Registry.setCurrentTenantByID(""api"");"
+# Create some Warehouses for the Vendor
+INSERT_UPDATE Warehouse; code[unique = true]; vendor(code)[default = $vendor]; default[default = 'false']
+                       ; Hybris Telco - Seattle Premium Outlets
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE StockLevel; available; warehouse(code)[default = 'Hybris Telco - Seattle Premium Outlets', unique = true]; inStockStatus(code)[default = 'notSpecified']; overSelling; preOrder; productCode[unique = true]; reserved
+                        ; 10       ;                                                                                   ;                                              ; 0          ; 0       ; salsaM                    ; 0
+                        ; 10       ;                                                                                   ;                                              ; 0          ; 0       ; weekender                 ; 0
+                        ; 10       ;                                                                                   ;                                              ; 0          ; 0       ; 3994624                   ; 0
+                        ; 10       ;                                                                                   ;                                              ; 0          ; 0       ; Samsung_s8_7214           ; 0
+                        ; 10       ;                                                                                   ;                                              ; 0          ; 0       ; TapasS_7214               ; 0
+                        ; 10       ;                                                                                   ;                                              ; 0          ; 0       ; int100_7214               ; 0
+                        ; 10       ;                                                                                   ;                                              ; 0          ; 0       ; unlimitedPremiumPlan_7214 ; 0
+                        ; 10       ;                                                                                   ;                                              ; 0          ; 0       ; SalsaS_7214               ; 0
+                        ; 10       ;                                                                                   ;                                              ; 0          ; 0       ; NokiaXpress_7214          ; 0
+                        ; 10       ;                                                                                   ;                                              ; 0          ; 0       ; tvS_7214                  ; 0
+                        ; 10       ;                                                                                   ;                                              ; 0          ; 0       ; tvM_7214                  ; 0
+                        ; 10       ;                                                                                   ;                                              ; 0          ; 0       ; Apple_iPhone6_7214        ; 0
+                        ; 10       ;                                                                                   ;                                              ; 0          ; 0       ; unlimitedStarterPlan_7214 ; 0
+                        ; 10       ;                                                                                   ;                                              ; 0          ; 0       ; Wildfire_7214             ; 0
+                        ; 10       ;                                                                                   ;                                              ; 0          ; 0       ; unlimitedBasicPlan_7214   ; 0
+                        ; 10       ;                                                                                   ;                                              ; 0          ; 0       ; iPhone8_Gold_256G_7214    ; 0
+                        ; 10       ;                                                                                   ;                                              ; 0          ; 0       ; unlimitedPromoPlan_7214   ; 0
+                        ; 10       ;                                                                                   ;                                              ; 0          ; 0       ; unlimitedPremiumPlan_7189 ; 0
+                        ; 10       ;                                                                                   ;                                              ; 0          ; 0       ; Apple_iPhone6_7289        ; 0
+                        ; 10       ;                                                                                   ;                                              ; 0          ; 0       ; Apple_iPhone6plus_7289    ; 0
+                        ; 10       ;                                                                                   ;                                              ; 0          ; 0       ; SombreroS_7289            ; 0
+                        ; 10       ;                                                                                   ;                                              ; 0          ; 0       ; SombreroM_7289            ; 0
+                        ; 10       ;                                                                                   ;                                              ; 0          ; 0       ; internet200mb_7289        ; 0
+                        ; 10       ;                                                                                   ;                                              ; 0          ; 0       ; internet1000mb_7289       ; 0
+                        ; 10       ;                                                                                   ;                                              ; 0          ; 0       ; unlimitedBasicPlan_7289   ; 0
+                        ; 10       ;                                                                                   ;                                              ; 0          ; 0       ; unlimitedStarterPlan_7289 ; 0
+                        ; 10       ;                                                                                   ;                                              ; 0          ; 0       ; premiumUnlimitedPlan_7289 ; 0
+                        ; 10       ;                                                                                   ;                                              ; 0          ; 0       ; Fiberlink_7289            ; 0
+                        ; 10       ;                                                                                   ;                                              ; 0          ; 0       ; Samsung_s8_7289           ; 0
+                        ; 10       ;                                                                                   ;                                              ; 0          ; 0       ; Dext_7289                 ; 0

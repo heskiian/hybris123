@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<!--
+	ATTENTION: This is just an example file. You have to edit it according to your needs.
+-->
+
+<items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="items.xsd">
+
+    <relations>
+
+        <relation code="ProductAccessoryComponent2ClassAttributeAssignRel"
+                  generate="true" localized="false" autocreate="true">
+            <description>This relation links productref and class component with one or more classification attributes for this
+                component.
+            </description>
+            <sourceElement qualifier="productReferencesAndClassificationsComponents"
+                           type="ProductReferencesAndClassificationsComponent" cardinality="many">
+                <modifiers read="true" write="true" search="true"
+                           optional="true"/>
+            </sourceElement>
+            <targetElement qualifier="classAttributeAssignment" type="ClassAttributeAssignment"
+                           cardinality="one">
+                <modifiers read="true" write="true" search="true"
+                           optional="true"/>
+            </targetElement>
+        </relation>
+
+    </relations>
+
+    <itemtypes>
+        <typegroup name="Telco">
+            <itemtype code="ProductReferencesAndClassificationsComponent"
+                      extends="ProductReferencesComponent" autocreate="true" generate="true"
+                      jaloclass="de.hybris.platform.b2ctelcoaddon.jalo.ProductReferencesAndClassificationsComponent">
+                <description>It represents product accessories component, that is a combo of product references and classification
+                    features.
+                </description>
+                <attributes>
+                </attributes>
+            </itemtype>
+            <itemtype code="ProductReferencesAndClassificationsForDevicesComponent"
+                      extends="ProductReferencesAndClassificationsComponent" autocreate="true" generate="true"
+                      jaloclass="de.hybris.platform.b2ctelcoaddon.jalo.ProductReferencesAndClassificationsForDevicesComponent">
+                <description>It represents devices component, that is a combo of product references and classification features of
+                    devices.
+                </description>
+                <attributes>
+                </attributes>
+            </itemtype>
+            <itemtype code="StoreFinderHeaderComponent"
+                      extends="SimpleCMSComponent" autocreate="true" generate="true"
+                      jaloclass="de.hybris.platform.b2ctelcoaddon.jalo.StoreFinderHeaderComponent">
+                <description>It represents store finder header component</description>
+                <attributes>
+                </attributes>
+            </itemtype>
+            <itemtype code="SubscriptionSelectionComponent"
+                      extends="SimpleCMSComponent" autocreate="true" generate="true"
+                      jaloclass="de.hybris.platform.b2ctelcoaddon.jalo.SubscriptionSelectionComponent">
+                <description>It represents subscription selection component</description>
+            </itemtype>
+            <itemtype code="TmaProcessTypeListingComponent" extends="SimpleCMSComponent" generate="true"
+                      autocreate="true" jaloclass="de.hybris.platform.b2ctelcoaddon.jalo.ProcessTypeComponent">
+                <description>CMS Component listing the available process types</description>
+                <attributes>
+                    <attribute qualifier="processTypes" type="TmaProcessTypes">
+                        <persistence type="property"/>
+                        <description>List of available process types listed by this component</description>
+                    </attribute>
+                </attributes>
+            </itemtype>
+            <itemtype code="SubscriptionCrossSellComponent"
+                      extends="ProductReferencesComponent" autocreate="true" generate="true"
+                      jaloclass="de.hybris.platform.b2ctelcoaddon.jalo.SubscriptionCrossSellComponent">
+                <description>It Represents Cross Sell Component Of Subscription products.</description>
+                <attributes>
+                </attributes>
+            </itemtype>
+            <itemtype code="ServiceUsageUpSellComponent"
+                      extends="ProductReferencesComponent" autocreate="true" generate="true"
+                      jaloclass="de.hybris.platform.b2ctelcoaddon.jalo.ServiceUsageUpSellComponent">
+                <description>It Represents Up Sell of Subscription Products Based On Subscription Service Usage</description>
+                <attributes>
+                </attributes>
+            </itemtype>
+            <itemtype code="TmaMandatoryDashboardCmsComponent"
+                      extends="SimpleCMSComponent" autocreate="true" generate="true"
+                      jaloclass="de.hybris.platform.b2ctelcoaddon.jalo.TmaMandatoryDashboardCmsComponent">
+                <description>It Represents a Component which is mandatory for the dashboard and cannot be hidden by the customer
+                </description>
+                <attributes>
+                </attributes>
+            </itemtype>
+            <itemtype code="TmaOptionalDashboardCmsComponent"
+                      extends="SimpleCMSComponent" autocreate="true" generate="true"
+                      jaloclass="de.hybris.platform.b2ctelcoaddon.jalo.TmaOptionalDashboardCmsComponent">
+                <description>It Represents a Component which is optional for the dashboard and can be hidden by the customer
+                </description>
+                <attributes>
+                </attributes>
+            </itemtype>
+        </typegroup>
+    </itemtypes>
+</items>

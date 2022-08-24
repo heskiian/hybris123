@@ -1,0 +1,23 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for Importing Payment Method Test Data
+
+#% impex.enableCodeExecution(true);
+
+$cart-site-store = utilities
+$productCatalog = utilitiesProductCatalog
+$productCatalogName = Utilities Product Catalog
+$onlineCatalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Online'])[unique = true, default = $productCatalog:Online]
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE CreditCardPaymentInfo; code[unique = true]; user(uid)                       ; ccOwner        ; number           ; type(code); validToMonth; validToYear; saved; subscriptionId
+                                   ; 6425               ; selfserviceuser6426@hybris.com  ; NATALIE JENKIN ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ; 9111
+## TMF Order APIs baseSiteId
+                                   ; 98710003           ; selfserviceuser98713@hybris.com ; NATALIE JENKIN ; 1111222233334444 ; master    ; 5           ; 2023       ; TRUE ; 9111
+                                   ; 98710006           ; selfserviceuser98716@hybris.com ; Lucy Jenkin    ; 1111222233334444 ; master    ; 5           ; 2023       ; TRUE ; 9111
+                                   ; 10585123           ; tmfpostorderformer1@hybris.com  ; Decebal        ; 1111222233334444 ; master    ; 5           ; 2023       ; TRUE ; 9111
+                                   ; 10585124           ; tmfpostorderformer2@hybris.com  ; Horea          ; 1111222233334444 ; master    ; 5           ; 2023       ; TRUE ; 9111
+                                   ; 10585125           ; tmfpostorderformer3@hybris.com  ; Closca         ; 1111222233334444 ; master    ; 5           ; 2023       ; TRUE ; 9111
+                                   ; 10585126           ; tmfpostorderformer4@hybris.com  ; Crisan         ; 1111222233334444 ; master    ; 5           ; 2023       ; TRUE ; 9111

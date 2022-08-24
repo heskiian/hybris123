@@ -1,0 +1,834 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for Importing Sample Prices
+
+#% impex.enableCodeExecution(true);
+
+$catalog-id = b2ctelcoProductCatalog
+$catalog-version = Online
+$catalogVersion = catalogversion(catalog(id[default = $catalog-id]), version[default = $catalog-version])[unique = true, default = $catalog-id:$catalog-version]
+$regions = regions(isocode)
+$lang = en
+$processTypes = processTypes(code)
+$subscriptionTerms = subscriptionTerms(id)[unique = true]
+$distributionChannels = distributionChannels(code)
+$prices = @Europe1prices[translator = de.hybris.platform.b2ctelcoservices.dataimport.batch.price.TmaPriceRowTranslator]
+$europe1pricefactory_ptg = Europe1PriceFactory_PTG(code)[default = us-sales-tax-full]
+$approved = approvalstatus(code)[default = 'approved']
+
+$defaultBillingEvent = billingEvent(code)[default = 'paynow']
+$currency = currency(isocode)[default = USD]
+$unit = unit(code)[default = pieces]
+$product = product(code, $catalogVersion)[unique = true]
+$oneTimeChargeEntries = oneTimeChargeEntries(id, $catalogVersion)
+$recurringChargeEntries = recurringChargeEntries(id, $catalogVersion)
+
+#Create test subscription price plan
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE SubscriptionPricePlan; name[unique = true, lang = $lang]                            ; product(code, $catalogVersion)                                    ; affectedProductOffering(code, $catalogVersion)  ; requiredProductOfferings(code, $catalogVersion)[unique = true]; requiredProductClasses(id)[unique = true]; $processTypes           ; $subscriptionTerms     ; $distributionChannels; currency(isocode); unit(code); $catalogVersion; regions(isocode); user(Customer.uid)[unique = true]
+                                   ; pp_signatureUnlimitedPlanTest                                ; signatureUnlimitedPlan                                            ;                                                 ;                                                               ;                                          ;                         ; monthly_36             ;                      ; USD              ; pieces    ;                ;                 ; occtestpouser2@hybris.com
+                                   ; pp_mobileDeal_override_simpleProductOffering1_ret_24         ; mobileDeal                                                        ; SIMPLE_PRODUCT_OFFERING_1                       ;                                                               ;                                          ; RETENTION               ; monthly_24             ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_mobileDeal_override_simpleProductOffering1_ret            ; mobileDeal                                                        ; SIMPLE_PRODUCT_OFFERING_1                       ;                                                               ;                                          ; RETENTION               ; monthly_12, monthly_24 ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_mobileDeal_override_simpleProductOffering1_tc             ; mobileDeal                                                        ; SIMPLE_PRODUCT_OFFERING_1                       ;                                                               ;                                          ; TARIFF_CHANGE           ; monthly_12, monthly_24 ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_mobileDeal_override_simpleProductOffering2_tc             ; mobileDeal                                                        ; SIMPLE_PRODUCT_OFFERING_2                       ;                                                               ;                                          ; TARIFF_CHANGE           ; monthly_12, monthly_24 ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_mobileDeal_override_simpleProductOffering3_ret            ; mobileDeal                                                        ; SIMPLE_PRODUCT_OFFERING_3                       ;                                                               ;                                          ; RETENTION               ; monthly_12, monthly_24 ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simpleProductOffering1_ret                                ; SIMPLE_PRODUCT_OFFERING_1                                         ;                                                 ;                                                               ;                                          ; RETENTION               ; monthly_12, monthly_24 ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simpleProductOffering1_tc                                 ; SIMPLE_PRODUCT_OFFERING_1                                         ;                                                 ;                                                               ;                                          ; TARIFF_CHANGE           ; monthly_12, monthly_24 ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simpleProductOffering2_tc                                 ; SIMPLE_PRODUCT_OFFERING_2                                         ;                                                 ;                                                               ;                                          ; TARIFF_CHANGE           ; monthly_12, monthly_24 ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simpleProductOffering3_ret                                ; SIMPLE_PRODUCT_OFFERING_3                                         ;                                                 ;                                                               ;                                          ; RETENTION               ; monthly_12, monthly_24 ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simpleProductOffering4_ret                                ; SIMPLE_PRODUCT_OFFERING_4                                         ;                                                 ;                                                               ;                                          ; RETENTION               ; monthly_12, monthly_24 ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_landline_override_simpleProductOffering5                  ; landline                                                          ; SIMPLE_PRODUCT_OFFERING_5                       ;                                                               ;                                          ;                         ; monthly_12, monthly_24 ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_mobileDeal_override_simpleProductOffering5                ; mobileDeal                                                        ; SIMPLE_PRODUCT_OFFERING_5                       ;                                                               ;                                          ;                         ; monthly_12, monthly_24 ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_back2School_override_simpleProductOffering5               ; back2School                                                       ; SIMPLE_PRODUCT_OFFERING_5                       ;                                                               ;                                          ;                         ; monthly_12, monthly_24 ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simpleProductOffering5                                    ; SIMPLE_PRODUCT_OFFERING_5                                         ;                                                 ;                                                               ;                                          ;                         ; monthly_12, monthly_24 ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_mobileDeal_override_simpleProductFixedDiscount            ; mobileDeal                                                        ; SIMPLE_PRODUCT_FIXED_DISCOUNT                   ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simpleProductFixedDiscount                                ; SIMPLE_PRODUCT_FIXED_DISCOUNT                                     ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simpleProductFixedDiscountCatgeory                        ; SIMPLE_PRODUCT_FIXED_DISCOUNT_CATEGORY                            ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simplePercentageDiscountCart1                             ; SIMPLE_PERCENTAGE_DISCOUNT_CART_1                                 ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simplePercentageDiscountCart2                             ; SIMPLE_PERCENTAGE_DISCOUNT_CART_2                                 ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simplePercentageDiscountCart3                             ; SIMPLE_PERCENTAGE_DISCOUNT_CART_3                                 ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simplePercentageFixedCart1                                ; SIMPLE_FIXED_DISCOUNT_CART_1                                      ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simplePercentageFixedCart2                                ; SIMPLE_FIXED_DISCOUNT_CART_2                                      ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simplePercentageFixedCart3                                ; SIMPLE_FIXED_DISCOUNT_CART_3                                      ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_mobileDeal_override_simpleProductPercentageDiscount       ; mobileDeal                                                        ; SIMPLE_PRODUCT_PERCENTAGE_DISCOUNT              ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simpleProductPercentageDiscount                           ; SIMPLE_PRODUCT_PERCENTAGE_DISCOUNT                                ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simpleProductPercentageDiscountCategory                   ; SIMPLE_PRODUCT_PERCENTAGE_DISCOUNT_CATEGORY                       ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_mobileDeal_override_simpleProductFixedPricePromotion1     ; mobileDeal                                                        ; SIMPLE_PRODUCT_FIXED_PRICE_PROMOTION_1          ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simpleProductFixedPricePromotion1                         ; SIMPLE_PRODUCT_FIXED_PRICE_PROMOTION_1                            ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simpleProductFixedPricePromotionCategory                  ; SIMPLE_PRODUCT_FIXED_PRICE_PROMOTION_CATEGORY                     ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_mobileDeal_override_simpleProductFixedPricePromotion2     ; mobileDeal                                                        ; SIMPLE_PRODUCT_FIXED_PRICE_PROMOTION_2          ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simpleProductFixedPricePromotion2                         ; SIMPLE_PRODUCT_FIXED_PRICE_PROMOTION_2                            ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simpleProductPercentageDiscountCart                       ; SIMPLE_PRODUCT_PERCENTAGE_DISCOUNT_CART                           ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_mobileDeal_override_simpleProductPercentageDiscountCart   ; mobileDeal                                                        ; SIMPLE_PRODUCT_PERCENTAGE_DISCOUNT_CART         ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simpleProductPercentageDiscountCart1                      ; SIMPLE_PRODUCT_PERCENTAGE_DISCOUNT_CART_1                         ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simpleProductPercentageDiscountCart2                      ; SIMPLE_PRODUCT_PERCENTAGE_DISCOUNT_CART_2                         ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simpleProductPercentageDiscountCart3                      ; SIMPLE_PRODUCT_PERCENTAGE_DISCOUNT_CART_3                         ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simpleProductPercentageDiscountCartCategory               ; SIMPLE_PRODUCT_PERCENTAGE_DISCOUNT_CART_CATEGORY                  ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simpleProductPercentageDiscountCartNotCategory            ; SIMPLE_PRODUCT_PERCENTAGE_DISCOUNT_CART_NOT_CATEGORY              ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simpleProductPerfectPartnerFixedPrice1                    ; SIMPLE_PRODUCT_PERFECT_PARTNER_FIXED_PRICE_1                      ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simpleProductPerfectPartnerFixedPrice2                    ; SIMPLE_PRODUCT_PERFECT_PARTNER_FIXED_PRICE_2                      ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simpleProductPerfectPartnerFixedPriceCategory1            ; SIMPLE_PRODUCT_PERFECT_PARTNER_FIXED_PRICE_CATEGORY_1             ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simpleProductPerfectPartnerFixedPriceCategory2            ; SIMPLE_PRODUCT_PERFECT_PARTNER_FIXED_PRICE_CATEGORY_2             ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simpleProductPerfectPartnerPercentageDiscount1            ; SIMPLE_PRODUCT_PERFECT_PARTNER_PERCENTAGE_DISCOUNT_1              ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simpleProductPerfectPartnerPercentageDiscount2            ; SIMPLE_PRODUCT_PERFECT_PARTNER_PERCENTAGE_DISCOUNT_2              ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simpleProductPerfectPartnerPercentageDiscountCategory1    ; SIMPLE_PRODUCT_PERFECT_PARTNER_PERCENTAGE_DISCOUNT_CATEGORY_1     ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simpleProductPerfectPartnerPercentageDiscountCategory2    ; SIMPLE_PRODUCT_PERFECT_PARTNER_PERCENTAGE_DISCOUNT_CATEGORY_2     ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_mobileDeal_override_simpleXBuyXGetYFree                   ; mobileDeal                                                        ; SIMPLE_X_BUY_X_GET_Y_FREE                       ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simpleXBuyXGetYFree                                       ; SIMPLE_X_BUY_X_GET_Y_FREE                                         ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_mobileDeal_override_simpleYBuyXGetYFree                   ; mobileDeal                                                        ; SIMPLE_Y_BUY_X_GET_Y_FREE                       ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simpleYBuyXGetYFree                                       ; SIMPLE_Y_BUY_X_GET_Y_FREE                                         ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_mobileDeal_override_simpleOneXMoreYBuyXGetYFree1          ; mobileDeal                                                        ; SIMPLE_ONE_X_MORE_Y_BUY_X_GET_Y_FREE_1          ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simpleOneXMoreYBuyXGetYFree1                              ; SIMPLE_ONE_X_MORE_Y_BUY_X_GET_Y_FREE_1                            ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_mobileDeal_override_simpleOneXMoreYBuyXGetYFree2          ; mobileDeal                                                        ; SIMPLE_ONE_X_MORE_Y_BUY_X_GET_Y_FREE_2          ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simpleOneXMoreYBuyXGetYFree2                              ; SIMPLE_ONE_X_MORE_Y_BUY_X_GET_Y_FREE_2                            ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_mobileDeal_override_simpleOneXMoreYQuantityBuyXGetYFree1  ; mobileDeal                                                        ; SIMPLE_ONE_X_MORE_Y_QUANTITY_BUY_X_GET_Y_FREE_1 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simpleOneXMoreYQuantityBuyXGetYFree1                      ; SIMPLE_ONE_X_MORE_Y_QUANTITY_BUY_X_GET_Y_FREE_1                   ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_mobileDeal_override_simpleOneXMoreYQuantityBuyXGetYFree2  ; mobileDeal                                                        ; SIMPLE_ONE_X_MORE_Y_QUANTITY_BUY_X_GET_Y_FREE_2 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simpleOneXMoreYQuantityBuyXGetYFree2                      ; SIMPLE_ONE_X_MORE_Y_QUANTITY_BUY_X_GET_Y_FREE_2                   ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_mobileDeal_override_simpleMoreXOneYBuyXGetYFree1          ; mobileDeal                                                        ; SIMPLE_MORE_X_ONE_Y_BUY_X_GET_Y_FREE_1          ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simpleMoreXOneYBuyXGetYFree1                              ; SIMPLE_MORE_X_ONE_Y_BUY_X_GET_Y_FREE_1                            ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_mobileDeal_override_simpleMoreXOneYBuyXGetYFree2          ; mobileDeal                                                        ; SIMPLE_ONE_X_MORE_Y_BUY_X_GET_Y_FREE_2          ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simpleMoreXOneYBuyXGetYFree2                              ; SIMPLE_MORE_X_ONE_Y_BUY_X_GET_Y_FREE_2                            ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_mobileDeal_override_simpleMoreXMoreYBuyXGetYFree1         ; mobileDeal                                                        ; SIMPLE_MORE_X_MORE_Y_BUY_X_GET_Y_FREE_1         ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simpleMoreXMoreYBuyXGetYFree1                             ; SIMPLE_MORE_X_MORE_Y_BUY_X_GET_Y_FREE_1                           ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_mobileDeal_override_simpleMoreXMoreYBuyXGetYFree2         ; mobileDeal                                                        ; SIMPLE_MORE_X_MORE_Y_BUY_X_GET_Y_FREE_2         ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simpleMoreXMoreYBuyXGetYFree2                             ; SIMPLE_MORE_X_MORE_Y_BUY_X_GET_Y_FREE_2                           ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_mobileDeal_override_bpoXBuyXGetYFree                      ; mobileDeal                                                        ; BPO_X_BUY_X_GET_Y_FREE                          ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_bpoXBuyXGetYFree                                          ; BPO_X_BUY_X_GET_Y_FREE                                            ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_mobileDeal_override_bpoYBuyXGetYFree                      ; mobileDeal                                                        ; BPO_Y_BUY_X_GET_Y_FREE                          ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_bpoYBuyXGetYFree                                          ; BPO_Y_BUY_X_GET_Y_FREE                                            ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_mobileDeal_override_simpleXCategoryBuyXGetYFree           ; mobileDeal                                                        ; SIMPLE_X_CATEGORY_BUY_X_GET_Y_FREE              ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simpleXCategoryBuyXGetYFree                               ; SIMPLE_X_CATEGORY_BUY_X_GET_Y_FREE                                ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_mobileDeal_override_simpleYCategoryBuyXGetYFree           ; mobileDeal                                                        ; SIMPLE_Y_CATEGORY_BUY_X_GET_Y_FREE              ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simpleYCategoryBuyXGetYFree                               ; SIMPLE_Y_CATEGORY_BUY_X_GET_Y_FREE                                ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_mobileDeal_override_servicePlanButXGetYFree1              ; mobileDeal                                                        ; SERVICE_PLAN_BUY_X_GET_Y_FREE_1                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_servicePlanButXGetYFree1                                  ; SERVICE_PLAN_BUY_X_GET_Y_FREE_1                                   ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_servicePlanButXGetYFree2                                  ; SERVICE_PLAN_BUY_X_GET_Y_FREE_2                                   ;                                                 ;                                                               ;                                          ;                         ; monthly_12, monthly_24 ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_productPriceOverrides_spo                                 ; Product_Price_Overrides                                           ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_productPriceOverrides_md                                  ; mobileDeal                                                        ; Product_Price_Overrides                         ;                                                               ;                                          ;                         ; monthly_12, monthly_24 ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_productPriceOverrides_ret                                 ; mobileDeal                                                        ; Product_Price_Overrides                         ;                                                               ;                                          ; RETENTION               ; monthly_12, monthly_24 ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_productPriceOverrides_tc                                  ; mobileDeal                                                        ; Product_Price_Overrides                         ;                                                               ;                                          ; TARIFF_CHANGE           ; monthly_12, monthly_24 ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_productPriceOverrides_ac                                  ; mobileDeal                                                        ; Product_Price_Overrides                         ;                                                               ;                                          ; ACQUISITION             ; monthly_12, monthly_24 ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_invalidProcesType_ac                                      ; Invalid_Process_Type                                              ;                                                 ;                                                               ;                                          ; ACQUISITION             ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_productProcessRegion_ret                                  ; Product_Process_Region                                            ;                                                 ;                                                               ;                                          ; RETENTION               ;                        ;                      ; USD              ; pieces    ;                ; JP-31
+                                   ; pp_productProcessRegion_ret_jp_19                            ; Product_Process_Region                                            ;                                                 ;                                                               ;                                          ; RETENTION               ;                        ;                      ; USD              ; pieces    ;                ; JP-19
+                                   ; pp_productProcessRegion_tc                                   ; Product_Process_Region                                            ;                                                 ;                                                               ;                                          ; TARIFF_CHANGE           ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_productProcessRegion_tc_jp_19                             ; Product_Process_Region                                            ;                                                 ;                                                               ;                                          ; TARIFF_CHANGE           ;                        ;                      ; USD              ; pieces    ;                ; JP-19
+
+                                   ; pp_mobileDeal_override_iPhone6_salsaS_acq_occpo              ; mobileDeal                                                        ; Apple_iPhone_6_OCCPO                            ; salsaS                                                        ;                                          ; ACQUISITION             ; monthly_12, monthly_24 ;                      ; USD              ; pieces    ;                ; JP-31
+                                   ; pp_mobileDeal_override_iPhone6_salsaS_ret_occpo              ; mobileDeal                                                        ; Apple_iPhone_6_OCCPO                            ; salsaS                                                        ;                                          ; RETENTION,TARIFF_CHANGE ; monthly_12, monthly_24 ;                      ; USD              ; pieces
+                                   ; pp_tapasXL_occpo                                             ; mobileDeal                                                        ; tapasXL_OCCPO                                   ;                                                               ;                                          ; RETENTION               ; monthly_24, monthly_36 ;                      ; USD              ; pieces    ;                ; JP-19
+                                   ; pp_tapasXL_tc_occpo                                          ; mobileDeal                                                        ; tapasXL_OCCPO                                   ;                                                               ;                                          ; TARIFF_CHANGE           ; monthly_24, monthly_36 ;                      ; USD              ; pieces
+                                   ; pp_tapasXL_EUR_occpo                                         ; mobileDeal                                                        ; tapasXL_OCCPO                                   ;                                                               ;                                          ; RETENTION               ; monthly_24, monthly_36 ;                      ; EUR              ; pieces
+                                   ; pp_tapasXL_tc_EUR_occpo                                      ; mobileDeal                                                        ; tapasXL_OCCPO                                   ;                                                               ;                                          ; TARIFF_CHANGE           ; monthly_24, monthly_36 ;                      ; EUR              ; pieces
+                                   ; pp_simpleOrderThresholdFreeGift1                             ; SIMPLE_ORDER_THRESHOLD_FREE_GIFT_1                                ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simpleOrderThresholdFreeGift2                             ; SIMPLE_ORDER_THRESHOLD_FREE_GIFT_2                                ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simpleOrderThresholdFreeGift3                             ; SIMPLE_ORDER_THRESHOLD_FREE_GIFT_3                                ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simpleOrderThresholdFreeGift_free                         ; SIMPLE_ORDER_THRESHOLD_FREE_GIFT_FREE                             ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_servicePlanOrderThresholdFreeGift_free                    ; SERVICE_PLAN_ORDER_THRESHOLD_FREE_GIFT_FREE                       ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simpleNotEligibleOrderThresholdFreeGift                   ; SIMPLE_NOT_ELIGIBLE_ORDER_THRESHOLD_FREE_GIFT                     ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simpleCategoryOrderThresholdFreeGift                      ; SIMPLE_CATEGORY_ORDER_THRESHOLD_FREE_GIFT                         ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simple_coupon_code_percentage_discount                    ; SIMPLE_COUPON_CODE_PERCENTAGE_DISCOUNT                            ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces
+                                   ; pp_simple_coupon_code_fixed_discount                         ; SIMPLE_COUPON_CODE_FIXED_DISCOUNT                                 ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces
+                                   ; pp_simple_coupon_code_percentage_discount_product            ; SIMPLE_COUPON_CODE_PERCENTAGE_DISCOUNT_PRODUCT                    ;                                                 ;                                                               ;                                          ; ACQUISITION             ;                        ;                      ; USD              ; pieces
+                                   ; pp_mobileDeal_override_iPhonex_mid_acq_occpo                 ; mobileDeal                                                        ; iPhone_x_OCCPO                                  ;                                                               ; gsm_mid_value                            ; ACQUISITION             ; monthly_12, monthly_24 ;                      ; USD              ; pieces    ;                ; JP-30
+                                   ; pp_mobileDeal_override_iPhonex_high_acq_occpo                ; mobileDeal                                                        ; iPhone_x_OCCPO                                  ;                                                               ; gsm_high_value                           ; ACQUISITION             ; monthly_12, monthly_24 ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_tapasXsTmf_ac                                             ; TAPAS_XS_TMF                                                      ;                                                 ;                                                               ;                                          ; ACQUISITION             ; monthly_24             ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_productTmf1_ac                                            ; PRODUCT_TMF_1                                                     ;                                                 ;                                                               ;                                          ; ACQUISITION             ; monthly_24             ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simple_product_bundle_fixed_price1                        ; SIMPLE_PRODUCT_BUNDLE_FIXED_PRICE_1                               ;                                                 ;                                                               ;                                          ; ACQUISITION             ;                        ;                      ; USD              ; pieces
+                                   ; pp_simple_product_bundle_fixed_price2                        ; SIMPLE_PRODUCT_BUNDLE_FIXED_PRICE_2                               ;                                                 ;                                                               ;                                          ; ACQUISITION             ;                        ;                      ; USD              ; pieces
+                                   ; pp_simple_product_bundle_fixed_price3                        ; SIMPLE_PRODUCT_BUNDLE_FIXED_PRICE_3                               ;                                                 ;                                                               ;                                          ; ACQUISITION             ;                        ;                      ; USD              ; pieces
+                                   ; pp_simple_product_bundle_fixed_price_category1               ; SIMPLE_PRODUCT_BUNDLE_FIXED_PRICE_CATEGORY_1                      ;                                                 ;                                                               ;                                          ; ACQUISITION             ;                        ;                      ; USD              ; pieces
+                                   ; pp_simple_product_bundle_fixed_price_category2               ; SIMPLE_PRODUCT_BUNDLE_FIXED_PRICE_CATEGORY_2                      ;                                                 ;                                                               ;                                          ; ACQUISITION             ;                        ;                      ; USD              ; pieces
+                                   ; pp_simple_product_bundle_fixed_price_category3               ; SIMPLE_PRODUCT_BUNDLE_FIXED_PRICE_CATEGORY_3                      ;                                                 ;                                                               ;                                          ; ACQUISITION             ;                        ;                      ; USD              ; pieces
+                                   ; pp_simple_product_bundle_fixed_price_category4               ; SIMPLE_PRODUCT_BUNDLE_FIXED_PRICE_CATEGORY_4                      ;                                                 ;                                                               ;                                          ; ACQUISITION             ;                        ;                      ; USD              ; pieces
+                                   ; pp_apple_iphone_6_pbfp                                       ; APPLE_IPHONE_6_PBFP                                               ;                                                 ;                                                               ;                                          ; ACQUISITION             ;                        ;                      ; USD              ; pieces
+                                   ; pp_simple_product_price_threshold_fixed_discount_1           ; SIMPLE_PRODUCT_PRICE_THRESHOLD_FIXED_DISCOUNT_1                   ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces
+                                   ; pp_simple_product_price_threshold_fixed_discount_2           ; SIMPLE_PRODUCT_PRICE_THRESHOLD_FIXED_DISCOUNT_2                   ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces
+                                   ; pp_simple_product_price_threshold_fixed_discount_3           ; SIMPLE_PRODUCT_PRICE_THRESHOLD_FIXED_DISCOUNT_3                   ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces
+                                   ; pp_simpleProductCustomerSpecificPercentageDiscount           ; SIMPLE_PRODUCT_CUSTOMER_SPECIFIC_PRECENTAGE_DISCOUNT              ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces
+                                   ; pp_simple_threshold_fixed_discount_affected_product1         ; SIMPLE_THRESHOLD_FIXED_DISCOUNT_PRODUCT_AFFECTED_PRODUCT_1        ;                                                 ;                                                               ;                                          ; ACQUISITION             ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simple_threshold_fixed_discount_affected_product2         ; SIMPLE_THRESHOLD_FIXED_DISCOUNT_PRODUCT_AFFECTED_PRODUCT_2        ;                                                 ;                                                               ;                                          ; ACQUISITION             ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simple_threshold_fixed_discount_product1                  ; SIMPLE_THRESHOLD_FIXED_DISCOUNT_PRODUCT_1                         ;                                                 ;                                                               ;                                          ; ACQUISITION             ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simple_threshold_fixed_discount_product2                  ; SIMPLE_THRESHOLD_FIXED_DISCOUNT_PRODUCT_2                         ;                                                 ;                                                               ;                                          ; ACQUISITION             ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simple_threshold_fixed_discount_product3                  ; SIMPLE_THRESHOLD_FIXED_DISCOUNT_PRODUCT_3                         ;                                                 ;                                                               ;                                          ; ACQUISITION             ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simple_threshold_fixed_discount_product_category1         ; SIMPLE_THRESHOLD_FIXED_DISCOUNT_PRODUCT_CATEGORY_1                ;                                                 ;                                                               ;                                          ; ACQUISITION             ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simple_threshold_fixed_discount_product_category2         ; SIMPLE_THRESHOLD_FIXED_DISCOUNT_PRODUCT_CATEGORY_2                ;                                                 ;                                                               ;                                          ; ACQUISITION             ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simpleProductCustomerSpecificFixedDiscountOrderThreshold1 ; SIMPLE_PRODUCT_CUSTOMER_SPECIFIC_FIXED_DISCOUNT_ORDER_THRESHOLD_1 ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces
+                                   ; pp_simpleProductCustomerSpecificFixedDiscountOrderThreshold2 ; SIMPLE_PRODUCT_CUSTOMER_SPECIFIC_FIXED_DISCOUNT_ORDER_THRESHOLD_2 ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces
+                                   ; pp_simpleProductCustomerSpecificFixedDiscountOrderThreshold3 ; SIMPLE_PRODUCT_CUSTOMER_SPECIFIC_FIXED_DISCOUNT_ORDER_THRESHOLD_3 ;                                                 ;                                                               ;                                          ;                         ;                        ;                      ; USD              ; pieces
+                                   ; pp_simpleAppleIphoneX256                                     ; APPLE_IPHONE_X_256                                                ;                                                 ;                                                               ;                                          ; ACQUISITION             ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_simpleAppleIphoneX256_5836                                ; APPLE_IPHONE_X_256_5836                                           ;                                                 ;                                                               ;                                          ; ACQUISITION             ;                        ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_mobileDeal_override_tapasM_5812_acq                       ; mobileDeal                                                        ; tapasM_5812                                     ; iphoneXs_Max_5812                                             ;                                          ; ACQUISITION             ; monthly_12, monthly_24 ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_mobileDeal_tapasM_5812_acq                                ; tapasM_5812                                                       ;                                                 ;                                                               ;                                          ; ACQUISITION             ; monthly_12, monthly_24 ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_mobileDeal_tapasS_5812_acq_monthly_12                     ; tapasS_5812                                                       ;                                                 ;                                                               ;                                          ; ACQUISITION             ; monthly_12             ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_mobileDeal_tapasS_5812_acq_monthly_24                     ; tapasS_5812                                                       ;                                                 ;                                                               ;                                          ; ACQUISITION             ; monthly_24             ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_mobileDeal_tapasS_5812_acq_ret                            ; tapasS_5812                                                       ;                                                 ;                                                               ;                                          ; RETENTION               ; monthly_12, monthly_24 ;                      ; USD              ; pieces    ;                ;
+                                   ; pp_salsaS_tariff_change                                      ; salsaS                                                            ;                                                 ;                                                               ;                                          ; TARIFF_CHANGE           ; monthly_12, monthly_24 ;                      ; USD              ; pieces    ;                ;
+                                   ; SPP_int_500_7036                                             ; int_500                                                           ;                                                 ;                                                               ;                                          ; TARIFF_CHANGE           ;                        ; mobile               ; USD              ; pieces    ;                ;
+                                   ; SPP_internet_pack_casual_7036                                ; internet_pack_casual                                              ;                                                 ;                                                               ;                                          ; ACQUISITION             ; monthly_1              ;                      ; USD              ; pieces    ;                ;
+                                   ; SPP_internet_pack_max_7036                                   ; internet_pack_max                                                 ;                                                 ;                                                               ;                                          ; RETENTION               ; monthly_36             ; desktop              ; USD              ; pieces    ;                ;
+                                   ; SPP_internet_pack_smart_7036                                 ; internet_pack_smart                                               ;                                                 ;                                                               ;                                          ; ACQUISITION             ; monthly_24             ;                      ; USD              ; pieces    ;                ;
+                                   ; SPP_2_internet_pack_smart_7036                               ; internet_pack_smart                                               ;                                                 ;                                                               ;                                          ; RETENTION               ; monthly_1              ; desktop              ; USD              ; pieces    ;                ;
+                                   ; SPP_int_1000_7036                                            ; int_1000                                                          ;                                                 ;                                                               ;                                          ; ACQUISITION             ; monthly_12             ;                      ; USD              ; pieces    ;                ;
+                                   ; SPP_homeDeal_7036                                            ; homeDeal                                                          ; Samsung_Galaxy_S5                               ; unlimitedPremiumPlan                                          ;                                          ; ACQUISITION             ; monthly_36             ; mobile               ; USD              ; pieces    ;                ;
+
+#Create test one time charge
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE OneTimeChargeEntry; id[unique = true]                                              ; subscriptionPricePlanOneTime(name[lang = $lang], $catalogVersion); price; billingEvent(code); $catalogVersion[unique = true]
+                                ; otce_simpleProductOffering1_ret_24                             ; pp_mobileDeal_override_simpleProductOffering1_ret_24             ; 100  ; paynow            ;
+                                ; otce_simpleProductOffering1_ret                                ; pp_mobileDeal_override_simpleProductOffering1_ret                ; 101  ; paynow            ;
+                                ; otce_simpleProductOffering1_tc                                 ; pp_mobileDeal_override_simpleProductOffering1_tc                 ; 102  ; paynow            ;
+                                ; otce_simpleProductOffering2_tc                                 ; pp_mobileDeal_override_simpleProductOffering2_tc                 ; 103  ; paynow            ;
+                                ; otce_simpleProductOffering3_ret                                ; pp_mobileDeal_override_simpleProductOffering3_ret                ; 104  ; paynow            ;
+                                ; otce_simpleProductOffering1_spo_ret                            ; pp_simpleProductOffering1_ret                                    ; 105  ; paynow            ;
+                                ; otce_simpleProductOffering1_spo_tc                             ; pp_simpleProductOffering1_tc                                     ; 106  ; paynow            ;
+                                ; otce_simpleProductOffering2_spo_tc                             ; pp_simpleProductOffering2_tc                                     ; 107  ; paynow            ;
+                                ; otce_simpleProductOffering3_spo_ret                            ; pp_simpleProductOffering3_ret                                    ; 108  ; paynow            ;
+                                ; otce_simpleProductOffering4_spo_ret                            ; pp_simpleProductOffering4_ret                                    ; 109  ; paynow            ;
+                                ; otce_simpleProductOffering5_ll                                 ; pp_landline_override_simpleProductOffering5                      ; 115  ; paynow            ;
+                                ; otce_simpleProductOffering5_md                                 ; pp_mobileDeal_override_simpleProductOffering5                    ; 125  ; paynow            ;
+                                ; otce_simpleProductOffering5_b2s                                ; pp_back2School_override_simpleProductOffering5                   ; 135  ; paynow            ;
+                                ; otce_simpleProductOffering5_spo                                ; pp_simpleProductOffering5                                        ; 145  ; paynow            ;
+                                ; otce_simpleProductFixedDiscount                                ; pp_mobileDeal_override_simpleProductFixedDiscount                ; 200  ; paynow            ;
+                                ; otce_simpleProductFixedDiscount_spo                            ; pp_simpleProductFixedDiscount                                    ; 250  ; paynow            ;
+                                ; otce_simpleProductFixedDiscountCatgeory_spo                    ; pp_simpleProductFixedDiscountCatgeory                            ; 300  ; paynow            ;
+                                ; otce_simplePercentageDiscountCart1                             ; pp_simplePercentageDiscountCart1                                 ; 101  ; paynow            ;
+                                ; otce_simplePercentageDiscountCart2                             ; pp_simplePercentageDiscountCart2                                 ; 99   ; paynow            ;
+                                ; otce_simplePercentageDiscountCart3                             ; pp_simplePercentageDiscountCart3                                 ; 100  ; paynow            ;
+                                ; otce_simplePercentageFixedCart1                                ; pp_simplePercentageFixedCart1                                    ; 300  ; paynow            ;
+                                ; otce_simplePercentageFixedCart2                                ; pp_simplePercentageFixedCart2                                    ; 249  ; paynow            ;
+                                ; otce_simplePercentageFixedCart3                                ; pp_simplePercentageFixedCart3                                    ; 250  ; paynow            ;
+                                ; otce_simpleProductPercentageDiscount                           ; pp_mobileDeal_override_simpleProductPercentageDiscount           ; 200  ; paynow            ;
+                                ; otce_simpleProductPercentageDiscount_spo                       ; pp_simpleProductPercentageDiscount                               ; 250  ; paynow            ;
+                                ; otce_simpleProductPercentageDiscountCatgeory_spo               ; pp_simpleProductPercentageDiscountCategory                       ; 300  ; paynow            ;
+                                ; otce_simpleProductFixedPricePromotion1                         ; pp_mobileDeal_override_simpleProductFixedPricePromotion1         ; 200  ; paynow            ;
+                                ; otce_simpleProductFixedPricePromotion1_spo                     ; pp_simpleProductFixedPricePromotion1                             ; 250  ; paynow            ;
+                                ; otce_simpleProductFixedPricePromotionCategory_spo              ; pp_simpleProductFixedPricePromotionCategory                      ; 300  ; paynow            ;
+                                ; otce_simpleProductFixedPricePromotion2                         ; pp_mobileDeal_override_simpleProductFixedPricePromotion2         ; 200  ; paynow            ;
+                                ; otce_simpleProductFixedPricePromotion2_spo                     ; pp_simpleProductFixedPricePromotion2                             ; 250  ; paynow            ;
+                                ; otce_simpleProductPercentageDiscountCart_spo                   ; pp_simpleProductPercentageDiscountCart                           ; 700  ; paynow            ;
+                                ; otce_simpleProductPercentageDiscountCart_md                    ; pp_mobileDeal_override_simpleProductPercentageDiscountCart       ; 650  ; paynow            ;
+                                ; otce_simpleProductPercentageDiscountCart1                      ; pp_simpleProductPercentageDiscountCart1                          ; 551  ; paynow            ;
+                                ; otce_simpleProductPercentageDiscountCart2                      ; pp_simpleProductPercentageDiscountCart2                          ; 549  ; paynow            ;
+                                ; otce_simpleProductPercentageDiscountCart3                      ; pp_simpleProductPercentageDiscountCart3                          ; 550  ; paynow            ;
+                                ; otce_simpleProductPercentageDiscountCartCategory               ; pp_simpleProductPercentageDiscountCartCategory                   ; 650  ; paynow            ;
+                                ; otce_simpleProductPercentageDiscountCartNotCategory            ; pp_simpleProductPercentageDiscountCartNotCategory                ; 650  ; paynow            ;
+                                ; otce_simpleProductPerfectPartnerFixedPrice1                    ; pp_simpleProductPerfectPartnerFixedPrice1                        ; 220  ; paynow            ;
+                                ; otce_simpleProductPerfectPartnerFixedPrice2                    ; pp_simpleProductPerfectPartnerFixedPrice2                        ; 200  ; paynow            ;
+                                ; otce_simpleProductPerfectPartnerFixedPriceCategory1            ; pp_simpleProductPerfectPartnerFixedPriceCategory1                ; 220  ; paynow            ;
+                                ; otce_simpleProductPerfectPartnerFixedPriceCategory2            ; pp_simpleProductPerfectPartnerFixedPriceCategory2                ; 200  ; paynow            ;
+                                ; otce_simpleProductPerfectPartnerPercentageDiscount1            ; pp_simpleProductPerfectPartnerPercentageDiscount1                ; 220  ; paynow            ;
+                                ; otce_simpleProductPerfectPartnerPercentageDiscount2            ; pp_simpleProductPerfectPartnerPercentageDiscount2                ; 200  ; paynow            ;
+                                ; otce_simpleProductPerfectPartnerPercentageDiscountCategory1    ; pp_simpleProductPerfectPartnerPercentageDiscountCategory1        ; 220  ; paynow            ;
+                                ; otce_simpleProductPerfectPartnerPercentageDiscountCategory2    ; pp_simpleProductPerfectPartnerPercentageDiscountCategory2        ; 200  ; paynow            ;
+                                ; otce_simpleXBuyXGetYFree                                       ; pp_mobileDeal_override_simpleXBuyXGetYFree                       ; 200  ; paynow            ;
+                                ; otce_simpleXBuyXGetYFree_spo                                   ; pp_simpleXBuyXGetYFree                                           ; 250  ; paynow            ;
+                                ; otce_simpleYBuyXGetYFree                                       ; pp_mobileDeal_override_simpleYBuyXGetYFree                       ; 200  ; paynow            ;
+                                ; otce_simpleYBuyXGetYFree_spo                                   ; pp_simpleYBuyXGetYFree                                           ; 250  ; paynow            ;
+                                ; otce_simpleOneXMoreYBuyXGetYFree1                              ; pp_mobileDeal_override_simpleOneXMoreYBuyXGetYFree1              ; 200  ; paynow            ;
+                                ; otce_simpleOneXMoreYBuyXGetYFree1_spo                          ; pp_simpleOneXMoreYBuyXGetYFree1                                  ; 250  ; paynow            ;
+                                ; otce_simpleOneXMoreYBuyXGetYFree2                              ; pp_mobileDeal_override_simpleOneXMoreYBuyXGetYFree2              ; 200  ; paynow            ;
+                                ; otce_simpleOneXMoreYBuyXGetYFree2_spo                          ; pp_simpleOneXMoreYBuyXGetYFree2                                  ; 250  ; paynow            ;
+                                ; otce_simpleOneXMoreYQuantityBuyXGetYFree1                      ; pp_mobileDeal_override_simpleOneXMoreYQuantityBuyXGetYFree1      ; 200  ; paynow            ;
+                                ; otce_simpleOneXMoreYQuantityBuyXGetYFree1_spo                  ; pp_simpleOneXMoreYQuantityBuyXGetYFree1                          ; 250  ; paynow            ;
+                                ; otce_simpleOneXMoreYQuantityBuyXGetYFree2                      ; pp_mobileDeal_override_simpleOneXMoreYQuantityBuyXGetYFree2      ; 200  ; paynow            ;
+                                ; otce_simpleOneXMoreYQuantityBuyXGetYFree2_spo                  ; pp_simpleOneXMoreYQuantityBuyXGetYFree2                          ; 250  ; paynow            ;
+                                ; otce_simpleMoreXOneYBuyXGetYFree1                              ; pp_mobileDeal_override_simpleMoreXOneYBuyXGetYFree1              ; 200  ; paynow            ;
+                                ; otce_simpleMoreXOneYBuyXGetYFree1_spo                          ; pp_simpleMoreXOneYBuyXGetYFree1                                  ; 250  ; paynow            ;
+                                ; otce_simpleMoreXOneYBuyXGetYFree2                              ; pp_mobileDeal_override_simpleMoreXOneYBuyXGetYFree2              ; 200  ; paynow            ;
+                                ; otce_simpleMoreXOneYBuyXGetYFree2_spo                          ; pp_simpleMoreXOneYBuyXGetYFree2                                  ; 250  ; paynow            ;
+                                ; otce_simpleMoreXMoreYBuyXGetYFree1                             ; pp_mobileDeal_override_simpleMoreXMoreYBuyXGetYFree1             ; 200  ; paynow            ;
+                                ; otce_simpleMoreXMoreYBuyXGetYFree1_spo                         ; pp_simpleMoreXMoreYBuyXGetYFree1                                 ; 250  ; paynow            ;
+                                ; otce_simpleMoreXMoreYBuyXGetYFree2                             ; pp_mobileDeal_override_simpleMoreXOneYBuyXGetYFree2              ; 200  ; paynow            ;
+                                ; otce_simpleMoreXMoreYBuyXGetYFree2_spo                         ; pp_simpleMoreXMoreYBuyXGetYFree2                                 ; 250  ; paynow            ;
+                                ; otce_bpoXBuyXGetYFree                                          ; pp_mobileDeal_override_bpoXBuyXGetYFree                          ; 200  ; paynow            ;
+                                ; otce_bpoXBuyXGetYFree_spo                                      ; pp_bpoXBuyXGetYFree                                              ; 250  ; paynow            ;
+                                ; otce_bpoYBuyXGetYFree                                          ; pp_mobileDeal_override_bpoYBuyXGetYFree                          ; 200  ; paynow            ;
+                                ; otce_bpoYBuyXGetYFree_spo                                      ; pp_bpoYBuyXGetYFree                                              ; 250  ; paynow            ;
+                                ; otce_simpleXCategoryBuyXGetYFree                               ; pp_mobileDeal_override_simpleXCategoryBuyXGetYFree               ; 200  ; paynow            ;
+                                ; otce_simpleXCategoryBuyXGetYFree_spo                           ; pp_simpleXCategoryBuyXGetYFree                                   ; 250  ; paynow            ;
+                                ; otce_simpleYCategoryBuyXGetYFree                               ; pp_mobileDeal_override_simpleYCategoryBuyXGetYFree               ; 200  ; paynow            ;
+                                ; otce_simpleYCategoryBuyXGetYFree_spo                           ; pp_simpleYCategoryBuyXGetYFree                                   ; 250  ; paynow            ;
+                                ; otce_servicePlanButXGetYFree1                                  ; pp_mobileDeal_override_servicePlanButXGetYFree1                  ; 300  ; paynow            ;
+                                ; otce_servicePlanButXGetYFree1_spo                              ; pp_servicePlanButXGetYFree1                                      ; 350  ; paynow            ;
+                                ; otce_servicePlanButXGetYFree2_spo                              ; pp_servicePlanButXGetYFree2                                      ; 35   ; paynow            ;
+                                ; otce_iPhoneX_acq_mid_occpo                                     ; pp_mobileDeal_override_iPhonex_mid_acq_occpo                     ; 809  ; paynow            ;
+                                ; otce_iPhoneX_acq_high_occpo                                    ; pp_mobileDeal_override_iPhonex_high_acq_occpo                    ; 789  ; paynow            ;
+                                ; otce_Apple_iPhone_6_acq_occpo                                  ; pp_mobileDeal_override_iPhone6_salsaS_acq_occpo                  ; 549  ; paynow            ;
+                                ; otce_Apple_iPhone_6_salsaS_ret_occpo                           ; pp_mobileDeal_override_iPhone6_salsaS_ret_occpo                  ; 449  ; paynow            ;
+                                ; otce_productPriceOverrides_spo                                 ; pp_productPriceOverrides_spo                                     ; 200  ; paynow            ;
+                                ; otce_productPriceOverrides_md                                  ; pp_productPriceOverrides_md                                      ; 190  ; paynow            ;
+                                ; otce_productPriceOverrides_md_ret                              ; pp_productPriceOverrides_ret                                     ; 180  ; paynow            ;
+                                ; otce_productPriceOverrides_md_tc                               ; pp_productPriceOverrides_tc                                      ; 170  ; paynow            ;
+                                ; otce_productPriceOverrides_md_ac                               ; pp_productPriceOverrides_ac                                      ; 160  ; paynow            ;
+                                ; otce_invalidProcesType_ac                                      ; pp_invalidProcesType_ac                                          ; 160  ; paynow            ;
+                                ; otce_productProcessRegion_ret                                  ; pp_productProcessRegion_ret                                      ; 200  ; paynow            ;
+                                ; otce_productProcessRegion_ret_jp_19                            ; pp_productProcessRegion_ret_jp_19                                ; 190  ; paynow            ;
+                                ; otce_productProcessRegion_tc                                   ; pp_productProcessRegion_tc                                       ; 180  ; paynow            ;
+                                ; otce_productProcessRegion_tc_jp_19                             ; pp_productProcessRegion_tc_jp_19                                 ; 170  ; paynow            ;
+                                ; otce_tapasXsTmf_ac                                             ; pp_tapasXsTmf_ac                                                 ; 100  ; paynow            ;
+                                ; otce_productTmf1_ac                                            ; pp_productTmf1_ac                                                ; 100  ; paynow            ;
+                                ; otce_simple_product_bundle_fixed_price1                        ; pp_simple_product_bundle_fixed_price1                            ; 700  ; paynow            ;
+                                ; otce_simple_product_bundle_fixed_price2                        ; pp_simple_product_bundle_fixed_price2                            ; 500  ; paynow            ;
+                                ; otce_simple_product_bundle_fixed_price3                        ; pp_simple_product_bundle_fixed_price3                            ; 100  ; paynow            ;
+                                ; otce_simple_product_bundle_fixed_price_category1               ; pp_simple_product_bundle_fixed_price_category1                   ; 200  ; paynow            ;
+                                ; otce_simple_product_bundle_fixed_price_category2               ; pp_simple_product_bundle_fixed_price_category2                   ; 300  ; paynow            ;
+                                ; otce_simple_product_bundle_fixed_price_category3               ; pp_simple_product_bundle_fixed_price_category3                   ; 500  ; paynow            ;
+                                ; otce_simple_product_bundle_fixed_price_category4               ; pp_simple_product_bundle_fixed_price_category4                   ; 100  ; paynow            ;
+                                ; otce_apple_iphone_6_pbfp                                       ; pp_apple_iphone_6_pbfp                                           ; 300  ; paynow            ;
+                                ; otce_simple_product_price_threshold_fixed_discount1            ; pp_simple_product_price_threshold_fixed_discount_1               ; 101  ; paynow            ;
+                                ; otce_simple_product_price_threshold_fixed_discount2            ; pp_simple_product_price_threshold_fixed_discount_2               ; 99   ; paynow            ;
+                                ; otce_simple_product_price_threshold_fixed_discount3            ; pp_simple_product_price_threshold_fixed_discount_3               ; 100  ; paynow            ;
+                                ; otce_simpleProductCustomerSpecificPercentageDiscount_spo       ; pp_simpleProductCustomerSpecificPercentageDiscount               ; 500  ; paynow            ;
+                                ; otce_simple_threshold_fixed_discount_affected_product1         ; pp_simple_threshold_fixed_discount_affected_product1             ; 700  ; paynow            ;
+                                ; otce_simple_threshold_fixed_discount_affected_product2         ; pp_simple_threshold_fixed_discount_affected_product2             ; 1600 ; paynow            ;
+                                ; otce_simple_threshold_fixed_discount_product1                  ; pp_simple_threshold_fixed_discount_product1                      ; 500  ; paynow            ;
+                                ; otce_simple_threshold_fixed_discount_product2                  ; pp_simple_threshold_fixed_discount_product2                      ; 400  ; paynow            ;
+                                ; otce_simple_threshold_fixed_discount_product3                  ; pp_simple_threshold_fixed_discount_product3                      ; 300  ; paynow            ;
+                                ; otce_simple_threshold_fixed_discount_product_category1         ; pp_simple_threshold_fixed_discount_product_category1             ; 1000 ; paynow            ;
+                                ; otce_simple_threshold_fixed_discount_product_category2         ; pp_simple_threshold_fixed_discount_product_category2             ; 600  ; paynow            ;
+                                ; otce_simpleProductCustomerSpecificFixedDiscountOrderThreshold1 ; pp_simpleProductCustomerSpecificFixedDiscountOrderThreshold1     ; 101  ; paynow            ;
+                                ; otce_simpleProductCustomerSpecificFixedDiscountOrderThreshold2 ; pp_simpleProductCustomerSpecificFixedDiscountOrderThreshold2     ; 99   ; paynow            ;
+                                ; otce_simpleProductCustomerSpecificFixedDiscountOrderThreshold3 ; pp_simpleProductCustomerSpecificFixedDiscountOrderThreshold3     ; 100  ; paynow            ;
+                                ; otce_simpleOrderThresholdFreeGift1                             ; pp_simpleOrderThresholdFreeGift1                                 ; 500  ; paynow            ;
+                                ; otce_simpleOrderThresholdFreeGift2                             ; pp_simpleOrderThresholdFreeGift2                                 ; 499  ; paynow            ;
+                                ; otce_simpleOrderThresholdFreeGift3                             ; pp_simpleOrderThresholdFreeGift3                                 ; 501  ; paynow            ;
+                                ; otce_simpleOrderThresholdFreeGift_free                         ; pp_simpleOrderThresholdFreeGift_free                             ; 100  ; paynow            ;
+                                ; otce_simpleNotEligibleOrderThresholdFreeGift                   ; pp_simpleNotEligibleOrderThresholdFreeGift                       ; 300  ; paynow            ;
+                                ; otce_simpleCategoryOrderThresholdFreeGift                      ; pp_simpleCategoryOrderThresholdFreeGift                          ; 300  ; paynow            ;
+                                ; otce_simple_coupon_code_percentage_discount                    ; pp_simple_coupon_code_percentage_discount                        ; 100  ; paynow            ;
+                                ; otce_simpleAppleIphoneX256                                     ; pp_simpleAppleIphoneX256                                         ; 400  ; paynow            ;
+                                ; otce_simpleAppleIphoneX256_5836                                ; pp_simpleAppleIphoneX256_5836                                    ; 400  ; paynow            ;
+                                ; otce_simple_coupon_code_fixed_discount                         ; pp_simple_coupon_code_fixed_discount                             ; 100  ; paynow            ;
+                                ; otce_simple_coupon_code_percentage_discount_product            ; pp_simple_coupon_code_percentage_discount_product                ; 900  ; paynow            ;
+                                ; otce_tapasM_5812_acq                                           ; pp_mobileDeal_override_tapasM_5812_acq                           ; 10   ; paynow            ;
+                                ; otce_Samsung_Galaxy_S5_7036_ACQ                                ; SPP_homeDeal_7035                                                ; 100  ; paynow            ;
+
+### Create RECURRING CHARGES ###
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE RecurringChargeEntry; id[unique = true]                     ; subscriptionPricePlanRecurring(name[lang = $lang], $catalogVersion); price; cycleStart; cycleEnd; $catalogVersion
+                                  ; rce_signatureUnlimitedPlanTest        ; pp_signatureUnlimitedPlanTest                                      ; 32   ; 1         ;
+                                  ; rce_tapasXL_occpo                     ; pp_tapasXL_occpo                                                   ; 40   ; 1         ;
+                                  ; rce_tapasXL_tc_occpo                  ; pp_tapasXL_tc_occpo                                                ; 35   ; 1         ;
+                                  ; rce_tapasXL_EUR_occpo                 ; pp_tapasXL_EUR_occpo                                               ; 42   ; 1         ;
+                                  ; rce_tapasXL_tc_EUR_occpo              ; pp_tapasXL_tc_EUR_occpo                                            ; 37   ; 1         ;
+                                  ; rce_servicePlanButXGetYFree2          ; pp_servicePlanButXGetYFree2                                        ; 10   ; 1         ;
+                                  ; rce_servicePlanOrderThresholdFreeGift ; pp_servicePlanOrderThresholdFreeGift_free                          ; 10   ; 1         ;
+                                  ; rce_tapasS_5812_1                     ; pp_mobileDeal_tapasS_5812_acq_monthly_12                           ; 10   ; 1         ;
+                                  ; rce_tapasS_5812_2                     ; pp_mobileDeal_tapasS_5812_acq_monthly_24                           ; 15   ; 1         ;
+                                  ; rce_tapasS_5812_1_ret                 ; pp_mobileDeal_tapasS_5812_acq_ret                                  ; 5    ; 1         ;
+                                  ; rce_tapasM_5812_acq                   ; pp_mobileDeal_tapasM_5812_acq                                      ; 25   ; 1         ;
+                                  ; rce_salsaS_5812_1_ret                 ; pp_salsaS_tariff_change                                            ; 5    ; 1         ;
+
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PriceRow; code[unique = true]; product(code, $catalogVersion)                 ; price; unit(code); currency(isocode); $catalogVersion; regions(isocode)
+                      ; 4002               ; Product_Without_Price_Overrides                ; 800  ; pieces    ; USD              ;                ;
+                      ; 4003               ; Product_Different_Regions                      ; 800  ; pieces    ; USD              ;                ; JP-19
+                      ; 4004               ; Product_Different_Regions                      ; 700  ; pieces    ; USD              ;                ; JP-31
+                      ; 4005               ; Product_Different_Regions                      ; 600  ; pieces    ; USD              ;                ; JP-33
+                      ; 4006               ; Product_Same_Region                            ; 800  ; pieces    ; USD              ;                ; JP-19
+                      ; 4007               ; Product_Same_Region                            ; 700  ; pieces    ; USD              ;                ; JP-31
+                      ; 4008               ; Product_Same_Region                            ; 600  ; pieces    ; USD              ;                ; JP-19
+                      ; 4009               ; Product_Process_Region                         ; 800  ; pieces    ; USD              ;                ; JP-19
+                      ; 55201              ; SIMPLE_PRODUCT_MULTIBUY_FIXED_PRICE_1          ; 150  ; pieces    ; USD              ;                ;
+                      ; 55202              ; SIMPLE_PRODUCT_MULTIBUY_FIXED_PRICE_2          ; 150  ; pieces    ; USD              ;                ;
+                      ; 55203              ; SIMPLE_PRODUCT_MULTIBUY_FIXED_PRICE_3          ; 150  ; pieces    ; USD              ;                ;
+                      ; 55204              ; SIMPLE_PRODUCT_MULTIBUY_FIXED_PRICE_CATEGORY_1 ; 150  ; pieces    ; USD              ;                ;
+                      ; 55205              ; SIMPLE_PRODUCT_MULTIBUY_FIXED_PRICE_CATEGORY_2 ; 150  ; pieces    ; USD              ;                ;
+                      ; 55206              ; SIMPLE_PRODUCT_MULTIBUY_FIXED_PRICE_CATEGORY_3 ; 150  ; pieces    ; USD              ;                ;
+                      ; 55207              ; SIMPLE_PRODUCT_MULTIBUY_FIXED_PRICE_CATEGORY_4 ; 150  ; pieces    ; USD              ;                ;
+                      ; 55208              ; SIMPLE_PRODUCT_MULTIBUY_FIXED_PRICE_CATEGORY_5 ; 150  ; pieces    ; USD              ;                ;
+                      ; 55209              ; SIMPLE_PRODUCT_MULTIBUY_FIXED_PRICE_CATEGORY_6 ; 149  ; pieces    ; USD              ;                ;
+                      ; 552010             ; SIMPLE_PRODUCT_MULTIBUY_FIXED_PRICE_CATEGORY_7 ; 150  ; pieces    ; USD              ;                ;
+                      ; 55381              ; SIMPLE_ORDER_COUPON_DISCOUNT                   ; 100  ; pieces    ; USD              ;                ;
+                      ; 4050               ; tapasXL                                        ; 10   ; pieces    ; USD              ;                ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaSimpleProductOffering; code[unique = true]; $prices[collection-delimiter = '|']; $approved; $catalogVersion; $europe1pricefactory_ptg; unit(code)[default = pieces]
+                                      ; 00000000           ; 999 USD | 850 EUR
+                                      ; ZZZZZZZZ           ; 100 USD | 75 EUR
+                                      ; iphoneXs_Max_5812  ; 1200 USD | 999 EUR
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE SubscriptionPricePlan; name[unique = true, lang = $lang]; product(code, $catalogVersion); affectedProductOffering(code, $catalogVersion); requiredProductClasses(id)[unique = true]; $processTypes; $subscriptionTerms     ; $distributionChannels; currency(isocode)[default = USD, unique = true]; unit(code)[default = pieces]; $catalogVersion; regions(isocode)
+# USD prices
+                                   ; pp_salsaSM_acq                   ; mobileDeal                    ; salsaS_merge                                  ;                                          ; ACQUISITION  ; monthly_12, monthly_24 ;                      ;                                                ;                             ;                ; JP-16
+                                   ; pp_salsaSM_ret                   ; mobileDeal                    ; salsaS_merge                                  ;                                          ; RETENTION
+                                   ; pp_salsaSM_mnp                   ; mobileDeal                    ; salsaS_merge                                  ;                                          ; MNP
+                                   ; pp_salsaSM_tar                   ; mobileDeal                    ; salsaS_merge                                  ;                                          ; TARIFF_CHANGE
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE RecurringChargeEntry; id[unique = true]; subscriptionPricePlanRecurring(name[lang = $lang], $catalogVersion); price; cycleStart; cycleEnd; $catalogVersion
+# USD recurring charges
+                                  ; rce_salsaSM_acq  ; pp_salsaSM_acq                                                     ; 30   ; 1         ;
+                                  ; rce_salsaSM_ret  ; pp_salsaSM_ret                                                     ; 28   ; 1         ;
+                                  ; rce_salsaSM_mnp  ; pp_salsaSM_mnp                                                     ; 25   ; 1         ;
+                                  ; rce_salsaSM_tar  ; pp_salsaSM_tar                                                     ; 25   ; 1         ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE OverageUsageChargeEntry; id[unique = true]           ; price; $catalogVersion
+                                     ; salsaSM_minutes_overage_acq ; 0,09 ;
+                                     ; salsaSM_sms_overage_acq     ; 0,09 ;
+                                     ; salsaSM_data_overage_acq    ; 0,09 ;
+
+                                     ; salsaSM_minutes_overage_mnp ; 0,09 ;
+                                     ; salsaSM_sms_overage_mnp     ; 0,09 ;
+                                     ; salsaSM_data_overage_mnp    ; 0,09 ;
+
+                                     ; salsaSM_minutes_overage_ret ; 0,09 ;
+                                     ; salsaSM_sms_overage_ret     ; 0,09 ;
+                                     ; salsaSM_data_overage_ret    ; 0,09 ;
+
+                                     ; salsaSM_minutes_overage_tar ; 0,09 ;
+                                     ; salsaSM_sms_overage_tar     ; 0,09 ;
+                                     ; salsaSM_data_overage_tar    ; 0,09 ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE VolumeUsageCharge; id[unique = true]         ; subscriptionPricePlanUsage(name[lang = $lang], $catalogVersion); usageUnit(id) ; usageChargeEntries(id, $catalogVersion); $catalogVersion
+                               ; salsaSM_minutes_usage_acq ; pp_salsaSM_acq                                                 ; phone_minutes ; salsaSM_minutes_overage_acq
+                               ; salsaSM_sms_usage_acq     ; pp_salsaSM_acq                                                 ; sms           ; salsaSM_sms_overage_acq
+                               ; salsaSM_data_usage_acq    ; pp_salsaSM_acq                                                 ; mb            ; salsaSM_data_overage_acq
+
+                               ; salsaSM_minutes_usage_ret ; pp_salsaSM_ret                                                 ; phone_minutes ; salsaSM_minutes_overage_ret
+                               ; salsaSM_sms_usage_ret     ; pp_salsaSM_ret                                                 ; sms           ; salsaSM_sms_overage_ret
+                               ; salsaSM_data_usage_ret    ; pp_salsaSM_ret                                                 ; mb            ; salsaSM_data_overage_ret
+
+                               ; salsaSM_minutes_usage_mnp ; pp_salsaSM_mnp                                                 ; phone_minutes ; salsaSM_minutes_overage_mnp
+                               ; salsaSM_sms_usage_mnp     ; pp_salsaSM_mnp                                                 ; sms           ; salsaSM_sms_overage_mnp
+                               ; salsaSM_data_usage_mnp    ; pp_salsaSM_mnp                                                 ; mb            ; salsaSM_data_overage_mnp
+
+                               ; salsaSM_minutes_usage_tar ; pp_salsaSM_tar                                                 ; phone_minutes ; salsaSM_minutes_overage_tar
+                               ; salsaSM_sms_usage_tar     ; pp_salsaSM_tar                                                 ; sms           ; salsaSM_sms_overage_tar
+                               ; salsaSM_data_usage_tar    ; pp_salsaSM_tar                                                 ; mb            ; salsaSM_data_overage_tar
+
+##LBP cart test prices
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE SubscriptionPricePlan; code[unique = true]; product(code, $catalogVersion)[unique = true]; $processTypes[unique = true]; $subscriptionTerms               ; $catalogVersion; currency(isocode)[default = USD, unique = true]; unit(code)[default = pieces]; $regions
+                                   ; sombreroS_LBP_ACQ1 ; sombreroS_LBP                                ; ACQUISITION                 ; monthly_12, monthly_24           ;                ;                                                ;                             ; CA-ON ,JP-16 ,JP-19
+                                   ; sombreroS_LBP_ACQ2 ; sombreroS_LBP                                ; ACQUISITION                 ; monthly_12                       ;                ;                                                ;                             ; CA-ON
+                                   ; sombreroS_LBP_ACQ3 ; sombreroS_LBP                                ; ACQUISITION                 ; monthly_18                       ;                ;                                                ;                             ; CA-NS
+                                   ; sombreroS_LBP_ACQ4 ; sombreroS_LBP                                ; ACQUISITION                 ; monthly_18,monthly_24            ;                ;                                                ;                             ; CA-NL
+                                   ; sombreroS_LBP_RET  ; sombreroS_LBP                                ; RETENTION                   ; monthly_12, monthly_24           ;                ;                                                ;                             ; CA-ON
+                                   ; sombreroS_LBP_MNP  ; sombreroS_LBP                                ; MNP                         ; monthly_12, monthly_24           ;                ;                                                ;                             ; CA-NS
+                                   ; sombreroL_LBP_ACQ1 ; sombreroL_LBP                                ; ACQUISITION                 ; monthly_18                       ;                ;                                                ;                             ; CN-64
+                                   ; sombreroL_LBP_ACQ2 ; sombreroL_LBP                                ; ACQUISITION                 ; monthly_18,monthly_24            ;                ;                                                ;                             ; CN-65
+                                   ; sombreroL_LBP_ACQ3 ; sombreroL_LBP                                ; ACQUISITION                 ; monthly_12                       ;                ;                                                ;                             ;
+                                   ; sombreroL_LBP_ACQ4 ; sombreroL_LBP                                ; ACQUISITION                 ; monthly_12,monthly_24,monthly_18 ;                ;                                                ;                             ;
+                                   ; sombreroL_LBP_ACQ5 ; sombreroL_LBP                                ; ACQUISITION                 ; monthly_12,monthly_24            ;                ; EUR                                            ;                             ; CN-65
+
+### Create RECURRING CHARGES ###
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE RecurringChargeEntry; id[unique = true]      ; subscriptionPricePlanRecurring(code); price; cycleStart; cycleEnd; $catalogVersion
+                                  ; rce_sombreroS_LBP_ACQ1 ; sombreroS_LBP_ACQ1                  ; 11   ; 1         ;
+                                  ; rce_sombreroS_LBP_ACQ2 ; sombreroS_LBP_ACQ2                  ; 22   ; 1         ;
+                                  ; rce_sombreroS_LBP_ACQ3 ; sombreroS_LBP_ACQ3                  ; 10   ; 1         ;
+                                  ; rce_sombreroS_LBP_ACQ4 ; sombreroS_LBP_ACQ4                  ; 8    ; 1         ;
+                                  ; rce_sombreroS_LBP_RET  ; sombreroS_LBP_RET                   ; 44   ; 1         ;
+                                  ; rce_sombreroS_LBP_MNP  ; sombreroS_LBP_MNP                   ; 55   ; 1         ;
+
+                                  ; rce_sombreroL_LBP_ACQ1 ; sombreroL_LBP_ACQ1                  ; 5    ; 1         ;
+                                  ; rce_sombreroL_LBP_ACQ2 ; sombreroL_LBP_ACQ2                  ; 10   ; 1         ;
+                                  ; rce_sombreroL_LBP_ACQ3 ; sombreroL_LBP_ACQ3                  ; 15   ; 1         ;
+                                  ; rce_sombreroL_LBP_ACQ4 ; sombreroL_LBP_ACQ4                  ; 20   ; 1         ;
+                                  ; rce_sombreroL_LBP_ACQ5 ; sombreroL_LBP_ACQ5                  ; 25   ; 1         ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PriceRow; code[unique = true]        ; product(code, $catalogVersion); price; unit(code); currency(isocode); $catalogVersion; $regions
+                      ; Samsung_Galaxy_S5_LBP_EUR  ; Samsung_Galaxy_S5_LBP         ; 1000 ; pieces    ; EUR              ;                ; JP-01 ;
+                      ; Samsung_Galaxy_S5_LBP_USD  ; Samsung_Galaxy_S5_LBP         ; 950  ; pieces    ; USD              ;                ; JP-01 ;
+                      ; Samsung_Galaxy_S5_LBP_USD1 ; Samsung_Galaxy_S5_LBP         ; 850  ; pieces    ; USD              ;                ; JP-02 ;
+                      ; Samsung_Galaxy_S5_LBP_USD2 ; Samsung_Galaxy_S5_LBP         ; 750  ; pieces    ; USD              ;                ;       ;
+
+
+##LBP cart test prices
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE SubscriptionPricePlan; code[unique = true]; product(code, $catalogVersion)[unique = true]; $processTypes[unique = true]; $subscriptionTerms               ; $catalogVersion; currency(isocode)[default = USD, unique = true]; unit(code)[default = pieces]; $regions
+                                   ; iPhone_7plus_LBP_1 ; Apple_iPhone_7plus_LBP                       ; ACQUISITION                 ; monthly_12, monthly_24           ;                ;                                                ;                             ; JP-16
+                                   ; iPhone_7plus_LBP_2 ; Apple_iPhone_7plus_LBP                       ; DEVICE_ONLY                 ; monthly_12, monthly_24           ;                ;                                                ;                             ; US-AR
+                                   ; iPhone_7plus_LBP_3 ; Apple_iPhone_7plus_LBP                       ; DEVICE_ONLY                 ; monthly_12, monthly_24           ;                ;                                                ;                             ; JP-35
+                                   ; iPhone_7plus_LBP_4 ; Apple_iPhone_7plus_LBP                       ; DEVICE_ONLY                 ; monthly_12, monthly_24           ;                ;                                                ;                             ;
+
+                                   ; iPhone_7_LBP_1     ; Apple_iPhone_7_LBP                           ; ACQUISITION                 ; monthly_12, monthly_24           ;                ;                                                ;                             ; JP-16
+                                   ; iPhone_7_LBP_2     ; Apple_iPhone_7_LBP                           ; ACQUISITION                 ; monthly_12, monthly_24           ;                ;                                                ;                             ; US-AR
+                                   ; iPhone_7_LBP_3     ; Apple_iPhone_7_LBP                           ; ACQUISITION                 ; monthly_12, monthly_24           ;                ;                                                ;                             ;
+
+                                   ; tapasS_LBP_ACQ1    ; tapasS_LBP                                   ; ACQUISITION                 ; monthly_12, monthly_24           ;                ;                                                ;                             ; JP-16
+                                   ; tapasS_LBP_ACQ2    ; tapasS_LBP                                   ; ACQUISITION                 ; monthly_12                       ;                ;                                                ;                             ; JP-16
+                                   ; tapasS_LBP_ACQ3    ; tapasS_LBP                                   ; ACQUISITION                 ; monthly_18                       ;                ;                                                ;                             ; US-AR
+                                   ; tapasS_LBP_ACQ4    ; tapasS_LBP                                   ; ACQUISITION                 ; monthly_18,monthly_24            ;                ;                                                ;                             ; CN-12
+                                   ; tapasS_LBP_RET     ; tapasS_LBP                                   ; RETENTION                   ; monthly_12, monthly_24           ;                ;                                                ;                             ; JP-16
+                                   ; tapasS_LBP_MNP     ; tapasS_LBP                                   ; MNP                         ; monthly_12, monthly_24           ;                ;                                                ;                             ; US-AR
+                                   ; tapasS_LBP_SS1     ; tapasS_LBP                                   ; SWITCH_SERVICE_PROVIDER     ; monthly_12, monthly_24           ;                ;                                                ;                             ; JP-35
+
+                                   ; int_pack_LBP_ACQ1  ; internet_pack_casual_LBP                     ; ACQUISITION                 ; monthly_18                       ;                ;                                                ;                             ; CN-11
+                                   ; int_pack_LBP_ACQ2  ; internet_pack_casual_LBP                     ; ACQUISITION                 ; monthly_18,monthly_24            ;                ;                                                ;                             ; JP-25
+                                   ; int_pack_LBP_ACQ3  ; internet_pack_casual_LBP                     ; ACQUISITION                 ; monthly_12                       ;                ;                                                ;                             ;
+                                   ; int_pack_LBP_ACQ4  ; internet_pack_casual_LBP                     ; ACQUISITION                 ; monthly_12,monthly_24,monthly_18 ;                ;                                                ;                             ;
+                                   ; int_pack_LBP_ACQ5  ; internet_pack_casual_LBP                     ; ACQUISITION                 ; monthly_12,monthly_24            ;                ; EUR                                            ;                             ; JP-25
+                                   ; iPhone_9plus_LBP_1 ; Apple_iPhone_9plus_LBP                       ; DEVICE_ONLY                 ; monthly_12, monthly_24           ;                ;                                                ;                             ; JP-16
+                                   ; iPhone_9_LBP_1     ; Apple_iPhone_9_LBP                           ; ACQUISITION                 ; monthly_12, monthly_24           ;                ;                                                ;                             ; US-AR
+                                   ; iPhone_9_LBP_2     ; Apple_iPhone_9_LBP                           ; ACQUISITION                 ; monthly_12, monthly_24           ;                ;                                                ;                             ;
+                                   ; iPhone_9_LBP_3     ; Apple_iPhone_9_LBP                           ; ACQUISITION                 ; monthly_12, monthly_24           ;                ;                                                ;                             ;
+                                   ; iPhone_10_LBP_1    ; Apple_iPhone_10_LBP                          ; ACQUISITION                 ; monthly_12, monthly_24           ;                ;                                                ;                             ; JP-16
+
+                                   ; tapasXL_LBP_ACQ1   ; tapasXL_LBP                                  ; ACQUISITION                 ; monthly_12, monthly_24           ;                ;                                                ;                             ; JP-16
+                                   ; tapasXL_LBP_ACQ2   ; tapasXL_LBP                                  ; ACQUISITION                 ; monthly_12                       ;                ;                                                ;                             ; JP-16
+                                   ; tapasXL_LBP_ACQ3   ; tapasXL_LBP                                  ; ACQUISITION                 ; monthly_18                       ;                ;                                                ;                             ; US-AR
+                                   ; tapasXL_LBP_ACQ4   ; tapasXL_LBP                                  ; ACQUISITION                 ; monthly_18,monthly_24            ;                ;                                                ;                             ; CN-12
+                                   ; tapasXL_LBP_RET    ; tapasXL_LBP                                  ; RETENTION                   ; monthly_12, monthly_24           ;                ;                                                ;                             ; JP-16
+                                   ; tapasXL_LBP_MNP    ; tapasXL_LBP                                  ; MNP                         ; monthly_12, monthly_24           ;                ;                                                ;                             ; US-AR
+
+
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PriceRow; code[unique = true]          ; product(code, $catalogVersion); price; unit(code); currency(isocode); $catalogVersion; $regions
+                      ; Apple_iPhone_6plus_LBP_EUR   ; Apple_iPhone_6plus_LBP        ; 1000 ; pieces    ; EUR              ;                ; US-AL ;
+                      ; Apple_iPhone_6plus_LBP_USD   ; Apple_iPhone_6plus_LBP        ; 900  ; pieces    ; USD              ;                ; US-AL ;
+
+                      ; samsung_s8_1_LBP_USD_1       ; samsung_s8_1_LBP              ; 1000 ; pieces    ; USD              ;                ; US-AL ;
+                      ; samsung_s8_1_LBP_USD_2       ; samsung_s8_1_LBP              ; 900  ; pieces    ; USD              ;                ; JP-35 ;
+                      ; samsung_s8_2_LBP_USD_1       ; samsung_s8_2_LBP              ; 1000 ; pieces    ; USD              ;                ; US-AL ;
+                      ; samsung_s8_2_LBP_USD_2       ; samsung_s8_2_LBP              ; 900  ; pieces    ; USD              ;                ; JP-35 ;
+                      ; samsung_s8_3_LBP_USD_1       ; samsung_s8_3_LBP              ; 1000 ; pieces    ; USD              ;                ; US-AL ;
+                      ; samsung_s8_3_LBP_USD_2       ; samsung_s8_3_LBP              ; 900  ; pieces    ; USD              ;                ; JP-35 ;
+                      ; samsung_s8_4_LBP_USD_1       ; samsung_s8_4_LBP              ; 1000 ; pieces    ; USD              ;                ; US-AL ;
+                      ; samsung_s8_4_LBP_USD_2       ; samsung_s8_4_LBP              ; 900  ; pieces    ; USD              ;                ; JP-35 ;
+                      ; samsung_s8_5_LBP_USD_1       ; samsung_s8_5_LBP              ; 1000 ; pieces    ; USD              ;                ; US-AL ;
+                      ; samsung_s8_5_LBP_USD_2       ; samsung_s8_5_LBP              ; 900  ; pieces    ; USD              ;                ; JP-19 ;
+                      ; samsung_s8_6_LBP_USD_1       ; samsung_s8_6_LBP              ; 1000 ; pieces    ; USD              ;                ; JP-19 ;
+                      ; samsung_s8_6_LBP_USD_2       ; samsung_s8_6_LBP              ; 900  ; pieces    ; USD              ;                ;       ;
+                      ; samsung_s8_7_LBP_USD_1       ; samsung_s8_7_LBP              ; 1000 ; pieces    ; USD              ;                ; US-AL ;
+                      ; samsung_s8_7_LBP_USD_2       ; samsung_s8_7_LBP              ; 900  ; pieces    ; USD              ;                ;       ;
+
+                      ; samsung_s8_8_LBP_USD_2       ; samsung_s8_8_LBP              ; 900  ; pieces    ; USD              ;                ; US-AL ;
+                      ; samsung_s8_8_LBP_USD_3       ; samsung_s8_8_LBP              ; 800  ; pieces    ; USD              ;                ; JP-35 ;
+                      ; samsung_s8_8_LBP_USD_1       ; samsung_s8_8_LBP              ; 1000 ; pieces    ; USD              ;                ;       ;
+
+                      ; Apple_iPhone_6plus_LBP_USD_2 ; Apple_iPhone_6plus_LBP        ; 1000 ; pieces    ; USD              ;                ; JP-35 ;
+                      ; Apple_iPhone_6plus_LBP_USD_3 ; Apple_iPhone_6plus_LBP        ; 900  ; pieces    ; USD              ;                ;       ;
+                      ; Apple_iPhone_6plus_LBP_USD_4 ; Apple_iPhone_6plus_LBP        ; 800  ; pieces    ; USD              ;                ; JP-35 ;
+
+
+### Create RECURRING CHARGES ###
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE RecurringChargeEntry; id[unique = true]      ; subscriptionPricePlanRecurring(code); price; cycleStart; cycleEnd; $catalogVersion
+                                  ; rce_iPhone_7plus_LBP_1 ; iPhone_7plus_LBP_1                  ; 9    ; 1         ;
+                                  ; rce_iPhone_7plus_LBP_2 ; iPhone_7plus_LBP_2                  ; 8    ; 1         ;
+                                  ; rce_iPhone_7plus_LBP_3 ; iPhone_7plus_LBP_3                  ; 9    ; 1         ;
+                                  ; rce_iPhone_7plus_LBP_4 ; iPhone_7plus_LBP_4                  ; 8    ; 1         ;
+
+                                  ; rce_iPhone_7_LBP_1     ; iPhone_7_LBP_1                      ; 7    ; 1         ;
+                                  ; rce_iPhone_7_LBP_2     ; iPhone_7_LBP_2                      ; 6    ; 1         ;
+                                  ; rce_iPhone_7_LBP_3     ; iPhone_7_LBP_3                      ; 5    ; 1         ;
+
+                                  ; rce_tapasS_LBP_ACQ1    ; tapasS_LBP_ACQ1                     ; 11   ; 1         ;
+                                  ; rce_tapasS_LBP_ACQ2    ; tapasS_LBP_ACQ2                     ; 22   ; 1         ;
+                                  ; rce_tapasS_LBP_ACQ3    ; tapasS_LBP_ACQ3                     ; 10   ; 1         ;
+                                  ; rce_tapasS_LBP_ACQ4    ; tapasS_LBP_ACQ4                     ; 8    ; 1         ;
+                                  ; rce_tapasS_LBP_RET     ; tapasS_LBP_RET                      ; 44   ; 1         ;
+                                  ; rce_tapasS_LBP_MNP     ; tapasS_LBP_MNP                      ; 55   ; 1         ;
+                                  ; rce_tapasS_LBP_SS1     ; tapasS_LBP_SS1                      ; 25   ; 1         ;
+
+                                  ; rce_int_pack_LBP_ACQ1  ; int_pack_LBP_ACQ1                   ; 2    ; 1         ;
+                                  ; rce_int_pack_LBP_ACQ2  ; int_pack_LBP_ACQ2                   ; 5    ; 1         ;
+                                  ; rce_int_pack_LBP_ACQ3  ; int_pack_LBP_ACQ3                   ; 3    ; 1         ;
+                                  ; rce_int_pack_LBP_ACQ4  ; int_pack_LBP_ACQ4                   ; 4    ; 1         ;
+                                  ; rce_int_pack_LBP_ACQ5  ; int_pack_LBP_ACQ5                   ; 3    ; 1         ;
+
+                                  ; rce_iPhone_9_LBP_1     ; iPhone_9_LBP_1                      ; 18   ; 1         ;
+                                  ; rce_iPhone_9_LBP_2     ; iPhone_9_LBP_2                      ; 17   ; 1         ;
+                                  ; rce_iPhone_9_LBP_3     ; iPhone_9_LBP_3                      ; 16   ; 1         ;
+                                  ; rce_iPhone_10_LBP_1    ; iPhone_10_LBP_1                     ; 5    ; 1         ;
+
+                                  ; rce_tapasXL_LBP_ACQ1   ; tapasXL_LBP_ACQ1                    ; 11   ; 1         ;
+                                  ; rce_tapasXL_LBP_ACQ2   ; tapasXL_LBP_ACQ2                    ; 22   ; 1         ;
+                                  ; rce_tapasXL_LBP_ACQ3   ; tapasXL_LBP_ACQ3                    ; 10   ; 1         ;
+                                  ; rce_tapasXL_LBP_ACQ4   ; tapasXL_LBP_ACQ4                    ; 8    ; 1         ;
+                                  ; rce_tapasXL_LBP_RET    ; tapasXL_LBP_RET                     ; 44   ; 1         ;
+                                  ; rce_tapasXL_LBP_MNP    ; tapasXL_LBP_MNP                     ; 55   ; 1         ;
+
+#Create test one time charge
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE OneTimeChargeEntry; id[unique = true]       ; subscriptionPricePlanOneTime(code, $catalogVersion); price; billingEvent(code); $catalogVersion[unique = true]
+                                ; otce_iPhone_9plus_LBP_1 ; iPhone_9plus_LBP_1                                 ; 100  ; paynow            ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaSimpleProductOffering; code[unique = true]; $prices[collection-delimiter = '|']; $approved; $catalogVersion; $europe1pricefactory_ptg; unit(code)[default = pieces]
+                                      ; iPhone_x_OCCPO     ; 999 USD | 850 EUR
+
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE SubscriptionPricePlan; name[unique = true, lang = $lang]               ; product(code, $catalogVersion); affectedProductOffering(code, $catalogVersion)[unique = true]; requiredProductOfferings(code, $catalogVersion)[unique = true]; $processTypes[unique = true]; $subscriptionTerms[unique = true]; $distributionChannels[unique = true]; currency(isocode); unit(code); $catalogVersion; regions(isocode);
+
+                                   ; pp_mobileDeal_override_iPhone6_salsaS_mnp_occpo ; mobileDeal                    ; Apple_iPhone_6_OCCPO                                         ; salsaS                                                        ; MNP                         ; monthly_12, monthly_24           ;                                     ; USD              ; pieces    ;                ;
+
+
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE SubscriptionPricePlan; name[unique = true, lang = $lang]               ; user(uid)                       ; ug(code)
+                                   ; pp_mobileDeal_override_iPhonex_mid_acq_occpo    ; occtestpouser2@hybris.com       ;
+                                   ; pp_mobileDeal_override_iPhonex_high_acq_occpo   ; occtestpouser3@hybris.com       ;
+                                   ; pp_mobileDeal_override_iPhone6_salsaS_mnp_occpo ; occtestpouser4@hybris.com       ;
+                                   ; pp_mobileDeal_override_iPhone6_salsaS_acq_occpo ;                                 ; OCC_PRICE_GROUP
+                                   ; pp_mobileDeal_override_iPhone6_salsaS_ret_occpo ;                                 ; OCC_PRICE_GROUP
+                                   ; pp_tapasXL_occpo                                ; occtestpouser2@hybris.com       ;
+                                   ; pp_tapasXL_tc_occpo                             ; occtestpouser3@hybris.com       ;
+                                   ; pp_tapasXL_EUR_occpo                            ;                                 ;
+                                   ; pp_tapasXL_tc_EUR_occpo                         ;                                 ; OCC_PRICE_GROUP
+                                   ; SPP_homeDeal_7036                               ; selfserviceuser70362@hybris.com ;
+
+
+###products-prices.impex
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE SubscriptionPricePlan; &pricePlan           ; product(code, $catalogVersion)[unique = true]; $processTypes[unique = true]; $subscriptionTerms                ; $catalogVersion; currency(isocode)[default = USD, unique = true]; unit(code)[default = pieces]; $regions
+# USD prices
+                                   ; pp_salsaS_acq        ; salsaS                                       ; ACQUISITION                 ; monthly_12, monthly_24            ;                ;                                                ;                             ; JP-16
+                                   ; pp_salsaS_ret        ; salsaS                                       ; RETENTION
+                                   ; pp_salsaS_mnp        ; salsaS                                       ; MNP
+
+                                   ; pp_salsaM_acq        ; salsaM                                       ; ACQUISITION                 ; monthly_12, monthly_24            ;                ;                                                ;                             ; JP-30
+                                   ; pp_salsaM_ret        ; salsaM                                       ; RETENTION
+                                   ; pp_salsaM_mnp        ; salsaM                                       ; MNP
+
+                                   ; pp_salsaL_acq        ; salsaL                                       ; ACQUISITION                 ; monthly_12, monthly_24            ;                ;                                                ;                             ; JP-06
+                                   ; pp_salsaL_ret        ; salsaL                                       ; RETENTION
+                                   ; pp_salsaL_mnp        ; salsaL                                       ; MNP
+
+                                   ; pp_salsaXL_ret       ; salsaXL                                      ; RETENTION                   ;                                   ;                ;                                                ;                             ; JP-37
+                                   ; pp_salsaXL_mnp       ; salsaXL                                      ; MNP
+
+                                   ; pp_tapasS            ; tapasS                                       ;                             ; monthly_36                        ;
+                                   ; pp_tapasM            ; tapasM                                       ;                             ; monthly_36,monthly_24             ;                ;                                                ;                             ; JP-31
+                                   ; pp_tapasL            ; tapasL                                       ;                             ; monthly_36                        ;                ;                                                ;                             ; JP-13
+                                   ; pp_tapasXL           ; tapasXL                                      ; RETENTION                   ; monthly_24,monthly_36             ;                ;                                                ;                             ; JP-19
+                                   ; pp_tapasXL_tc        ; tapasXL                                      ; TARIFF_CHANGE               ; monthly_24,monthly_36             ;
+
+                                   ; pp_sombreroS         ; sombreroS                                    ;                             ; monthly_12, monthly_18            ;
+                                   ; pp_sombreroM         ; sombreroM                                    ;                             ; monthly_12, monthly_18            ;
+                                   ; pp_sombreroL         ; sombreroL                                    ;                             ; monthly_12, monthly_18            ;
+                                   ; pp_sombreroXL        ; sombreroXL                                   ; RETENTION                   ; monthly_12, monthly_18,monthly_24 ;
+                                   ; pp_sombreroXL_tc     ; sombreroXL                                   ; TARIFF_CHANGE               ; monthly_12, monthly_18,monthly_24 ;
+
+# EUR prices
+                                   ; pp_salsaS_acq_EUR    ; salsaS                                       ; ACQUISITION                 ; monthly_12, monthly_24            ;                ; EUR                                            ;                             ; JP-25
+                                   ; pp_salsaS_ret_EUR    ; salsaS                                       ; RETENTION                   ;                                   ;                ; EUR                                            ;                             ; JP-27
+                                   ; pp_salsaS_mnp_EUR    ; salsaS                                       ; MNP                         ;                                   ;                ; EUR
+
+                                   ; pp_salsaM_acq_EUR    ; salsaM                                       ; ACQUISITION                 ; monthly_12, monthly_24            ;                ; EUR                                            ;                             ; JP-47
+                                   ; pp_salsaM_ret_EUR    ; salsaM                                       ; RETENTION                   ;                                   ;                ; EUR
+                                   ; pp_salsaM_mnp_EUR    ; salsaM                                       ; MNP                         ;                                   ;                ; EUR
+
+                                   ; pp_salsaL_acq_EUR    ; salsaL                                       ; ACQUISITION                 ; monthly_12, monthly_24            ;                ; EUR                                            ;                             ; JP-33
+                                   ; pp_salsaL_ret_EUR    ; salsaL                                       ; RETENTION                   ;                                   ;                ; EUR
+                                   ; pp_salsaL_mnp_EUR    ; salsaL                                       ; MNP                         ;                                   ;                ; EUR
+
+                                   ; pp_salsaXL_ret_EUR   ; salsaXL                                      ; RETENTION                   ;                                   ;                ; EUR                                            ;                             ; JP-04
+                                   ; pp_salsaXL_mnp_EUR   ; salsaXL                                      ; MNP                         ;                                   ;                ; EUR
+
+                                   ; pp_tapasS_EUR        ; tapasS                                       ;                             ; monthly_36                        ;                ; EUR                                            ;                             ; JP-29
+                                   ; pp_tapasM_EUR        ; tapasM                                       ;                             ; monthly_36                        ;                ; EUR                                            ;                             ; JP-40
+                                   ; pp_tapasL_EUR        ; tapasL                                       ;                             ; monthly_36                        ;                ; EUR
+                                   ; pp_tapasXL_EUR       ; tapasXL                                      ; RETENTION                   ; monthly_24,monthly_36             ;                ; EUR
+                                   ; pp_tapasXL_tc_EUR    ; tapasXL                                      ; TARIFF_CHANGE               ; monthly_24,monthly_36             ;                ; EUR
+
+                                   ; pp_sombreroS_EUR     ; sombreroS                                    ;                             ; monthly_12, monthly_18            ;                ; EUR
+                                   ; pp_sombreroM_EUR     ; sombreroM                                    ;                             ; monthly_12, monthly_18            ;                ; EUR
+                                   ; pp_sombreroL_EUR     ; sombreroL                                    ;                             ; monthly_12, monthly_18            ;                ; EUR
+                                   ; pp_sombreroXL_EUR    ; sombreroXL                                   ; RETENTION                   ; monthly_12, monthly_18,monthly_24 ;                ; EUR
+                                   ; pp_sombreroXL_tc_EUR ; sombreroXL                                   ; TARIFF_CHANGE               ; monthly_12, monthly_18,monthly_24 ;                ; EUR
+
+#########################
+### RECURRING CHARGES ###
+#########################
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE RecurringChargeEntry; id[unique = true]     ; subscriptionPricePlanRecurring(&pricePlan); price; cycleStart; cycleEnd; $catalogVersion
+# USD recurring charges
+                                  ; rce_tapasS            ; pp_tapasS                                 ; 10   ; 1         ;
+                                  ; rce_tapasM            ; pp_tapasM                                 ; 20   ; 1         ;
+                                  ; rce_tapasL            ; pp_tapasL                                 ; 30   ; 1         ;
+                                  ; rce_tapasXL           ; pp_tapasXL                                ; 40   ; 1         ;
+                                  ; rce_tapasXL_tc        ; pp_tapasXL_tc                             ; 35   ; 1         ;
+
+                                  ; rce_salsaS_acq        ; pp_salsaS_acq                             ; 30   ; 1         ;
+                                  ; rce_salsaS_ret        ; pp_salsaS_ret                             ; 28   ; 1         ;
+                                  ; rce_salsaS_mnp        ; pp_salsaS_mnp                             ; 25   ; 1         ;
+                                  ; rce_salsaM_acq        ; pp_salsaM_acq                             ; 40   ; 1         ;
+                                  ; rce_salsaM_ret        ; pp_salsaM_ret                             ; 38   ; 1         ;
+                                  ; rce_salsaM_mnp        ; pp_salsaM_mnp                             ; 35   ; 1         ;
+                                  ; rce_salsaL_acq        ; pp_salsaL_acq                             ; 50   ; 1         ;
+                                  ; rce_salsaL_ret        ; pp_salsaL_ret                             ; 48   ; 1         ;
+                                  ; rce_salsaL_mnp        ; pp_salsaL_mnp                             ; 45   ; 1         ;
+#; rce_salsaXL_acq               ; pp_salsaXL_acq          ; 60 ; 1 ;
+                                  ; rce_salsaXL_ret       ; pp_salsaXL_ret                            ; 58   ; 1         ;
+                                  ; rce_salsaXL_mnp       ; pp_salsaXL_mnp                            ; 55   ; 1         ;
+
+                                  ; rce_sombreroS         ; pp_sombreroS                              ; 5    ; 1         ;
+                                  ; rce_sombreroM         ; pp_sombreroM                              ; 10   ; 1         ;
+                                  ; rce_sombreroL         ; pp_sombreroL                              ; 15   ; 1         ;
+                                  ; rce_sombreroXL        ; pp_sombreroXL                             ; 20   ; 1         ;
+                                  ; rce_sombreroXL_tc     ; pp_sombreroXL_tc                          ; 15   ; 1         ;
+
+# EUR recurring charges
+                                  ; rce_tapasS_EUR        ; pp_tapasS_EUR                             ; 12   ; 1         ;
+                                  ; rce_tapasM_EUR        ; pp_tapasM_EUR                             ; 22   ; 1         ;
+                                  ; rce_tapasL_EUR        ; pp_tapasL_EUR                             ; 32   ; 1         ;
+                                  ; rce_tapasXL_EUR       ; pp_tapasXL_EUR                            ; 42   ; 1         ;
+                                  ; rce_tapasXL_tc_EUR    ; pp_tapasXL_tc_EUR                         ; 37   ; 1         ;
+
+                                  ; rce_salsaS_acq_EUR    ; pp_salsaS_acq_EUR                         ; 32   ; 1         ;
+                                  ; rce_salsaS_ret_EUR    ; pp_salsaS_ret_EUR                         ; 30   ; 1         ;
+                                  ; rce_salsaS_mnp_EUR    ; pp_salsaS_mnp_EUR                         ; 27   ; 1         ;
+                                  ; rce_salsaM_acq_EUR    ; pp_salsaM_acq_EUR                         ; 42   ; 1         ;
+                                  ; rce_salsaM_ret_EUR    ; pp_salsaM_ret_EUR                         ; 40   ; 1         ;
+                                  ; rce_salsaM_mnp_EUR    ; pp_salsaM_mnp_EUR                         ; 37   ; 1         ;
+                                  ; rce_salsaL_acq_EUR    ; pp_salsaL_acq_EUR                         ; 52   ; 1         ;
+                                  ; rce_salsaL_ret_EUR    ; pp_salsaL_ret_EUR                         ; 50   ; 1         ;
+                                  ; rce_salsaL_mnp_EUR    ; pp_salsaL_mnp_EUR                         ; 47   ; 1         ;
+#; rce_salsaXL_acq               ; pp_salsaXL_acq_EUR          ; 60 ; 1 ;
+                                  ; rce_salsaXL_ret_EUR   ; pp_salsaXL_ret_EUR                        ; 60   ; 1         ;
+                                  ; rce_salsaXL_mnp_EUR   ; pp_salsaXL_mnp_EUR                        ; 57   ; 1         ;
+
+                                  ; rce_sombreroS_EUR     ; pp_sombreroS_EUR                          ; 7    ; 1         ;
+                                  ; rce_sombreroM_EUR     ; pp_sombreroM_EUR                          ; 12   ; 1         ;
+                                  ; rce_sombreroL_EUR     ; pp_sombreroL_EUR                          ; 17   ; 1         ;
+                                  ; rce_sombreroXL_EUR    ; pp_sombreroXL_EUR                         ; 22   ; 1         ;
+                                  ; rce_sombreroXL_tc_EUR ; pp_sombreroXL_tc_EUR                      ; 17   ; 1         ;
+
+#####################
+### USAGE CHARGES ###
+#####################
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TierUsageChargeEntry; id[unique = true]      ; price; tierStart; tierEnd; $catalogVersion
+                                  ; tapasS_minutes_101_200 ; 0,05 ; 101      ; 200
+                                  ; tapasS_minutes_201_300 ; 0,07 ; 201      ; 300
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PerUnitUsageCharge; id[unique = true]    ; subscriptionPricePlanUsage(&pricePlan); usageUnit(id) ; usageChargeType(code); usageChargeEntries(id, $catalogVersion)                              ; $catalogVersion
+                                ; tapasS_minutes_usage ; pp_tapasS                             ; phone_minutes ; each_respective_tier ; tapasS_minutes_101_200,tapasS_minutes_201_300,tapasS_minutes_overage ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE VolumeUsageCharge; id[unique = true]        ; subscriptionPricePlanUsage(&pricePlan); usageUnit(id) ; usageChargeEntries(id, $catalogVersion); $catalogVersion
+                               ; tapasM_minutes_usage     ; pp_tapasM                             ; phone_minutes ; tapasM_minutes_overage
+                               ; tapasL_minutes_usage     ; pp_tapasL                             ; phone_minutes ; tapasL_minutes_overage
+                               ; tapasS_sms_usage         ; pp_tapasS                             ; sms           ; tapasS_sms_overage
+                               ; tapasM_sms_usage         ; pp_tapasM                             ; sms           ; tapasM_sms_overage
+                               ; tapasL_sms_usage         ; pp_tapasL                             ; sms           ; tapasL_sms_overage
+
+                               ; salsaS_minutes_usage_acq ; pp_salsaS_acq                         ; phone_minutes ; salsaS_minutes_overage_acq
+                               ; salsaM_minutes_usage_acq ; pp_salsaM_acq                         ; phone_minutes ; salsaM_minutes_overage_acq
+                               ; salsaL_minutes_usage_acq ; pp_salsaL_acq                         ; phone_minutes ; salsaL_minutes_overage_acq
+                               ; salsaS_sms_usage_acq     ; pp_salsaS_acq                         ; sms           ; salsaS_sms_overage_acq
+                               ; salsaM_sms_usage_acq     ; pp_salsaM_acq                         ; sms           ; salsaM_sms_overage_acq
+                               ; salsaL_sms_usage_acq     ; pp_salsaL_acq                         ; sms           ; salsaL_sms_overage_acq
+                               ; salsaS_data_usage_acq    ; pp_salsaS_acq                         ; mb            ; salsaS_data_overage_acq
+                               ; salsaM_data_usage_acq    ; pp_salsaM_acq                         ; mb            ; salsaM_data_overage_acq
+                               ; salsaL_data_usage_acq    ; pp_salsaL_acq                         ; mb            ; salsaL_data_overage_acq
+
+                               ; salsaS_minutes_usage_ret ; pp_salsaS_ret                         ; phone_minutes ; salsaS_minutes_overage_ret
+                               ; salsaM_minutes_usage_ret ; pp_salsaM_ret                         ; phone_minutes ; salsaM_minutes_overage_ret
+                               ; salsaL_minutes_usage_ret ; pp_salsaL_ret                         ; phone_minutes ; salsaL_minutes_overage_ret
+                               ; salsaS_sms_usage_ret     ; pp_salsaS_ret                         ; sms           ; salsaS_sms_overage_ret
+                               ; salsaM_sms_usage_ret     ; pp_salsaM_ret                         ; sms           ; salsaM_sms_overage_ret
+                               ; salsaL_sms_usage_ret     ; pp_salsaL_ret                         ; sms           ; salsaL_sms_overage_ret
+                               ; salsaS_data_usage_ret    ; pp_salsaS_ret                         ; mb            ; salsaS_data_overage_ret
+                               ; salsaM_data_usage_ret    ; pp_salsaM_ret                         ; mb            ; salsaM_data_overage_ret
+                               ; salsaL_data_usage_ret    ; pp_salsaL_ret                         ; mb            ; salsaL_data_overage_ret
+
+                               ; salsaS_minutes_usage_mnp ; pp_salsaS_mnp                         ; phone_minutes ; salsaS_minutes_overage_mnp
+                               ; salsaM_minutes_usage_mnp ; pp_salsaM_mnp                         ; phone_minutes ; salsaM_minutes_overage_mnp
+                               ; salsaL_minutes_usage_mnp ; pp_salsaL_mnp                         ; phone_minutes ; salsaL_minutes_overage_mnp
+                               ; salsaS_sms_usage_mnp     ; pp_salsaS_mnp                         ; sms           ; salsaS_sms_overage_mnp
+                               ; salsaM_sms_usage_mnp     ; pp_salsaM_mnp                         ; sms           ; salsaM_sms_overage_mnp
+                               ; salsaL_sms_usage_mnp     ; pp_salsaL_mnp                         ; sms           ; salsaL_sms_overage_mnp
+                               ; salsaS_data_usage_mnp    ; pp_salsaS_mnp                         ; mb            ; salsaS_data_overage_mnp
+                               ; salsaM_data_usage_mnp    ; pp_salsaM_mnp                         ; mb            ; salsaM_data_overage_mnp
+                               ; salsaL_data_usage_mnp    ; pp_salsaL_mnp                         ; mb            ; salsaL_data_overage_mnp
+
+                               ; sombreroS_data_usage     ;                                       ; mb            ; sombreroS_data_overage
+                               ; sombreroM_data_usage     ;                                       ; mb            ; sombreroM_data_overage
+                               ; sombreroL_data_usage     ;                                       ; mb            ; sombreroL_data_overage
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE OverageUsageChargeEntry; id[unique = true]          ; price; $catalogVersion
+                                     ; tapasS_minutes_overage     ; 0,09
+                                     ; tapasM_minutes_overage     ; 0,09
+                                     ; tapasL_minutes_overage     ; 0,09
+                                     ; tapasS_sms_overage         ; 0,09 ;
+                                     ; tapasM_sms_overage         ; 0,09 ;
+                                     ; tapasL_sms_overage         ; 0,09 ;
+
+                                     ; salsaS_minutes_overage_acq ; 0,09 ;
+                                     ; salsaM_minutes_overage_acq ; 0,09 ;
+                                     ; salsaL_minutes_overage_acq ; 0,09 ;
+                                     ; salsaS_sms_overage_acq     ; 0,09 ;
+                                     ; salsaM_sms_overage_acq     ; 0,09 ;
+                                     ; salsaL_sms_overage_acq     ; 0,09 ;
+                                     ; salsaS_data_overage_acq    ; 0,09 ;
+                                     ; salsaM_data_overage_acq    ; 0,09 ;
+                                     ; salsaL_data_overage_acq    ; 0,09 ;
+
+                                     ; salsaS_minutes_overage_mnp ; 0,09 ;
+                                     ; salsaM_minutes_overage_mnp ; 0,09 ;
+                                     ; salsaL_minutes_overage_mnp ; 0,09 ;
+                                     ; salsaS_sms_overage_mnp     ; 0,09 ;
+                                     ; salsaM_sms_overage_mnp     ; 0,09 ;
+                                     ; salsaL_sms_overage_mnp     ; 0,09 ;
+                                     ; salsaS_data_overage_mnp    ; 0,09 ;
+                                     ; salsaM_data_overage_mnp    ; 0,09 ;
+                                     ; salsaL_data_overage_mnp    ; 0,09 ;
+
+                                     ; salsaS_minutes_overage_ret ; 0,09 ;
+                                     ; salsaM_minutes_overage_ret ; 0,09 ;
+                                     ; salsaL_minutes_overage_ret ; 0,09 ;
+                                     ; salsaS_sms_overage_ret     ; 0,09 ;
+                                     ; salsaM_sms_overage_ret     ; 0,09 ;
+                                     ; salsaL_sms_overage_ret     ; 0,09 ;
+                                     ; salsaS_data_overage_ret    ; 0,09 ;
+                                     ; salsaM_data_overage_ret    ; 0,09 ;
+                                     ; salsaL_data_overage_ret    ; 0,09 ;
+
+                                     ; sombreroS_data_overage     ; 0,09 ;
+                                     ; sombreroM_data_overage     ; 0,09 ;
+                                     ; sombreroL_data_overage     ; 0,09 ;
+
+#bundledproductoffering-prices.impex
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE SubscriptionPricePlan; name[unique = true, lang = $lang]          ; $product   ; affectedProductOffering(code, $catalogVersion)[unique = true]; requiredProductOfferings(code, $catalogVersion)[unique = true]; $processTypes[unique = true]; $subscriptionTerms[unique = true]; $distributionChannels[unique = true]; $currency; $unit; $catalogVersion; $regions
+                                   ; pp_mobileDeal_override_iPhone6_salsaS_acq  ; mobileDeal ; Apple_iPhone_6                                               ; salsaS                                                        ; ACQUISITION                 ; monthly_12, monthly_24           ;                                     ;          ;      ;                ; JP-31
+                                   ; pp_mobileDeal_override_iPhone6_salsaS_ret  ; mobileDeal ; Apple_iPhone_6                                               ; salsaS                                                        ; TARIFF_CHANGE,RETENTION     ; monthly_12, monthly_24           ;
+                                   ; pp_mobileDeal_override_iPhone6_salsaXL_ret ; mobileDeal ; Apple_iPhone_6                                               ; salsaXL                                                       ; TARIFF_CHANGE,RETENTION     ; monthly_12, monthly_24           ;                                     ;          ;      ;                ; JP-25,JP-33,JP-27
+                                   ; pp_mobileDeal_override_iPhone6_salsaS_mnp  ; mobileDeal ; Apple_iPhone_6                                               ; salsaS                                                        ; MNP                         ; monthly_12, monthly_24           ;
+
+                                   ; pp_mobileDeal_override_iPhonex_salsaS_acq  ; mobileDeal ; iPhone_x                                                     ; salsaS                                                        ; ACQUISITION                 ; monthly_12, monthly_24           ;
+                                   ; pp_mobileDeal_override_iPhonex_salsaS_ret  ; mobileDeal ; iPhone_x                                                     ; salsaS                                                        ; RETENTION                   ; monthly_12, monthly_24           ;                                     ;          ;      ;                ; JP-29,JP-31
+                                   ; pp_mobileDeal_override_iPhonex_salsaS_mnp  ; mobileDeal ; iPhone_x                                                     ; salsaS                                                        ; MNP                         ; monthly_12, monthly_24           ;
+
+#bundledproductoffering-charges.impex
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE OneTimeChargeEntry; id[unique = true]               ; subscriptionPricePlanOneTime(name[lang = $lang], $catalogVersion); price; $catalogVersion[unique = true]; $defaultBillingEvent
+                                ; otce_Apple_iPhone_6_acq         ; pp_mobileDeal_override_iPhone6_salsaS_acq                        ; 549
+                                ; otce_Apple_iPhone_6_salsaS_ret  ; pp_mobileDeal_override_iPhone6_salsaS_ret                        ; 449
+                                ; otce_Apple_iPhone_6_salsaXL_ret ; pp_mobileDeal_override_iPhone6_salsaXL_ret                       ; 449
+                                ; otce_Apple_iPhone_6_mnp         ; pp_mobileDeal_override_iPhone6_salsaS_mnp                        ; 399
+
+                                ; otce_Apple_iPhone_x_acq         ; pp_mobileDeal_override_iPhonex_salsaS_acq                        ; 849
+                                ; otce_Apple_iPhone_x_ret         ; pp_mobileDeal_override_iPhonex_salsaS_ret                        ; 809
+                                ; otce_Apple_iPhone_x_mnp         ; pp_mobileDeal_override_iPhonex_salsaS_mnp                        ; 799
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE PriceRow; code[unique = true]; product(code, $catalogVersion); price; affectedProductOffering(code, $catalogVersion); requiredProductOfferings(code, $catalogVersion)[unique = true]; requiredProductClasses(id)[unique = true]; $processTypes; $subscriptionTerms     ; $distributionChannels; currency(isocode); unit(code); $catalogVersion; regions(isocode); productOfferingPrice(id); user(uid)
+                      ; PR_5777093_7036    ; 5777093                       ; 200  ;                                               ;                                                               ;                                          ; RETENTION    ; monthly_1              ;                      ; USD              ; pieces    ;                ;                 ;
+                      ; PR_2_5777093_7036  ; 5777093                       ; 150  ;                                               ;                                                               ;                                          ; DEVICE_ONLY  ; monthly_24             ; mobile               ; USD              ; pieces    ;                ;                 ;
+                      ; PR_int_1000_7036   ; int_1000                      ; 250  ;                                               ;                                                               ;                                          ; ACQUISITION  ; monthly_12, monthly_36 ; desktop              ; USD              ; pieces    ;                ;                 ;
+                      ; PR_homeDeal_7036   ; homeDeal                      ; 100  ; samsung_s8                                    ; unlimitedPremiumPlan                                          ;                                          ; ACQUISITION  ; monthly_24             ; desktop              ; USD              ; pieces    ;                ;                 ; otce_500_paynow         ; selfserviceuser70361@hybris.com
+
+#Create test one time charge
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaOneTimeProdOfferPriceCharge; id[unique = true]; value; priceEvent(code)[default = 'paynow']; $catalogVersion[unique = true]
+                                            ; otce_500_paynow  ; 500  ; paynow                              ;

@@ -1,0 +1,24 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+$defaultPassword = 1234
+
+INSERT_UPDATE UserGroup; uid[unique = true];
+                       ; customergroup     ;
+
+INSERT_UPDATE Customer; originalUid[unique = true]; uid[unique = true]     ; customerID             ; name        ; groups(uid)   ; password[default = $defaultPassword]; Europe1PriceFactory_UPG(code)
+                      ; etta.berg@hybris.com      ; etta.berg@hybris.com   ; etta.berg@hybris.com   ; etta.berg   ; customergroup ;
+                      ; gretta.berg@hybris.com    ; gretta.berg@hybris.com ; gretta.berg@hybris.com ; gretta.berg ; customergroup ;
+
+INSERT_UPDATE AgrPartyRole; id[unique = true]; role     ; party(id)
+                          ; etta.berg        ; customer ; party_10830
+                          ; gretta.berg      ; customer ; party_10831
+
+INSERT_UPDATE AgrParty; id[unique = true]; name[lang = en]; type(code) ; partyRoles(id); partyUsers(uid)
+                      ; party_10830      ; etta berg      ; INDIVIDUAL ; etta.berg     ; etta.berg@hybris.com
+                      ; party_10831      ; gretta berg    ; INDIVIDUAL ; gretta.berg   ; gretta.berg@hybris.com
+
+INSERT_UPDATE AgrAgreement; id[unique = true]; name[lang = en]; description[lang = en]; partyroles(id); status(code); version; documentNumber; agreementType(code); initialDate[dateformat = dd.MM.yyyy HH:mm:ss]; agreementStartDateTime[dateformat = dd.MM.yyyy HH:mm:ss]; agreementEndDateTime[dateformat = dd.MM.yyyy HH:mm:ss]
+                          ; 000001           ; Moon           ; Moon_description      ; etta.berg     ; APPROVED    ; 1.0    ; 97867         ; COMMERCIAL         ; 01.01.2021 00:00:00                          ; 10.04.2021 00:00:00                                     ; 10.04.2022 00:00:00
+                          ; 000002           ; Light          ; Light_description     ; gretta.berg   ; REJECTED    ; 1.1    ; 97868         ; COMMERCIAL         ;                                              ;

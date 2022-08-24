@@ -1,0 +1,20 @@
+<action-definition
+	id="de.hybris.platform.b2ctelcobackoffice.actions.searchEligiblePolicies"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://www.hybris.com/schema/cockpitng/action-definition.xsd">
+
+	<name>Search Eligible Policies</name>
+	<description>Search Eligible Policies for particular customer</description>
+	<author>hybris</author>
+	<version>1.0</version>
+	<actionClassName>de.hybris.platform.b2ctelcobackoffice.actions.SearchEligiblePoliciesAction</actionClassName>
+	<inputType>de.hybris.platform.core.model.user.CustomerModel</inputType>
+	<sockets>
+		<output id="finderOutput" type="java.util.List" />
+	</sockets>
+	<settings>
+		<setting key="viewMode" default-value="iconOnly" />
+	</settings>
+	<iconUri>icons/icon_action_search_policy.png</iconUri>
+
+</action-definition>

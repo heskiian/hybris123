@@ -1,0 +1,45 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for importing Product Offering Variants into Media Store
+
+#% impex.setLocale(Locale.ENGLISH);
+
+$productCatalog=mediaProductCatalog
+$productCatalogName=Media Product Catalog
+$catalogVersion=catalogversion(catalog(id[default=$productCatalog]), version[default='Staged'])[unique=true, default=$productCatalog:Staged]
+$onlineCatalogVersion=catalogversion(catalog(id[default=$productCatalog]), version[default='Online'])[unique=true, default=$productCatalog:Online]
+$supercategories=supercategories(code, $catalogVersion)
+$basePo=tmaBasePo(code, $catalogVersion)
+$approved=approvalstatus(code)[default='approved']
+$channels=distributionChannels(code)
+$allowedPrincipals=allowedPrincipals(uid)[default='customergroup']
+$defaultVariantTypeCode=variantType(code)[default='TmaPoVariant']
+$unit=unit(code)[default=pieces]
+
+INSERT_UPDATE VariantCategory;code[unique=true];$supercategories;$allowedPrincipals;$catalogVersion
+                             ;color
+                             ;size             ;color
+
+INSERT_UPDATE VariantValueCategory;code[unique=true];$supercategories;sequence;$allowedPrincipals;$catalogVersion
+                                  ;black            ;color           ;1
+                                  ;white            ;color           ;2
+                                  ;S                ;size            ;1
+                                  ;M                ;size            ;2
+                                  ;L                ;size            ;3
+                                  ;XL               ;size            ;4
+
+UPDATE TmaSimpleProductOffering;code[unique=true];$supercategories;$defaultVariantTypeCode;$catalogVersion
+                               ;t-shirt_bp       ;color, size
+
+INSERT_UPDATE TmaPoVariant;code[unique=true]   ;$basePo    ;$supercategories;$unit;$catalogVersion;$approved
+                          ;t-shirt_bp_black_S  ;t-shirt_bp ;black, S
+                          ;t-shirt_bp_black_M  ;t-shirt_bp ;black, M
+                          ;t-shirt_bp_black_L  ;t-shirt_bp ;black, L
+                          ;t-shirt_bp_black_XL ;t-shirt_bp ;black, XL
+
+                          ;t-shirt_bp_white_S  ;t-shirt_bp ;white, S
+                          ;t-shirt_bp_white_M  ;t-shirt_bp ;white, M
+                          ;t-shirt_bp_white_L  ;t-shirt_bp ;white, L
+                          ;t-shirt_bp_white_XL ;t-shirt_bp ;white, XL

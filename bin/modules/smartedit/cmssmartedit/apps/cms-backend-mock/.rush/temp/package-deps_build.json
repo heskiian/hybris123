@@ -1,0 +1,6 @@
+{
+  "files": {
+    "../cmssmartedit/apps/cms-backend-mock/.rush/temp/shrinkwrap-deps.json": "f6348054104329918d3f3e8850c7944f04179ced"
+  },
+  "arguments": "nest build "
+}

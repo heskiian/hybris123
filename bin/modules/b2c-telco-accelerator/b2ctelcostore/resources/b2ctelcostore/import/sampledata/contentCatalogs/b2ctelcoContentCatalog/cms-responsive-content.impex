@@ -1,0 +1,1098 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+$contentCatalog=b2ctelcoContentCatalog
+$contentCatalogName=B2C Telco Content Catalog
+$contentCV=catalogVersion(CatalogVersion.catalog(Catalog.id[default=$contentCatalog]),CatalogVersion.version[default=Staged])[default=$contentCatalog:Staged]
+$productCatalog=b2ctelcoProductCatalog
+$productCatalogName=B2C Telco Product Catalog
+$productCV=catalogVersion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+$medias=medias(code, $contentCV);
+$product=product(code, $productCV)
+$category=category(code, $productCV)
+$siteResource=jar:de.hybris.platform.b2ctelcostore.constants.B2ctelcostoreConstants&/b2ctelcostore/import/sampledata/contentCatalogs/$contentCatalog
+$jarResourceCms=jar:de.hybris.platform.b2ctelcostore.constants.B2ctelcostoreConstants&/b2ctelcostore/import/sampledata/cockpits/cmscockpit
+$addonExtensionName=b2ctelcoaddon
+$mediaContainer=media(qualifier, $contentCV);
+$asmAddonExtensionName=assistedservicestorefront
+
+# CMS Site Settings
+UPDATE CMSSite;uid[unique=true];defaultPreviewCategory(code, $productCV);defaultPreviewProduct(code, $productCV)
+;b2ctelco;smartphone;3417125
+
+# Site Logo
+INSERT_UPDATE Media;$contentCV[unique=true];code[unique=true];realfilename;@media[translator=de.hybris.platform.impex.jalo.media.MediaDataTranslator];mime[default='image/jpeg'];altText;folder(qualifier)[default='images']
+;;/images/theme/logo-hybris-tua.png;logo-hybris-tua.png;$siteResource/images/theme/logo-hybris-tua.png;image/png;Telco and Utilities Accelerator;
+;;/images/theme/logo-hybris_zh.png;logo-hybris_zh.png;$siteResource/images/theme/logo-hybris_zh.png;image/png;hybris Accelerator;
+;;/images/theme/logo-hybris-sap.png;logo-hybris-sap.png;$siteResource/images/theme/logo-hybris-sap.png;image/png;Telco and Utilities Accelerator;
+
+# CMS Link Components
+INSERT_UPDATE CMSLinkComponent;$contentCV[unique=true];uid[unique=true];name;url;&linkRef;&componentRef;target(code)[default='sameWindow'];$category;$product;
+;;StoreFinderLink;Store Finder Link;/store-finder;StoreFinderLink;StoreFinderLink;;;;
+;;LoginLink;Login Link;/login;LoginLink;LoginLink;;;;
+;;FAQLink;FAQ Link;/faq;FAQLink;FAQLin;;;;
+;;TermsAndConditionsLink;Terms and Conditions Link;/termsAndConditions;TermsAndConditionsLink;TermsAndConditionsLink;;;;
+;;privacyPolicyLink;Privacy Policy Link;/privacyPolicy;privacyPolicyLink;privacyPolicyLink;;;;
+;;termsOfServiceLink;Terms of Service;/termsOfService;termsOfServiceLink;termsOfServiceLink;;;;
+
+INSERT_UPDATE BreadcrumbComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef
+;;breadcrumbComponent;Breadcrumb CMS Component;breadcrumbComponent
+
+# Store Finder Header Component
+INSERT_UPDATE StoreFinderHeaderComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef
+;;StoreFinderHeaderComponent;Store Finder Header Component;StoreFinderHeaderComponent
+
+
+# CMS Mini Cart Component
+INSERT_UPDATE MiniCartComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef;totalDisplay(code);shownProductCount;lightboxBannerComponent(&componentRef)
+;;MiniCart;Mini Cart;MiniCart;SUBTOTAL;1;LightboxHomeDeliveryBannerComponent
+
+
+# Navigation Bar Component
+INSERT_UPDATE NavigationBarCollectionComponent;$contentCV[unique=true];uid[unique=true];name;components(uid, $contentCV);&componentRef
+;;NavBarComponent;Navigation Bar Collection Component;DevicesBarComponent,AccessoriesBarComponent,PlansBarComponent,AddOnsBarComponent,SBGProductsBarComponent;NavBarComponent
+
+# CMS tabs components
+INSERT_UPDATE JspIncludeComponent;$contentCV[unique=true];uid[unique=true];name;page;actions(uid,$contentCV);&componentRef
+;;ProductDetailsTabComponent;Product Details Tab;productDetailsTab.jsp;;ProductDetailsTabComponent
+;;ProductSpecsTabComponent;Product Specification Tab;productSpecsTab.jsp;;ProductSpecsTabComponent
+;;ProductReviewsTabComponent;Product Reviews Tab;productReviewsTab.jsp;;ProductReviewsTabComponent
+
+# CMS tabs components
+INSERT_UPDATE CMSTabParagraphComponent;$contentCV[unique=true];uid[unique=true];name;visible;&componentRef
+;;deliveryTab;Delivery tab;true;deliveryTab
+
+INSERT_UPDATE CMSTabParagraphContainer;$contentCV[unique=true];uid[unique=true];name;visible;simpleCMSComponents(uid, $contentCV);&componentRef
+;;TabPanelContainer;Tab container;true;ProductDetailsTabComponent,ProductSpecsTabComponent,ProductReviewsTabComponent,deliveryTab;TabPanelContainer
+
+# CMS VariantSelector Components
+INSERT_UPDATE ProductVariantSelectorComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef
+;;VariantSelector;Product Variant Selector;VariantSelector
+
+# CMS ProductAddToCart Components
+INSERT_UPDATE ProductAddToCartComponent;$contentCV[unique=true];uid[unique=true];name;actions(&actionRef);&componentRef
+;;AddToCart;Product Add To Cart;AddToCartAction,PickUpInStoreAction;AddToCart
+;;SbgAddToCart;SBG Product Add To Cart;AddToCartAction;SbgAddToCart
+
+# CMS AddToCart Action
+INSERT_UPDATE AddToCartAction;$contentCV[unique=true];uid[unique=true];url;name;restrictions(uid,$contentCV);&actionRef
+;;AddToCartAction;/cart/add;Product Add To Cart Action;ActionRestriction;AddToCartAction
+
+INSERT_UPDATE ListAddToCartAction;$contentCV[unique=true];uid[unique=true];url;name;restrictions(uid,$contentCV);&actionRef
+;;ListAddToCartAction;/cart/add;Product Add To Cart Action;ActionRestriction;ListAddToCartAction
+
+INSERT_UPDATE ListPickUpInStoreAction;$contentCV[unique=true];uid[unique=true];url;name;restrictions(uid,$contentCV);&actionRef
+;;ListPickUpInStoreAction;/store-pickup/{productCode}/pointOfServices;Pickup in Store Action;ActionRestriction;ListPickUpInStoreAction
+
+# CMS PickUpInStoreAction Action
+INSERT_UPDATE PickUpInStoreAction;$contentCV[unique=true];uid[unique=true];url;name;restrictions(uid,$contentCV);&actionRef
+;;PickUpInStoreAction;/store-pickup/{productCode}/pointOfServices;Pickup in Store Action;ActionRestriction;PickUpInStoreAction
+
+# CMS Action Restrictions
+INSERT_UPDATE CMSActionRestriction;$contentCV[unique=true];uid[unique=true];name;
+;;ActionRestriction;A CMSAction restriction;
+
+# CMS ProductReferences Components
+INSERT_UPDATE ProductReferencesComponent;$contentCV[unique=true];uid[unique=true];name;productReferenceTypes(code);maximumNumberProducts;&componentRef
+;;CrossSelling;Cross Selling;CROSSELLING, SIMILAR;5;CrossSelling
+;;Others;Others;OTHERS;5;Others
+;;Similar;Similar;SIMILAR;5;Similar
+
+# CMS ProductReferencesComponent Components
+INSERT_UPDATE ProductReferencesAndClassificationsComponent;$contentCV[unique=true];uid[unique=true];name;productReferenceTypes(code);maximumNumberProducts;&componentRef;classAttributeAssignment(classificationAttribute(code))
+;;AccessoryContentComponent;AccessoryContentComponent;ACCESSORIES;20;AccessoryContentComponent;featurecompatibility
+
+# CMS ProductReferencesComponent Components
+INSERT_UPDATE ProductReferencesAndClassificationsForDevicesComponent;$contentCV[unique=true];uid[unique=true];name;productReferenceTypes(code);maximumNumberProducts;&componentRef;classAttributeAssignment(classificationAttribute(code))
+;;DeviceContentComponent;DeviceContentComponent;ACCESSORIES;20;DeviceContentComponent;featurecompatibility
+
+# CMS PurchasedCategorySuggestion Components
+INSERT_UPDATE PurchasedCategorySuggestionComponent;$contentCV[unique=true];uid[unique=true];name;productReferenceTypes(code);maximumNumberProducts;filterPurchased;category(code, $productCV);&componentRef
+;;PurchasedCategorySuggestions;Purchased Category Suggestions;OTHERS;10;true;devices;PurchasedCategorySuggestions
+
+# CMS CartSuggestion Components
+INSERT_UPDATE CartSuggestionComponent;$contentCV[unique=true];uid[unique=true];name;productReferenceTypes(code);maximumNumberProducts;filterPurchased;&componentRef
+;;CartSuggestions;Cart Suggestions;ACCESSORIES,SIMILAR;20;true;CartSuggestions
+
+
+INSERT_UPDATE ProductRefinementComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef
+;;RefinementFacetComponent;Product Refinement Facet Component;RefinementFacetComponent
+
+# CMS TmaProcessTypeListing Component
+INSERT_UPDATE TmaProcessTypeListingComponent;$contentCV[unique=true];uid[unique=true];name;processTypes(code);&componentRef
+;;TmaProcessTypeListingComponent;Process Type Listing;RETENTION, TARIFF_CHANGE;TmaProcessTypeListingComponent
+
+# Content Slots
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];cmsComponents(&componentRef)
+;;SiteLogoSlot;SiteLogoComponent
+;;HomepageNavLinkSlot;HomepageNavLink
+;;MiniCartSlot;MiniCart
+;;NavigationBarSlot;NavBarComponent,breadcrumbComponent
+;;StoreFinderHeaderSlot;StoreFinderHeaderComponent
+;;MenuBarSlot;NavBarComponent
+;;TabsSlot;TabPanelContainer
+;;FooterSlot;FooterComponent
+;;HeaderLinksSlot;
+;;SearchBoxSlot;SearchBox
+;;VariantSelectorSlot;VariantSelector
+;;AddToCartSlot;AddToCart
+;;SbgAddToCartSlot;SbgAddToCart
+;;UpSellingSlot;AccessoryContentComponent
+;;CrossSellingSlot;CrossSelling
+;;ProductLeftRefinements;RefinementFacetComponent
+;;DeviceContentSlot;DeviceContentComponent
+
+
+# CMS Navigation Nodes #
+INSERT_UPDATE CMSNavigationNode;uid[unique=true];$contentCV[unique=true];name;children(uid,$contentCV)[mode=append]
+;root;;root;;
+
+# CMS Navigation Nodes
+
+# Update CMS Footer Component with Nav Nodes
+INSERT_UPDATE FooterComponent;$contentCV[unique=true];uid[unique=true];navigationNodes(&nodeRef)
+;;FooterComponent;AcceleratorNavNode,HybrisNavNode,HybrisPoliciesNavNode,FollowUsNavNode
+
+# Preview Image for use in the CMS Cockpit for special ContentPages
+INSERT_UPDATE Media;$contentCV[unique=true];code[unique=true];mime;realfilename;@media[translator=de.hybris.platform.impex.jalo.media.MediaDataTranslator][forceWrite=true];folder(qualifier)[default='images']
+;;addEditAddressPagePreview;text/png;AddEditAddressPage.png;$jarResourceCms/preview-images/b2ctelco/AddEditAddressPage.png
+;;addressBookPagePreview;text/png;AddressBook.png;$jarResourceCms/preview-images/b2ctelco/AddressBookPage.png
+;;cartPagePreview;text/png;CartPage.png;$jarResourceCms/preview-images/b2ctelco/CartPage.png
+;;checkoutLoginPagePreview;text/png;CheckoutLoginPage.png;$jarResourceCms/preview-images/b2ctelco/CheckoutLoginPage.png
+;;multiStepCheckoutSummaryPagePreview;text/png;MultiStepCheckoutSummaryPage.png;$jarResourceCms/preview-images/b2ctelco/MultiStepCheckoutSummaryPage.png
+;;frequentlyAskedQuestionsPage;text/png;FrequentlyAskedQuestionsPage.png;$jarResourceCms/preview-images/b2ctelco/FrequentlyAskedQuestionsPage.png;;;
+;;termsAndConditionsPage;text/png;TermsAndConditionsPage.png;$jarResourceCms/preview-images/b2ctelco/TermsAndConditionsPage.png;;;
+;;homepagePreview;text/png;Homepage.png;$jarResourceCms/preview-images/b2ctelco/Homepage.png
+;;loginPagePreview;text/png;LoginPage.png;$jarResourceCms/preview-images/b2ctelco/LoginPage.png
+;;notFoundPagePreview;text/png;NotFoundPage.png;$jarResourceCms/preview-images/b2ctelco/NotFoundPage.png
+;;orderConfirmationPagePreview;text/png;OrderConfirmationPage.png;$jarResourceCms/preview-images/b2ctelco/OrderConfirmationPage.png
+;;orderDetailsPagePreview;text/png;OrderDetailsPage.png;$jarResourceCms/preview-images/b2ctelco/OrderDetailsPage.png
+;;orderHistoryPagePreview;text/png;OrderHistoryPage.png;$jarResourceCms/preview-images/b2ctelco/OrderHistoryPage.png
+;;paymentDetailsPagePreview;text/png;PaymentDetailsPage.png;$jarResourceCms/preview-images/b2ctelco/PaymentDetailsPage.png
+;;paymentDetailsManageSubscriptionsPagePreview;text/png;PaymentDetailsPage.png;$jarResourceCms/preview-images/b2ctelco/PaymentDetailsPage.png
+;;productDetailsForSBGProductsPagePreview;text/png;ProductDetailsPage.png;$jarResourceCms/preview-images/b2ctelco/ProductDetailsForTvChannelPage.png
+;;productDetailsForPlansPagePreview;text/png;ProductDetailsForPlansPage.png;$jarResourceCms/preview-images/b2ctelco/ProductDetailsForPlansPage.png
+;;productDetailsForAddOnsPagePreview;text/png;ProductDetailsForAddOnsPage.png;$jarResourceCms/preview-images/b2ctelco/ProductDetailsForAddOnsPage.png
+;;productDetailsPagePreview;text/png;ProductDetailsPage.png;$jarResourceCms/preview-images/b2ctelco/ProductDetailsPage.png
+;;productListPagePreview;text/png;ProductListPage.png;$jarResourceCms/preview-images/b2ctelco/ProductListPage.png
+;;searchResultsEmptyPagePreview;text/png;SearchResultsEmptyPage.png;$jarResourceCms/preview-images/b2ctelco/SearchResultsEmptyPage.png
+;;searchResultsPagePreview;text/png;SearchResultsPage.png;$jarResourceCms/preview-images/b2ctelco/SearchResultsPage.png
+;;storefinderPagePreview;text/png;StoreFinderPage.png;$jarResourceCms/preview-images/b2ctelco/StoreFinderPage.png
+;;updateEmailPagePreview;text/png;UpdateEmailPage.png;$jarResourceCms/preview-images/b2ctelco/UpdateEmailPage.png
+;;updateForgottenPasswordPagePreview;text/png;UpdateForgottenPasswordPage.png;$jarResourceCms/preview-images/b2ctelco/UpdateForgottenPasswordPage.png
+;;defaultCategoryPagePreview;text/png;DefaultCategoryPage.png;$jarResourceCms/preview-images/b2ctelco/DefaultCategoryPage.png
+;;orderExpiredPagePreview;text/png;OrderExpiredPage.png;$jarResourceCms/preview-images/b2ctelco/OrderExpiredPage.png;;;
+;;bundleSelectorExtrasPagePreview;text/png;BundleSelectorExtrasPage.png;$jarResourceCms/preview-images/b2ctelco/BundleSelectorExtrasPage.png
+;;guidedSellingSelectDevicePagePreview;text/png;GuidedSellingSelectDevicePage.png;$jarResourceCms/preview-images/b2ctelco/GuidedSellingSelectDevicePage.png
+;;guidedSellingSelectPlanPagePreview;text/png;GuidedSellingSelectPlanPage.png;$jarResourceCms/preview-images/b2ctelco/GuidedSellingSelectPlanPage.png
+
+
+
+# Functional Content Pages
+UPDATE ContentPage;$contentCV[unique=true];uid[unique=true];previewImage(code, $contentCV)
+;;multiStepCheckoutSummaryPage;multiStepCheckoutSummaryPagePreview
+;;orderConfirmationPage;orderConfirmationPagePreview
+;;cartPage;cartPagePreview
+;;search;searchResultsPagePreview
+;;address-book;addressBookPagePreview
+;;add-edit-address;addEditAddressPagePreview
+;;payment-details;paymentDetailsPagePreview
+;;payment-details-manage-subscriptions;paymentDetailsManageSubscriptionsPagePreview
+;;order;orderDetailsPagePreview
+;;orders;orderHistoryPagePreview
+;;storefinderPage;storefinderPagePreview
+;;checkout-login;checkoutLoginPagePreview
+;;login;loginPagePreview
+;;notFound;notFoundPagePreview
+;;searchEmpty;searchResultsEmptyPagePreview
+;;update-email;updateEmailPagePreview
+;;updatePassword;updateForgottenPasswordPagePreview
+;;orderExpired;orderExpiredPagePreview
+;;guidedselling-select-device;guidedSellingSelectDevicePagePreview
+;;bundleselection-plan;guidedSellingSelectPlanPagePreview
+;;bundleselection-extra;bundleSelectorExtrasPagePreview
+
+
+
+# Order Expired Page
+UPDATE ContentPage;$contentCV[unique=true];uid[unique=true];previewImage(code, $contentCV)
+;;orderExpired;orderExpiredPagePreview
+
+UPDATE ContentPage;$contentCV[unique=true];uid[unique=true];previewImage(code, $contentCV);linkComponents(&linkRef)
+# Simple Content Pages
+;;faq;frequentlyAskedQuestionsPage;FAQLink
+;;termsAndConditions;termsAndConditionsPage;TermsAndConditionsLink
+# Site-wide Homepage
+;;homepage;homepagePreview;HomepageNavLink
+
+UPDATE ContentPage;$contentCV[unique=true];uid[unique=true];linkComponents(&linkRef);;;;;
+;;storefinderPage;StoreFinderLink
+;;login;LoginLink
+
+# Product Details Page
+UPDATE ProductPage;$contentCV[unique=true];uid[unique=true];previewImage(code, $contentCV)
+;;productDetails;productDetailsPagePreview
+;;productDetailsForSBGProducts;productDetailsForSBGProductsPagePreview
+;;productDetailsForPlans;productDetailsForPlansPagePreview
+;;productDetailsForAddOns;productDetailsForAddOnsPagePreview
+;;productDetailsForDevices;productDetailsPagePreview
+
+
+
+###### B2C Telco Homepage ######
+
+INSERT_UPDATE Media;$contentCV[unique=true];code[unique=true];mime;realfilename;@media[translator=de.hybris.platform.impex.jalo.media.MediaDataTranslator][forceWrite=true];folder(qualifier)[default='images',forceWrite=true];altText
+;;planListPagePreview;text/png;PlanListPage.png;$jarResourceCms/preview-images/b2ctelco/PlanListPage.png
+;;sbgProductsCategoryPagePreview;text/png;SBGProductsCategoryPage.png;$jarResourceCms/preview-images/b2ctelco/SBGProductsCategoryPage.png
+
+# Category Plan Page Media
+INSERT_UPDATE Media;mediaFormat(qualifier);code[unique=true];@media[translator=de.hybris.platform.impex.jalo.media.MediaDataTranslator][forceWrite=true];realfilename;altText;mime[default='image/jpeg'];$contentCV[unique=true];folder(qualifier)[default=images]
+;widescreen;Plan_1.jpg;$siteResource/images/banners/site/Plan_1.jpg;Plan_1.jpg;"Smart Phone"
+;widescreen;Plan_2.jpg;$siteResource/images/banners/site/Plan_2.jpg;Plan_2.jpg;"Pay as you go"
+;widescreen;Plan_3.jpg;$siteResource/images/banners/site/Plan_3.jpg;Plan_3.jpg;"Starter"
+;widescreen;Plan_4.jpg;$siteResource/images/banners/site/Plan_4.jpg;Plan_4.jpg;"Tablet"
+;widescreen;Plan_5.jpg;$siteResource/images/banners/site/Plan_5.jpg;Plan_5.jpg;"Sim only voice plan"
+;widescreen;Plan_6.jpg;$siteResource/images/banners/site/Plan_6.jpg;Plan_6.jpg;"Sim only data plan"
+
+
+INSERT_UPDATE MediaContainer;qualifier[unique=true];$medias;$contentCV[unique=true]
+;SMAR_PlanResponsive;Plan_1.jpg
+;PAYG_PlanResponsive;Plan_2.jpg
+;STAR_PlanResponsive;Plan_3.jpg
+;TABL_PlanResponsive;Plan_4.jpg
+;SOVP_PlanResponsive;Plan_5.jpg
+;SODP_PlanResponsive;Plan_6.jpg
+
+INSERT_UPDATE SimpleResponsiveBannerComponent;$contentCV[unique=true];uid[unique=true];name;$mediaContainer;&componentRef;urlLink
+;;SMAR_PlanResponsiveBannerComponent;Smartphone plans;SMAR_PlanResponsive;SMAR_PlanResponsiveBannerComponent;/bundle/view-plans/SMAR
+;;PAYG_PlanResponsiveBannerComponent;Pay as you go;PAYG_PlanResponsive;PAYG_PlanResponsiveBannerComponent;/bundle/view-plans/PAYG
+;;STAR_PlanResponsiveBannerComponent;Starter plans;STAR_PlanResponsive;STAR_PlanResponsiveBannerComponent;/bundle/view-plans/STAR
+;;TABL_PlanResponsiveBannerComponent;Tablet plans;TABL_PlanResponsive;TABL_PlanResponsiveBannerComponent;/bundle/view-plans/TABL
+;;SOVP_PlanResponsiveBannerComponent;Sim only voice plans;SOVP_PlanResponsive;SOVP_PlanResponsiveBannerComponent;/bundle/view-plans/SOVP
+;;SODP_PlanResponsiveBannerComponent;Sim only data plans;SODP_PlanResponsive;SODP_PlanResponsiveBannerComponent;//bundle/view-plans/SODP
+
+# Home Page Media
+INSERT_UPDATE Media;mediaFormat(qualifier);code[unique=true];@media[translator=de.hybris.platform.impex.jalo.media.MediaDataTranslator][forceWrite=true];realfilename;altText;mime[default='image/jpeg'];$contentCV[unique=true];folder(qualifier)[default=images]
+;widescreen;Telco_Homepage_MainBanner.jpg;$siteResource/images/banners/homepage/responsive/Telco_Homepage_MainBanner.jpg;Telco_Homepage_MainBanner.jpg;"Browse Devices";
+;widescreen;SmartPhone_Plan.jpg;$siteResource/images/banners/homepage/responsive/SmartPhone_Plan.jpg;SmartPhone_Plan.jpg;"Smartphone Plans";
+;widescreen;TV_Channels.jpg;$siteResource/images/banners/homepage/responsive/TV_Channels.jpg;TV_Channels.jpg;"TV Channels";
+;widescreen;QuadplaySample.jpg;$siteResource/images/banners/site/QuadplaySample.jpg;QuadplaySample.jpg;"Quad play Plans";
+;widescreen;Accessories.jpg;$siteResource/images/banners/homepage/responsive/Accessories.jpg;Accessories.jpg;"Accessories";
+
+INSERT_UPDATE MediaContainer;qualifier[unique=true];$medias;$contentCV[unique=true]
+;telco-homepage;Telco_Homepage_MainBanner.jpg
+;MobileDeal_PreConfig;SmartPhone_Plan.jpg
+;TV_Channels;TV_Channels.jpg
+;Quadplay_Plans;QuadplaySample.jpg
+;Accessories;Accessories.jpg
+
+INSERT_UPDATE SimpleResponsiveBannerComponent;$contentCV[unique=true];uid[unique=true];name;$mediaContainer;&componentRef;urlLink
+;;TelcoHompageResponsiveBannerComponent;Telco Homepage Banner Component;telco-homepage;TelcoHompageResponsiveBannerComponent;/Open-Catalogue/Devices/c/devices
+;;MobileDeal_PreConfig_HomepageResponsiveBanner;Mobile Deal PreConfigure Banner;MobileDeal_PreConfig;MobileDeal_PreConfig_HomepageResponsiveBanner;/cart/preconfig/preconfigMobileDeal
+;;STAR_HomepageResponsiveBanner;TV Channels;TV_Channels;STAR_HomepageResponsiveBanner;/Open-Catalogue/TV-Channels/c/sbgproducts
+;;QUADPLAY_HomepageResponsiveBanner;Quad play;Quadplay_Plans;QUADPLAY_HomepageResponsiveBanner;/bpo/configure/quadPlay
+;;LDEV_HomepageResponsiveBanner;Accessories;Accessories;LDEV_HomepageResponsiveBanner;/Open-Catalogue/Accessories/c/accessories
+
+# Category Pages
+UPDATE CategoryPage;$contentCV[unique=true];uid[unique=true];previewImage(code, $contentCV)
+;;productList;productListPagePreview
+;;category;defaultCategoryPagePreview
+;;PlansCategoryPage;planListPagePreview
+;;SBGProductsCategoryPage;sbgProductsCategoryPagePreview
+
+# Category Page Restrictions
+INSERT_UPDATE CMSCategoryRestriction;$contentCV[unique=true];uid[unique=true];name;categories(code, $productCV);pages(uid, $contentCV)[unique=true]
+;;PlansCategory-LandingPageRestriction;Restriction for Plans;plans;PlansCategoryPage
+;;TapasPlansCategory-LandingPageRestriction;Restriction for Unlimited 5G Plans;unlimited5GPlans;TapasPlansCategoryPage
+;;SalsaPlansCategory-LandingPageRestriction;Restriction for unlimited Plans;unlimitedPlans;SalsaPlansCategoryPage
+;;SombreroPlansCategory-LandingPageRestriction;Restriction for noLimit Plans;noLimitPlans;SombreroPlansCategoryPage
+;;SBGProductsCategory-LandingPageRestriction;Restriction for TV Channels;sbgproducts;SBGProductsCategoryPage
+
+
+INSERT_UPDATE ProductCarouselComponent;$contentCV[unique=true];uid[unique=true];name;categoryCode;searchQuery;scroll(code);&componentRef;popup[default=false]
+;;B2cTelcoHomepageProductCarouselComponent;B2C Telco Homepage Product Carousel;devices;iphone;allVisible;B2cTelcoHomepageProductCarouselComponent
+
+INSERT_UPDATE SubscriptionSelectionComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef
+;;B2cTelcoSubscriptionSelectionComponent;B2C Telco Subscription Selection Component;B2cTelcoSubscriptionSelectionComponent
+
+#### Created for HomePage ######
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef)
+;;Section1Slot-Homepage;Section1 Slot for Homepage;true;
+;;Section2ASlot-Homepage;Section2A Slot for Homepage;true;
+;;Section2BSlot-Homepage;Section2B Slot for Homepage;true;
+;;Section2CSlot-Homepage;Section2C Slot for Homepage;true;
+;;Section3Slot-Homepage;Section3 Slot for Homepage;true;B2cTelcoHomepageProductCarouselComponent
+;;Section4Slot-Homepage;Section4 Slot for Homepage;true;
+;;Section5Slot-Homepage;Section5 Slot for Homepage;true;
+
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='homepage'];contentSlot(uid,$contentCV)[unique=true]
+;;Section1-Homepage;Section1;;Section1Slot-Homepage
+;;Section2A-Homepage;Section2A;;Section2ASlot-Homepage
+;;Section2B-Homepage;Section2B;;Section2BSlot-Homepage
+;;Section2C-Homepage;Section2C;;Section2CSlot-Homepage
+;;Section3-Homepage;Section3;;Section3Slot-Homepage
+;;Section4-Homepage;Section4;;Section4Slot-Homepage
+;;Section5-Homepage;Section5;;Section5Slot-Homepage
+
+# Home Page Banners
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef)
+;;Section1Slot-Homepage;Section1 Slot for Homepage;true;TelcoHompageResponsiveBannerComponent
+;;Section2ASlot-Homepage;Section2A Slot for Homepage;true;MobileDeal_PreConfig_HomepageResponsiveBanner,STAR_HomepageResponsiveBanner
+;;Section2BSlot-Homepage;Section2B Slot for Homepage;true;QUADPLAY_HomepageResponsiveBanner,LDEV_HomepageResponsiveBanner
+
+####################### Create category restriction for device details, accessory details and sbg products (TV channels) ####################
+INSERT_UPDATE CMSCategoryRestriction;$contentCV[unique=true];uid[unique=true];name;categories(code, $productCV);recursive[default=true]
+;;Standard-ProductDetailsPageRestriction;Standard Restriction;addons
+;;Devices-ProductDetailsPageRestriction;Restriction for Devices;devices
+;;Accessories-ProductDetailsPageRestriction;Restriction for Accessories;accessories
+;;SBGProducts-ProductDetailsPageRestriction;Restriction for SBG Products;sbgproducts
+;;Plans-ProductDetailsPageRestriction;Restriction for Plans;plans
+;;AddOns-ProductDetailsPageRestriction;Restriction for AddOns;addons
+;;Products-ProductListRestriction;Restriction For Products;devices,addons,accessories
+
+UPDATE ProductPage;$contentCV[unique=true];uid[unique=true];restrictions(uid,$contentCV)
+;;productDetails;Standard-ProductDetailsPageRestriction, Accessories-ProductDetailsPageRestriction
+;;productDetailsForSBGProducts;SBGProducts-ProductDetailsPageRestriction
+;;productDetailsForDevices;Devices-ProductDetailsPageRestriction
+;;productDetailsForPlans;Plans-ProductDetailsPageRestriction
+;;productDetailsForAddOns;AddOns-ProductDetailsPageRestriction
+
+###### B2C Telco Search Results Page ######
+
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef)
+;;TopContent-searchEmpty;Top Slot for searchEmpty;true;
+
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='searchEmpty'];contentSlot(uid,$contentCV)[unique=true]
+;;Top-searchEmpty;TopContent;;TopContent-searchEmpty
+
+## For Other Simple Banner Component ###
+INSERT_UPDATE SimpleBannerComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef;urlLink
+# Site Logo Component
+;;SiteLogoComponent;Site Logo Component;SiteLogoComponent;"/"
+;;NextDayDeliveryBanner120;Next Day Delivery Banner (120);NextDayDeliveryBanner120;#
+;;HelpBanner;Help Banner;HelpBanner;#
+
+
+###### B2C Telco Cart Page ######
+
+INSERT_UPDATE SimpleBannerComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef;urlLink
+# Lightbox Banner for Mini Cart
+;;LightboxHomeDeliveryBannerComponent;Lightbox Home Delivery Banner Component;LightboxHomeDeliveryBannerComponent;
+
+
+INSERT_UPDATE CMSParagraphComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef
+;;EmptyCartParagraphComponent;Empty Cart Paragraph Component;EmptyCartParagraphComponent
+;;HelpParagraphComponent;Help Paragraph Component;HelpParagraphComponent
+
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef)
+;;TopContent-cartPage;Top Slot for Cart Page;true;CartComponent
+;;EmptyCartMiddleContent-cartPage;Empty Cart Middle Slot for Cart Page;true;EmptyCartParagraphComponent
+;;CenterLeftContentSlot-cartPage;Center Left Content Slot for Cart Page;true;PromotionsComponent,PotentialPromotionsComponent
+;;CenterRightContentSlot-cartPage;Center Right Content Slot for Cart Page;true;CartTotalsComponent
+;;BottomContentSlot-cartPage;Bottom Content Slot for Cart Page;true;CheckoutComponent,CartSuggestions
+
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='cartPage'];contentSlot(uid,$contentCV)[unique=true]
+;;TopContentSlotForCartPage;TopContent;;TopContent-cartPage
+;;EmptyCartMiddleForCartPage;EmptyCartMiddleContent;;EmptyCartMiddleContent-cartPage
+;;CenterLeftContentSlotForCartPage;CenterLeftContentSlot;;CenterLeftContentSlot-cartPage
+;;CenterRightContentSlotForCartPage;CenterRightContentSlot;;CenterRightContentSlot-cartPage
+;;BottomContentSlotForCartPage;BottomContentSlot;;BottomContentSlot-cartPage
+
+###### B2C Telco Checkout Login Page ######
+
+
+
+###### B2C Telco Checkout Summary / Proceed to Checkout Page ######
+
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef)
+;;SideContent-multiStepCheckoutSummaryPage;Side Slot for multiStepCheckoutSummaryPage;true;HelpParagraphComponent
+
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true];contentSlot(uid,$contentCV)[unique=true]
+;;Side-multiStepCheckoutSummaryPage;SideContent;multiStepCheckoutSummaryPage;SideContent-multiStepCheckoutSummaryPage
+
+###### B2C Telco Store Finder Page ######
+
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef)
+;;MiddleContent-StoreFinderPage;Middle Slot for Store Finder Page;true;StoreFinderComponent
+
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='storefinderPage'];contentSlot(uid,$contentCV)[unique=true]
+;;Middle-StoreFinderPage;MiddleContent;;MiddleContent-StoreFinderPage
+
+###### B2C Telco FAQ Page ######
+
+# CMSParagraphComponent
+INSERT_UPDATE CMSParagraphComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef;;;;
+;;faqMenuParagraph;FAQ Paragraph;FAQMenuParagraph;;;;
+;;faqTextParagraph;FAQ Paragraph;FAQTextParagraph;;;;
+
+# ContentSlot
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef);;;
+;;Section2ASlot-FAQ;Section2A Slot for FAQ Page;true;FAQMenuParagraph;;;
+;;Section2BSlot-FAQ;Section2B Slot for FAQ Page;true;FAQTextParagraph;;;
+
+# ContentSlotForPage
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='faq'];contentSlot(uid,$contentCV)[unique=true];;;
+;;Section2A-FAQ;Section2A;;Section2ASlot-FAQ;;;
+;;Section2B-FAQ;Section2B;;Section2BSlot-FAQ;;;
+
+###### B2C Telco Privacy Policy Page ######
+
+# CMSParagraphComponent
+INSERT_UPDATE CMSParagraphComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef;;;
+;;privacyPolicyComponent;Privacy Policy Component Paragraph;privacyPolicyComponent;;;
+
+# ContentSlotForPage
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='privacyPolicy'];contentSlot(uid,$contentCV)[unique=true];;;
+;;Section1-privacyPolicy;Section1;;Section1Slot-privacyPolicy;;;
+
+# ContentSlot
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef)
+;;Section1Slot-privacyPolicy;Section1 Slot for Privacy Policy Page;true;privacyPolicyComponent
+
+###### B2C Telco Terms of Service Page ######
+
+# CMSParagraphComponent
+INSERT_UPDATE CMSParagraphComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef;;;
+;;termsOfServiceComponent;Terms of Service Paragraph Component;termsOfServiceComponent;;;
+
+# ContentSlot
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef)
+;;Section1Slot-termsOfService;Section1 Slot for terms of service Page;true;termsOfServiceComponent
+
+# ContentSlotForPage
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='termsOfService'];contentSlot(uid,$contentCV)[unique=true];;;
+;;Section1-termsOfService;Section1;;Section1Slot-termsOfService;;;
+
+###### B2C Telco Order Expired Page ######
+
+# CMSParagraphComponent
+INSERT_UPDATE CMSParagraphComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef;;;;
+;;orderExpiredMenuParagraph;Order Expired Paragraph;OrderExpiredMenuParagraph;;;;
+;;orderExpiredTextParagraph;Order Expired Paragraph;OrderExpiredTextParagraph;;;;
+
+# ContentSlot
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef);;;
+;;Section2ASlot-OrderExpired;Section2A Slot for Order Expired Page;true;OrderExpiredMenuParagraph;;;
+;;Section2BSlot-OrderExpired;Section2B Slot for Order Expired Page;true;OrderExpiredTextParagraph;;;
+
+# ContentSlotForPage
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='orderExpired'];contentSlot(uid,$contentCV)[unique=true];;;
+;;Section2A-OrderExpired;Section2A;;Section2ASlot-OrderExpired;;;
+;;Section2B-OrderExpired;Section2B;;Section2BSlot-OrderExpired;;;
+
+###### B2C Telco Terms and Conditions Page
+
+# CMSParagraphComponent
+INSERT_UPDATE CMSParagraphComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef;;;;
+;;termsAndConditionsMenuParagraph;Terms and Conditions Paragraph;TermsAndConditionsMenuParagraph;;;;
+;;termsAndConditionsTextParagraph;Terms and Conditions Paragraph;TermsAndConditionsTextParagraph;;;;
+
+# ContentSlot
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef);;;
+;;Section2ASlot-TermsAndConditions;Section2A Slot for Terms and Conditions Page;true;TermsAndConditionsMenuParagraph;;;
+;;Section2BSlot-TermsAndConditions;Section2B Slot for Terms and Conditions Page;true;TermsAndConditionsTextParagraph;;;
+
+# ContentSlotForPage
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='termsAndConditions'];contentSlot(uid,$contentCV)[unique=true];;;
+;;Section2A-TermsAndConditions;Section2A;;Section2ASlot-TermsAndConditions;;;
+;;Section2B-TermsAndConditions;Section2B;;Section2BSlot-TermsAndConditions;;;
+
+
+INSERT_UPDATE JspIncludeComponent;$contentCV[unique=true];uid[unique=true];name;page;actions(uid,$contentCV);&componentRef
+;;AccountPaymentDetailsComponent;Account Payment Details Component;/WEB-INF/views/addons/$addonExtensionName/responsive/pages/account/accountPaymentInfoPage.jsp;;AccountPaymentDetailsComponent
+;;AccountAddEditPaymentDetailsComponent;Account Add/Edit Payment Details Component;/WEB-INF/views/addons/$addonExtensionName/responsive/pages/account/accountEditPaymentPage.jsp;;AccountAddEditPaymentDetailsComponent
+;;AccountPaymentDetailsManageSubscriptionsComponent;Account Payment Details Manage Subscriptions Component;/WEB-INF/views/addons/$addonExtensionName/responsive/pages/payment/paymentChangeForSubscriptions.jsp;;AccountPaymentDetailsManageSubscriptionsComponent
+;;AccountOrderDetailsHeadlineComponent;Account Order Details Headline Component;accountOrderDetailHeadline.jsp;;AccountOrderDetailsHeadlineComponent
+;;AccountOrderDetailsTotalsComponent;Account Order Details Order Totals Component;/WEB-INF/views/addons/$addonExtensionName/responsive/pages/account/accountOrderDetailOrderTotals.jsp;;AccountOrderDetailsTotalsComponent
+;;AccountOrderDetailsShippingComponent;Account Order Details Shipping Info Component;accountOrderDetailShippingInfo.jsp;;AccountOrderDetailsShippingComponent
+;;AccountOrderDetailsActionsComponent;Account Order Details Actions Component;accountOrderDetailActions.jsp;;AccountOrderDetailsActionsComponent
+;;AccountOrderDetailsOverviewComponent;Account Order Details Overview Info Component;accountOrderDetailOverview.jsp;;AccountOrderDetailsOverviewComponent
+;;AccountOrderDetailsItemsComponent;Account Order Details Items Info Component;/WEB-INF/views/addons/$addonExtensionName/responsive/pages/account/accountOrderDetailItems.jsp;;AccountOrderDetailsItemsComponent
+;;AccountOrderHistoryComponent;Account History Component;/WEB-INF/views/addons/$addonExtensionName/responsive/pages/account/accountOrderHistoryPage.jsp;ViewOrderAction;AccountOrderHistoryComponent
+;;AccountProfileComponent;Account Profile Component;accountProfilePage.jsp;;AccountProfileComponent
+;;AccountAddressBookComponent;Account Address Book Component;accountAddressBookPage.jsp;;AccountAddressBookComponent
+;;AccountAddEditAddressComponent;Account Add Edit Address Component;accountEditAddressPage.jsp;;AccountAddEditAddressComponent
+;;UpdatePasswordComponent;Update Password Component;accountChangePasswordPage.jsp;;UpdatePasswordComponent
+;;UpdateProfileComponent;Update Profile Component;accountProfileEditPage.jsp;;UpdateProfileComponent
+;;UpdateEmailComponent;Update Email Component;accountProfileEmailEditPage.jsp;;UpdateEmailComponent
+# Remove view store action from store finder component
+;;StoreFinderComponent;Store Finder Component;storeFinderContent.jsp;;StoreFinderComponent
+;;CartComponent;Cart Display Component;/WEB-INF/views/addons/$addonExtensionName/responsive/pages/cart/cartDisplay.jsp;;CartComponent
+;;CartTotalsComponent;Cart Totals Display Component;/WEB-INF/views/addons/$addonExtensionName/responsive/pages/cart/cartTotalsDisplay.jsp;;CartTotalsComponent
+;;PromotionsComponent;Promotions Component;/WEB-INF/views/addons/$addonExtensionName/responsive/pages/cart/cartPromotionsDisplay.jsp;;PromotionsComponent
+;;PotentialPromotionsComponent;Potential Promotions Component;/WEB-INF/views/responsive/pages/cart/potentialPromotionsDisplay.jsp;;PotentialPromotionsComponent
+;;CheckoutComponent;Checkout Display Component;/WEB-INF/views/responsive/pages/cart/checkoutDisplay.jsp;;CheckoutComponent
+;;NewCustomerLoginComponent;New Customer Login Component;accountNewCustomerLogin.jsp;;NewCustomerLoginComponent
+;;ReturningCustomerLoginComponent;Returning Customer Login Component;accountReturningCustomerLogin.jsp;;ReturningCustomerLoginComponent
+;;NewCustomerCheckoutLoginComponent;New Customer Checkout Login Component;/WEB-INF/views/addons/$addonExtensionName/responsive/pages/checkout/checkoutNewCustomerLogin.jsp;;NewCustomerCheckoutLoginComponent
+;;ReturningCustomerCheckoutLoginComponent;Returning Customer Checkout Login Component;checkouReturningCustomerLogin.jsp;;ReturningCustomerCheckoutLoginComponent
+;;SearchResultsList;Search Result List Component;/WEB-INF/views/addons/$addonExtensionName/responsive/pages/search/searchResultsListPage.jsp;ListPickUpInStoreAction,ListAddToCartAction;SearchResultsList
+;;SearchResultsGrid;Search Result Grid Component;/WEB-INF/views/addons/$addonExtensionName/responsive/pages/search/searchResultsGridPage.jsp;ListPickUpInStoreAction,ListAddToCartAction;SearchResultsGrid
+;;ProductListComponent;Product List Component;/WEB-INF/views/addons/$addonExtensionName/responsive/pages/product/productListPage.jsp;ListPickUpInStoreAction,ListAddToCartAction;ProductListComponent
+;;ServicePlansListComponent;Service plans List Component;/WEB-INF/views/addons/$addonExtensionName/responsive/pages/product/servicePlanListPage.jsp;ListPickUpInStoreAction,ListAddToCartAction;ServicePlansListComponent
+
+# CMS View Order Action
+INSERT_UPDATE ViewOrderAction;$contentCV[unique=true];uid[unique=true];url;name;restrictions(uid,$contentCV);&actionRef
+;;ViewOrderAction;/my-account/order/{orderCode};View Order Action;ActionRestriction;ViewOrderAction
+
+# CMS View Store Action
+INSERT_UPDATE ViewStoreAction;$contentCV[unique=true];uid[unique=true];url;name;restrictions(uid,$contentCV);&actionRef
+;;ViewStoreAction;;View Store Action;ActionRestriction;ViewStoreAction
+
+
+###### Account Address Book
+# ContentSlot
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef);;;
+;;SideContent-address-book;Side Content Slot for Account Address Book;true;;;;
+;;BodyContent-address-book;Body Content Slot for Account Address Book;true;AccountAddressBookComponent;;;
+
+# ContentSlotForPage
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='address-book'];contentSlot(uid,$contentCV)[unique=true];;;
+;;SideContent-address-book;SideContent;;SideContent-address-book;;;
+;;BodyContent-address-book;BodyContent;;BodyContent-address-book;;;
+
+###### Account Add Edit Address
+# ContentSlot
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef);;;
+;;SideContent-add-edit-address;Side Content Slot for Add Edit Address;true;;;;
+;;BodyContent-add-edit-address;Body Content Slot for Add Edit Address;true;AccountAddEditAddressComponent;;;
+
+# ContentSlotForPage
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='add-edit-address'];contentSlot(uid,$contentCV)[unique=true];;;
+;;SideContent-add-edit-address;SideContent;;SideContent-add-edit-address;;;
+;;BodyContent-add-edit-address;BodyContent;;BodyContent-add-edit-address;;;
+
+######  Account payment detail page
+# ContentSlot
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef);;;
+;;SideContent-payment-details;Side Content Slot for My Account payment-details;true;;;;
+;;BodyContent-payment-details;Body Content Slot for My Account payment-details;true;AccountPaymentDetailsComponent;;;
+
+# ContentSlotForPage
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='payment-details'];contentSlot(uid,$contentCV)[unique=true];;;
+;;SideContent-payment-details;SideContent;;SideContent-payment-details;;;
+;;BodyContent-payment-details;BodyContent;;BodyContent-payment-details;;;
+
+######  Account payment detail manage subscriptions page
+# ContentSlot
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef);;;
+;;SideContent-payment-details-manage-subscriptions;Side Content Slot for My Account payment-details-manage-subscriptions;true;;;;
+;;BodyContent-payment-details-manage-subscriptions;Body Content Slot for My Account payment-details-manage-subscriptions;true;AccountPaymentDetailsManageSubscriptionsComponent;;;
+
+# ContentSlotForPage
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='payment-details-manage-subscriptions'];contentSlot(uid,$contentCV)[unique=true];;;
+;;SideContent-payment-details-manage-subscriptions;SideContent;;SideContent-payment-details-manage-subscriptions;;;
+;;BodyContent-payment-details-manage-subscriptions;BodyContent;;BodyContent-payment-details-manage-subscriptions;;;
+
+###### Account Order History
+# ContentSlot
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef);;;
+;;SideContent-orders;Side Content Slot for My Account Order History;true;;;;
+;;BodyContent-orders;Body Content Slot for My Account Order History;true;AccountOrderHistoryComponent;;;
+
+# ContentSlotForPage
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='orders'];contentSlot(uid,$contentCV)[unique=true];;;
+;;SideContent-orders;SideContent;;SideContent-orders;;;
+;;BodyContent-orders;BodyContent;;BodyContent-orders;;;
+
+###### Account Order Details
+# ContentSlot
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef);;;
+;;SideContent-orderdetail;Side Content Slot for My Account Order Details;true;;;;
+;;BodyContent-orderdetail;Body Content Slot for My Account Order Details;true;AccountOrderDetailsHeadlineComponent,AccountOrderDetailsOverviewComponent,AccountOrderDetailsItemsComponent,AccountOrderDetailsShippingComponent,AccountOrderDetailsTotalsComponent,AccountOrderDetailsActionsComponent;;;
+
+# ContentSlotForPage
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='order'];contentSlot(uid,$contentCV)[unique=true];;;
+;;SideContent-orderdetail;SideContent;;SideContent-orderdetail;;;
+;;BodyContent-orderdetail;BodyContent;;BodyContent-orderdetail;;;
+
+###### Account Update Password
+# ContentSlot
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef);;;
+;;SideContent-updatePassword;Side Content Slot for Update Password;true;;;;
+;;BodyContent-updatePassword;Body Content Slot for Update Password;true;UpdatePasswordComponent;;;
+
+# ContentSlotForPage
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='updatePassword'];contentSlot(uid,$contentCV)[unique=true];;;
+;;SideContent-updatePassword;SideContent;;SideContent-updatePassword;;;
+;;BodyContent-updatePassword;BodyContent;;BodyContent-updatePassword;;;
+
+###### Account Update Profile
+# ContentSlot
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef);;;
+;;SideContent-update-profile;Side Content Slot for Update Profile;true;;;;
+;;BodyContent-update-profile;Body Content Slot for Update Profile;true;UpdateProfileComponent;;;
+
+# ContentSlotForPage
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='update-profile'];contentSlot(uid,$contentCV)[unique=true];;;
+;;SideContent-update-profile;SideContent;;SideContent-update-profile;;;
+;;BodyContent-update-profile;BodyContent;;BodyContent-update-profile;;;
+
+###### Account Update Email
+# ContentSlot
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef);;;
+;;SideContent-update-email;Side Content Slot for Update Email;true;;;;
+;;BodyContent-update-email;Body Content Slot for Update Email;true;UpdateEmailComponent;;;
+
+# ContentSlotForPage
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='update-email'];contentSlot(uid,$contentCV)[unique=true];;;
+;;SideContent-update-email;SideContent;;SideContent-update-email;;;
+;;BodyContent-update-email;BodyContent;;BodyContent-update-email;;;
+
+#### ProductListPage
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef);;;
+;;ProductListSlot;Product List Slot for Product List;true;ProductListComponent;;;
+
+### ServicePlanListPage
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef);;;
+;;ServicePlanListSlot;Product List Slot for Service plan List;true;ServicePlansListComponent;;;
+
+#### DeviceDetailsPage
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef);;;
+;;ProcessTypeSelectionSlot;Process Type selection;true;TmaProcessTypeListingComponent;;;
+
+#### DeviceDetailsPage
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef);;;
+;;SubscriptionSelectionSlot;Subscription selection;true;B2cTelcoSubscriptionSelectionComponent;;;
+
+#### DeviceDetailsPage
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&actionRef);;;
+;;DevicePickupInStoreSlot;PickupInStore For Device;true;PickUpInStoreAction;;;
+
+#### SearchResultListPage
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef);;;
+;;SearchResultsListSlot;Search Result List Slot for Search List;true;SearchResultsList;;;
+
+#### SearchResultGridPage
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef);;;
+;;SearchResultsGridSlot;Search Result Grid Slot for Search List;true;SearchResultsGrid;;;
+
+### Customer Login
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef);;;
+;;LeftContentSlot-login;Left Content Slot for Customer Login;true;ReturningCustomerLoginComponent;;;
+;;RightContentSlot-login;Right Content Slot for Customer Login;true;NewCustomerLoginComponent;;;
+
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='login'];contentSlot(uid,$contentCV)[unique=true];;;
+;;LeftContentSlot-login;LeftContentSlot;;LeftContentSlot-login;;;
+;;RightContentSlot-login;RightContentSlot;;RightContentSlot-login;;;
+
+### Checkout Login
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef);;;
+;;LeftContentSlot-checkout-login;Left Content Slot for Checkout Login;true;ReturningCustomerCheckoutLoginComponent;;;
+;;RightContentSlot-checkout-login;Right Content Slot for Checkout Login;true;NewCustomerCheckoutLoginComponent;;;
+
+######  Account add/ edit payment detail page
+# ContentSlot
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef);;;
+;;SideContent-add-edit-payment;Side Content Slot for My Account Add/Edit payment-details;true;;;;
+;;BodyContent-add-edit-payment;Body Content Slot for My Account Add/Edit payment-details;true;AccountAddEditPaymentDetailsComponent;;;
+
+# ContentSlotForPage
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='add-edit-payment'];contentSlot(uid,$contentCV)[unique=true];;;
+;;SideContent-add-edit-payment;SideContent;;SideContent-add-edit-payment;;;
+;;BodyContent-add-edit-payment;BodyContent;;BodyContent-add-edit-payment;;;
+
+######  Account payment detail manage subscriptions page
+# ContentSlot
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef);;;
+;;SideContent-payment-details-manage-subscriptions;Side Content Slot for My Account payment-details-manage-subscriptions;true;;;;
+;;BodyContent-payment-details-manage-subscriptions;Body Content Slot for My Account payment-details-manage-subscriptions;true;AccountPaymentDetailsManageSubscriptionsComponent;;;
+
+
+
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='checkout-login'];contentSlot(uid,$contentCV)[unique=true];;;
+;;LeftContentSlot-checkout-login;LeftContentSlot;;LeftContentSlot-checkout-login;;;
+;;RightContentSlot-checkout-login;RightContentSlot;;RightContentSlot-checkout-login;;;
+
+# B2C Telco CMS Link Components
+INSERT_UPDATE CMSLinkComponent;$contentCV[unique=true];uid[unique=true];name;url;&linkRef;&componentRef;target(code)[default='sameWindow']
+;;HomepageNavLink;Home Page Nav Link;;HomepageNavLink;HomepageNavLink
+;;DeviceCategoryLink;Devices Category Link;/Open-Catalogue/Devices/c/devices;DeviceCategoryLink;DeviceCategoryLink
+;;AccessoryCategoryLink;Accessories Category Link;/Open-Catalogue/Accessories/c/accessories;AccessoryCategoryLink;AccessoryCategoryLink
+;;ServicePlanCategoryLink;Plans Category Link;/Open-Catalogue/Plans/c/plans;ServicePlanCategoryLink;ServicePlanCategoryLink
+;;TapasPlansCategoryLink;Tapas Plans Category Link;/Open-Catalogue/Plans/c/unlimited5GPlans;TapasPlansCategoryLink;TapasPlansCategoryLink
+;;SalsaPlansCategoryLink;Salsa Plans Category Link;/Open-Catalogue/Plans/c/unlimitedPlans;SalsaPlansCategoryLink;SalsaPlansCategoryLink
+;;SombreroPlansCategoryLink;No Limit Plans Category Link;/Open-Catalogue/Plans/c/noLimitPlans;SombreroPlansCategoryLink;SombreroPlansCategoryLink
+;;ServiceAddOnCategoryLink;Extras Category Link;/Open-Catalogue/AddOns/c/addons;ServiceAddOnCategoryLink;ServiceAddOnCategoryLink
+;;SmartphoneCategoryLink;Smart phone Category Link;/Open-Catalogue/Devices/Smartphone/c/smartphone;SmartphoneCategoryLink;SmartphoneCategoryLink
+;;BasicphoneCategoryLink;Basic phone Category Link;/Open-Catalogue/Devices/Basicphone/c/basicphone;BasicphoneCategoryLink;BasicphoneCategoryLink
+;;TabletCategoryLink; Tablet Category Link;/Open-Catalogue/Devices/Tablet/c/tablet;TabletCategoryLink;TabletCategoryLink
+;;BlueToothAndWiredCategoryLink;Headset Category Link;/Open-Catalogue/Accessories/Headsets/c/bluetoothandwired;BlueToothAndWiredCategoryLink;BlueToothAndWiredCategoryLink
+;;ChargersAndDocksCategoryLink;Chargers&Docks phone Category Link;/Open-Catalogue/Accessories/Chargers-and-Docs/c/chargersanddocks;ChargersAndDocksCategoryLink;ChargersAndDocksCategoryLink
+;;CasesAndCoversCategoryLink;Cases&Covers Category Link;/Open-Catalogue/Accessories/Cases-and-Covers/c/casesandcovers;CasesAndCoversCategoryLink;CasesAndCoversCategoryLink
+;;BatteriesCategoryLink;Batteries Category Link;/Open-Catalogue/Accessories/Batteries/c/batteries;BatteriesCategoryLink;BatteriesCategoryLink
+;;MemoryCardsCategoryLink;Memory Cards Category Link;/Open-Catalogue/Accessories/Memory-Cards/c/memorycards;MemoryCardsCategoryLink;MemoryCardsCategoryLink
+;;ScreenProtetctorsCategoryLink;Screen protectors Category Link;/Open-Catalogue/Accessories/Screen-Protectors/c/screenprotectors;ScreenProtetctorsCategoryLink;ScreenProtetctorsCategoryLink
+;;ClassicsCategoryLink;Classics Category Link;/Open-Catalogue/Add-Ons/Classics/c/classics;ClassicsCategoryLink;ClassicsCategoryLink
+;;InternetCategoryLink;Internet Category Link;/Open-Catalogue/Add-Ons/Internet/c/internet;InternetCategoryLink;InternetCategoryLink
+;;EntertainmentCategoryLink;Entertainment Category Link;/Open-Catalogue/Add-Ons/Entertainment/c/entertainment;EntertainmentCategoryLink;EntertainmentCategoryLink
+;;TravellersCategoryLink;Travellers Category Link;/Open-Catalogue/Add-Ons/Travellers/c/travellers;TravellersCategoryLink;TravellersCategoryLink
+;;MobileTVCategoryLink;MobileTV Category Link;/Open-Catalogue/Add-Ons/Mobile-TV/c/mobiletv;MobileTVCategoryLink;MobileTVCategoryLink
+;;SpecialOffersLink;Special Offers Link;"/open-catalogue/c/1?q=:relevance:allPromotions:BOGOFtelco:allPromotions:10DiscountCanonEOS450D:allPromotions:MultiBuytelco:allPromotions:PerfectPartnertelco:allPromotions:ProductBundletelco";SpecialOffersLink;SpecialOffersLink;
+;;AboutAcceleratorLink;About Accelerator Link;"http://www.hybris.com/multichannel-accelerator";AboutAcceleratorLink;AboutAcceleratorLink;newWindow
+;;DocumentationLink;Documentation Link;"https://help.hybris.com/6.5.0/hcd/8af76e0086691014b65a94b19f679088.html";DocumentationLink;DocumentationLink;newWindow
+;;AboutHybrisLink;About Hybris Link;"http://www.hybris.com";AboutHybrisLink;AboutHybrisLink;newWindow
+;;ContactUsLink;Contact Us Link;"http://www.hybris.com/contact";ContactUsLink;ContactUsLink;newWindow
+;;FacebookLink;Facebook Link;"http://www.facebook.com/saphybris";FacebookLink;FacebookLink;newWindow
+;;TwitterLink;Twitter Link;"http://twitter.com/#!/hybris_software";TwitterLink;TwitterLink;newWindow
+;;AgileCommerceBlogLink;Agile Commerce Blog Link;"http://www.agile-commerce.com/";AgileCommerceBlogLink;AgileCommerceBlogLink;newWindow
+;;LinkedInLink;Linked In Link;"http://www.linkedin.com/company/97435";LinkedInLink;LinkedInLink;newWindow
+;;SBGProductsCategoryLink;TV Channels Category Link;/Open-Catalogue/sbgproducts/c/sbgproducts;SBGProductsCategoryLink;SBGProductsCategoryLink
+
+INSERT_UPDATE NavigationBarComponent;$contentCV[unique=true];uid[unique=true];name;wrapAfter;link(uid, $contentCV);styleClass;&componentRef
+;;DevicesBarComponent;Devices Bar Component;10;DeviceCategoryLink;;DevicesBarComponent
+;;AccessoriesBarComponent;Accessories Bar Component;10;AccessoryCategoryLink;;AccessoriesBarComponent
+;;PlansBarComponent;Plans Bar Component;10;ServicePlanCategoryLink;;PlansBarComponent
+;;AddOnsBarComponent;AddOns Bar Component;10;ServiceAddOnCategoryLink;;AddOnsBarComponent
+;;SBGProductsBarComponent;TV Channels Bar Component;10;SBGProductsCategoryLink;;SBGProductsBarComponent
+
+# B2C Telco CMS Navigation Nodes
+INSERT_UPDATE CMSNavigationNode;uid[unique=true];$contentCV[unique=true];name;parent(uid, $contentCV);links(&linkRef);&nodeRef
+;SiteRootNode;;SiteRootNode;;;SiteRootNode
+;B2cTelcoNavNode;;B2C Telco Site;SiteRootNode;HomepageNavLink;B2cTelcoNavNode
+;DevicesNavNode;;Devices Category;B2cTelcoNavNode;DeviceCategoryLink;DevicesNavNode
+;AccessoriesNavNode;;Accessories Category;B2cTelcoNavNode;AccessoryCategoryLink;AccessoriesNavNode
+;PlansNavNode;;Plans Category;B2cTelcoNavNode;ServicePlanCategoryLink;PlansNavNode
+;AddOnsNavNode;;AddOns Category;B2cTelcoNavNode;ServiceAddOnCategoryLink;AddOnsNavNode
+;DeviceTypesNavNode;;Device Types Links;DevicesNavNode;SmartphoneCategoryLink,BasicphoneCategoryLink,TabletCategoryLink;DeviceTypesNavNode
+;AccessoryTypesNavNode;;Accessory Types Links;AccessoriesNavNode;BlueToothAndWiredCategoryLink,ChargersAndDocksCategoryLink,CasesAndCoversCategoryLink,BatteriesCategoryLink,MemoryCardsCategoryLink,ScreenProtetctorsCategoryLink;AccessoryTypesNavNode
+;AddOnTypesNavNode;;AddOn Types Links;AddOnsNavNode;ClassicsCategoryLink,InternetCategoryLink;AddOnTypesNavNode
+;PlansTypesNavNode;;Plan Types Links;PlansNavNode;TapasPlansCategoryLink,SalsaPlansCategoryLink,SombreroPlansCategoryLink;PlansTypesNavNode
+;AcceleratorNavNode;;Accelerator Pages;B2cTelcoNavNode;AboutAcceleratorLink,DocumentationLink;AcceleratorNavNode
+;HybrisNavNode;;Hybris Pages;B2cTelcoNavNode;AboutHybrisLink,ContactUsLink;HybrisNavNode
+;FollowUsNavNode;;Follow Us Pages;B2cTelcoNavNode;AgileCommerceBlogLink,LinkedInLink,FacebookLink,TwitterLink;FollowUsNavNode
+;SBGProductsNavNode;;TV Channels Category;B2cTelcoNavNode;SBGProductsCategoryLink;SBGProductsNavNode
+;HybrisPoliciesNavNode;;Policy Page;B2cTelcoNavNode;privacyPolicyLink,termsOfServiceLink;HybrisPoliciesNavNode
+
+# Navigation Bar Component
+INSERT_UPDATE NavigationBarComponent;$contentCV[unique=true];uid[unique=true];navigationNode(&nodeRef);dropDownLayout(code)
+;;DevicesBarComponent;DevicesNavNode
+;;AccessoriesBarComponent;AccessoriesNavNode
+;;PlansBarComponent;PlansNavNode
+;;AddOnsBarComponent;AddOnsNavNode
+;;SBGProductsBarComponent;SBGProductsNavNode
+
+
+
+#Associate Section with Banner Components
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef)
+;;Section2Slot-PlansCategory;Section2 Slot for Plans Category Page;true;SMAR_PlanResponsiveBannerComponent,PAYG_PlanResponsiveBannerComponent,STAR_PlanResponsiveBannerComponent,TABL_PlanResponsiveBannerComponent,SOVP_PlanResponsiveBannerComponent,SODP_PlanResponsiveBannerComponent
+
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='PlansCategoryPage'];contentSlot(uid,$contentCV)[unique=true]
+;;Section2-PlansCategory;Section2;;Section2Slot-PlansCategory
+
+##  Remove the language currency component from the search and place a tag in the footer
+# CMS SearchBox Components
+INSERT_UPDATE SearchBoxComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef
+;;SearchBox;Search Box;SearchBox
+
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];cmsComponents(&componentRef)
+;;SearchBoxSlot;SearchBox
+
+# CMS Footer Component
+INSERT_UPDATE FooterComponent;$contentCV[unique=true];uid[unique=true];wrapAfter;showLanguageCurrency;&componentRef
+;;FooterComponent;2;true;FooterComponent
+
+# Site Logo
+INSERT_UPDATE Media;$contentCV[unique=true];code[unique=true];realfilename;@media[translator=de.hybris.platform.impex.jalo.media.MediaDataTranslator];mime[default='image/jpeg'];altText;folder(qualifier)[default='images']
+;;/images/theme/logo-hybris-tua.png;logo-hybris-tua.png;$siteResource/images/theme/logo-hybris-tua.png;image/png;Telco and Utilities Accelerator;
+
+###  Responsive Error page #######
+
+#INSERT_UPDATE Media;mediaFormat(qualifier);code[unique=true];@media[translator=de.hybris.platform.impex.jalo.media.MediaDataTranslator][forceWrite=true];realfilename;altText;mime[default='image/jpeg'];$contentCV[unique=true];folder(qualifier)[default=images]
+#;mobile;Elec_480x170_ErrorPage_480W.jpg;$siteResource/images/banners/site/Elec_480x170_ErrorPage_480W.jpg;Elec_480x170_ErrorPage_480W.jpg;"Page not found";
+#;tablet;Elec_770x221_ErrorPage_770W.jpg;$siteResource/images/banners/site/Elec_770x221_ErrorPage_770W.jpg;Elec_770x221_ErrorPage_770W.jpg;"Page not found";
+#;desktop;Elec_960x275_ErrorPage_960W.jpg;$siteResource/images/banners/site/Elec_960x275_ErrorPage_960W.jpg;Elec_960x275_ErrorPage_960W.jpg;"Page not found";
+#;widescreen;Elec_1400x401_ErrorPage_1400W.jpg;$siteResource/images/banners/site/Elec_1400x401_ErrorPage_1400W.jpg;Elec_1400x401_ErrorPage_1400W.jpg;"Page not found";
+
+#INSERT_UPDATE MediaContainer;qualifier[unique=true];$medias;$contentCV[unique=true]
+#;b2ctelco-errorpage-pagenotfound;Elec_480x170_ErrorPage_480W.jpg,Elec_770x221_ErrorPage_770W.jpg,Elec_960x275_ErrorPage_960W.jpg,Elec_1400x401_ErrorPage_1400W.jpg
+
+
+# Create Content Slots for Page
+#INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='notFound'];contentSlot(uid,$contentCV)[unique=true]
+#;;MiddleContent-Errorpage;MiddleContent;;MiddleContent-Errorpage
+
+# Remove View Store Action From Store Finder Component
+INSERT_UPDATE JspIncludeComponent;$contentCV[unique=true];uid[unique=true];actions(uid,$contentCV);
+;;StoreFinderComponent;;
+
+### My Account Links And Components ######
+
+# Create CMS Link Components For My Account Pages
+INSERT_UPDATE CMSLinkComponent;$contentCV[unique=true];uid[unique=true];name;url;&linkRef;target(code)[default='sameWindow']
+;;PersonalDetailsLink;PersonalDetailsLink;/my-account/update-profile;PersonalDetailsLink;
+;;UpdateEmailLink;UpdateEmailLink;/my-account/update-email;UpdateEmailLink;
+;;UpdatePasswordLink;UpdatePasswordLink;/my-account/update-password;UpdatePasswordLink;
+;;AddressBookLink;AddressBookLink;/my-account/address-book;AddressBookLink;
+;;PaymentDetailsLink;PaymentDetailsLink;/my-account/my-payment-details;PaymentDetailsLink;
+;;OrderHistoryLink;OrderHistoryLink;/my-account/orders;OrderHistoryLink;
+
+# Create Navigation Root Node For My Account & Child Nodes For The Root Node
+INSERT_UPDATE CMSNavigationNode;uid[unique=true];$contentCV[unique=true];name;parent(uid, $contentCV);links(&linkRef);&nodeRef
+;MyAccountNavNode;;My Account;B2cTelcoNavNode;;MyAccountNavNode
+# children for my account
+;PersonalDetailsNavNode;;Personal Details;MyAccountNavNode;;PersonalDetailsNavNode
+;UpdateEmailNavNode;;Update Email;MyAccountNavNode;;UpdateEmailNavNode
+;ChangePasswordNavNode;;Change Password;MyAccountNavNode;;ChangePasswordNavNode
+;OrderHistoryNavNode;;Order History;MyAccountNavNode;;OrderHistoryNavNode
+;PaymentDetailsNavNode;;Payment Details;MyAccountNavNode;;PaymentDetailsNavNode
+;AddressBookNavNode;;Address Book;MyAccountNavNode;;AddressBookNavNode
+;ConsentManagementNavNode;;Consent Management;MyAccountNavNode;;ConsentManagementNavNode
+
+
+# Create CMS Navigation Entry For Navigation Child Nodes
+INSERT_UPDATE CMSNavigationEntry;uid[unique=true];$contentCV[unique=true];name;navigationNode(&nodeRef);item(&linkRef);
+;PersonalDetailsNavNodeEntry;;PersonalDetailsNavNodeEntry;PersonalDetailsNavNode;PersonalDetailsLink;
+;UpdateEmailNavNodeEntry;;UpdateEmailNavNodeEntry;UpdateEmailNavNode;UpdateEmailLink;
+;ChangePasswordNavNodeEntry;;ChangePasswordNavNodeEntry;ChangePasswordNavNode;UpdatePasswordLink;
+;OrderHistoryNavNodeEntry;;OrderHistoryNavNodeEntry;OrderHistoryNavNode;OrderHistoryLink;
+;PaymentDetailsNavNodeEntry;;PaymentDetailsNavNodeEntry;PaymentDetailsNavNode;PaymentDetailsLink;
+;AddressBookNavNodeEntry;;AddressBookNavNodeEntry;AddressBookNavNode;AddressBookLink;
+
+# Create Navigation Component For My Account
+INSERT_UPDATE NavigationComponent;$contentCV[unique=true];uid[unique=true];name;styleClass;&componentRef;navigationNode(&nodeRef)
+;;MyAccountComponent;My Account;accNavComponent;MyAccountComponent;MyAccountNavNode
+
+# Create A User Restriction
+INSERT_UPDATE CMSUserRestriction;$contentCV[unique=true];&userRestriction;name;uid[unique=true];users(uid)
+;;anonymousUserRestriction;Anonymous User Restriction;anonymousUserRestriction;anonymous
+
+# Create A Inverse Restriction
+INSERT_UPDATE CMSInverseRestriction;$contentCV[unique=true];name;originalRestriction(&userRestriction)[allownull=true];uid[unique=true];components(&componentRef)
+;;Logged in User;anonymousUserRestriction;loggedInUser;MyAccountComponent
+
+# Add My Account Navigation Component To A Content Slot
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];cmsComponents(uid,$contentCV)
+;;HeaderLinksSlot;MyAccountComponent
+
+######## Order Confirmation Page  #######
+
+INSERT_UPDATE JspIncludeComponent;$contentCV[unique=true];uid[unique=true];name;page;actions(uid,$contentCV);&componentRef
+;;OrderConfirmationThankMessageComponent;Order Confirmation Thank You Message Component;/WEB-INF/views/responsive/pages/checkout/checkoutConfirmationThankMessage.jsp;;OrderConfirmationThankMessageComponent
+;;OrderConfirmationOverviewComponent;Order Confirmation Overview Info Component;/WEB-INF/views/responsive/pages/account/accountOrderDetailOverview.jsp;;OrderConfirmationOverviewComponent
+;;OrderConfirmationTotalsComponent;Order Confirmation Totals Component;/WEB-INF/views/addons/$addonExtensionName/responsive/pages/account/accountOrderDetailOrderTotals.jsp;;OrderConfirmationTotalsComponent
+;;OrderConfirmationShippingComponent;Order Confirmation Shipping Info Component;/WEB-INF/views/responsive/pages/account/accountOrderDetailShippingInfo.jsp;;OrderConfirmationShippingComponent
+;;OrderConfirmationItemsComponent;Order Confirmation Items Info Component;/WEB-INF/views/addons/$addonExtensionName/responsive/pages/account/accountOrderDetailItems.jsp;;OrderConfirmationItemsComponent
+;;OrderConfirmationContinueButtonComponent;Order Confirmation Continue Button Component;/WEB-INF/views/responsive/pages/checkout/checkoutConfirmationContinueButton.jsp;;OrderConfirmationContinueButtonComponent
+
+# ContentSlotForPage
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='orderConfirmationPage'];contentSlot(uid,$contentCV)[unique=true];;;
+;;SideContent-orderConfirmation;SideContent;;SideContent-orderConfirmation;;;
+;;BodyContent-orderConfirmation;BodyContent;;BodyContent-orderConfirmation;;;
+
+# ContentSlot
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef);;;
+;;SideContent-orderConfirmation;Side Content Slot for Order Confirmation;true;;;;
+;;BodyContent-orderConfirmation;Body Content Slot for Order Confirmation;true;OrderConfirmationThankMessageComponent,OrderConfirmationOverviewComponent,OrderConfirmationItemsComponent,OrderConfirmationShippingComponent,OrderConfirmationTotalsComponent,OrderConfirmationContinueButtonComponent;;;
+
+
+######## Consent Managemnet ##########
+
+INSERT_UPDATE JspIncludeComponent;$contentCV[unique=true];uid[unique=true];name;page;actions(uid,$contentCV);&componentRef
+;;ConsentManagementComponent;Consent Management Component;accountConsentManagementPage.jsp;;ConsentManagementComponent
+;;AnonymousConsentManagementComponent;Anonymous Consent Management Component;/WEB-INF/views/addons/$addonExtensionName/responsive/pages/consent/consentmanagement.jsp;;AnonymousConsentManagementComponent
+;;CookieNotificationComponent;Cookie Notification Component;/WEB-INF/views/responsive/pages/consent/cookienotification.jsp;;CookieNotificationComponent
+
+# ContentSlotForPage
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='consents'];contentSlot(uid,$contentCV)[unique=true];;;
+;;SideContent-consents;SideContent;;SideContentSlot-consents;;;
+;;BodyContent-consents;BodyContent;;BodyContentSlot-consents;;;
+
+# ContentSlot
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef);;;
+;;SideContentSlot-consents;Side Content Slot for Consent Management;true;;;;
+;;BodyContentSlot-consents;Body Content Slot for Consent Management;true;ConsentManagementComponent;;;
+
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];active;cmsComponents(&componentRef)[mode=append]
+;;TopHeaderSlot;true;CookieNotificationComponent,AnonymousConsentManagementComponent
+
+# links of the above navigation entries
+INSERT_UPDATE CMSLinkComponent;$contentCV[unique=true];uid[unique=true];name;url;&linkRef;target(code)[default='sameWindow']
+;;ConsentManagementLink;ConsentManagementLink;/my-account/consents;ConsentManagementLink;
+;;CloseAccountLink;CloseAccountLink;/my-account/close-account;CloseAccountLink;
+
+INSERT_UPDATE CMSNavigationNode;uid[unique=true];$contentCV[unique=true];name;parent(uid, $contentCV);links(&linkRef);&nodeRef
+;ConsentManagementNavNode;;Consent Management;MyAccountNavNode;;ConsentManagementNavNode
+;CloseAccountNavNode;;Close Account;MyAccountNavNode;;CloseAccountNavNode
+
+# entries of the above navigation nodes
+INSERT_UPDATE CMSNavigationEntry;uid[unique=true];$contentCV[unique=true];name;navigationNode(&nodeRef);item(&linkRef);
+;ConsentManagementNavNodeEntry;;ConsentManagementNavNodeEntry;ConsentManagementNavNode;ConsentManagementLink;
+;CloseAccountNavNodeEntry;;CloseAccountNavNodeEntry;CloseAccountNavNode;CloseAccountLink;
+
+
+###### Account Close Account Page Start ######
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef);;;
+;;SideContentSlot-close-account;Side Content Slot for Close Account;true;;;;
+;;BodyContentSlot-close-account;Body Content Slot for Close Account;true;CloseAccountComponent;;;
+
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='close-account'];contentSlot(uid,$contentCV)[unique=true];;;
+;;SideContent-close-account;SideContent;;SideContentSlot-close-account;;;
+;;BodyContent-close-account;BodyContent;;BodyContentSlot-close-account;;;
+
+
+# CMS Assisted Service Component
+INSERT_UPDATE AssistedServiceComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef
+;;AssistedServiceComponent;Assisted Service Component;AssistedServiceComponent
+
+# CMS Assisted Service Sub-Components
+INSERT_UPDATE JspIncludeComponent;$contentCV[unique=true];uid[unique=true];name;page;&componentRef
+;;ASMLoginComponent;Assisted Service Agent Login Component;/WEB-INF/views/addons/$asmAddonExtensionName/responsive/fragments/asmLoginComponent.jsp;ASMLoginComponent
+;;ASMEmulateUserComponent;Assisted Service Agent Emulate User Component;/WEB-INF/views/addons/$asmAddonExtensionName/responsive/fragments/asmEmulateUserComponent.jsp;ASMEmulateUserComponent
+;;ASMBindComponent;Assisted Service Bind User/Cart Component;/WEB-INF/views/addons/$asmAddonExtensionName/responsive/fragments/asmBindComponent.jsp;ASMBindComponent
+;;ASMHeaderComponent;Assisted Service Header Component;/WEB-INF/views/addons/$asmAddonExtensionName/responsive/fragments/asmHeaderComponent.jsp;ASMHeaderComponent
+;;ASMFooterComponent;Assisted Service Footer Component;/WEB-INF/views/addons/$asmAddonExtensionName/responsive/fragments/asmFooterComponent.jsp;ASMFooterComponent
+;;ASMCustomerListComponent;Assisted Service Customer List Component;/WEB-INF/views/addons/$asmAddonExtensionName/responsive/fragments/asmCustomerListButtonComponent.jsp;ASMCustomerListComponent
+
+INSERT_UPDATE ASMDevicesUsedComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef
+;;ASMDevicesUsedComponent;Assisted Service Devices Used Component;ASMDevicesUsedComponent
+
+INSERT_UPDATE ASMFavoriteColorsComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef
+;;ASMFavoriteColorsComponent;Assisted Service Favorite Colors Component;ASMFavoriteColorsComponent
+
+# Content Slots
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];active;cmsComponents(&componentRef)[mode=append]
+;;TopHeaderSlot;true;AssistedServiceComponent
+
+INSERT_UPDATE AssistedServiceSessionRestriction;$contentCV[unique=true];uid[unique=true];name;&uid
+;;AssistedServiceSessionRestriction;ASM Session Restriction;AssistedServiceSessionRestriction
+
+INSERT_UPDATE CMSInverseRestriction;$contentCV[unique=true];name;originalRestriction(&uid);uid[unique=true];
+;;Assisted Service Session Reversed Restriction;AssistedServiceSessionRestriction;AssistedServiceSessionReversedRestriction;
+
+INSERT_UPDATE JspIncludeComponent;$contentCV[unique=true];uid[unique=true];name;&componentRef;restrictions(uid,$contentCV)
+;;AddMessageButtonComponent;Add Message Button Component;AddMessageButtonComponent;AssistedServiceSessionReversedRestriction
+
+
+INSERT_UPDATE JspIncludeComponent;$contentCV[unique=true];uid[unique=true];name;page;actions(uid,$contentCV);&componentRef
+;;CloseAccountComponent;Close Account Component;accountCloseAccountPage.jsp;;CloseAccountComponent
+###### Account Close Account Page End ######
+
+### Update the BPO Configurable Guided Selling Page #####
+INSERT_UPDATE ListAddToEntryGroupAction;$contentCV[unique=true];uid[unique=true];url;name;restrictions(uid,$contentCV);&actionRef
+;;ListAddToEntryGroupAction;/cart;Product Add To Entry Group Action;ActionRestriction;ListAddToEntryGroupAction
+
+INSERT_UPDATE CMSProductListComponent;$contentCV[unique=true];uid[unique=true];name;actions(uid,$contentCV);&componentRef
+;;BpoProductSelectorComponent;Product Selector Component;ListAddToEntryGroupAction;BpoProductSelectorComponent
+
+INSERT_UPDATE JspIncludeComponent;$contentCV[unique=true];uid[unique=true];name;page;actions(uid,$contentCV);&componentRef
+;;BpoGuidedSellingDashboardComponent;BPO Guided Selling Dashboard Component;/WEB-INF/views/addons/$addonExtensionName/responsive/cms/bpoguidedsellingdashboardcomponent.jsp;;BpoGuidedSellingDashboardComponent
+;;BpoGuidedSellingButtonComponent;BPOGuided Selling Button Component;/WEB-INF/views/addons/$addonExtensionName/responsive/cms/bpoguidedsellingbuttoncomponent.jsp;;BpoGuidedSellingButtonComponent
+
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef);;;
+;;BpoGuidedSellingDashboardSlot;BPO Guidedselling dashboard content slot;true;BpoGuidedSellingDashboardComponent
+
+# Updating the ConfigurableGuidedSellingProductList Page content slots
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef);;;
+;;BpoProductSelectorSlot;Product List Slot for Product List;true;BpoProductSelectorComponent;;;
+
+INSERT_UPDATE ApplicableCmsActionsTypeForCmsComponent;target(code)[unique=true];source(code)[unique=true]
+;CMSProductListComponent;ListAddToEntryGroupAction;
+
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(&componentRef);;;
+;;BpoGuidedSellingButtonSlot;Button Slot for BPO Guided Selling Button Product List;true;BpoGuidedSellingButtonComponent;;;
+
+###### Import the CMS content for the Manage Subscriptions ######
+
+# My Subscriptions Page Preview
+INSERT_UPDATE Media;$contentCV[unique=true];code[unique=true];realfilename;@media[translator=de.hybris.platform.impex.jalo.media.MediaDataTranslator];mime[default='image/jpeg'];altText;folder(qualifier)[default='images']
+;;subscriptions-preview;SubscriptionsPage.png;$jarResourceCms/preview-images/b2ctelco/SubscriptionsPage.png;image/png;hybris Accelerator;
+;;subscription-preview;SubscriptionPage.png;$jarResourceCms/preview-images/b2ctelco/SubscriptionPage.png;image/png;hybris Accelerator;
+;;subscriptionBase-preview;SubscriptionPage.png;$jarResourceCms/preview-images/b2ctelco/SubscriptionPage.png;image/png;hybris Accelerator;
+;;subscriptionComparison-preview;SubscriptionComparisonPage.png;$jarResourceCms/preview-images/b2ctelco/SubscriptionComparisonPage.png;image/png;hybris Accelerator;
+;;subscriptionBillingActivity-preview;SubscriptionBillingActivityPage.png;$jarResourceCms/preview-images/b2ctelco/SubscriptionBillingActivityPage.png;image/png;hybris Accelerator;
+
+## Configure page for My Subscriptions
+INSERT_UPDATE ContentPage;$contentCV[unique=true];uid[unique=true];masterTemplate(uid,$contentCV);label;defaultPage[default='true'];approvalStatus(code)[default='approved'];homepage[default='false']
+;;subscriptions;AccountPageTemplate;/my-account/subscription
+;;subscription;AccountPageTemplate;subscription
+;;subscriptionBase;AccountPageTemplate;/my-account/subscription/subscription-base
+;;subscriptionComparison;AccountPageTemplate;subscriptionComparison
+;;subscriptionBillingActivity;AccountPageTemplate;subscriptionBillingActivity
+;;dashboardPage;DashboardPageTemplate;/my-account/dashboard
+
+UPDATE ContentPage;$contentCV[unique=true];uid[unique=true];previewImage(code, $contentCV)
+;;subscriptions;subscriptions-preview
+;;subscription;subscription-preview
+;;subscriptionBase;subscriptionBase-preview
+;;subscriptionComparison;subscriptionComparison-preview
+;;subscriptionBillingActivity;subscriptionBillingActivity-preview
+
+# CMS Link Components
+INSERT_UPDATE CMSLinkComponent;$contentCV[unique=true];uid[unique=true];name;url;&linkRef;target(code)[default='sameWindow']
+;;SubscriptionsLink;SubscriptionsLink;/my-account/subscription;SubscriptionsLink;
+;;DashboardLink;DashboardLink;/my-account/dashboard;DashboardLink;
+
+# CMS Navigation Nodes
+INSERT_UPDATE CMSNavigationNode;uid[unique=true];$contentCV[unique=true];name;parent(uid, $contentCV);links(&linkRef);&nodeRef
+;SubscriptionsNavNode;;Subscriptions;MyAccountNavNode;;SubscriptionsNavNode
+;DashboardNavNode;;Dashboard;MyAccountNavNode;;DashboardNavNode
+
+INSERT_UPDATE CMSNavigationEntry;uid[unique=true];$contentCV[unique=true];name;navigationNode(&nodeRef);item(&linkRef);
+;SubscriptionsNavNodeEntry;;SubscriptionsNavNodeEntry;SubscriptionsNavNode;SubscriptionsLink;
+;DashboardNavNodeEntry;;DashboardNavNodeEntry;DashboardNavNode;DashboardLink;
+
+INSERT_UPDATE JspIncludeComponent;$contentCV[unique=true];uid[unique=true];name;page;actions(uid,$contentCV);&componentRef
+;;AccountSubscriptionComponent;Account My Subscriptions Component;/WEB-INF/views/addons/$addonExtensionName/responsive/pages/account/accountSubscriptionsPage.jsp;;AccountSubscriptionComponent
+;;AccountSubscriptionDetailsComponent;Account Subscription Component;/WEB-INF/views/addons/$addonExtensionName/responsive/pages/account/accountSubscriptionPage.jsp;;AccountSubscriptionDetailsComponent
+;;AccountSubscriptionBaseDetailsComponent;Account Subscription Base Component;/WEB-INF/views/addons/$addonExtensionName/responsive/pages/account/accountSubscriptionBasePage.jsp;;AccountSubscriptionBaseDetailsComponent
+;;AccountSubscriptionComparisonComponent;Account Subscription Comparison Component;/WEB-INF/views/addons/$addonExtensionName/responsive/pages/account/accountUpgradeSubscriptionComparisonPage.jsp;;AccountSubscriptionComparisonComponent
+;;AccountSubscriptionBillingActivityComponent;Account Subscription Billing Activity Component;/WEB-INF/views/addons/$addonExtensionName/responsive/pages/account/accountSubscriptionBillingActivityPage.jsp;;AccountSubscriptionBillingActivityComponent
+;;UpsellSubscriptionBannerComponent;Up sell Subscription Banner Component;/WEB-INF/views/addons/$addonExtensionName/responsive/pages/account/upsellSubscriptionBannerComponent.jsp;;UpsellSubscriptionBannerComponent
+
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(uid,$contentCV);;;
+;;SideContent-subscriptions;Side Content Slot for My Subscriptions Listing;true;;;;
+;;BodyContent-subscriptions;Body Content Slot for My Subscriptions Listing;true;AccountSubscriptionComponent;;;
+
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(uid,$contentCV);;;
+;;SideContent-subscription;Side Content Slot for Subscription Details;true;;;;
+;;BodyContent-subscription;Body Content Slot for Subscription Details;true;AccountSubscriptionDetailsComponent;;;
+
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(uid,$contentCV);;;
+;;SideContent-subscriptionBase;Side Content Slot for Subscription Base Details;true;;;;
+;;BodyContent-subscriptionBase;Body Content Slot for Subscription Base Details;true;AccountSubscriptionBaseDetailsComponent,AverageServiceUsageUpSellComponent,UpsellSubscriptionBannerComponent,CompatibleAddonsComponent;;;
+
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(uid,$contentCV);;;
+;;SideContent-subscriptionComparison;Side Content Slot for Subscription Comparison;true;;;;
+;;BodyContent-subscriptionComparison;Body Content Slot for Subscription Comparison;true;AccountSubscriptionComparisonComponent;;;
+
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(uid,$contentCV);;;
+;;SideContent-subscriptionBillingActivity;Side Content Slot for Subscription Billing Activity;true;;;;
+;;BodyContent-subscriptionBillingActivity;Body Content Slot for Subscription Billing Activity;true;AccountSubscriptionBillingActivityComponent;;;
+
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='subscriptions'];contentSlot(uid,$contentCV)[unique=true];;;
+;;SideContent-subscriptions;SideContent;;SideContent-subscriptions;;;
+;;BodyContent-subscriptions;BodyContent;;BodyContent-subscriptions;;;
+
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='subscription'];contentSlot(uid,$contentCV)[unique=true];;;
+;;SideContent-subscription;SideContent;;SideContent-subscription;;;
+;;BodyContent-subscription;BodyContent;;BodyContent-subscription;;;
+
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(uid,$contentCV);;;
+# new component for dashboard page will be added here.
+;;MandatoryComponent-dashboard;Top Content Slot for Mandatory Components at Dashboard Page;true;;;;
+;;OptionalComponents-dashboard;Body Content Slot for Optional Components at Dashboard Page;true;;;;
+
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='dashboardPage'];contentSlot(uid,$contentCV)[unique=true];;;
+;;MandatoryComponents-dashboard;MandatoryContent;;MandatoryComponent-dashboard;;;
+;;OptionalComponents-dashboard;OptionalContent;;OptionalComponents-dashboard;;;
+
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='subscriptionBase'];contentSlot(uid,$contentCV)[unique=true];;;
+;;SideContent-subscriptionBase;SideContent;;SideContent-subscriptionBase;;;
+;;BodyContent-subscriptionBase;BodyContent;;BodyContent-subscriptionBase;;;
+
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='subscriptionComparison'];contentSlot(uid,$contentCV)[unique=true];;;
+;;SideContent-subscriptionComparison;SideContent;;SideContent-subscriptionComparison;;;
+;;BodyContent-subscriptionComparison;BodyContent;;BodyContent-subscriptionComparison;;;
+
+INSERT_UPDATE ContentSlotForPage;$contentCV[unique=true];uid[unique=true];position[unique=true];page(uid,$contentCV)[unique=true][default='subscriptionBillingActivity'];contentSlot(uid,$contentCV)[unique=true];;;
+;;SideContent-subscriptionBillingActivity;SideContent;;SideContent-subscriptionBillingActivity;;;
+;;BodyContent-subscriptionBillingActivity;BodyContent;;BodyContent-subscriptionBillingActivity;;;
+
+INSERT_UPDATE SubscriptionCrossSellComponent;$contentCV[unique=true];uid[unique=true];name;title;productReferenceTypes(code);maximumNumberProducts;&componentRef;
+;;CompatibleAddonsComponent;CompatibleAddonsComponent;Compatible Add Ons;CROSSELLING;20;CompatibleAddonsComponent;
+
+INSERT_UPDATE ServiceUsageUpSellComponent;$contentCV[unique=true];uid[unique=true];name;title;productReferenceTypes(code);maximumNumberProducts;&componentRef;
+;;AverageServiceUsageUpSellComponent;AverageServiceUsageUpSellComponent;You're running out of service(s)! Get more!;UPSELLING;20;AverageServiceUsageUpSellComponent;

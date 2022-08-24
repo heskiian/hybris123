@@ -1,0 +1,160 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+######
+## PARAMETERS REQUIRED FOR THIS SCRIPT
+##
+##   * contentCatalog   - content catalog id
+##   * productCatalog   = product catalog id
+##   * storeUid - site id
+##   * storeUid - id of the store
+##   * channel - site channel
+#######
+
+$catalog-id=testCatalog
+$catalog-version=Online
+$approved=approvalstatus(code)[default='approved']
+$catalogversion=catalogversion(catalog(id[default=$catalog-id]),version[default=$catalog-version])[unique=true,default=$catalog-id:$catalog-version]
+$supercategories=supercategories(code,catalogversion(catalog(id[default=$catalog-id]),version[default=$catalog-version]))
+$prices=@Europe1prices[translator = de.hybris.platform.b2ctelcoservices.dataimport.batch.price.TmaPriceRowTranslator]
+$contentCatalog=testContentCatalog
+$lang=en
+$contentCV=catalogVersion(CatalogVersion.catalog(Catalog.id[default=$contentCatalog]),CatalogVersion.version[default=Online])[default=$contentCatalog:Online]
+$addonExtensionName=configurableguidedsellingaddon
+
+$currencies=USD
+$defaultCurrency=USD
+$defaultLanguage=en
+$deliveryCountries=US
+$paymentProvider=Mockup
+
+$ruleType=ruleType(code)[default='ANY']
+
+INSERT_UPDATE Catalog;id[unique=true]
+;$catalog-id
+;$contentCatalog
+
+INSERT_UPDATE Currency;isocode[unique=true];active;conversion;digits;symbol
+;USD;true;1.5;2;"$"
+;JPY;true;2;2;"¥"
+
+INSERT_UPDATE Unit;unitType[unique=true];code[unique=true];conversion
+;pieces;pieces;1
+
+
+INSERT_UPDATE CatalogVersion; catalog(id)[unique=true]; version[unique=true];active;defaultCurrency(isocode)[default=USD]
+;$catalog-id;$catalog-version;true;
+;$catalog-id;Staged;false
+;$contentCatalog;$catalog-version;true;
+;$contentCatalog;Staged;false
+
+INSERT_UPDATE BaseStore;uid[unique=true];catalogs(id);currencies(isocode);net;defaultCurrency(isocode);languages(isocode);defaultLanguage(isocode);paymentProvider
+;testStore;$catalog-id;$currencies;false;$defaultCurrency;$defaultLanguage;$defaultLanguage;$paymentProvider
+
+INSERT_UPDATE CMSSite        ; uid[unique=true]         ; stores(uid)                                     ; defaultCatalog(id)			  
+                             ; testSite                 ; testStore                                        ; $catalog-id;
+
+
+INSERT_UPDATE TmaSimpleProductOffering; code[unique = true]; name[lang = en]; description[lang = $lang]; $catalogversion; summary[lang = $lang]
+; SPO111                    ; SPO111                                           	; <strong class=description-headline>Why You�ll Love iPhone</strong>It�s a phone, an iPod and an Internet device in one. It gives you access to thousands of applications. And it�s built on technology that�s years ahead of its time.<strong class=description-headline>Apps for iPhone</strong>Discover apps from the App Store that help you do more with iPhone. From games to business to health and fitness, there�s an app for that.<strong class=description-headline>3.0 Software Update</strong>Already have an iPhone? Make it even better with great new features � including Cut, Copy & Paste, and MMS � free with the iPhone 3.0 Software Update.<strong class=description-headline>New in MobileMe</strong>MobileMe gives you push email, contacts and calendars. Lose your iPhone? MobileMe can help you find it and protect your privacy with Find My iPhone. ; ; <strong class=description-headline>Why You�ll Love iPhone</strong>It�s a phone, an iPod and an Internet device in one. It gives you access to thousands of applications...
+; SPO112                    ; SPO112                                           	; <strong class=description-headline>Why You�ll Love iPhone</strong>It�s a phone, an iPod and an Internet device in one. It gives you access to thousands of applications. And it�s built on technology that�s years ahead of its time.<strong class=description-headline>Apps for iPhone</strong>Discover apps from the App Store that help you do more with iPhone. From games to business to health and fitness, there�s an app for that.<strong class=description-headline>3.0 Software Update</strong>Already have an iPhone? Make it even better with great new features � including Cut, Copy & Paste, and MMS � free with the iPhone 3.0 Software Update.<strong class=description-headline>New in MobileMe</strong>MobileMe gives you push email, contacts and calendars. Lose your iPhone? MobileMe can help you find it and protect your privacy with Find My iPhone. ; ; <strong class=description-headline>Why You�ll Love iPhone</strong>It�s a phone, an iPod and an Internet device in one. It gives you access to thousands of applications...
+; SPO113                    ; SPO113  	                                        ; <strong class=description-headline>Why You�ll Love iPhone</strong>It�s a phone, an iPod and an Internet device in one. It gives you access to thousands of applications. And it�s built on technology that�s years ahead of its time.<strong class=description-headline>Apps for iPhone</strong>Discover apps from the App Store that help you do more with iPhone. From games to business to health and fitness, there�s an app for that.<strong class=description-headline>3.0 Software Update</strong>Already have an iPhone? Make it even better with great new features � including Cut, Copy & Paste, and MMS � free with the iPhone 3.0 Software Update.<strong class=description-headline>New in MobileMe</strong>MobileMe gives you push email, contacts and calendars. Lose your iPhone? MobileMe can help you find it and protect your privacy with Find My iPhone. ; ; <strong class=description-headline>Why You�ll Love iPhone</strong>It�s a phone, an iPod and an Internet device in one. It gives you access to thousands of applications...										  
+; SPO121                    ; SPO121                                            ; <strong class=description-headline>Phone, iPod, Internet, and more.</strong>Introducing iPhone 3G. With fast 3G wireless technology, GPS mapping, support for enterprise features like Microsoft Exchange, and the new App Store, iPhone 3G puts even more features at your fingertips. And like the original iPhone, it combines three products in one � a revolutionary phone, a widescreen iPod, and a breakthrough Internet device with rich HTML email and a desktop-class web browser. iPhone 3G. It redefines what a mobile phone can do � again.<strong class=description-headline>Phone</strong>Make a call by tapping a name or send a text with the intelligent keyboard.<strong class=description-headline>iPod</strong>Enjoy music and video on a widescreen display and shop for music with a tap.<strong class=description-headline>Internet</strong>Browse the web, get HTML email, and find yourself with GPS maps. ; ; <strong class=description-headline>Phone, iPod, Internet, and more.</strong>Introducing iPhone 3G...
+; SPO122                    ; SPO122                                            ; <strong class=description-headline>Why You�ll Love iPhone</strong>It�s a phone, an iPod and an Internet device in one. It gives you access to thousands of applications. And it�s built on technology that�s years ahead of its time.<strong class=description-headline>Apps for iPhone</strong>Discover apps from the App Store that help you do more with iPhone. From games to business to health and fitness, there�s an app for that.<strong class=description-headline>3.0 Software Update</strong>Already have an iPhone? Make it even better with great new features � including Cut, Copy & Paste, and MMS � free with the iPhone 3.0 Software Update.<strong class=description-headline>New in MobileMe</strong>MobileMe gives you push email, contacts and calendars. Lose your iPhone? MobileMe can help you find it and protect your privacy with Find My iPhone. ; ; <strong class=description-headline>Why You�ll Love iPhone</strong>It�s a phone, an iPod and an Internet device in one. It gives you access to thousands of applications...
+; SPO123                    ; SPO123                                           	; <strong class=description-headline>Why You�ll Love iPhone</strong>It�s a phone, an iPod and an Internet device in one. It gives you access to thousands of applications. And it�s built on technology that�s years ahead of its time.<strong class=description-headline>Apps for iPhone</strong>Discover apps from the App Store that help you do more with iPhone. From games to business to health and fitness, there�s an app for that.<strong class=description-headline>3.0 Software Update</strong>Already have an iPhone? Make it even better with great new features � including Cut, Copy & Paste, and MMS � free with the iPhone 3.0 Software Update.<strong class=description-headline>New in MobileMe</strong>MobileMe gives you push email, contacts and calendars. Lose your iPhone? MobileMe can help you find it and protect your privacy with Find My iPhone. ; ; <strong class=description-headline>Why You�ll Love iPhone</strong>It�s a phone, an iPod and an Internet device in one. It gives you access to thousands of applications...
+; SPO124                    ; SPO124                                           	; <strong class=description-headline>Why You�ll Love iPhone</strong>It�s a phone, an iPod and an Internet device in one. It gives you access to thousands of applications. And it�s built on technology that�s years ahead of its time.<strong class=description-headline>Apps for iPhone</strong>Discover apps from the App Store that help you do more with iPhone. From games to business to health and fitness, there�s an app for that.<strong class=description-headline>3.0 Software Update</strong>Already have an iPhone? Make it even better with great new features � including Cut, Copy & Paste, and MMS � free with the iPhone 3.0 Software Update.<strong class=description-headline>New in MobileMe</strong>MobileMe gives you push email, contacts and calendars. Lose your iPhone? MobileMe can help you find it and protect your privacy with Find My iPhone. ; ; <strong class=description-headline>Why You�ll Love iPhone</strong>It�s a phone, an iPod and an Internet device in one. It gives you access to thousands of applications...
+; SPO125                    ; SPO125                                           	; <strong class=description-headline>Why You�ll Love iPhone</strong>It�s a phone, an iPod and an Internet device in one. It gives you access to thousands of applications. And it�s built on technology that�s years ahead of its time.<strong class=description-headline>Apps for iPhone</strong>Discover apps from the App Store that help you do more with iPhone. From games to business to health and fitness, there�s an app for that.<strong class=description-headline>3.0 Software Update</strong>Already have an iPhone? Make it even better with great new features � including Cut, Copy & Paste, and MMS � free with the iPhone 3.0 Software Update.<strong class=description-headline>New in MobileMe</strong>MobileMe gives you push email, contacts and calendars. Lose your iPhone? MobileMe can help you find it and protect your privacy with Find My iPhone. ; ; <strong class=description-headline>Why You�ll Love iPhone</strong>It�s a phone, an iPod and an Internet device in one. It gives you access to thousands of applications...
+; SPO126                    ; SPO126                                           	; <strong class=description-headline>Why You�ll Love iPhone</strong>It�s a phone, an iPod and an Internet device in one. It gives you access to thousands of applications. And it�s built on technology that�s years ahead of its time.<strong class=description-headline>Apps for iPhone</strong>Discover apps from the App Store that help you do more with iPhone. From games to business to health and fitness, there�s an app for that.<strong class=description-headline>3.0 Software Update</strong>Already have an iPhone? Make it even better with great new features � including Cut, Copy & Paste, and MMS � free with the iPhone 3.0 Software Update.<strong class=description-headline>New in MobileMe</strong>MobileMe gives you push email, contacts and calendars. Lose your iPhone? MobileMe can help you find it and protect your privacy with Find My iPhone. ; ; <strong class=description-headline>Why You�ll Love iPhone</strong>It�s a phone, an iPod and an Internet device in one. It gives you access to thousands of applications...
+										  
+										  
+###########Test Case 1 ##########################################
+
+
+INSERT_UPDATE TmaBundledProductOffering;code[unique=true];parents(code,$catalogversion);name[lang=en];$catalogversion
+;BPO1;;BPO1;
+
+
+INSERT_UPDATE TmaBundledProductOffering;code[unique=true];parents(code,$catalogversion);name[lang=en];$catalogversion
+;BPO11;BPO1;BPO11;
+;BPO12;BPO1;BPO12;
+
+INSERT_UPDATE TmaProductOfferingGroup; code[unique=true];name;childProductOfferings(code,$catalogversion); parentBundleProductOffering(code,$catalogversion);  $catalogversion; 
+										  ;GRP1;Group1;BPO11 ;BPO1;
+										  ;GRP2;Group2;BPO12 ;BPO1;
+										  
+INSERT_UPDATE TmaProductOfferingGroup; code[unique=true];name;parentBundleProductOffering(code,$catalogversion);  $catalogversion;childProductOfferings(code,$catalogversion); 
+										  ;GRP11;Group11; BPO11;;SPO111
+										  ;GRP12;Group12; BPO11;;SPO112
+										  ;GRP13;Group13; BPO11;;SPO113
+										  ;GRP21;Group21; BPO12;;SPO121
+										  ;GRP22;Group22; BPO12;;SPO122
+										  ;GRP23;Group23; BPO12;;SPO123
+
+										  
+##############################Test case 2 ##############################################										  
+										  
+INSERT_UPDATE TmaBundledProductOffering;code[unique=true];parents(code,$catalogversion);name[lang=en];$catalogversion
+;BPO2;;BPO2;
+
+INSERT_UPDATE TmaProductOfferingGroup; code[unique=true];name;childProductOfferings(code,$catalogversion); parentBundleProductOffering(code,$catalogversion);  $catalogversion; 
+										  ;GRP22;Group22;BPO212 ;BPO2;
+										  ;GRP21;Group21;BPO211 ;BPO2;
+										 
+
+
+INSERT_UPDATE TmaBundledProductOffering;code[unique=true];parents(code,$catalogversion);name[lang=en];$catalogversion
+;BPO212;BPO2;BPO212;
+;BPO211;BPO2;BPO211;
+
+										  
+INSERT_UPDATE TmaProductOfferingGroup; code[unique=true];name;parentBundleProductOffering(code,$catalogversion);  $catalogversion;childProductOfferings(code,$catalogversion);
+										  ;GRP211;Group211; BPO211;;SPO111
+										  ;GRP212;Group212; BPO211;;SPO112
+										  ;GRP213;Group213; BPO211;;SPO113
+										  ;GRP221;Group221; BPO212;;SPO121
+										  ;GRP222;Group222; BPO212;;SPO122
+										  ;GRP223;Group223; BPO212;;SPO123
+
+										  
+##############################Test case 3 ##############################################										  									  
+										  
+INSERT_UPDATE TmaBundledProductOffering;code[unique=true];parents(code,$catalogversion);name[lang=en];$catalogversion
+;BPO3;;BPO3;
+
+INSERT_UPDATE TmaProductOfferingGroup; code[unique=true];name;childProductOfferings(code,$catalogversion); parentBundleProductOffering(code,$catalogversion);  $catalogversion; 
+										  ;GRP32;Group32;BPO312 ;BPO3;
+										  ;GRP31;Group31;BPO311 ;BPO3;
+										
+INSERT_UPDATE TmaBundledProductOffering;code[unique=true];parents(code,$catalogversion);name[lang=en];$catalogversion
+;BPO312;BPO3;BPO312;
+;BPO311;BPO3;BPO311;
+
+										  
+INSERT_UPDATE TmaProductOfferingGroup; code[unique=true];name;childProductOfferings(code,$catalogversion);parentBundleProductOffering(code,$catalogversion);  $catalogversion; 
+										  ;GRP323;Group323;SPO123 ;BPO312;
+										  ;GRP321;Group321;SPO121 ;BPO312;
+										  ;GRP322;Group322;SPO122 ;BPO312;
+										  ;GRP313;Group313;SPO113 ;BPO311;
+										  ;GRP311;Group311;SPO111 ;BPO311;
+										  ;GRP312;Group312;SPO112 ;BPO311;
+										  
+										  
+##############################Test case 4 ##############################################										  
+										  
+INSERT_UPDATE TmaBundledProductOffering;code[unique=true];parents(code,$catalogversion);name[lang=en];$catalogversion
+;BPO4;;BPO4;
+
+INSERT_UPDATE TmaBundledProductOffering;code[unique=true];parents(code,$catalogversion);name[lang=en];$catalogversion;children(code,$catalogversion)
+;BPO411;BPO4;BPO411;;SPO111;
+;BPO412;BPO4;BPO412;;SPO121;
+
+INSERT_UPDATE TmaProductOfferingGroup; code[unique=true];name;childProductOfferings(code,$catalogversion); parentBundleProductOffering(code,$catalogversion);  $catalogversion; 
+										  ;GRP41;Group41;BPO411 ;BPO4;
+										  ;GRP42;Group42;BPO412 ;BPO4;
+										 
+										  
+INSERT_UPDATE TmaProductOfferingGroup; code[unique=true];name;childProductOfferings(code,$catalogversion);parentBundleProductOffering(code,$catalogversion);  $catalogversion; 
+										  ;GRP411;Group411;SPO111,SPO112 ;BPO411;
+										  ;GRP421;Group421;SPO121,SPO122 ;BPO412;
+										 

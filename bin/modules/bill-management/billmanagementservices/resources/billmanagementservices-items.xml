@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+
+<items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="items.xsd">
+
+    <enumtypes>
+        <enumtype code="BmPartyType" autocreate="true" generate="true" dynamic="true">
+            <description>Type of a party</description>
+            <value code="INDIVIDUAL"/>
+            <value code="ORGANIZATION"/>
+        </enumtype>
+        <enumtype code="BmPartyBillStatus" autocreate="true" generate="true" dynamic="true">
+            <description>Status of a party bill</description>
+            <value code="NEW"/>
+            <value code="ON_HOLD"/>
+            <value code="VALIDATED"/>
+            <value code="SENT"/>
+            <value code="SETTLED"/>
+            <value code="PARTIALLY_PAID"/>
+        </enumtype>
+    </enumtypes>
+
+    <relations>
+        <relation code="BmBillingAccount2BmPartyBillRelation" localized="false">
+            <description>Relation defining the Party Bills of a Billing Account</description>
+            <sourceElement type="BmBillingAccount" qualifier="billingAccount" cardinality="one">
+                <description>The Billing Account for which those Party Bills are valid.</description>
+            </sourceElement>
+            <targetElement type="BmPartyBill" qualifier="partyBills" cardinality="many" collectiontype="set">
+                <description>The Party Bills of that Billing Account.</description>
+            </targetElement>
+        </relation>
+
+        <relation code="BmPartyPayment2BmPartyPaymentItemRelation" localized="false">
+            <description>Relation defining the Party Payment Items of the Party Payment</description>
+            <sourceElement type="BmPartyPayment" qualifier="payment" cardinality="one">
+                <description>The Party Payment for which those Party Payment Items are defined.</description>
+            </sourceElement>
+            <targetElement type="BmPartyPaymentItem" qualifier="paymentItems" cardinality="many" collectiontype="set">
+                <description>The Party Payment Items of that Party Payment.</description>
+            </targetElement>
+        </relation>
+
+        <relation code="BmPartyBill2BmPartyPaymentItemRelation" localized="false">
+            <description>Relation defining the Party Payment Items of the Party Bill</description>
+            <sourceElement type="BmPartyBill" qualifier="partyBill" cardinality="one">
+                <description>The Party Bill for which those Party Payment Items are defined.</description>
+            </sourceElement>
+            <targetElement type="BmPartyPaymentItem" qualifier="paymentItems" cardinality="many" collectiontype="set">
+                <description>The Party Payment Items of that Party Bill.</description>
+            </targetElement>
+        </relation>
+
+        <relation code="BmPartyBill2BmPartyRelation" localized="false">
+            <description>Relation defining the Parties of those Party Bills</description>
+            <deployment table="BmPtyBill2BmPtyRel" typecode="7459"/>
+            <sourceElement type="BmPartyBill" qualifier="partyBills" cardinality="many" collectiontype="set">
+                <description>The Party Bills for which those Parties are defined.</description>
+            </sourceElement>
+            <targetElement type="BmParty" qualifier="parties" cardinality="many" collectiontype="set">
+                <description>The Parties of those Party Bills.</description>
+            </targetElement>
+        </relation>
+
+        <relation code="BmPartyBill2CatalogUnawareMediaRelation" localized="false">
+            <description>Relation defining the attachments of the Party Bill</description>
+            <sourceElement type="BmPartyBill" qualifier="partyBill" cardinality="one">
+                <description>The Party Bill for which those attachments are defined.</description>
+            </sourceElement>
+            <targetElement type="CatalogUnawareMedia" qualifier="attachments" cardinality="many" collectiontype="set">
+                <description>The attachments of that Party Bill.</description>
+            </targetElement>
+        </relation>
+
+        <relation code="BmParty2BmPartyRoleRelation" localized="false">
+            <description>Relation defining the Party Roles of the Party</description>
+            <sourceElement type="BmParty" qualifier="party" cardinality="one">
+                <description>The Party for which those Party Roles are defined.</description>
+            </sourceElement>
+            <targetElement type="BmPartyRole" qualifier="partyRoles" cardinality="many" collectiontype="set">
+                <description>The Party Roles of that Party.</description>
+            </targetElement>
+        </relation>
+
+        <relation code="BmParty2PrincipalRelation" localized="false">
+            <description>Relation defining the Principals of the Party</description>
+            <sourceElement type="BmParty" qualifier="bmParty" cardinality="one">
+                <description>The Party for which those Principals are defined.</description>
+            </sourceElement>
+            <targetElement type="Principal" qualifier="principals" cardinality="many" collectiontype="set">
+                <description>The party principals of the party.</description>
+            </targetElement>
+        </relation>
+
+        <relation code="BmPartyBill2BmAppliedPartyBillingTaxRateRelation" localized="false">
+            <description>Relation defining the Applied Party Billing Tax Rates of the Party Bill.</description>
+            <sourceElement type="BmPartyBill" qualifier="partyBill" cardinality="one">
+                <description>The Party Bill for which those Applied Party Billing Tax Rates are defined.</description>
+            </sourceElement>
+            <targetElement type="BmAppliedPartyBillingTaxRate" qualifier="taxItems" cardinality="many"
+                           collectiontype="set">
+                <description>The Applied Party Billing Tax Rates of that Party Bill.</description>
+            </targetElement>
+        </relation>
+
+        <relation code="BmPartyBillingCycle2BmOnCyclePartyBillRelation" localized="false">
+            <description>Relation defining the On Cycle Party Bills of the Party Billing Cycle.</description>
+            <sourceElement type="BmPartyBillingCycle" qualifier="billCycle" cardinality="one">
+                <description>The Party Billing Cycle for which those On Cycle Party Bills are defined.</description>
+            </sourceElement>
+            <targetElement type="BmOnCyclePartyBill" qualifier="partyBills" cardinality="many" collectiontype="set">
+                <description>The On Cycle Party Bills of that Party Billing Cycle.</description>
+            </targetElement>
+        </relation>
+
+        <relation code="BmAccount2BmAccountBalanceRelation" localized="false">
+            <description>Relation defining the Account Balances of the Account.</description>
+            <sourceElement type="BmAccount" qualifier="account" cardinality="one">
+                <description>The Account for which those Account Balances are defined.</description>
+            </sourceElement>
+            <targetElement type="BmAccountBalance" qualifier="accountBalances" cardinality="many" collectiontype="set">
+                <description>The Account Balances of that Account.</description>
+            </targetElement>
+        </relation>
+
+        <relation code="BmAccount2BmPartyRoleRelation" localized="false">
+            <description>Relation defining the Party Roles of those Accounts</description>
+            <deployment table="BmAcc2BmPtyRoleRel" typecode="7460"/>
+            <sourceElement type="BmAccount" qualifier="accounts" cardinality="many" collectiontype="set">
+                <description>The Accounts for which those Party Roles are defined.</description>
+            </sourceElement>
+            <targetElement type="BmPartyRole" qualifier="partyRoles" cardinality="many" collectiontype="set">
+                <description>The Party Roles of those Accounts.</description>
+            </targetElement>
+        </relation>
+
+    </relations>
+
+    <itemtypes>
+        <itemtype code="BmAccount">
+            <deployment table="BmAccounts" typecode="7450"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers unique="true"/>
+                </attribute>
+                <attribute qualifier="name" type="localized:java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="accountIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="BmPartyPayment">
+            <deployment table="BmPartyPayments" typecode="7451"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers unique="true"/>
+                </attribute>
+                <attribute qualifier="name" type="localized:java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="paymentDate" type="java.util.Date">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="partyPaymentIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="BmBillingAccount" extends="BmAccount">
+            <description>Billing Account</description>
+            <attributes>
+                <attribute qualifier="financialAccount" type="BmFinancialAccount">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+        </itemtype>
+
+        <itemtype code="BmAccountBalance">
+            <deployment table="BmAccountBalances" typecode="7452"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers unique="true"/>
+                </attribute>
+                <attribute qualifier="remainingAmount" type="java.lang.Float">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="currency" type="Currency">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="accountBalanceIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="BmAppliedPartyBillingTaxRate">
+            <deployment table="BmApplPtyBillTaxRates" typecode="7453"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers unique="true"/>
+                </attribute>
+                <attribute qualifier="taxCategory" type="java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="quantity" type="java.lang.Float">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="currency" type="Currency">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="taxRate" type="java.lang.Float">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="appliedPartyBillingTaxRateIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="BmFinancialAccount" extends="BmAccount">
+            <description>Financial Account</description>
+        </itemtype>
+
+        <itemtype code="BmPartyBillingCycle">
+            <deployment table="BmPtyBillCycles" typecode="7454"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers unique="true"/>
+                </attribute>
+                <attribute qualifier="billingDate" type="java.util.Date">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="chargeDate" type="java.util.Date">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="creditDate" type="java.util.Date">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="mailingDate" type="java.util.Date">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="paymentDueDate" type="java.util.Date">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="productionReason" type="java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="nextBillDate" type="java.util.Date">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="partyBillingCycleIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="BmPartyBill">
+            <deployment table="BmPartyBills" typecode="7455"/>
+            <attributes>
+                <attribute qualifier="billNo" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers unique="true"/>
+                </attribute>
+                <attribute qualifier="amount" type="java.lang.Float">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="currency" type="Currency">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="status" type="BmPartyBillStatus">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="partyBillNox" unique="true">
+                    <key attribute="billNo"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="BmPartyPaymentItem">
+            <deployment table="BmPtyPaymentItems" typecode="7456"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers unique="true"/>
+                </attribute>
+                <attribute qualifier="appliedAmount" type="java.lang.Float">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="currency" type="Currency">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="partyPaymentItemIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="BmOnCyclePartyBill" extends="BmPartyBill">
+            <description>Bills created as a result of a cycle run.</description>
+        </itemtype>
+
+        <itemtype code="BmParty">
+            <deployment table="BmParties" typecode="7457"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers unique="true"/>
+                </attribute>
+                <attribute qualifier="name" type="localized:java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="type" type="BmPartyType">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="partiesIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="BmPartyRole">
+            <deployment table="BmPartyRoles" typecode="7458"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers unique="true"/>
+                </attribute>
+                <attribute qualifier="role" type="java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="partyRolesIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+    </itemtypes>
+
+</items>

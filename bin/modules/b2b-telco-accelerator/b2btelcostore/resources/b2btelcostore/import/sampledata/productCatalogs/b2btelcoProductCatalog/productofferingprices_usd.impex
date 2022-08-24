@@ -1,0 +1,51 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+$productCatalog = b2btelcoProductCatalog
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Staged'])[unique = true, default = '$productCatalog:Staged']
+$currency = currency(isocode)[default = USD]
+$priceEvent = priceEvent(code)[default='paynow']
+$priceEventRcUc = priceEvent(code)[default='monthly']
+
+################################################
+###            One time charges              ###
+################################################
+
+INSERT_UPDATE TmaOneTimeProdOfferPriceCharge; id[unique = true]   ; $catalogVersion; value   ; $priceEvent; $currency
+                                            ; OTC_1246_15_USD_PN  ;                ; 1246.15 ;
+                                            ; OTC_2362_22_USD_OFB ;                ; 2362.22 ; onfirstbill
+                                            ; OTC_2387_22_USD_OFB ;                ; 2387.22 ; onfirstbill
+                                            ; OTC_2397_23_USD_OFB ;                ; 2397.23 ; onfirstbill
+                                            ; OTC_2409_33_USD_OFB ;                ; 2409.33 ; onfirstbill
+                                            ; OTC_2499_71_USD_OFB ;                ; 2499.71 ; onfirstbill
+                                            ; OTC_2549_56_USD_OFB ;                ; 2549.56 ; onfirstbill
+                                            ; OTC_2689_49_USD_OFB ;                ; 2689.49 ; onfirstbill
+
+
+################################################
+###              Recurring charges           ###
+################################################
+
+INSERT_UPDATE TmaRecurringProdOfferPriceCharge; id[unique = true]       ; name                      ; $catalogVersion; value    ; $currency; $priceEventRcUc; cycleStart; cycleEnd
+                                              ; RC_1500_00_USD_start_1  ; "RC 1500.00 USD Start 1"  ;                ; 1500.00  ;          ;                ; 1         ;
+                                              ; RC_3045_54_USD_start_1  ; "RC 3045.54 USD Start 1"  ;                ; 3045.54  ;          ;                ; 1         ;
+                                              ; RC_10512_62_USD_start_1 ; "RC 10512.62 USD Start 1" ;                ; 10512.62 ;          ;                ; 1         ;
+                                              ; RC_27125_24_USD_start_1 ; "RC 27125.24 USD Start 1" ;                ; 27125.24 ;          ;                ; 1         ;
+                                              ; RC_38125_42_USD_start_1 ; "RC 38125.42 USD Start 1" ;                ; 38125.42 ;          ;                ; 1         ;
+                                              ; RC_44128_54_USD_start_1 ; "RC 44128.54 USD Start 1" ;                ; 44128.54 ;          ;                ; 1         ;
+                                              ; RC_50125_12_USD_start_1 ; "RC 50125.12 USD Start 1" ;                ; 50125.12 ;          ;                ; 1         ;
+
+################################################
+###              Discount alterations        ###
+################################################
+
+INSERT_UPDATE TmaDiscountProdOfferPriceAlteration; id[unique = true]                     ; value; cycleStart; cycleEnd; $currency; $priceEvent; $catalogVersion; isPercentage[default = false];
+                                                 ; 100_percent_start_1_end_6_monthly_dsc ; 100  ; 1         ; 6       ;          ; monthly    ;                ; true                         ;
+
+################################################
+###              Composite prices            ###
+################################################
+
+INSERT_UPDATE TmaCompositeProdOfferPrice; id[unique = true]                 ; $catalogVersion; children(id, $catalogVersion)
+                                        ; connectivity_service_plan_USD_pop ;                ; OTC_1246_15_USD_PN, RC_1500_00_USD_start_1, 100_percent_start_1_end_6_monthly_dsc

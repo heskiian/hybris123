@@ -1,0 +1,9 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+
+INSERT_UPDATE UserPriceGroup; code[unique = true]; name[lang = en]             ;
+                            ; STUDENT            ; Student User Price Group    ;
+                            ; NORMAL             ; Normal Customer Price Group ;
+                            ; VIP                ; VIP User Price Group        ;

@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+
+<items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="items.xsd">
+    <collectiontypes>
+        <collectiontype code="ProductTypeCollection" elementtype="TmaProductSpecType" autocreate="true" generate="true"
+                        type="list" />
+        <collectiontype code="SubscriptionPricePlanCollection" elementtype="SubscriptionPricePlan" autocreate="true"
+                        generate="true" type="list" />
+    </collectiontypes>
+    <enumtypes>
+         <enumtype code="SemanticType" autocreate="true" generate="true">
+            <description>Semantic Type</description>
+            <value code="ONETIME_CHARGE_ENTRY"/>
+            <value code="RECURRING_CHARGE_ENTRY"/>
+            <value code="UPIL_BILLING_ATTRIBUTES"/>
+            <value code="UPIL_SALES_ATTRIBUTES"/>
+            <value code="DISCOUNT"/>
+            <value code="USAGE_CHARGE_ENTRY"/>
+        </enumtype>
+        
+        <enumtype code="UpilAttributeType" autocreate="true" generate="true">
+            <description>UPIL Attribute Type</description>
+            <value code="BILLING"/>
+            <value code="SALES"/>
+        </enumtype>
+	</enumtypes>
+
+	<relations>
+		<relation code="SubscriptionPrices2UpilAdditionalAttributes"
+			localized="false">
+			<description>Upil additional product attributes applied to the subscription price plan</description>
+			<sourceElement type="subscriptionpriceplan " qualifier="pricePlan" cardinality="one">
+				<description>UPIL Subscription Price Plan</description>
+			</sourceElement>
+			<targetElement type="UpilAdditionalAttributes" qualifier="upilAdditionalAttributes" cardinality="many">
+				<description>UPIL Additional Product Attributes</description>
+			</targetElement>
+		</relation>
+	</relations>
+
+	<itemtypes>
+		<typegroup name="ProductCatalogue">
+		    <itemtype code="SubscriptionPricePlan" autocreate="false" generate="false">
+		        <attributes>
+		            <attribute qualifier="productSpecType" type="TmaProductSpecType">
+		                <description>Type of the Product Specification</description>
+		                <modifiers write="false" />
+		                <persistence type="dynamic" attributeHandler="tmaProductSpecTypeAttrHandler" />
+		            </attribute>
+		            <attribute type="java.util.Date" qualifier="isuCreationDate">
+		                <description>Product Creation Date in IS-U</description>
+		                <persistence type="property" />
+		            </attribute>
+				</attributes>
+			</itemtype>
+			
+			<itemtype code="OverageUsageChargeEntry" autocreate="false" generate="false">
+			    <attributes>
+			        <attribute qualifier="tierStart" type="java.lang.Integer">
+			            <description>Tier Start</description>
+			            <persistence type="property" />
+			        </attribute>
+			        <attribute qualifier="tierEnd" type="java.lang.Integer">
+			            <description>Tier End</description>
+			            <persistence type="property" />
+			        </attribute>
+			     </attributes>
+			</itemtype>
+
+            <itemtype code="UpilAdditionalAttributes" extends="GenericItem" autocreate="true" generate="true">
+                <description>Additional Attributes for UPIL</description>
+                <deployment table="UpilAdditionalAttr" typecode="12197" />
+                <custom-properties>
+                    <property name="catalogItemType"><value>java.lang.Boolean.TRUE</value></property>
+                    <property name="catalogVersionAttributeQualifier"><value>"catalogVersion"</value></property>
+                    <property name="uniqueKeyAttributeQualifier"><value>"code"</value></property>
+                </custom-properties>
+                <attributes>
+                    <attribute qualifier="code" type="java.lang.String">
+                        <description>Identifier</description>
+                        <modifiers read="true" write="true" search="true" unique="true" optional="false" />
+                        <persistence type="property" />
+					</attribute>
+                    <attribute qualifier="catalogVersion" type="CatalogVersion">
+                        <description>Catalog Version</description>
+                        <modifiers initial="true" write="false" unique="true" optional="false"/>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="utilsProductEntryValue" type="java.lang.String">
+                        <description>UPIL entry value Of the product</description>
+                        <modifiers read="true" write="true" search="true" />
+                        <persistence type="property" />
+                     </attribute>
+                     <attribute qualifier="semantics" type="UpilSemantics">
+                        <description>UPIL specific additional attribute</description>
+                        <modifiers read="true" write="true" search="true" />
+                        <persistence type="property" />
+                    </attribute>
+                    <attribute qualifier="utilsSalesFactValue" type="java.lang.String">
+                        <description>UPIL fact value Of the sales attribute</description>
+                        <modifiers read="true" write="true" search="true" />
+                        <persistence type="property" />
+                    </attribute>
+                    <attribute qualifier="currency" type="Currency">
+                        <description>UPIL fact value currency Of the sales attribute</description>
+                        <modifiers read="true" write="true" search="true" />
+                        <persistence type="property" />
+                    </attribute>
+                    <attribute qualifier="attributeType" type="upilAttributeType">
+                         <description>Type of Upil Additional Attributes</description>
+                         <modifiers read="true" write="true" search="true" optional="false"/>
+                         <persistence type="property" />
+                    </attribute>
+                </attributes>
+                <indexes>
+                    <index name="idVersionIdx" unique="true">
+                        <key attribute="code"/>
+                        <key attribute="catalogVersion"/>
+                    </index>
+                </indexes>
+            </itemtype>
+			
+            <itemtype code="UpilSemantics" extends="GenericItem" autocreate="true" generate="true">
+                <description>Semantics for UPIL</description>
+                <deployment table="UpilSemantics" typecode="12196"/>
+         	    <custom-properties>
+                    <property name="catalogItemType"><value>java.lang.Boolean.TRUE</value></property>
+                    <property name="catalogVersionAttributeQualifier"><value>"catalogVersion"</value></property>
+                    <property name="uniqueKeyAttributeQualifier"><value>"semanticType,semanticsName1,semanticsName2"</value></property>
+                </custom-properties>
+                <attributes>
+                    <attribute qualifier="catalogVersion" type="CatalogVersion">
+                        <description>Catalog Version</description>
+                        <modifiers initial="true" write="false" optional="false"/>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="description" type="java.lang.String">
+                        <description>Description of the Upil Semantics.</description>
+                        <modifiers read="true" write="true" search="true"/>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="semanticType" type="SemanticType">
+                        <description>Semantics Type</description>
+                        <modifiers read="true" write="true" search="true" optional="false"/>
+                        <persistence type="property" />
+                    </attribute>
+                    <attribute qualifier="semanticsName1" type="java.lang.String">
+                        <description>Semantics Name 1</description>
+                        <modifiers read="true" write="true" search="true" optional="false"/>
+                        <persistence type="property" />
+                    </attribute>
+                    <attribute qualifier="semanticsName2" type="java.lang.String">
+                        <description>Semantics Name 2</description>
+                        <modifiers read="true" write="true" search="true" optional="false"/>
+                        <persistence type="property" />
+                    </attribute>
+                </attributes>
+                <indexes>
+                    <index name="idVersionIdx" unique="false">
+                        <key attribute="semanticsName1"/>
+                        <key attribute="semanticsName2"/>
+                        <key attribute="semanticType"/>
+                    </index>
+                </indexes>
+            </itemtype>
+            
+            <itemtype code="ChargeEntry" autocreate="false" generate="false">
+                <attributes>
+                     <attribute qualifier="semantics" type="UpilSemantics">
+                        <description>UPIL specific additional attribute</description>
+                        <modifiers read="true" write="true" search="true" />
+                        <persistence type="property" />
+                    </attribute>
+                </attributes>
+            </itemtype>
+            
+            <itemtype code="BillingFrequency" autocreate="false" generate="false">
+                <attributes>
+                    <attribute qualifier="frequencyUnit" type="java.lang.String">
+                        <description>Time category (days or months)</description>
+                        <modifiers read="true" write="true" search="true" />
+                        <persistence type="property" />
+                    </attribute>
+                    <attribute qualifier="frequencyValue" type="java.lang.String">
+                        <description>Frequency of Cycles</description>
+                        <modifiers read="true" write="true" search="true" />
+                        <persistence type="property" />
+	                </attribute>
+                </attributes>
+            </itemtype>
+      </typegroup>
+      
+      <typegroup name="Isu Product Sync CronJob">
+        <itemtype code="IsuProductSyncCronJob" extends="CronJob"
+                     jaloclass="de.hybris.platform.upilintegrationservices.jalo.IsuProductSyncCronJob" autocreate="true"
+                     generate="true">
+             <attributes>
+                  <attribute qualifier="appliedCatalogVersions" type="CatalogVersionCollection">
+                      <modifiers read="true" write="true" optional="true" />
+                      <persistence type="property" />
+                  </attribute>
+                  <attribute qualifier="appliedProductTypes" type="ProductTypeCollection">
+                      <modifiers read="true" write="true" optional="true" />
+                      <persistence type="property" />
+                  </attribute>
+                  <attribute qualifier="appliedPricePlans" type="SubscriptionPricePlanCollection">
+                     <modifiers read="true" write="true" optional="true" />
+                     <custom-properties>
+                        <property name="hiddenForUI">
+                           <value>Boolean.TRUE</value>
+                        </property>
+                     </custom-properties>
+                     <persistence type="property" />
+                 </attribute>
+             </attributes>
+        </itemtype>
+      </typegroup>
+      
+      <typegroup name="Isu Config Sync CronJob">
+          <itemtype code="IsuConfigSyncCronJob" extends="CronJob" autocreate="true" generate="true">
+              <attributes>
+                  <attribute qualifier="appliedCatalogVersion" type="CatalogVersion">
+                      <modifiers read="true" write="true" optional="true" />
+                      <persistence type="property" />
+                  </attribute>
+              </attributes>
+         </itemtype>
+     </typegroup>
+      
+</itemtypes>
+</items>

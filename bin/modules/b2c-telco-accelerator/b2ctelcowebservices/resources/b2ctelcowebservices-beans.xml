@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="beans.xsd">
+
+    <!-- Subscription Base WS DTO -->
+    <bean class="de.hybris.platform.b2ctelcowebservices.dto.TmaSubscriptionBaseWsDto">
+        <description>Used as return type for SubscriptionBase operations</description>
+        <property name="subscriberIdentity" type="String"/>
+        <property name="billingSystemId" type="String"/>
+        <property name="billingAccountId" type="String"/>
+    </bean>
+
+    <!-- Billing Account WS DTOs -->
+    <bean class="de.hybris.platform.b2ctelcowebservices.dto.TmaBillingAccountRequestWsDto">
+        <description>Used as request type for BillingAccount rest operations</description>
+        <property name="billingAccountId" type="java.lang.String"/>
+        <property name="billingSystemId" type="java.lang.String"/>
+        <property name="parentBillingAccountId" type="java.lang.String"/>
+    </bean>
+
+    <bean class="de.hybris.platform.b2ctelcowebservices.dto.TmaBillingAccountWsDto">
+        <property name="billingAccountId" type="java.lang.String"/>
+        <property name="billingSystemId" type="java.lang.String"/>
+    </bean>
+
+    <!-- Service WS DTO -->
+    <bean class="de.hybris.platform.b2ctelcowebservices.dto.UpdatableTmaSubscribedProductWsDto">
+        <description>Dto for Subscribed Product fields that can be updated.</description>
+        <property name="name" type="String"/>
+        <property name="productCode" type="String"/>
+        <property name="serviceType" type="de.hybris.platform.b2ctelcofacades.data.TmaServiceTypeData"/>
+        <property name="subscriptionBaseId" type="String"/>
+        <property name="subscriptionStatus" type="de.hybris.platform.b2ctelcofacades.data.SubscriptionStatusData"/>
+        <property name="startDate" type="java.util.Date"/>
+        <property name="endDate" type="java.util.Date"/>
+        <property name="cancelledDate" type="java.util.Date"/>
+        <property name="renewalType" type="String"/>
+        <property name="cancellable" type="Boolean"/>
+        <property name="billingFrequency" type="String"/>
+        <property name="contractDuration" type="Integer"/>
+        <property name="contractFrequency" type="String"/>
+        <property name="parentPOCode" type="java.lang.String"/>
+    </bean>
+
+    <bean class="de.hybris.platform.b2ctelcowebservices.dto.TmaSubscribedProductWsDto"
+          extends="de.hybris.platform.b2ctelcowebservices.dto.UpdatableTmaSubscribedProductWsDto">
+        <description>Dto containing all Subscribed Product related fields.</description>
+        <property name="billingSystemId" type="String"/>
+        <property name="billingSubscriptionId" type="String"/>
+    </bean>	
+</beans>

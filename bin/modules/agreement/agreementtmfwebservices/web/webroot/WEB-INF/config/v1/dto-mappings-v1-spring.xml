@@ -1,0 +1,1000 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <!-- Field mapping configuration -->
+    <alias alias="fieldSetBuilder" name="defaultFieldSetBuilder"/>
+    <bean id="defaultFieldSetBuilder"
+          class="de.hybris.platform.webservicescommons.mapping.impl.DefaultFieldSetBuilder">
+        <property name="defaultRecurrencyLevel" value="10"/>
+        <property name="defaultMaxFieldSetSize" value="500000"/>
+        <property name="fieldSetLevelHelper" ref="fieldSetLevelHelper"/>
+    </bean>
+
+    <alias alias="fieldSetLevelHelper" name="defaultFieldSetLevelHelper"/>
+    <bean id="defaultFieldSetLevelHelper"
+          class="de.hybris.platform.webservicescommons.mapping.impl.DefaultFieldSetLevelHelper">
+    </bean>
+
+    <alias alias="dataMapper" name="defaultDataMapper"/>
+    <bean id="defaultDataMapper"
+          class="de.hybris.platform.webservicescommons.mapping.impl.DefaultDataMapper">
+        <property name="fieldSetBuilder" ref="fieldSetBuilder"/>
+    </bean>
+
+    <!-- ######################### -->
+    <!-- ### Attribute Mappers ### -->
+    <!-- ######################### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper agrCategoryRefEntityMapperV1 ### -->
+
+    <alias name="defaultAgrCategoryRefHrefAttributeMapper" alias="agrCategoryRefHrefAttributeMapper"/>
+    <bean id="defaultAgrCategoryRefHrefAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.categoryref.CategoryRefHrefAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultAgrCategoryRefSchemaLocationAttributeMapper" alias="agrCategoryRefSchemaLocationAttributeMapper"/>
+    <bean id="defaultAgrCategoryRefSchemaLocationAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.categoryref.CategoryRefSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="schemaLocation"/>
+    </bean>
+
+    <alias name="defaultAgrCategoryRefReferredTypeAttributeMapper" alias="agrCategoryRefReferredTypeAttributeMapper"/>
+    <bean id="defaultAgrCategoryRefReferredTypeAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.categoryref.CategoryRefReferredTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="referredType"/>
+    </bean>
+
+    <!-- ### END definition of attribute mappers for entity mapper agrCategoryRefEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper agrAgreementSpecCharacteristicValueEntityMapperV1 ### -->
+
+    <alias name="defaultAgrAgreementSpecCharacteristicValueValidForAttributeMapper"
+           alias="agrAgreementSpecCharacteristicValueValidForAttributeMapper"/>
+    <bean id="defaultAgrAgreementSpecCharacteristicValueValidForAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreementspeccharacteristicvalue.AgreementSpecCharacteristicValueValidForAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="startDateTime"/>
+        <constructor-arg name="targetAttributeName" value="validFor"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementSpecCharacteristicValueTypeAttributeMapper"
+           alias="agrAgreementSpecCharacteristicValueTypeAttributeMapper"/>
+    <bean id="defaultAgrAgreementSpecCharacteristicValueTypeAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreementspeccharacteristicvalue.AgreementSpecCharacteristicValueTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="type"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementSpecCharacteristicValueValueTypeAttributeMapper"
+           alias="agrAgreementSpecCharacteristicValueValueTypeAttributeMapper"/>
+    <bean id="defaultAgrAgreementSpecCharacteristicValueValueTypeAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreementspeccharacteristicvalue.AgreementSpecCharacteristicValueValueTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="type"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementSpecCharacteristicValueSchemaLocationAttributeMapper"
+           alias="agrAgreementSpecCharacteristicValueSchemaLocationAttributeMapper"/>
+    <bean id="defaultAgrAgreementSpecCharacteristicValueSchemaLocationAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreementspeccharacteristicvalue.AgreementSpecCharacteristicValueSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="schemaLocation"/>
+    </bean>
+    <!-- ### END definition of attribute mappers for entity mapper agrAgreementSpecCharacteristicValueEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper agrAgreementSpecCharacteristicEntityMapperV1 ### -->
+
+    <alias name="defaultAgrAgreementSpecCharacteristicValueAttributeMapper"
+           alias="agrAgreementSpecCharacteristicValueAttributeMapper"/>
+    <bean id="defaultAgrAgreementSpecCharacteristicValueAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreementspeccharacteristic.AgreementSpecCharacteristicValueAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="agreementSpecCharacteristicValues"/>
+        <constructor-arg name="targetAttributeName" value="specCharacteristicValue"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="agrGenericService" ref="agrGenericService"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementSpecCharacteristicValidForAttributeMapper"
+           alias="agrAgreementSpecCharacteristicValidForAttributeMapper"/>
+    <bean id="defaultAgrAgreementSpecCharacteristicValidForAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreementspeccharacteristic.AgreementSpecCharacteristicValidForAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="startDateTime"/>
+        <constructor-arg name="targetAttributeName" value="validFor"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementSpecCharacteristicSchemaLocationAttributeMapper"
+           alias="agrAgreementSpecCharacteristicSchemaLocationAttributeMapper"/>
+    <bean id="defaultAgrAgreementSpecCharacteristicSchemaLocationAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreementspeccharacteristic.AgreementSpecCharacteristicSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="schemaLocation"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementSpecCharacteristicTypeAttributeMapper"
+           alias="agrAgreementSpecCharacteristicTypeAttributeMapper"/>
+    <bean id="defaultAgrAgreementSpecCharacteristicTypeAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreementspeccharacteristic.AgreementSpecCharacteristicTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="type"/>
+    </bean>
+    <!-- ### END definition of attribute mappers for entity mapper agrAgreementSpecCharacteristicEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper agrCharacteristicEntityMapperV1 ### -->
+
+    <alias name="defaultAgrCharacteristicAtTypeAttributeMapper" alias="agrCharacteristicAtTypeAttributeMapper"/>
+    <bean id="defaultAgrCharacteristicAtTypeAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.characteristic.CharacteristicAtTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="type"/>
+    </bean>
+
+    <alias name="defaultAgrCharacteristicSchemaLocationAttributeMapper" alias="agrCharacteristicSchemaLocationAttributeMapper"/>
+    <bean id="defaultAgrCharacteristicSchemaLocationAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.characteristic.CharacteristicSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="schemaLocation"/>
+    </bean>
+
+    <alias name="defaultAgrCharacteristicValueAttributeMapper" alias="agrCharacteristicValueAttributeMapper"/>
+    <bean id="defaultAgrCharacteristicValueAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.characteristic.CharacteristicValueAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="agreementSpecCharValue"/>
+        <constructor-arg name="targetAttributeName" value="value"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="agrGenericService" ref="agrGenericService"/>
+    </bean>
+
+    <!-- ### END definition of attribute mappers for entity mapper agrCharacteristicEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper agrAgreementSpecificationEntityMapperV1 ### -->
+
+    <alias name="defaultAgrAgreementSpecificationLastModifiedAttributeMapper"
+           alias="agrAgreementSpecificationLastModifiedAttributeMapper"/>
+    <bean id="defaultAgrAgreementSpecificationLastModifiedAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreementspecification.AgreementSpecificationLastModifiedAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="modifiedTime"/>
+        <constructor-arg name="targetAttributeName" value="lastModified"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementSpecificationHrefAttributeMapper" alias="agrAgreementSpecificationHrefAttributeMapper"/>
+    <bean id="defaultAgrAgreementSpecificationHrefAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreementspecification.AgreementSpecificationHrefAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementSpecificationValidForAttributeMapper"
+           alias="agrAgreementSpecificationValidForAttributeMapper"/>
+    <bean id="defaultAgrAgreementSpecificationValidForAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreementspecification.AgreementSpecificationValidForAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="startDateTime"/>
+        <constructor-arg name="targetAttributeName" value="validFor"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementSpecificationLifecycleStatusAttributeMapper"
+           alias="agrAgreementSpecificationLifecycleStatusAttributeMapper"/>
+    <bean id="defaultAgrAgreementSpecificationLifecycleStatusAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreementspecification.AgreementSpecificationLifecycleStatusAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="lifecycleStatus"/>
+        <constructor-arg name="targetAttributeName" value="lifecycleStatus"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementSpecificationServiceCategoryAttributeMapper"
+           alias="agrAgreementSpecificationServiceCategoryAttributeMapper"/>
+    <bean id="defaultAgrAgreementSpecificationServiceCategoryAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreementspecification.AgreementSpecificationServiceCategoryAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="serviceCategory"/>
+        <constructor-arg name="targetAttributeName" value="serviceCategory"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="agrGenericService" ref="agrGenericService"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementSpecificationSpecCharacteristicsAttributeMapper"
+           alias="agrAgreementSpecificationSpecCharacteristicsAttributeMapper"/>
+    <bean id="defaultAgrAgreementSpecificationSpecCharacteristicsAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreementspecification.AgreementSpecificationSpecCharacteristicsAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="agreementSpecCharacteristics"/>
+        <constructor-arg name="targetAttributeName" value="specificationCharacteristic"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="agrGenericService" ref="agrGenericService"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementSpecificationRelationshipAttributeMapper"
+           alias="agrAgreementSpecificationRelationshipAttributeMapper"/>
+    <bean id="defaultAgrAgreementSpecificationRelationshipAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreementspecification.AgreementSpecificationRelationshipAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="agreementSpecCharReferences"/>
+        <constructor-arg name="targetAttributeName" value="specificationRelationship"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="agrGenericService" ref="agrGenericService"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementSpecificationSchemaLocationAttributeMapper"
+           alias="agrAgreementSpecificationSchemaLocationAttributeMapper"/>
+    <bean id="defaultAgrAgreementSpecificationSchemaLocationAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreementspecification.AgreementSpecificationSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="schemaLocation"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementSpecificationAtTypeAttributeMapper" alias="agrAgreementSpecificationAtTypeAttributeMapper"/>
+    <bean id="defaultAgrAgreementSpecificationAtTypeAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreementspecification.AgreementSpecificationAtTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="type"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementSpecificationRelatedPartyAttributeMapper"
+           alias="agrAgreementSpecificationRelatedPartyAttributeMapper"/>
+    <bean id="defaultAgrAgreementSpecificationRelatedPartyAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreementspecification.AgreementSpecificationRelatedPartyAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="relatedParties"/>
+        <constructor-arg name="targetAttributeName" value="relatedParty"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementSpecificationAttachmentAttributeMapper"
+           alias="agrAgreementSpecificationAttachmentAttributeMapper"/>
+    <bean id="defaultAgrAgreementSpecificationAttachmentAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreementspecification.AgreementSpecificationAttachmentAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="attachments"/>
+        <constructor-arg name="targetAttributeName" value="attachment"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="agrGenericService" ref="agrGenericService"/>
+    </bean>
+
+    <!-- ### END definition of attribute mappers for entity mapper agrAgreementSpecificationEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper agrAttachmentEntityMapperV1 ### -->
+
+    <alias name="defaultAgrAttachmentHrefAttributeMapper" alias="agrAttachmentHrefAttributeMapper"/>
+    <bean id="defaultAgrAttachmentHrefAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.attachment.AttachmentHrefAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="code"/>
+        <constructor-arg name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultAgrAttachmentMimeTypeAttributeMapper" alias="agrAttachmentMimeTypeAttributeMapper"/>
+    <bean id="defaultAgrAttachmentMimeTypeAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.attachment.AttachmentMimeTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="mime"/>
+        <constructor-arg name="targetAttributeName" value="mimeType"/>
+    </bean>
+
+    <alias name="defaultAgrAttachmentReferredTypeAttributeMapper" alias="agrAttachmentReferredTypeAttributeMapper"/>
+    <bean id="defaultAgrAttachmentReferredTypeAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.attachment.AttachmentReferredTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="code"/>
+        <constructor-arg name="targetAttributeName" value="referredType"/>
+    </bean>
+
+    <alias name="defaultAgrAttachmentSchemaLocationAttributeMapper" alias="agrAttachmentSchemaLocationAttributeMapper"/>
+    <bean id="defaultAgrAttachmentSchemaLocationAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.attachment.AttachmentSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="code"/>
+        <constructor-arg name="targetAttributeName" value="schemaLocation"/>
+    </bean>
+
+    <alias name="defaultAgrAttachmentTypeAttributeMapper" alias="agrAttachmentTypeAttributeMapper"/>
+    <bean id="defaultAgrAttachmentTypeAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.attachment.AttachmentTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="mediaFormat"/>
+        <constructor-arg name="targetAttributeName" value="attachmentType"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="agrGenericService" ref="agrGenericService"/>
+    </bean>
+
+    <alias name="defaultAgrAttachmentIdAttributeMapper" alias="agrAttachmentIdAttributeMapper"/>
+    <bean id="defaultAgrAttachmentIdAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.attachment.AttachmentIdAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="code"/>
+        <constructor-arg name="targetAttributeName" value="id"/>
+    </bean>
+
+    <alias name="defaultAgrAttachmentNameAttributeMapper" alias="agrAttachmentNameAttributeMapper"/>
+    <bean id="defaultAgrAttachmentNameAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.attachment.AttachmentNameAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="realFileName"/>
+        <constructor-arg name="targetAttributeName" value="name"/>
+    </bean>
+
+    <alias name="defaultAgrAttachmentSizeAttributeMapper" alias="agrAttachmentSizeAttributeMapper"/>
+    <bean id="defaultAgrAttachmentSizeAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.attachment.AttachmentSizeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="size"/>
+        <constructor-arg name="targetAttributeName" value="size"/>
+    </bean>
+
+    <!-- ### END definition of attribute mappers for entity mapper agrAttachmentEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper agrRelatedPartyEntityMapperV1 ### -->
+
+    <alias name="defaultAgrRelatedPartyHrefAttributeMapper" alias="agrRelatedPartyHrefAttributeMapper"/>
+    <bean id="defaultAgrRelatedPartyHrefAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.relatedparty.RelatedPartyHrefAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultAgrRelatedPartySchemaLocationAttributeMapper" alias="agrRelatedPartySchemaLocationAttributeMapper"/>
+    <bean id="defaultAgrRelatedPartySchemaLocationAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.relatedparty.RelatedPartySchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="schemaLocation"/>
+    </bean>
+
+    <alias name="defaultAgrRelatedPartyReferredTypeAttributeMapper" alias="agrRelatedPartyReferredTypeAttributeMapper"/>
+    <bean id="defaultAgrRelatedPartyReferredTypeAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.relatedparty.RelatedPartyReferredTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="type"/>
+        <constructor-arg name="targetAttributeName" value="referredType"/>
+    </bean>
+
+    <!-- ### END definition of attribute mappers for entity mapper agrRelatedPartyEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper agrProductRefEntityMapperV1 ### -->
+
+    <alias name="defaultAgrProductRefHrefAttributeMapper" alias="agrProductRefHrefAttributeMapper"/>
+    <bean id="defaultAgrProductRefHrefAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.productref.ProductRefHrefAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultAgrProductRefReferredTypeAttributeMapper" alias="agrProductRefReferredTypeAttributeMapper"/>
+    <bean id="defaultAgrProductRefReferredTypeAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.productref.ProductRefReferredTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="referredType"/>
+    </bean>
+
+    <alias name="defaultAgrProductRefSchemaLocationAttributeMapper" alias="agrProductRefSchemaLocationAttributeMapper"/>
+    <bean id="defaultAgrProductRefSchemaLocationAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.productref.ProductRefSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="schemaLocation"/>
+    </bean>
+
+    <!-- ### END definition of attribute mappers for entity mapper agrProductRefRefEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper agrProductOfferingRefEntityMapperV1 ### -->
+
+    <alias name="defaultAgrProductOfferingRefHrefAttributeMapper" alias="agrProductOfferingRefHrefAttributeMapper"/>
+    <bean id="defaultAgrProductOfferingRefHrefAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.productofferingref.ProductOfferingRefHrefAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultAgrProductOfferingRefReferredTypeAttributeMapper"
+           alias="agrProductOfferingRefReferredTypeAttributeMapper"/>
+    <bean id="defaultAgrProductOfferingRefReferredTypeAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.productofferingref.ProductOfferingRefReferredTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="referredType"/>
+    </bean>
+
+    <alias name="defaultAgrProductOfferingRefSchemaLocationAttributeMapper"
+           alias="agrProductOfferingRefSchemaLocationAttributeMapper"/>
+    <bean id="defaultAgrProductOfferingRefSchemaLocationAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.productofferingref.ProductOfferingRefSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="schemaLocation"/>
+    </bean>
+
+    <!-- ### END definition of attribute mappers for entity mapper agrProductOfferingRefEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper agrAgreementTermOrConditionEntityMapperV1 ### -->
+
+    <alias name="defaultAgrAgrTermOrConditionAtTypeAttributeMapper" alias="agrAgrTermOrConditionAtTypeAttributeMapper"/>
+    <bean id="defaultAgrAgrTermOrConditionAtTypeAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreementtermorcondition.AgrTermOrConditionAtTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="type"/>
+    </bean>
+
+    <alias name="defaultAgrAgrTermOrConditionSchemaLocationAttributeMapper"
+           alias="agrAgrTermOrConditionSchemaLocationAttributeMapper"/>
+    <bean id="defaultAgrAgrTermOrConditionSchemaLocationAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreementtermorcondition.AgrTermOrConditionSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="schemaLocation"/>
+    </bean>
+
+    <alias name="defaultAgrAgrTermOrConditionValidForAttributeMapper" alias="agrAgrTermOrConditionValidForAttributeMapper"/>
+    <bean id="defaultAgrAgrTermOrConditionValidForAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreementtermorcondition.AgrTermOrConditionValidForAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="startDateTime"/>
+        <constructor-arg name="targetAttributeName" value="validFor"/>
+    </bean>
+
+    <!-- ### END definition of attribute mappers for entity mapper agrAgreementTermOrConditionEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper agrAgreementItemEntityMapperV1 ### -->
+
+    <alias name="defaultAgrAgreementItemAtTypeAttributeMapper" alias="agrAgreementItemAtTypeAttributeMapper"/>
+    <bean id="defaultAgrAgreementItemAtTypeAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreementitem.AgreementItemAtTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="type"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementItemSchemaLocationAttributeMapper" alias="agrAgreementItemSchemaLocationAttributeMapper"/>
+    <bean id="defaultAgrAgreementItemSchemaLocationAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreementitem.AgreementItemSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="schemaLocation"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementItemATermOrConditionAttributeMapper"
+           alias="agrAgreementItemTermOrConditionAttributeMapper"/>
+    <bean id="defaultAgrAgreementItemATermOrConditionAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreementitem.AgreementItemTermOrConditionAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="termOrConditions"/>
+        <constructor-arg name="targetAttributeName" value="termOrCondition"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="agrGenericService" ref="agrGenericService"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementItemProductAttributeMapper" alias="agrAgreementItemProductAttributeMapper"/>
+    <bean id="defaultAgrAgreementItemProductAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreementitem.AgreementItemProductAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="products"/>
+        <constructor-arg name="targetAttributeName" value="product"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="agrGenericService" ref="agrGenericService"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementItemProductOfferingAttributeMapper" alias="agrAgreementItemProductOfferingAttributeMapper"/>
+    <bean id="defaultAgrAgreementItemProductOfferingAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreementitem.AgreementItemProductOfferingAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="productOfferings"/>
+        <constructor-arg name="targetAttributeName" value="productOffering"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="agrGenericService" ref="agrGenericService"/>
+    </bean>
+
+    <!-- ### END definition of attribute mappers for entity mapper agrAgreementItemEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper agrAgreementSpecificationRefEntityMapperV1 ### -->
+
+    <alias name="defaultAgrAgreementSpecificationRefHrefAttributeMapper" alias="agrAgreementSpecificationRefHrefAttributeMapper"/>
+    <bean id="defaultAgrAgreementSpecificationRefHrefAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreementspecificationref.AgreementSpecificationRefHrefAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementSpecificationRefReferredTypeAttributeMapper"
+           alias="agrAgreementSpecificationRefReferredTypeAttributeMapper"/>
+    <bean id="defaultAgrAgreementSpecificationRefReferredTypeAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreementspecificationref.AgreementSpecificationRefReferredTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atreferredType"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementSpecificationSchemaLocationHrefAttributeMapper"
+           alias="agrAgreementSpecificationSchemaLocationHrefAttributeMapper"/>
+    <bean id="defaultAgrAgreementSpecificationSchemaLocationHrefAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreementspecificationref.AgreementSpecificationSchemaLocationHrefAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="atschemaLocation"/>
+    </bean>
+
+    <!-- ### END definition of attribute mappers for entity mapper agrAgreementSpecificationRefEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper agrAgreementSpecificationRelationshipEntityMapperV1 ### -->
+
+    <alias name="defaultAgrAgreementSpecRelationTypeAttributeMapper" alias="agrAgreementSpecRelationTypeAttributeMapper"/>
+    <bean id="defaultAgrAgreementSpecRelationTypeAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreementspecificationrelationship.AgreementSpecRelationTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="type"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementSpecRelationSchemaLocationAttributeMapper"
+           alias="agrAgreementSpecRelationSchemaLocationAttributeMapper"/>
+    <bean id="defaultAgrAgreementSpecRelationSchemaLocationAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreementspecificationrelationship.AgreementSpecRelationSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="schemaLocation"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementSpecRelationHrefAttributeMapper" alias="agrAgreementSpecRelationHrefAttributeMapper"/>
+    <bean id="defaultAgrAgreementSpecRelationHrefAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreementspecificationrelationship.AgreementSpecRelationHrefAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementSpecRelationIdAttributeMapper" alias="agrAgreementSpecRelationIdAttributeMapper"/>
+    <bean id="defaultAgrAgreementSpecRelationIdAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreementspecificationrelationship.AgreementSpecRelationIdAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="id"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementSpecRelationNameAttributeMapper" alias="agrAgreementSpecRelationNameAttributeMapper"/>
+    <bean id="defaultAgrAgreementSpecRelationNameAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreementspecificationrelationship.AgreementSpecRelationNameAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="name"/>
+        <constructor-arg name="targetAttributeName" value="name"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementSpecRelationValidForAttributeMapper" alias="agrAgreementSpecRelationValidForAttributeMapper"/>
+    <bean id="defaultAgrAgreementSpecRelationValidForAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreementspecificationrelationship.AgreementSpecRelationValidForAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="startDateTime"/>
+        <constructor-arg name="targetAttributeName" value="validFor"/>
+    </bean>
+
+    <!-- ### END definition of attribute mappers for entity mapper agrAgreementSpecificationRelationshipEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper agrAgreementAuthorizationEntityMapperV1 ### -->
+
+    <alias name="defaultAgrAgreementAuthorizationAtTypeAttributeMapper" alias="agrAgreementAuthorizationAtTypeAttributeMapper"/>
+    <bean id="defaultAgrAgreementAuthorizationAtTypeAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreementauthorization.AgreementAuthorizationAtTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="type"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementAuthorizationSchemaLocationAttributeMapper"
+           alias="agrAgreementAuthorizationSchemaLocationAttributeMapper"/>
+    <bean id="defaultAgrAgreementAuthorizationSchemaLocationAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreementauthorization.AgreementAuthorizationSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="schemaLocation"/>
+    </bean>
+
+    <!-- ### END definition of attribute mappers for entity mapper agrAgreementAuthorizationEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper agrAgreementRefEntityMapperV1 ### -->
+
+    <alias name="defaultAgrAgreementRefHrefAttributeMapper" alias="agrAgreementRefHrefAttributeMapper"/>
+    <bean id="defaultAgrAgreementRefHrefAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreementref.AgreementRefHrefAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementRefReferredTypeAttributeMapper" alias="agrAgreementRefReferredTypeAttributeMapper"/>
+    <bean id="defaultAgrAgreementRefReferredTypeAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreementref.AgreementRefReferredTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="referredType"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementRefSchemaLocationAttributeMapper" alias="agrAgreementRefSchemaLocationAttributeMapper"/>
+    <bean id="defaultAgrAgreementRefSchemaLocationAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreementref.AgreementRefSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="schemaLocation"/>
+    </bean>
+
+    <!-- ### END definition of attribute mappers for entity mapper agrAgreementRefEntityMapperV1 ### -->
+
+    <!-- ### START definition of attribute mappers for entity mapper agrAgreementEntityMapperV1 ### -->
+
+    <alias name="defaultAgrAgreementSchemaLocationAttributeMapper" alias="agrAgreementSchemaLocationAttributeMapper"/>
+    <bean id="defaultAgrAgreementSchemaLocationAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreement.AgreementSchemaLocationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="schemaLocation"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementAtTypeAttributeMapper" alias="agrAgreementAtTypeAttributeMapper"/>
+    <bean id="defaultAgrAgreementAtTypeAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreement.AgreementAtTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="type"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementHrefAttributeMapper" alias="agrAgreementHrefAttributeMapper"/>
+    <bean id="defaultAgrAgreementHrefAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreement.AgreementHrefAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="id"/>
+        <constructor-arg name="targetAttributeName" value="href"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementAgrPeriodAttributeMapper" alias="agrAgreementAgrPeriodAttributeMapper"/>
+    <bean id="defaultAgrAgreementAgrPeriodAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreement.AgreementAgrPeriodAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="agreementStartDateTime"/>
+        <constructor-arg name="targetAttributeName" value="agreementPeriod"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementCompletionDateAttributeMapper" alias="agrAgreementCompletionDateAttributeMapper"/>
+    <bean id="defaultAgrAgreementCompletionDateAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreement.AgreementCompletionDateAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="completionStartDateTime"/>
+        <constructor-arg name="targetAttributeName" value="completionDate"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementAgrSpecificationAttributeMapper" alias="agrAgreementAgrSpecificationAttributeMapper"/>
+    <bean id="defaultAgrAgreementAgrSpecificationAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreement.AgreementAgrSpecificationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="agreementSpecification"/>
+        <constructor-arg name="targetAttributeName" value="agreementSpecification"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="agrGenericService" ref="agrGenericService"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementAssociatedAgrAttributeMapper" alias="agrAgreementAssociatedAgrAttributeMapper"/>
+    <bean id="defaultAgrAgreementAssociatedAgrAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreement.AgreementAssociatedAgrAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="agreement"/>
+        <constructor-arg name="targetAttributeName" value="associatedAgreement"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="agrGenericService" ref="agrGenericService"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementAgrAuthorizationAttributeMapper" alias="agrAgreementAgrAuthorizationAttributeMapper"/>
+    <bean id="defaultAgrAgreementAgrAuthorizationAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreement.AgreementAgrAuthorizationAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="agreementAuthorizations"/>
+        <constructor-arg name="targetAttributeName" value="agreementAuthorization"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="agrGenericService" ref="agrGenericService"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementCharacteristicAttributeMapper" alias="agrAgreementCharacteristicAttributeMapper"/>
+    <bean id="defaultAgrAgreementCharacteristicAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreement.AgreementCharacteristicAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="agreementSpecCharacteristicValues"/>
+        <constructor-arg name="targetAttributeName" value="characteristic"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="agrGenericService" ref="agrGenericService"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementEngagedPartyAttributeMapper" alias="agrAgreementEngagedPartyAttributeMapper"/>
+    <bean id="defaultAgrAgreementEngagedPartyAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreement.AgreementEngagedPartyAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="partyRoles"/>
+        <constructor-arg name="targetAttributeName" value="engagedParty"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="agrGenericService" ref="agrGenericService"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementAgrItemAttributeMapper" alias="agrAgreementAgrItemAttributeMapper"/>
+    <bean id="defaultAgrAgreementAgrItemAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreement.AgreementAgrItemAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="agreementItems"/>
+        <constructor-arg name="targetAttributeName" value="agreementItem"/>
+        <constructor-arg name="mapperFacade" ref="dataMapper"/>
+        <constructor-arg name="agrGenericService" ref="agrGenericService"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementStatusAttributeMapper" alias="agrAgreementStatusAttributeMapper"/>
+    <bean id="defaultAgrAgreementStatusAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreement.AgreementStatusAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="status"/>
+        <constructor-arg name="targetAttributeName" value="status"/>
+    </bean>
+
+    <alias name="defaultAgrAgreementTypeAttributeMapper" alias="agrAgreementTypeAttributeMapper"/>
+    <bean id="defaultAgrAgreementTypeAttributeMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.agreement.AgreementTypeAttributeMapper">
+        <constructor-arg name="sourceAttributeName" value="agreementType"/>
+        <constructor-arg name="targetAttributeName" value="agreementType"/>
+    </bean>
+
+    <!-- ### END definition of attribute mappers for entity mapper agrAgreementEntityMapperV1 ### -->
+
+    <!-- ###################### -->
+    <!-- ### Entity Mappers ### -->
+    <!-- ###################### -->
+
+    <!-- Entity mapper for CategoryRef (from AgrCategory)-->
+    <alias name="defaultAgrCategoryRefEntityMapperV1" alias="agrCategoryRefEntityMapperV1"/>
+    <bean id="defaultAgrCategoryRefEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.AgrEntityMapper">
+        <constructor-arg name="sourceClass"
+                         value="de.hybris.platform.agreementservices.model.AgrCategoryModel"/>
+        <constructor-arg name="targetClass"
+                         value="de.hybris.platform.agreementtmfwebservices.v1.dto.CategoryRef"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="agrCategoryRefHrefAttributeMapper"/>
+                <ref bean="agrCategoryRefReferredTypeAttributeMapper"/>
+                <ref bean="agrCategoryRefSchemaLocationAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for AgreementSpecCharacteristicValue (from AgrAgreementSpecCharacteristicValue)-->
+    <alias name="defaultAgrAgreementSpecCharacteristicValueEntityMapperV1"
+           alias="agrAgreementSpecCharacteristicValueEntityMapperV1"/>
+    <bean id="defaultAgrAgreementSpecCharacteristicValueEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.AgrEntityMapper">
+        <constructor-arg name="sourceClass"
+                         value="de.hybris.platform.agreementservices.model.AgrAgreementSpecCharacteristicValueModel"/>
+        <constructor-arg name="targetClass"
+                         value="de.hybris.platform.agreementtmfwebservices.v1.dto.AgreementSpecCharacteristicValue"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="agrAgreementSpecCharacteristicValueValidForAttributeMapper"/>
+                <ref bean="agrAgreementSpecCharacteristicValueTypeAttributeMapper"/>
+                <ref bean="agrAgreementSpecCharacteristicValueSchemaLocationAttributeMapper"/>
+                <ref bean="agrAgreementSpecCharacteristicValueValueTypeAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for AgreementSpecCharacteristic (from AgrAgreementSpecCharacteristic)-->
+    <alias name="defaultAgrAgreementSpecCharacteristicEntityMapperV1" alias="agrAgreementSpecCharacteristicEntityMapperV1"/>
+    <bean id="defaultAgrAgreementSpecCharacteristicEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.AgrEntityMapper">
+        <constructor-arg name="sourceClass"
+                         value="de.hybris.platform.agreementservices.model.AgrAgreementSpecCharacteristicModel"/>
+        <constructor-arg name="targetClass"
+                         value="de.hybris.platform.agreementtmfwebservices.v1.dto.AgreementSpecCharacteristic"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="agrAgreementSpecCharacteristicValueAttributeMapper"/>
+                <ref bean="agrAgreementSpecCharacteristicValidForAttributeMapper"/>
+                <ref bean="agrAgreementSpecCharacteristicTypeAttributeMapper"/>
+                <ref bean="agrAgreementSpecCharacteristicSchemaLocationAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for Characteristic (from AgrAgreementSpecCharValueUse)-->
+    <alias name="defaultAgrCharacteristicEntityMapperV1" alias="agrCharacteristicEntityMapperV1"/>
+    <bean id="defaultAgrCharacteristicEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.AgrEntityMapper">
+        <constructor-arg name="sourceClass"
+                         value="de.hybris.platform.agreementservices.model.AgrAgreementSpecCharValueUseModel"/>
+        <constructor-arg name="targetClass"
+                         value="de.hybris.platform.agreementtmfwebservices.v1.dto.Characteristic"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="agrCharacteristicAtTypeAttributeMapper"/>
+                <ref bean="agrCharacteristicSchemaLocationAttributeMapper"/>
+                <ref bean="agrCharacteristicValueAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for AgreementSpecification (from AgrAgreementSpecification)-->
+    <alias name="defaultAgrAgreementSpecificationEntityMapperV1" alias="agrAgreementSpecificationEntityMapperV1"/>
+    <bean id="defaultAgrAgreementSpecificationEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.AgrEntityMapper">
+        <constructor-arg name="sourceClass"
+                         value="de.hybris.platform.agreementservices.model.AgrAgreementSpecificationModel"/>
+        <constructor-arg name="targetClass"
+                         value="de.hybris.platform.agreementtmfwebservices.v1.dto.AgreementSpecification"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="agrAgreementSpecificationLastModifiedAttributeMapper"/>
+                <ref bean="agrAgreementSpecificationHrefAttributeMapper"/>
+                <ref bean="agrAgreementSpecificationValidForAttributeMapper"/>
+                <ref bean="agrAgreementSpecificationServiceCategoryAttributeMapper"/>
+                <ref bean="agrAgreementSpecificationSpecCharacteristicsAttributeMapper"/>
+                <ref bean="agrAgreementSpecificationRelationshipAttributeMapper"/>
+                <ref bean="agrAgreementSpecificationRelatedPartyAttributeMapper"/>
+                <ref bean="agrAgreementSpecificationSchemaLocationAttributeMapper"/>
+                <ref bean="agrAgreementSpecificationAtTypeAttributeMapper"/>
+                <ref bean="agrAgreementSpecificationAttachmentAttributeMapper"/>
+                <ref bean="agrAgreementSpecificationLifecycleStatusAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for AttachmentRefOrValue (from MediaModel)-->
+    <alias name="defaultAgrAttachmentEntityMapperV1" alias="agrAttachmentEntityMapperV1"/>
+    <bean id="defaultAgrAttachmentEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.AgrEntityMapper">
+        <constructor-arg name="sourceClass"
+                         value="de.hybris.platform.core.model.media.MediaModel"/>
+        <constructor-arg name="targetClass"
+                         value="de.hybris.platform.agreementtmfwebservices.v1.dto.AttachmentRefOrValue"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="agrAttachmentIdAttributeMapper"/>
+                <ref bean="agrAttachmentTypeAttributeMapper"/>
+                <ref bean="agrAttachmentSchemaLocationAttributeMapper"/>
+                <ref bean="agrAttachmentReferredTypeAttributeMapper"/>
+                <ref bean="agrAttachmentMimeTypeAttributeMapper"/>
+                <ref bean="agrAttachmentHrefAttributeMapper"/>
+                <ref bean="agrAttachmentNameAttributeMapper"/>
+                <ref bean="agrAttachmentSizeAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for RelatedParty (from AgrPartyModel)-->
+    <alias name="defaultAgrRelatedPartyEntityMapperV1" alias="agrRelatedPartyEntityMapperV1"/>
+    <bean id="defaultAgrRelatedPartyEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.AgrEntityMapper">
+        <constructor-arg name="sourceClass"
+                         value="de.hybris.platform.agreementservices.model.AgrPartyModel"/>
+        <constructor-arg name="targetClass"
+                         value="de.hybris.platform.agreementtmfwebservices.v1.dto.RelatedParty"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="agrRelatedPartyReferredTypeAttributeMapper"/>
+                <ref bean="agrRelatedPartySchemaLocationAttributeMapper"/>
+                <ref bean="agrRelatedPartyHrefAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for AgreementSpecificationRelationship (from AgrAgreementRelationshipModel)-->
+    <alias name="defaultAgrAgreementSpecificationRelationshipEntityMapperV1"
+           alias="agrAgreementSpecificationRelationshipEntityMapperV1"/>
+    <bean id="defaultAgrAgreementSpecificationRelationshipEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.AgrEntityMapper">
+        <constructor-arg name="sourceClass"
+                         value="de.hybris.platform.agreementservices.model.AgrAgreementRelationshipModel"/>
+        <constructor-arg name="targetClass"
+                         value="de.hybris.platform.agreementtmfwebservices.v1.dto.AgreementSpecificationRelationship"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="agrAgreementSpecRelationTypeAttributeMapper"/>
+                <ref bean="agrAgreementSpecRelationSchemaLocationAttributeMapper"/>
+                <ref bean="agrAgreementSpecRelationHrefAttributeMapper"/>
+                <ref bean="agrAgreementSpecRelationIdAttributeMapper"/>
+                <ref bean="agrAgreementSpecRelationNameAttributeMapper"/>
+                <ref bean="agrAgreementSpecRelationValidForAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for ProductRef (from AgrProduct)-->
+    <alias name="defaultAgrProductRefEntityMapperV1" alias="agrProductRefEntityMapperV1"/>
+    <bean id="defaultAgrProductRefEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.AgrEntityMapper">
+        <constructor-arg name="sourceClass"
+                         value="de.hybris.platform.agreementservices.model.AgrProductModel"/>
+        <constructor-arg name="targetClass"
+                         value="de.hybris.platform.agreementtmfwebservices.v1.dto.ProductRef"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="agrProductRefHrefAttributeMapper"/>
+                <ref bean="agrProductRefReferredTypeAttributeMapper"/>
+                <ref bean="agrProductRefSchemaLocationAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for ProductOfferingRef (from AgrProductOffering)-->
+    <alias name="defaultAgrProductOfferingRefEntityMapperV1" alias="agrProductOfferingRefEntityMapperV1"/>
+    <bean id="defaultAgrProductOfferingRefEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.AgrEntityMapper">
+        <constructor-arg name="sourceClass"
+                         value="de.hybris.platform.agreementservices.model.AgrProductOfferingModel"/>
+        <constructor-arg name="targetClass"
+                         value="de.hybris.platform.agreementtmfwebservices.v1.dto.ProductOfferingRef"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="agrProductOfferingRefHrefAttributeMapper"/>
+                <ref bean="agrProductOfferingRefReferredTypeAttributeMapper"/>
+                <ref bean="agrProductOfferingRefSchemaLocationAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for AgreementTermOrCondition (from AgrAgreementTermOrCondition)-->
+    <alias name="defaultAgrAgreementTermOrConditionEntityMapperV1" alias="agrAgreementTermOrConditionEntityMapperV1"/>
+    <bean id="defaultAgrAgreementTermOrConditionEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.AgrEntityMapper">
+        <constructor-arg name="sourceClass"
+                         value="de.hybris.platform.agreementservices.model.AgrAgreementTermOrConditionModel"/>
+        <constructor-arg name="targetClass"
+                         value="de.hybris.platform.agreementtmfwebservices.v1.dto.AgreementTermOrCondition"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="agrAgrTermOrConditionAtTypeAttributeMapper"/>
+                <ref bean="agrAgrTermOrConditionSchemaLocationAttributeMapper"/>
+                <ref bean="agrAgrTermOrConditionValidForAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for AgreementItem (from AgrAgreementItem)-->
+    <alias name="defaultAgrAgreementItemEntityMapperV1" alias="agrAgreementItemEntityMapperV1"/>
+    <bean id="defaultAgrAgreementItemEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.AgrEntityMapper">
+        <constructor-arg name="sourceClass"
+                         value="de.hybris.platform.agreementservices.model.AgrAgreementItemModel"/>
+        <constructor-arg name="targetClass"
+                         value="de.hybris.platform.agreementtmfwebservices.v1.dto.AgreementItem"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="agrAgreementItemAtTypeAttributeMapper"/>
+                <ref bean="agrAgreementItemSchemaLocationAttributeMapper"/>
+                <ref bean="agrAgreementItemTermOrConditionAttributeMapper"/>
+                <ref bean="agrAgreementItemProductAttributeMapper"/>
+                <ref bean="agrAgreementItemProductOfferingAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for AgreementSpecificationRef (from AgrAgreementSpecification)-->
+    <alias name="defaultAgrAgreementSpecificationRefEntityMapperV1" alias="agrAgreementSpecificationRefEntityMapperV1"/>
+    <bean id="defaultAgrAgreementSpecificationRefEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.AgrEntityMapper">
+        <constructor-arg name="sourceClass"
+                         value="de.hybris.platform.agreementservices.model.AgrAgreementSpecificationModel"/>
+        <constructor-arg name="targetClass"
+                         value="de.hybris.platform.agreementtmfwebservices.v1.dto.AgreementSpecificationRef"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="agrAgreementSpecificationRefHrefAttributeMapper"/>
+                <ref bean="agrAgreementSpecificationRefReferredTypeAttributeMapper"/>
+                <ref bean="agrAgreementSpecificationSchemaLocationHrefAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for AgreementRef (from AgrAgreement)-->
+    <alias name="defaultAgrAgreementAuthorizationEntityMapperV1" alias="agrAgreementAuthorizationEntityMapperV1"/>
+    <bean id="defaultAgrAgreementAuthorizationEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.AgrEntityMapper">
+        <constructor-arg name="sourceClass"
+                         value="de.hybris.platform.agreementservices.model.AgrAgreementAuthorizationModel"/>
+        <constructor-arg name="targetClass"
+                         value="de.hybris.platform.agreementtmfwebservices.v1.dto.AgreementAuthorization"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="agrAgreementAuthorizationAtTypeAttributeMapper"/>
+                <ref bean="agrAgreementAuthorizationSchemaLocationAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for AgreementRef (from AgrAgreement)-->
+    <alias name="defaultAgrAgreementRefEntityMapperV1" alias="agrAgreementRefEntityMapperV1"/>
+    <bean id="defaultAgrAgreementRefEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.AgrEntityMapper">
+        <constructor-arg name="sourceClass"
+                         value="de.hybris.platform.agreementservices.model.AgrAgreementModel"/>
+        <constructor-arg name="targetClass"
+                         value="de.hybris.platform.agreementtmfwebservices.v1.dto.AgreementRef"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="agrAgreementRefHrefAttributeMapper"/>
+                <ref bean="agrAgreementRefReferredTypeAttributeMapper"/>
+                <ref bean="agrAgreementRefSchemaLocationAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Entity mapper for Agreement (from AgrAgreement)-->
+    <alias name="defaultAgrAgreementEntityMapperV1" alias="agrAgreementEntityMapperV1"/>
+    <bean id="defaultAgrAgreementEntityMapperV1" parent="abstractCustomMapper"
+          class="de.hybris.platform.agreementtmfwebservices.v1.mappers.AgrEntityMapper">
+        <constructor-arg name="sourceClass"
+                         value="de.hybris.platform.agreementservices.model.AgrAgreementModel"/>
+        <constructor-arg name="targetClass"
+                         value="de.hybris.platform.agreementtmfwebservices.v1.dto.Agreement"/>
+        <constructor-arg name="attributeMappers">
+            <list>
+                <ref bean="agrAgreementSchemaLocationAttributeMapper"/>
+                <ref bean="agrAgreementAtTypeAttributeMapper"/>
+                <ref bean="agrAgreementHrefAttributeMapper"/>
+                <ref bean="agrAgreementAgrPeriodAttributeMapper"/>
+                <ref bean="agrAgreementCompletionDateAttributeMapper"/>
+                <ref bean="agrAgreementAgrSpecificationAttributeMapper"/>
+                <ref bean="agrAgreementAssociatedAgrAttributeMapper"/>
+                <ref bean="agrAgreementAgrAuthorizationAttributeMapper"/>
+                <ref bean="agrAgreementCharacteristicAttributeMapper"/>
+                <ref bean="agrAgreementEngagedPartyAttributeMapper"/>
+                <ref bean="agrAgreementAgrItemAttributeMapper"/>
+                <ref bean="agrAgreementStatusAttributeMapper"/>
+                <ref bean="agrAgreementTypeAttributeMapper"/>
+            </list>
+        </constructor-arg>
+    </bean>
+</beans>

@@ -1,0 +1,30 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE Order; code[unique = true]; user(uid)           ; date[dateformat = dd.MM.yyyy HH:mm]; currency(isocode); net  ; deliveryMode(code); calculated; status(code)     ; site(uid); store(uid)
+## Order Approval - GET
+# Orders in simpleorg
+                   ; 1103900011         ; user1@simpleorg.com ; 27.09.2019 16:07                   ; USD              ; true ; standard-net      ; true      ; PENDING_APPROVAL ; b2btelco ; b2btelco
+                   ; 1103900012         ; user2@simpleorg.com ; 27.09.2019 16:07                   ; USD              ; true ; standard-net      ; true      ; COMPLETED        ; b2btelco ; b2btelco
+# Orders in biunitorg
+                   ; 1103900021         ; user1@biunitorg.com ; 27.09.2019 16:07                   ; USD              ; true ; standard-net      ; true      ; COMPLETED        ; b2btelco ; b2btelco
+                   ; 1103900022         ; user2@biunitorg.com ; 27.09.2019 16:07                   ; USD              ; true ; standard-net      ; true      ; PENDING_APPROVAL ; b2btelco ; b2btelco
+# Orders for user without being part of any organization
+                   ; 1103900023         ; user@standalone.com ; 27.09.2019 16:07                   ; USD              ; true ; standard-net      ; true      ; COMPLETED        ; b2btelco ; b2btelco
+                   ; 1103900024         ; user@standalone.com ; 27.09.2019 16:07                   ; USD              ; true ; standard-net      ; true      ; COMPLETED        ; b2btelco ; b2btelco
+
+# Order Approval - PATCH
+                   ; 1104000000         ; customer@childa.com ; 27.09.2019 16:07                   ; USD              ; true ; standard-net      ; true      ; PENDING_APPROVAL ; b2btelco ; b2btelco
+                   ; 1104000001         ; customer@childa.com ; 27.09.2019 16:07                   ; USD              ; true ; standard-net      ; true      ; PENDING_APPROVAL ; b2btelco ; b2btelco
+                   ; 1104000002         ; customer@childa.com ; 27.09.2019 16:07                   ; USD              ; true ; standard-net      ; true      ; REJECTED         ; b2btelco ; b2btelco
+                   ; 1104000003         ; customer@childa.com ; 27.09.2019 16:07                   ; USD              ; true ; standard-net      ; true      ; PENDING_APPROVAL ; b2btelco ; b2btelco
+                   ; 1104000004         ; customer@parent.com ; 27.09.2019 16:07                   ; USD              ; true ; standard-net      ; true      ; PENDING_APPROVAL ; b2btelco ; b2btelco
+                   ; 1104000005         ; customer@childb.com ; 27.09.2019 16:07                   ; USD              ; true ; standard-net      ; true      ; PENDING_APPROVAL ; b2btelco ; b2btelco
+                   ; 1104000006         ; customer@childb.com ; 27.09.2019 16:07                   ; USD              ; true ; standard-net      ; true      ; PENDING_APPROVAL ; b2btelco ; b2btelco
+                   ; 1104000007         ; customer@childb.com ; 27.09.2019 16:07                   ; USD              ; true ; standard-net      ; true      ; PENDING_APPROVAL ; b2btelco ; b2btelco
+                   ; 1104000008         ; customer@childb.com ; 27.09.2019 16:07                   ; USD              ; true ; standard-net      ; true      ; PENDING_APPROVAL ; b2btelco ; b2btelco
+                   ; 1104000009         ; customer@childa.com ; 27.09.2019 16:07                   ; USD              ; true ; standard-net      ; true      ; PENDING_APPROVAL ; b2btelco ; b2btelco
+                   ; 1104000010         ; customer@childa.com ; 27.09.2019 16:07                   ; USD              ; true ; standard-net      ; true      ; PENDING_APPROVAL ; b2btelco ; b2btelco
+                   ; 1104000011         ; approver@parent.com ; 27.09.2019 16:07                   ; USD              ; true ; standard-net      ; true      ; PENDING_APPROVAL ; b2btelco ; b2btelco

@@ -1,0 +1,6 @@
+{
+  "files": {
+    "../smartedit/apps/smartedit-loader/.rush/temp/shrinkwrap-deps.json": "402f71fa7273727895663f71e3313fb7a1870f90"
+  },
+  "arguments": "se-packagr "
+}

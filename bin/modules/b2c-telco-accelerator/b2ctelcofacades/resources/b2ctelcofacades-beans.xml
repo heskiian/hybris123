@@ -1,0 +1,823 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="beans.xsd">
+
+   <!-- Add Telco accelerator facades specific product options -->
+   <enum class="de.hybris.platform.commercefacades.product.ProductOption">
+      <value>SPO_BUNDLE_TABS</value>
+      <value>SOLD_INDIVIDUALLY</value>
+      <value>PRODUCT_MEDIA</value>
+      <value>PRODUCT_SPECIFICATION</value>
+      <value>PRODUCT_OFFERING_PRICES</value>
+      <value>PRODUCT_BPO_CHILDREN</value>
+      <value>PARENT_BPOS</value>
+      <value>PRODUCT_OFFERING_GROUPS</value>
+      <value>PRODUCT_SPEC_CHAR_VALUE_USE</value>
+      <value>MEDIA_ATTACHMENT</value>
+   </enum>
+
+   <enum class="de.hybris.platform.b2ctelcofacades.data.TmaAccessTypeData">
+      <value>OWNER</value>
+      <value>ADMINISTRATOR</value>
+      <value>BENEFICIARY</value>
+   </enum>
+
+   <enum class="de.hybris.platform.b2ctelcofacades.data.TmaServiceTypeData">
+      <value>TARIFF_PLAN</value>
+      <value>ADD_ON</value>
+   </enum>
+
+   <enum class="de.hybris.platform.b2ctelcofacades.data.SubscriptionStatusData">
+      <value>ACTIVE</value>
+      <value>CANCELLED</value>
+      <value>EXPIRED</value>
+      <value>PENDING_ACTIVATION</value>
+      <value>INACTIVE</value>
+      <value>SUSPENDED</value>
+   </enum>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.BpoData">
+      <property name="id" type="String"/>
+      <property name="name" type="String"/>
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.BundleTabData">
+      <property name="parentBpo" type="de.hybris.platform.b2ctelcofacades.data.BpoData">
+         <description>
+            Parent Bpo containing both the mainPo (PO for which the Details are retrieved/displayed) and other POs which can be
+            bought as part of the same BPO; eg. MOBILE_DEAL.
+         </description>
+      </property>
+      <property name="mainPo" type="de.hybris.platform.commercefacades.product.data.ProductData">
+         <description>
+            Main PO for which the BundleTabs are retrieved, eg. may be a device for which the Details are retrieved/displayed.
+         </description>
+      </property>
+      <property name="frequencyTabs" type="java.util.List&lt;FrequencyTabData>">
+         <description>Tabs containing the POs grouped per Subscription Term.</description>
+      </property>
+      <property name="preselected" type="boolean"/>
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.FrequencyTabData">
+      <property name="termOfServiceFrequency" type="de.hybris.platform.subscriptionfacades.data.TermOfServiceFrequencyData"/>
+      <property name="termOfServiceNumber" type="int"/>
+      <property name="products" type="java.util.List&lt;de.hybris.platform.commercefacades.product.data.ProductData>"/>
+      <property name="preselected" type="boolean"/>
+      <property name="subscriptionTermName" type="java.lang.String"/>
+   </bean>
+
+   <bean class="de.hybris.platform.commercefacades.product.data.CategoryData">
+      <property name="type" type="String"/>
+   </bean>
+
+   <bean class="de.hybris.platform.commercefacades.product.data.StockData">
+      <property name="inStockStatus" type="de.hybris.platform.basecommerce.enums.InStockStatus"/>
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.GuidedSellingStepData">
+      <property name="pageId" type="String"/>
+      <property name="id" type="String"/>
+      <property name="stepType" type="String"/>
+      <property name="name" type="String"/>
+   </bean>
+
+   <bean class="de.hybris.platform.commercefacades.order.data.OrderHistoryData">
+      <property name="orderHistoryPrices" type="java.util.List&lt;de.hybris.platform.subscriptionfacades.data.OrderPriceData>"/>
+   </bean>
+
+    <bean class="de.hybris.platform.b2ctelcofacades.data.EnumerationValueData">
+        <property name="code" type="String"/>
+    </bean>
+
+   <bean class="de.hybris.platform.core.order.EntryGroup">
+      <property name="isAutoPickEnabled" type="boolean"/>
+   </bean>
+
+   <bean class="de.hybris.platform.commercefacades.order.EntryGroupData">
+      <property name="isAutoPickEnabled" type="boolean"/>
+      <property name="processType" type="java.lang.String"/>
+      <property name="errorMessages" type="java.util.List&lt;java.lang.String>" deprecated="Since version 1911" deprecatedSince="1911"/>
+      <property name="validationMessages"
+                type="java.util.Set&lt;de.hybris.platform.b2ctelcofacades.data.TmaCartValidationData>"/>
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.GuidedSellingDashBoardData">
+   	  <property name="isAnyProductSelected" type="boolean"/>
+      <property name="dashBoardEntries"
+                type="java.util.List&lt;de.hybris.platform.b2ctelcofacades.data.GuidedSellingDashBoardEntryData>"/>
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.GuidedSellingDashBoardEntryData">
+      <property name="stepId" type="String"/>
+      <property name="stepName" type="String"/>
+      <property name="stepType" type="String"/>
+      <property name="nextEnabled" type="boolean"/>
+      <property name="dashBoardOrderEntries"
+                type="java.util.List&lt;de.hybris.platform.b2ctelcofacades.data.GuidedSellingDashBoardOrderEntryData>"/>
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.GuidedSellingDashBoardOrderEntryData">
+      <property name="orderEntry" type="de.hybris.platform.commercefacades.order.data.OrderEntryData"/>
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.GuidedSellingDashBoardPopulatorParameters">
+      <property name="rootGroup" type="de.hybris.platform.core.order.EntryGroup"/>
+      <property name="parentEntry" type="de.hybris.platform.core.model.order.AbstractOrderEntryModel"/>
+      <property name="stepData" type="java.util.List&lt;de.hybris.platform.b2ctelcofacades.data.GuidedSellingStepData>"/>
+   </bean>
+
+	<bean class="de.hybris.platform.b2ctelcofacades.data.TmaSubscriptionBaseData">
+      <property name="code" type="java.lang.String" />
+      <property name="subscriberIdentity" type="String" />
+      <property name="billingSystemId" type="String" />
+      <property name="tmaBillingAccountData" type="de.hybris.platform.b2ctelcofacades.data.TmaBillingAccountData" />
+      <property name="tmaSubscribedProductData" type="java.util.Set&lt;de.hybris.platform.b2ctelcofacades.data.TmaSubscribedProductData>" />
+      <property name="subscriptionAccesses" type="java.util.List&lt;de.hybris.platform.b2ctelcofacades.data.TmaSubscriptionAccessData>" />
+      <property name="productOfferingRef" type="de.hybris.platform.commercefacades.product.data.ProductData"/>
+	</bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaSubscribedProductData"
+         extends="de.hybris.platform.subscriptionfacades.data.SubscriptionData">
+      <property name="subscriptionBaseId" type="java.lang.String"/>
+	  <property name="billingSubscriptionId" type="java.lang.String"/>
+	  <property name="serviceType" type="de.hybris.platform.b2ctelcofacades.data.TmaServiceTypeData"/>
+	  <property name="parentPOCode" type="java.lang.String"/>
+	  <property name="subscriptionAccesses" type="java.util.List&lt;de.hybris.platform.b2ctelcofacades.data.TmaSubscriptionAccessData>"/>
+	  <property name="billingAccountRef" type="de.hybris.platform.b2ctelcofacades.data.TmaBillingAccountData"/>
+	  <property name="productOfferingRef" type="de.hybris.platform.commercefacades.product.data.ProductData"/>
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaProductSpecCharacteristicValueData">
+      <property name="id" type="String"/>
+      <property name="value" type="String"/>
+      <property name="description" type="String"/>
+      <property name="unitOfMeasurment" type="String"/>
+      <property name="valueType" type="String"/>
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaProductSpecCharacteristicValueUseData">
+      <property name="name" type="String"/>
+      <property name="id" type="String"/>
+      <property name="valueType" type="String"/>
+      <property name="description" type="String"/>
+      <property name="minCardinality" type="java.lang.Integer"/>
+      <property name="maxCardinality" type="java.lang.Integer"/>
+      <property name="productSpecification" type="de.hybris.platform.b2ctelcofacades.data.TmaProductSpecificationData"/>
+      <property name="productSpecCharacteristicValues"
+                type="java.util.List&lt;de.hybris.platform.b2ctelcofacades.data.TmaProductSpecCharacteristicValueData>"/>
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaAverageServiceUsageData">
+      <property name="id" type="String"/>
+      <property name="value" type="String"/>
+      <property name="unitOfMeasure" type="String"/>
+      <property name="unitOfMeasureName" type="String"/>
+      <property name="usageType" type="String"/>
+      <property name="startDate" type="java.util.Date"/>
+      <property name="endDate" type="java.util.Date"/>
+      <property name="convertedUnitValue" type="String"/>
+      <property name="tmaProductSpecCharacteristicValueData"
+                type="de.hybris.platform.b2ctelcofacades.data.TmaProductSpecCharacteristicValueData"/>
+      <property name="remainingValue" type="java.lang.Long"/>
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.CreateTmaBillingAccountRequest">
+      <property name="billingAccountId" type="java.lang.String"/>
+      <property name="billingSystemId" type="java.lang.String"/>
+      <property name="parentBillingAccountId" type="java.lang.String"/>
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaBillingAccountData">
+      <property name="billingAccountId" type="java.lang.String"/>
+      <property name="billingSystemId" type="java.lang.String"/>
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaBillingAgreementData">
+      <property name="id" type="java.lang.String"/>
+      <property name="billingSystemId" type="java.lang.String"/>
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaSubscriptionAccessData">
+      <property name="principalUid" type="String"/>
+      <property name="billingSystemId" type="String"/>
+      <property name="subscriberIdentity" type="String"/>
+      <property name="accessType" type="de.hybris.platform.b2ctelcofacades.data.TmaAccessTypeData"/>
+      <property name="subscriptionBase" type="de.hybris.platform.b2ctelcofacades.data.TmaSubscriptionBaseData"/>
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaSubscriptionAccessUpdateRequestData">
+      <property name="accessType" type="de.hybris.platform.b2ctelcofacades.data.TmaAccessTypeData"/>
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaSubscriptionSelectionData">
+      <property name="bpoCode" type="java.lang.String"/>
+      <property name="productCode" type="java.lang.String"/>
+      <property name="billingAgreementId" type="java.lang.String"/>
+      <property name="subscriberIdentity" type="java.lang.String"/>
+      <property name="billingSystemId" type="java.lang.String"/>
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaOfferData">
+      <property name="parentBpo" type="de.hybris.platform.commercefacades.product.data.ProductData"/>
+      <property name="product" type="de.hybris.platform.commercefacades.product.data.ProductData"/>
+      <property name="code" type="java.lang.String"/>
+      <property name="principalData" type="de.hybris.platform.commercefacades.user.data.PrincipalData"/>
+      <property name="subscriptionBase" type="de.hybris.platform.b2ctelcofacades.data.TmaSubscriptionBaseData"/>
+      <property name="processType" type="de.hybris.platform.b2ctelcoservices.enums.TmaProcessType"/>
+      <property name="priority" type="Integer"/>
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaOfferContextData">
+       <property name="processType" type="de.hybris.platform.b2ctelcoservices.enums.TmaProcessType"/>
+       <property name="affectedProductCode" type="java.lang.String"/>
+       <property name="bpoCode" type="java.lang.String"/>
+       <property name="requiredProductCodes" type="java.util.Set&lt;java.lang.String>"/>
+       <property name="subscriptionTermId" type="java.lang.String"/>
+       <property name="user" type="java.lang.String"/>
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaBpoPreConfigData">
+      <property name="spoList" type="java.util.List&lt;String>"/>
+      <property name="rootBpoCode" type="String"/>
+      <property name="code" type="String"/>
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.UnitData">
+      <property name="unitType" type="String"/>
+   </bean>
+
+   <bean class="de.hybris.platform.commercefacades.product.data.PriceData">
+      <property name="code" type="String"/>
+      <property name="startTime" type="java.util.Date"/>
+      <property name="endTime" type="java.util.Date"/>
+      <property name="modifiedtime" type="java.util.Date"/>
+      <property name="unit" type="de.hybris.platform.b2ctelcofacades.data.UnitData"/>
+      <property name="unitFactor" type="Integer"/>
+      <property name="user" type="de.hybris.platform.b2ctelcofacades.data.TmaUserData"/>
+      <property name="userPriceGroupID" type="java.lang.String"/>
+      <property name="subscriptionTerms"
+                type="java.util.List&lt;de.hybris.platform.subscriptionfacades.data.SubscriptionTermData>"/>
+      <property name="product" type="de.hybris.platform.commercefacades.product.data.ProductData"/>
+      <property name="requiredProductClasses"
+                type="java.util.List&lt;de.hybris.platform.b2ctelcofacades.data.TmaProductPriceClassData>"/>
+      <property name="distributionChannels" type="java.util.Set&lt;de.hybris.platform.europe1.enums.PriceRowChannel>"/>
+      <property name="processTypes" type="java.util.Set&lt;de.hybris.platform.b2ctelcoservices.enums.TmaProcessType>"/>
+      <property name="affectedProductOffering" type="de.hybris.platform.commercefacades.product.data.ProductData"/>
+      <property name="requiredProductOfferings"
+                type="java.util.List&lt;de.hybris.platform.commercefacades.product.data.ProductData>"/>
+      <property name="regions" type="java.util.List&lt;de.hybris.platform.commercefacades.user.data.RegionData>"/>
+      <property name="productOfferingPrice" type="de.hybris.platform.b2ctelcofacades.data.TmaProductOfferingPriceData"/>
+      <property name="priority" type="Integer"/>
+   </bean>
+
+   <bean class="de.hybris.platform.commercefacades.order.data.CartData">
+      <property name="invalidMessages" type="java.util.List&lt;String>" deprecatedSince="1911"/>
+      <property name="validationMessages"
+                type="java.util.Set&lt;de.hybris.platform.b2ctelcofacades.data.TmaCartValidationData>"/>
+      <property name="status" type="de.hybris.platform.core.enums.OrderStatus"/>
+   </bean>
+
+   <bean class="de.hybris.platform.commercefacades.order.data.AbstractOrderData">
+      <property name="price" type="de.hybris.platform.b2ctelcofacades.data.TmaAbstractOrderPriceData"/>
+      <property name="cart" type="de.hybris.platform.commercefacades.order.data.CartData"/>
+      <property name="billingAddress" type="de.hybris.platform.commercefacades.user.data.AddressData"/>
+   </bean>
+
+   <bean class="de.hybris.platform.commercefacades.order.data.OrderEntryData">
+      <property name="price" type="de.hybris.platform.b2ctelcofacades.data.TmaAbstractOrderPriceData"/>
+      <property name="id" type="java.lang.String"/>
+      <property name="bpo" type="de.hybris.platform.commercefacades.product.data.ProductData"/>
+      <property name="processType" type="de.hybris.platform.b2ctelcoservices.enums.TmaProcessType"/>
+      <property name="subscriptionInfo" type="de.hybris.platform.b2ctelcofacades.data.TmaCartSubscriptionInfoData"/>
+      <property name="installationAddress" type="de.hybris.platform.commercefacades.user.data.AddressData"/>
+      <property name="productSpecCharacteristics" type="java.util.Set&lt;de.hybris.platform.b2ctelcofacades.data.TmaAbstractOrderEntryPscvData>"/>
+      <property name="appointmentId" type="java.lang.String"/>
+      <property name="validationMessages"
+                type="java.util.Set&lt;de.hybris.platform.b2ctelcofacades.data.TmaCartValidationData>"/>
+      <property name="region" type="de.hybris.platform.commercefacades.user.data.RegionData"/>
+      <property name="appliedPromotionResults" type="java.util.Set&lt;de.hybris.platform.commercefacades.product.data.PromotionResultData>"/>
+      <property name="potentialPromotionResults" type="java.util.Set&lt;de.hybris.platform.commercefacades.product.data.PromotionResultData>"/>
+      <property name="serviceProvider" type="java.lang.String"/>
+      <property name="contractStartDate" type="java.util.Date"/>
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaCartValidationData">
+      <property name="code" type="java.lang.String"/>
+      <property name="message" type="java.lang.String"/>
+      <property name="groupNumber" type="Integer"/>
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaAbstractOrderPriceData">
+      <property name="id" type="String"/>
+      <property name="priceId" type="String"/>
+      <property name="name" type="String"/>
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaAbstractOrderCompositePriceData"
+         extends="de.hybris.platform.b2ctelcofacades.data.TmaAbstractOrderPriceData">
+      <property name="childPrices" type="java.util.Set&lt;de.hybris.platform.b2ctelcofacades.data.TmaAbstractOrderPriceData>"/>
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaAbstractOrderTierUsageCompositePriceData"
+         extends="de.hybris.platform.b2ctelcofacades.data.TmaAbstractOrderCompositePriceData">
+      <property name="usageChargeType" type="de.hybris.platform.subscriptionfacades.data.UsageChargeTypeData"/>
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaAbstractOrderComponentPriceData"
+         extends="de.hybris.platform.b2ctelcofacades.data.TmaAbstractOrderPriceData">
+      <property name="typeOfPrice" type="de.hybris.platform.b2ctelcoservices.enums.TmaAbstractOrderPriceType"/>
+      <property name="billingTime" type="de.hybris.platform.subscriptionfacades.data.BillingTimeData"/>
+      <property name="dutyFreeAmount" type="de.hybris.platform.commercefacades.product.data.PriceData"/>
+      <property name="taxIncludedAmount" type="de.hybris.platform.commercefacades.product.data.PriceData"/>
+      <property name="taxRate" type="de.hybris.platform.commercefacades.product.data.PriceData"/>
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaAbstractOrderChargePriceData"
+      extends="de.hybris.platform.b2ctelcofacades.data.TmaAbstractOrderComponentPriceData">
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaAbstractOrderOneTimeChargePriceData"
+         extends="de.hybris.platform.b2ctelcofacades.data.TmaAbstractOrderChargePriceData">
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaAbstractOrderRecurringChargePriceData"
+         extends="de.hybris.platform.b2ctelcofacades.data.TmaAbstractOrderChargePriceData">
+      <property name="cycleStart" type="java.lang.Integer"/>
+      <property name="cycleEnd" type="java.lang.Integer"/>
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaAbstractOrderUsageChargePriceData"
+         extends="de.hybris.platform.b2ctelcofacades.data.TmaAbstractOrderChargePriceData">
+      <property name="usageUnit" type="de.hybris.platform.subscriptionfacades.data.UsageUnitData"/>
+      <property name="usageChargeType" type="de.hybris.platform.subscriptionfacades.data.UsageChargeTypeData" deprecated="true"
+                deprecatedSince="2007"/>
+      <property name="tierStart" type="java.lang.Integer"/>
+      <property name="tierEnd" type="java.lang.Integer"/>
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaAbstractOrderAlterationPriceData"
+         extends="de.hybris.platform.b2ctelcofacades.data.TmaAbstractOrderComponentPriceData">
+      <property name="cycleStart" type="java.lang.Integer"/>
+      <property name="cycleEnd" type="java.lang.Integer"/>
+      <property name="percentage" type="java.lang.Double"/>
+   </bean>
+
+   <bean class="de.hybris.platform.commercefacades.product.data.ImageData">
+         <property name="description" type="java.lang.String"/>
+         <property name="code" type="java.lang.String"/>
+         <property name="mime" type="java.lang.String"/>
+   </bean>
+
+   <bean class="de.hybris.platform.commercefacades.product.data.ProductData">
+      <property name="bundleTabs" type="java.util.List&lt;de.hybris.platform.b2ctelcofacades.data.BundleTabData>"/>
+      <property name="additionalSpoPriceInBpo" type="de.hybris.platform.commercefacades.product.data.PriceData"/>
+      <property name="mainSpoPriceInBpo" type="de.hybris.platform.commercefacades.product.data.PriceData"/>
+      <property name="lowestApplicablePrice" type="de.hybris.platform.commercefacades.product.data.PriceData"/>
+      <property name="preselected" type="boolean"/>
+      <property name="disabledMessage" type="String"/>
+      <property name="componentId" type="String"/>
+      <property name="isComponentEditable" type="boolean"/>
+      <property name="isRemovableEntry" type="boolean"/>
+      <property name="isMaxLimitReachedForBundle" type="boolean"/>
+      <property name="hasParentBpos" type="boolean"/>
+      <property name="productSpecDescription" type="java.util.List&lt;java.lang.String>"/>
+      <property name="baseProductName" type="java.lang.String"/>
+      <property name="storageSize" type="java.lang.String"/>
+      <property name="colors" type="java.util.List&lt;java.lang.String&gt;"/>
+      <property name="soldIndividually" type="boolean"/>
+      <property name="approvalStatus" type="java.lang.String"/>
+      <property name="modifiedTime" type="java.util.Date"/>
+      <property name="onlineDate" type="java.util.Date"/>
+      <property name="offlineDate" type="java.util.Date"/>
+      <property name="productSpecification" type="de.hybris.platform.b2ctelcofacades.data.TmaProductSpecificationData"/>
+      <property name="children" type="java.util.List&lt;de.hybris.platform.commercefacades.product.data.ProductData>"/>
+      <property name="parents" type="java.util.List&lt;de.hybris.platform.commercefacades.product.data.ProductData>"/>
+      <property name="offeringGroups" type="java.util.List&lt;de.hybris.platform.b2ctelcofacades.data.TmaOfferingGroupData>"/>
+      <property name="productOfferingPrices"
+                type="java.util.List&lt;de.hybris.platform.subscriptionfacades.data.SubscriptionPricePlanData>"/>
+      <property name="prices" type="java.util.List&lt;de.hybris.platform.commercefacades.product.data.PriceData>"/>
+      <property name="productSpecCharValueUses"
+                 type="java.util.List&lt;de.hybris.platform.b2ctelcofacades.data.TmaProductSpecCharacteristicValueUseData>"/>
+      <property name="dataSheet" type="java.util.List&lt;de.hybris.platform.cmsfacades.data.MediaData>"/>
+      <property name="bundledProdOfferOption" type="de.hybris.platform.b2ctelcofacades.data.TmaBundledProdOfferOptionData"/>
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaOfferingGroupData">
+      <property name="id" type="String"/>
+      <property name="name" type="String"/>
+      <property name="parentBpo" type="de.hybris.platform.commercefacades.product.data.ProductData"/>
+      <property name="childProductOfferings"
+                type="java.util.List&lt;de.hybris.platform.commercefacades.product.data.ProductData>"/>
+   </bean>
+
+    <bean class="de.hybris.platform.b2ctelcofacades.data.TmaProductPriceClassData">
+		<property name="id" type="String"/>
+	</bean>
+
+    <bean class="de.hybris.platform.subscriptionfacades.data.OneTimeChargeEntryData" extends="ChargeEntryData">
+		<property name="id" type="String"/>
+		<property name="modifiedTime" type="java.util.Date"/>
+	</bean>
+
+    <bean class="de.hybris.platform.subscriptionfacades.data.RecurringChargeEntryData" extends="ChargeEntryData">
+        <property name="id" type="String"/>
+        <property name="modifiedTime" type="java.util.Date"/>
+    </bean>
+
+   <bean class="de.hybris.platform.subscriptionfacades.data.UsageChargeData">
+      <property name="id" type="String"/>
+      <property name="modifiedTime" type="java.util.Date"/>
+      <property name="itemType" type="String"/>
+   </bean>
+
+    <bean class="de.hybris.platform.subscriptionfacades.data.TierUsageChargeEntryData" extends="UsageChargeEntryData">
+		<property name="id" type="String"/>
+       <property name="modifiedTime" type="java.util.Date"/>
+    </bean>
+
+	<bean class="de.hybris.platform.subscriptionfacades.data.OverageUsageChargeEntryData" extends="UsageChargeEntryData">
+		<property name="id" type="String"/>
+       <property name="modifiedTime" type="java.util.Date"/>
+    </bean>
+
+	<bean class="de.hybris.platform.b2ctelcofacades.data.TmaUserData">
+        <property name="uid" type="java.lang.String"/>
+    </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaBundledProdOfferOptionData">
+      <property name="lowerLimit" type="java.lang.Integer"/>
+      <property name="upperLimit" type="java.lang.Integer"/>
+      <property name="defaultValue" type="java.lang.Integer"/>
+   </bean>
+
+   <bean class="de.hybris.platform.commercefacades.catalog.data.CategoryHierarchyData">
+      <property name="supercategories"
+                type="java.util.List&lt;de.hybris.platform.commercefacades.catalog.data.CategoryHierarchyData>"/>
+      <property name="description"
+                type="java.lang.String"/>
+      <property name="type"
+                type="java.lang.String"/>
+   </bean>
+
+   <bean class="de.hybris.platform.commercefacades.order.data.CCPaymentInfoData">
+      <property name="user" type="de.hybris.platform.commercefacades.user.data.PrincipalData"/>
+      <property name="code" type="java.lang.String"/>
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaCreditCardData">
+      <property name="cardTypeData" type="de.hybris.platform.commercefacades.order.data.CardTypeData"/>
+      <property name="expirationDate" type="java.util.Date"/>
+      <property name="lastFourDigits" type="java.lang.String"/>
+      <property name="accountHolderName" type="java.lang.String"/>
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaTimePeriodData">
+      <property name="startDateMonth" type="java.lang.String"/>
+      <property name="startDateYear" type="java.lang.String"/>
+      <property name="endDateMonth" type="java.lang.String"/>
+      <property name="endDateYear" type="java.lang.String"/>
+   </bean>
+
+   <bean class="de.hybris.platform.commercefacades.product.data.VariantMatrixElementData">
+      <property name="code" type="java.lang.String"/>
+   </bean>
+
+   <bean class="de.hybris.platform.commercefacades.user.data.AddressData">
+      <property name="user" type="de.hybris.platform.commercefacades.user.data.PrincipalData"/>
+      <property name="code" type="java.lang.String"/>
+      <property name="contactAddress" type="boolean"/>
+      <property name="unloadingAddress" type="boolean"/>
+      <property name="installationAddress" type="boolean"/>
+      <property name="building" type="String"/>
+      <property name="apartment" type="String"/>
+   </bean>
+
+    <bean class="de.hybris.platform.commercefacades.product.data.VariantOptionData">
+        <property name="name" type="String"/>
+    </bean>
+
+   <bean class="de.hybris.platform.commercefacades.order.data.DeliveryModeData">
+      <property name="user" type="de.hybris.platform.commercefacades.user.data.PrincipalData"/>
+      <property name="cart" type="de.hybris.platform.commercefacades.order.data.CartData"/>
+   </bean>
+
+   <bean class="de.hybris.platform.commercefacades.catalog.data.CatalogData">
+      <property name="startDateTime" type="java.util.Date"/>
+      <property name="baseStore" type="de.hybris.platform.commercefacades.basestore.data.BaseStoreData"/>
+      <property name="type" type="java.lang.String"/>
+   </bean>
+
+    <bean class="de.hybris.platform.commercefacades.basestore.data.BaseStoreData">
+        <property name="uid" type="java.lang.String"/>
+    </bean>
+
+    <bean class="de.hybris.platform.b2ctelcofacades.data.TmaPriceContextData">
+        <property name="productCode" type="java.lang.String"/>
+        <property name="affectedProductCode" type="java.lang.String"/>
+        <property name="requiredProductCodes"
+                  type="java.util.Set&lt;java.lang.String>"/>
+        <property name="processTypeCodes" type="java.util.Set&lt;java.lang.String>"/>
+        <property name="subscriptionTermIds"
+                  type="java.util.Set&lt;java.lang.String>"/>
+        <property name="currencyIsoCode" type="java.lang.String"/>
+        <property name="userId" type="java.lang.String"/>
+        <property name="regionIsoCodes" type="java.util.Set&lt;java.lang.String>"/>
+    </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaDetailedSubscriptionBaseData">
+      <property name="code" type="java.lang.String"/>
+      <property name="subscriberIdentity" type="java.lang.String"/>
+      <property name="billingSystemId" type="java.lang.String"/>
+      <property name="billingAccountData" type="de.hybris.platform.b2ctelcofacades.data.TmaBillingAccountData"/>
+      <property name="subscriptionAccessData"
+                type="java.util.List&lt;de.hybris.platform.b2ctelcofacades.data.TmaSubscriptionAccessData>"/>
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaCartSubscriptionInfoData">
+      <property name="billingSystemId" type="java.lang.String"/>
+      <property name="subscribedProductId" type="java.lang.String"/>
+      <property name="subscriberIdentity" type="java.lang.String"/>
+      <property name="subscriptionTerm" type="de.hybris.platform.subscriptionfacades.data.SubscriptionTermData"/>
+      <property name="subscribedProductAction" type="de.hybris.platform.b2ctelcoservices.enums.TmaSubscribedProductAction"/>
+   </bean>
+   <bean class="de.hybris.platform.b2ctelcofacades.data.ProductOfferingSearchContextData">
+		<property name="currentPage" type="java.lang.Integer" />
+		<property name="pageSize" type="java.lang.Integer" />
+		<property name="catalog" type="java.lang.String" />
+		<property name="version" type="java.lang.String" />
+		<property name="timestamp" type="java.util.Date" />
+   </bean>
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaChecklistActionParamData">
+      <property name="productCodes" type="java.util.List&lt;java.lang.String>"/>
+      <property name="processType" type="de.hybris.platform.b2ctelcoservices.enums.TmaProcessType"/>
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaProductSpecCharacteristicData">
+      <property name="id" type="String"/>
+      <property name="name" type="String"/>
+      <property name="description" type="String"/>
+      <property name="configurable" type="boolean"/>
+      <property name="productSpecCharacteristicValues"
+                type="java.util.Set&lt;de.hybris.platform.b2ctelcofacades.data.TmaProductSpecCharacteristicValueData>"/>
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaChecklistActionData">
+      <property name="name" type="String"/>
+      <property name="description" type="String"/>
+      <property name="actionType" type="de.hybris.platform.b2ctelcoservices.enums.TmaChecklistActionType"/>
+      <property name="processTypes" type="java.util.Set&lt;de.hybris.platform.b2ctelcoservices.enums.TmaProcessType>"/>
+      <property name="productOfferings" type="java.util.List&lt;de.hybris.platform.commercefacades.product.data.ProductData>"/>
+      <property name="characteristic"
+                type="de.hybris.platform.b2ctelcofacades.data.TmaProductSpecCharacteristicData"/>
+   </bean>
+
+   <bean class="de.hybris.platform.commercefacades.product.data.ReviewData">
+      <property name="product" type="de.hybris.platform.commercefacades.product.data.ProductData"/>
+      <property name="language" type="java.lang.String"/>
+      <property name="lifecycleStatus" type="java.lang.String"/>
+   </bean>
+
+    <bean class="de.hybris.platform.b2ctelcofacades.data.CartActionInput">
+        <property name="processType" type="java.lang.String"/>
+        <property name="rootBpoCode" type="java.lang.String"/>
+        <property name="cartGroupNo" type="java.lang.Integer"/>
+        <property name="subscriptionTermId" type="java.lang.String"/>
+        <property name="subscriberId" type="java.lang.String"/>
+        <property name="subscriberBillingId" type="java.lang.String"/>
+        <property name="userGuid" type="java.lang.String"/>
+        <property name="cartId" type="java.lang.String"/>
+        <property name="entryNumber" type="java.lang.Integer"/>
+        <property name="action" type="de.hybris.platform.b2ctelcoservices.enums.TmaSubscribedProductAction"/>
+        <property name="productCode" type="java.lang.String"/>
+        <property name="subscribedProductCode" type="java.lang.String"/>
+        <property name="storeId" type="java.lang.String"/>
+        <property name="entryGroupNumbers" type="java.util.Set&lt;Integer>"/>
+        <property name="quantity" type="java.lang.Long"/>
+        <property name="configurableProductSpecCharacteristics" type="java.util.Set&lt;de.hybris.platform.b2ctelcoservices.data.TmaProductSpecCharacteristicConfigItem>"/>
+        <property name="children" type="java.util.List&lt;de.hybris.platform.b2ctelcofacades.data.CartActionInput>"/>
+        <property name="appointmentId" type="java.lang.String"/>
+        <property name="places" type="java.util.List&lt;de.hybris.platform.b2ctelcofacades.data.TmaPlaceData>"/>
+        <property name="paymentMethodId" type="java.lang.String"/>
+		<property name="entryId" type="java.lang.String"/>
+		<property name="delieryModeId" type="java.lang.String"/>
+        <property name="fromCartGUID" type="java.lang.String"/>
+        <property name="toCartGUID" type="java.lang.String"/>
+		<property name="cloneCartID" type="java.lang.String"/>
+		<property name="cloneCartName" type="java.lang.String"/>
+		<property name="cloneCartDescription" type="java.lang.String"/>
+ 		<property name="restoreCart" type="boolean"/>
+		<property name="couponIds" type="java.util.List&lt;java.lang.String>"/>
+		<property name="serviceProvider" type="java.lang.String"/>
+        <property name="contractStartDate" type="java.util.Date"/>
+        <property name="status" type="de.hybris.platform.core.enums.OrderStatus"/>
+        <property name="parentEntryNumber" type="java.lang.Integer"/>
+    </bean>
+
+    <bean class="de.hybris.platform.b2ctelcofacades.data.TmaAbstractOrderEntryPscvData">
+        <property name="name" type="java.lang.String"/>
+        <property name="value" type="java.lang.String"/>
+    </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaPlaceData">
+		<property name="id" type="java.lang.String"/>
+		<property name="role" type="de.hybris.platform.b2ctelcoservices.enums.TmaPlaceRoleType"/>
+   </bean>
+
+   <enum class="de.hybris.platform.b2ctelcofacades.data.TmaCartStrategyType">
+		<value>ADD</value>
+		<value>DELETE</value>
+		<value>MODIFY</value>
+		<value>MERGE</value>
+		<value>CLONE</value>
+    	<value>RESTORE</value>
+   </enum>
+
+	<bean class="de.hybris.platform.commercefacades.order.data.CartModificationData">
+		<property name="clonedCartId" type="java.lang.String"/>
+		<property name="validationMessages"
+                type="java.util.Set&lt;de.hybris.platform.b2ctelcofacades.data.TmaCartValidationData>"/>
+       <property name="parentEntryNumber" type="java.lang.Integer"/>
+    </bean>
+
+    <bean class="de.hybris.platform.b2ctelcofacades.data.TmaIdentificationData">
+       <property name="identificationType" type="String" />
+       <property name="identificationNumber" type="String" />
+    </bean>
+
+    <bean class="de.hybris.platform.commercefacades.user.data.RegisterData">
+        <property name="identifications"
+            type="java.util.List&lt;de.hybris.platform.b2ctelcofacades.data.TmaIdentificationData>" />
+    </bean>
+
+    <bean class="de.hybris.platform.commercefacades.user.data.PrincipalData">
+        <property name="identifications" type="java.util.List&lt;de.hybris.platform.b2ctelcofacades.data.TmaIdentificationData>"/>
+    </bean>
+
+    <bean class="de.hybris.platform.b2ctelcofacades.data.CartDataList">
+		<property name="carts"
+		          type="java.util.List&lt;de.hybris.platform.commercefacades.order.data.CartData>"/>
+	</bean>
+
+	<bean class="de.hybris.platform.b2ctelcofacades.data.ProductDataList">
+		<property name="products"
+		          type="java.util.List&lt;de.hybris.platform.commercefacades.product.data.ProductData>"/>
+		<property name="catalog" type="String"/>
+		<property name="version" type="String"/>
+		<property name="totalProductCount" type="int"/>
+		<property name="totalPageCount" type="int"/>
+		<property name="currentPage" type="int"/>
+	</bean>
+
+    <!--This cannot be abstract as it is required as concrete for the deserialization of the solr json to data objects-->
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaProductOfferingPriceData">
+      <property name="id" type="java.lang.String"/>
+      <property name="name" type="java.lang.String"/>
+      <property name="description" type="java.lang.String"/>
+      <property name="priceEvent" type="de.hybris.platform.subscriptionfacades.data.BillingTimeData"/>
+      <property name="productSpecCharacteristicValueUses"
+                type="java.util.List&lt;de.hybris.platform.b2ctelcofacades.data.TmaProductSpecCharacteristicValueUseData>"/>
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaComponentProdOfferPriceData"
+         extends="de.hybris.platform.b2ctelcofacades.data.TmaProductOfferingPriceData">
+      <property name="value" type="java.lang.Double"/>
+      <property name="currency" type="de.hybris.platform.commercefacades.storesession.data.CurrencyData"/>
+      <property name="pla" type="de.hybris.platform.b2ctelcofacades.data.TmaPricingLogicAlgorithmData"/>
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaAbstractProdOfferPriceChargeData" abstract="true"
+         extends="de.hybris.platform.b2ctelcofacades.data.TmaComponentProdOfferPriceData">
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaOneTimeProdOfferPriceChargeData"
+         extends="de.hybris.platform.b2ctelcofacades.data.TmaAbstractProdOfferPriceChargeData">
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaRecurringProdOfferPriceChargeData"
+         extends="de.hybris.platform.b2ctelcofacades.data.TmaAbstractProdOfferPriceChargeData">
+       <property name="cycleStart" type="java.lang.Integer"/>
+       <property name="cycleEnd" type="java.lang.Integer"/>
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaUsageProdOfferPriceChargeData"
+         extends="de.hybris.platform.b2ctelcofacades.data.TmaAbstractProdOfferPriceChargeData">
+      <property name="tierStart" type="java.lang.Integer"/>
+      <property name="tierEnd" type="java.lang.Integer"/>
+      <property name="usageUnit" type="de.hybris.platform.subscriptionfacades.data.UsageUnitData"/>
+      <property name="productUsageSpecification" type="de.hybris.platform.b2ctelcofacades.data.TmaProductUsageSpecificationData"/>
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaCompositeProdOfferPriceData"
+          extends="de.hybris.platform.b2ctelcofacades.data.TmaProductOfferingPriceData">
+       <property name="children" type="java.util.Set&lt;de.hybris.platform.b2ctelcofacades.data.TmaProductOfferingPriceData>"/>
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaTierUsageCompositeProdOfferPriceData"
+         extends="de.hybris.platform.b2ctelcofacades.data.TmaCompositeProdOfferPriceData">
+      <property name="usageChargeType" type="de.hybris.platform.subscriptionfacades.data.UsageChargeTypeData"/>
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaProdOfferPriceAlterationData"
+         extends="de.hybris.platform.b2ctelcofacades.data.TmaComponentProdOfferPriceData">
+      <property name="cycleStart" type="java.lang.Integer"/>
+      <property name="cycleEnd" type="java.lang.Integer"/>
+      <property name="isPercentage" type="java.lang.Boolean"/>
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaDiscountProdOfferPriceAlterationData"
+         extends="de.hybris.platform.b2ctelcofacades.data.TmaProdOfferPriceAlterationData">
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaAllowanceProdOfferPriceAlterationData"
+         extends="de.hybris.platform.b2ctelcofacades.data.TmaProdOfferPriceAlterationData">
+      <property name="allowanceType" type="de.hybris.platform.b2ctelcoservices.enums.TmaAllowanceProdOfferPriceType"/>
+   </bean>
+
+    <bean class="de.hybris.platform.b2ctelcofacades.data.TmaPricingLogicAlgorithmData">
+        <property name="id" type="java.lang.String"/>
+        <property name="name" type="java.lang.String"/>
+        <property name="description" type="java.lang.String"/>
+        <property name="onlineDate" type="java.util.Date"/>
+        <property name="offlineDate" type="java.util.Date"/>
+        <property name="pricingLogicAlgorithmSpec"
+                  type="de.hybris.platform.b2ctelcofacades.data.TmaPricingLogicAlgorithmSpecData"/>
+        <property name="externalIds" type="java.util.List&lt;de.hybris.platform.b2ctelcofacades.data.TmaExternalIdentifierData>"/>
+    </bean>
+
+    <bean class="de.hybris.platform.b2ctelcofacades.data.TmaOneTimePricingLogicAlgorithmData"
+         extends="de.hybris.platform.b2ctelcofacades.data.TmaPricingLogicAlgorithmData">
+    </bean>
+
+    <bean class="de.hybris.platform.b2ctelcofacades.data.TmaRecurringPricingLogicAlgorithmData"
+         extends="de.hybris.platform.b2ctelcofacades.data.TmaPricingLogicAlgorithmData">
+    </bean>
+
+    <bean class="de.hybris.platform.b2ctelcofacades.data.TmaUsagePricingLogicAlgorithmData"
+         extends="de.hybris.platform.b2ctelcofacades.data.TmaPricingLogicAlgorithmData">
+    </bean>
+
+    <bean class="de.hybris.platform.b2ctelcofacades.data.TmaPricingLogicAlgorithmSpecData">
+        <property name="id" type="java.lang.String"/>
+        <property name="name" type="java.lang.String"/>
+        <property name="description" type="java.lang.String"/>
+        <property name="approvalStatus" type="java.lang.String"/>
+        <property name="onlineDate" type="java.util.Date"/>
+        <property name="offlineDate" type="java.util.Date"/>
+        <property name="externalIds" type="java.util.List&lt;de.hybris.platform.b2ctelcofacades.data.TmaExternalIdentifierData>"/>
+    </bean>
+
+	<bean class="de.hybris.platform.cmsfacades.data.MediaData">
+		<property name="folder" type="java.lang.String"/>
+		<property name="realFileName" type="java.lang.String"/>
+	</bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaProductUsageSpecificationData">
+      <property name="id" type="java.lang.String"/>
+      <property name="name" type="java.lang.String"/>
+      <property name="externalIds" type="java.util.List&lt;de.hybris.platform.b2ctelcofacades.data.TmaExternalIdentifierData>"/>
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaExternalIdentifierData">
+      <property name="id" type="java.lang.String"/>
+      <property name="owner" type="java.lang.String"/>
+      <property name="resourceType" type="java.lang.String"/>
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaProductSpecificationData">
+      <property name="id" type="java.lang.String"/>
+      <property name="name" type="java.lang.String"/>
+      <property name="description" type="java.lang.String"/>
+      <property name="brand" type="java.lang.String"/>
+      <property name="lifecycleStatus" type="de.hybris.platform.catalog.enums.ArticleApprovalStatus"/>
+      <property name="onlineDate" type="java.util.Date"/>
+      <property name="offlineDate" type="java.util.Date"/>
+      <property name="productSpecCharacteristic"
+                type="java.util.Set&lt;de.hybris.platform.b2ctelcofacades.data.TmaProductSpecCharacteristicData>"/>
+      <property name="serviceSpecification"
+                type="java.util.Set&lt;de.hybris.platform.b2ctelcofacades.data.TmaServiceSpecificationData>"/>
+      <property name="usageSpecification" type="de.hybris.platform.b2ctelcofacades.data.TmaProductUsageSpecificationData"/>
+      <property name="productSpecType"
+                type="java.util.Set&lt;de.hybris.platform.b2ctelcofacades.data.TmaProductSpecTypeData>"/>
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaCompositeProductSpecificationData"
+         extends="de.hybris.platform.b2ctelcofacades.data.TmaProductSpecificationData">
+      <property name="children"
+                type="java.util.Set&lt;de.hybris.platform.b2ctelcofacades.data.TmaProductSpecificationData>"/>
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaProductSpecTypeData">
+      <property name="id" type="java.lang.String"/>
+      <property name="description" type="java.lang.String"/>
+   </bean>
+
+   <bean class="de.hybris.platform.b2ctelcofacades.data.TmaServiceSpecificationData">
+      <property name="id" type="String"/>
+      <property name="name" type="String"/>
+      <property name="externalIds" type="java.util.List&lt;de.hybris.platform.b2ctelcofacades.data.TmaExternalIdentifierData>"/>
+   </bean>
+
+</beans>

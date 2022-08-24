@@ -1,0 +1,55 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+ 
+ 
+# Workflow Sample Data - Workflow (TUA_ProductOfferingApproval).
+ 
+INSERT_UPDATE WorkflowTemplate                                                                                                                          ; code[unique = true]         ; name[lang = en]     ; owner(uid) ; description[lang = en]                                                                                                                                                                                           ; activationscript                                                                                               ; visibleForPrincipals(uid) ;  ;  ;  
+                                                                                                                                                        ; TUA_ProductOfferingApproval ; TUAProduct Approval ; admin      ; "This workflow template is for Product offering review and approval. Product managers can get their modelled product offerings reviewed from their peers  and approved from their superior using this template." ; "// this script will create a new workflow when a product is created or saved and its approval status is check 
+(                                                                                                                                                       
+// create new item                                                                                                                                      
+(action.equals(""create"") &&                                                                                                                           
+                                                                                                                                                        
+// initialValues must be set                                                                                                                            
+initialValues != null &&                                                                                                                                
+                                                                                                                                                        
+// approvalStatus must be set                                                                                                                           
+initialValues.get(""approvalstatus"") != null &&                                                                                                        
+                                                                                                                                                        
+// approvalStatus must be set to ""check""                                                                                                              
+initialValues.get(""approvalstatus"").getCode().equals(""check"")                                                                                       
+) ||                                                                                                                                                    
+                                                                                                                                                        
+// save item                                                                                                                                            
+(action.equals(""save"") &&                                                                                                                             
+                                                                                                                                                        
+// currentValues must be set                                                                                                                            
+currentValues != null &&                                                                                                                                
+                                                                                                                                                        
+// approvalStatus must be set                                                                                                                           
+currentValues.get(""approvalstatus"") != null &&                                                                                                        
+                                                                                                                                                        
+// approvalStatus must be set to ""check""                                                                                                              
+currentValues.get(""approvalstatus"").getCode().equals(""check""))) &&                                                                                  
+                                                                                                                                                        
+// created or saved item is a product                                                                                                                   
+typeService.isAssignableFrom(""Product"", itemType.getCode())" ; backofficeworkflowadmingroup,wfl_productManagementGroup,productapprovalgroup ; ; ; 
+                                                                                                                                                        ;                             ;                     ;            ;                                                                                                                                                                                                                  ;                                                                                                                ;                           ;  ;  ;  ;  ;  
+INSERT_UPDATE WorkflowActionTemplate ; code[unique = true]                       ; name[lang = en]                    ; description[lang = de] ; description[lang = en] ; principalAssigned(uid)       ; workflow(code)[unique = true] ; sendEmail ; emailAddress ; rendererTemplate(code) ; actionType(code) 
+                                     ; TUA0001_Review_through_Product_Management ; Review through Product Management  ;                        ;                        ; wfl_productManagementGroup   ; TUA_ProductOfferingApproval   ; false     ;              ;                        ; start            
+                                     ; TUA002_Back_to_Backoffice_Managment       ; Back to Backoffice Product Manager ;                        ;                        ; backofficeworkflowadmingroup ; TUA_ProductOfferingApproval   ; false     ;              ;                        ; normal           
+                                     ; TUA003_Approval_through_Product_Superior  ; Approval through Product Superior  ;                        ;                        ; productapprovalgroup     ; TUA_ProductOfferingApproval   ; false     ;              ;                        ; normal           
+                                     ; TUA004_Approved_ProductOffering           ; ProductOffering approved           ;                        ;                        ; productapprovalgroup     ; TUA_ProductOfferingApproval   ; false     ;              ;                        ; end              
+INSERT_UPDATE WorkflowDecisionTemplate ; code[unique = true] ; name[lang = en] ; actionTemplate(code)                      ; description[allownull = true] ;  ;  ;  ;  ;  ;  
+                                       ; TUA_WDT001          ; Review OK       ; TUA0001_Review_through_Product_Management ;                               ;  ;  ;  ;  ;  ;  
+                                       ; TUA_WDT002          ; Review NOT OK   ; TUA0001_Review_through_Product_Management ;                               ;  ;  ;  ;  ;  ;  
+                                       ; TUA_WDT003          ; Not Approved    ; TUA003_Approval_through_Product_Superior  ;                               ;  ;  ;  ;  ;  ;  
+                                       ; TUA_WDT004          ; Approved        ; TUA003_Approval_through_Product_Superior  ;                               ;  ;  ;  ;  ;  ;  
+                                       
+# new Workflow Model                   ;                     ;                 ;                                           ;                               ;  ;  ;  ;  ;  ;  ; 
+INSERT_UPDATE WorkflowActionTemplateLinkTemplateRelation ; source(code)[unique = true] ; target(code)[unique = true]              ; andConnectionTemplate ; qualifier                                  ;  ;  ;  ;  ;  ;  ;  
+                                                         ; TUA_WDT001                  ; TUA003_Approval_through_Product_Superior ; true                  ; WorkflowActionTemplateLinkTemplateRelation ;  ;  ;  ;  ;  ;  ;  
+                                                         ; TUA_WDT002                  ; TUA002_Back_to_Backoffice_Managment      ; true                  ; WorkflowActionTemplateLinkTemplateRelation ;  ;  ;  ;  ;  ;  ;  
+                                                         ; TUA_WDT003                  ; TUA002_Back_to_Backoffice_Managment      ; false                 ; WorkflowActionTemplateLinkTemplateRelation ;  ;  ;  ;  ;  ;  ;  
+                                                         ; TUA_WDT004                  ; TUA004_Approved_ProductOffering          ; false                 ; WorkflowActionTemplateLinkTemplateRelation ;  ;  ;  ;  ;  ;  ;  

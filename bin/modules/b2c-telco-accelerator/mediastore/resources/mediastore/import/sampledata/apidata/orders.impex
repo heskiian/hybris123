@@ -1,0 +1,33 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for Importing Orders Test Data
+
+#% impex.enableCodeExecution(true);
+
+$mediaProductCatalog = mediaProductCatalog
+$onlineMediaCatalogVersion = catalogversion(catalog(id[default = $mediaProductCatalog]), version[default = 'Online'])[unique = true, default = $mediaProductCatalog:Online]
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE Order; user(uid)                       ; code[unique = true]; currency(isocode); date[dateformat = dd.MM.yyyy HH:mm:ss]; modifiedtime[dateformat = dd.MM.yyyy HH:mm:ss]; net   ; calculated; paymentInfo(code); deliveryAddress(id); deliveryMode(code); site(uid); store(uid); guid; status(code)
+## TMF Order APIs baseSiteId
+                   ; selfserviceuser98712@hybris.com ; 98710002           ; USD              ; 25.11.2020 00:00:00                   ; 25.11.2020 00:00:00                           ; FALSE ; TRUE      ; 98710002         ; 98712              ; standard-gross    ; media    ; media     ;
+
+## ORDER PRICES
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaAbstractOrderOneTimeChargePrice; id[unique = true]        ; taxIncludedAmount; dutyFreeAmount; priceType(code); billingTime(code); currency(isocode); taxRate; catalogCode
+## TMF Order APIs baseSiteId
+                                                ; 98710002_order_price_otc ; 100.0            ; 100.0         ; PRODUCT_PRICE  ; paynow           ; USD              ; 1.1    ; 98710002_order_price_otc
+
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE TmaAbstractOrderCompositePrice; id[unique = true]              ; childPrices(id)          ; catalogCode
+## TMF Order APIs baseSiteId
+                                            ; 98710002_order_price_composite ; 98710002_order_price_otc ; 98710002_order_price_composite
+
+## ORDER ENTRIES
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE OrderEntry; entryNumber[unique = true]; product(code, $onlineMediaCatalogVersion); quantity; unit(code); order(code); bpo(code, $onlineMediaCatalogVersion); entryGroupNumbers; processType(code); installationAddress(id); appointmentReference; productSpecCharacteristicValues(id); subscriptionInfo(id); price(id)
+## TMF Order APIs baseSiteId
+                        ; -1                        ; hoodie                                   ; 1       ; pieces    ; 98710002   ;                                      ;                  ; ACQUISITION      ;                        ;                     ;                                    ;                     ; 98710002_order_price_composite

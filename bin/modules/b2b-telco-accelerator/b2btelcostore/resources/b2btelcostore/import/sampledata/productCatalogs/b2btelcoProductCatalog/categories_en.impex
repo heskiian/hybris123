@@ -1,0 +1,17 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for Importing Categories into B2B Telco Store
+
+
+# Macros / Replacement Parameter definitions
+$productCatalog = b2btelcoProductCatalog
+$catalogVersion = catalogversion(catalog(id[default=$productCatalog]), version[default='Staged'])[unique=true, default=$productCatalog:Staged]
+
+# Language
+$lang = en
+
+# Insert Categories
+INSERT_UPDATE Category; code[unique = true]; $catalogVersion; name[lang = $lang]
+                      ; 1                  ;                ; Open Catalogue

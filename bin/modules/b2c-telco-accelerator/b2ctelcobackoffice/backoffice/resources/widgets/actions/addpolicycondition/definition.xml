@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<action-definition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   id="de.hybris.platform.b2ctelcobackoffice.action.addpolicycondition"
+                   xsi:noNamespaceSchemaLocation="http://www.hybris.com/schema/cockpitng/action-definition.xsd">
+
+    <name>Add new policy condition</name>
+    <description>Adds a new policy condition under a composite parent condition or directly to a policy</description>
+    <author>hybris</author>
+    <version>1.0</version>
+
+    <iconUri>icons/icon_action_add_default.png</iconUri>
+
+    <actionClassName>de.hybris.platform.b2ctelcobackoffice.actions.AddTmaPolicyConditionAction</actionClassName>
+    <sockets>
+        <input id="selectedReferences" type="java.lang.Object"/>
+        <output id="referenceSearchCtx" type="com.hybris.cockpitng.data.TypeAwareSelectionContext"/>
+    </sockets>
+
+</action-definition>

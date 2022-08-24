@@ -1,0 +1,45 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for Importing sample compatibility policies
+
+$productCatalog = b2btelcoProductCatalog
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Staged'])[unique = true, default = $productCatalog:Staged]
+
+########################################################################################################
+# Eligibility Policy1 (retention policy):
+# A customer is eligible for RETENTION flow when the remaining contract term is less than 3 months     #
+########################################################################################################
+INSERT_UPDATE TmaProcessTypesPolicyStatement; code[unique = true] ; processes(code); $catalogVersion
+                                            ; retention_statement ; RETENTION
+
+INSERT_UPDATE TmaRemainingCommittedPeriodPolicyStatement; code[unique = true]; days; $catalogVersion
+                                                        ; 3months_statement  ; 90
+
+INSERT_UPDATE TmaAtomicPolicyCondition; code[unique = true]          ; statement(code, $catalogVersion); $catalogVersion
+                                      ; remainingPeriodConditions_90 ; 3months_statement
+
+INSERT_UPDATE TmaPolicyAction; code[unique = true]; statement(code, $catalogVersion); actionType(code); $catalogVersion
+                             ; allow_retention    ; retention_statement             ; ALLOW
+
+INSERT_UPDATE TmaCompatibilityPolicy; code[unique = true]                 ; conditionsEvaluatorType(code); conditions(code, $catalogVersion); actions(code, $catalogVersion); onlineFrom[dateformat = dd.MM.yyyy]; onlineTo[dateformat = dd.MM.yyyy]; $catalogVersion
+                                    ; 3months_remainingPeriod_eligibility ; AND                          ; remainingPeriodConditions_90     ; allow_retention               ;
+
+###################################################################################################
+# Eligibility Policy2 (general acquisition, device only and switch supplier policy):              #
+# A customer is eligible for ACQUISITION DEVICE_ONLY and SWITCH_SERVICE_PROVIDER flows in all conditions  #
+###################################################################################################
+INSERT_UPDATE TmaProcessTypesPolicyStatement; code[unique = true]                                       ; processes(code); $catalogVersion
+                                            ; acq_and_device_only_and_switch_service_provider_statement ; ACQUISITION,DEVICE_ONLY,SWITCH_SERVICE_PROVIDER
+
+INSERT_UPDATE TmaPolicyAction; code[unique = true]                                   ; statement(code, $catalogVersion)                          ; actionType(code); $catalogVersion
+                             ; allow_acq_and_device_only_and_switch_service_provider ; acq_and_device_only_and_switch_service_provider_statement ; ALLOW
+
+INSERT_UPDATE TmaCompatibilityPolicy; code[unique = true]                                         ; conditionsEvaluatorType(code); conditions(code, $catalogVersion); actions(code, $catalogVersion)                        ; onlineFrom[dateformat = dd.MM.yyyy]; onlineTo[dateformat = dd.MM.yyyy]; $catalogVersion
+                                    ; acq_and_device_only_and_switch_service_provider_eligibility ; AND                          ;                                  ; allow_acq_and_device_only_and_switch_service_provider ;
+
+####################################################################################
+# Eligibility Policy3 (tariff change policy):
+# A customer is eligible for TARIFF_CHANGE flow if he is subscribed to 2048_2048-1024_1024-95_TEG2 or CP000006.
+####################################################################################

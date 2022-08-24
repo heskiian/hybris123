@@ -1,0 +1,88 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for Importing Products into Utilities Store
+
+# Macros / Replacement Parameter definitions
+$productCatalog = utilitiesProductCatalog
+$productCatalogName = Utilities Product Catalog
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Staged'])[unique = true, default = $productCatalog:Staged]
+$onlineCatalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Online'])[unique = true, default = $productCatalog:Online]
+$supercategories = supercategories(code, $catalogVersion)
+$approved = approvalstatus(code)[default = 'approved']
+$channels = distributionChannels(code)
+
+# Macros / Replacement Parameter definitions
+$solrIndexedTypeIdentifier = utilitiesProductType
+$solrIndexedType = indexedType(identifier[default = $solrIndexedTypeIdentifier])
+
+# Macros / Replacement Parameter definitions
+$soldIndividuallyFlag = soldIndividually[default = true]
+
+# Insert Devices
+INSERT_UPDATE TmaSimpleProductOffering; code[unique = true]                    ; $supercategories; manufacturerName; manufacturerAID; onlineDate[dateformat = dd.MM.yyyy]; unit(code)[default = pieces]; ean; $channels; variantType(code); $approved; $catalogVersion; $soldIndividuallyFlag
+# lightbulbs
+                                      ; lightbulb_energy_efficient             ; lightbulbs      ;                 ;                ; 01.06.2018                         ;                             ;
+                                      ; lightbulb_led                          ; lightbulbs      ;                 ;                ; 01.06.2018                         ;                             ;
+                                      ; lightbulb_led_multipack                ; lightbulbs      ;                 ;                ; 01.06.2018                         ;                             ;
+# elelctricalcords
+                                      ; electrical_cord_general                ; electricalcords ;                 ;                ; 01.06.2018                         ;                             ;
+                                      ; electrical_cord_double_ended_extension ; electricalcords ;                 ;                ; 01.06.2018                         ;                             ;
+                                      ; electrical_cord_slim                   ; electricalcords ;                 ;                ; 01.06.2018                         ;                             ;
+# solarpanels
+                                      ; solar_panel                            ; solarpanels     ;                 ;                ; 01.06.2018                         ;                             ;
+                                      ; solar_panel_plus                       ; solarpanels     ;                 ;                ; 01.06.2018                         ;                             ;
+                                      ; solar_panel_premium                    ; solarpanels     ;                 ;                ; 01.06.2018                         ;                             ;
+# thermostats
+                                      ; thermostat_basic                       ; thermostats     ;                 ;                ; 01.06.2018                         ;                             ;
+                                      ; thermostat_plus                        ; thermostats     ;                 ;                ; 01.06.2018                         ;                             ;
+                                      ; thermostat_premium                     ; thermostats     ;                 ;                ; 01.06.2018                         ;                             ;
+# installation
+                                      ; installation_electricity               ; installation    ;                 ;                ; 01.06.2018                         ;                             ;
+                                      ; installation_gas                       ; installation    ;                 ;                ; 01.06.2018                         ;                             ;
+                                      ; installation_solar_panel               ; installation    ;                 ;                ; 01.06.2018                         ;                             ;
+
+
+#Insert Service Plans (Plans)          
+INSERT_UPDATE TmaSimpleProductOffering; code[unique = true]         ; productSpecification(id, $catalogVersion); $supercategories  ; manufacturerAID; soldIndividually[default = false]; unit(code)[default = pieces]; $approved; $catalogVersion
+# electricityplans
+                                      ; electric_plan_basic         ; electricity                              ; electricityplans  ;                ; true
+                                      ; electric_plan_plus          ; electricity                              ; electricityplans  ;                ; true
+                                      ; electric_plan_best          ; electricity                              ; electricityplans  ;                ; true
+                                      ; electric_plan_total_comfort ; electricity                              ; electricityplans  ;                ; true
+# gasplans
+                                      ; gas_plan_basic              ; gas                                      ; gasplans          ;                ; true
+                                      ; gas_plan_plus               ; gas                                      ; gasplans          ;                ; true
+                                      ; gas_plan_best               ; gas                                      ; gasplans          ;                ; true
+                                      ; gas_plan_total_comfort      ; gas                                      ; gasplans          ;                ; true
+# homewarrantyplans
+                                      ; home_warranty               ; homewarranty                             ; homewarrantyplans ;                ; true
+                                      ; home_warranty_plus          ; homewarranty                             ; homewarrantyplans ;                ; true
+                                      ; home_warranty_total_comfort ; homewarranty                             ; homewarrantyplans ;                ; true
+
+$lang = en
+
+INSERT_UPDATE TmaProductSpecCharValueUse; name[lang = $lang]   ; description[lang = $lang]                          ; productSpecCharacteristicValues(id, $catalogVersion)[unique = true]; minCardinality; maxCardinality; productOfferings(code, $catalogVersion)[unique = true]; valueType(code); $catalogVersion;
+# Static PSCVs
+                                        ; Power                ; Power value                                        ; 200_kwh                                                            ; 1             ; 1             ; electric_plan_basic                                   ;                ;                ;
+                                        ; Power                ; Power value                                        ; 500_kwh                                                            ; 1             ; 1             ; electric_plan_plus                                    ;                ;                ;
+                                        ; Power                ; Power value                                        ; 1000_kwh                                                           ; 1             ; 1             ; electric_plan_best                                    ;                ;                ;
+                                        ; Power                ; Power value                                        ; 3000_kwh                                                           ; 1             ; 1             ; electric_plan_total_comfort                           ;                ;                ;
+
+                                        ; Waveform             ; Waveform type                                      ; monophasic_waveform                                                ; 1             ; 1             ; electric_plan_basic                                   ;                ;                ;
+                                        ; Waveform             ; Waveform type                                      ; biphasic_waveform                                                  ; 1             ; 1             ; electric_plan_plus                                    ;                ;                ;
+                                        ; Waveform             ; Waveform type                                      ; triphasic_waveform                                                 ; 1             ; 1             ; electric_plan_best, electric_plan_total_comfort       ;                ;                ;
+
+                                        ; Gas volume           ; Included Gas volume                                ; 300_cubic_metres                                                   ; 1             ; 1             ; gas_plan_basic                                        ;                ;                ;
+                                        ; Gas volume           ; Included Gas volume                                ; 1500_cubic_metres                                                  ; 1             ; 1             ; gas_plan_plus                                         ;                ;                ;
+                                        ; Gas volume           ; Included Gas volume                                ; 2000_cubic_metres                                                  ; 1             ; 1             ; gas_plan_best                                         ;                ;                ;
+                                        ; Gas volume           ; Included Gas volume                                ; 4000_cubic_metres                                                  ; 1             ; 1             ; gas_plan_total_comfort                                ;                ;                ;
+
+                                        ; Home Warranty Period ; Period for which home warranty is available        ; 10_years                                                           ; 1             ; 1             ; home_warranty                                         ;                ;                ;
+                                        ; Home Warranty Period ; Period for which home warranty is available        ; 30_years                                                           ; 1             ; 1             ; home_warranty_plus                                    ;                ;                ;
+                                        ; Home Warranty Period ; Period for which home warranty is available        ; 120_years                                                          ; 1             ; 1             ; home_warranty_total_comfort                           ;                ;                ;
+
+                                        ; Home Warranty Amount ; Amount of money guaranteed by by the home warranty ; 100000_USD                                                         ; 1             ; 1             ; home_warranty                                         ;                ;                ;
+                                        ; Home Warranty Amount ; Amount of money guaranteed by by the home warranty ; 500000_USD                                                         ; 1             ; 1             ; home_warranty_plus                                    ;                ;                ;
+                                        ; Home Warranty Amount ; Amount of money guaranteed by by the home warranty ; 3000000_USD                                                        ; 1             ; 1             ; home_warranty_total_comfort                           ;                ;                ;

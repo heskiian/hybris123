@@ -1,0 +1,11 @@
+#Ant properties
+#Thu Mar 04 09:19:07 CET 2021
+version.api=2105
+vendor=hybris
+group.id=de.hybris.platform
+name=subscribedproducttmfwebservices
+description=subscribedproducttmfwebservices
+builddate=20210304 0914
+releasedate=20201119 1630
+version=2105
+module.name=b2ctelco-accelerator-module

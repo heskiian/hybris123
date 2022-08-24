@@ -1,0 +1,39 @@
+#
+# Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+#
+
+$url = http://localhost:8083
+
+################################################################
+# This sets up the credential (username/password) called "tmfEventsOauthCredentials"
+# ##############################################################
+INSERT_UPDATE ConsumedOAuthCredential; id[unique = true]         ; clientId       ; oAuthUrl                       ; clientSecret
+                                     ; tmfEventsOauthCredentials ; trusted_client ; $url/events/oauth/access_token ; secret
+
+###############################################################
+# This sets up the endpoint called "tmfEventsEndpoint"
+# #############################################################
+INSERT_UPDATE Endpoint; id[unique = true] ; version[unique = true]; name              ; specUrl
+                      ; tmfEventsEndpoint ; v1                    ; tmfEventsEndpoint ; https://localhost:9002/b2ctelcotmfwebservices/v2/api-docs
+
+# ############################################################
+INSERT_UPDATE DestinationTarget; id[unique = true]                   ; destinationChannel(code)[default = TMF]; template; registrationStatus(code)
+                               ; tmfEventsDestinationTargetOfferings ;                                        ; false   ; REGISTERED
+                               ; tmfEventsDestinationTargetPops      ;                                        ; false   ; REGISTERED
+                               ; tmfEventsDestinationTargetOrders    ;                                        ; false   ; REGISTERED
+
+
+# EventConfiguration is needed when ExportEventSender looks up the EventConfiguration for OutboundSyncEvent
+############################################################
+INSERT_UPDATE EventConfiguration; eventClass[unique = true]                                                ; destinationTarget(id)[unique = true]; version[unique = true]; exportFlag; priority(code); exportName                   ; mappingType(code); eventPropertyConfigurations(&property)
+                                ; de.hybris.platform.b2ctelcotmfevents.events.TmaProductOfferingEvent      ; tmfEventsDestinationTargetOfferings ; 1                     ; true      ; HIGH          ; tmaProductOfferingEvent      ; GENERIC
+                                ; de.hybris.platform.b2ctelcotmfevents.events.TmaProductOfferingPriceEvent ; tmfEventsDestinationTargetPops      ; 1                     ; true      ; HIGH          ; tmaProductOfferingPriceEvent ; GENERIC
+                                ; de.hybris.platform.b2ctelcotmfevents.events.TmaOrderEvent                ; tmfEventsDestinationTargetOrders    ; 1                     ; true      ; HIGH          ; tmaProductOrderEvent         ; GENERIC
+
+
+# This sets up the ConsumedDestinations
+##############################################################
+INSERT_UPDATE ConsumedDestination; id[unique = true]               ; url                              ; endpoint(id, version); credential(id)            ; active[default = false]; destinationTarget(id)
+                                 ; productOfferingDestination      ; $url/events/productOffering      ; tmfEventsEndpoint:v1 ; tmfEventsOauthCredentials ; false                  ; tmfEventsDestinationTargetOfferings
+                                 ; productOfferingPriceDestination ; $url/events/productOfferingPrice ; tmfEventsEndpoint:v1 ; tmfEventsOauthCredentials ; false                  ; tmfEventsDestinationTargetPops
+                                 ; orderDestination                ; $url/events/productOrder         ; tmfEventsEndpoint:v1 ; tmfEventsOauthCredentials ; false                  ; tmfEventsDestinationTargetOrders

@@ -1,0 +1,22 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+$lang = en
+
+INSERT_UPDATE User; uid[unique = true]  ;
+                  ; test_user_principal ;
+
+INSERT_UPDATE PrAccount; id[unique = true]     ; name[lang = $lang]    ;
+                       ; test_account_employee ; Test Account Employee ;
+                       ; test_account_employer ; Test Account Employer ;
+
+INSERT_UPDATE PrPartyRole; id[unique = true]; accounts(id)          ;
+                         ; test_employee    ; test_account_employee ;
+                         ; test_employer    ; test_account_employer ;
+
+INSERT_UPDATE PrPartyRoleAssociation; code[unique = true]; associationType; partyRoleInvolvedWith(id); partyRoleInvolves(id);
+                                    ; test_developer     ; developer      ; test_employee            ; test_employer        ;
+
+INSERT_UPDATE PrParty; id[unique = true]; name            ; principals(uid)     ; partyRoles(id);
+                     ; test_party       ; Test Party Name ; test_user_principal ; test_employee ;

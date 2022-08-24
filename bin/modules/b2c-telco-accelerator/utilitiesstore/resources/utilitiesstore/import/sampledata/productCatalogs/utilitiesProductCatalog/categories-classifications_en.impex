@@ -1,0 +1,42 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+#******************************This file is generated - please do not edit it. It will be regenerated after every build.********************************#
+# ImpEx for Importing Classification Categories into utilities Store
+
+# Macros / Replacement Parameter definitions
+$productCatalog = utilitiesProductCatalog
+$productCatalogName = Utilities Product Catalog
+$classCatalogVersion = catalogversion(catalog(id[default = 'utilitiesClassification']), version[default = '1.0'])[unique = true, default = 'utilitiesClassification:1.0']
+$classSystemVersion = systemVersion(catalog(id[default = 'utilitiesClassification']), version[default = '1.0'])[unique = true]
+
+# Language
+$lang = en
+
+$systemName = utilitiesClassification;
+$systemVersion = 1.0;
+
+INSERT_UPDATE ClassificationSystem; id[unique = true]; name[lang = $lang]              ;
+                                  ; $systemName      ; Utilities Classification System ;
+
+# ImpEx for Importing Category Classifications into Utilities Store
+
+# Insert Classifications
+UPDATE ClassificationClass; $classCatalogVersion; code[unique = true]             ; name[lang = $lang]
+                          ;                     ; electricitydeviceclassification ; Electricity Devices
+                          ;                     ; serviceplanclassification       ; Service Plans
+                          ;                     ; compatibilityclassification     ; Compatibility Features
+
+
+# Insert Classification Attributes
+UPDATE ClassificationAttribute; code[unique = true]  ; name[lang = $lang]; $classSystemVersion
+                              ; color                ; Color
+                              ; weight               ; Weight
+                              ; height               ; Height
+                              ; width                ; Width
+                              ; lifespan             ; Lifespan
+                              ; power                ; Power
+                              ; voltage              ; Voltage
+                              ; material             ; Material
+                              ; viewangle            ; Viewing Angle

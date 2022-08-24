@@ -1,0 +1,191 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+#% impex.enableCodeExecution(true);
+
+$catalog-id = testCatalog
+$catalog-version = Online
+$catalogVersion = catalogversion(catalog(id[default = $catalog-id]), version[default = $catalog-version])[unique = true, default = $catalog-id:$catalog-version]
+
+$prices = europe1prices[translator=de.hybris.platform.europe1.jalo.impex.Europe1PricesTranslator]
+$price = price(code)[default = '0.0']
+$processTypes = processTypes(code)
+$priority = priority[default=0]
+
+$lang = en
+
+INSERT_UPDATE PriceRow; code[unique = true]          ; product(code, $catalogVersion)[unique = true]; $price ; $processTypes[unique = true]; $catalogVersion; currency(isocode)[default = USD, unique = true]; unit(code)[default = pieces]; user(uid) ; $priority
+                      ; pricerow_b2bproduct          ; b2bproduct                                   ; 10     ; ACQUISITION                 ;                ;                                                ;                             ; GC CEO    ; 100
+                      ; pricerow_b2bproduct_2        ; b2bproduct                                   ; 10     ; ACQUISITION                 ;                ;                                                ;                             ; 2POE S HH ; 100
+                      ; pricerow_b2bproduct_2_eur    ; b2bproduct                                   ; 10     ; ACQUISITION                 ;                ; EUR                                            ;                             ; 2POE S HH ; 100
+                      ; pricerow_b2bproduct_3        ; b2bproduct                                   ; 10     ; ACQUISITION                 ;                ;                                                ;                             ; IC CEO    ; 100
+                      ; pricerow_b2bproduct_4        ; b2bproduct                                   ; 10     ; ACQUISITION                 ;                ;                                                ;                             ; GC S HH   ; 100
+                      ; pricerow_b2bproduct_5        ; b2bproduct                                   ; 10     ; ACQUISITION                 ;                ;                                                ;                             ; 2POE CEO  ; 100
+                      ; pricerow_b2bproduct_6        ; b2bproduct                                   ; 10     ; ACQUISITION                 ;                ;                                                ;                             ; GC CEO    ; 100
+                      ; pricerow_b2bproduct_7        ; b2bproduct                                   ; 10     ; ACQUISITION                 ;                ;                                                ;                             ; 2POE S HH ; 100
+                      ; pricerow_b2bproduct_8        ; b2bproduct                                   ; 10     ; ACQUISITION                 ;                ;                                                ;                             ; IC CEO    ; 100
+                      ; pricerow_b2bproduct_9        ; b2bproduct                                   ; 10     ; ACQUISITION                 ;                ;                                                ;                             ; GC S HH   ; 100
+                      ; pricerow_b2bproduct_10       ; b2bproduct                                   ; 10     ; ACQUISITION                 ;                ;                                                ;                             ;           ; 99
+                      ; pricerow_b2bproduct_11       ; b2bproduct                                   ; 10     ; ACQUISITION                 ;                ;                                                ;                             ;           ; 99
+                      ; pricerow_b2bproduct_12       ; b2bproduct                                   ; 10     ; ACQUISITION                 ;                ;                                                ;                             ; IC CEO    ; 100
+                      ; pricerow_testProduct0_0      ; testProduct0                                 ; 10     ; ACQUISITION                 ;                ;                                                ;                             ;           ; 100
+                      ; pricerow_testProduct0_0_eur  ; testProduct0                                 ; 157.95 ; ACQUISITION                 ;                ; EUR                                            ;                             ;           ; 100
+                      ; pricerow_testProduct0_01     ; testProduct0                                 ; 10     ; ACQUISITION                 ;                ;                                                ;                             ; IC CEO    ; 100
+                      ; pricerow_testProduct0_01_eur ; testProduct0                                 ; 157.95 ; ACQUISITION                 ;                ; EUR                                            ;                             ; IC CEO    ; 100
+
+
+INSERT_UPDATE Address; id[unique = true]                 ; owner(Customer.uid); firstname; lastname  ; town     ; country(isocode); shippingAddress[default = false];
+                     ; delivery_address_gc_ceo           ; "GC CEO"           ; Juergen  ; Albertsen ; Muenchen ; DE              ; true                            ;
+                     ; delivery_address_2peo_ceo         ; "2POE CEO"         ; Juergen  ; Albertsen ; Muenchen ; DE              ; true                            ;
+                     ; delivery_address_2peo_s_hh        ; "2POE S HH"        ; Juergen  ; Albertsen ; Muenchen ; DE              ; true                            ;
+                     ; delivery_address_ic_ceo           ; "IC CEO"           ; Juergen  ; Albertsen ; Muenchen ; DE              ; true                            ;
+                     ; delivery_address_gc_s_hh          ; "GC S HH"          ; Juergen  ; Albertsen ; Muenchen ; DE              ; true                            ;
+                     ; delivery_address_gc_sales_de_boss ; "GC Sales DE Boss" ; Juergen  ; Albertsen ; Muenchen ; DE              ; true                            ;
+                     ; delivery_address_gc_sales_boss    ; "GC Sales Boss"    ; Juergen  ; Albertsen ; Muenchen ; DE              ; true                            ;
+
+INSERT_UPDATE CreditCardPaymentInfo; code[unique = true] ; user(uid)          ; ccOwner           ; number           ; type(code); validToMonth; validToYear; saved; subscriptionId;
+                                   ; cc_gc_ceo           ; "GC CEO"           ; Juergen Albertsen ; 1111222233334444 ; master    ; 5           ; 2030       ; TRUE ; 9111          ;
+                                   ; cc_2peo_ceo         ; "2POE CEO"         ; Juergen Albertsen ; 1111222233334444 ; master    ; 5           ; 2030       ; TRUE ; 9111          ;
+                                   ; cc_2peo_s_hh        ; "2POE S HH"        ; Juergen Albertsen ; 1111222233334444 ; master    ; 5           ; 2030       ; TRUE ; 9111          ;
+                                   ; cc_ic_ceo           ; "IC CEO"           ; Juergen Albertsen ; 1111222233334444 ; master    ; 5           ; 2030       ; TRUE ; 9111          ;
+                                   ; cc_gc_s_hh          ; "GC S HH"          ; Juergen Albertsen ; 1111222233334444 ; master    ; 5           ; 2030       ; TRUE ; 9111          ;
+                                   ; cc_gc_sales_de_boss ; "GC Sales DE Boss" ; Juergen Albertsen ; 1111222233334444 ; master    ; 5           ; 2030       ; TRUE ; 9111          ;
+                                   ; cc_gc_sales_boss    ; "GC Sales Boss"    ; Juergen Albertsen ; 1111222233334444 ; master    ; 5           ; 2030       ; TRUE ; 9111          ;
+
+INSERT_UPDATE Cart; user(uid)          ; code[unique = true]               ; unit(uid)          ; currency(isocode); date[dateformat = dd.MM.yyyy HH:mm:ss]; net   ; calculated; site(uid)     ; store(uid)   ; guid; paymentInfo(code)   ; deliveryAddress(id)               ; deliveryMode(code);
+                  ; "GC CEO"           ; "GC CEO 1 b2bproduct"             ;                    ; USD              ; 01.10.2020 00:00:00                   ; false ; false     ; storetemplate ; defaultstore ;     ; cc_gc_ceo           ; delivery_address_gc_ceo           ; free              ;
+                  ; "GC CEO"           ; "GC CEO 10 b2bproduct"            ;                    ; USD              ; 01.10.2020 00:00:00                   ; false ; false     ; storetemplate ; defaultstore ;     ; cc_gc_ceo           ; delivery_address_gc_ceo           ; free              ;
+                  ; "2POE CEO"         ; "2POE CEO 250 b2bproduct"         ;                    ; USD              ; 01.10.2020 00:00:00                   ; false ; false     ; storetemplate ; defaultstore ;     ; cc_2peo_ceo         ; delivery_address_2peo_ceo         ; free              ;
+                  ; "2POE S HH"        ; "2POE S HH 200 b2bproduct"        ;                    ; EUR              ; 01.10.2020 00:00:00                   ; false ; false     ; storetemplate ; defaultstore ;     ; cc_2peo_s_hh        ; delivery_address_2peo_s_hh        ; free              ;
+                  ; "2POE S HH"        ; "2POE S HH 250 b2bproduct"        ;                    ; USD              ; 01.10.2020 00:00:00                   ; false ; false     ; storetemplate ; defaultstore ;     ; cc_2peo_s_hh        ; delivery_address_2peo_s_hh        ; free              ;
+                  ; "IC CEO"           ; "IC CEO 1 b2bproduct"             ;                    ; USD              ; 01.10.2020 00:00:00                   ; false ; false     ; storetemplate ; defaultstore ;     ; cc_ic_ceo           ; delivery_address_ic_ceo           ; free              ;
+                  ; "IC CEO"           ; "IC CEO 1 testProduct0"           ;                    ; USD              ; 01.10.2020 00:00:00                   ; false ; false     ; storetemplate ; defaultstore ;     ; cc_ic_ceo           ; delivery_address_ic_ceo           ; free              ;
+                  ; "IC CEO"           ; "IC CEO"                          ;                    ; USD              ; 01.10.2020 00:00:00                   ; false ; true      ; storetemplate ; defaultstore ;     ; cc_ic_ceo           ; delivery_address_ic_ceo           ; free              ;
+                  ; "GC S HH"          ; "GC S HH 140 testProduct0"        ; "GC Sales Hamburg" ; EUR              ; 01.10.2020 00:00:00                   ; false ; false     ; storetemplate ; defaultstore ;     ; cc_gc_s_hh          ; delivery_address_gc_s_hh          ; free              ;
+                  ; "GC Sales DE Boss" ; "GC Sales DE Boss 900 b2bproduct" ;                    ; EUR              ; 01.10.2020 00:00:00                   ; false ; false     ; storetemplate ; defaultstore ;     ; cc_gc_sales_de_boss ; delivery_address_gc_sales_de_boss ; free              ;
+                  ; "GC Sales DE Boss" ; "GC Sales DE Boss 10 b2bproduct"  ;                    ; EUR              ; 01.10.2020 00:00:00                   ; false ; false     ; storetemplate ; defaultstore ;     ; cc_gc_sales_de_boss ; delivery_address_gc_sales_de_boss ; free              ;
+                  ; "GC Sales Boss"    ; "GC Sales Boss 1 testProduct0"    ;                    ; USD              ; 01.10.2020 00:00:00                   ; false ; false     ; storetemplate ; defaultstore ;     ; cc_gc_sales_boss    ; delivery_address_gc_sales_boss    ; free              ;
+
+INSERT_UPDATE CartEntry; entryNumber[unique = true]; product(code, $catalogVersion); quantity; unit(code); order(code)[unique = true]        ; processType(code);
+                       ; 0                         ; b2bproduct                    ; 1       ; pieces    ; "GC CEO 1 b2bproduct"             ; ACQUISITION      ;
+                       ; 0                         ; b2bproduct                    ; 10      ; pieces    ; "GC CEO 10 b2bproduct"            ; ACQUISITION      ;
+                       ; 0                         ; b2bproduct                    ; 250     ; pieces    ; "2POE CEO 250 b2bproduct"         ; ACQUISITION      ;
+                       ; 0                         ; b2bproduct                    ; 200     ; pieces    ; "2POE S HH 200 b2bproduct"        ; ACQUISITION      ;
+                       ; 0                         ; b2bproduct                    ; 250     ; pieces    ; "2POE S HH 250 b2bproduct"        ; ACQUISITION      ;
+                       ; 0                         ; b2bproduct                    ; 1       ; pieces    ; "IC CEO 1 b2bproduct"             ; ACQUISITION      ;
+                       ; 0                         ; testProduct0                  ; 1       ; pieces    ; "IC CEO 1 testProduct0"           ; ACQUISITION      ;
+                       ; 0                         ; testProduct0                  ; 140     ; pieces    ; "GC S HH 140 testProduct0"        ; ACQUISITION      ;
+                       ; 0                         ; b2bproduct                    ; 900     ; pieces    ; "GC Sales DE Boss 900 b2bproduct" ; ACQUISITION      ;
+                       ; 0                         ; b2bproduct                    ; 10      ; pieces    ; "GC Sales DE Boss 10 b2bproduct"  ; ACQUISITION      ;
+                       ; 0                         ; testProduct0                  ; 1       ; pieces    ; "GC Sales Boss 1 testProduct0"    ; ACQUISITION      ;
+
+#%userService = de.hybris.platform.core.Registry.getApplicationContext().getBean("userService");
+#%commerceCartService = de.hybris.platform.core.Registry.getApplicationContext().getBean("commerceCartService");
+#%commerceCartParameter = new de.hybris.platform.commerceservices.service.data.CommerceCartParameter();
+#%user = userService.getUserForUID("GC CEO");
+#%cart = commerceCartService.getCartForCodeAndUser("GC CEO 1 b2bproduct", user);
+#%commerceCartParameter.setUser(user);
+#%commerceCartParameter.setCart(cart);
+#%commerceCartParameter.setEnableHooks(true);
+#%commerceCartService.recalculateCart(commerceCartParameter);
+
+#%userService = de.hybris.platform.core.Registry.getApplicationContext().getBean("userService");
+#%commerceCartService = de.hybris.platform.core.Registry.getApplicationContext().getBean("commerceCartService");
+#%commerceCartParameter = new de.hybris.platform.commerceservices.service.data.CommerceCartParameter();
+#%user = userService.getUserForUID("GC CEO");
+#%cart = commerceCartService.getCartForCodeAndUser("GC CEO 10 b2bproduct", user);
+#%commerceCartParameter.setUser(user);
+#%commerceCartParameter.setCart(cart);
+#%commerceCartParameter.setEnableHooks(true);
+#%commerceCartService.recalculateCart(commerceCartParameter);
+
+#%userService = de.hybris.platform.core.Registry.getApplicationContext().getBean("userService");
+#%commerceCartService = de.hybris.platform.core.Registry.getApplicationContext().getBean("commerceCartService");
+#%commerceCartParameter = new de.hybris.platform.commerceservices.service.data.CommerceCartParameter();
+#%user = userService.getUserForUID("2POE CEO");
+#%cart = commerceCartService.getCartForCodeAndUser("2POE CEO 250 b2bproduct", user);
+#%commerceCartParameter.setUser(user);
+#%commerceCartParameter.setCart(cart);
+#%commerceCartParameter.setEnableHooks(true);
+#%commerceCartService.recalculateCart(commerceCartParameter);
+
+#%userService = de.hybris.platform.core.Registry.getApplicationContext().getBean("userService");
+#%commerceCartService = de.hybris.platform.core.Registry.getApplicationContext().getBean("commerceCartService");
+#%commerceCartParameter = new de.hybris.platform.commerceservices.service.data.CommerceCartParameter();
+#%user = userService.getUserForUID("2POE S HH");
+#%cart = commerceCartService.getCartForCodeAndUser("2POE S HH 200 b2bproduct", user);
+#%commerceCartParameter.setUser(user);
+#%commerceCartParameter.setCart(cart);
+#%commerceCartParameter.setEnableHooks(true);
+#%commerceCartService.recalculateCart(commerceCartParameter);
+
+#%userService = de.hybris.platform.core.Registry.getApplicationContext().getBean("userService");
+#%commerceCartService = de.hybris.platform.core.Registry.getApplicationContext().getBean("commerceCartService");
+#%commerceCartParameter = new de.hybris.platform.commerceservices.service.data.CommerceCartParameter();
+#%user = userService.getUserForUID("2POE S HH");
+#%cart = commerceCartService.getCartForCodeAndUser("2POE S HH 250 b2bproduct", user);
+#%commerceCartParameter.setUser(user);
+#%commerceCartParameter.setCart(cart);
+#%commerceCartParameter.setEnableHooks(true);
+#%commerceCartService.recalculateCart(commerceCartParameter);
+
+#%userService = de.hybris.platform.core.Registry.getApplicationContext().getBean("userService");
+#%commerceCartService = de.hybris.platform.core.Registry.getApplicationContext().getBean("commerceCartService");
+#%commerceCartParameter = new de.hybris.platform.commerceservices.service.data.CommerceCartParameter();
+#%user = userService.getUserForUID("IC CEO");
+#%cart = commerceCartService.getCartForCodeAndUser("IC CEO 1 b2bproduct", user);
+#%commerceCartParameter.setUser(user);
+#%commerceCartParameter.setCart(cart);
+#%commerceCartParameter.setEnableHooks(true);
+#%commerceCartService.recalculateCart(commerceCartParameter);
+
+#%userService = de.hybris.platform.core.Registry.getApplicationContext().getBean("userService");
+#%commerceCartService = de.hybris.platform.core.Registry.getApplicationContext().getBean("commerceCartService");
+#%commerceCartParameter = new de.hybris.platform.commerceservices.service.data.CommerceCartParameter();
+#%user = userService.getUserForUID("IC CEO");
+#%cart = commerceCartService.getCartForCodeAndUser("IC CEO 1 testProduct0", user);
+#%commerceCartParameter.setUser(user);
+#%commerceCartParameter.setCart(cart);
+#%commerceCartParameter.setEnableHooks(true);
+#%commerceCartService.recalculateCart(commerceCartParameter);
+
+#%userService = de.hybris.platform.core.Registry.getApplicationContext().getBean("userService");
+#%commerceCartService = de.hybris.platform.core.Registry.getApplicationContext().getBean("commerceCartService");
+#%commerceCartParameter = new de.hybris.platform.commerceservices.service.data.CommerceCartParameter();
+#%user = userService.getUserForUID("GC S HH");
+#%cart = commerceCartService.getCartForCodeAndUser("GC S HH 140 testProduct0", user);
+#%commerceCartParameter.setUser(user);
+#%commerceCartParameter.setCart(cart);
+#%commerceCartParameter.setEnableHooks(true);
+#%commerceCartService.recalculateCart(commerceCartParameter);
+
+#%userService = de.hybris.platform.core.Registry.getApplicationContext().getBean("userService");
+#%commerceCartService = de.hybris.platform.core.Registry.getApplicationContext().getBean("commerceCartService");
+#%commerceCartParameter = new de.hybris.platform.commerceservices.service.data.CommerceCartParameter();
+#%user = userService.getUserForUID("GC Sales DE Boss");
+#%cart = commerceCartService.getCartForCodeAndUser("GC Sales DE Boss 900 b2bproduct", user);
+#%commerceCartParameter.setUser(user);
+#%commerceCartParameter.setCart(cart);
+#%commerceCartParameter.setEnableHooks(true);
+#%commerceCartService.recalculateCart(commerceCartParameter);
+
+#%userService = de.hybris.platform.core.Registry.getApplicationContext().getBean("userService");
+#%commerceCartService = de.hybris.platform.core.Registry.getApplicationContext().getBean("commerceCartService");
+#%commerceCartParameter = new de.hybris.platform.commerceservices.service.data.CommerceCartParameter();
+#%user = userService.getUserForUID("GC Sales DE Boss");
+#%cart = commerceCartService.getCartForCodeAndUser("GC Sales DE Boss 10 b2bproduct", user);
+#%commerceCartParameter.setUser(user);
+#%commerceCartParameter.setCart(cart);
+#%commerceCartParameter.setEnableHooks(true);
+#%commerceCartService.recalculateCart(commerceCartParameter);
+
+#%userService = de.hybris.platform.core.Registry.getApplicationContext().getBean("userService");
+#%commerceCartService = de.hybris.platform.core.Registry.getApplicationContext().getBean("commerceCartService");
+#%commerceCartParameter = new de.hybris.platform.commerceservices.service.data.CommerceCartParameter();
+#%user = userService.getUserForUID("GC Sales Boss");
+#%cart = commerceCartService.getCartForCodeAndUser("GC Sales Boss 1 testProduct0", user) ;
+#%commerceCartParameter.setUser(user);
+#%commerceCartParameter.setCart(cart);
+#%commerceCartParameter.setEnableHooks(true);
+#%commerceCartService.recalculateCart(commerceCartParameter);

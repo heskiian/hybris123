@@ -1,0 +1,10 @@
+#Ant properties
+builddate=20182410
+description=b2btelcostore
+group.id=de.hybris.platform
+module.name=b2btelco-accelerator-module
+name=b2btelcostore
+releasedate=20182410
+vendor=hybris
+version=21.05.0
+version.api=21.05.0

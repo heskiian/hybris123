@@ -1,0 +1,97 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for Importing Categories into B2C Telco Store
+
+# Macros / Replacement Parameter definitions
+$productCatalog=b2ctelcoProductCatalog
+$productCatalogName=B2C Telco Product Catalog
+$catalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+$supercategories=source(code, $catalogVersion)[unique=true]
+$categories=target(code, $catalogVersion)[unique=true]
+$allowedPrincipals = allowedPrincipals(uid)[default = 'customergroup']
+
+# Insert Categories
+INSERT_UPDATE Category;code[unique=true];$allowedPrincipals;$catalogVersion
+ ;1
+
+# ImpEx for Importing Categories into Telco Store
+
+# Insert Categories
+INSERT_UPDATE Category;code[unique=true];$allowedPrincipals;$catalogVersion
+;sbgproducts
+
+# Insert Category Structure
+INSERT_UPDATE CategoryCategoryRelation;$categories;$supercategories
+;sbgproducts;1
+
+# ImpEx for Importing Categories into Telco Store
+
+# Insert Categories
+INSERT_UPDATE Category;code[unique=true];$allowedPrincipals;$catalogVersion
+;devices
+;smartphone
+;basicphone
+;tablet
+;accessories
+;bluetoothandwired
+;chargersanddocks
+;casesandcovers
+;batteries
+;memorycards
+;screenprotectors
+;plans
+;unlimited5GPlans
+;unlimitedPlans
+;noLimitPlans
+;addons
+;classics
+;internet
+;entertainment
+;travellers
+;mobiletv
+;tvplans
+;tvaddons
+;landline
+
+# Insert Category Structure
+INSERT_UPDATE CategoryCategoryRelation;$categories;$supercategories
+;devices;1
+;accessories;1
+;plans;1
+;addons;1
+;smartphone;devices
+;basicphone;devices
+;tablet;devices
+;bluetoothandwired;accessories
+;chargersanddocks;accessories
+;casesandcovers;accessories
+;batteries;accessories
+;memorycards;accessories
+;screenprotectors;accessories
+;unlimited5GPlans;plans
+;unlimitedPlans;plans
+;noLimitPlans;plans
+;classics;addons
+;internet;addons
+;entertainment;addons
+;travellers;addons
+;mobiletv;addons
+
+#Insert Variant Categories
+INSERT_UPDATE VariantCategory; code[unique = true]; supercategories(code, $catalogVersion); hasImage; $allowedPrincipals; $catalogVersion
+; color        ;       ; true  ;
+; storage_size ; color ; false ;
+
+#Insert Variant Value Categories
+INSERT_UPDATE VariantValueCategory; code[unique = true]; supercategories(code, $catalogVersion); sequence; colorCode; $allowedPrincipals; $catalogVersion
+; space_gray ; color        ; 1 ; #5f5f62
+; silver     ; color        ; 2 ; #e0e2e3
+; gold       ; color        ; 3 ; #f5e5da
+; red        ; color        ; 4 ; #c82636
+; 16G        ; storage_size ; 1 ;
+; 32G        ; storage_size ; 2 ;
+; 64G        ; storage_size ; 3 ;
+; 128G       ; storage_size ; 4 ;
+; 256G       ; storage_size ; 5 ;

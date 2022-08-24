@@ -1,0 +1,24 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for Importing Address Test Data
+
+#% impex.enableCodeExecution(true)           ;
+
+$cart-site-store = utilities
+$productCatalog = utilitiesProductCatalog
+$productCatalogName = Utilities Product Catalog
+$onlineCatalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Online'])[unique = true, default = $productCatalog:Online]
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE Address; id[unique = true]; owner(Customer.uid)                ; streetname       ; streetnumber; postalcode; town          ; country(isocode); installationAddress[default = false]; billingAddress[default = false]; shippingAddress[default = false]
+##Former Supplier
+                     ; FS000001         ; occpatchformersupplier1@hybris.com ; East 42nd Street ; 140         ; 10017     ; New York      ; US              ; true                                ;                                ;
+                     ; FS000002         ; tmfpostorderformer3@hybris.com     ; Market Street    ; 860         ; 94103     ; San Francisco ; US              ; true                                ;                                ;
+                     ; FS000003         ; tmfpostorderformer4@hybris.com     ; Market Street    ; 860         ; 94103     ; San Francisco ; US              ; true                                ;                                ;
+                     ; 6425             ; selfserviceuser6426@hybris.com     ; Market Street    ; 860         ; 94103     ; San Francisco ; US              ; true                                ; true                           ; true
+                     ; 64251            ; selfserviceuser64261@hybris.com    ; Market Street    ; 860         ; 94103     ; San Francisco ; US              ; true                                ; true                           ; true
+## TMF Order APIs baseSiteId
+                     ; 98713            ; selfserviceuser98713@hybris.com    ; East 42nd Street ; 142         ; 10017     ; New York      ; US              ; true                                ; true                           ; true
+                     ; 98716            ; selfserviceuser98716@hybris.com    ; East 42nd Street ; 145         ; 10017     ; New York      ; US              ; true                                ; true                           ; true

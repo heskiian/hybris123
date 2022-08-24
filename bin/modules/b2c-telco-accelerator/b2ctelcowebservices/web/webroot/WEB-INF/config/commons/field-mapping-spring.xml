@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+			  http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- Field mapping configuration -->
+	<bean id="dataMapper"
+		class="de.hybris.platform.webservicescommons.mapping.impl.DefaultDataMapper">
+		<property name="fieldSetBuilder" ref="fieldSetBuilder" />
+	</bean>
+
+	<bean id="fieldSetBuilder"
+		class="de.hybris.platform.webservicescommons.mapping.impl.DefaultFieldSetBuilder">
+		<property name="defaultRecurrencyLevel" value="4" />
+		<property name="defaultMaxFieldSetSize" value="50000" />
+		<property name="fieldSetLevelHelper" ref="fieldSetLevelHelper" />
+	</bean>
+
+	<alias alias="fieldSetLevelHelper" name="defaultFieldSetLevelHelper" />
+	<bean id="defaultFieldSetLevelHelper"
+		class="de.hybris.platform.webservicescommons.mapping.impl.DefaultFieldSetLevelHelper">
+	</bean>
+	
+	<bean class="de.hybris.platform.webservicescommons.mapping.filters.GeneralFieldFilter">
+		<property name="fieldSelectionStrategy" ref="fieldSelectionStrategy"/>
+	</bean>
+
+	<alias alias="fieldSetLevelMapping" name="defaultFieldSetLevelMapping"/>
+	<bean name="defaultFieldSetLevelMapping"
+			class="de.hybris.platform.webservicescommons.mapping.config.FieldSetLevelMapping"
+			abstract="true"/>
+
+    <alias alias="fieldSetLevelMapping" name="defaultFieldSetLevelMapping"/>
+    <bean name="dtoClass"
+          class="de.hybris.platform.webservicescommons.mapping.config.FieldSetLevelMapping"
+          abstract="true"/>
+
+    <bean parent="fieldSetLevelMapping" id="tmaSubscriptionBaseWsDtoFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.b2ctelcowebservices.dto.TmaSubscriptionBaseWsDto"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="subscriberIdentity"/>
+                <entry key="FULL" value="subscriberIdentity,billingSystemId"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="tmaBillingAccountWsDtoSetLevelMapping">
+        <property name="dtoClass" value="de.hybris.platform.b2ctelcowebservices.dto.TmaBillingAccountWsDto"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="billingAccountId,billingSystemId"/>
+                <entry key="DEFAULT" value="billingAccountId,billingSystemId"/>
+                <entry key="FULL" value="billingAccountId,billingSystemId"/>
+            </map>
+        </property>
+    </bean>
+
+	<bean id="tmaSubscribedProductFieldMapper" parent="fieldMapper">
+		<property name="sourceClass"
+				  value="de.hybris.platform.b2ctelcowebservices.dto.TmaSubscribedProductWsDto"/>
+		<property name="destClass"
+				  value="de.hybris.platform.b2ctelcofacades.data.TmaSubscribedProductData"/>
+		<property name="fieldMapping">
+			<map>
+				<entry key="billingSystemId" value="billingsystemId"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean parent="fieldSetLevelMapping" id="tmaSubscribedProductWsDtoFieldSetLevelMapping">
+		<property name="dtoClass"
+					 value="de.hybris.platform.b2ctelcowebservices.dto.TmaSubscribedProductWsDto"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="name,billingSystemId,billingSubscriptionId"/>
+				<entry key="DEFAULT"
+					   value="name,productCode,subscriptionBaseId,billingSystemId,billingSubscriptionId,subscriptionStatus"/>
+				<entry key="FULL"
+					   value="name,productCode,serviceType,subscriptionBaseId,billingSystemId,billingSubscriptionId,
+					   subscriptionStatus,startDate,endDate,cancelledDate,renewalType,cancellable,billingFrequency,
+					   contractDuration,contractFrequency"/>
+			</map>
+		</property>
+	</bean>
+
+</beans>

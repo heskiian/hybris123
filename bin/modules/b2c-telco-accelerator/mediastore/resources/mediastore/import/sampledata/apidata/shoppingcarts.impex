@@ -1,0 +1,19 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for Importing Cart Test Data
+
+#% impex.enableCodeExecution(true)           ;
+$mediaProductCatalog = mediaProductCatalog
+$onlineMediaCatalogVersion = catalogversion(catalog(id[default = $mediaProductCatalog]), version[default = 'Online'])[unique = true, default = $mediaProductCatalog:Online]
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE Cart; user(uid)                       ; code[unique = true]; currency(isocode); date[dateformat = dd.MM.yyyy HH:mm:ss]; modifiedtime[dateformat = dd.MM.yyyy HH:mm:ss]; net   ; calculated; paymentInfo(code); deliveryAddress(id); deliveryMode(code); site(uid); store(uid); guid; saveTime[dateformat = dd.MM.yyyy HH:mm:ss]; appliedCouponCodes
+## TMF Order APIs baseSiteId
+                  ; selfserviceuser98715@hybris.com ; 98710005           ; USD              ; 10.05.2019 00:00:00                   ; 12.05.2019 00:00:00                           ; FALSE ; TRUE      ; 98710005         ; 98715              ; standard-gross    ; media    ; media     ;
+
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE CartEntry; entryNumber[unique = true]; product(code, $onlineMediaCatalogVersion); quantity; unit(code); order(code)[unique = true]; masterEntry(order(code), entryNumber); bpo(code, $onlineMediaCatalogVersion); processType(code); installationAddress(id); appointmentReference; productSpecCharacteristicValues(id); subscriptionInfo(id)
+## TMF Order APIs baseSiteId
+                       ; 0                         ; hoodie                                   ; 1       ; pieces    ; 98710005                  ;                                      ;                                      ; ACQUISITION

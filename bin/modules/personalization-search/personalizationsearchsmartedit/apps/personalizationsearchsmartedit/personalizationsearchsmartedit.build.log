@@ -1,0 +1,13 @@
+Invoking: se-packagr 
+
+Starting build for personalizationsearchsmartedit
+Configuration read personalizationsearchsmartedit
+Loading plugins personalizationsearchsmartedit
+Generating bundle personalizationsearchsmartedit
+(1): src/index.ts
+(2): SE-LEGACY-JAVASCRIPT
+(2): src/personalizationsearchsmarteditModule.ts
+(3): ../styling/style.less
+Bundle created personalizationsearchsmartedit
+- Generated 4 files
+- Output folder ./dist

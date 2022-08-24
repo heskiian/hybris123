@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Errors -->
+
+	<bean parent="fieldSetLevelMapping" id="tmaErrorFieldSetLevelMapping">
+		<property name="dtoClass"
+			value="de.hybris.platform.b2ctelcotmfwebservices.v2.dto.Error" />
+	<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="message,reason,subject,subjectType,type" />
+				<entry key="DEFAULT" value="message,reason,subject,subjectType,type" />
+				<entry key="FULL" value="message,reason,subject,subjectType,type" />
+			</map>
+		</property>
+	</bean>
+
+	<!-- Self Service API -->
+	<bean parent="fieldSetLevelMapping" id="tmaRelatedPartyWsDtoLevelMapping">
+		<property name="dtoClass"
+			value="de.hybris.platform.b2ctelcotmfwebservices.dto.TmaRelatedPartyWsDto" />
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="id,name,validFor" />
+				<entry key="DEFAULT" value="id,name,role,validFor" />
+				<entry key="FULL" value="id,name,role,referredType,validFor,href" />
+			</map>
+		</property>
+	</bean>
+
+	<bean parent="fieldSetLevelMapping" id="tmaBucketLevelMapping">
+		<property name="dtoClass"
+		          value="de.hybris.platform.b2ctelcotmfwebservices.dto.subscription.usage.TmaBucketWsDto"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="id,name,product(BASIC),bucketCounter(BASIC),bucketBalance(BASIC)"/>
+				<entry key="DEFAULT" value="id,name,isShared,product(DEFAULT),bucketCounter(DEFAULT),bucketBalance(DEFAULT)"/>
+				<entry key="FULL" value="id,name,usageType,isShared,product(FULL),bucketCounter(FULL),bucketBalance(FULL)"/>
+			</map>
+		</property>
+	</bean>
+	
+    <bean parent="fieldSetLevelMapping" id="usageConsumptionReportLevelMapping">
+		<property name="dtoClass"
+		          value="de.hybris.platform.b2ctelcotmfwebservices.dto.subscription.usage.TmaUsageConsumptionReportWsDto"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="id,href,name,description,effectiveDate,baseType,bucket(BASIC)"/>
+				<entry key="DEFAULT" value="id,href,name,description,effectiveDate,baseType,type,bucket(DEFAULT)"/>
+				<entry key="FULL" value="id,href,name,description,effectiveDate,baseType,type,schemaLocation,bucket(FULL)"/>
+			</map>
+		</property>
+	</bean>
+	
+    <bean parent="fieldSetLevelMapping" id="tmaAverageServiceUsageDTOLevelMapping">
+		<property name="dtoClass"
+		          value="de.hybris.platform.b2ctelcotmfwebservices.dto.subscription.usage.TmaConsumptionCounterWsDto"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="value,unit,counterType,validFor"/>
+				<entry key="DEFAULT" value="value,unit,counterType,valueLabel,validFor"/>
+				<entry key="FULL" value="value,unit,counterType,level,valueLabel,validFor"/>
+			</map>
+		</property>
+	</bean>
+	
+	<bean parent="fieldSetLevelMapping" id="tmabucketBalanceDTOLevelMapping">
+		<property name="dtoClass"
+		          value="de.hybris.platform.b2ctelcotmfwebservices.dto.subscription.usage.TmaBalanceWsDto"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="unit,validFor"/>
+				<entry key="DEFAULT" value="unit,remainingValue,validFor"/>
+				<entry key="FULL" value="unit,remainingValue,remainingValueLabel,schemaLocation,type,validFor"/>
+			</map>
+		</property>
+    </bean>
+	
+    <bean parent="fieldSetLevelMapping" id="tmaTimePeriodWsDtoLevelMapping">
+		<property name="dtoClass"
+			value="de.hybris.platform.b2ctelcotmfwebservices.dto.TmaTimePeriodWsDto"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="startDateTime,endDateTime" />
+				<entry key="DEFAULT" value="startDateTime,endDateTime" />
+				<entry key="FULL" value="startDateTime,endDateTime" />
+			</map>
+		</property>
+	</bean>
+	
+	<bean parent="fieldSetLevelMapping" id="tmaQuantityWsDtoLevelMapping">
+		<property name="dtoClass"
+			value="de.hybris.platform.b2ctelcotmfwebservices.v2.dto.Quantity"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="amount,units" />
+				<entry key="DEFAULT" value="amount,units" />
+				<entry key="FULL" value="amount,units" />
+			</map>
+		</property>
+	</bean>
+	
+    <bean parent="fieldSetLevelMapping" id="tmaMoneyWsDtoLevelMapping">
+		<property name="dtoClass"
+			value="de.hybris.platform.b2ctelcotmfwebservices.v2.dto.Money"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="value,unit" />
+				<entry key="DEFAULT" value="value,unit" />
+				<entry key="FULL" value="value,unit" />
+			</map>
+		</property>
+	</bean>
+	
+	<!-- ProductOffering API -->
+
+	<bean parent="fieldSetLevelMapping" id="tmaAgreementRefFieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="de.hybris.platform.b2ctelcotmfwebservices.v2.dto.AgreementRef"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="FULL" value="id,name,href,referredType"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean parent="fieldSetLevelMapping" id="tmaAttachmentFieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="de.hybris.platform.b2ctelcotmfwebservices.v2.dto.Attachment"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="FULL"
+					   value="description,href,id,type,url,mimeType,validFor(FULL),attype,atbaseType,atschemaLocation"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean parent="fieldSetLevelMapping" id="tmaBundledProductOfferingFieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="de.hybris.platform.b2ctelcotmfwebservices.v2.dto.BundledProductOffering"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="FULL" value="id,href,lifecycleStatus,name,bundledProductOffering"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean parent="fieldSetLevelMapping" id="tmaOfferingGroupFieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="de.hybris.platform.b2ctelcotmfwebservices.v2.dto.OfferingGroup"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="FULL" value="id,name,childProductOffering"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean parent="fieldSetLevelMapping" id="tmaCategoryRefWsDtoFieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="de.hybris.platform.b2ctelcotmfwebservices.v2.dto.CategoryRef"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="FULL" value="id,href,name,version,atreferredType"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean parent="fieldSetLevelMapping" id="tmaPoRelationshipRefWsDtoFieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="de.hybris.platform.b2ctelcotmfwebservices.v2.dto.PoRelationshipRef"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="FULL" value="id,href,name,atreferredType,poAttributeType,bpoId"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean parent="fieldSetLevelMapping" id="tmaProductOfferingTermFieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="de.hybris.platform.b2ctelcotmfwebservices.v2.dto.ProductOfferingTerm"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="FULL" value="name,description,duration(FULL),validFor(FULL),attype,atschemaLocation"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean parent="fieldSetLevelMapping" id="tmaProductSpecificationRefFieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="de.hybris.platform.b2ctelcotmfwebservices.v2.dto.ProductSpecificationRef"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="FULL" value="id,href,version,name,atreferredType"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean parent="fieldSetLevelMapping" id="tmaProductOfferingFieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="de.hybris.platform.b2ctelcotmfwebservices.v2.dto.ProductOffering"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="FULL"
+					   value="id,name,href,description,isBundle,lastUpdate,lifecycleStatus,validFor(FULL),version,attype,
+			                             atbaseType,atschemaLocation,isSellable,place,serviceLevelAgreement,productSpecification(FULL),
+			                             channel,serviceCandidate,attachment(FULL),category(FULL),resourceCandidate,
+			                             marketSegment,productOfferingPrice(FULL),agreement(FULL),bundledProductOffering(FULL),
+			                             productOfferingTerm(FULL),prodSpecCharValueUse(FULL),offeringGroup(FULL),parentBundleProductOffering(FULL),baseProduct(FULL),variantOption,variantProductOffering(FULL)"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean parent="fieldSetLevelMapping" id="tmaProductOfferingRefFieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="de.hybris.platform.b2ctelcotmfwebservices.v2.dto.ProductOfferingRef"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="FULL"
+					   value="id,name,href,variantOption,image(FULL),atreferredType"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean parent="fieldSetLevelMapping" id="tmaProductOfferingPriceFieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="de.hybris.platform.b2ctelcotmfwebservices.v2.dto.ProductOfferingPrice"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="FULL" value="id,name,href,description,validFor(FULL),priceType,version,unitOfMeasure(FULL),
+				                         price(FULL),isBundle,place,recurringChargePeriodType,recurringChargePeriodLength,attype,
+				                         atbaseType,atschemaLocation,lastUpdate,lifecycleStatus,percentage,bundledPopRelationship,
+				                         popRelationship,tax,prodSpecCharValueUse,productOfferingTerm(FULL),constraint,
+				                         pricingLogicAlgorithm,bundledPop(FULL),isPriceOverride,processType,channel,poRelationship(FULL)"/>
+			</map>
+		</property>
+	</bean>
+
+	<!--SubscriptionBase API-->
+	<bean parent="fieldSetLevelMapping" id="tmaProductRefLevelMapping">
+		<property name="dtoClass"
+				  value="de.hybris.platform.b2ctelcotmfwebservices.dto.TmaProductRefWsDto"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="FULL" value="id,name,href,publicIdentifier,user(FULL)"/>
+			</map>
+		</property>
+	</bean>
+
+    <bean parent="fieldSetLevelMapping" id="tmaCategoryRefDtoLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.b2ctelcotmfwebservices.v2.dto.CategoryRef"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="FULL" value="id,name,href,atreferredType"/>
+            </map>
+        </property>
+    </bean>
+
+
+    <!--SubscriptionBase API-->
+    <bean parent="fieldSetLevelMapping" id="tmaSubscriptionBaseDetailRefWsDtoLevelMapping">
+		<property name="dtoClass"
+			value="de.hybris.platform.b2ctelcotmfwebservices.dto.subscription.base.TmaSubscriptionBaseDetailRefWsDto" />
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="id,product(BASIC)" />
+				<entry key="DEFAULT" value="id,accessType,product(DEFAULT),relatedPartyRef(DEFAULT)" />
+				<entry key="FULL" value="id,accessType,product(FULL),relatedPartyRef(FULL)" />
+			</map>
+		</property>
+	</bean>
+	
+	<bean parent="fieldSetLevelMapping" id="tmaSubscriptionBasesWsDtoLevelMapping">
+		<property name="dtoClass"
+			value="de.hybris.platform.b2ctelcotmfwebservices.dto.subscription.base.TmaSubscriptionBasesWsDto" />
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="id,href,name,description,effectiveDate,baseType,type,schemaLocation,subscriptionBase(BASIC)" />
+				<entry key="DEFAULT" value="id,href,name,description,effectiveDate,baseType,type,schemaLocation,subscriptionBase(DEFAULT)" />
+				<entry key="FULL" value="id,href,name,description,effectiveDate,baseType,type,schemaLocation,subscriptionBase(FULL)" />
+			</map>
+		</property>
+	</bean>
+	
+    <bean parent="fieldSetLevelMapping" id="tmaSubscriptionBaseWsDtoLevelMapping">
+		<property name="dtoClass"
+			value="de.hybris.platform.b2ctelcotmfwebservices.dto.subscription.base.TmaSubscriptionBaseWsDto" />
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="id,href,name,description,effectiveDate,baseType,type,schemaLocation,subscriptionBase(BASIC)" />
+				<entry key="DEFAULT" value="id,href,name,description,effectiveDate,baseType,type,schemaLocation,subscriptionBase(DEFAULT)" />
+				<entry key="FULL" value="id,href,name,description,effectiveDate,baseType,type,schemaLocation,user(FULL),subscriptionBase(FULL)" />
+			</map>
+		</property>
+	</bean>
+
+     <bean parent="fieldSetLevelMapping" id="tmaProductWsDtoLevelMapping">
+		<property name="dtoClass"
+			value="de.hybris.platform.b2ctelcotmfwebservices.dto.subscription.TmaProductWsDto" />
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC"
+					value="description,href,id,name,productSerialNumber,publicIdentifier,productOffering(BASIC),billingAccount(BASIC),productPrice(BASIC),relatedParty(BASIC),productRelationship(BASIC),productOrder(BASIC)" />
+				<entry key="DEFAULT"
+					value="isCustomerVisible,baseType,status,description,href,id,name,productSerialNumber,publicIdentifier,schemaLocation,type,isBundle,startDate,terminationDate,productOffering(DEFAULT),billingAccount(DEFAULT),productPrice(DEFAULT),relatedParty(DEFAULT),productRelationship(DEFAULT),productOrder(DEFAULT)" />
+				<entry key="FULL"
+					value="isCustomerVisible,baseType,description,href,status,id,name,productOffering(FULL),productSerialNumber,publicIdentifier,schemaLocation,type,isBundle,startDate,terminationDate,billingAccount(FULL),characteristic,productPrice(FULL),relatedParty(FULL),productRelationship(FULL),productOrder(FULL)" />
+			</map>
+		</property>
+	</bean>
+	
+	<bean parent="fieldSetLevelMapping" id="tmaProductRelationshipWsDtoLevelMapping">
+		<property name="dtoClass"
+			value="de.hybris.platform.b2ctelcotmfwebservices.dto.subscription.TmaProductRelationshipWsDto" />
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="type,product(BASIC)"/>
+				<entry key="DEFAULT" value="type,product(DEFAULT)"/>
+				<entry key="FULL" value="type,product(FULL)"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean parent="fieldSetLevelMapping" id="tmaProductOfferingRefWsDtoLevelMapping">
+		<property name="dtoClass"
+			value="de.hybris.platform.b2ctelcotmfwebservices.dto.subscription.TmaProductOfferingRefWsDto" />
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="id,name" />
+				<entry key="DEFAULT" value="id,name,href" />
+				<entry key="FULL" value="id,name,href,referredType" />
+			</map>
+		</property>
+	</bean>
+
+	<bean parent="fieldSetLevelMapping" id="tmaProductOrderRefWsDtoLevelMapping">
+		<property name="dtoClass"
+			value="de.hybris.platform.b2ctelcotmfwebservices.dto.subscription.TmaProductOrderRefWsDto" />
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="id,orderItemId" />
+				<entry key="DEFAULT" value="id,orderItemId,href,referredType" />
+				<entry key="FULL" value="id,orderItemId,href,referredType,orderItemAction" />
+			</map>
+		</property>
+	</bean>
+
+	<bean parent="fieldSetLevelMapping" id="tmaBillingAccountRefWsDtoLevelMapping">
+		<property name="dtoClass"
+			value="de.hybris.platform.b2ctelcotmfwebservices.dto.subscription.TmaBillingAccountRefWsDto" />
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="id,name" />
+				<entry key="DEFAULT" value="id,name,href" />
+				<entry key="FULL" value="id,name,href,referredType" />
+			</map>
+		</property>
+	</bean>
+
+	<bean parent="fieldSetLevelMapping" id="tmaProductCharacteristicWsDtoLevelMapping">
+		<property name="dtoClass"
+			value="de.hybris.platform.b2ctelcotmfwebservices.dto.subscription.TmaProductCharacteristicWsDto" />
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="name,value" />
+				<entry key="DEFAULT" value="name,value,type" />
+				<entry key="FULL" value="name,value,type,schemaLocation" />
+			</map>
+		</property>
+	</bean>
+
+	<bean parent="fieldSetLevelMapping" id="tmaProductPriceWsDtoLevelMapping">
+		<property name="dtoClass"
+			value="de.hybris.platform.b2ctelcotmfwebservices.dto.subscription.TmaProductPriceWsDto" />
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC"
+					value="id,name,description,priceType,recurringChargePeriod,price" />
+				<entry key="DEFAULT"
+					value="id,name,description,priceType,recurringChargePeriod,price,unitOfMeasure,type" />
+				<entry key="FULL"
+					value="id,name,description,priceType,recurringChargePeriod,price,unitOfMeasure,type,prodPriceAlteration,billingAccount" />
+			</map>
+		</property>
+	</bean>
+
+</beans>

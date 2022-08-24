@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	                       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- Subscription Access validators -->
+    <alias name="defaultTmaSubscriptionAccessRequestWsDtoValidator" alias="tmaSubscriptionAccessRequestWsDtoValidator"/>
+    <bean id="defaultTmaSubscriptionAccessRequestWsDtoValidator"
+          class="de.hybris.platform.webservicescommons.validators.CompositeValidator">
+        <property name="validators">
+            <list>
+                <bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+                    <property name="fieldPath" value="principalUid"/>
+                </bean>
+                <bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+                    <property name="fieldPath" value="billingSystemId"/>
+                </bean>
+                <bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+                    <property name="fieldPath" value="subscriberIdentity"/>
+                </bean>
+                <bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+                    <property name="fieldPath" value="accessType"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="defaultTmaSubscriptionAccessUpdateRequestWsDtoValidator" alias="tmaSubscriptionAccessUpdateRequestWsDtoValidator"/>
+    <bean id="defaultTmaSubscriptionAccessUpdateRequestWsDtoValidator"
+          class="de.hybris.platform.webservicescommons.validators.CompositeValidator">
+        <property name="validators">
+            <list>
+                <bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+                    <property name="fieldPath" value="accessType"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>

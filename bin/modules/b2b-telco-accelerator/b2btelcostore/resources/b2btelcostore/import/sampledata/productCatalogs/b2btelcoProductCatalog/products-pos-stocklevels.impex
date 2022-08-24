@@ -1,0 +1,19 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+# ImpEx for Importing Products Store Stock Levels into B2B Telco Store
+
+# Macros / Replacement Parameter definitions
+$productCatalog = b2btelcoProductCatalog
+$catalogVersion = catalogversion(catalog(id[default = $productCatalog]), version[default = 'Staged'])[unique = true, default = $productCatalog:Staged]
+$vendor = b2btelco
+
+
+# Create some Warehouses for the Vendor
+INSERT_UPDATE Warehouse; code[unique = true]; vendor(code)[default = $vendor]; default[default = 'false']
+                       ; Hybris B2B Telco - Chicago Premium Outlets
+                       ; Hybris B2B Telco - Chrysler Building
+                       ; Hybris B2B Telco - San Francisco Center
+                       ; Hybris B2B Telco - Seattle Premium Outlets
+                       ; Hybris B2B Telco - Riverwalk Marketplace

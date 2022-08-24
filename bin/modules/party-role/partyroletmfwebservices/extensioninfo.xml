@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+ Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+--><extensioninfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="extensioninfo.xsd">
+        
+    <extension abstractclassprefix="Generated" classprefix="Partyroletmfwebservices" managername="PartyroletmfwebservicesManager" managersuperclass="de.hybris.platform.jalo.extension.Extension" name="partyroletmfwebservices" usemaven="false">
+                
+        <requires-extension name="partyroleservices"/>
+                
+        <requires-extension name="commercewebservicescommons"/>
+                
+        <coremodule generated="true" manager="de.hybris.platform.partyroletmfwebservices.jalo.PartyroletmfwebservicesManager" packageroot="de.hybris.platform.partyroletmfwebservices"/>
+                
+        <webmodule jspcompile="false" webroot="/partyroletmfwebservices"/>
+            
+    </extension>
+    
+</extensioninfo>

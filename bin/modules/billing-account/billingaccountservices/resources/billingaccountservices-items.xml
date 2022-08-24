@@ -1,0 +1,812 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+
+<items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="items.xsd">
+    <enumtypes>
+        <enumtype code="BaPaymentStatus" autocreate="true" generate="true" dynamic="true">
+            <description>Payment Status</description>
+            <value code="DUE"/>
+            <value code="PAID"/>
+            <value code="IN_ARREARS"/>
+            <value code="IN_COLLECTION"/>
+        </enumtype>
+        <enumtype code="BaAccountStatus" autocreate="true" generate="true" dynamic="true">
+            <description>Account Status</description>
+            <value code="ACTIVE"/>
+            <value code="INACTIVE"/>
+        </enumtype>
+        <enumtype code="BaBillingAccountType" autocreate="true" generate="true" dynamic="true">
+            <description>Billing Account Type</description>
+            <value code="HOME"/>
+            <value code="BUSINESS"/>
+        </enumtype>
+        <enumtype code="BaBalanceType" autocreate="true" generate="true" dynamic="true">
+            <description>Balance Type</description>
+            <value code="DEPOSIT_BALANCE"/>
+            <value code="DISPUTED_BALANCE"/>
+            <value code="LOYALTY_BALANCE"/>
+            <value code="RECEIVABLE_BALANCE"/>
+        </enumtype>
+        <enumtype code="BaRatingType" autocreate="true" generate="true" dynamic="true">
+            <description>Rating Type</description>
+            <value code="PREPAID"/>
+            <value code="POSTPAID"/>
+        </enumtype>
+        <enumtype code="BaPartyType" autocreate="true" generate="true" dynamic="true">
+            <description>Rating Type</description>
+            <value code="INDIVIDUAL"/>
+            <value code="ORGANIZATION"/>
+        </enumtype>
+        <enumtype code="BaContactType" autocreate="true" generate="true" dynamic="true">
+            <description>Medium Type</description>
+            <value code="PRIMARY"/>
+            <value code="SECONDARY"/>
+        </enumtype>
+        <enumtype code="BaContactMediumType" autocreate="true" generate="true" dynamic="true">
+            <description>Contact Medium Type</description>
+            <value code="PHONE_NUMBER"/>
+            <value code="POSTAL_ADDRESS"/>
+            <value code="EMAIL_ADDRESS"/>
+        </enumtype>
+        <enumtype code="BaMediumCharacContactType" autocreate="true" generate="true" dynamic="true">
+            <description>Medium Characteristic Contact Type</description>
+            <value code="MOBILE_PHONE_NUMBER"/>
+            <value code="FIXED_HOME_PHONE_NUMBER"/>
+            <value code="FIXED_OFFICE_PHONE_NUMBER"/>
+            <value code="SHIPPING_ADDRESS"/>
+            <value code="INSTALLATION_ADDRESS"/>
+        </enumtype>
+    </enumtypes>
+    <relations>
+        <relation code="BaBillStructure2BaBillPresentationMedia" localized="false">
+            <description>Bill Structure has a list of Bill Presentation Medias assigned</description>
+            <sourceElement type="BaBillStructure" qualifier="billStructure" cardinality="one">
+                <description>Bill Structure</description>
+            </sourceElement>
+            <targetElement type="BaBillPresentationMedia" qualifier="presentationMedias" cardinality="many"
+                           collectiontype="set">
+                <description>Presentation Medias</description>
+            </targetElement>
+        </relation>
+
+        <relation code="BaBillingAccount2BaPaymentPlan" localized="false">
+            <description>Billing Account has a list of Payment Plans assigned</description>
+            <sourceElement type="BaBillingAccount" qualifier="billingAccount" cardinality="one">
+                <description>Billing Account</description>
+            </sourceElement>
+            <targetElement type="BaPaymentPlan" qualifier="paymentPlans" cardinality="many"
+                           collectiontype="set">
+                <description>Payment Plans</description>
+            </targetElement>
+        </relation>
+
+        <relation code="BaAccount2BaAccountBalance" localized="false">
+            <description>Account has a list of Account Balances assigned</description>
+            <sourceElement type="BaAccount" qualifier="account" cardinality="one">
+                <description>Account</description>
+            </sourceElement>
+            <targetElement type="BaAccountBalance" qualifier="accountBalances" cardinality="many"
+                           collectiontype="set">
+                <description>Account Balances</description>
+            </targetElement>
+        </relation>
+
+        <relation code="BaAccount2BaAccountTaxExemption" localized="false">
+            <description>Account has a list of Account Tax Exemptions assigned</description>
+            <sourceElement type="BaAccount" qualifier="account" cardinality="one">
+                <description>Account</description>
+            </sourceElement>
+            <targetElement type="BaAccountTaxExemption" qualifier="taxExemptions" cardinality="many"
+                           collectiontype="set">
+                <description>Account Tax Exemptions</description>
+            </targetElement>
+        </relation>
+
+        <relation code="BaAccount2BaContact" localized="false">
+            <description>Account has a list of Contacts assigned</description>
+            <sourceElement type="BaAccount" qualifier="account" cardinality="one">
+                <description>Account</description>
+            </sourceElement>
+            <targetElement type="BaContact" qualifier="contacts" cardinality="many"
+                           collectiontype="set">
+                <description>Contacts</description>
+            </targetElement>
+        </relation>
+
+        <relation code="BaAccount2BaAccountRelationship" localized="false">
+            <description>Account has a list of Account Relationships assigned</description>
+            <sourceElement type="BaAccount" qualifier="sourceAccount" cardinality="one">
+                <description>Source Account</description>
+            </sourceElement>
+            <targetElement type="BaAccountRelationship" qualifier="accountRelationshipReferences" cardinality="many"
+                           collectiontype="set">
+                <description>Account Relationship References</description>
+            </targetElement>
+        </relation>
+
+        <relation code="BaAccountRelationship2BaAccount" localized="false">
+            <description>Account has a list of Account Relationships assigned</description>
+            <sourceElement type="BaAccountRelationship" qualifier="accountRelationshipReferencedBy" cardinality="many"
+                           collectiontype="set">
+                <description>Account Relationship Referenced By</description>
+            </sourceElement>
+            <targetElement type="BaAccount" qualifier="targetAccount" cardinality="one">
+                <description>Target Account</description>
+            </targetElement>
+        </relation>
+
+        <relation code="BaAccount2BaPartyRoleRelation" localized="false">
+            <description>Relation defining the Ba Party Role of a Ba Account</description>
+            <deployment table="BaAcc2BaPartyRoleRel" typecode="7115"/>
+            <sourceElement type="BaAccount" qualifier="accounts" cardinality="many">
+                <description>The accounts for which that party role is valid.</description>
+            </sourceElement>
+            <targetElement type="BaPartyRole" qualifier="partyRoles" cardinality="many" collectiontype="set">
+                <description>Ba party roles representing the party roles of the account.</description>
+                <modifiers optional="false"/>
+            </targetElement>
+        </relation>
+
+        <relation code="BaParty2BaPartyRoleRelation" localized="false">
+            <description>Relation defining the Ba Party Role of a Ba Party</description>
+            <sourceElement type="BaParty" qualifier="party" cardinality="one">
+                <description>The party for which that party role is valid.</description>
+            </sourceElement>
+            <targetElement type="BaPartyRole" qualifier="partyRoles" cardinality="many" collectiontype="set">
+                <description>Ba party roles representing the party roles of the party.</description>
+            </targetElement>
+        </relation>
+
+        <relation code="BaParty2PrincipalRelation" localized="false">
+            <description>Relation defining the Principal of a Ba Party</description>
+            <sourceElement type="BaParty" qualifier="baParty" cardinality="one">
+                <description>The party for which that principal is valid.</description>
+            </sourceElement>
+            <targetElement type="Principal" qualifier="principals" cardinality="many" collectiontype="set">
+                <description>The party principals of the party.</description>
+            </targetElement>
+        </relation>
+
+        <relation code="BaContact2BaContactMedium" localized="false">
+            <description>Relation defining the Contact Mediums of a Ba Contact</description>
+            <sourceElement type="BaContact" qualifier="contact" cardinality="one">
+                <description>The contact for which that contact mediums is valid.</description>
+            </sourceElement>
+            <targetElement type="BaContactMedium" qualifier="contactMediums" cardinality="many" collectiontype="set">
+                <description>The contact mediums of the contact.</description>
+            </targetElement>
+        </relation>
+    </relations>
+
+    <itemtypes>
+        <itemtype code="BaDuration" autocreate="true" generate="true">
+            <description>Duration</description>
+            <deployment table="BaDurations" typecode="7101"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <description>Unique Identifier</description>
+                    <persistence type="property"/>
+                    <modifiers optional="false" unique="true" initial="true"/>
+                </attribute>
+                <attribute qualifier="units" type="java.lang.String">
+                    <description>The units of the duration</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="amount" type="java.lang.Long">
+                    <description>The amount of the duration.</description>
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="baDurationIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="BaPaymentPlan" autocreate="true" generate="true">
+            <description>Payment Plan</description>
+            <deployment table="BaPaymentPlans" typecode="7103"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <description>Unique Identifier</description>
+                    <persistence type="property"/>
+                    <modifiers optional="false" unique="true" initial="true"/>
+                </attribute>
+                <attribute qualifier="type" type="java.lang.String">
+                    <description>Type</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="status" type="java.lang.String">
+                    <description>Status</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="priority" type="java.lang.Integer">
+                    <description>The priority</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="startDateTime" type="java.util.Date">
+                    <description>Start date time.</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="endDateTime" type="java.util.Date">
+                    <description>End date time.</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="paymentPeriod" type="BaDuration">
+                    <description>Payment period</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="totalAmount" type="java.lang.Double">
+                    <description>Total amount</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="currency" type="Currency">
+                    <description>Currency</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="paymentMethod" type="PaymentInfo">
+                    <description>Deprecated since 2111. Use the referredPaymentMethod attribute instead.
+                        A payment method defines a specific mean of payment for the plan.
+                    </description>
+                    <model>
+                        <getter name="paymentMethod" default="true" deprecated="true" deprecatedSince="2111"/>
+                        <setter name="paymentMethod" default="true" deprecated="true" deprecatedSince="2111"/>
+                    </model>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="referredPaymentMethod" type="BaPaymentInfo">
+                    <description>Referred payment method</description>
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="baPaymentPlanIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="BaBillingCycleSpecification" autocreate="true" generate="true">
+            <description>Billing Cycle Specification</description>
+            <deployment table="BaBillingCycleSpecs" typecode="7104"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <description>Unique Identifier</description>
+                    <persistence type="property"/>
+                    <modifiers optional="false" unique="true" initial="true"/>
+                </attribute>
+                <attribute qualifier="name" type="localized:java.lang.String">
+                    <description>Name</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="description" type="localized:java.lang.String">
+                    <description>Description</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="startDateTime" type="java.util.Date">
+                    <description>Start date time.</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="endDateTime" type="java.util.Date">
+                    <description>End date time.</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="frequency" type="java.lang.String">
+                    <description>The frequency of the billing cycle</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="billingDateShift" type="java.lang.Integer">
+                    <description>The billing data shift</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="billingPeriod" type="java.lang.String">
+                    <description>The billing period</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="dateShift" type="java.lang.Integer">
+                    <description>The date shift</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="chargeDateOffset" type="java.lang.Integer">
+                    <description>The offset of a date through which credits previously received by the billing system will appear
+                        on the bill, expressed as number of days with regard to the start of the BillingPeriod
+                    </description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="creditDateOffset" type="java.lang.Integer">
+                    <description>The offset of a date through which credits previously received by the billing system will appear
+                        on the bill, expressed as number of days with regard to the start of the BillingPeriod
+                    </description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="mailingDateOffset" type="java.lang.Integer">
+                    <description>The offset of a customer bill mailing date, expressed as number of days with regard to the start
+                        of the BillingPeriod
+                    </description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="paymentDueDateOffset" type="java.lang.Integer">
+                    <description>The offset of a payment due date, expressed as number of days with regard to the start of the
+                        BillingPeriod
+                    </description>
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="baBillingCycleSpecIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="BaBillFormat" autocreate="true" generate="true">
+            <description>Bill Format</description>
+            <deployment table="BaBillFormats" typecode="7105"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <description>Unique Identifier</description>
+                    <persistence type="property"/>
+                    <modifiers optional="false" unique="true" initial="true"/>
+                </attribute>
+                <attribute qualifier="name" type="localized:java.lang.String">
+                    <description>Name</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="description" type="localized:java.lang.String">
+                    <description>Description</description>
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="baBillFormatIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="BaBillPresentationMedia" autocreate="true" generate="true">
+            <description>Bill Presentation Media</description>
+            <deployment table="BaBillPresMedias" typecode="7106"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <description>Unique Identifier</description>
+                    <persistence type="property"/>
+                    <modifiers optional="false" unique="true" initial="true"/>
+                </attribute>
+                <attribute qualifier="name" type="localized:java.lang.String">
+                    <description>Name</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="description" type="localized:java.lang.String">
+                    <description>Description</description>
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="baBillPresnMediaIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="BaBillStructure" autocreate="true" generate="true">
+            <description>Bill Structure</description>
+            <deployment table="BaBillStructures" typecode="7107"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <description>Unique Identifier</description>
+                    <persistence type="property"/>
+                    <modifiers optional="false" unique="true" initial="true"/>
+                </attribute>
+                <attribute qualifier="cycleSpecification" type="BaBillingCycleSpecification">
+                    <description>Cycle specification</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="format" type="BaBillFormat">
+                    <description>Format</description>
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="baBillStructureIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="BaPartyRole">
+            <description>Party Role</description>
+            <deployment table="BaPartyRoles" typecode="7108"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers optional="false" unique="true" initial="true"/>
+                </attribute>
+                <attribute qualifier="role" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers optional="false"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="partyRolesIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="BaParty">
+            <description>Party</description>
+            <deployment table="BaParties" typecode="7109"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers optional="false" unique="true" initial="true"/>
+                </attribute>
+                <attribute qualifier="name" type="localized:java.lang.String">
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="type" type="BaPartyType">
+                    <persistence type="property"/>
+                    <modifiers optional="false"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="partiesIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="BaAccountBalance" autocreate="true" generate="true">
+            <description>Account Balance</description>
+            <deployment table="BaAccountBalances" typecode="7110"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <description>Unique Identifier</description>
+                    <persistence type="property"/>
+                    <modifiers optional="false" unique="true" initial="true"/>
+                </attribute>
+                <attribute qualifier="amount" type="java.lang.Double">
+                    <description>Amount</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="currency" type="Currency">
+                    <description>Currency</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="balanceType" type="BaBalanceType">
+                    <description>Balance type</description>
+                    <persistence type="property"/>
+                    <modifiers optional="false"/>
+                </attribute>
+                <attribute qualifier="startDateTime" type="java.util.Date">
+                    <description>Start date time.</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="endDateTime" type="java.util.Date">
+                    <description>End date time.</description>
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="baAccountBalanceIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="BaAccountTaxExemption" autocreate="true" generate="true">
+            <description>Account Tax Exemption</description>
+            <deployment table="BaAccountTaxExemptions" typecode="7111"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <description>Unique Identifier</description>
+                    <persistence type="property"/>
+                    <modifiers optional="false" unique="true" initial="true"/>
+                </attribute>
+                <attribute qualifier="startDateTime" type="java.util.Date">
+                    <description>Start date time.</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="endDateTime" type="java.util.Date">
+                    <description>End date time.</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="certificateNumber" type="java.lang.String">
+                    <description>Certificate number</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="issuingJurisdiction" type="java.lang.String">
+                    <description>Issuing jurisdiction</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="reason" type="java.lang.String">
+                    <description>Reason</description>
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="baAccountTaxExemptionIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="BaMediumCharacteristic" autocreate="true" generate="true">
+            <description>Medium Characteristic</description>
+            <deployment table="BaMediumCharacteristics" typecode="7116"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <description>Unique Identifier</description>
+                    <persistence type="property"/>
+                    <modifiers optional="false" unique="true" initial="true"/>
+                </attribute>
+                <attribute qualifier="contactType" type="BaMediumCharacContactType">
+                    <description>Medium characteristic contact type</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="city" type="java.lang.String">
+                    <description>City</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="country" type="java.lang.String">
+                    <description>Country</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="emailAddress" type="java.lang.String">
+                    <description>Email address</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="faxNumber" type="java.lang.String">
+                    <description>Fax number</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="phoneNumber" type="java.lang.String">
+                    <description>Phone number</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="postcode" type="java.lang.String">
+                    <description>Postcode</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="socialNetworkId" type="java.lang.String">
+                    <description>Social network id</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="stateOfProvince" type="java.lang.String">
+                    <description>State of province</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="street1" type="java.lang.String">
+                    <description>Street 1</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="street2" type="java.lang.String">
+                    <description>Street 2</description>
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="baMediumCharacteristicIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="BaContactMedium" autocreate="true" generate="true">
+            <description>Contact Medium</description>
+            <deployment table="BaContactMediums" typecode="7117"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <description>Unique Identifier</description>
+                    <persistence type="property"/>
+                    <modifiers optional="false" unique="true" initial="true"/>
+                </attribute>
+                <attribute qualifier="mediumType" type="BaContactMediumType">
+                    <description>Medium type</description>
+                    <persistence type="property"/>
+                    <modifiers optional="false"/>
+                </attribute>
+                <attribute qualifier="preferred" type="java.lang.Boolean">
+                    <description>Preferred</description>
+                    <persistence type="property"/>
+                    <defaultvalue>Boolean.valueOf(false)</defaultvalue>
+                    <modifiers optional="false"/>
+                </attribute>
+                <attribute qualifier="startDateTime" type="java.util.Date">
+                    <description>Start date time.</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="endDateTime" type="java.util.Date">
+                    <description>End date time.</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="characteristic" type="BaMediumCharacteristic">
+                    <description>Medium characteristic</description>
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="baContactMediumIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="BaContact" autocreate="true" generate="true">
+            <description>Contact</description>
+            <deployment table="BaContacts" typecode="7112"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <description>Unique Identifier</description>
+                    <persistence type="property"/>
+                    <modifiers optional="false" unique="true" initial="true"/>
+                </attribute>
+                <attribute qualifier="contactName" type="java.lang.String">
+                    <description>Contact name</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="contactType" type="BaContactType">
+                    <description>Contact type</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="partyRoleType" type="java.lang.String">
+                    <description>Contact type</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="startDateTime" type="java.util.Date">
+                    <description>Start date time.</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="endDateTime" type="java.util.Date">
+                    <description>End date time.</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="relatedParty" type="BaPartyRole">
+                    <description>Related party role</description>
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="baContactIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="BaAccount" abstract="true">
+            <description>Account</description>
+            <deployment table="BaAccounts" typecode="7113"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <description>Unique Identifier</description>
+                    <persistence type="property"/>
+                    <modifiers optional="false" unique="true" initial="true"/>
+                </attribute>
+                <attribute qualifier="name" type="localized:java.lang.String">
+                    <description>Name</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="description" type="localized:java.lang.String">
+                    <description>Description</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="state" type="BaAccountStatus">
+                    <description>State</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="accountType" type="BaBillingAccountType">
+                    <description>Account type</description>
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="baAccountIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="BaFinancialAccount" extends="BaAccount">
+            <description>Financial Account</description>
+        </itemtype>
+
+        <itemtype code="BaPartyAccount" extends="BaAccount">
+            <description>Party Account</description>
+        </itemtype>
+
+        <itemtype code="BaBillingAccount" extends="BaPartyAccount">
+            <description>Billing Account</description>
+            <attributes>
+                <attribute qualifier="creditLimit" type="java.lang.Double">
+                    <description>Credit limit</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="creditCurrency" type="Currency">
+                    <description>Credit currency</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="paymentStatus" type="BaPaymentStatus">
+                    <description>Payment status</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="defaultPaymentMethod" type="PaymentInfo">
+                    <description>Deprecated since 2111. Use BaBillingAccount.referredDefaultPaymentMethod instead. Default payment
+                        method.
+                    </description>
+                    <model>
+                        <getter name="defaultPaymentMethod" default="true" deprecated="true" deprecatedSince="2111"/>
+                        <setter name="defaultPaymentMethod" default="true" deprecated="true" deprecatedSince="2111"/>
+                    </model>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="referredDefaultPaymentMethod" type="BaPaymentInfo">
+                    <description>Referred default payment method.</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="ratingType" type="BaRatingType">
+                    <description>Rating type</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="billStructure" type="BaBillStructure">
+                    <description>Bill structure</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="financialAccount" type="BaFinancialAccount">
+                    <description>Financial account</description>
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+        </itemtype>
+
+        <itemtype code="BaAccountRelationship" autocreate="true" generate="true">
+            <description>Account Relationship</description>
+            <deployment table="BaAccountRelationships" typecode="7114"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <description>Unique Identifier</description>
+                    <persistence type="property"/>
+                    <modifiers optional="false" unique="true" initial="true"/>
+                </attribute>
+                <attribute qualifier="relationshipType" type="java.lang.String">
+                    <description>Relationship type</description>
+                    <persistence type="property"/>
+                    <modifiers optional="false"/>
+                </attribute>
+                <attribute qualifier="startDateTime" type="java.util.Date">
+                    <description>Start date time.</description>
+                    <persistence type="property"/>
+                </attribute>
+                <attribute qualifier="endDateTime" type="java.util.Date">
+                    <description>End date time.</description>
+                    <persistence type="property"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="baAccountRelationshipIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+
+        <itemtype code="BaPaymentInfo" autocreate="true" generate="true">
+            <description>Payment Info</description>
+            <deployment table="BaPaymentInfos" typecode="7118"/>
+            <attributes>
+                <attribute qualifier="id" type="java.lang.String">
+                    <persistence type="property"/>
+                    <modifiers optional="false" unique="true" initial="true"/>
+                </attribute>
+            </attributes>
+            <indexes>
+                <index name="paymentInfosIdx" unique="true">
+                    <key attribute="id"/>
+                </index>
+            </indexes>
+        </itemtype>
+    </itemtypes>
+</items>

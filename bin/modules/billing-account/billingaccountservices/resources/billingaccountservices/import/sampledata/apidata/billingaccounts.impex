@@ -1,0 +1,600 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+$defaultPassword = 1234
+$currency = currency(isocode)[default = USD]
+$lang = en
+
+# Currencies                                 
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE Currency; isocode[unique = true]; name[lang = $lang]; active; conversion; digits; symbol
+                      ; USD                   ; "US Dollar"       ; true  ; 1.5       ; 4     ; "$" ;
+
+#Create SubscribedProductInventory Party     
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE BaParty; id[unique = true]; name[lang = en]; type(code)   ; principals(uid)
+                     ; party_10823      ; etta berg      ; INDIVIDUAL   ; etta.berg@hybris.com
+                     ; party_108231     ; tim james      ; ORGANIZATION ; tim.james@hybris.com
+                     ; party_108232     ; sam felt       ; ORGANIZATION ; sam.felt@hybris.com
+                     ; party_108233     ; etta james     ; INDIVIDUAL   ; etta.james@hybris.com
+## BA attribute change event
+                     ; party_118531     ; user118531     ; INDIVIDUAL   ; user118531@hybris.com
+                     ; party_118532     ; user118532     ; INDIVIDUAL   ; user118532@hybris.com
+                     ; party_118533     ; user118533     ; ORGANIZATION ; user118533@hybris.com
+                     ; party_118534     ; user118534     ; INDIVIDUAL   ; user118534@hybris.com
+                     ; party_118535     ; user118535     ; ORGANIZATION ; user118535@hybris.com
+                     ; party_118536     ; user118536     ; INDIVIDUAL   ; user118536@hybris.com
+                     ; party_118537     ; user118537     ; INDIVIDUAL   ; user118537@hybris.com
+
+## BA State change event
+                     ; party_118601     ; user118601     ; INDIVIDUAL   ; user118601@hybris.com
+                     ; party_118602     ; user118602     ; ORGANIZATION ; user118602@hybris.com
+## Patch BA
+                     ; party_119111     ; user119111     ; INDIVIDUAL   ; user119111@hybris.com
+                     ; party_119112     ; user119112     ; INDIVIDUAL   ; user119112@hybris.com
+                     ; party_119113     ; user119113     ; ORGANIZATION ; user119113@hybris.com
+                     ; party_119114     ; user119114     ; INDIVIDUAL   ; user119114@hybris.com
+                     ; party_119115     ; user119115     ; ORGANIZATION ; user119115@hybris.com
+                     ; party_119116     ; user119116     ; INDIVIDUAL   ; user119116@hybris.com
+                     ; party_119117     ; user119117     ; INDIVIDUAL   ; user119117@hybris.com
+
+
+## Delete BA
+                     ; party_119151     ; user119151     ; INDIVIDUAL   ; user119151@hybris.com
+## POST BA
+                     ; party_119051     ; user119051     ; INDIVIDUAL   ; user119051@hybris.com
+                     ; party_119052     ; user119052     ; ORGANIZATION ; user119052@hybris.com
+                     ; party_119053     ; user119053     ; ORGANIZATION ; user119053@hybris.com
+                     ; party_119054     ; user119054     ; ORGANIZATION ; user119054@hybris.com
+
+
+#Create SubscribedProductInventory PartyRole 
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE BaPartyRole; id[unique = true]; role     ; party(id)
+                         ; etta.berg        ; customer ; party_10823
+                         ; tim.james        ; employee ; party_108231
+                         ; sam.felt         ; employee ; party_108232
+                         ; etta.james       ; customer ; party_108233
+## BA attribute change event
+                         ; user118531       ; customer ; party_118531
+                         ; user118532       ; employee ; party_118532
+                         ; user118533       ; employee ; party_118533
+                         ; user118534       ; customer ; party_118534
+                         ; user118535       ; employee ; party_118535
+                         ; user118536       ; customer ; party_118536
+                         ; user118537       ; customer ; party_118537
+
+## BA State change event
+                         ; user118601       ; customer ; party_118601
+                         ; user118602       ; employee ; party_118602
+## Patch BA
+                         ; user119111       ; customer ; party_119111
+                         ; user119112       ; employee ; party_119112
+                         ; user119113       ; employee ; party_119113
+                         ; user119114       ; customer ; party_119114
+                         ; user119115       ; employee ; party_119115
+                         ; user119116       ; customer ; party_119116
+                         ; user119117       ; customer ; party_119117
+## Delete BA
+                         ; user119151       ; customer ; party_119151
+##POST BA
+                         ; user119051       ; customer ; party_119051
+                         ; user119052       ; employee ; party_119052
+                         ; user119053       ; customer ; party_119053
+                         ; user119054       ; customer ; party_119054
+
+#Create FinancialAccount
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE BaFinancialAccount; id[unique = true]; name           ; partyRoles(id)
+                                ; fs_10823         ; finance_10823  ; etta.berg
+                                ; fs_108231        ; finance_108231 ; tim.james
+                                ; fs_108232        ; finance_108232 ; etta.james
+## BA attribute change event
+                                ; fs_118531        ; finance_118531 ; user118531
+                                ; fs_118532        ; finance_118532 ; user118532
+                                ; fs_118533        ; finance_118533 ; user118533
+                                ; fs_118534        ; finance_118534 ; user118534
+                                ; fs_118535        ; finance_118535 ; user118535
+                                ; fs_118536        ; finance_118536 ; user118536
+                                ; fs_118537        ; finance_118537 ; user118537
+
+## BA State change event
+                                ; fs_118601        ; finance_118601 ; user118601
+                                ; fs_118602        ; finance_118602 ; user118602
+## Patch BA
+                                ; fs_119111        ; finance_119111 ; user119111
+                                ; fs_119112        ; finance_119112 ; user119112
+                                ; fs_119113        ; finance_119113 ; user119113
+                                ; fs_119114        ; finance_119114 ; user119114
+                                ; fs_119115        ; finance_119115 ; user119115
+                                ; fs_119116        ; finance_119116 ; user119116
+                                ; fs_119117        ; finance_119117 ; user119117
+
+## Delete BA
+                                ; fs_119151        ; finance_119151 ; user119151
+## POST BA
+                                ; fs_119051        ; finance_119051 ; user119051
+                                ; fs_119052        ; finance_119052 ; user119052
+                                ; fs_119053        ; finance_119053 ; user119053
+                                ; fs_119054        ; finance_119054 ; user119054
+
+#Create PartyAccount
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE BaPartyAccount; id[unique = true]        ; name       ; partyRoles(id)
+                            ; pa_etta.berg@yahoo.com   ; Etta Berg  ; etta.berg
+                            ; pa_tim.james@hybris.com  ; Tim James  ; tim.james
+                            ; pa_etta.james@hybris.com ; Etta James ; etta.james
+## BA attribute change event
+                            ; pa_user118531@hybris.com ; user118531 ; user118531
+                            ; pa_user118532@hybris.com ; user118532 ; user118532
+                            ; pa_user118533@hybris.com ; user118533 ; user118533
+                            ; pa_user118534@hybris.com ; user118534 ; user118534
+                            ; pa_user118535@hybris.com ; user118535 ; user118535
+                            ; pa_user118536@hybris.com ; user118536 ; user118536
+                            ; pa_user118537@hybris.com ; user118537 ; user118537
+
+## BA State change event
+                            ; pa_user118601@hybris.com ; user118601 ; user118601
+                            ; pa_user118602@hybris.com ; user118602 ; user118602
+## Patch BA
+                            ; pa_user119111@hybris.com ; user119111 ; user119111
+                            ; pa_user119112@hybris.com ; user119112 ; user119112
+                            ; pa_user119113@hybris.com ; user119113 ; user119113
+                            ; pa_user119114@hybris.com ; user119114 ; user119114
+                            ; pa_user119115@hybris.com ; user119115 ; user119115
+                            ; pa_user119116@hybris.com ; user119116 ; user119116
+                            ; pa_user119117@hybris.com ; user119117 ; user119117
+
+## Delete BA
+                            ; pa_user119151@hybris.com ; user119151 ; user119151
+
+                            ; pa_user119051@hybris.com ; user119051 ; user119051
+                            ; pa_user119052@hybris.com ; user119052 ; user119052
+                            ; pa_user119053@hybris.com ; user119053 ; user119053
+                            ; pa_user119054@hybris.com ; user119054 ; user119054
+
+#Create BillingAccount
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE BaBillingAccount; id[unique = true]        ; name       ; description                          ; partyRoles(id)
+                              ; ba_etta.berg@yahoo.com   ; Etta Berg  ; Etta Berg - personal Billing Account ; etta.berg
+                              ; ba_tim.james@hybris.com  ; Tim James  ; Tim James - ibm Billing Account      ; tim.james, etta.james
+                              ; ba_etta.james@hybris.com ; Etta James ; Etta James - ibm Billing Account     ; etta.james
+## BA attribute change event
+                              ; ba_user118531@hybris.com ; user118531 ; personal billing account             ; user118531
+                              ; ba_user118532@hybris.com ; user118532 ; IBM billing account                  ; user118532
+                              ; ba_user118533@hybris.com ; user118533 ; personal billing account             ; user118533
+                              ; ba_user118534@hybris.com ; user118534 ; personal billing account             ; user118534
+                              ; ba_user118535@hybris.com ; user118535 ; IBM billing account                  ; user118535
+                              ; ba_user118536@hybris.com ; user118536 ; IBM billing account                  ; user118536
+                              ; ba_user118537@hybris.com ; user118537 ; IBM billing account                  ; user118537
+
+## BA State change event
+                              ; ba_user118601@hybris.com ; user118601 ; personal billing account             ; user118601
+                              ; ba_user118602@hybris.com ; user118602 ; IBM billing account                  ; user118602
+## Patch BA
+                              ; ba_user119111@hybris.com ; user119111 ; personal billing account             ; user119111
+                              ; ba_user119112@hybris.com ; user119112 ; IBM billing account                  ; user119112
+                              ; ba_user119113@hybris.com ; user119113 ; personal billing account             ; user119113
+                              ; ba_user119114@hybris.com ; user119114 ; personal billing account             ; user119114
+                              ; ba_user119115@hybris.com ; user119115 ; IBM billing account                  ; user119115
+                              ; ba_user119116@hybris.com ; user119116 ; IBM billing account                  ; user119116
+                              ; ba_user119117@hybris.com ; user119117 ; IBM billing account                  ; user119117
+
+## Delete BA
+                              ; ba_user119151@hybris.com ; user119151 ; personal billing account             ; user119151
+
+#Create AccountTaxExemption
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE BaAccountTaxExemption; id[unique = true]; certificateNumber; issuingJurisdiction; reason; startDateTime[dateformat = dd.MM.yyyy HH:mm:ss]; endDateTime[dateformat = dd.MM.yyyy HH:mm:ss]
+                                   ; tax_exe_10823    ; 10823000001      ; Embassy            ; VIP   ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00
+                                   ; tax_exe_108231   ; 10823000002      ; Embassy            ; VIP   ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00
+                                   ; tax_exe_108232   ; 10823000003      ; Embassy            ; VIP   ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00
+## BA attribute change event
+                                   ; tax_exe_118531   ; 11853000001      ; Embassy            ; VIP   ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00
+                                   ; tax_exe_118532   ; 11853000002      ; Embassy            ; VIP   ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00
+                                   ; tax_exe_118533   ; 11853000003      ; Embassy            ; VIP   ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00
+                                   ; tax_exe_118534   ; 11853000004      ; Embassy            ; VIP   ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00
+                                   ; tax_exe_118535   ; 11853000005      ; Embassy            ; VIP   ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00
+                                   ; tax_exe_118536   ; 11853000006      ; Embassy            ; VIP   ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00
+
+## BA State change event
+                                   ; tax_exe_118601   ; 11860000001      ; Embassy            ; VIP   ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00
+                                   ; tax_exe_118602   ; 11860000002      ; Embassy            ; VIP   ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00
+## Patch BA
+                                   ; tax_exe_119111   ; 11911000001      ; Embassy            ; VIP   ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00
+                                   ; tax_exe_119112   ; 11911000002      ; Embassy            ; VIP   ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00
+                                   ; tax_exe_119113   ; 11911000003      ; Embassy            ; VIP   ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00
+                                   ; tax_exe_119114   ; 11911000004      ; Embassy            ; VIP   ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00
+                                   ; tax_exe_119115   ; 11911000005      ; Embassy            ; VIP   ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00
+                                   ; tax_exe_119116   ; 11911000006      ; Embassy            ; VIP   ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00
+
+## Delete BA
+                                   ; tax_exe_119151   ; 11915000001      ; Embassy            ; VIP   ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00
+
+
+#Create AccountBalance
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE BaAccountBalance; id[unique = true]; amount ; currency(isocode); balanceType(code)  ; startDateTime[dateformat = dd.MM.yyyy HH:mm:ss]; endDateTime[dateformat = dd.MM.yyyy HH:mm:ss]
+                              ; bal_10823        ; 58.97  ; USD              ; RECEIVABLE_BALANCE ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00
+                              ; bal_108231       ; 972.09 ; USD              ; DEPOSIT_BALANCE    ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00
+                              ; bal_108232       ; 96.09  ; USD              ; DEPOSIT_BALANCE    ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00
+## BA attribute change event
+                              ; bal_118531       ; 96.09  ; USD              ; DEPOSIT_BALANCE    ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00
+                              ; bal_118532       ; 976.09 ; USD              ; RECEIVABLE_BALANCE ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00
+                              ; bal_118533       ; 196.09 ; USD              ; DEPOSIT_BALANCE    ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00
+                              ; bal_118534       ; 58.79  ; USD              ; RECEIVABLE_BALANCE ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00
+                              ; bal_118535       ; 916.39 ; USD              ; DEPOSIT_BALANCE    ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00
+                              ; bal_118536       ; 91.39  ; USD              ; DEPOSIT_BALANCE    ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00
+
+## BA State change event
+                              ; bal_118601       ; 96.09  ; USD              ; DEPOSIT_BALANCE    ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00
+                              ; bal_118602       ; 976.09 ; USD              ; RECEIVABLE_BALANCE ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00
+## Patch BA
+                              ; bal_119111       ; 96.09  ; USD              ; DEPOSIT_BALANCE    ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00
+                              ; bal_119112       ; 976.09 ; USD              ; RECEIVABLE_BALANCE ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00
+                              ; bal_119113       ; 196.09 ; USD              ; DEPOSIT_BALANCE    ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00
+                              ; bal_119114       ; 58.79  ; USD              ; RECEIVABLE_BALANCE ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00
+                              ; bal_119115       ; 916.39 ; USD              ; DEPOSIT_BALANCE    ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00
+                              ; bal_119116       ; 91.39  ; USD              ; DEPOSIT_BALANCE    ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00
+
+## Delete BA
+                              ; bal_119151       ; 96.09  ; USD              ; DEPOSIT_BALANCE    ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00
+
+#Create MediumCharacteristic
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE BaMediumCharacteristic; id[unique = true]   ; city; contactType(code)   ; country; emailAddress          ; faxNumber; phoneNumber; postcode; socialNetworkId; stateOfProvince; street1       ; street2
+                                    ; phoneNumber_10823   ; hyd ; MOBILE_PHONE_NUMBER ; India  ; etta.berg@hybris.com  ; 10823    ; 1082300000 ; 108231  ; etta.berg      ; TS             ; street_108231 ; street_108232
+                                    ; emailAddress_10823  ; hyd ; SHIPPING_ADDRESS    ; India  ; tim.james@hybris.com  ; 108231   ; 1082300001 ; 108232  ; tim.james      ; TS             ; street_108234 ; street_108235
+## BA attribute change event
+                                    ; phoneNumber_118531  ; hyd ; MOBILE_PHONE_NUMBER ; India  ; user118531@hybris.com ; 118531   ; 1185300000 ; 118531  ; user118531     ; TS             ; street_118531 ; street_118532
+                                    ; emailAddress_118531 ; hyd ; SHIPPING_ADDRESS    ; India  ; user118532@hybris.com ; 118532   ; 1185300001 ; 118532  ; user118532     ; TS             ; street_118534 ; street_118535
+                                    ; phoneNumber_118532  ; hyd ; MOBILE_PHONE_NUMBER ; India  ; user118533@hybris.com ; 118533   ; 1185300002 ; 118533  ; user118533     ; TS             ; street_118533 ; street_118536
+                                    ; emailAddress_118532 ; hyd ; SHIPPING_ADDRESS    ; India  ; user118534@hybris.com ; 118534   ; 1185300003 ; 118534  ; user118534     ; TS             ; street_118537 ; street_118538
+                                    ; phoneNumber_118533  ; hyd ; MOBILE_PHONE_NUMBER ; India  ; user118535@hybris.com ; 118535   ; 1185300004 ; 118535  ; user118535     ; TS             ; street_118539 ; street_1185310
+
+## BA State change event
+                                    ; phoneNumber_118601  ; hyd ; MOBILE_PHONE_NUMBER ; India  ; user118601@hybris.com ; 118601   ; 1186000000 ; 118601  ; user118601     ; TS             ; street_118601 ; street_118602
+                                    ; emailAddress_118601 ; hyd ; SHIPPING_ADDRESS    ; India  ; user118602@hybris.com ; 118602   ; 1186000001 ; 118602  ; user118602     ; TS             ; street_118604 ; street_118603
+## Patch BA
+                                    ; phoneNumber_119111  ; hyd ; MOBILE_PHONE_NUMBER ; India  ; user119111@hybris.com ; 119111   ; 1191100000 ; 119111  ; user119111     ; TS             ; street_119111 ; street_119112
+                                    ; emailAddress_119111 ; hyd ; SHIPPING_ADDRESS    ; India  ; user119112@hybris.com ; 119112   ; 1191100001 ; 119112  ; user119112     ; TS             ; street_119114 ; street_119115
+                                    ; phoneNumber_119112  ; hyd ; MOBILE_PHONE_NUMBER ; India  ; user119113@hybris.com ; 119113   ; 1191100002 ; 119113  ; user119113     ; TS             ; street_119113 ; street_119116
+                                    ; emailAddress_119112 ; hyd ; SHIPPING_ADDRESS    ; India  ; user119114@hybris.com ; 119114   ; 1191100003 ; 119114  ; user119114     ; TS             ; street_119117 ; street_119118
+                                    ; phoneNumber_119113  ; hyd ; MOBILE_PHONE_NUMBER ; India  ; user119115@hybris.com ; 119115   ; 1191100004 ; 119115  ; user119115     ; TS             ; street_119119 ; street_1191110
+## Delete BA
+                                    ; phoneNumber_119151  ; hyd ; MOBILE_PHONE_NUMBER ; India  ; user119151@hybris.com ; 119151   ; 1191500000 ; 119151  ; user119151     ; TS             ; street_119151 ; street_119152
+
+
+#Create ContactMedium
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE BaContactMedium; id[unique = true]    ; mediumType(code); preferred; startDateTime[dateformat = dd.MM.yyyy HH:mm:ss]; endDateTime[dateformat = dd.MM.yyyy HH:mm:ss]; characteristic(id)
+                             ; contactMedium_108231 ; PHONE_NUMBER    ; true     ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; phoneNumber_10823
+                             ; contactMedium_108232 ; EMAIL_ADDRESS   ; true     ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; emailAddress_10823
+                             ; contactMedium_108233 ; PHONE_NUMBER    ; true     ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; phoneNumber_10823
+                             ; contactMedium_108234 ; EMAIL_ADDRESS   ; true     ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; emailAddress_10823
+## BA attribute change event
+                             ; contactMedium_118531 ; PHONE_NUMBER    ; true     ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; phoneNumber_118531
+                             ; contactMedium_118532 ; EMAIL_ADDRESS   ; true     ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; emailAddress_118531
+                             ; contactMedium_118533 ; PHONE_NUMBER    ; true     ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; phoneNumber_118532
+                             ; contactMedium_118534 ; EMAIL_ADDRESS   ; true     ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; emailAddress_118532
+                             ; contactMedium_118535 ; EMAIL_ADDRESS   ; true     ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; phoneNumber_118533
+
+## BA State change event
+                             ; contactMedium_118601 ; PHONE_NUMBER    ; true     ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; phoneNumber_118601
+                             ; contactMedium_118602 ; EMAIL_ADDRESS   ; true     ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; emailAddress_118601
+
+## Patch BA
+                             ; contactMedium_119111 ; PHONE_NUMBER    ; true     ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; phoneNumber_119111
+                             ; contactMedium_119112 ; EMAIL_ADDRESS   ; true     ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; emailAddress_119111
+                             ; contactMedium_119113 ; PHONE_NUMBER    ; true     ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; phoneNumber_119112
+                             ; contactMedium_119114 ; EMAIL_ADDRESS   ; true     ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; emailAddress_119112
+                             ; contactMedium_119115 ; EMAIL_ADDRESS   ; true     ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; phoneNumber_119113
+## Delete BA
+                             ; contactMedium_119151 ; PHONE_NUMBER    ; true     ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; phoneNumber_119151
+
+#Create Contact
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE BaContact; id[unique = true]; contactName; contactType(code); partyRoleType   ; relatedParty(id); startDateTime[dateformat = dd.MM.yyyy HH:mm:ss]; endDateTime[dateformat = dd.MM.yyyy HH:mm:ss]; contactMediums(id)
+                       ; contact_10823    ; Etta Berg  ; PRIMARY          ; Publisher       ; etta.berg       ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; contactMedium_108231, contactMedium_108232
+                       ; contact_108231   ; Tim James  ; PRIMARY          ; Account Manager ; tim.james       ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; contactMedium_108233
+                       ; contact_108232   ; Etta James ; SECONDARY        ; Account Manager ; etta.james      ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; contactMedium_108234
+## BA attribute change event
+                       ; contact_118531   ; user118531 ; PRIMARY          ; Account Manager ; user118531      ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; contactMedium_118531
+                       ; contact_118532   ; user118532 ; PRIMARY          ; Account Manager ; user118532      ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; contactMedium_118532
+                       ; contact_118533   ; user118533 ; SECONDARY        ; Publisher       ; user118533      ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; contactMedium_118533
+                       ; contact_118534   ; user118534 ; SECONDARY        ; Account Manager ; user118534      ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; contactMedium_118534
+                       ; contact_118535   ; user118535 ; PRIMARY          ; Publisher       ; user118535      ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ;
+                       ; contact_118536   ; user118536 ; PRIMARY          ; Publisher       ; user118536      ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; contactMedium_118535
+
+## BA State change event
+                       ; contact_118601   ; user118601 ; PRIMARY          ; Account Manager ; user118601      ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; contactMedium_118601
+                       ; contact_118602   ; user118602 ; PRIMARY          ; Account Manager ; user118602      ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; contactMedium_118602
+
+## Patch BA
+                       ; contact_119111   ; user119111 ; PRIMARY          ; Account Manager ; user119111      ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; contactMedium_119111
+                       ; contact_119112   ; user119112 ; PRIMARY          ; Account Manager ; user119112      ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; contactMedium_119112
+                       ; contact_119113   ; user119113 ; SECONDARY        ; Publisher       ; user119113      ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; contactMedium_119113
+                       ; contact_119114   ; user119114 ; SECONDARY        ; Account Manager ; user119114      ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; contactMedium_119114
+                       ; contact_119115   ; user119115 ; PRIMARY          ; Publisher       ; user119115      ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ;
+                       ; contact_119116   ; user119116 ; PRIMARY          ; Publisher       ; user119116      ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; contactMedium_119115
+
+## Delete BA
+                       ; contact_119151   ; user119151 ; PRIMARY          ; Account Manager ; user119151      ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; contactMedium_119151
+
+#Create Customer
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE Customer; originalUid[unique = true]; uid[unique = true]    ; customerID            ; name       ; groups(uid)   ; password[default = $defaultPassword]; Europe1PriceFactory_UPG(code)
+                      ; etta.berg@hybris.com      ; etta.berg@hybris.com  ; etta.berg@hybris.com  ; etta.berg  ; customergroup ;
+                      ; tim.james@hybris.com      ; tim.james@hybris.com  ; tim.james@hybris.com  ; tim.james  ; customergroup ;
+                      ; sam.felt@hybris.com       ; sam.felt@hybris.com   ; sam.felt@hybris.com   ; sam.felt   ; customergroup ;
+                      ; etta.james@hybris.com     ; etta.james@hybris.com ; etta.james@hybris.com ; etta.james ; customergroup ;
+## BA attribute change event
+                      ; user118531@hybris.com     ; user118531@hybris.com ; user118531@hybris.com ; user118531 ; customergroup ;
+                      ; user118532@hybris.com     ; user118532@hybris.com ; user118532@hybris.com ; user118532 ; customergroup ;
+                      ; user118533@hybris.com     ; user118533@hybris.com ; user118533@hybris.com ; user118533 ; customergroup ;
+                      ; user118534@hybris.com     ; user118534@hybris.com ; user118534@hybris.com ; user118534 ; customergroup ;
+                      ; user118535@hybris.com     ; user118535@hybris.com ; user118535@hybris.com ; user118535 ; customergroup ;
+                      ; user118536@hybris.com     ; user118536@hybris.com ; user118536@hybris.com ; user118536 ; customergroup ;
+                      ; user118537@hybris.com     ; user118537@hybris.com ; user118537@hybris.com ; user118537 ; customergroup ;
+
+## BA State change event
+                      ; user118601@hybris.com     ; user118601@hybris.com ; user118601@hybris.com ; user118601 ; customergroup ;
+                      ; user118602@hybris.com     ; user118602@hybris.com ; user118602@hybris.com ; user118602 ; customergroup ;
+## Patch BA
+                      ; user119111@hybris.com     ; user119111@hybris.com ; user119111@hybris.com ; user119111 ; customergroup ;
+                      ; user119112@hybris.com     ; user119112@hybris.com ; user119112@hybris.com ; user119112 ; customergroup ;
+                      ; user119113@hybris.com     ; user119113@hybris.com ; user119113@hybris.com ; user119113 ; customergroup ;
+                      ; user119114@hybris.com     ; user119114@hybris.com ; user119114@hybris.com ; user119114 ; customergroup ;
+                      ; user119115@hybris.com     ; user119115@hybris.com ; user119115@hybris.com ; user119115 ; customergroup ;
+                      ; user119116@hybris.com     ; user119116@hybris.com ; user119116@hybris.com ; user119116 ; customergroup ;
+                      ; user119117@hybris.com     ; user119117@hybris.com ; user119117@hybris.com ; user119117 ; customergroup ;
+## Delete BA
+                      ; user119151@hybris.com     ; user119151@hybris.com ; user119151@hybris.com ; user119151 ; customergroup ;
+
+                      ; user119051@hybris.com     ; user119051@hybris.com ; user119051@hybris.com ; user119051 ; customergroup ;
+                      ; user119052@hybris.com     ; user119052@hybris.com ; user119052@hybris.com ; user119052 ; customergroup ;
+                      ; user119053@hybris.com     ; user119053@hybris.com ; user119053@hybris.com ; user119053 ; customergroup ;
+                      ; user119054@hybris.com     ; user119054@hybris.com ; user119054@hybris.com ; user119054 ; customergroup ;
+
+#Create CreditCardPaymentInfo
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE CreditCardPaymentInfo; code[unique = true]; user(uid)             ; ccOwner        ; number           ; type(code); validToMonth; validToYear; saved
+                                   ; CC_108231          ; etta.berg@hybris.com  ; NATALIE JENKIN ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ;
+                                   ; CC_108232          ; tim.james@hybris.com  ; NATALIE JENKIN ; 1111222233334444 ; master    ; 5           ; 2022       ; TRUE ;
+                                   ; CC_108233          ; etta.james@hybris.com ; NATALIE JENKIN ; 1111222233334444 ; master    ; 9           ; 2022       ; TRUE ;
+## BA attribute change event
+                                   ; CC_118531          ; user118531@hybris.com ; NATALIE JENKIN ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ;
+                                   ; CC_118532          ; user118532@hybris.com ; NATALIE JENKIN ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ;
+                                   ; CC_118533          ; user118533@hybris.com ; NATALIE JENKIN ; 1111222233334444 ; master    ; 9           ; 2023       ; TRUE ;
+                                   ; CC_118534          ; user118534@hybris.com ; NATALIE JENKIN ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ;
+                                   ; CC_118535          ; user118535@hybris.com ; NATALIE JENKIN ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ;
+                                   ; CC_118536          ; user118536@hybris.com ; NATALIE JENKIN ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ;
+
+## BA State change event
+                                   ; CC_118601          ; user118601@hybris.com ; NATALIE JENKIN ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ;
+                                   ; CC_118602          ; user118602@hybris.com ; NATALIE JENKIN ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ;
+## Patch BA
+                                   ; CC_119111          ; user119111@hybris.com ; NATALIE JENKIN ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ;
+                                   ; CC_119112          ; user119112@hybris.com ; NATALIE JENKIN ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ;
+                                   ; CC_119113          ; user119113@hybris.com ; NATALIE JENKIN ; 1111222233334444 ; master    ; 9           ; 2023       ; TRUE ;
+                                   ; CC_119114          ; user119114@hybris.com ; NATALIE JENKIN ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ;
+                                   ; CC_119115          ; user119115@hybris.com ; NATALIE JENKIN ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ;
+                                   ; CC_119116          ; user119116@hybris.com ; NATALIE JENKIN ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ;
+## Delete BA
+                                   ; CC_119151          ; user119151@hybris.com ; NATALIE JENKIN ; 1111222233334444 ; master    ; 5           ; 2021       ; TRUE ;
+
+#Create Duration
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE BaDuration; id[unique = true]; units   ; amount
+                        ; duration_10823   ; monthly ; 30.0
+                        ; duration_108231  ; monthly ; 100.0
+## BA attribute change event
+                        ; duration_118531  ; monthly ; 100.0
+                        ; duration_118532  ; monthly ; 150.0
+                        ; duration_118533  ; monthly ; 190.0
+                        ; duration_118534  ; monthly ; 800.0
+                        ; duration_118535  ; monthly ; 30.0
+                        ; duration_118536  ; monthly ; 70.0
+## BA State change event
+                        ; duration_118601  ; monthly ; 100.0
+                        ; duration_118602  ; monthly ; 150.0
+## Patch BA
+                        ; duration_119111  ; monthly ; 100.0
+                        ; duration_119112  ; monthly ; 150.0
+                        ; duration_119113  ; monthly ; 190.0
+                        ; duration_119114  ; monthly ; 800.0
+                        ; duration_119115  ; monthly ; 30.0
+                        ; duration_119116  ; monthly ; 70.0
+
+## Delete BA
+                        ; duration_119151  ; monthly ; 100.0
+
+
+#Create PaymentPlan
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE BaPaymentPlan; id[unique = true]; type     ; status ; priority; startDateTime[dateformat = dd.MM.yyyy HH:mm:ss]; endDateTime[dateformat = dd.MM.yyyy HH:mm:ss]; paymentPeriod(id); totalAmount; currency(isocode); paymentMethod(code); billingAccount(id)
+                           ; PP_10823         ; postpaid ; active ; 10      ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; duration_10823   ; 100        ; USD              ; CC_108231          ; ba_etta.berg@yahoo.com
+                           ; PP_108231        ; postpaid ; active ; 100     ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; duration_10823   ; 674        ; USD              ; CC_108232          ; ba_tim.james@hybris.com
+                           ; PP_108232        ; postpaid ; active ; 10      ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; duration_10823   ; 784        ; USD              ; CC_108233          ; ba_etta.james@hybris.com
+                           ; PP_108233        ; postpaid ; active ; 50      ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; duration_108231  ; 64         ; USD              ; CC_108233          ; ba_etta.james@hybris.com
+## BA attribute change event
+                           ; PP_118531        ; postpaid ; active ; 50      ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; duration_118531  ; 64         ; USD              ; CC_118531          ; ba_user118531@hybris.com
+                           ; PP_118532        ; postpaid ; active ; 100     ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; duration_118532  ; 100        ; USD              ; CC_118532          ; ba_user118532@hybris.com
+                           ; PP_118533        ; postpaid ; active ; 10      ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; duration_118533  ; 784        ; USD              ; CC_118533          ; ba_user118533@hybris.com
+                           ; PP_118534        ; postpaid ; active ; 30      ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; duration_118534  ; 614        ; USD              ; CC_118534          ; ba_user118535@hybris.com
+                           ; PP_118535        ; postpaid ; active ; 40      ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; duration_118535  ; 600        ; USD              ; CC_118535          ; ba_user118536@hybris.com
+                           ; PP_118536        ; postpaid ; active ; 15      ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; duration_118536  ; 60         ; USD              ; CC_118536          ; ba_user118537@hybris.com
+## BA State change event
+                           ; PP_118601        ; postpaid ; active ; 50      ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; duration_118601  ; 64         ; USD              ; CC_118601          ; ba_user118601@hybris.com
+                           ; PP_118602        ; postpaid ; active ; 100     ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; duration_118602  ; 100        ; USD              ; CC_118602          ; ba_user118602@hybris.com
+## Patch BA
+                           ; PP_119111        ; postpaid ; active ; 50      ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; duration_119111  ; 64         ; USD              ; CC_119111          ; ba_user119111@hybris.com
+                           ; PP_119112        ; postpaid ; active ; 100     ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; duration_119112  ; 100        ; USD              ; CC_119112          ; ba_user119112@hybris.com
+                           ; PP_119113        ; postpaid ; active ; 10      ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; duration_119113  ; 784        ; USD              ; CC_119113          ; ba_user119113@hybris.com
+                           ; PP_119114        ; postpaid ; active ; 30      ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; duration_119114  ; 614        ; USD              ; CC_119114          ; ba_user119115@hybris.com
+                           ; PP_119115        ; postpaid ; active ; 40      ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; duration_119115  ; 600        ; USD              ; CC_119115          ; ba_user119116@hybris.com
+                           ; PP_119116        ; postpaid ; active ; 15      ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; duration_119116  ; 60         ; USD              ; CC_119116          ; ba_user119117@hybris.com
+## Delete BA
+                           ; PP_119111        ; postpaid ; active ; 50      ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; duration_119111  ; 64         ; USD              ; CC_119111          ; ba_user119111@hybris.com
+
+#Create BillFormat
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE BaBillFormat; id[unique = true]; name              ; description
+                          ; format_10823     ; BillFormat 10823  ; BillFormat_10823_description
+                          ; format_108231    ; BillFormat 108231 ; BillFormat_108231_description
+                          ; format_108232    ; BillFormat 108232 ; BillFormat_108232_description
+## BA attribute change event
+                          ; format_118531    ; BillFormat 118531 ; BillFormat_118531_description
+                          ; format_118532    ; BillFormat 118532 ; BillFormat_118532_description
+                          ; format_118533    ; BillFormat 118533 ; BillFormat_118533_description
+                          ; format_118534    ; BillFormat 118534 ; BillFormat_118534_description
+                          ; format_118535    ; BillFormat 118535 ; BillFormat_118535_description
+                          ; format_118536    ; BillFormat 118536 ; BillFormat_118536_description
+## BA State change event
+                          ; format_118601    ; BillFormat 118601 ; BillFormat_118601_description
+                          ; format_118602    ; BillFormat 118602 ; BillFormat_118602_description
+
+## Patch BA
+                          ; format_119111    ; BillFormat 119111 ; BillFormat_119111_description
+                          ; format_119112    ; BillFormat 119112 ; BillFormat_119112_description
+                          ; format_119113    ; BillFormat 119113 ; BillFormat_119113_description
+                          ; format_119114    ; BillFormat 119114 ; BillFormat_119114_description
+                          ; format_119115    ; BillFormat 119115 ; BillFormat_119115_description
+                          ; format_119116    ; BillFormat 119116 ; BillFormat_119116_description
+## Delete BA
+                          ; format_119151    ; BillFormat 119151 ; BillFormat_119151_description
+
+#Create BaBillPresentationMedia
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE BaBillPresentationMedia; id[unique = true]; name                         ; description
+                                     ; media_10823      ; BillPresentationMedia 10823  ; BillPresentationMedia_10823_description
+                                     ; media_108231     ; BillPresentationMedia 108231 ; BillPresentationMedia_108231_description
+                                     ; media_108232     ; BillPresentationMedia 108232 ; BillPresentationMedia_108232_description
+## BA attribute change event
+                                     ; media_118531     ; BillPresentationMedia 118531 ; BillPresentationMedia_118531_description
+                                     ; media_118532     ; BillPresentationMedia 118532 ; BillPresentationMedia_118532_description
+                                     ; media_118533     ; BillPresentationMedia 118533 ; BillPresentationMedia_118533_description
+                                     ; media_118534     ; BillPresentationMedia 118534 ; BillPresentationMedia_118534_description
+                                     ; media_118535     ; BillPresentationMedia 118535 ; BillPresentationMedia_118535_description
+                                     ; media_118536     ; BillPresentationMedia 118536 ; BillPresentationMedia_118536_description
+## BA State change event
+                                     ; media_118601     ; BillPresentationMedia 118601 ; BillPresentationMedia_118601_description
+                                     ; media_118602     ; BillPresentationMedia 118602 ; BillPresentationMedia_118602_description
+## Patch BA
+                                     ; media_119111     ; BillPresentationMedia 119111 ; BillPresentationMedia_119111_description
+                                     ; media_119112     ; BillPresentationMedia 119112 ; BillPresentationMedia_119112_description
+                                     ; media_119113     ; BillPresentationMedia 119113 ; BillPresentationMedia_119113_description
+                                     ; media_119114     ; BillPresentationMedia 119114 ; BillPresentationMedia_119114_description
+                                     ; media_119115     ; BillPresentationMedia 119115 ; BillPresentationMedia_119115_description
+                                     ; media_119116     ; BillPresentationMedia 119116 ; BillPresentationMedia_119116_description
+## Delete BA
+                                     ; media_119151     ; BillPresentationMedia 119151 ; BillPresentationMedia_119151_description
+
+
+#Create BillingCycleSpecification
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE BaBillingCycleSpecification; id[unique = true]; name                  ; description                  ; startDateTime[dateformat = dd.MM.yyyy HH:mm:ss]; endDateTime[dateformat = dd.MM.yyyy HH:mm:ss]; frequency; billingDateShift; billingPeriod; dateShift; chargeDateOffset; creditDateOffset; mailingDateOffset; paymentDueDateOffset
+                                         ; billCycle_10823  ; billCycle_10823_name  ; billCycle_10823_description  ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; monthly  ; 8               ; month        ; 8        ; 8               ; 8               ; 8                ; 8
+                                         ; billCycle_108231 ; billCycle_108231_name ; billCycle_108231_description ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; monthly  ; 12              ; month        ; 12       ; 12              ; 12              ; 12               ; 12
+                                         ; billCycle_108232 ; billCycle_108232_name ; billCycle_108232_description ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; monthly  ; 12              ; month        ; 12       ; 12              ; 12              ; 12               ; 12
+## BA attribute change event
+                                         ; billCycle_118531 ; billCycle_118531_name ; billCycle_118531_description ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; monthly  ; 12              ; month        ; 12       ; 12              ; 12              ; 12               ; 12
+                                         ; billCycle_118532 ; billCycle_118532_name ; billCycle_118532_description ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; monthly  ; 10              ; month        ; 10       ; 10              ; 10              ; 10               ; 10
+                                         ; billCycle_118533 ; billCycle_118533_name ; billCycle_118533_description ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; monthly  ; 11              ; month        ; 11       ; 11              ; 11              ; 11               ; 11
+                                         ; billCycle_118534 ; billCycle_118534_name ; billCycle_118534_description ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; monthly  ; 1               ; month        ; 1        ; 1               ; 1               ; 1                ; 1
+                                         ; billCycle_118535 ; billCycle_118535_name ; billCycle_118535_description ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; monthly  ; 9               ; month        ; 9        ; 9               ; 9               ; 9                ; 9
+                                         ; billCycle_118536 ; billCycle_118536_name ; billCycle_118536_description ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; monthly  ; 9               ; month        ; 9        ; 9               ; 9               ; 9                ; 9
+## BA State change event
+                                         ; billCycle_118601 ; billCycle_118601_name ; billCycle_118601_description ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; monthly  ; 12              ; month        ; 12       ; 12              ; 12              ; 12               ; 12
+                                         ; billCycle_118602 ; billCycle_118602_name ; billCycle_118602_description ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; monthly  ; 10              ; month        ; 10       ; 10              ; 10              ; 10               ; 10
+## Patch BA
+                                         ; billCycle_119111 ; billCycle_119111_name ; billCycle_119111_description ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; monthly  ; 12              ; month        ; 12       ; 12              ; 12              ; 12               ; 12
+                                         ; billCycle_119112 ; billCycle_119112_name ; billCycle_119112_description ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; monthly  ; 10              ; month        ; 10       ; 10              ; 10              ; 10               ; 10
+                                         ; billCycle_119113 ; billCycle_119113_name ; billCycle_119113_description ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; monthly  ; 11              ; month        ; 11       ; 11              ; 11              ; 11               ; 11
+                                         ; billCycle_119114 ; billCycle_119114_name ; billCycle_119114_description ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; monthly  ; 1               ; month        ; 1        ; 1               ; 1               ; 1                ; 1
+                                         ; billCycle_119115 ; billCycle_119115_name ; billCycle_119115_description ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; monthly  ; 9               ; month        ; 9        ; 9               ; 9               ; 9                ; 9
+                                         ; billCycle_119116 ; billCycle_119116_name ; billCycle_119116_description ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; monthly  ; 9               ; month        ; 9        ; 9               ; 9               ; 9                ; 9
+## Delete BA
+                                         ; billCycle_119151 ; billCycle_119151_name ; billCycle_119151_description ; 1.1.2020 00:00:00                              ; 1.1.2022 00:00:00                            ; monthly  ; 12              ; month        ; 12       ; 12              ; 12              ; 12               ; 12
+
+
+#Create FinancialAccount
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE BaBillStructure; id[unique = true]; cycleSpecification(id); format(id)    ; presentationMedias(id)
+                             ; bs_10823         ; billCycle_10823       ; format_10823  ; media_10823
+                             ; bs_108231        ; billCycle_108231      ; format_108231 ; media_108231
+                             ; bs_108232        ; billCycle_108232      ; format_108232 ; media_108232
+## BA attribute change event
+                             ; bs_118531        ; billCycle_118531      ; format_118531 ; media_118531
+                             ; bs_118532        ; billCycle_118532      ; format_118532 ; media_118532
+                             ; bs_118533        ; billCycle_118533      ; format_118533 ; media_118533
+                             ; bs_118534        ; billCycle_118534      ; format_118534 ; media_118534
+                             ; bs_118535        ; billCycle_118535      ; format_118535 ; media_118535
+                             ; bs_118536        ; billCycle_118536      ; format_118536 ; media_118536
+## BA State change event
+                             ; bs_118601        ; billCycle_118601      ; format_118601 ; media_118601
+                             ; bs_118602        ; billCycle_118602      ; format_118602 ; media_118602
+## Patch BA
+                             ; bs_119111        ; billCycle_119111      ; format_119111 ; media_119111
+                             ; bs_119112        ; billCycle_119112      ; format_119112 ; media_119112
+                             ; bs_119113        ; billCycle_119113      ; format_119113 ; media_119113
+                             ; bs_119114        ; billCycle_119114      ; format_119114 ; media_119114
+                             ; bs_119115        ; billCycle_119115      ; format_119115 ; media_119115
+                             ; bs_119116        ; billCycle_119116      ; format_119116 ; media_119116
+## Delete BA
+                             ; bs_119151        ; billCycle_119151      ; format_119151 ; media_119151
+
+#Create AccountRelationship
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE BaAccountRelationship; id[unique = true]; relationshipType; sourceAccount(id)        ; targetAccount(id)
+                                   ; relate_10823     ; contains        ; ba_etta.berg@yahoo.com   ; pa_etta.berg@yahoo.com
+                                   ; relate_108231    ; contains        ; ba_tim.james@hybris.com  ; pa_tim.james@hybris.com
+                                   ; relate_108232    ; contains        ; ba_etta.james@hybris.com ; pa_etta.james@hybris.com
+## BA attribute change event
+                                   ; relate_118531    ; contains        ; ba_user118532@hybris.com ; pa_user118532@hybris.com
+                                   ; relate_118532    ; contains        ; ba_user118533@hybris.com ; pa_user118533@hybris.com
+                                   ; relate_118533    ; contains        ; ba_user118534@hybris.com ; pa_user118534@hybris.com
+                                   ; relate_118534    ; contains        ; ba_user118535@hybris.com ; pa_user118535@hybris.com
+                                   ; relate_118535    ; contains        ; ba_user118536@hybris.com ; pa_user118536@hybris.com
+                                   ; relate_118536    ; contains        ; ba_user118537@hybris.com ; pa_user118537@hybris.com
+## BA State change event
+                                   ; relate_118601    ; contains        ; ba_user118601@hybris.com ; pa_user118601@hybris.com
+                                   ; relate_118602    ; contains        ; ba_user118602@hybris.com ; pa_user118602@hybris.com
+## Patch BA
+                                   ; relate_119111    ; contains        ; ba_user119112@hybris.com ; pa_user119112@hybris.com
+                                   ; relate_119112    ; contains        ; ba_user119113@hybris.com ; pa_user119113@hybris.com
+                                   ; relate_119113    ; contains        ; ba_user119114@hybris.com ; pa_user119114@hybris.com
+                                   ; relate_119114    ; contains        ; ba_user119115@hybris.com ; pa_user119115@hybris.com
+                                   ; relate_119115    ; contains        ; ba_user119116@hybris.com ; pa_user119116@hybris.com
+                                   ; relate_119116    ; contains        ; ba_user119117@hybris.com ; pa_user119117@hybris.com
+
+## Delete BA
+                                   ; relate_119151    ; contains        ; ba_user119151@hybris.com ; pa_user119151@hybris.com
+
+#Create BillingAccount
+"#% Registry.setCurrentTenantByID(""api"");"
+INSERT_UPDATE BaBillingAccount; id[unique = true]        ; accountType(code); creditLimit(id); creditCurrency(isocode); paymentStatus(code); defaultPaymentMethod(code); ratingType(code); billStructure(id); financialAccount(id); accountBalances(id); taxExemptions(id); contacts(id)   ; accountRelationshipReferences(id); state(code)
+                              ; ba_etta.berg@yahoo.com   ; HOME             ; 1000           ; USD                    ; PAID               ; CC_108231                 ; POSTPAID        ; bs_10823         ; fs_10823            ; bal_10823          ; tax_exe_10823    ; contact_10823  ; relate_10823                     ;
+                              ; ba_tim.james@hybris.com  ; BUSINESS         ; 100000         ; USD                    ; DUE                ; CC_108232                 ; POSTPAID        ; bs_108231        ; fs_108231           ; bal_108231         ; tax_exe_108231   ; contact_108231 ; relate_108231                    ;
+                              ; ba_etta.james@hybris.com ; BUSINESS         ; 10000          ; USD                    ; PAID               ; CC_108233                 ; POSTPAID        ; bs_108232        ; fs_108232           ; bal_108232         ; tax_exe_108232   ; contact_108232 ; relate_108232                    ;
+## BA attribute change event
+                              ; ba_user118531@hybris.com ; HOME             ; 10             ; USD                    ; PAID               ; CC_118531                 ; POSTPAID        ; bs_118531        ; fs_118531           ;                    ; tax_exe_118531   ; contact_118531 ;                                  ;
+                              ; ba_user118532@hybris.com ; BUSINESS         ; 100            ; USD                    ; DUE                ; CC_118532                 ; PREPAID         ;                  ; fs_118532           ; bal_118531         ; tax_exe_118532   ;                ; relate_118531                    ;
+                              ; ba_user118533@hybris.com ; BUSINESS         ;                ; USD                    ; DUE                ;                           ; POSTPAID        ; bs_118532        ; fs_118533           ; bal_118532         ; tax_exe_118533   ; contact_118532 ; relate_118532                    ;
+                              ; ba_user118534@hybris.com ; HOME             ; 1000           ; USD                    ; PAID               ; CC_118533                 ; PREPAID         ; bs_118533        ;                     ; bal_118533         ; tax_exe_118534   ; contact_118533 ; relate_118533                    ;
+                              ; ba_user118535@hybris.com ; HOME             ; 10000          ; USD                    ; PAID               ; CC_118534                 ; PREPAID         ; bs_118534        ; fs_118534           ; bal_118534         ;                  ; contact_118534 ; relate_118534                    ;
+                              ; ba_user118536@hybris.com ; BUSINESS         ; 100000         ; USD                    ; DUE                ; CC_118535                 ; POSTPAID        ; bs_118535        ; fs_118535           ; bal_118535         ; tax_exe_118535   ; contact_118535 ; relate_118535                    ;
+                              ; ba_user118537@hybris.com ; BUSINESS         ; 2000           ; USD                    ; DUE                ; CC_118536                 ; POSTPAID        ; bs_118536        ; fs_118536           ; bal_118536         ; tax_exe_118536   ; contact_118536 ; relate_118536                    ;
+## BA State change event
+                              ; ba_user118601@hybris.com ; HOME             ; 10             ; USD                    ; DUE                ; CC_118601                 ; POSTPAID        ; bs_118601        ; fs_118601           ; bal_118601         ; tax_exe_118601   ; contact_118601 ; relate_118601                    ;
+                              ; ba_user118602@hybris.com ; BUSINESS         ; 100            ; USD                    ; PAID               ; CC_118602                 ; PREPAID         ; bs_118602        ; fs_118602           ; bal_118602         ; tax_exe_118602   ; contact_118602 ; relate_118602                    ; ACTIVE
+## Patch BA
+                              ; ba_user119111@hybris.com ; HOME             ; 10             ; USD                    ; PAID               ; CC_119111                 ; POSTPAID        ; bs_119111        ; fs_119111           ;                    ; tax_exe_119111   ; contact_119111 ;                                  ;
+                              ; ba_user119112@hybris.com ; BUSINESS         ; 100            ; USD                    ; DUE                ; CC_119112                 ; PREPAID         ;                  ; fs_119112           ; bal_119111         ; tax_exe_119112   ;                ; relate_119111                    ;
+                              ; ba_user119113@hybris.com ; BUSINESS         ;                ; USD                    ; DUE                ;                           ; POSTPAID        ; bs_119112        ; fs_119113           ; bal_119112         ; tax_exe_119113   ; contact_119112 ; relate_119112                    ;
+                              ; ba_user119114@hybris.com ; HOME             ; 1000           ; USD                    ; PAID               ; CC_119113                 ; PREPAID         ; bs_119113        ;                     ; bal_119113         ; tax_exe_119114   ; contact_119113 ; relate_119113                    ;
+                              ; ba_user119115@hybris.com ; HOME             ; 10000          ; USD                    ; PAID               ; CC_119114                 ; PREPAID         ; bs_119114        ; fs_119114           ; bal_119114         ;                  ; contact_119114 ; relate_119114                    ;
+                              ; ba_user119116@hybris.com ; BUSINESS         ; 100000         ; USD                    ; DUE                ; CC_119115                 ; POSTPAID        ; bs_119115        ; fs_119115           ; bal_119115         ; tax_exe_119115   ; contact_119115 ; relate_119115                    ;
+                              ; ba_user119117@hybris.com ; BUSINESS         ; 2000           ; USD                    ; DUE                ; CC_119116                 ; POSTPAID        ; bs_119116        ; fs_119116           ; bal_119116         ; tax_exe_119116   ; contact_119116 ; relate_119116                    ;
+## Delete BA
+                              ; ba_user119151@hybris.com ; HOME             ; 10             ; USD                    ; PAID               ; CC_119151                 ; POSTPAID        ; bs_119151        ; fs_119151           ; bal_119151         ; tax_exe_119151   ; contact_119151 ; relate_119151                    ;

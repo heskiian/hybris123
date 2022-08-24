@@ -1,0 +1,32 @@
+# ---------------------------------------------------------------------------
+# Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+# ---------------------------------------------------------------------------
+
+$approved = approvalstatus(code)[default = 'approved']
+
+INSERT_UPDATE TmaExternalIdentifier; billingSystemExtId[unique = true]; billingSystemId[unique = true]; resourceType
+                                   ; customerType_timeOfDay_pla_spec  ; amdocs                        ; PricingLogicAlgorithmSpec
+                                   ; call_duration_pla_spec           ; amdocs                        ; PricingLogicAlgorithmSpec
+
+                                   ; student_peak_pla                 ; amdocs                        ; PricingLogicAlgorithm
+                                   ; student_off_peak_pla             ; amdocs                        ; PricingLogicAlgorithm
+                                   ; normal_peak_pla                  ; amdocs                        ; PricingLogicAlgorithm
+                                   ; normal_off_peak_pla              ; amdocs                        ; PricingLogicAlgorithm
+                                   ; vip_peak_pla                     ; amdocs                        ; PricingLogicAlgorithm
+                                   ; vip_off_peak_pla                 ; amdocs                        ; PricingLogicAlgorithm
+
+                                   ; call_duration_pla                ; amdocs                        ; PricingLogicAlgorithm
+
+INSERT_UPDATE TmaUsagePlaSpec; id[unique = true]               ; externalIds(billingSystemId, billingSystemExtId)[unique = true]; $approved; onlineDate[dateformat = dd-MM-yyyy]; offlineDate[dateformat = dd-MM-yyyy]
+                             ; customerType_timeOfDay_pla_spec ; amdocs:customerType_timeOfDay_pla_spec                         ; approved ;                                    ; ;
+                             ; call_duration_pla_spec          ; amdocs:call_duration_pla_spec                                  ; approved ;                                    ; ;
+
+INSERT_UPDATE TmaUsageRatingPla; id[unique = true]    ; externalIds(billingSystemId, billingSystemExtId)[unique = true]; pricingLogicAlgorithmSpec(id)   ; onlineDate[dateformat = dd-MM-yyyy]; offlineDate[dateformat = dd-MM-yyyy]
+                               ; student_peak_pla     ; amdocs:student_peak_pla                                        ; customerType_timeOfDay_pla_spec ;                                    ; ;
+                               ; student_off_peak_pla ; amdocs:student_off_peak_pla                                    ; customerType_timeOfDay_pla_spec ;                                    ; ;
+                               ; normal_peak_pla      ; amdocs:normal_peak_pla                                         ; customerType_timeOfDay_pla_spec ;                                    ; ;
+                               ; normal_off_peak_pla  ; amdocs:normal_off_peak_pla                                     ; customerType_timeOfDay_pla_spec ;                                    ; ;
+                               ; vip_peak_pla         ; amdocs:vip_peak_pla                                            ; customerType_timeOfDay_pla_spec ;                                    ; ;
+                               ; vip_off_peak_pla     ; amdocs:vip_off_peak_pla                                        ; customerType_timeOfDay_pla_spec ;                                    ; ;
+
+                               ; call_duration_pla    ; amdocs:call_duration_pla                                       ; call_duration_pla_spec          ;                                    ; ;
