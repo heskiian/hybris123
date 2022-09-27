@@ -1,7 +1,8 @@
 # Hybris123SnippetStart hybris123gitignore
-/log
+/*.log
 /temp
 /bin/
 !/bin/custom
 /roles
 # Hybris123SnippetEnd
+mydb.data
