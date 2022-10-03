@@ -21,6 +21,7 @@ import org.junit.Before;
 import org.junit.Test;
 import concerttours.daos.BandDAO;
 import concerttours.model.BandModel;
+import java.util.Locale;
 
 /**
  * This test file tests and demonstrates the behavior of the BandService's methods getAllBand, getBand and saveBand.
