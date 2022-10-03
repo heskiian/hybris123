@@ -58,5 +58,14 @@ Hybris123SnippetStart enablingComponentScan
         <property name="modelService" ref="modelService" />
     </bean>
 
+    <bean id="bandAlbumSalesInterceptor" class="concerttours.interceptors.BandAlbumSalesInterceptor" />
+    <bean id="BandInterceptorMapping" class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="bandAlbumSalesInterceptor" />
+        <property name="typeCode" value="Band" />
+    </bean>
+    <bean id="bandAlbumSalesEventListener" class="concerttours.events.BandAlbumSalesEventListener" parent="abstractEventListener" >
+        <property name="modelService" ref="modelService" />
+    </bean>
+
 
 </beans>
